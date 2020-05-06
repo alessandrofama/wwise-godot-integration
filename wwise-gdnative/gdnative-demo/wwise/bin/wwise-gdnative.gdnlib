@@ -1,0 +1,13 @@
+[general]
+
+singleton=false
+load_once=true
+symbol_prefix="wwise_"
+reloadable=true
+
+[entry]
+Windows.64="res://wwise/bin/win64/wwise-gdnative-debug.dll"
+
+
+[dependencies]
+Windows.64=[]

@@ -1,0 +1,5 @@
+#Wwise gitignore
+.cache/* 
+*.akd 
+*.validationcache 
+*.wem

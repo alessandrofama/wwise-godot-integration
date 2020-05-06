@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{3FE3D261-2E4D-4287-95DD-8B4DF14D5A58}" SchemaVersion="97">
+	<Busses>
+		<WorkUnit Name="Default Work Unit" ID="{3FE3D261-2E4D-4287-95DD-8B4DF14D5A58}" PersistMode="Standalone">
+			<ChildrenList>
+				<Bus Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}">
+					<ReferenceList>
+						<Reference Name="AudioDevice">
+							<ObjectRef Name="System" ID="{C2502B42-56CD-4AE8-AFC8-AB91DD53CD5B}" WorkUnitID="{6CCA1E47-C1CC-4D31-BF8C-840A8F287A4C}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<Bus Name="Music" ID="{DAD778F8-83A2-4F89-B797-E1FCA0679D4E}">
+							<ReferenceList>
+								<Reference Name="Effect0">
+									<Custom>
+										<Effect Name="Wwise_Meter_(Custom)" ID="{F53C3A67-0070-460A-8278-C7F181E66A8C}" ShortID="400762808" PluginName="Wwise Meter" CompanyID="0" PluginID="129" PluginType="3">
+											<PropertyList>
+												<Property Name="Min" Type="Real32" Value="-96"/>
+											</PropertyList>
+											<PluginData>
+	<GameParameter Name="MusicVolume" ID="{7457083B-C3E6-475A-A4DC-21D2726A126B}"/>
+</PluginData>
+										</Effect>
+									</Custom>
+								</Reference>
+								<Reference Name="Effect1" PluginName="Wwise Stereo Delay" CompanyID="0" PluginID="135" PluginType="3">
+									<ObjectRef Name="Blue_Distant_Echoes" ID="{ABFA9875-521E-451F-AAB9-AB148847B9C0}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+								</Reference>
+							</ReferenceList>
+						</Bus>
+					</ChildrenList>
+				</Bus>
+			</ChildrenList>
+		</WorkUnit>
+	</Busses>
+</WwiseDocument>
