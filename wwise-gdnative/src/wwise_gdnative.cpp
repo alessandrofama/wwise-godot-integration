@@ -26,19 +26,21 @@
 
 using namespace godot;
 
-namespace AK 
+namespace AK
 {
-#if defined(_WIN32)
 	void* __cdecl AllocHook(size_t in_size)
 	{
 		Godot::print("AK::AllocHook called with size: " + String::num_int64(in_size));
 		return api->godot_alloc(static_cast<int>(in_size));
 	}
+
 	void __cdecl FreeHook(void* in_ptr)
 	{
 		Godot::print("AK::FreeHook called");
 		api->godot_free(in_ptr);
 	}
+
+#if defined(_WIN32)
 	void* __cdecl VirtualAllocHook(
 		void* in_pMemAddress,
 		size_t in_size,
@@ -59,51 +61,15 @@ namespace AK
 }
 
 #ifndef AK_OPTIMIZED
-AkMemPoolId g_poolComm = AK_INVALID_POOL_ID;
-#define COMM_POOL_SIZE (256 * 1024)
-#define COMM_POOL_BLOCK_SIZE (48)
+	AkMemPoolId g_poolComm = AK_INVALID_POOL_ID;
+	#define COMM_POOL_SIZE (256 * 1024)
+	#define COMM_POOL_BLOCK_SIZE (48)
 #endif
 
 #endif
 
-AkVector Wwise::getAkVector(const Transform t, VectorType type)
+bool Wwise::checkError(AKRESULT result, const char* function, const char* file, int line) 
 {
-	AkVector v;
-
-	switch (type)
-	{
-	case VectorType::position:
-	{
-		v.X = static_cast<AkReal32>(t.get_origin().x);
-		v.Y = static_cast<AkReal32>(t.get_origin().y);
-		v.Z = static_cast<AkReal32>(t.get_origin().z);
-		return v;
-	}
-		break;
-	case VectorType::forward:
-	{
-		Vector3 fwd = t.get_basis().elements[2].normalized();
-		v.X = static_cast<AkReal32>(fwd.x);
-		v.Y = static_cast<AkReal32>(fwd.y);
-		v.Z = static_cast<AkReal32>(fwd.z);
-		return v;
-	}
-	break;
-	case VectorType::up:
-	{
-		Vector3 up = t.get_basis().elements[1].normalized();
-		v.X = static_cast<AkReal32>(up.x);
-		v.Y = static_cast<AkReal32>(up.y);
-		v.Z = static_cast<AkReal32>(up.z);
-		return v;
-	}
-	break;
-	default:
-	break;
-	}
-}
-
-bool Wwise::checkError(AKRESULT result, const char* function, const char* file, int line) {
 	if (result != AK_Success)
 	{
 		Godot::print_error(String(Wwise_ErrorString(result)), function, file, line);
@@ -114,7 +80,7 @@ bool Wwise::checkError(AKRESULT result, const char* function, const char* file, 
 
 Wwise::Wwise() = default;
 
-void Wwise::_register_methods() 
+void Wwise::_register_methods()
 {
 	register_method("_process", &Wwise::_process);
 	register_method("set_base_path", &Wwise::setBasePath);
@@ -139,7 +105,6 @@ void Wwise::_init()
 	if (!initialisationResult)
 	{
 		Godot::print("Wwise system initialisation failed!");
-		return;
 	}
 	else
 	{
@@ -167,7 +132,7 @@ bool Wwise::initialiseWwiseSystems()
 
 	AkStreamMgrSettings stmSettings;
 	AK::StreamMgr::GetDefaultSettings(stmSettings);
-	if (!AK::StreamMgr::Create(stmSettings)) 
+	if (!AK::StreamMgr::Create(stmSettings))
 		return false;
 
 	AkDeviceSettings deviceSettings;
@@ -179,12 +144,12 @@ bool Wwise::initialiseWwiseSystems()
 	AkPlatformInitSettings platformInitSettings;
 	AK::SoundEngine::GetDefaultInitSettings(initSettings);
 	AK::SoundEngine::GetDefaultPlatformInitSettings(platformInitSettings);
-	if (!ERROR_CHECK(AK::SoundEngine::Init(&initSettings, &platformInitSettings))) 
+	if (!ERROR_CHECK(AK::SoundEngine::Init(&initSettings, &platformInitSettings)))
 		return false;
 
 	AkMusicSettings musicInit;
 	AK::MusicEngine::GetDefaultInitSettings(musicInit);
-	if (!ERROR_CHECK(AK::MusicEngine::Init(&musicInit))) 
+	if (!ERROR_CHECK(AK::MusicEngine::Init(&musicInit)))
 	{
 		return false;
 	}
@@ -192,7 +157,7 @@ bool Wwise::initialiseWwiseSystems()
 #ifndef AK_OPTIMIZED
 	AkCommSettings settingsComm;
 	AK::Comm::GetDefaultInitSettings(settingsComm);
-	if (!ERROR_CHECK(AK::Comm::Init(settingsComm))) 
+	if (!ERROR_CHECK(AK::Comm::Init(settingsComm)))
 		return false;
 #endif
 
@@ -206,10 +171,10 @@ bool Wwise::shutdownWwiseSystems()
 #endif
 
 	if (!ERROR_CHECK(AK::SoundEngine::UnregisterAllGameObj()))
-	return false;
+		return false;
 
 	if (!ERROR_CHECK(AK::SoundEngine::ClearBanks()))
-	return false;
+		return false;
 
 	AK::MusicEngine::Term();
 
@@ -217,7 +182,7 @@ bool Wwise::shutdownWwiseSystems()
 
 	g_lowLevelIO.Term();
 
-	if (AK::IAkStreamMgr::Get()) 
+	if (AK::IAkStreamMgr::Get())
 	{
 		AK::IAkStreamMgr::Get()->Destroy();
 	}
@@ -233,7 +198,7 @@ bool Wwise::setBasePath(String basePath)
 
 	const wchar_t* basePathChar = basePath.unicode_str();
 	CONVERT_WIDE_TO_OSCHAR(basePathChar, basePathOsString);
-	
+
 	return ERROR_CHECK(g_lowLevelIO.SetBasePath(basePathOsString));
 }
 
@@ -267,9 +232,9 @@ bool Wwise::setListenerPosition(Object* gameObject)
 	Spatial* s = Object::cast_to<Spatial>(gameObject);
 	Transform t = s->get_global_transform();
 
-	AkVector position = getAkVector(t, VectorType::position);
-	AkVector forward = getAkVector(t, VectorType::forward);
-	AkVector up = getAkVector(t, VectorType::up);
+	AkVector position = GetAkVector(t, VectorType::POSITION);
+	AkVector forward = GetAkVector(t, VectorType::FORWARD);
+	AkVector up = GetAkVector(t, VectorType::UP);
 
 	listenerPosition.Set(position, forward, up);
 
@@ -290,9 +255,9 @@ bool Wwise::set3DPosition(Object* gameObject)
 	Spatial* s = Object::cast_to<Spatial>(gameObject);
 	Transform t = s->get_transform();
 
-	AkVector position = getAkVector(t, VectorType::position);
-	AkVector forward = getAkVector(t, VectorType::forward);
-	AkVector up = getAkVector(t, VectorType::up);
+	AkVector position = GetAkVector(t, VectorType::POSITION);
+	AkVector forward = GetAkVector(t, VectorType::FORWARD);
+	AkVector up = GetAkVector(t, VectorType::UP);
 
 	soundPos.Set(position, forward, up);
 

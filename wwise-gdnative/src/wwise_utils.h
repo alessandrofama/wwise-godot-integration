@@ -3,6 +3,8 @@
 
 #include "AK/SoundEngine/Common/AkTypes.h"
 
+using namespace godot;
+
 static const char* Wwise_ErrorString(AKRESULT errcode)
 {
 	switch (errcode)
@@ -74,6 +76,46 @@ static const char* Wwise_ErrorString(AKRESULT errcode)
 	case	AK_FileFormatMismatch:			return "AK_FileFormatMismatch";
 	default:                                return "Unknown error";
 	};
+}
+
+enum class VectorType
+{
+	POSITION,
+	FORWARD,
+	UP
+};
+
+static AkVector Vector3ToAkVector(const Vector3& inVector)
+{
+	AkVector outVector;
+
+	outVector.X = inVector.x;
+	outVector.Y = inVector.y;
+	outVector.Z = inVector.z;
+
+	return outVector;
+}
+
+static AkVector GetAkVector(const Transform& t, const VectorType& type)
+{
+	AkVector outVector;
+
+	switch (type)
+	{
+	case VectorType::POSITION:
+		outVector = Vector3ToAkVector(t.get_origin());
+		break;
+	case VectorType::FORWARD:
+		outVector = Vector3ToAkVector(t.get_basis().elements[2].normalized());
+		break;
+	case VectorType::UP:
+		outVector = Vector3ToAkVector(t.get_basis().elements[1].normalized());
+		break;
+	default:
+		break;
+	}
+
+	return outVector;
 }
 
 #endif
