@@ -6,4 +6,3 @@ src/*.obj
 *.exp
 *.ilk
 *.lib
-.editorconfig

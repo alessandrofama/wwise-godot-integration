@@ -62,12 +62,12 @@ namespace AK
 }
 
 #ifndef AK_OPTIMIZED
-	AkMemPoolId g_poolComm = AK_INVALID_POOL_ID;
-	#define COMM_POOL_SIZE (256 * 1024)
-	#define COMM_POOL_BLOCK_SIZE (48)
+AkMemPoolId g_poolComm = AK_INVALID_POOL_ID;
+#define COMM_POOL_SIZE (256 * 1024)
+#define COMM_POOL_BLOCK_SIZE (48)
 #endif
 
-bool Wwise::checkError(AKRESULT result, const char* function, const char* file, int line) 
+bool Wwise::checkError(AKRESULT result, const char* function, const char* file, int line)
 {
 	if (result != AK_Success)
 	{
