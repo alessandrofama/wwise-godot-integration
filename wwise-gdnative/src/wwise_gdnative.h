@@ -19,53 +19,52 @@
 
 #ifndef AK_OPTIMIZED
 #include <AK/Comm/AkCommunication.h>
-#endif // AK_OPTIMIZED
+#endif
 
 namespace godot
 {
-    class Wwise : public Node
-    {
-        GODOT_CLASS(Wwise, Node)
+	class Wwise : public Node
+	{
+		GODOT_CLASS(Wwise, Node)
 
-    private:
-        static bool checkError(AKRESULT result, const char* function, const char* file, int line);
+	private:
+		static bool checkError(AKRESULT result, const char* function, const char* file, int line);
 #define ERROR_CHECK(result) checkError(result, __FUNCTION__, __FILE__, __LINE__)
 
-        bool initialiseWwiseSystems();
-        bool shutdownWwiseSystems();
-        CAkDefaultIOHookBlocking g_lowLevelIO;
+		bool initialiseWwiseSystems();
+		bool shutdownWwiseSystems();
+		CAkDefaultIOHookBlocking g_lowLevelIO;
 
-    public:
-        Wwise();
+	public:
+		Wwise();
+		~Wwise();
 
-        ~Wwise();
+		void _init();
 
-        void _init();
+		static void _register_methods();
 
-        static void _register_methods();
+		void _process(float delta);
 
-        void _process(float delta);
+		bool setBasePath(String basePath);
+		bool loadBank(String bankName);
+		bool unloadBank(String bankName);
 
-        bool setBasePath(String basePath);
-        bool loadBank(String bankName);
-        bool unloadBank(String bankName);
+		bool registerListener();
+		bool setListenerPosition(Object* gameObject);
 
-        bool registerListener();
-        bool setListenerPosition(Object* gameObject);
+		bool registerGameObj(Object* gameObject, String gameObjectName);
 
-        bool registerGameObj(Object* gameObject, String gameObjectName);
+		bool set3DPosition(Object* gameObject);
 
-        bool set3DPosition(Object* gameObject);
+		int postEvent(String eventName, Object* gameObject);
+		bool stopEvent(int playingID, int fadeTime, int interpolation);
 
-        int postEvent(String eventName, Object* gameObject);
-        bool stopEvent(int playingID, int fadeTime, int interpolation);
+		bool setSwitch(String switchGroup, String switchState, Object* gameObject);
+		bool setState(String stateGroup, String stateValue);
 
-        bool setSwitch(String switchGroup, String switchState, Object* gameObject);
-        bool setState(String stateGroup, String stateValue);
-
-        float getRTPCValue(String rtpcName, Object* gameObject);
-        bool setRTPCValue(String rtpcName, float rtpcValue, Object* gameObject);
-    };
+		float getRTPCValue(String rtpcName, Object* gameObject);
+		bool setRTPCValue(String rtpcName, float rtpcValue, Object* gameObject);
+	};
 }
 
 #endif
