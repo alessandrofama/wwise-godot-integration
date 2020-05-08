@@ -98,7 +98,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>_WINDLL;_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UndefinePreprocessorDefinitions>AK_OPTIMIZED</UndefinePreprocessorDefinitions>
-      <AdditionalIncludeDirectories>%WWISESDK%\include;..\..\..\godot-cpp\include\;..\..\..\godot-cpp\include\core;..\..\..\godot-cpp\include\gen;..\..\..\godot-cpp\godot_headers</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%WWISESDK%\samples\SoundEngine\Win32;%WWISESDK%\include;..\..\..\godot-cpp\include\;..\..\..\godot-cpp\include\core;..\..\..\godot-cpp\include\gen;..\..\..\godot-cpp\godot_headers</AdditionalIncludeDirectories>
       <LanguageStandard>Default</LanguageStandard>
     </ClCompile>
     <Link>
@@ -134,7 +134,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>AK_OPTIMIZED;_WINDLL;_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>%WWISESDK%\include;..\..\..\godot-cpp\include\;..\..\..\godot-cpp\include\core;..\..\..\godot-cpp\include\gen;..\..\..\godot-cpp\godot_headers</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%WWISESDK%\samples\SoundEngine\Win32;%WWISESDK%\include;..\..\..\godot-cpp\include\;..\..\..\godot-cpp\include\core;..\..\..\godot-cpp\include\gen;..\..\..\godot-cpp\godot_headers</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -148,14 +148,17 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\..\Program Files\Wwise 2019.2.1.7250\SDK\include\AK\SoundEngine\Common\AkFilePackage.cpp" />
-    <ClCompile Include="..\..\..\..\..\Program Files\Wwise 2019.2.1.7250\SDK\include\AK\SoundEngine\Common\AkFilePackageLUT.cpp" />
-    <ClCompile Include="..\..\..\..\..\Program Files\Wwise 2019.2.1.7250\SDK\include\AK\SoundEngine\Common\AkMultipleFileLocation.cpp" />
-    <ClCompile Include="..\..\..\..\..\Program Files\Wwise 2019.2.1.7250\SDK\include\AK\SoundEngine\Win32\AkDefaultIOHookBlocking.cpp" />
+    <ClCompile Include="$(WWISESDK)\samples\SoundEngine\Common\AkFilePackage.cpp" />
+    <ClCompile Include="$(WWISESDK)\samples\SoundEngine\Common\AkFilePackageLUT.cpp" />
+    <ClCompile Include="$(WWISESDK)\samples\SoundEngine\Common\AkMultipleFileLocation.cpp" />
+    <ClCompile Include="$(WWISESDK)\samples\SoundEngine\Win32\AkDefaultIOHookBlocking.cpp" />
+    <ClInclude Include="$(WWISESDK)\samples\SoundEngine\Win32\stdafx.cpp" />
     <ClCompile Include="..\..\src\gdlibrary.cpp" />
     <ClCompile Include="..\..\src\wwise_gdnative.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="$(WWISESDK)\samples\SoundEngine\Win32\AkDefaultIOHookBlocking.h" />
+    <ClInclude Include="$(WWISESDK)\samples\SoundEngine\Win32\stdafx.h" />
     <ClInclude Include="..\..\src\wwise_gdnative.h" />
     <ClInclude Include="..\..\src\wwise_utils.h" />
   </ItemGroup>

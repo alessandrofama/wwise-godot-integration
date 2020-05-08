@@ -7,7 +7,7 @@
 #include <Object.hpp>
 #include <Spatial.hpp>
 
-#include "AK/SoundEngine/Win32/AkDefaultIOHookBlocking.h"
+#include <AkDefaultIOHookBlocking.h>
 
 #include <AK/SoundEngine/Common/AkSoundEngine.h> 
 #include <AK/SoundEngine/Common/AkMemoryMgr.h>
