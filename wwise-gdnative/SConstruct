@@ -29,14 +29,22 @@ opts.Update(env)
 # Wwise dependency paths
 wwise_sdk_headers_path = env['wwise_sdk'] + "/include/"
 wwise_sdk_libs_path = ""
+wwise_soundengine_sample_path = ""
 
 if env['platform'] == "windows":
+    wwise_soundengine_sample_path = env['wwise_sdk'] + "/samples/SoundEngine/Win32/"
     if env['target'] in ('debug', 'd'):
         wwise_sdk_libs_path = env['wwise_sdk'] + "/x64_vc150/Debug/lib/"
     else:
         wwise_sdk_libs_path = env['wwise_sdk'] + "/x64_vc150/Release/lib/"
 
-wwise_soundengine_sample_path = env['wwise_sdk'] + "/samples/SoundEngine/Win32/"
+if env['platform'] == "osx":
+    wwise_soundengine_sample_path = env['wwise_sdk'] + "/samples/SoundEngine/POSIX/"
+    if env['target'] in ('debug', 'd'):
+        wwise_sdk_libs_path = env['wwise_sdk'] + "/Mac/Debug/lib/"
+    else:
+        wwise_sdk_libs_path = env['wwise_sdk'] + "/Mac/Release/lib/"   
+
 wwise_soundengine_sample_common_path = env['wwise_sdk'] + "/samples/SoundEngine/Common/"
 wwise_memorymanager_library = "AkMemoryMgr"
 wwise_soundengine_library = "AkSoundEngine"
@@ -77,10 +85,12 @@ if env['platform'] == "osx":
     cpp_library += '.osx'
     if env['target'] in ('debug', 'd'):
         env.Append(CCFLAGS=['-g', '-O2', '-arch', 'x86_64'])
-        env.Append(LINKFLAGS=['-arch', 'x86_64'])
+        env.Append(CXXFLAGS=['-std=c++17'])
+        env.Append(LINKFLAGS=['-arch', 'x86_64', '-framework', 'CoreAudio', '-Wl,-undefined,dynamic_lookup'])
     else:
         env.Append(CCFLAGS=['-g', '-O3', '-arch', 'x86_64'])
-        env.Append(LINKFLAGS=['-arch', 'x86_64'])
+        env.Append(CXXFLAGS=['-std=c++17'])
+        env.Append(LINKFLAGS=['-arch', 'x86_64', '-framework', 'CoreAudio', '-Wl,-undefined,dynamic_lookup'])
 
 elif env['platform'] in ('x11', 'linux'):
     env['target_path'] += 'x11/'
