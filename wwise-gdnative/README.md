@@ -4,6 +4,8 @@
 
 ### Windows 64-bit
 
+You might need to execute `vcvars64.bat` before building. For VS2017, it's located at `C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build`
+
 Debug (includes Wwise profiler connection)
 
 ```
