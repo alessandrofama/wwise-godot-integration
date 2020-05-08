@@ -3,3 +3,6 @@
 *.akd 
 *.validationcache 
 *.wem
+*.wsettings
+*.prof
+Originals/*.cache
