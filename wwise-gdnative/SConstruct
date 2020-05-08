@@ -11,7 +11,7 @@ opts.Add(EnumVariable('target', "Compilation target", 'debug', ['d', 'debug', 'r
 opts.Add(EnumVariable('platform', "Compilation platform", '', ['', 'windows', 'x11', 'linux', 'osx']))
 opts.Add(EnumVariable('p', "Compilation target, alias for 'platform'", '', ['', 'windows', 'x11', 'linux', 'osx']))
 opts.Add(BoolVariable('use_llvm', "Use the LLVM / Clang compiler", 'no'))
-opts.Add(PathVariable('target_path', 'The path where the lib is installed.', 'demo/wwise/bin/'))
+opts.Add(PathVariable('target_path', 'The path where the lib is installed.', 'gdnative-demo/wwise/bin/'))
 opts.Add(PathVariable('target_name', 'The library name.', 'WwiseGDNative', PathVariable.PathAccept))
 opts.Add(PathVariable('wwise_sdk', 'The Wwise SDK path', '', PathVariable.PathAccept))
 
@@ -36,8 +36,13 @@ wwise_soundengine_library = "AkSoundEngine"
 wwise_musicengine_library = "AkMusicEngine"
 wwise_streammanager_library = "AkStreamMgr"
 wwise_communications_library = "CommunicationCentral"
-print "Wwise SDK headers path: " + wwise_sdk_headers_path
-print "Wwise SDK libs path: " + wwise_sdk_libs_path
+wwise_plugins_library = ["AkGainFX", "AkHarmonizerFX", "AkStereoDelayFX", "AkTimeStretchFX",
+                         "AkTremoloFX", "AkGuitarDistortionFX","AkVorbisDecoder", "AkMeterFX", 
+                         "AkPitchShifterFX", "AkRoomVerbFX", "AkRoomVerbFX", "AkPeakLimiterFX", 
+                         "AkExpanderFX", "AkCompressorFX", "AkMatrixReverbFX", "AkParametricEQFX", 
+                         "AkDelayFX","AkSilenceSource", "AkToneSource", "AkFlangerFX", "AkSineSource"]
+print("Wwise SDK headers path: " + wwise_sdk_headers_path)
+print("Wwise SDK libs path: " + wwise_sdk_libs_path)
 
 # Process some arguments
 if env['use_llvm']:
@@ -121,7 +126,7 @@ sources.append(Glob(wwise_soundengine_sample_common_path + '*.cpp'))
 # wwise specific configuration
 env.Append(CPPPATH=[wwise_sdk_headers_path, wwise_soundengine_sample_path])
 env.Append(LIBPATH=[wwise_sdk_libs_path])
-env.Append(LIBS=[wwise_memorymanager_library, wwise_soundengine_library, wwise_streammanager_library, wwise_musicengine_library])
+env.Append(LIBS=[wwise_memorymanager_library, wwise_soundengine_library, wwise_streammanager_library, wwise_musicengine_library, wwise_plugins_library])
 
 # windows specific libs
 if env['platform'] == "windows":
