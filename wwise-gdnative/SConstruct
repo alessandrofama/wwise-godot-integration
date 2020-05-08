@@ -28,7 +28,14 @@ opts.Update(env)
 
 # Wwise dependency paths
 wwise_sdk_headers_path = env['wwise_sdk'] + "/include/"
-wwise_sdk_libs_path = env['wwise_sdk'] + "/x64_vc150/Release/lib/"
+wwise_sdk_libs_path = ""
+
+if env['platform'] == "windows":
+    if env['target'] in ('debug', 'd'):
+        wwise_sdk_libs_path = env['wwise_sdk'] + "/x64_vc150/Debug/lib/"
+    else:
+        wwise_sdk_libs_path = env['wwise_sdk'] + "/x64_vc150/Release/lib/"
+
 wwise_soundengine_sample_path = env['wwise_sdk'] + "/samples/SoundEngine/Win32/"
 wwise_soundengine_sample_common_path = env['wwise_sdk'] + "/samples/SoundEngine/Common/"
 wwise_memorymanager_library = "AkMemoryMgr"
@@ -92,14 +99,16 @@ elif env['platform'] == "windows":
     # that way you can run scons in a vs 2017 prompt and it will find all the required tools
     env.Append(ENV=os.environ)
 
-    env.Append(CPPDEFINES=['WIN32', '_WIN32', '_WINDOWS', '_CRT_SECURE_NO_WARNINGS', 'UNICODE', 'AK_OPTIMIZED'])
+    env.Append(CPPDEFINES=['WIN32', '_WIN32', '_WINDOWS', '_CRT_SECURE_NO_WARNINGS', 'UNICODE'])
     env.Append(CCFLAGS=['-W3', '-GR'])
     #env.Append(CCFLAGS=['/GS', '/GL', '/Gy'])
+
     if env['target'] in ('debug', 'd'):
         env.Append(CPPDEFINES=['_DEBUG'])
         env.Append(CCFLAGS=['-EHsc', '-MDd', '-ZI'])
         env.Append(LINKFLAGS=['-DEBUG'])
     else:
+        env.Append(CPPDEFINES=['AK_OPTIMIZED'])
         env.Append(CPPDEFINES=['NDEBUG'])
         env.Append(CCFLAGS=['-O2', '-EHsc', '-MD'])
 
@@ -128,9 +137,14 @@ env.Append(CPPPATH=[wwise_sdk_headers_path, wwise_soundengine_sample_path])
 env.Append(LIBPATH=[wwise_sdk_libs_path])
 env.Append(LIBS=[wwise_memorymanager_library, wwise_soundengine_library, wwise_streammanager_library, wwise_musicengine_library, wwise_plugins_library])
 
-# windows specific libs
+if env['target'] in ('debug', 'd'):
+    env.Append(LIBS=[wwise_communications_library])
+
+    if env['platform'] == "windows":
+    	env.Append(LIBS=['msacm32', 'ws2_32'])
+
 if env['platform'] == "windows":
-	env.Append(LIBS=['advapi32', 'user32', 'ole32'])
+    env.Append(LIBS=['advapi32', 'user32', 'ole32'])
 
 library = env.SharedLibrary(target=env['target_path'] + env['target_name'] , source=sources)
 
