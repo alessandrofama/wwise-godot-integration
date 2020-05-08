@@ -1,0 +1,8 @@
+# Scons build ignores
+.sconsign.dblite
+src/*.obj
+*.idb
+*.pdb
+*.exp
+*.ilk
+*.lib
