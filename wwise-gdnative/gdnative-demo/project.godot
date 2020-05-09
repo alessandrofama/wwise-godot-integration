@@ -10,11 +10,17 @@ config_version=4
 
 _global_script_classes=[ {
 "base": "Reference",
+"class": "AK",
+"language": "GDScript",
+"path": "res://Banks/wwise_ids.gd"
+}, {
+"base": "Reference",
 "class": "AkUtils",
 "language": "GDScript",
-"path": "res://ak_utils.gd"
+"path": "res://wwise/ak_utils.gd"
 } ]
 _global_script_class_icons={
+"AK": "",
 "AkUtils": ""
 }
 
