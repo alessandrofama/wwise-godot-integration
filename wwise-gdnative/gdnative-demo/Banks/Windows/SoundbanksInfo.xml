@@ -40,6 +40,22 @@
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
+				<Event Id="1939884427" Name="Music_2D" ObjectPath="\Events\Alex Tests\Music_2D">
+					<IncludedMemoryFiles>
+						<File Id="401793486" Language="SFX">
+							<ShortName>bar_music_SEQ1_109.wav</ShortName>
+							<Path>SFX\bar_music_SEQ1_109_3D1D1BA5.wem</Path>
+						</File>
+						<File Id="584072642" Language="SFX">
+							<ShortName>bar_music_beat_109.wav</ShortName>
+							<Path>SFX\bar_music_beat_109_3D1D1BA5.wem</Path>
+						</File>
+						<File Id="638431784" Language="SFX">
+							<ShortName>bar_music_SEQ2_109.wav</ShortName>
+							<Path>SFX\bar_music_SEQ2_109_3D1D1BA5.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
 			</IncludedEvents>
 			<GameParameters>
 				<GameParameter Id="2242381963" Name="Enemies" ObjectPath="\Game Parameters\Alex\Enemies"/>

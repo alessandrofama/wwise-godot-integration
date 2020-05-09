@@ -2,6 +2,7 @@ class_name AK
 
 class EVENTS:
 	const MUSIC = 3991942870
+	const MUSIC_2D = 1939884427
 
 class STATES:
 

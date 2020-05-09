@@ -14,6 +14,17 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="Music_2D" ID="{B3322C25-B68B-46D6-9829-D7499637DE14}">
+					<ChildrenList>
+						<Action Name="" ID="{68A1015A-C409-4CB5-B13C-6ECE6D41934D}" ShortID="695239070">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Music_Test_2D" ID="{EBB052EA-1FDB-4FD8-9304-0A23068988CA}" WorkUnitID="{7D5184BC-D414-4812-9C0D-76A9619A1055}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

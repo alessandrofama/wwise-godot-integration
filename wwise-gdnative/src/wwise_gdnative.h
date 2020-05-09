@@ -41,12 +41,12 @@ namespace godot
 		bool unloadBank(const String bankName);
 		bool unloadBankID(const unsigned int bankID);
 
-		bool registerListener();
-		bool setListenerPosition(const Object* gameObject);
+		bool registerListener(const Object* gameObject);
 
 		bool registerGameObject(const Object* gameObject, const String gameObjectName);
 
-		bool set3DPosition(const Object* gameObject);
+		bool set3DPosition(const Object* gameObject, const Transform transform);
+		bool set2DPosition(const Object* gameObject, const Transform2D transform2D, const float zDepth);
 
 		unsigned int postEvent(const String eventName, const Object* gameObject);
 		unsigned int postEventID(const unsigned int eventID, const Object* gameObject);
