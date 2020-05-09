@@ -5,7 +5,7 @@
 
 using namespace godot;
 
-static const char* Wwise_ErrorString(AKRESULT errcode)
+static const char* WwiseErrorString(AKRESULT errcode)
 {
 	switch (errcode)
 	{
@@ -78,6 +78,19 @@ static const char* Wwise_ErrorString(AKRESULT errcode)
 	};
 }
 
+static bool CheckError(AKRESULT result, const char* function, const char* file, int line)
+{
+	if (result != AK_Success)
+	{
+		Godot::print_error(String(WwiseErrorString(result)), function, file, line);
+		return false;
+	}
+
+	return true;
+}
+
+#define ERROR_CHECK(result) CheckError(result, __FUNCTION__, __FILE__, __LINE__)
+
 enum class VectorType
 {
 	POSITION,
@@ -85,37 +98,29 @@ enum class VectorType
 	UP
 };
 
-static AkVector Vector3ToAkVector(const Vector3& inVector)
+static inline void Vector3ToAkVector(const Vector3& inVector, AkVector& outVector)
 {
-	AkVector outVector;
-
 	outVector.X = inVector.x;
 	outVector.Y = inVector.y;
 	outVector.Z = inVector.z;
-
-	return outVector;
 }
 
-static AkVector GetAkVector(const Transform& t, const VectorType& type)
+static inline void GetAkVector(const Transform& t, AkVector& outVector, const VectorType& type)
 {
-	AkVector outVector;
-
 	switch (type)
 	{
 	case VectorType::POSITION:
-		outVector = Vector3ToAkVector(t.get_origin());
+		Vector3ToAkVector(t.get_origin(), outVector);
 		break;
 	case VectorType::FORWARD:
-		outVector = Vector3ToAkVector(t.get_basis().elements[2].normalized());
+		Vector3ToAkVector(t.get_basis().elements[2].normalized(), outVector);
 		break;
 	case VectorType::UP:
-		outVector = Vector3ToAkVector(t.get_basis().elements[1].normalized());
+		Vector3ToAkVector(t.get_basis().elements[1].normalized(), outVector);
 		break;
 	default:
 		break;
 	}
-
-	return outVector;
 }
 
 #endif

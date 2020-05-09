@@ -27,22 +27,12 @@ namespace godot
 	{
 		GODOT_CLASS(Wwise, Node)
 
-	private:
-		static bool checkError(AKRESULT result, const char* function, const char* file, int line);
-#define ERROR_CHECK(result) checkError(result, __FUNCTION__, __FILE__, __LINE__)
-
-		bool initialiseWwiseSystems();
-		bool shutdownWwiseSystems();
-		CAkDefaultIOHookBlocking g_lowLevelIO;
-
 	public:
-		Wwise();
+		explicit Wwise() = default;
 		~Wwise();
 
 		void _init();
-
 		static void _register_methods();
-
 		void _process(float delta);
 
 		bool setBasePath(String basePath);
@@ -71,6 +61,11 @@ namespace godot
 		float getRTPCValueID(const unsigned int rtpc, Object* gameObject);
 		bool setRTPCValue(String rtpcName, float rtpcValue, Object* gameObject);
 		bool setRTPCValueID(const unsigned int rtpc, float rtpcValue, Object* gameObject);
+
+	private:
+		bool initialiseWwiseSystems();
+		bool shutdownWwiseSystems();
+		CAkDefaultIOHookBlocking lowLevelIO;
 	};
 }
 

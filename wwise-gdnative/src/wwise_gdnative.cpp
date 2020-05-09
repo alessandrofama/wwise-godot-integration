@@ -67,18 +67,6 @@ AkMemPoolId g_poolComm = AK_INVALID_POOL_ID;
 #define COMM_POOL_BLOCK_SIZE (48)
 #endif
 
-bool Wwise::checkError(AKRESULT result, const char* function, const char* file, int line)
-{
-	if (result != AK_Success)
-	{
-		Godot::print_error(String(Wwise_ErrorString(result)), function, file, line);
-		return false;
-	}
-	return true;
-}
-
-Wwise::Wwise() = default;
-
 void Wwise::_register_methods()
 {
 	register_method("_process", &Wwise::_process);
@@ -143,7 +131,7 @@ bool Wwise::initialiseWwiseSystems()
 
 	AkDeviceSettings deviceSettings;
 	AK::StreamMgr::GetDefaultDeviceSettings(deviceSettings);
-	if (!ERROR_CHECK(g_lowLevelIO.Init(deviceSettings)))
+	if (!ERROR_CHECK(lowLevelIO.Init(deviceSettings)))
 		return false;
 
 	AkInitSettings initSettings;
@@ -186,7 +174,7 @@ bool Wwise::shutdownWwiseSystems()
 
 	AK::SoundEngine::Term();
 
-	g_lowLevelIO.Term();
+	lowLevelIO.Term();
 
 	if (AK::IAkStreamMgr::Get())
 	{
@@ -205,7 +193,7 @@ bool Wwise::setBasePath(String basePath)
 	const wchar_t* basePathChar = basePath.unicode_str();
 	CONVERT_WIDE_TO_OSCHAR(basePathChar, basePathOsString);
 
-	return ERROR_CHECK(g_lowLevelIO.SetBasePath(basePathOsString));
+	return ERROR_CHECK(lowLevelIO.SetBasePath(basePathOsString));
 }
 
 bool Wwise::loadBank(String bankName)
@@ -248,9 +236,12 @@ bool Wwise::setListenerPosition(Object* gameObject)
 	Spatial* s = Object::cast_to<Spatial>(gameObject);
 	Transform t = s->get_global_transform();
 
-	AkVector position = GetAkVector(t, VectorType::POSITION);
-	AkVector forward = GetAkVector(t, VectorType::FORWARD);
-	AkVector up = GetAkVector(t, VectorType::UP);
+	AkVector position;
+	GetAkVector(t, position, VectorType::POSITION);
+	AkVector forward;
+	GetAkVector(t, forward, VectorType::FORWARD);
+	AkVector up;
+	GetAkVector(t, up, VectorType::UP);
 
 	listenerPosition.Set(position, forward, up);
 
@@ -271,9 +262,12 @@ bool Wwise::set3DPosition(Object* gameObject)
 	Spatial* s = Object::cast_to<Spatial>(gameObject);
 	Transform t = s->get_transform();
 
-	AkVector position = GetAkVector(t, VectorType::POSITION);
-	AkVector forward = GetAkVector(t, VectorType::FORWARD);
-	AkVector up = GetAkVector(t, VectorType::UP);
+	AkVector position;
+	GetAkVector(t, position, VectorType::POSITION);
+	AkVector forward;
+	GetAkVector(t, forward, VectorType::FORWARD);
+	AkVector up;
+	GetAkVector(t, up, VectorType::UP);
 
 	soundPos.Set(position, forward, up);
 
