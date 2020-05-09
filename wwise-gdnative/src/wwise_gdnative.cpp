@@ -203,7 +203,12 @@ bool Wwise::shutdownWwiseSystems()
 
 bool Wwise::setBasePath(const String basePath)
 {
-	return ERROR_CHECK(lowLevelIO.SetBasePath(basePath.unicode_str()));
+	AkOSChar* basePathOsString = nullptr;
+
+	const wchar_t* basePathChar = basePath.unicode_str();
+	CONVERT_WIDE_TO_OSCHAR(basePathChar, basePathOsString);
+
+	return ERROR_CHECK(lowLevelIO.SetBasePath(basePathOsString));
 }
 
 bool Wwise::loadBank(const String bankName)

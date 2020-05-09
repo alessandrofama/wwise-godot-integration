@@ -6,3 +6,5 @@ src/*.obj
 *.exp
 *.ilk
 *.lib
+.DS_Store
+*.os
