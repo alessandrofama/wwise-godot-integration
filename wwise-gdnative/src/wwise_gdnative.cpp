@@ -112,7 +112,7 @@ void Wwise::_init()
 	}
 }
 
-void Wwise::_process(float delta)
+void Wwise::_process(const float delta)
 {
 	ERROR_CHECK(AK::SoundEngine::RenderAudio());
 }
@@ -318,7 +318,7 @@ unsigned int Wwise::postEventID(const unsigned int eventID, const Object* gameOb
 }
 
 // any way to check if AK::SoundEngine::StopPlayingID succeded?
-bool Wwise::stopEvent(int playingID, int fadeTime, int interpolation)
+bool Wwise::stopEvent(const int playingID, const int fadeTime, const int interpolation)
 {
 	AK::SoundEngine::StopPlayingID(static_cast<AkPlayingID>(playingID), static_cast<AkTimeMs>(fadeTime), 
 									static_cast<AkCurveInterpolation>(interpolation));
@@ -338,7 +338,7 @@ bool Wwise::setSwitchID(const unsigned int switchGroupID, const unsigned int swi
 	return ERROR_CHECK(AK::SoundEngine::SetSwitch(switchGroupID, switchStateID, static_cast<AkGameObjectID>(gameObject->get_instance_id())));
 }
 
-bool Wwise::setState(String stateGroup, String stateValue)
+bool Wwise::setState(const String stateGroup, const String stateValue)
 {
 	return ERROR_CHECK(AK::SoundEngine::SetState(stateGroup.unicode_str(), stateValue.unicode_str()));
 }
