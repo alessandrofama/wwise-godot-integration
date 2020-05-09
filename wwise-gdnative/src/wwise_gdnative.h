@@ -57,13 +57,18 @@ namespace godot
 		bool set3DPosition(Object* gameObject);
 
 		int postEvent(String eventName, Object* gameObject);
+		int postEventID(const unsigned int eventID, Object* gameObject);
 		bool stopEvent(int playingID, int fadeTime, int interpolation);
 
 		bool setSwitch(String switchGroup, String switchState, Object* gameObject);
+		bool setSwitchID(const unsigned int switchGroup, const unsigned int switchState, Object* gameObject);
 		bool setState(String stateGroup, String stateValue);
+		bool setStateID(const unsigned int stateGroup, const unsigned int stateValue);
 
 		float getRTPCValue(String rtpcName, Object* gameObject);
+		float getRTPCValueID(const unsigned int rtpc, Object* gameObject);
 		bool setRTPCValue(String rtpcName, float rtpcValue, Object* gameObject);
+		bool setRTPCValueID(const unsigned int rtpc, float rtpcValue, Object* gameObject);
 	};
 }
 

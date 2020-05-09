@@ -10,16 +10,16 @@ enum stateValues {
 }
 
 export(stateValues) var state = stateValues.CALM
-var stateValue = "Calm"
+var stateValue = AK.STATES.MUSICSTATE.STATE.NONE
 
 func _ready():
 	var goResult = Wwise.register_game_obj(self, "TestGO")
 	print("Registering GameObject: ", goResult)
 
-	playingID = Wwise.post_event("Music", self)
+	playingID = Wwise.post_event_id(AK.EVENTS.MUSIC, self)
 
 func _process(_delta):
-	musicVolume = Wwise.get_rtpc("MusicVolume", self)
+	musicVolume = Wwise.get_rtpc_id(AK.GAME_PARAMETERS.MUSICVOLUME, self)
 	set_scale(Vector3 (stepify(musicVolume * -0.1, 0.001), 
 					   stepify(musicVolume * -0.1, 0.001), 
 					   stepify(musicVolume * -0.1, 0.001)))
@@ -27,13 +27,13 @@ func _process(_delta):
 	Wwise.set_3d_position(self)
 	
 	if (state == stateValues.CALM):
-		stateValue = "Calm"
+		stateValue = AK.STATES.MUSICSTATE.STATE.CALM
 
 	if (state == stateValues.INTENSE):
-		stateValue = "Intense"
+		stateValue = AK.STATES.MUSICSTATE.STATE.INTENSE
 
-	Wwise.set_rtpc("Enemies", rtpcValue, self)
-	Wwise.set_state("MusicState", stateValue)
+	Wwise.set_rtpc_id(AK.GAME_PARAMETERS.ENEMIES, rtpcValue, self)
+	Wwise.set_state_id(AK.STATES.MUSICSTATE.GROUP, stateValue)
 
 func _input(_ev):
 	if Input.is_key_pressed(KEY_P):

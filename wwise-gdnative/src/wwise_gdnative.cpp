@@ -90,11 +90,16 @@ void Wwise::_register_methods()
 	register_method("register_game_obj", &Wwise::registerGameObj);
 	register_method("set_3d_position", &Wwise::set3DPosition);
 	register_method("post_event", &Wwise::postEvent);
+	register_method("post_event_id", &Wwise::postEventID);
 	register_method("stop_event", &Wwise::stopEvent);
 	register_method("set_switch", &Wwise::setSwitch);
+	register_method("set_switch_id", &Wwise::setSwitchID);
 	register_method("set_state", &Wwise::setState);
+	register_method("set_state_id", &Wwise::setStateID);
 	register_method("get_rtpc", &Wwise::getRTPCValue);
+	register_method("get_rtpc_id", &Wwise::getRTPCValueID);
 	register_method("set_rtpc", &Wwise::setRTPCValue);
+	register_method("set_rtpc_id", &Wwise::setRTPCValueID);
 }
 
 void Wwise::_init()
@@ -273,6 +278,15 @@ int Wwise::postEvent(String eventName, Object* gameObject)
 	return static_cast<int>(playingID);
 }
 
+int Wwise::postEventID(const unsigned int eventID, Object* gameObject)
+{
+	auto playingID = AK::SoundEngine::PostEvent(eventID, static_cast<AkGameObjectID>(gameObject->get_instance_id()));
+	if (playingID == AK_INVALID_PLAYING_ID) {
+		return static_cast<int>(AK_INVALID_PLAYING_ID);
+	}
+	return static_cast<int>(playingID);
+}
+
 // any way to check if AK::SoundEngine::StopPlayingID succeded?
 bool Wwise::stopEvent(int playingID, int fadeTime, int interpolation)
 {
@@ -292,12 +306,22 @@ bool Wwise::setSwitch(String switchGroup, String switchState, Object* gameObject
 	return ERROR_CHECK(AK::SoundEngine::SetSwitch(group, state, static_cast<AkGameObjectID>(gameObject->get_instance_id())));
 }
 
+bool Wwise::setSwitchID(const unsigned int switchGroup, const unsigned int switchState, Object* gameObject)
+{
+	return ERROR_CHECK(AK::SoundEngine::SetSwitch(switchGroup, switchState, static_cast<AkGameObjectID>(gameObject->get_instance_id())));
+}
+
 bool Wwise::setState(String stateGroup, String stateValue)
 {
 	const wchar_t* group = stateGroup.unicode_str();
 	const wchar_t* value = stateValue.unicode_str();
 
 	return ERROR_CHECK(AK::SoundEngine::SetState(group, value));
+}
+
+bool Wwise::setStateID(const unsigned int stateGroup, const unsigned int stateValue)
+{
+	return ERROR_CHECK(AK::SoundEngine::SetState(stateGroup, stateValue));
 }
 
 // todo: global rtpc
@@ -313,11 +337,29 @@ float Wwise::getRTPCValue(String rtpcName, Object* gameObject)
 	else return static_cast<float>(value);
 }
 
+float Wwise::getRTPCValueID(const unsigned int rtpc, Object* gameObject)
+{
+	AkRtpcValue value;
+
+	AK::SoundEngine::Query::RTPCValue_type type = AK::SoundEngine::Query::RTPCValue_GameObject;
+
+	if (!ERROR_CHECK(AK::SoundEngine::Query::GetRTPCValue(rtpc, static_cast<AkGameObjectID>(gameObject->get_instance_id()), static_cast<AkPlayingID>(0), value, type)))
+		return -1.f;
+	else return static_cast<float>(value);
+}
+
 // todo: global rtpc
 bool Wwise::setRTPCValue(String rtpcName, float rtpcValue, Object* gameObject)
 {
 	AkRtpcValue value = static_cast<AkRtpcValue>(rtpcValue);
 	const wchar_t* rtpc = rtpcName.unicode_str();
+
+	return ERROR_CHECK(AK::SoundEngine::SetRTPCValue(rtpc, value, static_cast<AkGameObjectID>(gameObject->get_instance_id())));
+}
+
+bool Wwise::setRTPCValueID(const unsigned int rtpc, float rtpcValue, Object* gameObject)
+{
+	AkRtpcValue value = static_cast<AkRtpcValue>(rtpcValue);
 
 	return ERROR_CHECK(AK::SoundEngine::SetRTPCValue(rtpc, value, static_cast<AkGameObjectID>(gameObject->get_instance_id())));
 }
