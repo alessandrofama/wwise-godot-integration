@@ -7,7 +7,8 @@ reloadable=true
 
 [entry]
 Windows.64="res://wwise/bin/win64/wwise-gdnative-debug.dll"
-
+OSX.64="res://wwise/bin/osx/libWwiseGDNative.dylib"
 
 [dependencies]
 Windows.64=[]
+OSX.64=[]
