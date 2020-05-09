@@ -84,7 +84,9 @@ void Wwise::_register_methods()
 	register_method("_process", &Wwise::_process);
 	register_method("set_base_path", &Wwise::setBasePath);
 	register_method("load_bank", &Wwise::loadBank);
+	register_method("load_bank_id", &Wwise::loadBankID);
 	register_method("unload_bank", &Wwise::unloadBank);
+	register_method("unload_bank_id", &Wwise::unloadBankID);
 	register_method("register_listener", &Wwise::registerListener);
 	register_method("set_listener_position", &Wwise::setListenerPosition);
 	register_method("register_game_obj", &Wwise::registerGameObj);
@@ -213,10 +215,20 @@ bool Wwise::loadBank(String bankName)
 	return ERROR_CHECK(AK::SoundEngine::LoadBank(bank, bankID));
 }
 
+bool Wwise::loadBankID(const unsigned int bankID)
+{
+	return ERROR_CHECK(AK::SoundEngine::LoadBank(bankID));
+}
+
 bool Wwise::unloadBank(String bankName)
 {
 	const wchar_t* bank = bankName.unicode_str();
 	return ERROR_CHECK(AK::SoundEngine::UnloadBank(bank, NULL));
+}
+
+bool Wwise::unloadBankID(const unsigned int bankID)
+{
+	return ERROR_CHECK(AK::SoundEngine::UnloadBank(bankID, NULL));
 }
 
 // todo: multiple listeners

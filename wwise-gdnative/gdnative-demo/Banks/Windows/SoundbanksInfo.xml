@@ -14,7 +14,7 @@
 		<SoundBank Id="1355168291" Language="SFX">
 			<ObjectPath>Init</ObjectPath>
 			<ShortName>Init</ShortName>
-			<Path>Init.bnk</Path>
+			<Path>1355168291.bnk</Path>
 			<GameParameters>
 				<GameParameter Id="2242381963" Name="Enemies" ObjectPath="\Game Parameters\Alex\Enemies"/>
 			</GameParameters>
@@ -22,7 +22,7 @@
 		<SoundBank Id="3291379323" Language="SFX">
 			<ObjectPath>\SoundBanks\Alex\TestBank</ObjectPath>
 			<ShortName>TestBank</ShortName>
-			<Path>TestBank.bnk</Path>
+			<Path>3291379323.bnk</Path>
 			<IncludedEvents>
 				<Event Id="3991942870" Name="Music" ObjectPath="\Events\Alex Tests\Music">
 					<IncludedMemoryFiles>

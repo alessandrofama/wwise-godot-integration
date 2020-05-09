@@ -47,7 +47,9 @@ namespace godot
 
 		bool setBasePath(String basePath);
 		bool loadBank(String bankName);
+		bool loadBankID(const unsigned int bankID);
 		bool unloadBank(String bankName);
+		bool unloadBankID(const unsigned int bankID);
 
 		bool registerListener();
 		bool setListenerPosition(Object* gameObject);

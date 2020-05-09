@@ -1,0 +1,22 @@
+Event	ID	Name			Wwise Object Path	Notes
+	3991942870	Music			\Alex Tests\Music	
+
+State Group	ID	Name			Wwise Object Path	Notes
+	1021618141	MusicState			\Alex\MusicState	
+
+State	ID	Name	State Group			Notes
+	748895195	None	MusicState			
+	3753286132	Calm	MusicState			
+	4223512837	Intense	MusicState			
+
+Custom State	ID	Name	State Group	Owner		Notes
+	866806263	Intense	MusicState	\Interactive Music Hierarchy\Alex\Music_Test_1\Combat Music\bar_music_BEAT_109		
+
+Game Parameter	ID	Name			Wwise Object Path	Notes
+	2242381963	Enemies			\Alex\Enemies	
+
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	401793486	bar_music_SEQ1_109	D:\Git Projects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Windows\SFX\bar_music_SEQ1_109_3D1D1BA5.wem		\Interactive Music Hierarchy\Alex\Music_Test_1\Combat Music\bar_music_SEQ1_109		219775
+	584072642	bar_music_BEAT_109	D:\Git Projects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Windows\SFX\bar_music_beat_109_3D1D1BA5.wem		\Interactive Music Hierarchy\Alex\Music_Test_1\Combat Music\bar_music_BEAT_109		367041
+	638431784	bar_music_SEQ2_109	D:\Git Projects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Windows\SFX\bar_music_SEQ2_109_3D1D1BA5.wem		\Interactive Music Hierarchy\Alex\Music_Test_1\Combat Music\bar_music_SEQ2_109		450289
+
