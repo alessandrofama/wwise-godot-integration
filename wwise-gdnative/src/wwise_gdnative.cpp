@@ -83,7 +83,7 @@ void Wwise::_register_methods()
 	register_method("unload_bank_id", &Wwise::unloadBankID);
 	register_method("register_listener", &Wwise::registerListener);
 	register_method("set_listener_position", &Wwise::setListenerPosition);
-	register_method("register_game_obj", &Wwise::registerGameObj);
+	register_method("register_game_obj", &Wwise::registerGameObject);
 	register_method("set_3d_position", &Wwise::set3DPosition);
 	register_method("post_event", &Wwise::postEvent);
 	register_method("post_event_id", &Wwise::postEventID);
@@ -263,8 +263,7 @@ bool Wwise::setListenerPosition(const Object* gameObject)
 	return ERROR_CHECK(AK::SoundEngine::SetPosition(0, listenerPosition));
 }
 
-// todo: figure out how to convert String to const char*
-bool Wwise::registerGameObj(const Object* gameObject, const String gameObjectName)
+bool Wwise::registerGameObject(const Object* gameObject, const String gameObjectName)
 {
 	return ERROR_CHECK(AK::SoundEngine::RegisterGameObj(static_cast<AkGameObjectID>(gameObject->get_instance_id()), 
 						gameObjectName.alloc_c_string()));
@@ -289,28 +288,28 @@ bool Wwise::set3DPosition(const Object* gameObject)
 	return ERROR_CHECK(AK::SoundEngine::SetPosition(static_cast<AkGameObjectID>(gameObject->get_instance_id()), soundPos));
 }
 
-int Wwise::postEvent(const String eventName, const Object* gameObject)
+unsigned int Wwise::postEvent(const String eventName, const Object* gameObject)
 {
 	AkPlayingID playingID = AK::SoundEngine::PostEvent(eventName.unicode_str(), static_cast<AkGameObjectID>(gameObject->get_instance_id()));
 
 	if (playingID == AK_INVALID_PLAYING_ID) 
 	{
-		return static_cast<int>(AK_INVALID_PLAYING_ID);
+		return static_cast<unsigned int>(AK_INVALID_PLAYING_ID);
 	}
 
-	return static_cast<int>(playingID);
+	return static_cast<unsigned int>(playingID);
 }
 
-int Wwise::postEventID(const unsigned int eventID, const Object* gameObject)
+unsigned int Wwise::postEventID(const unsigned int eventID, const Object* gameObject)
 {
-	auto playingID = AK::SoundEngine::PostEvent(eventID, static_cast<AkGameObjectID>(gameObject->get_instance_id()));
+	AkPlayingID playingID = AK::SoundEngine::PostEvent(eventID, static_cast<AkGameObjectID>(gameObject->get_instance_id()));
 
 	if (playingID == AK_INVALID_PLAYING_ID) 
 	{
-		return static_cast<int>(AK_INVALID_PLAYING_ID);
+		return static_cast<unsigned int>(AK_INVALID_PLAYING_ID);
 	}
 
-	return static_cast<int>(playingID);
+	return static_cast<unsigned int>(playingID);
 }
 
 // any way to check if AK::SoundEngine::StopPlayingID succeded?
@@ -329,9 +328,9 @@ bool Wwise::setSwitch(const String switchGroup, const String switchState, const 
 						static_cast<AkGameObjectID>(gameObject->get_instance_id())));
 }
 
-bool Wwise::setSwitchID(const unsigned int switchGroup, const unsigned int switchState, const Object* gameObject)
+bool Wwise::setSwitchID(const unsigned int switchGroupID, const unsigned int switchStateID, const Object* gameObject)
 {
-	return ERROR_CHECK(AK::SoundEngine::SetSwitch(switchGroup, switchState, static_cast<AkGameObjectID>(gameObject->get_instance_id())));
+	return ERROR_CHECK(AK::SoundEngine::SetSwitch(switchGroupID, switchStateID, static_cast<AkGameObjectID>(gameObject->get_instance_id())));
 }
 
 bool Wwise::setState(String stateGroup, String stateValue)
@@ -339,9 +338,9 @@ bool Wwise::setState(String stateGroup, String stateValue)
 	return ERROR_CHECK(AK::SoundEngine::SetState(stateGroup.unicode_str(), stateValue.unicode_str()));
 }
 
-bool Wwise::setStateID(const unsigned int stateGroup, const unsigned int stateValue)
+bool Wwise::setStateID(const unsigned int stateGroupID, const unsigned int stateValueID)
 {
-	return ERROR_CHECK(AK::SoundEngine::SetState(stateGroup, stateValue));
+	return ERROR_CHECK(AK::SoundEngine::SetState(stateGroupID, stateValueID));
 }
 
 // todo: global rtpc
@@ -360,12 +359,12 @@ float Wwise::getRTPCValue(const String rtpcName, const Object* gameObject)
 	return static_cast<float>(value);
 }
 
-float Wwise::getRTPCValueID(const unsigned int rtpc, const Object* gameObject)
+float Wwise::getRTPCValueID(const unsigned int rtpcID, const Object* gameObject)
 {
 	AkRtpcValue value;
 	AK::SoundEngine::Query::RTPCValue_type type = AK::SoundEngine::Query::RTPCValue_GameObject;
 
-	if (!ERROR_CHECK(AK::SoundEngine::Query::GetRTPCValue(rtpc, static_cast<AkGameObjectID>(gameObject->get_instance_id()),
+	if (!ERROR_CHECK(AK::SoundEngine::Query::GetRTPCValue(rtpcID, static_cast<AkGameObjectID>(gameObject->get_instance_id()),
 		static_cast<AkPlayingID>(0), value, type)))
 	{
 		return -1.0f;
@@ -381,8 +380,8 @@ bool Wwise::setRTPCValue(const String rtpcName, const float rtpcValue, const Obj
 						static_cast<AkGameObjectID>(gameObject->get_instance_id())));
 }
 
-bool Wwise::setRTPCValueID(const unsigned int rtpc, float rtpcValue, Object* gameObject)
+bool Wwise::setRTPCValueID(const unsigned int rtpcID, const float rtpcValue, const Object* gameObject)
 {
-	return ERROR_CHECK(AK::SoundEngine::SetRTPCValue(rtpc, static_cast<AkRtpcValue>(rtpcValue), 
+	return ERROR_CHECK(AK::SoundEngine::SetRTPCValue(rtpcID, static_cast<AkRtpcValue>(rtpcValue), 
 						static_cast<AkGameObjectID>(gameObject->get_instance_id())));
 }

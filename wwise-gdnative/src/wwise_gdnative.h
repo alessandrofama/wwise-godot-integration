@@ -44,23 +44,23 @@ namespace godot
 		bool registerListener();
 		bool setListenerPosition(const Object* gameObject);
 
-		bool registerGameObj(const Object* gameObject, const String gameObjectName);
+		bool registerGameObject(const Object* gameObject, const String gameObjectName);
 
 		bool set3DPosition(const Object* gameObject);
 
-		int postEvent(const String eventName, const Object* gameObject);
-		int postEventID(const unsigned int eventID, const Object* gameObject);
+		unsigned int postEvent(const String eventName, const Object* gameObject);
+		unsigned int postEventID(const unsigned int eventID, const Object* gameObject);
 		bool stopEvent(const int playingID, const int fadeTime, const int interpolation);
 
 		bool setSwitch(const String switchGroup, const String switchState, const Object* gameObject);
-		bool setSwitchID(const unsigned int switchGroup, const unsigned int switchState, const Object* gameObject);
+		bool setSwitchID(const unsigned int switchGroupID, const unsigned int switchStateID, const Object* gameObject);
 		bool setState(const String stateGroup, const String stateValue);
-		bool setStateID(const unsigned int stateGroup, const unsigned int stateValue);
+		bool setStateID(const unsigned int stateGroupID, const unsigned int stateValueID);
 
 		float getRTPCValue(const String rtpcName, const Object* gameObject);
-		float getRTPCValueID(const unsigned int rtpc, const Object* gameObject);
+		float getRTPCValueID(const unsigned int rtpcID, const Object* gameObject);
 		bool setRTPCValue(const String rtpcName, const float rtpcValue, const Object* gameObject);
-		bool setRTPCValueID(const unsigned int rtpc, float rtpcValue, Object* gameObject);
+		bool setRTPCValueID(const unsigned int rtpcID, const float rtpcValue, const Object* gameObject);
 
 	private:
 		bool initialiseWwiseSystems();
