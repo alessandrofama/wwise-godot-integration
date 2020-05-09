@@ -11,11 +11,11 @@ You might need to execute `vcvars64.bat` before building. For VS2017, it's locat
 Debug (includes Wwise profiler connection)
 
 ```
-scons target=debug platform=windows target_name=wwise-gdnative-debug wwise_sdk="%WWISESDK%"
+scons target=debug platform=windows wwise_sdk="%WWISESDK%"
 ```
 
 Release
 
 ```
-scons target=release platform=windows target_name=wwise-gdnative-release wwise_sdk="%WWISESDK%"
+scons target=release platform=windows wwise_sdk="%WWISESDK%"
 ```
