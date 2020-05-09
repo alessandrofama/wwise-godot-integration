@@ -21,16 +21,16 @@
     <ClCompile Include="..\..\src\gdlibrary.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\Program Files\Wwise 2019.2.1.7250\SDK\include\AK\SoundEngine\Win32\AkDefaultIOHookBlocking.cpp">
+    <ClCompile Include="$(WWISESDK)\samples\SoundEngine\Common\AkFilePackage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\Program Files\Wwise 2019.2.1.7250\SDK\include\AK\SoundEngine\Common\AkFilePackageLUT.cpp">
+    <ClCompile Include="$(WWISESDK)\samples\SoundEngine\Common\AkFilePackageLUT.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\Program Files\Wwise 2019.2.1.7250\SDK\include\AK\SoundEngine\Common\AkFilePackage.cpp">
+    <ClCompile Include="$(WWISESDK)\samples\SoundEngine\Common\AkMultipleFileLocation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\Program Files\Wwise 2019.2.1.7250\SDK\include\AK\SoundEngine\Common\AkMultipleFileLocation.cpp">
+    <ClCompile Include="$(WWISESDK)\samples\SoundEngine\Win32\AkDefaultIOHookBlocking.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -39,6 +39,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\wwise_gdnative.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(WWISESDK)\samples\SoundEngine\Win32\stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(WWISESDK)\samples\SoundEngine\Win32\AkDefaultIOHookBlocking.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(WWISESDK)\samples\SoundEngine\Win32\stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
