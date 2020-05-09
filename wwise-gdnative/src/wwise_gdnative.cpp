@@ -67,6 +67,12 @@ AkMemPoolId g_poolComm = AK_INVALID_POOL_ID;
 #define COMM_POOL_BLOCK_SIZE (48)
 #endif
 
+Wwise::~Wwise() 
+{
+	shutdownWwiseSystems();
+	Godot::print("Wwise Shutdown....");
+}
+
 void Wwise::_register_methods()
 {
 	register_method("_process", &Wwise::_process);
@@ -111,35 +117,38 @@ void Wwise::_process(float delta)
 	ERROR_CHECK(AK::SoundEngine::RenderAudio());
 }
 
-Wwise::~Wwise() {
-	shutdownWwiseSystems();
-	Godot::print("Wwise Shutdown....");
-}
-
 bool Wwise::initialiseWwiseSystems()
 {
 	AkMemSettings memSettings;
 	AK::MemoryMgr::GetDefaultSettings(memSettings);
 
 	if (!ERROR_CHECK(AK::MemoryMgr::Init(&memSettings)))
+	{
 		return false;
+	}
 
 	AkStreamMgrSettings stmSettings;
 	AK::StreamMgr::GetDefaultSettings(stmSettings);
 	if (!AK::StreamMgr::Create(stmSettings))
+	{
 		return false;
+	}
 
 	AkDeviceSettings deviceSettings;
 	AK::StreamMgr::GetDefaultDeviceSettings(deviceSettings);
 	if (!ERROR_CHECK(lowLevelIO.Init(deviceSettings)))
+	{
 		return false;
+	}
 
 	AkInitSettings initSettings;
 	AkPlatformInitSettings platformInitSettings;
 	AK::SoundEngine::GetDefaultInitSettings(initSettings);
 	AK::SoundEngine::GetDefaultPlatformInitSettings(platformInitSettings);
 	if (!ERROR_CHECK(AK::SoundEngine::Init(&initSettings, &platformInitSettings)))
+	{
 		return false;
+	}
 
 	AkMusicSettings musicInit;
 	AK::MusicEngine::GetDefaultInitSettings(musicInit);
@@ -152,7 +161,9 @@ bool Wwise::initialiseWwiseSystems()
 	AkCommSettings settingsComm;
 	AK::Comm::GetDefaultInitSettings(settingsComm);
 	if (!ERROR_CHECK(AK::Comm::Init(settingsComm)))
+	{
 		return false;
+	}
 #endif
 
 	return true;
@@ -165,10 +176,14 @@ bool Wwise::shutdownWwiseSystems()
 #endif
 
 	if (!ERROR_CHECK(AK::SoundEngine::UnregisterAllGameObj()))
+	{
 		return false;
+	}
 
 	if (!ERROR_CHECK(AK::SoundEngine::ClearBanks()))
+	{
 		return false;
+	}
 
 	AK::MusicEngine::Term();
 
@@ -186,21 +201,15 @@ bool Wwise::shutdownWwiseSystems()
 	return true;
 }
 
-bool Wwise::setBasePath(String basePath)
+bool Wwise::setBasePath(const String basePath)
 {
-	AkOSChar* basePathOsString = NULL;
-
-	const wchar_t* basePathChar = basePath.unicode_str();
-	CONVERT_WIDE_TO_OSCHAR(basePathChar, basePathOsString);
-
-	return ERROR_CHECK(lowLevelIO.SetBasePath(basePathOsString));
+	return ERROR_CHECK(lowLevelIO.SetBasePath(basePath.unicode_str()));
 }
 
-bool Wwise::loadBank(String bankName)
+bool Wwise::loadBank(const String bankName)
 {
 	AkBankID bankID;
-	const wchar_t* bank = bankName.unicode_str();
-	return ERROR_CHECK(AK::SoundEngine::LoadBank(bank, bankID));
+	return ERROR_CHECK(AK::SoundEngine::LoadBank(bankName.unicode_str(), bankID));
 }
 
 bool Wwise::loadBankID(const unsigned int bankID)
@@ -208,10 +217,9 @@ bool Wwise::loadBankID(const unsigned int bankID)
 	return ERROR_CHECK(AK::SoundEngine::LoadBank(bankID));
 }
 
-bool Wwise::unloadBank(String bankName)
+bool Wwise::unloadBank(const String bankName)
 {
-	const wchar_t* bank = bankName.unicode_str();
-	return ERROR_CHECK(AK::SoundEngine::UnloadBank(bank, NULL));
+	return ERROR_CHECK(AK::SoundEngine::UnloadBank(bankName.unicode_str(), NULL));
 }
 
 bool Wwise::unloadBankID(const unsigned int bankID)
@@ -224,13 +232,20 @@ bool Wwise::registerListener()
 {
 	AkGameObjectID LISTENER = 0;
 
-	AK::SoundEngine::RegisterGameObj(LISTENER, "My Default Listener");
-	AK::SoundEngine::SetDefaultListeners(&LISTENER, 1);
+	if (!ERROR_CHECK(AK::SoundEngine::RegisterGameObj(LISTENER, "My Default Listener")))
+	{
+		return false;
+	}
+
+	if (!ERROR_CHECK(AK::SoundEngine::SetDefaultListeners(&LISTENER, 1)))
+	{
+		return false;
+	}
 
 	return true;
 }
 
-bool Wwise::setListenerPosition(Object* gameObject)
+bool Wwise::setListenerPosition(const Object* gameObject)
 {
 	AkSoundPosition listenerPosition;
 	Spatial* s = Object::cast_to<Spatial>(gameObject);
@@ -249,14 +264,14 @@ bool Wwise::setListenerPosition(Object* gameObject)
 }
 
 // todo: figure out how to convert String to const char*
-bool Wwise::registerGameObj(Object* gameObject, String gameObjectName)
+bool Wwise::registerGameObj(const Object* gameObject, const String gameObjectName)
 {
-	const char* goName = gameObjectName.alloc_c_string();
-	return ERROR_CHECK(AK::SoundEngine::RegisterGameObj(static_cast<AkGameObjectID>(gameObject->get_instance_id()), goName));
+	return ERROR_CHECK(AK::SoundEngine::RegisterGameObj(static_cast<AkGameObjectID>(gameObject->get_instance_id()), 
+						gameObjectName.alloc_c_string()));
 }
 
 // todo: 2d stuff
-bool Wwise::set3DPosition(Object* gameObject)
+bool Wwise::set3DPosition(const Object* gameObject)
 {
 	AkSoundPosition soundPos;
 	Spatial* s = Object::cast_to<Spatial>(gameObject);
@@ -274,55 +289,54 @@ bool Wwise::set3DPosition(Object* gameObject)
 	return ERROR_CHECK(AK::SoundEngine::SetPosition(static_cast<AkGameObjectID>(gameObject->get_instance_id()), soundPos));
 }
 
-int Wwise::postEvent(String eventName, Object* gameObject)
+int Wwise::postEvent(const String eventName, const Object* gameObject)
 {
-	const wchar_t* event = eventName.unicode_str();
-	auto playingID = AK::SoundEngine::PostEvent(event, static_cast<AkGameObjectID>(gameObject->get_instance_id()));
-	if (playingID == AK_INVALID_PLAYING_ID) {
+	AkPlayingID playingID = AK::SoundEngine::PostEvent(eventName.unicode_str(), static_cast<AkGameObjectID>(gameObject->get_instance_id()));
+
+	if (playingID == AK_INVALID_PLAYING_ID) 
+	{
 		return static_cast<int>(AK_INVALID_PLAYING_ID);
 	}
+
 	return static_cast<int>(playingID);
 }
 
-int Wwise::postEventID(const unsigned int eventID, Object* gameObject)
+int Wwise::postEventID(const unsigned int eventID, const Object* gameObject)
 {
 	auto playingID = AK::SoundEngine::PostEvent(eventID, static_cast<AkGameObjectID>(gameObject->get_instance_id()));
-	if (playingID == AK_INVALID_PLAYING_ID) {
+
+	if (playingID == AK_INVALID_PLAYING_ID) 
+	{
 		return static_cast<int>(AK_INVALID_PLAYING_ID);
 	}
+
 	return static_cast<int>(playingID);
 }
 
 // any way to check if AK::SoundEngine::StopPlayingID succeded?
 bool Wwise::stopEvent(int playingID, int fadeTime, int interpolation)
 {
-	AkTimeMs ms = static_cast<AkTimeMs>(fadeTime);
-	int curve = static_cast<int>(interpolation);
-
-	AK::SoundEngine::StopPlayingID(static_cast<AkPlayingID>(playingID), ms, (AkCurveInterpolation)curve);
+	AK::SoundEngine::StopPlayingID(static_cast<AkPlayingID>(playingID), static_cast<AkTimeMs>(fadeTime), 
+									static_cast<AkCurveInterpolation>(interpolation));
 
 	return true;
 }
 
-bool Wwise::setSwitch(String switchGroup, String switchState, Object* gameObject)
+bool Wwise::setSwitch(const String switchGroup, const String switchState, const Object* gameObject)
 {
-	const wchar_t* group = switchGroup.unicode_str();
-	const wchar_t* state = switchState.unicode_str();
-
-	return ERROR_CHECK(AK::SoundEngine::SetSwitch(group, state, static_cast<AkGameObjectID>(gameObject->get_instance_id())));
+	return ERROR_CHECK(AK::SoundEngine::SetSwitch(switchGroup.unicode_str(), 
+						switchState.unicode_str(), 
+						static_cast<AkGameObjectID>(gameObject->get_instance_id())));
 }
 
-bool Wwise::setSwitchID(const unsigned int switchGroup, const unsigned int switchState, Object* gameObject)
+bool Wwise::setSwitchID(const unsigned int switchGroup, const unsigned int switchState, const Object* gameObject)
 {
 	return ERROR_CHECK(AK::SoundEngine::SetSwitch(switchGroup, switchState, static_cast<AkGameObjectID>(gameObject->get_instance_id())));
 }
 
 bool Wwise::setState(String stateGroup, String stateValue)
 {
-	const wchar_t* group = stateGroup.unicode_str();
-	const wchar_t* value = stateValue.unicode_str();
-
-	return ERROR_CHECK(AK::SoundEngine::SetState(group, value));
+	return ERROR_CHECK(AK::SoundEngine::SetState(stateGroup.unicode_str(), stateValue.unicode_str()));
 }
 
 bool Wwise::setStateID(const unsigned int stateGroup, const unsigned int stateValue)
@@ -331,41 +345,44 @@ bool Wwise::setStateID(const unsigned int stateGroup, const unsigned int stateVa
 }
 
 // todo: global rtpc
-float Wwise::getRTPCValue(String rtpcName, Object* gameObject)
+float Wwise::getRTPCValue(const String rtpcName, const Object* gameObject)
 {
 	AkRtpcValue value;
-
 	AK::SoundEngine::Query::RTPCValue_type type = AK::SoundEngine::Query::RTPCValue_GameObject;
-	const wchar_t* rtpc = rtpcName.unicode_str();
 
-	if (!ERROR_CHECK(AK::SoundEngine::Query::GetRTPCValue(rtpc, static_cast<AkGameObjectID>(gameObject->get_instance_id()), static_cast<AkPlayingID>(0), value, type)))
-		return -1.f;
-	else return static_cast<float>(value);
+	if (!ERROR_CHECK(AK::SoundEngine::Query::GetRTPCValue(rtpcName.unicode_str(), 
+		static_cast<AkGameObjectID>(gameObject->get_instance_id()),
+		static_cast<AkPlayingID>(0), value, type)))
+	{
+		return -1.0f;
+	}
+
+	return static_cast<float>(value);
 }
 
-float Wwise::getRTPCValueID(const unsigned int rtpc, Object* gameObject)
+float Wwise::getRTPCValueID(const unsigned int rtpc, const Object* gameObject)
 {
 	AkRtpcValue value;
-
 	AK::SoundEngine::Query::RTPCValue_type type = AK::SoundEngine::Query::RTPCValue_GameObject;
 
-	if (!ERROR_CHECK(AK::SoundEngine::Query::GetRTPCValue(rtpc, static_cast<AkGameObjectID>(gameObject->get_instance_id()), static_cast<AkPlayingID>(0), value, type)))
-		return -1.f;
-	else return static_cast<float>(value);
+	if (!ERROR_CHECK(AK::SoundEngine::Query::GetRTPCValue(rtpc, static_cast<AkGameObjectID>(gameObject->get_instance_id()),
+		static_cast<AkPlayingID>(0), value, type)))
+	{
+		return -1.0f;
+	}
+
+	return static_cast<float>(value);
 }
 
 // todo: global rtpc
-bool Wwise::setRTPCValue(String rtpcName, float rtpcValue, Object* gameObject)
+bool Wwise::setRTPCValue(const String rtpcName, const float rtpcValue, const Object* gameObject)
 {
-	AkRtpcValue value = static_cast<AkRtpcValue>(rtpcValue);
-	const wchar_t* rtpc = rtpcName.unicode_str();
-
-	return ERROR_CHECK(AK::SoundEngine::SetRTPCValue(rtpc, value, static_cast<AkGameObjectID>(gameObject->get_instance_id())));
+	return ERROR_CHECK(AK::SoundEngine::SetRTPCValue(rtpcName.unicode_str(), static_cast<AkRtpcValue>(rtpcValue), 
+						static_cast<AkGameObjectID>(gameObject->get_instance_id())));
 }
 
 bool Wwise::setRTPCValueID(const unsigned int rtpc, float rtpcValue, Object* gameObject)
 {
-	AkRtpcValue value = static_cast<AkRtpcValue>(rtpcValue);
-
-	return ERROR_CHECK(AK::SoundEngine::SetRTPCValue(rtpc, value, static_cast<AkGameObjectID>(gameObject->get_instance_id())));
+	return ERROR_CHECK(AK::SoundEngine::SetRTPCValue(rtpc, static_cast<AkRtpcValue>(rtpcValue), 
+						static_cast<AkGameObjectID>(gameObject->get_instance_id())));
 }

@@ -31,35 +31,35 @@ namespace godot
 		explicit Wwise() = default;
 		~Wwise();
 
-		void _init();
 		static void _register_methods();
+		void _init();
 		void _process(float delta);
 
-		bool setBasePath(String basePath);
-		bool loadBank(String bankName);
+		bool setBasePath(const String basePath);
+		bool loadBank(const String bankName);
 		bool loadBankID(const unsigned int bankID);
-		bool unloadBank(String bankName);
+		bool unloadBank(const String bankName);
 		bool unloadBankID(const unsigned int bankID);
 
 		bool registerListener();
-		bool setListenerPosition(Object* gameObject);
+		bool setListenerPosition(const Object* gameObject);
 
-		bool registerGameObj(Object* gameObject, String gameObjectName);
+		bool registerGameObj(const Object* gameObject, const String gameObjectName);
 
-		bool set3DPosition(Object* gameObject);
+		bool set3DPosition(const Object* gameObject);
 
-		int postEvent(String eventName, Object* gameObject);
-		int postEventID(const unsigned int eventID, Object* gameObject);
-		bool stopEvent(int playingID, int fadeTime, int interpolation);
+		int postEvent(const String eventName, const Object* gameObject);
+		int postEventID(const unsigned int eventID, const Object* gameObject);
+		bool stopEvent(const int playingID, const int fadeTime, const int interpolation);
 
-		bool setSwitch(String switchGroup, String switchState, Object* gameObject);
-		bool setSwitchID(const unsigned int switchGroup, const unsigned int switchState, Object* gameObject);
-		bool setState(String stateGroup, String stateValue);
+		bool setSwitch(const String switchGroup, const String switchState, const Object* gameObject);
+		bool setSwitchID(const unsigned int switchGroup, const unsigned int switchState, const Object* gameObject);
+		bool setState(const String stateGroup, const String stateValue);
 		bool setStateID(const unsigned int stateGroup, const unsigned int stateValue);
 
-		float getRTPCValue(String rtpcName, Object* gameObject);
-		float getRTPCValueID(const unsigned int rtpc, Object* gameObject);
-		bool setRTPCValue(String rtpcName, float rtpcValue, Object* gameObject);
+		float getRTPCValue(const String rtpcName, const Object* gameObject);
+		float getRTPCValueID(const unsigned int rtpc, const Object* gameObject);
+		bool setRTPCValue(const String rtpcName, const float rtpcValue, const Object* gameObject);
 		bool setRTPCValueID(const unsigned int rtpc, float rtpcValue, Object* gameObject);
 
 	private:
