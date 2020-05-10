@@ -18,5 +18,7 @@ enum GameEvent{
 	INIT,
 	TREE_ENTER,
 	TREE_EXIT,
-	READY
+	READY,
+	AREA_ENTER,
+	AREA_EXIT
 	}

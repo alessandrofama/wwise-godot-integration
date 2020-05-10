@@ -1,8 +1,12 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://wwise/nodes/ak_event.gd" type="Script" id=1]
 [ext_resource path="res://wwise/nodes/ak_bank.gd" type="Script" id=2]
 [ext_resource path="res://wwise/nodes/ak_listener.gd" type="Script" id=3]
+
+[sub_resource type="BoxShape" id=1]
+
+[sub_resource type="BoxShape" id=2]
 
 [node name="Main" type="Spatial"]
 
@@ -26,12 +30,27 @@ unload_on = 3
 [node name="AkEvent" type="Spatial" parent="CSGBox"]
 script = ExtResource( 1 )
 event = 3991942870
-trigger_on = 2
-stop_on = 3
-stop_fade_time = 2000
+trigger_on = 5
+stop_on = 6
+stop_fade_time = 500
+
+[node name="Area" type="Area" parent="CSGBox/AkEvent"]
+
+[node name="CollisionShape" type="CollisionShape" parent="CSGBox/AkEvent/Area"]
+shape = SubResource( 1 )
+
+[node name="CSGBox2" type="CSGBox" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4.85083, 0, 0 )
+
+[node name="Area" type="Area" parent="CSGBox2"]
+
+[node name="CollisionShape" type="CollisionShape" parent="CSGBox2/Area"]
+shape = SubResource( 2 )
 
 [node name="Camera" type="Camera" parent="."]
 transform = Transform( 1, 0, 0, 0, 0.894084, 0.4479, 0, -0.4479, 0.894084, 0, 3.71821, 8.71377 )
 
 [node name="AkListener" type="Spatial" parent="Camera"]
 script = ExtResource( 3 )
+[connection signal="area_entered" from="CSGBox2/Area" to="CSGBox/AkEvent" method="_on_Area_area_entered"]
+[connection signal="area_exited" from="CSGBox2/Area" to="CSGBox/AkEvent" method="_on_Area_area_exited"]

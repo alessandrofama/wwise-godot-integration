@@ -22,6 +22,12 @@ func _exit_tree():
 func _ready():
 	handle_game_event(AkUtils.GameEvent.READY);
 	
+func _on_Area_area_entered(_area:Object):
+	handle_game_event(AkUtils.GameEvent.AREA_ENTER);
+	
+func _on_Area_area_exited(_area:Object):
+	handle_game_event(AkUtils.GameEvent.AREA_EXIT);
+	
 func handle_game_event(gameEvent:int):
 	if trigger_on == gameEvent:
 		post_event()
