@@ -14,6 +14,26 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Banks/wwise_ids.gd"
 }, {
+"base": "AkEventHandler",
+"class": "AkBank",
+"language": "GDScript",
+"path": "res://wwise/nodes/ak_bank.gd"
+}, {
+"base": "AkEventHandler",
+"class": "AkEvent",
+"language": "GDScript",
+"path": "res://wwise/nodes/ak_event.gd"
+}, {
+"base": "AkGameObj",
+"class": "AkEventHandler",
+"language": "GDScript",
+"path": "res://wwise/ak_event_handler.gd"
+}, {
+"base": "Spatial",
+"class": "AkGameObj",
+"language": "GDScript",
+"path": "res://wwise/ak_game_obj.gd"
+}, {
 "base": "Reference",
 "class": "AkUtils",
 "language": "GDScript",
@@ -21,6 +41,10 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "AK": "",
+"AkBank": "",
+"AkEvent": "",
+"AkEventHandler": "",
+"AkGameObj": "",
 "AkUtils": ""
 }
 
@@ -33,6 +57,10 @@ config/icon="res://icon.png"
 [autoload]
 
 Wwise="*res://wwise/bin/wwise-gdnative-debug.gdns"
+
+[editor_plugins]
+
+enabled=PoolStringArray( "wwise" )
 
 [rendering]
 

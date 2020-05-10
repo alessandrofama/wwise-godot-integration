@@ -12,3 +12,11 @@ enum AkInterpolationMode {
 	EXP3			= 8,
 	LASTFADECURVE  	= 8,
 }
+
+enum GameEvent{
+	NONE,
+	INIT,
+	TREE_ENTER,
+	TREE_EXIT,
+	READY
+	}
