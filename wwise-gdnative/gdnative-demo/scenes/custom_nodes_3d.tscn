@@ -17,14 +17,14 @@
 [node name="AkBank - INIT" type="Spatial" parent="Banks"]
 script = ExtResource( 2 )
 bank_id = 1355168291
-load_on = 2
+load_on = 4
 unload_on = 3
 
 [node name="AkBank - TESTBANK" type="Spatial" parent="Banks"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00990868, 0, 0 )
 script = ExtResource( 2 )
 bank_id = 3291379323
-load_on = 2
+load_on = 4
 unload_on = 3
 
 [node name="Event Test" type="CSGBox" parent="."]
@@ -32,8 +32,8 @@ unload_on = 3
 [node name="AkEvent" type="Spatial" parent="Event Test"]
 script = ExtResource( 1 )
 event = 3991942870
-trigger_on = 7
-stop_on = 8
+trigger_on = 5
+stop_on = 6
 stop_fade_time = 500
 
 [node name="Area" type="Area" parent="Event Test/AkEvent"]
@@ -48,7 +48,7 @@ shape = SubResource( 1 )
 shape = SubResource( 3 )
 
 [node name="Area Test" type="CSGBox" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4.85758, 0, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.02986, 0, 0 )
 
 [node name="Area" type="Area" parent="Area Test"]
 
