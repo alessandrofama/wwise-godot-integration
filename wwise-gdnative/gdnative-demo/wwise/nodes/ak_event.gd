@@ -1,5 +1,4 @@
 extends AkEventHandler
-class_name AkEvent
 
 export(int) var event
 export(AkUtils.GameEvent) var trigger_on

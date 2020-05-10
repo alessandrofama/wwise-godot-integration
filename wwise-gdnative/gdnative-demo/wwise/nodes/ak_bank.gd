@@ -1,5 +1,4 @@
 extends AkEventHandler
-class_name AkBank
 
 enum banks {initBank = 1355168291, testBank = 3291379323}
 export(banks) var bank_id

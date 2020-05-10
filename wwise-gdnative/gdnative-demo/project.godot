@@ -14,16 +14,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Banks/wwise_ids.gd"
 }, {
-"base": "AkEventHandler",
-"class": "AkBank",
-"language": "GDScript",
-"path": "res://wwise/nodes/ak_bank.gd"
-}, {
-"base": "AkEventHandler",
-"class": "AkEvent",
-"language": "GDScript",
-"path": "res://wwise/nodes/ak_event.gd"
-}, {
 "base": "AkGameObj",
 "class": "AkEventHandler",
 "language": "GDScript",
@@ -41,8 +31,6 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "AK": "",
-"AkBank": "",
-"AkEvent": "",
 "AkEventHandler": "",
 "AkGameObj": "",
 "AkUtils": ""
