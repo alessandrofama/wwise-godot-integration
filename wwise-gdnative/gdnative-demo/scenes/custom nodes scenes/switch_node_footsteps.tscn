@@ -108,7 +108,7 @@ shape = SubResource( 2 )
 [node name="Player" type="RigidBody" parent="." groups=[
 "TestTag",
 ]]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1, -2 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 1, -6 )
 contacts_reported = 1
 contact_monitor = true
 script = ExtResource( 1 )
@@ -130,19 +130,6 @@ script = ExtResource( 4 )
 [node name="AkEvent" type="Spatial" parent="Player"]
 script = ExtResource( 3 )
 event = 2385628198
-
-[node name="Otherbody" type="RigidBody" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, -6 )
-gravity_scale = 0.0
-contacts_reported = 1
-contact_monitor = true
-
-[node name="CollisionShape" type="CollisionShape" parent="Otherbody"]
-shape = SubResource( 6 )
-
-[node name="CSGSphere" type="CSGSphere" parent="Otherbody/CollisionShape"]
-radius = 0.6
-radial_segments = 11
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 transform = Transform( 1, 0, 0, 0, -0.866025, 0.5, 0, -0.5, -0.866025, -17, 7, 0 )
