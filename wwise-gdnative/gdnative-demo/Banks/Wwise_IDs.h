@@ -13,6 +13,7 @@ namespace AK
 {
     namespace EVENTS
     {
+        static const AkUniqueID FOOTSTEPS = 2385628198U;
         static const AkUniqueID MUSIC = 3991942870U;
         static const AkUniqueID MUSIC_2D = 1939884427U;
     } // namespace EVENTS
@@ -32,6 +33,23 @@ namespace AK
         } // namespace MUSICSTATE
 
     } // namespace STATES
+
+    namespace SWITCHES
+    {
+        namespace FOOTSTEPSSWITCH
+        {
+            static const AkUniqueID GROUP = 3586861854U;
+
+            namespace SWITCH
+            {
+                static const AkUniqueID GRASS = 4248645337U;
+                static const AkUniqueID GRAVEL = 2185786256U;
+                static const AkUniqueID WATER = 2654748154U;
+                static const AkUniqueID WOOD = 2058049674U;
+            } // namespace SWITCH
+        } // namespace FOOTSTEPSSWITCH
+
+    } // namespace SWITCHES
 
     namespace GAME_PARAMETERS
     {

@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://wwise/nodes/ak_bank.gd" type="Script" id=1]
+
+[node name="Banks" type="Node"]
+
+[node name="AkBank - INIT" type="Spatial" parent="."]
+script = ExtResource( 1 )
+bank_id = 1355168291
+load_on = 2
+unload_on = 3
+
+[node name="AkBank - TESTBANK" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00990868, 0, 0 )
+script = ExtResource( 1 )
+bank_id = 3291379323
+load_on = 2
+unload_on = 3

@@ -25,6 +25,17 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="Footsteps" ID="{3BB165F4-E793-466C-B91A-A825AA10FFBF}">
+					<ChildrenList>
+						<Action Name="" ID="{55DF2A2C-8D7A-43EF-BBB1-27D7512539FB}" ShortID="621986100">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Footsteps" ID="{65C5D4B5-4D15-46F0-8D63-A7A0F6E4BC32}" WorkUnitID="{F86D44CF-30AB-4187-A660-DA289EDCAD5C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

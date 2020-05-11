@@ -1,6 +1,7 @@
 class_name AK
 
 class EVENTS:
+	const FOOTSTEPS = 2385628198
 	const MUSIC = 3991942870
 	const MUSIC_2D = 1939884427
 
@@ -13,6 +14,17 @@ class STATES:
 			const CALM = 3753286132
 			const INTENSE = 4223512837
 			const NONE = 748895195
+
+class SWITCHES:
+
+	class FOOTSTEPSSWITCH:
+		const GROUP = 3586861854
+
+		class SWITCH:
+			const GRASS = 4248645337
+			const GRAVEL = 2185786256
+			const WATER = 2654748154
+			const WOOD = 2058049674
 
 class GAME_PARAMETERS:
 	const ENEMIES = 2242381963
