@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://wwise/nodes/ak_event.gd" type="Script" id=1]
+
+[node name="Spatial" type="Spatial"]
+
+[node name="AkEvent" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -12.8266 )
+script = ExtResource( 1 )
+
+[node name="AkEvent2" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5.05715, 0, -6.40809 )
+script = ExtResource( 1 )
+
+[node name="AkEvent3" type="Spatial" parent="."]
+transform = Transform( 0.466566, 0.407589, -0.784976, 0.573855, 0.535852, 0.619317, 0.673058, -0.739414, 0.0161134, 6.4875, 0, -1.83535 )
+script = ExtResource( 1 )
+
+[node name="AkEvent4" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1446, 0, -0.388761 )
+script = ExtResource( 1 )
