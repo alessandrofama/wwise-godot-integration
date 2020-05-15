@@ -63,13 +63,11 @@ func _appendEnumBlock():
 		enumBlock[line] = enumBlock[line] + ","
 
 	var numTabs = enumBlock[0].count("\t") - 1
-	print(correctedLine + " numTabs ", numTabs)
 	var tabFill = ""
 	for _tab in range(numTabs):
 		tabFill = tabFill + "\t"
 
 	var enumHeader = "\n" + tabFill + "enum _enum {"
-	print(enumHeader)
 	enumBlock.insert(0, enumHeader)
 	enumBlock.append(tabFill + "}")
 	

@@ -5,7 +5,8 @@ class EVENTS:
 	const MUSIC_2D = 1939884427
 
 	enum _enum {
-		MUSIC = 3991942870
+		MUSIC = 3991942870,
+		MUSIC_2D = 1939884427
 	}
 
 class STATES:
