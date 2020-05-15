@@ -82,9 +82,9 @@ void Wwise::_register_methods()
 	register_method("unload_bank", &Wwise::unloadBank);
 	register_method("unload_bank_id", &Wwise::unloadBankID);
 	register_method("register_listener", &Wwise::registerListener);
-	register_method("set_listener_position", &Wwise::setListenerPosition);
 	register_method("register_game_obj", &Wwise::registerGameObject);
 	register_method("set_3d_position", &Wwise::set3DPosition);
+	register_method("set_2d_position", &Wwise::set2DPosition);
 	register_method("post_event", &Wwise::postEvent);
 	register_method("post_event_id", &Wwise::postEventID);
 	register_method("stop_event", &Wwise::stopEvent);
@@ -233,9 +233,9 @@ bool Wwise::unloadBankID(const unsigned int bankID)
 }
 
 // todo: multiple listeners
-bool Wwise::registerListener()
+bool Wwise::registerListener(const Object* gameObject)
 {
-	AkGameObjectID LISTENER = 0;
+	AkGameObjectID LISTENER = static_cast<AkGameObjectID>(gameObject->get_instance_id());
 
 	if (!ERROR_CHECK(AK::SoundEngine::RegisterGameObj(LISTENER, "My Default Listener")))
 	{
@@ -250,45 +250,46 @@ bool Wwise::registerListener()
 	return true;
 }
 
-bool Wwise::setListenerPosition(const Object* gameObject)
-{
-	AkSoundPosition listenerPosition;
-	Spatial* s = Object::cast_to<Spatial>(gameObject);
-	Transform t = s->get_global_transform();
-
-	AkVector position;
-	GetAkVector(t, position, VectorType::POSITION);
-	AkVector forward;
-	GetAkVector(t, forward, VectorType::FORWARD);
-	AkVector up;
-	GetAkVector(t, up, VectorType::UP);
-
-	listenerPosition.Set(position, forward, up);
-
-	return ERROR_CHECK(AK::SoundEngine::SetPosition(0, listenerPosition));
-}
-
 bool Wwise::registerGameObject(const Object* gameObject, const String gameObjectName)
 {
 	return ERROR_CHECK(AK::SoundEngine::RegisterGameObj(static_cast<AkGameObjectID>(gameObject->get_instance_id()), 
 						gameObjectName.alloc_c_string()));
 }
 
-// todo: 2d stuff
-bool Wwise::set3DPosition(const Object* gameObject)
+bool Wwise::set3DPosition(const Object* gameObject, const Transform transform)
 {
 	AkSoundPosition soundPos;
-	Spatial* s = Object::cast_to<Spatial>(gameObject);
-	Transform t = s->get_transform();
 
 	AkVector position;
-	GetAkVector(t, position, VectorType::POSITION);
+	GetAkVector(transform, position, VectorType::POSITION);
 	AkVector forward;
-	GetAkVector(t, forward, VectorType::FORWARD);
+	GetAkVector(transform, forward, VectorType::FORWARD);
 	AkVector up;
-	GetAkVector(t, up, VectorType::UP);
+	GetAkVector(transform, up, VectorType::UP);
 
 	soundPos.Set(position, forward, up);
+
+	return ERROR_CHECK(AK::SoundEngine::SetPosition(static_cast<AkGameObjectID>(gameObject->get_instance_id()), soundPos));
+}
+
+bool Wwise::set2DPosition(const Object* gameObject, const Transform2D transform2D, const float zDepth)
+{
+	AkSoundPosition soundPos;
+
+	Vector2 origin = transform2D.get_origin();
+
+	Vector3 position = Vector3(origin.x * 0.1f, -origin.y * 0.1f, zDepth);
+	Vector3 forward = Vector3(transform2D.elements[1].x, 0, transform2D.elements[1].y).normalized();
+	Vector3 up = Vector3(0, 1, 0);
+
+	AkVector akPosition;
+	Vector3ToAkVector(position, akPosition);
+	AkVector akForward;
+	Vector3ToAkVector(forward, akForward);
+	AkVector akUp;
+	Vector3ToAkVector(up, akUp);
+
+	soundPos.Set(akPosition, akForward, akUp);
 
 	return ERROR_CHECK(AK::SoundEngine::SetPosition(static_cast<AkGameObjectID>(gameObject->get_instance_id()), soundPos));
 }
