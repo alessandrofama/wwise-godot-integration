@@ -78,18 +78,20 @@ static const char* WwiseErrorString(AKRESULT errcode)
 	};
 }
 
-static bool CheckError(AKRESULT result, const char* function, const char* file, int line)
+const float INVALID_RTPC_VALUE = 1.0f;
+
+static bool CheckError(const AKRESULT result, const String message, const char* function, const char* file, const int line)
 {
 	if (result != AK_Success)
 	{
-		Godot::print_error(String(WwiseErrorString(result)), function, file, line);
+		Godot::print_error(String(WwiseErrorString(result)) + " " + message, function, file, line);
 		return false;
 	}
 
 	return true;
 }
 
-#define ERROR_CHECK(result) CheckError(result, __FUNCTION__, __FILE__, __LINE__)
+#define ERROR_CHECK(result, message) CheckError(result, message, __FUNCTION__, __FILE__, __LINE__)
 
 enum class VectorType
 {

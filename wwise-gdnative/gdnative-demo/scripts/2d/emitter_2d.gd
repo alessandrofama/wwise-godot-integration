@@ -10,7 +10,7 @@ func _ready():
 	playingID = Wwise.post_event_id(AK.EVENTS.MUSIC_2D, self)
 
 
-func _process(delta):
+func _process(_delta):
 	Wwise.set_2d_position(self, get_transform(), 0)
 	
 	var mouse_position = get_viewport().get_mouse_position()

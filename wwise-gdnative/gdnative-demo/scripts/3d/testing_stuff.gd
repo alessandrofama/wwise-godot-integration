@@ -4,13 +4,7 @@ export(float) var rtpcValue = 0.0
 var musicVolume:float = -96.0
 var playingID:int = 0
 
-enum stateValues {
-	CALM ,
-	INTENSE
-}
-
-export(stateValues) var state = stateValues.CALM
-var stateValue = AK.STATES.MUSICSTATE.STATE.NONE
+export(AK.STATES.MUSICSTATE.STATE._enum) var state = AK.STATES.MUSICSTATE.STATE.CALM
 
 func _ready():
 	var goResult = Wwise.register_game_obj(self, "TestGO")
@@ -25,15 +19,9 @@ func _process(_delta):
 					   stepify(musicVolume * -0.1, 0.001)))
 					
 	Wwise.set_3d_position(self, get_transform())
-	
-	if (state == stateValues.CALM):
-		stateValue = AK.STATES.MUSICSTATE.STATE.CALM
-
-	if (state == stateValues.INTENSE):
-		stateValue = AK.STATES.MUSICSTATE.STATE.INTENSE
 
 	Wwise.set_rtpc_id(AK.GAME_PARAMETERS.ENEMIES, rtpcValue, self)
-	Wwise.set_state_id(AK.STATES.MUSICSTATE.GROUP, stateValue)
+	Wwise.set_state_id(AK.STATES.MUSICSTATE.GROUP, state)
 
 func _input(_ev):
 	if Input.is_key_pressed(KEY_P):

@@ -7,8 +7,6 @@
 #include <Object.hpp>
 #include <Spatial.hpp>
 
-#include <AkDefaultIOHookBlocking.h>
-
 #include <AK/SoundEngine/Common/AkSoundEngine.h> 
 #include <AK/SoundEngine/Common/AkMemoryMgr.h>
 #include <AK/SoundEngine/Common/AkModule.h>
@@ -16,6 +14,7 @@
 #include <AK/Tools/Common/AkPlatformFuncs.h>
 #include <AK/MusicEngine/Common/AkMusicEngine.h>
 #include <AK/SoundEngine/Common/AkQueryParameters.h>
+#include <AkDefaultIOHookBlocking.h>
 
 #ifndef AK_OPTIMIZED
 #include <AK/Comm/AkCommunication.h>
@@ -42,7 +41,6 @@ namespace godot
 		bool unloadBankID(const unsigned int bankID);
 
 		bool registerListener(const Object* gameObject);
-
 		bool registerGameObject(const Object* gameObject, const String gameObjectName);
 
 		bool set3DPosition(const Object* gameObject, const Transform transform);
@@ -65,6 +63,7 @@ namespace godot
 	private:
 		bool initialiseWwiseSystems();
 		bool shutdownWwiseSystems();
+
 		CAkDefaultIOHookBlocking lowLevelIO;
 	};
 }
