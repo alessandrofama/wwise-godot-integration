@@ -6,6 +6,7 @@ class EVENTS:
 	const MUSIC_2D = 1939884427
 
 	enum _enum {
+		FOOTSTEPS = 2385628198,
 		MUSIC = 3991942870,
 		MUSIC_2D = 1939884427
 	}
@@ -28,6 +29,28 @@ class STATES:
 				CALM = 3753286132,
 				INTENSE = 4223512837,
 				NONE = 748895195
+			}
+
+class SWITCHES:
+
+	class FOOTSTEPSSWITCH:
+		const GROUP = 3586861854
+
+		enum _enum {
+			GROUP = 3586861854
+		}
+
+		class SWITCH:
+			const GRASS = 4248645337
+			const GRAVEL = 2185786256
+			const WATER = 2654748154
+			const WOOD = 2058049674
+
+			enum _enum {
+				GRASS = 4248645337,
+				GRAVEL = 2185786256,
+				WATER = 2654748154,
+				WOOD = 2058049674
 			}
 
 class GAME_PARAMETERS:

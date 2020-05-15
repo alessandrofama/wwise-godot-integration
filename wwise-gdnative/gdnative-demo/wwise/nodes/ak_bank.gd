@@ -1,7 +1,6 @@
 extends AkEventHandler
 
-enum banks {initBank = 1355168291, testBank = 3291379323}
-export(banks) var bank_id
+export(AK.BANKS._enum) var bank:int
 
 export(AkUtils.GameEvent) var load_on
 export(AkUtils.GameEvent) var unload_on
@@ -16,7 +15,7 @@ func handle_game_event(gameEvent:int):
 		unload_bank()
 
 func load_bank():
-	Wwise.load_bank_id(bank_id)
+	Wwise.load_bank_id(bank)
 	
 func unload_bank():
-	Wwise.unload_bank_id(bank_id)
+	Wwise.unload_bank_id(bank)

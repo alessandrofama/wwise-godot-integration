@@ -1,6 +1,6 @@
 extends AkEventHandler
 
-export(int) var event
+export(AK.EVENTS._enum) var event:int
 export(AkUtils.GameEvent) var trigger_on
 export(AkUtils.GameEvent) var stop_on
 export(int) var stop_fade_time = 0
