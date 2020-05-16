@@ -15,7 +15,6 @@ enum AkInterpolationMode {
 
 enum GameEvent{
 	NONE,
-	INIT,
 	TREE_ENTER,
 	TREE_EXIT,
 	READY,

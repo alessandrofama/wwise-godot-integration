@@ -19,10 +19,20 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://wwise/ak_event_handler.gd"
 }, {
+"base": "AkGameObj2D",
+"class": "AkEventHandler2D",
+"language": "GDScript",
+"path": "res://wwise/ak_event_handler_2d.gd"
+}, {
 "base": "Spatial",
 "class": "AkGameObj",
 "language": "GDScript",
 "path": "res://wwise/ak_game_obj.gd"
+}, {
+"base": "Node2D",
+"class": "AkGameObj2D",
+"language": "GDScript",
+"path": "res://wwise/ak_game_obj_2d.gd"
 }, {
 "base": "Reference",
 "class": "AkUtils",
@@ -32,7 +42,9 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "AK": "",
 "AkEventHandler": "",
+"AkEventHandler2D": "",
 "AkGameObj": "",
+"AkGameObj2D": "",
 "AkUtils": ""
 }
 

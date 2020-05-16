@@ -1,7 +1,7 @@
 extends AkEventHandler2D
 
-export(int) var state_group = ""
-export(int) var state_value = ""
+export(int) var state_group
+export(int) var state_value
 export(AkUtils.GameEvent) var trigger_on
 
 func handle_game_event(event:int):

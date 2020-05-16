@@ -13,7 +13,12 @@ func _enter_tree():
 	add_custom_type("AkSwitch", "Spatial", preload("res://wwise/nodes/ak_switch.gd"), preload("res://icon_small_node.png"))
 	add_spatial_gizmo_plugin(ak_event_gizmo)
 	
-
+	add_custom_type("AkEvent2D", "Node2D", preload("res://wwise/nodes/ak_event_2d.gd"), preload("res://icon_small_node.png"))
+	add_custom_type("AkBank2D", "Node2D", preload("res://wwise/nodes/ak_bank_2d.gd"), preload("res://icon_small_node.png"))
+	add_custom_type("AkListener2D", "Node2D", preload("res://wwise/nodes/ak_listener_2d.gd"), preload("res://icon_small_node.png"))
+	add_custom_type("AkState2D", "Node2D", preload("res://wwise/nodes/ak_state_2d.gd"), preload("res://icon_small_node.png"))
+	add_custom_type("AkSwitch2D", "Node2D", preload("res://wwise/nodes/ak_switch_2d.gd"), preload("res://icon_small_node.png"))
+	
 func _exit_tree():
 	remove_custom_type("AkEvent")
 	remove_custom_type("AkBank")
@@ -21,3 +26,9 @@ func _exit_tree():
 	remove_custom_type("AkState")
 	remove_custom_type("AkSwitch")
 	remove_spatial_gizmo_plugin(ak_event_gizmo)
+	
+	remove_custom_type("AkEvent2D")
+	remove_custom_type("AkBank2D")
+	remove_custom_type("AkListener2D")
+	remove_custom_type("AkState2D")
+	remove_custom_type("AkSwitch2D")
