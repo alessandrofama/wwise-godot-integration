@@ -22,9 +22,10 @@
 #include <AK/Plugin/AkHarmonizerFXFactory.h>
 #include <AK/Plugin/AkGainFXFactory.h>
 
-#include "wwise_utils.h"
-
 using namespace godot;
+
+Mutex* Wwise::signalDataMutex;
+std::vector<SignalData> Wwise::signalDataVector;
 
 namespace AK
 {
@@ -72,6 +73,10 @@ AkMemPoolId g_poolComm = AK_INVALID_POOL_ID;
 Wwise::~Wwise() 
 {
 	shutdownWwiseSystems();
+
+	signalDataMutex->free();
+	signalDataMutex = nullptr;
+
 	Godot::print("Wwise has shut down");
 }
 
@@ -88,7 +93,9 @@ void Wwise::_register_methods()
 	register_method("set_3d_position", &Wwise::set3DPosition);
 	register_method("set_2d_position", &Wwise::set2DPosition);
 	register_method("post_event", &Wwise::postEvent);
+	register_method("post_event_callback", &Wwise::postEventCallback);
 	register_method("post_event_id", &Wwise::postEventID);
+	register_method("post_event_id_callback", &Wwise::postEventIDCallback);
 	register_method("stop_event", &Wwise::stopEvent);
 	register_method("set_switch", &Wwise::setSwitch);
 	register_method("set_switch_id", &Wwise::setSwitchID);
@@ -98,10 +105,14 @@ void Wwise::_register_methods()
 	register_method("get_rtpc_id", &Wwise::getRTPCValueID);
 	register_method("set_rtpc", &Wwise::setRTPCValue);
 	register_method("set_rtpc_id", &Wwise::setRTPCValueID);
+
+	register_signal<Wwise>("audio_marker", "params", GODOT_VARIANT_TYPE_DICTIONARY);
 }
 
 void Wwise::_init()
 {
+	signalDataMutex = Mutex::_new();
+
 	bool initialisationResult = initialiseWwiseSystems();
 
 	if (!initialisationResult)
@@ -116,7 +127,60 @@ void Wwise::_init()
 
 void Wwise::_process(const float delta)
 {
+	emitSignals();
 	ERROR_CHECK(AK::SoundEngine::RenderAudio(), "");
+}
+
+void Wwise::eventCallback(AkCallbackType in_eType, AkCallbackInfo* in_pCallbackInfo)
+{
+	signalDataMutex->lock();
+
+	SignalData signalData;
+
+	switch (in_eType)
+	{
+		case AK_Marker:
+		{
+			signalData.sourceCallbackType = AK_Marker;
+			AkMarkerCallbackInfo* markerInfo = static_cast<AkMarkerCallbackInfo*>(in_pCallbackInfo);
+			signalData.eventData["uIdentifier"] = static_cast<unsigned int>(markerInfo->uIdentifier);
+			signalData.eventData["uPosition"] = static_cast<unsigned int>(markerInfo->uPosition);
+			signalData.eventData["strLabel"] = String(markerInfo->strLabel);
+
+			signalDataVector.push_back(signalData);
+			break;
+		}
+		default:
+			break;
+	}
+
+	signalDataMutex->unlock();
+}
+
+void Wwise::emitSignals()
+{
+	signalDataMutex->lock();
+
+	for (unsigned int signalIndex = 0; signalIndex < signalDataVector.size(); ++signalIndex)
+	{
+		SignalData* signalData = static_cast<SignalData*>(&signalDataVector[signalIndex]);
+
+		switch (signalData->sourceCallbackType)
+		{
+		case AK_Marker:
+			emit_signal("audio_marker", signalData->eventData);
+			break;
+		default:
+			break;
+		}
+	}
+
+	if (signalDataVector.size() > 0)
+	{
+		signalDataVector.clear();
+	}
+
+	signalDataMutex->unlock();
 }
 
 bool Wwise::initialiseWwiseSystems()
@@ -322,6 +386,23 @@ unsigned int Wwise::postEvent(const String eventName, const Object* gameObject)
 	return static_cast<unsigned int>(playingID);
 }
 
+unsigned int Wwise::postEventCallback(const String eventName, const unsigned int flags, const Object* gameObject)
+{
+	AKASSERT(!eventName.empty());
+	AKASSERT(gameObject);
+
+	AkPlayingID playingID = AK::SoundEngine::PostEvent(eventName.unicode_str(), static_cast<AkGameObjectID>(gameObject->get_instance_id()),
+														flags, eventCallback);
+
+	if (playingID == AK_INVALID_PLAYING_ID)
+	{
+		ERROR_CHECK(AK_InvalidID, eventName);
+		return static_cast<unsigned int>(AK_INVALID_PLAYING_ID);
+	}
+
+	return static_cast<unsigned int>(playingID);
+}
+
 unsigned int Wwise::postEventID(const unsigned int eventID, const Object* gameObject)
 {
 	AKASSERT(gameObject);
@@ -329,6 +410,21 @@ unsigned int Wwise::postEventID(const unsigned int eventID, const Object* gameOb
 	AkPlayingID playingID = AK::SoundEngine::PostEvent(eventID, static_cast<AkGameObjectID>(gameObject->get_instance_id()));
 
 	if (playingID == AK_INVALID_PLAYING_ID) 
+	{
+		return static_cast<unsigned int>(AK_INVALID_PLAYING_ID);
+	}
+
+	return static_cast<unsigned int>(playingID);
+}
+
+unsigned int Wwise::postEventIDCallback(const unsigned int eventID, const unsigned int flags, const Object* gameObject)
+{
+	AKASSERT(gameObject);
+
+	AkPlayingID playingID = AK::SoundEngine::PostEvent(eventID, static_cast<AkGameObjectID>(gameObject->get_instance_id()), flags,
+														eventCallback);
+
+	if (playingID == AK_INVALID_PLAYING_ID)
 	{
 		return static_cast<unsigned int>(AK_INVALID_PLAYING_ID);
 	}

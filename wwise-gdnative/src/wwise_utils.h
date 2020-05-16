@@ -5,6 +5,12 @@
 
 using namespace godot;
 
+struct SignalData
+{
+	AkCallbackType sourceCallbackType;
+	Dictionary eventData;
+};
+
 static const char* WwiseErrorString(AKRESULT errcode)
 {
 	switch (errcode)
