@@ -1,4 +1,4 @@
-extends AkEventHandler2D
+extends AkEventHandler
 
 export(AK.BANKS._enum) var bank:int
 
