@@ -15,6 +15,7 @@ namespace AK
     {
         static const AkUniqueID MUSIC = 3991942870U;
         static const AkUniqueID MUSIC_2D = 1939884427U;
+        static const AkUniqueID PLAY_CHIMES_WITH_MARKER = 3900723121U;
     } // namespace EVENTS
 
     namespace STATES

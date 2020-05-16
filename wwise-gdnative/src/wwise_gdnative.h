@@ -6,6 +6,8 @@
 #include <Node.hpp>
 #include <Object.hpp>
 #include <Spatial.hpp>
+#include <Mutex.hpp>
+#include <vector>
 
 #include <AK/SoundEngine/Common/AkSoundEngine.h> 
 #include <AK/SoundEngine/Common/AkMemoryMgr.h>
@@ -15,6 +17,8 @@
 #include <AK/MusicEngine/Common/AkMusicEngine.h>
 #include <AK/SoundEngine/Common/AkQueryParameters.h>
 #include <AkDefaultIOHookBlocking.h>
+
+#include "wwise_utils.h"
 
 #ifndef AK_OPTIMIZED
 #include <AK/Comm/AkCommunication.h>
@@ -47,7 +51,9 @@ namespace godot
 		bool set2DPosition(const Object* gameObject, const Transform2D transform2D, const float zDepth);
 
 		unsigned int postEvent(const String eventName, const Object* gameObject);
+		unsigned int postEventCallback(const String eventName, const unsigned int flags, const Object* gameObject);
 		unsigned int postEventID(const unsigned int eventID, const Object* gameObject);
+		unsigned int postEventIDCallback(const unsigned int eventID, const unsigned int flags, const Object* gameObject);
 		bool stopEvent(const int playingID, const int fadeTime, const int interpolation);
 
 		bool setSwitch(const String switchGroup, const String switchState, const Object* gameObject);
@@ -61,6 +67,12 @@ namespace godot
 		bool setRTPCValueID(const unsigned int rtpcID, const float rtpcValue, const Object* gameObject);
 
 	private:
+		static Mutex* signalDataMutex;
+		static std::vector<SignalData> signalDataVector;
+
+		static void eventCallback(AkCallbackType in_eType, AkCallbackInfo* in_pCallbackInfo);
+
+		void emitSignals();
 		bool initialiseWwiseSystems();
 		bool shutdownWwiseSystems();
 

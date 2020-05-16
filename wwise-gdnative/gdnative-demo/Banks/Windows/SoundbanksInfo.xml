@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SoundBanksInfo Platform="Windows" BasePlatform="Windows" SchemaVersion="12" SoundbankVersion="135">
 	<RootPaths>
-		<ProjectRoot>D:\Git Projects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\</ProjectRoot>
-		<SourceFilesRoot>D:\Git Projects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Windows\</SourceFilesRoot>
-		<SoundBanksRoot>D:\Git Projects\wwise-godot-integration\wwise-gdnative\gdnative-demo\Banks\Windows\</SoundBanksRoot>
+		<ProjectRoot>C:\Users\jorge\Desktop\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\</ProjectRoot>
+		<SourceFilesRoot>C:\Users\jorge\Desktop\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Windows\</SourceFilesRoot>
+		<SoundBanksRoot>C:\Users\jorge\Desktop\wwise-godot-integration\wwise-gdnative\gdnative-demo\Banks\Windows\</SoundBanksRoot>
 		<ExternalSourcesInputFile></ExternalSourcesInputFile>
-		<ExternalSourcesOutputRoot>D:\Git Projects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\GeneratedSoundBanks\Windows</ExternalSourcesOutputRoot>
+		<ExternalSourcesOutputRoot>C:\Users\jorge\Desktop\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\GeneratedSoundBanks\Windows</ExternalSourcesOutputRoot>
 	</RootPaths>
 	<DialogueEvents/>
 	<StreamedFiles/>
@@ -53,6 +53,14 @@
 						<File Id="638431784" Language="SFX">
 							<ShortName>bar_music_SEQ2_109.wav</ShortName>
 							<Path>SFX\bar_music_SEQ2_109_3D1D1BA5.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="3900723121" Name="Play_chimes_with_marker" ObjectPath="\Events\Default Work Unit\Play_chimes_with_marker">
+					<IncludedMemoryFiles>
+						<File Id="804869470" Language="SFX">
+							<ShortName>chimes_with_marker.wav</ShortName>
+							<Path>SFX\chimes_with_marker_10C4C929.wem</Path>
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
