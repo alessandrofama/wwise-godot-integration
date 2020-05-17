@@ -4,8 +4,6 @@
 [ext_resource path="res://wwise/nodes/ak_event.gd" type="Script" id=2]
 [ext_resource path="res://scenes/nodes prototype scenes/3d/Banks - Initialisation 3D.tscn" type="PackedScene" id=3]
 
-
-
 [sub_resource type="BoxShape" id=1]
 
 [sub_resource type="BoxShape" id=2]

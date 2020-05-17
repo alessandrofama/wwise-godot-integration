@@ -1,14 +1,14 @@
 extends AkEventHandler2D
 
 export(AK.EVENTS._enum) var event:int
-export(AkUtils.GameEvent) var trigger_on
-export(AkUtils.GameEvent) var stop_on
+export(AkUtils.GameEvent) var trigger_on:int = AkUtils.GameEvent.NONE
+export(AkUtils.GameEvent) var stop_on:int = AkUtils.GameEvent.NONE
 export(int) var stop_fade_time = 0
-export (AkUtils.AkInterpolationMode) var interpolation_mode = 4
+export (AkUtils.AkInterpolationMode) var interpolation_mode = AkUtils.AkInterpolationMode.LINEAR
 
 var playingID:int
 
-func _init():
+func _init() -> void:
 	register_game_object(self, String(event))
 
 func handle_game_event(gameEvent:int) -> void:
