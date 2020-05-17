@@ -1,26 +1,6 @@
 #include "wwise_gdnative.h"
 
-#include <AK/Plugin/AkSineSourceFactory.h>
-#include <AK/Plugin/AkToneSourceFactory.h>
-#include <AK/Plugin/AkSilenceSourceFactory.h>
-#include <AK/Plugin/AkAudioInputPlugin.h>
-#include <AK/Plugin/AkDelayFXFactory.h>
-#include <AK/Plugin/AkParametricEQFXFactory.h>
-#include <AK/Plugin/AkMatrixReverbFXFactory.h>
-#include <AK/Plugin/AkCompressorFXFactory.h>
-#include <AK/Plugin/AkExpanderFXFactory.h>
-#include <AK/Plugin/AkPeakLimiterFXFactory.h>
-#include <AK/Plugin/AkRoomVerbFXFactory.h>
-#include <AK/Plugin/AkPitchShifterFXFactory.h>
-#include <AK/Plugin/AkMeterFXFactory.h>
-#include <AK/Plugin/AkVorbisDecoderFactory.h>
-#include <AK/Plugin/AkFlangerFXFactory.h>
-#include <AK/Plugin/AkGuitarDistortionFXFactory.h>
-#include <AK/Plugin/AkTremoloFXFactory.h>
-#include <AK/Plugin/AkTimeStretchFXFactory.h>
-#include <AK/Plugin/AkStereoDelayFXFactory.h>
-#include <AK/Plugin/AkHarmonizerFXFactory.h>
-#include <AK/Plugin/AkGainFXFactory.h>
+#include <AK/Plugin/AllPluginsFactories.h>
 
 using namespace godot;
 
