@@ -17,7 +17,7 @@ radius = 11.0952
 [node name="Bank Initialisation 2D" parent="." instance=ExtResource( 1 )]
 
 [node name="Music" type="Sprite" parent="."]
-position = Vector2( 245.925, 154.501 )
+position = Vector2( 221.925, 135.501 )
 texture = ExtResource( 2 )
 
 [node name="AkEvent2D" type="Node2D" parent="Music"]
