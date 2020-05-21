@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SoundBanksInfo Platform="Windows" BasePlatform="Windows" SchemaVersion="12" SoundbankVersion="135">
 	<RootPaths>
-		<ProjectRoot>C:\Users\jorge\Desktop\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\</ProjectRoot>
-		<SourceFilesRoot>C:\Users\jorge\Desktop\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Windows\</SourceFilesRoot>
-		<SoundBanksRoot>C:\Users\jorge\Desktop\wwise-godot-integration\wwise-gdnative\gdnative-demo\Banks\Windows\</SoundBanksRoot>
+		<ProjectRoot>D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\</ProjectRoot>
+		<SourceFilesRoot>D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Windows\</SourceFilesRoot>
+		<SoundBanksRoot>D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo\Banks\Windows\</SoundBanksRoot>
 		<ExternalSourcesInputFile></ExternalSourcesInputFile>
-		<ExternalSourcesOutputRoot>C:\Users\jorge\Desktop\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\GeneratedSoundBanks\Windows</ExternalSourcesOutputRoot>
+		<ExternalSourcesOutputRoot>D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\GeneratedSoundBanks\Windows</ExternalSourcesOutputRoot>
 	</RootPaths>
 	<DialogueEvents/>
 	<StreamedFiles/>
@@ -29,6 +29,10 @@
 						<File Id="401793486" Language="SFX">
 							<ShortName>bar_music_SEQ1_109.wav</ShortName>
 							<Path>SFX\bar_music_SEQ1_109_3D1D1BA5.wem</Path>
+						</File>
+						<File Id="408411585" Language="SFX">
+							<ShortName>RevCrash AllOver.wav</ShortName>
+							<Path>SFX\RevCrash AllOver_D79FB2B7.wem</Path>
 						</File>
 						<File Id="584072642" Language="SFX">
 							<ShortName>bar_music_beat_109.wav</ShortName>
@@ -68,6 +72,9 @@
 			<GameParameters>
 				<GameParameter Id="2242381963" Name="Enemies" ObjectPath="\Game Parameters\Alex\Enemies"/>
 			</GameParameters>
+			<Triggers>
+				<Trigger Id="1927797142" Name="MusicTrigger" ObjectPath="\Triggers\Alex\MusicTrigger"/>
+			</Triggers>
 		</SoundBank>
 	</SoundBanks>
 </SoundBanksInfo>

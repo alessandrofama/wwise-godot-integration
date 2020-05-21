@@ -40,6 +40,11 @@ namespace AK
         static const AkUniqueID MUSICVOLUME = 2346531308U;
     } // namespace GAME_PARAMETERS
 
+    namespace TRIGGERS
+    {
+        static const AkUniqueID MUSICTRIGGER = 1927797142U;
+    } // namespace TRIGGERS
+
     namespace BANKS
     {
         static const AkUniqueID INIT = 1355168291U;
