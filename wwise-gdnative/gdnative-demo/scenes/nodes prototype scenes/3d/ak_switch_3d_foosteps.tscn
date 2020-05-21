@@ -1,10 +1,10 @@
 [gd_scene load_steps=12 format=2]
 
-[ext_resource path="res://scripts/misc/sphere_mover.gd" type="Script" id=1]
-[ext_resource path="res://wwise/nodes/ak_switch.gd" type="Script" id=2]
+[ext_resource path="res://scenes/nodes prototype scenes/3d/Banks - Initialisation 3D.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scripts/misc/sphere_mover.gd" type="Script" id=2]
 [ext_resource path="res://wwise/nodes/ak_event.gd" type="Script" id=3]
-[ext_resource path="res://wwise/nodes/ak_listener.gd" type="Script" id=4]
-[ext_resource path="res://scenes/nodes prototype scenes/3d/Banks - Initialisation 3D.tscn" type="PackedScene" id=5]
+[ext_resource path="res://wwise/nodes/ak_switch.gd" type="Script" id=4]
+[ext_resource path="res://wwise/nodes/ak_listener.gd" type="Script" id=5]
 
 [sub_resource type="SpatialMaterial" id=1]
 albedo_color = Color( 1, 0, 0, 1 )
@@ -27,7 +27,7 @@ albedo_color = Color( 0.207843, 0.478431, 1, 1 )
 
 [node name="Spatial" type="Spatial"]
 
-[node name="Banks" parent="." instance=ExtResource( 5 )]
+[node name="Banks" parent="." instance=ExtResource( 1 )]
 
 [node name="CSGBox" type="CSGBox" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, -1.00478, -5 )
@@ -37,11 +37,11 @@ material = SubResource( 1 )
 
 [node name="Gravel Switch" type="Spatial" parent="CSGBox"]
 transform = Transform( 3.01146, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-script = ExtResource( 2 )
+script = ExtResource( 4 )
 ak_event = NodePath("../../Player/AkEvent")
 switch_group = 3586861854
 switch_value = 2185786256
-trigger_on = 7
+trigger_on = 6
 
 [node name="Area" type="Area" parent="CSGBox/Gravel Switch"]
 
@@ -56,11 +56,11 @@ material = SubResource( 3 )
 
 [node name="Wood Switch" type="Spatial" parent="CSGBox2"]
 transform = Transform( 3.01146, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-script = ExtResource( 2 )
+script = ExtResource( 4 )
 ak_event = NodePath("../../Player/AkEvent")
 switch_group = 3586861854
 switch_value = 2058049674
-trigger_on = 7
+trigger_on = 6
 
 [node name="Area2" type="Area" parent="CSGBox2/Wood Switch"]
 
@@ -75,11 +75,11 @@ material = SubResource( 4 )
 
 [node name="Grass Switch" type="Spatial" parent="CSGBox3"]
 transform = Transform( 3.01146, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-script = ExtResource( 2 )
+script = ExtResource( 4 )
 ak_event = NodePath("../../Player/AkEvent")
 switch_group = 3586861854
 switch_value = 4248645337
-trigger_on = 7
+trigger_on = 6
 
 [node name="Area3" type="Area" parent="CSGBox3/Grass Switch"]
 
@@ -94,11 +94,11 @@ material = SubResource( 5 )
 
 [node name="Water Switch" type="Spatial" parent="CSGBox4"]
 transform = Transform( 3.01146, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-script = ExtResource( 2 )
+script = ExtResource( 4 )
 ak_event = NodePath("../../Player/AkEvent")
 switch_group = 3586861854
 switch_value = 2654748154
-trigger_on = 7
+trigger_on = 6
 
 [node name="Area4" type="Area" parent="CSGBox4/Water Switch"]
 
@@ -111,7 +111,7 @@ shape = SubResource( 2 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 1, -6 )
 contacts_reported = 1
 contact_monitor = true
-script = ExtResource( 1 )
+script = ExtResource( 2 )
 ak_event = NodePath("../Player/AkEvent")
 
 [node name="CollisionShape" type="CollisionShape" parent="Player"]
@@ -125,7 +125,7 @@ radial_segments = 11
 transform = Transform( -1.45697e-07, -0.447509, 0.894279, -7.29085e-08, 0.894279, 0.447509, -1, 0, -1.62921e-07, 4.61815, 2.30456, 4.76837e-07 )
 
 [node name="AkListener" type="Spatial" parent="Player/Camera"]
-script = ExtResource( 4 )
+script = ExtResource( 5 )
 
 [node name="AkEvent" type="Spatial" parent="Player"]
 script = ExtResource( 3 )

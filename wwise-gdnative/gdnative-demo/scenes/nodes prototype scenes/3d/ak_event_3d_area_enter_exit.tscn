@@ -1,8 +1,8 @@
 [gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://wwise/nodes/ak_event.gd" type="Script" id=1]
-[ext_resource path="res://wwise/nodes/ak_bank.gd" type="Script" id=2]
-[ext_resource path="res://wwise/nodes/ak_listener.gd" type="Script" id=3]
+[ext_resource path="res://wwise/nodes/ak_listener.gd" type="Script" id=2]
+[ext_resource path="res://wwise/nodes/ak_bank.gd" type="Script" id=3]
 
 [sub_resource type="BoxShape" id=1]
 
@@ -15,13 +15,13 @@
 [node name="Banks" type="Node" parent="."]
 
 [node name="AkBank - INIT" type="Spatial" parent="Banks"]
-script = ExtResource( 2 )
+script = ExtResource( 3 )
 load_on = 2
 unload_on = 3
 
 [node name="AkBank - TESTBANK" type="Spatial" parent="Banks"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00990868, 0, 0 )
-script = ExtResource( 2 )
+script = ExtResource( 3 )
 bank = 3291379323
 load_on = 2
 unload_on = 3
@@ -58,6 +58,6 @@ shape = SubResource( 3 )
 transform = Transform( 1, 0, 0, 0, 0.894084, 0.4479, 0, -0.4479, 0.894084, 0, 3.71821, 8.71377 )
 
 [node name="AkListener" type="Spatial" parent="Camera"]
-script = ExtResource( 3 )
+script = ExtResource( 2 )
 [connection signal="area_entered" from="Area Test/Area" to="Event Test/AkEvent" method="_on_area_entered"]
 [connection signal="area_exited" from="Area Test/Area" to="Event Test/AkEvent" method="_on_area_exited"]

@@ -7,10 +7,10 @@
 [ext_resource path="res://scripts/misc/player_mover_2d.gd" type="Script" id=5]
 [ext_resource path="res://wwise/nodes/ak_switch_2d.gd" type="Script" id=6]
 
-[sub_resource type="RectangleShape2D" id=3]
+[sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 13.7821, 7.54902 )
 
-[sub_resource type="RectangleShape2D" id=1]
+[sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 31.1266, 31.1492 )
 
 [node name="Node2D" type="Node2D"]
@@ -43,7 +43,7 @@ scale = Vector2( 0.079366, 0.150055 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ColorRect/Area2D"]
 position = Vector2( 252.72, 137.47 )
 scale = Vector2( 18.464, 18.509 )
-shape = SubResource( 3 )
+shape = SubResource( 1 )
 
 [node name="AkSwitch2D" type="Node2D" parent="ColorRect/Area2D"]
 position = Vector2( 5.27438, 272.504 )
@@ -75,7 +75,7 @@ scale = Vector2( 0.079366, 0.150055 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ColorRect2/Area2D"]
 position = Vector2( 252.72, 137.47 )
 scale = Vector2( 18.464, 18.509 )
-shape = SubResource( 3 )
+shape = SubResource( 1 )
 
 [node name="AkSwitch2D" type="Node2D" parent="ColorRect2/Area2D"]
 position = Vector2( -502.813, 270.745 )
@@ -107,7 +107,7 @@ scale = Vector2( 0.079366, 0.150055 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ColorRect3/Area2D"]
 position = Vector2( 252.72, 137.47 )
 scale = Vector2( 18.464, 18.509 )
-shape = SubResource( 3 )
+shape = SubResource( 1 )
 
 [node name="AkSwitch2D" type="Node2D" parent="ColorRect3/Area2D"]
 position = Vector2( -506.329, 0 )
@@ -139,7 +139,7 @@ scale = Vector2( 0.079366, 0.150055 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ColorRect4/Area2D"]
 position = Vector2( 252.72, 137.47 )
 scale = Vector2( 18.464, 18.509 )
-shape = SubResource( 3 )
+shape = SubResource( 1 )
 
 [node name="AkSwitch2D" type="Node2D" parent="ColorRect4/Area2D"]
 script = ExtResource( 6 )
@@ -166,7 +166,7 @@ script = ExtResource( 3 )
 event = 2385628198
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="KinematicBody2D"]
-shape = SubResource( 1 )
+shape = SubResource( 2 )
 [connection signal="body_entered" from="ColorRect/Area2D" to="ColorRect/Area2D/AkSwitch2D" method="_on_body_entered"]
 [connection signal="body_entered" from="ColorRect2/Area2D" to="ColorRect2/Area2D/AkSwitch2D" method="_on_body_entered"]
 [connection signal="body_entered" from="ColorRect3/Area2D" to="ColorRect3/Area2D/AkSwitch2D" method="_on_body_entered"]
