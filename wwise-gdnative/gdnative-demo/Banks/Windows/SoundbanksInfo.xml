@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SoundBanksInfo Platform="Windows" BasePlatform="Windows" SchemaVersion="12" SoundbankVersion="135">
 	<RootPaths>
-		<ProjectRoot>C:\Users\jorge\Desktop\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\</ProjectRoot>
-		<SourceFilesRoot>C:\Users\jorge\Desktop\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Windows\</SourceFilesRoot>
-		<SoundBanksRoot>C:\Users\jorge\Desktop\wwise-godot-integration\wwise-gdnative\gdnative-demo\Banks\Windows\</SoundBanksRoot>
+		<ProjectRoot>D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\</ProjectRoot>
+		<SourceFilesRoot>D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Windows\</SourceFilesRoot>
+		<SoundBanksRoot>D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo\Banks\Windows\</SoundBanksRoot>
 		<ExternalSourcesInputFile></ExternalSourcesInputFile>
-		<ExternalSourcesOutputRoot>C:\Users\jorge\Desktop\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\GeneratedSoundBanks\Windows</ExternalSourcesOutputRoot>
+		<ExternalSourcesOutputRoot>D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\GeneratedSoundBanks\Windows</ExternalSourcesOutputRoot>
 	</RootPaths>
 	<DialogueEvents/>
 	<StreamedFiles/>
