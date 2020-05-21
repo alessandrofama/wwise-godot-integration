@@ -28,7 +28,15 @@ Custom State	ID	Name	State Group	Owner		Notes
 Game Parameter	ID	Name			Wwise Object Path	Notes
 	2242381963	Enemies			\Alex\Enemies	
 
+Trigger	ID	Name			Wwise Object Path	Notes
+	1927797142	MusicTrigger			\Alex\MusicTrigger	
+
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	401793486	bar_music_SEQ1_109	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Windows\SFX\bar_music_SEQ1_109_3D1D1BA5.wem		\Interactive Music Hierarchy\Alex\Music_Test_2D\Combat Music\bar_music_SEQ1_109		219775
+	408411585	RevCrash AllOver	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Windows\SFX\RevCrash AllOver_D79FB2B7.wem		\Interactive Music Hierarchy\Alex\Stingers\RevCrash AllOver\RevCrash AllOver		650056
+	584072642	bar_music_BEAT_109	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Windows\SFX\bar_music_beat_109_3D1D1BA5.wem		\Interactive Music Hierarchy\Alex\Music_Test_2D\Combat Music\bar_music_BEAT_109		367041
+	638431784	bar_music_SEQ2_109	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Windows\SFX\bar_music_SEQ2_109_3D1D1BA5.wem		\Interactive Music Hierarchy\Alex\Music_Test_2D\Combat Music\bar_music_SEQ2_109		450289
+	804869470	chimes_with_marker	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Windows\SFX\chimes_with_marker_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\chimes_with_marker		264744
 	102632397	otto_footsteps_grass_2	D:\Git Projects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Windows\SFX\otto_footsteps_grass_2_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Grass\otto_footsteps_grass_2		57664
 	126934278	otto_footsteps_wood_2	D:\Git Projects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Windows\SFX\otto_footsteps_wood_2_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Wood\otto_footsteps_wood_2		55576
 	222333393	otto_footsteps_wood_3	D:\Git Projects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Windows\SFX\otto_footsteps_wood_3_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Wood\otto_footsteps_wood_3		44766

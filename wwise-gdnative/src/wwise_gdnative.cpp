@@ -1,26 +1,6 @@
 #include "wwise_gdnative.h"
 
-#include <AK/Plugin/AkSineSourceFactory.h>
-#include <AK/Plugin/AkToneSourceFactory.h>
-#include <AK/Plugin/AkSilenceSourceFactory.h>
-#include <AK/Plugin/AkAudioInputPlugin.h>
-#include <AK/Plugin/AkDelayFXFactory.h>
-#include <AK/Plugin/AkParametricEQFXFactory.h>
-#include <AK/Plugin/AkMatrixReverbFXFactory.h>
-#include <AK/Plugin/AkCompressorFXFactory.h>
-#include <AK/Plugin/AkExpanderFXFactory.h>
-#include <AK/Plugin/AkPeakLimiterFXFactory.h>
-#include <AK/Plugin/AkRoomVerbFXFactory.h>
-#include <AK/Plugin/AkPitchShifterFXFactory.h>
-#include <AK/Plugin/AkMeterFXFactory.h>
-#include <AK/Plugin/AkVorbisDecoderFactory.h>
-#include <AK/Plugin/AkFlangerFXFactory.h>
-#include <AK/Plugin/AkGuitarDistortionFXFactory.h>
-#include <AK/Plugin/AkTremoloFXFactory.h>
-#include <AK/Plugin/AkTimeStretchFXFactory.h>
-#include <AK/Plugin/AkStereoDelayFXFactory.h>
-#include <AK/Plugin/AkHarmonizerFXFactory.h>
-#include <AK/Plugin/AkGainFXFactory.h>
+#include <AK/Plugin/AllPluginsFactories.h>
 
 using namespace godot;
 
@@ -105,6 +85,8 @@ void Wwise::_register_methods()
 	register_method("get_rtpc_id", &Wwise::getRTPCValueID);
 	register_method("set_rtpc", &Wwise::setRTPCValue);
 	register_method("set_rtpc_id", &Wwise::setRTPCValueID);
+	register_method("post_trigger", &Wwise::postTrigger);
+	register_method("post_trigger_id", &Wwise::postTriggerID);
 
 	register_signal<Wwise>("audio_marker", "params", GODOT_VARIANT_TYPE_DICTIONARY);
 }
@@ -529,4 +511,21 @@ bool Wwise::setRTPCValueID(const unsigned int rtpcID, const float rtpcValue, con
 
 	return ERROR_CHECK(AK::SoundEngine::SetRTPCValue(rtpcID, static_cast<AkRtpcValue>(rtpcValue), 
 						static_cast<AkGameObjectID>(gameObject->get_instance_id())), String::num_int64(rtpcID));
+}
+
+bool Wwise::postTrigger(const String triggerName, const Object* gameObject)
+{
+	AKASSERT(!triggerName.empty());
+	AKASSERT(gameObject);
+
+	return ERROR_CHECK(AK::SoundEngine::PostTrigger(triggerName.unicode_str(),
+						static_cast<AkGameObjectID>(gameObject->get_instance_id())), "Failed to post trigger " + triggerName);
+}
+
+bool Wwise::postTriggerID(const unsigned int triggerID, const Object* gameObject)
+{
+	AKASSERT(gameObject);
+
+	return ERROR_CHECK(AK::SoundEngine::PostTrigger(triggerID,
+						static_cast<AkGameObjectID>(gameObject->get_instance_id())), "Failed to post trigger ID " + String::num_int64(triggerID));
 }

@@ -55,7 +55,8 @@ wwise_plugins_library = ["AkGainFX", "AkHarmonizerFX", "AkStereoDelayFX", "AkTim
                          "AkTremoloFX", "AkGuitarDistortionFX","AkVorbisDecoder", "AkMeterFX", 
                          "AkPitchShifterFX", "AkRoomVerbFX", "AkRoomVerbFX", "AkPeakLimiterFX", 
                          "AkExpanderFX", "AkCompressorFX", "AkMatrixReverbFX", "AkParametricEQFX", 
-                         "AkDelayFX","AkSilenceSource", "AkToneSource", "AkFlangerFX", "AkSineSource"]
+                         "AkDelayFX","AkSilenceSource", "AkToneSource", "AkFlangerFX", "AkSineSource",
+                         "AkRecorderFX", "AkAudioInputSource", "AkSynthOneSource"]
 print("Wwise SDK headers path: " + wwise_sdk_headers_path)
 print("Wwise SDK libs path: " + wwise_sdk_libs_path)
 

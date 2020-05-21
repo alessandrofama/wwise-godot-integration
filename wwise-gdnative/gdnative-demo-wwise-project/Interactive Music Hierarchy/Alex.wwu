@@ -308,6 +308,15 @@
 							<TransitionInfo/>
 						</MusicTransition>
 					</TransitionList>
+					<StingerList>
+						<MusicStinger Name="" ID="{174480B1-40B2-4E39-9F3F-BA19AD6B7A84}">
+							<PropertyList>
+								<Property Name="PlaySegmentAt" Type="int16" Value="2"/>
+							</PropertyList>
+							<TriggerRef Name="MusicTrigger" ID="{D190A43B-BDC0-4329-8C3F-41634309C2BF}" WorkUnitID="{743168A1-6FF7-45EE-AE43-39AD6279B13C}"/>
+							<SegmentRef Name="RevCrash AllOver" ID="{6CCA4941-8E96-47BE-A7A1-D2944EC7C964}" WorkUnitID="{7D5184BC-D414-4812-9C0D-76A9619A1055}"/>
+						</MusicStinger>
+					</StingerList>
 					<Playlist>
 						<MusicPlaylistItem Name="" ID="{42D7E7DA-8DE4-4010-A0DE-9994C21A9FC4}" ShortID="858894497">
 							<PropertyList>
@@ -645,6 +654,131 @@
 						</MusicPlaylistItem>
 					</Playlist>
 				</MusicPlaylistContainer>
+				<Folder Name="Stingers" ID="{D1A6EE26-8766-424D-9C06-DFE44FCCBC78}" ShortID="264496388">
+					<ChildrenList>
+						<MusicSegment Name="RevCrash AllOver" ID="{6CCA4941-8E96-47BE-A7A1-D2944EC7C964}" ShortID="308447737">
+							<PropertyList>
+								<Property Name="EnableAttenuation" Type="bool" Value="False"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-17</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<Custom>
+										<Attenuation Name="Attenuation (Custom)" ID="{9D6D6264-D1FA-4086-89CF-E958C7C5C916}" ShortID="236533423">
+											<PropertyList>
+												<Property Name="RadiusMax" Type="Real64" Value="200"/>
+											</PropertyList>
+											<CurveUsageInfoList>
+												<VolumeDryUsage>
+													<CurveUsageInfo Platform="Linked" CurveToUse="Custom">
+														<Curve Name="VolumeDry" ID="{DE576799-AAC0-4942-AEDE-B621364B88E1}">
+															<PropertyList>
+																<Property Name="Flags" Type="int32" Value="3"/>
+															</PropertyList>
+															<PointList>
+																<Point>
+																	<XPos>0</XPos>
+																	<YPos>0</YPos>
+																	<Flags>5</Flags>
+																</Point>
+																<Point>
+																	<XPos>200</XPos>
+																	<YPos>-200</YPos>
+																	<Flags>37</Flags>
+																</Point>
+															</PointList>
+														</Curve>
+													</CurveUsageInfo>
+												</VolumeDryUsage>
+												<VolumeWetGameUsage>
+													<CurveUsageInfo Platform="Linked" CurveToUse="UseVolumeDry"/>
+												</VolumeWetGameUsage>
+												<VolumeWetUserUsage>
+													<CurveUsageInfo Platform="Linked" CurveToUse="UseVolumeDry"/>
+												</VolumeWetUserUsage>
+												<LowPassFilterUsage>
+													<CurveUsageInfo Platform="Linked" CurveToUse="None"/>
+												</LowPassFilterUsage>
+												<HighPassFilterUsage>
+													<CurveUsageInfo Platform="Linked" CurveToUse="None"/>
+												</HighPassFilterUsage>
+												<SpreadUsage>
+													<CurveUsageInfo Platform="Linked" CurveToUse="None"/>
+												</SpreadUsage>
+												<FocusUsage>
+													<CurveUsageInfo Platform="Linked" CurveToUse="None"/>
+												</FocusUsage>
+											</CurveUsageInfoList>
+										</Attenuation>
+									</Custom>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B5D06FC6-20AC-4570-BC56-F30998705AA9}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{3FE3D261-2E4D-4287-95DD-8B4DF14D5A58}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<MusicTrack Name="RevCrash AllOver" ID="{E359C012-A789-4187-A749-9BAF3E1C1879}" ShortID="1034437456">
+									<ReferenceList>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{3FE3D261-2E4D-4287-95DD-8B4DF14D5A58}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="RevCrash AllOver" ID="{8C0BEB6D-FD75-4F01-A042-2D36DBB0A3F2}">
+											<Language>SFX</Language>
+											<AudioFile>RevCrash AllOver.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="408411585"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<TransitionList>
+										<MusicTransition Name="Root" ID="{8C608794-D3BF-4CF6-90F3-D996E19390B2}">
+											<PropertyList>
+												<Property Name="IsFolder" Type="bool" Value="True"/>
+											</PropertyList>
+											<TransitionInfo/>
+										</MusicTransition>
+									</TransitionList>
+									<SequenceList>
+										<MusicTrackSequence Name="" ID="{5A312590-19E0-4B1E-89CE-AB5E87455B77}">
+											<ClipList>
+												<MusicClip Name="RevCrash AllOver" ID="{AF468354-60D4-4DF7-A23C-B39EF630E1EF}">
+													<PropertyList>
+														<Property Name="EndTrimOffset" Type="Real64" Value="3684.76190476191"/>
+														<Property Name="FadeInMode" Type="int16" Value="0"/>
+														<Property Name="FadeOutMode" Type="int16" Value="0"/>
+													</PropertyList>
+													<AudioSourceRef Name="RevCrash AllOver" ID="{8C0BEB6D-FD75-4F01-A042-2D36DBB0A3F2}"/>
+												</MusicClip>
+											</ClipList>
+										</MusicTrackSequence>
+									</SequenceList>
+								</MusicTrack>
+							</ChildrenList>
+							<CueList>
+								<MusicCue Name="Entry Cue" ID="{BEF1C3D9-2AB8-4CF1-94F2-B69D0E22E3DA}">
+									<PropertyList>
+										<Property Name="TimeMs" Type="Real64" Value="1625"/>
+									</PropertyList>
+								</MusicCue>
+								<MusicCue Name="Exit Cue" ID="{5D940BDF-CC39-4AEE-97EA-6CA8E188DB07}">
+									<PropertyList>
+										<Property Name="CueType" Type="int16" Value="1"/>
+										<Property Name="TimeMs" Type="Real64" Value="1625"/>
+									</PropertyList>
+								</MusicCue>
+							</CueList>
+						</MusicSegment>
+					</ChildrenList>
+				</Folder>
 			</ChildrenList>
 		</WorkUnit>
 	</InteractiveMusic>

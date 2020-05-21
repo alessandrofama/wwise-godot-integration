@@ -1,6 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{CC6BF322-BBE3-4529-BA99-3127149440DC}" SchemaVersion="97">
 	<SoundcasterSessions>
-		<WorkUnit Name="Default Work Unit" ID="{CC6BF322-BBE3-4529-BA99-3127149440DC}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{CC6BF322-BBE3-4529-BA99-3127149440DC}" PersistMode="Standalone">
+			<ChildrenList>
+				<SoundcasterSession Name="New Soundcaster Session" ID="{7930212A-7962-42DE-8E6B-74CB5813AE84}">
+					<ModuleList>
+						<Module>
+							<ObjectRef Name="Music_Test_1" ID="{0E619955-125D-4006-B2DD-C1987E84A7D4}" WorkUnitID="{7D5184BC-D414-4812-9C0D-76A9619A1055}"/>
+							<Position X="0" Y="0"/>
+						</Module>
+					</ModuleList>
+					<RTPCValueList ShowAll="true">
+						<RTPCValue>
+							<GameParameterRef Name="Enemies" ID="{36B2E770-248D-412D-94B1-EE07648A4E99}"/>
+							<Value>0</Value>
+						</RTPCValue>
+						<RTPCValue>
+							<GameParameterRef Name="MusicVolume" ID="{7457083B-C3E6-475A-A4DC-21D2726A126B}"/>
+							<Value>-96</Value>
+						</RTPCValue>
+					</RTPCValueList>
+					<CurrentStateList ShowAll="true">
+						<CurrentStateRef Name="None" ID="{F7952995-E374-4603-9F1B-54DBBA4CD2FE}"/>
+					</CurrentStateList>
+					<CurrentSwitchList ShowAll="true"/>
+				</SoundcasterSession>
+			</ChildrenList>
+		</WorkUnit>
 	</SoundcasterSessions>
 </WwiseDocument>

@@ -66,6 +66,9 @@ namespace godot
 		bool setRTPCValue(const String rtpcName, const float rtpcValue, const Object* gameObject);
 		bool setRTPCValueID(const unsigned int rtpcID, const float rtpcValue, const Object* gameObject);
 
+		bool postTrigger(const String triggerName, const Object* gameObject);
+		bool postTriggerID(const unsigned int triggerID, const Object* gameObject);
+
 	private:
 		static Mutex* signalDataMutex;
 		static std::vector<SignalData> signalDataVector;
