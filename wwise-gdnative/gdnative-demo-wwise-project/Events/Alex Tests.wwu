@@ -25,6 +25,17 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="External_Source_Event" ID="{386CD49A-014B-430A-8A3C-8A425A57718C}">
+					<ChildrenList>
+						<Action Name="" ID="{892FE610-6E14-47EF-A564-91368E0DDE8C}" ShortID="609593514">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="external_source_obj" ID="{519A07F2-C0C1-4EC1-A159-BFA6284313AE}" WorkUnitID="{726C048B-AC31-42C0-BD57-7D02515BEE4E}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

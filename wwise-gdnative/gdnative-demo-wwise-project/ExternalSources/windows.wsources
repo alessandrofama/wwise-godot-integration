@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ExternalSourcesList SchemaVersion="1">
+    <Source Path="ExternalSources/External_Source_Demo.wav" Conversion="PCM"/>   
+</ExternalSourcesList>

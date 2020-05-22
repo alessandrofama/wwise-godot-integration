@@ -1,26 +1,6 @@
 #include "wwise_gdnative.h"
 
-#include <AK/Plugin/AkSineSourceFactory.h>
-#include <AK/Plugin/AkToneSourceFactory.h>
-#include <AK/Plugin/AkSilenceSourceFactory.h>
-#include <AK/Plugin/AkAudioInputPlugin.h>
-#include <AK/Plugin/AkDelayFXFactory.h>
-#include <AK/Plugin/AkParametricEQFXFactory.h>
-#include <AK/Plugin/AkMatrixReverbFXFactory.h>
-#include <AK/Plugin/AkCompressorFXFactory.h>
-#include <AK/Plugin/AkExpanderFXFactory.h>
-#include <AK/Plugin/AkPeakLimiterFXFactory.h>
-#include <AK/Plugin/AkRoomVerbFXFactory.h>
-#include <AK/Plugin/AkPitchShifterFXFactory.h>
-#include <AK/Plugin/AkMeterFXFactory.h>
-#include <AK/Plugin/AkVorbisDecoderFactory.h>
-#include <AK/Plugin/AkFlangerFXFactory.h>
-#include <AK/Plugin/AkGuitarDistortionFXFactory.h>
-#include <AK/Plugin/AkTremoloFXFactory.h>
-#include <AK/Plugin/AkTimeStretchFXFactory.h>
-#include <AK/Plugin/AkStereoDelayFXFactory.h>
-#include <AK/Plugin/AkHarmonizerFXFactory.h>
-#include <AK/Plugin/AkGainFXFactory.h>
+#include <AK/Plugin/AllPluginsFactories.h>
 
 using namespace godot;
 
@@ -105,6 +85,10 @@ void Wwise::_register_methods()
 	register_method("get_rtpc_id", &Wwise::getRTPCValueID);
 	register_method("set_rtpc", &Wwise::setRTPCValue);
 	register_method("set_rtpc_id", &Wwise::setRTPCValueID);
+	register_method("post_trigger", &Wwise::postTrigger);
+	register_method("post_trigger_id", &Wwise::postTriggerID);
+	register_method("post_external_source", &Wwise::postExternalSource);
+	register_method("post_external_source_id", &Wwise::postExternalSourceID);
 
 	register_signal<Wwise>(WwiseCallbackToSignal(AK_Marker), "data", GODOT_VARIANT_TYPE_DICTIONARY);
 }
@@ -524,4 +508,75 @@ bool Wwise::setRTPCValueID(const unsigned int rtpcID, const float rtpcValue, con
 
 	return ERROR_CHECK(AK::SoundEngine::SetRTPCValue(rtpcID, static_cast<AkRtpcValue>(rtpcValue), 
 						static_cast<AkGameObjectID>(gameObject->get_instance_id())), String::num_int64(rtpcID));
+}
+
+bool Wwise::postTrigger(const String triggerName, const Object* gameObject)
+{
+	AKASSERT(!triggerName.empty());
+	AKASSERT(gameObject);
+
+	return ERROR_CHECK(AK::SoundEngine::PostTrigger(triggerName.unicode_str(),
+						static_cast<AkGameObjectID>(gameObject->get_instance_id())), "Failed to post trigger " + triggerName);
+}
+
+bool Wwise::postTriggerID(const unsigned int triggerID, const Object* gameObject)
+{
+	AKASSERT(gameObject);
+
+	return ERROR_CHECK(AK::SoundEngine::PostTrigger(triggerID,
+						static_cast<AkGameObjectID>(gameObject->get_instance_id())), "Failed to post trigger ID " + String::num_int64(triggerID));
+}
+
+unsigned int Wwise::postExternalSource(const String eventName, const Object* gameObject, const String sourceObjectName, const String fileName, const unsigned int idCodec)
+{
+	AKASSERT(!eventName.empty());
+	AKASSERT(gameObject);
+	AKASSERT(!sourceObjectName.empty());
+	AKASSERT(!fileName.empty());
+
+	AkExternalSourceInfo source;
+	source.iExternalSrcCookie = AK::SoundEngine::GetIDFromString(sourceObjectName.unicode_str());
+
+	AkOSChar* szFileOsString = nullptr;
+
+	CONVERT_WIDE_TO_OSCHAR(fileName.unicode_str(), szFileOsString);
+
+	source.szFile = szFileOsString;
+	source.idCodec = idCodec;
+
+	AkPlayingID playingID = AK::SoundEngine::PostEvent(eventName.unicode_str(), static_cast<AkGameObjectID>(gameObject->get_instance_id()), 0, NULL, 0, 1, &source);
+
+	if (playingID == AK_INVALID_PLAYING_ID)
+	{
+		ERROR_CHECK(AK_InvalidID, eventName);
+		return static_cast<unsigned int>(AK_INVALID_PLAYING_ID);
+	}
+
+	return static_cast<unsigned int>(playingID);
+}
+
+unsigned int Wwise::postExternalSourceID(const unsigned int eventID, const Object* gameObject, const unsigned int sourceObjectID, const String fileName, const unsigned int idCodec)
+{
+	AKASSERT(gameObject);
+	AKASSERT(!fileName.empty());
+
+	AkExternalSourceInfo source;
+	source.iExternalSrcCookie = sourceObjectID;
+
+	AkOSChar* szFileOsString = nullptr;
+
+	CONVERT_WIDE_TO_OSCHAR(fileName.unicode_str(), szFileOsString);
+
+	source.szFile = szFileOsString;
+	source.idCodec = idCodec;
+
+	AkPlayingID playingID = AK::SoundEngine::PostEvent(eventID, static_cast<AkGameObjectID>(gameObject->get_instance_id()), 0, NULL, 0, 1, &source);
+
+	if (playingID == AK_INVALID_PLAYING_ID)
+	{
+		ERROR_CHECK(AK_InvalidID, eventID);
+		return static_cast<unsigned int>(AK_INVALID_PLAYING_ID);
+	}
+
+	return static_cast<unsigned int>(playingID);
 }

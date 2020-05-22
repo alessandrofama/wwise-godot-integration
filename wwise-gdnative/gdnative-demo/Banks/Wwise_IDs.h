@@ -13,6 +13,7 @@ namespace AK
 {
     namespace EVENTS
     {
+        static const AkUniqueID EXTERNAL_SOURCE_EVENT = 1014047073U;
         static const AkUniqueID MUSIC = 3991942870U;
         static const AkUniqueID MUSIC_2D = 1939884427U;
         static const AkUniqueID PLAY_CHIMES_WITH_MARKER = 3900723121U;
@@ -40,6 +41,11 @@ namespace AK
         static const AkUniqueID MUSICVOLUME = 2346531308U;
     } // namespace GAME_PARAMETERS
 
+    namespace TRIGGERS
+    {
+        static const AkUniqueID MUSICTRIGGER = 1927797142U;
+    } // namespace TRIGGERS
+
     namespace BANKS
     {
         static const AkUniqueID INIT = 1355168291U;
@@ -57,6 +63,11 @@ namespace AK
         static const AkUniqueID NO_OUTPUT = 2317455096U;
         static const AkUniqueID SYSTEM = 3859886410U;
     } // namespace AUDIO_DEVICES
+
+    namespace EXTERNAL_SOURCES
+    {
+        static const AkUniqueID EXTERNAL_SOURCE = 618371124U;
+    } // namespace EXTERNAL_SOURCES
 
 }// namespace AK
 

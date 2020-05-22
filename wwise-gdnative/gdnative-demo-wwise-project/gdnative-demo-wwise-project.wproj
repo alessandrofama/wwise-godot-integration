@@ -20,15 +20,15 @@
 						<Value Platform="Android"></Value>
 						<Value Platform="Mac"></Value>
 						<Value Platform="iOS"></Value>
-						<Value Platform="Windows"></Value>
+						<Value Platform="Windows">D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\ExternalSources\windows.wsources</Value>
 					</ValueList>
 				</Property>
 				<Property Name="ExternalSourcesOutputPath" Type="string">
 					<ValueList>
-						<Value Platform="Android">GeneratedSoundBanks\Android</Value>
-						<Value Platform="Mac">GeneratedSoundBanks\Mac</Value>
-						<Value Platform="iOS">GeneratedSoundBanks\iOS</Value>
-						<Value Platform="Windows">GeneratedSoundBanks\Windows</Value>
+						<Value Platform="Android">..\gdnative-demo\Banks\Android</Value>
+						<Value Platform="Mac">..\gdnative-demo\Banks\Mac</Value>
+						<Value Platform="iOS">..\gdnative-demo\Banks\iOS</Value>
+						<Value Platform="Windows">..\gdnative-demo\Banks\Windows</Value>
 					</ValueList>
 				</Property>
 				<Property Name="GlobalVoiceInstancesLimit" Type="int16">
