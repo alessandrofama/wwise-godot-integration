@@ -90,6 +90,7 @@ void Wwise::_register_methods()
 	register_method("post_external_source", &Wwise::postExternalSource);
 	register_method("post_external_source_id", &Wwise::postExternalSourceID);
 	register_method("get_source_play_position", &Wwise::getSourcePlayPosition);
+	register_method("get_playing_segment_info", &Wwise::getPlayingSegmentInfo);
 
 	register_signal<Wwise>(WwiseCallbackToSignal(AK_EndOfEvent), "data", GODOT_VARIANT_TYPE_DICTIONARY);
 	register_signal<Wwise>(WwiseCallbackToSignal(AK_EndOfDynamicSequenceItem), "data", GODOT_VARIANT_TYPE_DICTIONARY);
@@ -926,4 +927,28 @@ int Wwise::getSourcePlayPosition(const unsigned int playingID, bool extrapolate)
 	}
 
 	return static_cast<int>(position);
+}
+
+Dictionary Wwise::getPlayingSegmentInfo(const unsigned int playingID, bool extrapolate)
+{
+	AkSegmentInfo segmentInfo;
+	AKRESULT result = AK::MusicEngine::GetPlayingSegmentInfo(static_cast<AkPlayingID>(playingID), segmentInfo, extrapolate);
+
+	if (result == AK_Fail)
+	{
+		ERROR_CHECK(result, "Failed to get playing Segment Info");
+	}
+
+	Dictionary segment;
+	segment["fBarDuration"] = static_cast<float>(segmentInfo.fBarDuration);
+	segment["fBeatDuration"] = static_cast<float>(segmentInfo.fBeatDuration);
+	segment["fGridDuration"] = static_cast<float>(segmentInfo.fGridDuration);
+	segment["fGridOffset"] = static_cast<float>(segmentInfo.fGridOffset);
+	segment["iActiveDuration"] = static_cast<int>(segmentInfo.iActiveDuration);
+	segment["iCurrentPosition"] = static_cast<int>(segmentInfo.iCurrentPosition);
+	segment["iPostExitDuration"] = static_cast<int>(segmentInfo.iPostExitDuration);
+	segment["iPreEntryDuration"] = static_cast<int>(segmentInfo.iPreEntryDuration);
+	segment["iRemainingLookAheadTime"] = static_cast<int>(segmentInfo.iRemainingLookAheadTime);
+
+	return segment;
 }
