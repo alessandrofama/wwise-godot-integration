@@ -71,6 +71,8 @@ namespace godot
 		unsigned int postExternalSource(const String eventName, const Object* gameObject, const String sourceObjectName, const String fileName, const unsigned int idCodec);
 		unsigned int postExternalSourceID(const unsigned int eventID, const Object* gameObject, const unsigned int sourceObjectID, const String fileName, const unsigned int idCodec);
 
+		int getSourcePlayPosition(const unsigned int playingID, bool extrapolate);
+
 	private:
 		static void eventCallback(AkCallbackType callbackType, AkCallbackInfo* callbackInfo);
 

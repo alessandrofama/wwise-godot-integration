@@ -89,6 +89,7 @@ void Wwise::_register_methods()
 	register_method("post_trigger_id", &Wwise::postTriggerID);
 	register_method("post_external_source", &Wwise::postExternalSource);
 	register_method("post_external_source_id", &Wwise::postExternalSourceID);
+	register_method("get_source_play_position", &Wwise::getSourcePlayPosition);
 
 	register_signal<Wwise>(WwiseCallbackToSignal(AK_EndOfEvent), "data", GODOT_VARIANT_TYPE_DICTIONARY);
 	register_signal<Wwise>(WwiseCallbackToSignal(AK_EndOfDynamicSequenceItem), "data", GODOT_VARIANT_TYPE_DICTIONARY);
@@ -911,4 +912,18 @@ unsigned int Wwise::postExternalSourceID(const unsigned int eventID, const Objec
 	}
 
 	return static_cast<unsigned int>(playingID);
+}
+
+int Wwise::getSourcePlayPosition(const unsigned int playingID, bool extrapolate)
+{
+	AkTimeMs position;
+	AKRESULT result = AK::SoundEngine::GetSourcePlayPosition(static_cast<AkPlayingID>(playingID), &position, extrapolate);
+
+	if (result == AK_Fail)
+	{
+		ERROR_CHECK(result, "Failed to get Source Play Position");
+		return static_cast<int>(AK_INVALID_PLAYING_ID);
+	}
+
+	return static_cast<int>(position);
 }
