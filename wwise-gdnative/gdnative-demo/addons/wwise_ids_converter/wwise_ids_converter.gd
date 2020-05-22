@@ -1,14 +1,43 @@
 tool
-extends EditorScript
-
-const inputWwiseIDs = "res://Banks/Wwise_IDs.h"
-const outputWwiseIDs = "res://Banks/wwise_ids.gd"
+extends EditorPlugin
 
 var postProcessedLines = PoolStringArray(["class_name AK"])
 var enumBlock = PoolStringArray([])
 var correctedLine = ""
 
-func _run():
+var fileDialog
+const WWISE_IDS_H_FILE = "Wwise_IDs.h"
+const WWISE_IDS_GD_FILE = "wwise_ids.gd"
+
+func _enter_tree():
+	add_tool_menu_item("Convert Wwise IDs", self, "_do_work")
+
+	fileDialog = FileDialog.new()
+	fileDialog.mode = FileDialog.MODE_OPEN_FILE
+	fileDialog.access = FileDialog.ACCESS_RESOURCES
+	fileDialog.filters = PoolStringArray([WWISE_IDS_H_FILE + " ; Wwise IDs header file"])
+
+	fileDialog.connect("file_selected", self, "_on_FileDialog_file_selected")
+
+	var editor_interface = get_editor_interface()
+	var base_control = editor_interface.get_base_control()
+	base_control.add_child(fileDialog)
+
+func _exit_tree():
+	fileDialog.queue_free()
+
+func _do_work(ud):
+	fileDialog.popup_centered_ratio()
+
+func _on_FileDialog_file_selected(path):
+	var inputWwiseIDs = path
+	var outputWwiseIDs = ""
+	
+	if inputWwiseIDs.find(WWISE_IDS_H_FILE) != -1:
+		outputWwiseIDs = inputWwiseIDs.replace(WWISE_IDS_H_FILE, WWISE_IDS_GD_FILE)
+		_convert(inputWwiseIDs, outputWwiseIDs)
+
+func _convert(inputWwiseIDs, outputWwiseIDs):
 	var wwiseIDsHFile = File.new()
 	wwiseIDsHFile.open(inputWwiseIDs, File.READ)
 	

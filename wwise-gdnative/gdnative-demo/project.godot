@@ -34,6 +34,10 @@ config/icon="res://icon.png"
 
 Wwise="*res://wwise/bin/wwise-gdnative-debug.gdns"
 
+[editor_plugins]
+
+enabled=PoolStringArray( "wwise_ids_converter" )
+
 [rendering]
 
 environment/default_environment="res://default_env.tres"
