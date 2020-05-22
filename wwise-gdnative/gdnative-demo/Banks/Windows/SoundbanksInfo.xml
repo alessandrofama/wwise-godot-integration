@@ -69,6 +69,14 @@
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
+				<Event Id="2787445937" Name="Snyth_One_Test" ObjectPath="\Events\Alex Tests\Snyth_One_Test">
+					<IncludedMemoryFiles>
+						<File Id="484615795" Language="SFX">
+							<ShortName>piano-100.mid</ShortName>
+							<Path>SFX\piano-100_9728D936.wmid</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
 			</IncludedEvents>
 			<GameParameters>
 				<GameParameter Id="2242381963" Name="Enemies" ObjectPath="\Game Parameters\Alex\Enemies"/>

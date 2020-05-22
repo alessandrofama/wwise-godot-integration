@@ -36,6 +36,17 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="Snyth_One_Test" ID="{DE5F08B5-C0B4-4D25-A516-9E8C97F69107}">
+					<ChildrenList>
+						<Action Name="" ID="{51188685-4A15-4F95-8EE2-F5E17B6CF283}" ShortID="464863692">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="piano-100" ID="{39CBA4BD-F923-475C-870F-5DCC2A8E3B42}" WorkUnitID="{7D5184BC-D414-4812-9C0D-76A9619A1055}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>
