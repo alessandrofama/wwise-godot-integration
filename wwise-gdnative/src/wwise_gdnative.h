@@ -69,6 +69,9 @@ namespace godot
 		bool postTrigger(const String triggerName, const Object* gameObject);
 		bool postTriggerID(const unsigned int triggerID, const Object* gameObject);
 
+		unsigned int postExternalSource(const String eventName, const Object* gameObject, const String sourceObjectName, const String fileName, const unsigned int idCodec);
+		unsigned int postExternalSourceID(const unsigned int eventID, const Object* gameObject, const unsigned int sourceObjectID, const String fileName, const unsigned int idCodec);
+
 	private:
 		static Mutex* signalDataMutex;
 		static std::vector<SignalData> signalDataVector;
