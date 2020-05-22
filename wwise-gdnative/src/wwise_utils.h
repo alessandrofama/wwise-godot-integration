@@ -5,12 +5,6 @@
 
 using namespace godot;
 
-struct SignalData
-{
-	AkCallbackType sourceCallbackType;
-	Dictionary eventData;
-};
-
 static const char* WwiseErrorString(AKRESULT errcode)
 {
 	switch (errcode)
@@ -98,6 +92,15 @@ static bool CheckError(const AKRESULT result, const String message, const char* 
 }
 
 #define ERROR_CHECK(result, message) CheckError(result, message, __FUNCTION__, __FILE__, __LINE__)
+
+static const char* WwiseCallbackToSignal(AkCallbackType callbackType)
+{
+	switch (callbackType)
+	{
+	case AK_Marker:				return "audio_marker";
+	default:					return "Unknown callback";
+	}
+}
 
 enum class VectorType
 {

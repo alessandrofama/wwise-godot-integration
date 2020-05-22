@@ -7,7 +7,6 @@
 #include <Object.hpp>
 #include <Spatial.hpp>
 #include <Mutex.hpp>
-#include <vector>
 
 #include <AK/SoundEngine/Common/AkSoundEngine.h> 
 #include <AK/SoundEngine/Common/AkMemoryMgr.h>
@@ -67,14 +66,14 @@ namespace godot
 		bool setRTPCValueID(const unsigned int rtpcID, const float rtpcValue, const Object* gameObject);
 
 	private:
-		static Mutex* signalDataMutex;
-		static std::vector<SignalData> signalDataVector;
-
-		static void eventCallback(AkCallbackType in_eType, AkCallbackInfo* in_pCallbackInfo);
+		static void eventCallback(AkCallbackType callbackType, AkCallbackInfo* callbackInfo);
 
 		void emitSignals();
 		bool initialiseWwiseSystems();
 		bool shutdownWwiseSystems();
+
+		static Mutex* signalDataMutex;
+		static Array* signalDataArray;
 
 		CAkDefaultIOHookBlocking lowLevelIO;
 	};

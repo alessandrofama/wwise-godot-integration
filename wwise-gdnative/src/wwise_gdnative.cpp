@@ -25,7 +25,7 @@
 using namespace godot;
 
 Mutex* Wwise::signalDataMutex;
-std::vector<SignalData> Wwise::signalDataVector;
+Array* Wwise::signalDataArray;
 
 namespace AK
 {
@@ -75,7 +75,7 @@ Wwise::~Wwise()
 	shutdownWwiseSystems();
 
 	signalDataMutex->free();
-	signalDataMutex = nullptr;
+	delete signalDataArray;
 
 	Godot::print("Wwise has shut down");
 }
@@ -106,12 +106,13 @@ void Wwise::_register_methods()
 	register_method("set_rtpc", &Wwise::setRTPCValue);
 	register_method("set_rtpc_id", &Wwise::setRTPCValueID);
 
-	register_signal<Wwise>("audio_marker", "params", GODOT_VARIANT_TYPE_DICTIONARY);
+	register_signal<Wwise>(WwiseCallbackToSignal(AK_Marker), "data", GODOT_VARIANT_TYPE_DICTIONARY);
 }
 
 void Wwise::_init()
 {
 	signalDataMutex = Mutex::_new();
+	signalDataArray = new Array();
 
 	bool initialisationResult = initialiseWwiseSystems();
 
@@ -131,28 +132,29 @@ void Wwise::_process(const float delta)
 	ERROR_CHECK(AK::SoundEngine::RenderAudio(), "");
 }
 
-void Wwise::eventCallback(AkCallbackType in_eType, AkCallbackInfo* in_pCallbackInfo)
+void Wwise::eventCallback(AkCallbackType callbackType, AkCallbackInfo* callbackInfo)
 {
 	signalDataMutex->lock();
 
-	SignalData signalData;
+	Dictionary signalData;
+	signalData["callbackType"] = static_cast<unsigned int>(callbackType);
 
-	switch (in_eType)
+	switch (callbackType)
 	{
 		case AK_Marker:
 		{
-			signalData.sourceCallbackType = AK_Marker;
-			AkMarkerCallbackInfo* markerInfo = static_cast<AkMarkerCallbackInfo*>(in_pCallbackInfo);
-			signalData.eventData["uIdentifier"] = static_cast<unsigned int>(markerInfo->uIdentifier);
-			signalData.eventData["uPosition"] = static_cast<unsigned int>(markerInfo->uPosition);
-			signalData.eventData["strLabel"] = String(markerInfo->strLabel);
-
-			signalDataVector.push_back(signalData);
+			AkMarkerCallbackInfo* markerInfo = static_cast<AkMarkerCallbackInfo*>(callbackInfo);
+			signalData["uIdentifier"] = static_cast<unsigned int>(markerInfo->uIdentifier);
+			signalData["uPosition"] = static_cast<unsigned int>(markerInfo->uPosition);
+			signalData["strLabel"] = String(markerInfo->strLabel);
 			break;
 		}
 		default:
+			AKASSERT(false);
 			break;
 	}
+
+	signalDataArray->append(signalData);
 
 	signalDataMutex->unlock();
 }
@@ -161,24 +163,17 @@ void Wwise::emitSignals()
 {
 	signalDataMutex->lock();
 
-	for (unsigned int signalIndex = 0; signalIndex < signalDataVector.size(); ++signalIndex)
-	{
-		SignalData* signalData = static_cast<SignalData*>(&signalDataVector[signalIndex]);
+	const int initialArraySize = signalDataArray->size();
 
-		switch (signalData->sourceCallbackType)
-		{
-		case AK_Marker:
-			emit_signal("audio_marker", signalData->eventData);
-			break;
-		default:
-			break;
-		}
+	for (int signalIndex = 0; signalIndex < initialArraySize; ++signalIndex)
+	{
+		const Dictionary data = signalDataArray->pop_front();
+		const unsigned int callbackType = static_cast<unsigned int>(data["callbackType"]);
+
+		emit_signal(WwiseCallbackToSignal(static_cast<AkCallbackType>(callbackType)), data);
 	}
 
-	if (signalDataVector.size() > 0)
-	{
-		signalDataVector.clear();
-	}
+	AKASSERT(signalDataArray->size() == 0);
 
 	signalDataMutex->unlock();
 }

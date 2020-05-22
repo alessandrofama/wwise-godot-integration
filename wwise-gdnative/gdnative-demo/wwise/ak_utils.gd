@@ -36,3 +36,6 @@ enum AkCallbackType {
 	AK_EnableGetMusicPlayPosition	= 0x200000,	
 	AK_EnableGetSourceStreamBuffering = 0x400000
 }
+
+class Signals:
+	const AUDIO_MARKER = "audio_marker"
