@@ -33,6 +33,7 @@ config/icon="res://icon.png"
 [autoload]
 
 Wwise="*res://wwise/bin/wwise-gdnative-debug.gdns"
+WwiseSettings="res://wwise/wwise_settings.gd"
 
 [editor_plugins]
 
