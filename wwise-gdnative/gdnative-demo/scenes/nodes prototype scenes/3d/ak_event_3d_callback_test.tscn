@@ -1,13 +1,14 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://scripts/3d/bank_init_test.gd" type="Script" id=1]
+[ext_resource path="res://scripts/3d/callback_receiver_test.gd" type="Script" id=1]
 [ext_resource path="res://scripts/3d/listener_test.gd" type="Script" id=2]
-[ext_resource path="res://wwise/nodes/ak_event.gd" type="Script" id=3]
+[ext_resource path="res://scripts/3d/bank_init_test.gd" type="Script" id=3]
+[ext_resource path="res://wwise/nodes/ak_event.gd" type="Script" id=4]
 
 [node name="Main" type="Spatial"]
 
 [node name="Init" type="Node" parent="."]
-script = ExtResource( 1 )
+script = ExtResource( 3 )
 
 [node name="CSGBox" type="CSGBox" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.173622, 0, -6.76176 )
@@ -16,10 +17,16 @@ height = 1.0
 depth = 1.0
 
 [node name="AkEvent" type="Spatial" parent="CSGBox"]
-script = ExtResource( 3 )
+script = ExtResource( 4 )
 event = 3991942870
 trigger_on = 1
+use_callback = true
+callback_type = 256
+callback_receiver = NodePath("../../Receive Callback")
 
 [node name="Camera" type="Camera" parent="."]
 transform = Transform( 1, 0, 0, 0, 0.951175, 0.308652, 0, -0.308652, 0.951175, 0.0495974, 3.31446, 0.735916 )
 script = ExtResource( 2 )
+
+[node name="Receive Callback" type="Node" parent="."]
+script = ExtResource( 1 )
