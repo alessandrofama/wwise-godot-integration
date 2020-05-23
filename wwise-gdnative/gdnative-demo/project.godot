@@ -60,7 +60,7 @@ Wwise="*res://wwise/bin/wwise-gdnative-debug.gdns"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "wwise" )
+enabled=PoolStringArray( "wwise_ids_converter" )
 
 [rendering]
 

@@ -779,6 +779,69 @@
 						</MusicSegment>
 					</ChildrenList>
 				</Folder>
+				<MusicSegment Name="piano-100" ID="{39CBA4BD-F923-475C-870F-5DCC2A8E3B42}" ShortID="475062297">
+					<PropertyList>
+						<Property Name="EndPosition" Type="Real64" Value="34000"/>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B5D06FC6-20AC-4570-BC56-F30998705AA9}"/>
+						</Reference>
+						<Reference Name="MidiTarget">
+							<ObjectRef Name="synth_one_test" ID="{8CAC6EDA-755C-4587-A8E9-B2E5B78F313F}" WorkUnitID="{726C048B-AC31-42C0-BD57-7D02515BEE4E}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{3FE3D261-2E4D-4287-95DD-8B4DF14D5A58}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<MusicTrack Name="piano-100" ID="{99053520-0A1A-4523-A836-EE7CD09F617C}" ShortID="223285583">
+							<ReferenceList>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{3FE3D261-2E4D-4287-95DD-8B4DF14D5A58}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<MidiFileSource Name="piano-100" ID="{89F79B5B-1C2C-4695-8271-84649A25373C}" ShortID="484615795">
+									<Language>SFX</Language>
+									<MidiFile>piano-100.mid</MidiFile>
+									<MediaIDList>
+										<MediaID ID="484615795"/>
+									</MediaIDList>
+								</MidiFileSource>
+							</ChildrenList>
+							<TransitionList>
+								<MusicTransition Name="Root" ID="{4F87A5E9-63CE-451E-B84D-100E2F42C1E3}">
+									<PropertyList>
+										<Property Name="IsFolder" Type="bool" Value="True"/>
+									</PropertyList>
+									<TransitionInfo/>
+								</MusicTransition>
+							</TransitionList>
+							<SequenceList>
+								<MusicTrackSequence Name="" ID="{3FE4A9F1-E6DB-4EAC-9AFB-751E25AF1FAC}">
+									<ClipList>
+										<MusicClipMidi Name="piano-100" ID="{8D01FD0E-B5AE-4253-AFF4-A97E17128AF2}">
+											<PropertyList>
+												<Property Name="EndTrimOffset" Type="Real64" Value="34000"/>
+											</PropertyList>
+											<MidiSourceRef Name="piano-100" ID="{89F79B5B-1C2C-4695-8271-84649A25373C}"/>
+										</MusicClipMidi>
+									</ClipList>
+								</MusicTrackSequence>
+							</SequenceList>
+						</MusicTrack>
+					</ChildrenList>
+					<CueList>
+						<MusicCue Name="Entry Cue" ID="{1384E55C-6625-4685-9AB3-14FB027A51BE}"/>
+						<MusicCue Name="Exit Cue" ID="{B69F5423-40D9-4DEF-A2A7-C652AA8CBC72}">
+							<PropertyList>
+								<Property Name="CueType" Type="int16" Value="1"/>
+								<Property Name="TimeMs" Type="Real64" Value="34000"/>
+							</PropertyList>
+						</MusicCue>
+					</CueList>
+				</MusicSegment>
 			</ChildrenList>
 		</WorkUnit>
 	</InteractiveMusic>

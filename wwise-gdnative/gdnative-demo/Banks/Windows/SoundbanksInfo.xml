@@ -4,8 +4,8 @@
 		<ProjectRoot>D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\</ProjectRoot>
 		<SourceFilesRoot>D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Windows\</SourceFilesRoot>
 		<SoundBanksRoot>D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo\Banks\Windows\</SoundBanksRoot>
-		<ExternalSourcesInputFile></ExternalSourcesInputFile>
-		<ExternalSourcesOutputRoot>D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\GeneratedSoundBanks\Windows</ExternalSourcesOutputRoot>
+		<ExternalSourcesInputFile>D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\ExternalSources\windows.wsources</ExternalSourcesInputFile>
+		<ExternalSourcesOutputRoot>D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo\Banks\Windows</ExternalSourcesOutputRoot>
 	</RootPaths>
 	<DialogueEvents/>
 	<StreamedFiles/>
@@ -24,6 +24,7 @@
 			<ShortName>TestBank</ShortName>
 			<Path>3291379323.bnk</Path>
 			<IncludedEvents>
+				<Event Id="1014047073" Name="External_Source_Event" ObjectPath="\Events\Alex Tests\External_Source_Event"/>
 				<Event Id="2385628198" Name="Footsteps" ObjectPath="\Events\Alex Tests\Footsteps">
 					<IncludedMemoryFiles>
 						<File Id="102632397" Language="SFX">
@@ -185,6 +186,14 @@
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
+				<Event Id="2787445937" Name="Snyth_One_Test" ObjectPath="\Events\Alex Tests\Snyth_One_Test">
+					<IncludedMemoryFiles>
+						<File Id="484615795" Language="SFX">
+							<ShortName>piano-100.mid</ShortName>
+							<Path>SFX\piano-100_9728D936.wmid</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
 			</IncludedEvents>
 			<GameParameters>
 				<GameParameter Id="2242381963" Name="Enemies" ObjectPath="\Game Parameters\Alex\Enemies"/>
@@ -202,6 +211,9 @@
 			<Triggers>
 				<Trigger Id="1927797142" Name="MusicTrigger" ObjectPath="\Triggers\Alex\MusicTrigger"/>
 			</Triggers>
+			<ExternalSources>
+				<Source Id="618371124" Name="External_Source" ObjectPath="\Actor-Mixer Hierarchy\Default Work Unit\external_source_obj\External_Source"/>
+			</ExternalSources>
 		</SoundBank>
 	</SoundBanks>
 </SoundBanksInfo>

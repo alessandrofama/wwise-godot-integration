@@ -37,6 +37,51 @@ enum AkCallbackType {
 	AK_EnableGetSourceStreamBuffering = 0x400000
 }
 
+class Signals:
+	const END_OF_EVENT = "end_of_event"
+	const END_OF_DYNAMIC_SEQUENCE_ITEM = "end_of_dynamic_sequence_item"
+	const AUDIO_MARKER = "audio_marker"
+	const AUDIO_DURATION = "audio_duration"
+	const SPEAKER_VOLUME_MATRIX = "speaker_volume_matrix"
+	const AUDIO_STARVATION = "audio_starvation"
+	const MUSIC_PLAYLIST_SELECT = "music_playlist_select"
+	const MUSIC_PLAY_STARTED = "music_play_started"
+	const MUSIC_SYNC_BEAT = "music_sync_beat"
+	const MUSIC_SYNC_BAR = "music_sync_bar"
+	const MUSIC_SYNC_ENTRY = "music_sync_entry"
+	const MUSIC_SYNC_EXIT = "music_sync_exit"
+	const MUSIC_SYNC_GRID = "music_sync_grid"
+	const MUSIC_SYNC_USER_CUE = "music_sync_user_cue"
+	const MUSIC_SYNC_POINT = "music_sync_point"
+	const MUSIC_SYNC_ALL = "music_sync_all"
+	const MIDI_EVENT = "midi_event"
+	const CALLBACK_BITS = "callback_bits"
+	const ENABLE_GET_SOURCE_PLAY_POSITION = "enable_get_source_play_position"
+	const ENABLE_GET_MUSIC_PLAY_POSITION = "enable_get_music_play_position"
+	const ENABLE_GET_SOURCE_STREAM_BUFFERING = "enable_get_source_stream_buffering"
+
+enum AkCodecID {
+	AKCODECID_BANK				= 0,
+	AKCODECID_PCM				= 1,
+	AKCODECID_ADPCM				= 2,
+	AKCODECID_XMA				= 3,
+	AKCODECID_VORBIS			= 4,
+	AKCODECID_WIIADPCM			= 5,
+	AKCODECID_PCMEX				= 7,
+	AKCODECID_EXTERNAL_SOURCE	= 8, 
+	AKCODECID_XWMA				= 9,
+	AKCODECID_AAC				= 10,
+	AKCODECID_FILE_PACKAGE		= 11,
+	AKCODECID_ATRAC9			= 12,
+	AKCODECID_VAG				= 13,
+	AKCODECID_PROFILERCAPTURE	= 14,
+	AKCODECID_ANALYSISFILE		= 15,
+	AKCODECID_MIDI				= 16,
+	AKCODECID_OPUSNX			= 17,
+	AKCODECID_CAF				= 18,
+	AKCODECID_AKOPUS			= 19
+}
+
 enum GameEvent{
 	NONE,
 	TREE_ENTER,

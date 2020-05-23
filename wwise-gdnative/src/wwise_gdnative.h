@@ -7,7 +7,6 @@
 #include <Object.hpp>
 #include <Spatial.hpp>
 #include <Mutex.hpp>
-#include <vector>
 
 #include <AK/SoundEngine/Common/AkSoundEngine.h> 
 #include <AK/SoundEngine/Common/AkMemoryMgr.h>
@@ -69,15 +68,21 @@ namespace godot
 		bool postTrigger(const String triggerName, const Object* gameObject);
 		bool postTriggerID(const unsigned int triggerID, const Object* gameObject);
 
-	private:
-		static Mutex* signalDataMutex;
-		static std::vector<SignalData> signalDataVector;
+		unsigned int postExternalSource(const String eventName, const Object* gameObject, const String sourceObjectName, const String fileName, const unsigned int idCodec);
+		unsigned int postExternalSourceID(const unsigned int eventID, const Object* gameObject, const unsigned int sourceObjectID, const String fileName, const unsigned int idCodec);
 
-		static void eventCallback(AkCallbackType in_eType, AkCallbackInfo* in_pCallbackInfo);
+		int getSourcePlayPosition(const unsigned int playingID, bool extrapolate);
+		Dictionary getPlayingSegmentInfo(const unsigned int playingID, bool extrapolate);
+
+	private:
+		static void eventCallback(AkCallbackType callbackType, AkCallbackInfo* callbackInfo);
 
 		void emitSignals();
 		bool initialiseWwiseSystems();
 		bool shutdownWwiseSystems();
+
+		static Mutex* signalDataMutex;
+		static Array* signalDataArray;
 
 		CAkDefaultIOHookBlocking lowLevelIO;
 	};
