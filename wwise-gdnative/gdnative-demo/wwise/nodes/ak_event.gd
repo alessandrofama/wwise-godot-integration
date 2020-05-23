@@ -14,7 +14,7 @@ export(AkUtils.AkCallbackType) var callback_type = AkUtils.AkCallbackType.AK_End
 export(NodePath) var callback_receiver:NodePath
 
 func _init() -> void:
-	register_game_object(self, String(event))
+	register_game_object(self, self.name)
 	
 func _ready() -> void:
 	if use_callback:
