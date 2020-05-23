@@ -6,7 +6,6 @@
 
 [node name="AkBank" type="Spatial" parent="."]
 script = ExtResource( 1 )
-bank = 1355168291
 load_on = 1
 
 [node name="AkBank2" type="Spatial" parent="."]
