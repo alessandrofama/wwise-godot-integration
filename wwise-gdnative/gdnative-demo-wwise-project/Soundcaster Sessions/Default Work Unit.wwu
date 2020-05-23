@@ -23,7 +23,9 @@
 					<CurrentStateList ShowAll="true">
 						<CurrentStateRef Name="None" ID="{F7952995-E374-4603-9F1B-54DBBA4CD2FE}"/>
 					</CurrentStateList>
-					<CurrentSwitchList ShowAll="true"/>
+					<CurrentSwitchList ShowAll="true">
+						<CurrentSwitchRef Name="Grass" ID="{49E8DDA4-E22C-4F77-A260-5A741D94CF8A}"/>
+					</CurrentSwitchList>
 				</SoundcasterSession>
 			</ChildrenList>
 		</WorkUnit>
