@@ -1,0 +1,62 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://wwise/nodes/ak_environment.gd" type="Script" id=1]
+[ext_resource path="res://wwise/nodes/ak_bank.gd" type="Script" id=2]
+[ext_resource path="res://wwise/nodes/ak_event.gd" type="Script" id=3]
+[ext_resource path="res://wwise/nodes/ak_listener.gd" type="Script" id=4]
+
+[sub_resource type="BoxShape" id=2]
+
+[sub_resource type="BoxShape" id=1]
+
+[node name="Spatial" type="Spatial"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0388641, 4.76837e-07, 0.00125408 )
+
+[node name="RigidBody" type="RigidBody" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7.16821, 0, 0 )
+gravity_scale = 0.0
+contacts_reported = 1
+contact_monitor = true
+
+[node name="CollisionShape" type="CollisionShape" parent="RigidBody"]
+shape = SubResource( 2 )
+
+[node name="CSGBox" type="CSGBox" parent="RigidBody/CollisionShape"]
+
+[node name="AkEvent" type="Spatial" parent="RigidBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.203074, 0, 0 )
+script = ExtResource( 3 )
+event = 3991942870
+trigger_on = 3
+stop_on = 2
+
+[node name="AkEnvironment" type="Area" parent="."]
+transform = Transform( 2.87201, 0, 0, 0, 2.2139, 0, 0, 0, 3.13301, 0, 0, 0 )
+script = ExtResource( 1 )
+aux_bus_id = 2757439665
+listener_node = NodePath("../AkListener")
+
+[node name="CollisionShape" type="CollisionShape" parent="AkEnvironment"]
+shape = SubResource( 1 )
+
+[node name="AkEnvironment2" type="Area" parent="."]
+transform = Transform( 2.87201, 0, 0, 0, 2.2139, 0, 0, 0, 3.13301, 17.0317, 0, 0 )
+script = ExtResource( 1 )
+aux_bus_id = 1572913279
+listener_node = NodePath("../AkListener")
+
+[node name="CollisionShape" type="CollisionShape" parent="AkEnvironment2"]
+shape = SubResource( 1 )
+
+[node name="AkBank" type="Spatial" parent="."]
+script = ExtResource( 2 )
+load_on = 1
+
+[node name="AkBank2" type="Spatial" parent="."]
+script = ExtResource( 2 )
+bank = 3291379323
+load_on = 1
+
+[node name="AkListener" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8.18353, 0, 6.12026 )
+script = ExtResource( 4 )

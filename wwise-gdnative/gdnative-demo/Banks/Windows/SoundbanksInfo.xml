@@ -15,6 +15,10 @@
 			<ObjectPath>Init</ObjectPath>
 			<ShortName>Init</ShortName>
 			<Path>1355168291.bnk</Path>
+			<IncludedAuxBusses>
+				<AuxBus Id="1572913279" Name="RoomVerb" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\RoomVerb"/>
+				<AuxBus Id="2757439665" Name="LargeVerb" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\LargeVerb"/>
+			</IncludedAuxBusses>
 			<GameParameters>
 				<GameParameter Id="2242381963" Name="Enemies" ObjectPath="\Game Parameters\Alex\Enemies"/>
 			</GameParameters>

@@ -11,6 +11,7 @@ func _enter_tree():
 	add_custom_type("AkListener", "Spatial", preload("res://wwise/nodes/ak_listener.gd"), preload("res://icon_small_node.png"))
 	add_custom_type("AkState", "Spatial", preload("res://wwise/nodes/ak_state.gd"), preload("res://icon_small_node.png"))
 	add_custom_type("AkSwitch", "Spatial", preload("res://wwise/nodes/ak_switch.gd"), preload("res://icon_small_node.png"))
+	add_custom_type("AkEnvironment", "Area", preload("res://wwise/nodes/ak_environment.gd"), preload("res://icon_small_node.png"))
 	add_spatial_gizmo_plugin(ak_event_gizmo)
 	
 	add_custom_type("AkEvent2D", "Node2D", preload("res://wwise/nodes/ak_event_2d.gd"), preload("res://icon_small_node.png"))
@@ -25,6 +26,7 @@ func _exit_tree():
 	remove_custom_type("AkListener")
 	remove_custom_type("AkState")
 	remove_custom_type("AkSwitch")
+	remove_custom_type("AkEnvironment")
 	remove_spatial_gizmo_plugin(ak_event_gizmo)
 	
 	remove_custom_type("AkEvent2D")

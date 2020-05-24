@@ -1,4 +1,5 @@
 extends AkEventHandler
+class_name AkEvent
 
 export(AK.EVENTS._enum) var event:int
 export(AkUtils.GameEvent) var trigger_on:int = AkUtils.GameEvent.NONE
@@ -13,8 +14,8 @@ export(bool) var use_callback = false
 export(AkUtils.AkCallbackType) var callback_type = AkUtils.AkCallbackType.AK_EndOfEvent
 export(NodePath) var callback_receiver:NodePath
 
-func _init() -> void:
-	register_game_object(self, self.name)
+func _enter_tree():
+	register_game_object(self, self.get_name())
 	
 func _ready() -> void:
 	if use_callback:
@@ -107,3 +108,5 @@ func stop_event() -> void:
 func _process(_delta) -> void:
 	Wwise.set_3d_position(self, get_global_transform())
 	
+func set_environment(ak_aux_send_value:Dictionary):
+	Wwise.set_game_obj_aux_send_values(self.get_instance_id(), ak_aux_send_value, 1)	

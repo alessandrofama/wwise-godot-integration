@@ -13,9 +13,15 @@ Audio Bus	ID	Name			Wwise Object Path	Notes
 	3803692087	Master Audio Bus			\Default Work Unit\Master Audio Bus	
 	3991942870	Music			\Default Work Unit\Master Audio Bus\Music	
 
+Auxiliary Bus	ID	Name			Wwise Object Path	Notes
+	1572913279	RoomVerb			\Default Work Unit\Master Audio Bus\RoomVerb	
+	2757439665	LargeVerb			\Default Work Unit\Master Audio Bus\LargeVerb	
+
 Effect plug-ins	ID	Name	Type				Notes
 	400762808	Wwise_Meter_(Custom)	Wwise Meter			
+	602546716	Room_Large	Wwise RoomVerb			
 	1125262053	Blue_Distant_Echoes	Wwise Stereo Delay			
+	3900114836	Metal_Hangar	Wwise RoomVerb			
 
 Audio Devices	ID	Name	Type				Notes
 	2317455096	No_Output	No Output			

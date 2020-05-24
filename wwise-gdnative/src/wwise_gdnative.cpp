@@ -91,6 +91,8 @@ void Wwise::_register_methods()
 	register_method("post_external_source_id", &Wwise::postExternalSourceID);
 	register_method("get_source_play_position", &Wwise::getSourcePlayPosition);
 	register_method("get_playing_segment_info", &Wwise::getPlayingSegmentInfo);
+	register_method("set_game_obj_output_bus_volume", &Wwise::setGameObjectOutputBusVolume);
+	register_method("set_game_obj_aux_send_values", &Wwise::setGameObjectAuxSendValues);
 
 	register_signal<Wwise>(WwiseCallbackToSignal(AK_EndOfEvent), "data", GODOT_VARIANT_TYPE_DICTIONARY);
 	register_signal<Wwise>(WwiseCallbackToSignal(AK_EndOfDynamicSequenceItem), "data", GODOT_VARIANT_TYPE_DICTIONARY);
@@ -951,4 +953,21 @@ Dictionary Wwise::getPlayingSegmentInfo(const unsigned int playingID, bool extra
 	segment["iRemainingLookAheadTime"] = static_cast<int>(segmentInfo.iRemainingLookAheadTime);
 
 	return segment;
+}
+
+bool Wwise::setGameObjectOutputBusVolume(const unsigned int eventID, const unsigned int listenerID, float fControlValue)
+{
+	return ERROR_CHECK(AK::SoundEngine::SetGameObjectOutputBusVolume(static_cast<AkGameObjectID>(eventID), 
+																		static_cast<AkGameObjectID>(listenerID), fControlValue), "Could not set the Game Object Outpus Bus Volume");
+}
+
+bool Wwise::setGameObjectAuxSendValues(const unsigned int eventID, Dictionary akAuxSendValue, const unsigned int sendValues)
+{
+	AkAuxSendValue environment;
+	environment.auxBusID = static_cast<const unsigned int>(akAuxSendValue["aux_bus_id"]);
+	environment.fControlValue = static_cast<float>(akAuxSendValue["control_value"]);
+	environment.listenerID = AK_INVALID_GAME_OBJECT;
+
+	return ERROR_CHECK(AK::SoundEngine::SetGameObjectAuxSendValues(static_cast<AkGameObjectID>(eventID),
+																	&environment, sendValues), "Could not set the Game Object Aux Send Values");
 }

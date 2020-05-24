@@ -77,6 +77,12 @@ namespace AK
         static const AkUniqueID MUSIC = 3991942870U;
     } // namespace BUSSES
 
+    namespace AUX_BUSSES
+    {
+        static const AkUniqueID LARGEVERB = 2757439665U;
+        static const AkUniqueID ROOMVERB = 1572913279U;
+    } // namespace AUX_BUSSES
+
     namespace AUDIO_DEVICES
     {
         static const AkUniqueID NO_OUTPUT = 2317455096U;

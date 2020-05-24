@@ -14,8 +14,8 @@ export(bool) var use_callback = false
 export(AkUtils.AkCallbackType) var callback_type = AkUtils.AkCallbackType.AK_EndOfEvent
 export(NodePath) var callback_receiver:NodePath
 
-func _init() -> void:
-	register_game_object(self, self.name)
+func _enter_tree() -> void:
+	register_game_object(self, self.get_name())
 	
 func _ready() -> void:
 	if use_callback:
