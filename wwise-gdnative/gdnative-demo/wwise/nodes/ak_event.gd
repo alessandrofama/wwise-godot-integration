@@ -14,12 +14,28 @@ export(bool) var use_callback = false
 export(AkUtils.AkCallbackType) var callback_type = AkUtils.AkCallbackType.AK_EndOfEvent
 export(NodePath) var callback_receiver:NodePath
 
+var listener:Spatial
+var next_occlusion_update:float = 0
+var ray:RayCast
+var colliding_objects:Array = []
+
 func _enter_tree():
 	register_game_object(self, self.get_name())
 	
 func _ready() -> void:
 	if use_callback:
 		connect_signals()
+	if is_environment_aware:
+		listener = get_listener()
+		set_up_raycast()
+	
+func set_up_raycast() -> void:
+	ray = RayCast.new()
+	ray.enabled = true
+	ray.set_name("ray")
+	add_child(ray)
+	ray.set_owner(self)
+	set_process(true)
 
 func connect_signals() -> void:
 	if callback_receiver.is_empty():
@@ -108,5 +124,35 @@ func stop_event() -> void:
 func _process(_delta) -> void:
 	Wwise.set_3d_position(self, get_global_transform())
 	
-func set_environment(ak_aux_send_value:Dictionary):
-	Wwise.set_game_obj_aux_send_values(self.get_instance_id(), ak_aux_send_value, 1)	
+func _physics_process(_delta) -> void:
+	if is_environment_aware:
+		set_obstruction_and_occlusion()
+	
+func set_environment(ak_aux_send_value:Dictionary) -> void:
+	Wwise.set_game_obj_aux_send_values(self.get_instance_id(), ak_aux_send_value, 1)
+			
+func set_obstruction_and_occlusion() -> void:
+	if OS.get_ticks_msec() >= next_occlusion_update:
+		next_occlusion_update = OS.get_ticks_msec() + AkUtils.OCCLUSION_DETECTION_INTERVAL
+		var current_occlusion = compute_occlusion(listener.get_global_transform(), self.get_global_transform())
+		Wwise.set_obj_obstruction_and_occlusion(self.get_instance_id(), listener.get_instance_id(), current_occlusion, current_occlusion)			
+
+func compute_occlusion(listener_transform:Transform, source_transform:Transform) -> float:
+# No idea how to compute occlusion and obstruction yet
+# Casting a ray from the emitter to the listener, adding AkUtils.OCCLUSION_ADDED to occlusion_value per hit
+# Not easy to get an array of hits at one time like Unity's Physics.Raycast.
+
+	colliding_objects.clear()
+	var occlusion_value:float = 0.0
+	ray.set_cast_to(listener_transform.origin - source_transform.origin)
+	while ray.is_colliding():
+		var obj = ray.get_collider()
+		if colliding_objects.find(obj) == -1:
+			colliding_objects.append(obj)
+		ray.add_exception(obj)
+		ray.force_raycast_update()
+		if colliding_objects.size() > 0:
+			occlusion_value += AkUtils.OCCLUSION_ADDEND
+	for obj in colliding_objects:
+		ray.remove_exception(obj)
+	return occlusion_value

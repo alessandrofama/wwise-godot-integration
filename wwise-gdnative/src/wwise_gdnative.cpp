@@ -93,6 +93,7 @@ void Wwise::_register_methods()
 	register_method("get_playing_segment_info", &Wwise::getPlayingSegmentInfo);
 	register_method("set_game_obj_output_bus_volume", &Wwise::setGameObjectOutputBusVolume);
 	register_method("set_game_obj_aux_send_values", &Wwise::setGameObjectAuxSendValues);
+	register_method("set_obj_obstruction_and_occlusion", &Wwise::setObjectObstructionAndOcclusion);
 
 	register_signal<Wwise>(WwiseCallbackToSignal(AK_EndOfEvent), "data", GODOT_VARIANT_TYPE_DICTIONARY);
 	register_signal<Wwise>(WwiseCallbackToSignal(AK_EndOfDynamicSequenceItem), "data", GODOT_VARIANT_TYPE_DICTIONARY);
@@ -970,4 +971,10 @@ bool Wwise::setGameObjectAuxSendValues(const unsigned int eventID, Dictionary ak
 
 	return ERROR_CHECK(AK::SoundEngine::SetGameObjectAuxSendValues(static_cast<AkGameObjectID>(eventID),
 																	&environment, sendValues), "Could not set the Game Object Aux Send Values");
+}
+
+bool Wwise::setObjectObstructionAndOcclusion(const unsigned int eventID, const unsigned int listenerID, float fCalculatedObs, float fCalculatedOcc)
+{
+	return ERROR_CHECK(AK::SoundEngine::SetObjectObstructionAndOcclusion(static_cast<AkGameObjectID>(eventID), 
+																			static_cast<AkGameObjectID>(listenerID), fCalculatedObs, fCalculatedOcc), "Could not set Obstruction and Occlusion");
 }

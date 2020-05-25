@@ -1,4 +1,5 @@
 extends Spatial
+class_name AkListener
 
 func _ready() -> void:
 	Wwise.register_listener(self)
