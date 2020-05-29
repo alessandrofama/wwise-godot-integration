@@ -60,6 +60,9 @@ Wwise::~Wwise()
 	Godot::print("Wwise has shut down");
 }
 
+#define REGISTER_GODOT_SIGNAL(callbackType) \
+	register_signal<Wwise>(WwiseCallbackToSignal(callbackType), "data", GODOT_VARIANT_TYPE_DICTIONARY);
+
 void Wwise::_register_methods()
 {
 	register_method("_process", &Wwise::_process);
@@ -92,27 +95,27 @@ void Wwise::_register_methods()
 	register_method("get_source_play_position", &Wwise::getSourcePlayPosition);
 	register_method("get_playing_segment_info", &Wwise::getPlayingSegmentInfo);
 
-	register_signal<Wwise>(WwiseCallbackToSignal(AK_EndOfEvent), "data", GODOT_VARIANT_TYPE_DICTIONARY);
-	register_signal<Wwise>(WwiseCallbackToSignal(AK_EndOfDynamicSequenceItem), "data", GODOT_VARIANT_TYPE_DICTIONARY);
-	register_signal<Wwise>(WwiseCallbackToSignal(AK_Marker), "data", GODOT_VARIANT_TYPE_DICTIONARY);
-	register_signal<Wwise>(WwiseCallbackToSignal(AK_Duration), "data", GODOT_VARIANT_TYPE_DICTIONARY);
-	register_signal<Wwise>(WwiseCallbackToSignal(AK_SpeakerVolumeMatrix), "data", GODOT_VARIANT_TYPE_DICTIONARY);
-	register_signal<Wwise>(WwiseCallbackToSignal(AK_Starvation), "data", GODOT_VARIANT_TYPE_DICTIONARY);
-	register_signal<Wwise>(WwiseCallbackToSignal(AK_MusicPlaylistSelect), "data", GODOT_VARIANT_TYPE_DICTIONARY);
-	register_signal<Wwise>(WwiseCallbackToSignal(AK_MusicPlayStarted), "data", GODOT_VARIANT_TYPE_DICTIONARY);
-	register_signal<Wwise>(WwiseCallbackToSignal(AK_MusicSyncBeat), "data", GODOT_VARIANT_TYPE_DICTIONARY);
-	register_signal<Wwise>(WwiseCallbackToSignal(AK_MusicSyncBar), "data", GODOT_VARIANT_TYPE_DICTIONARY);
-	register_signal<Wwise>(WwiseCallbackToSignal(AK_MusicSyncEntry), "data", GODOT_VARIANT_TYPE_DICTIONARY);
-	register_signal<Wwise>(WwiseCallbackToSignal(AK_MusicSyncExit), "data", GODOT_VARIANT_TYPE_DICTIONARY);
-	register_signal<Wwise>(WwiseCallbackToSignal(AK_MusicSyncGrid), "data", GODOT_VARIANT_TYPE_DICTIONARY);
-	register_signal<Wwise>(WwiseCallbackToSignal(AK_MusicSyncUserCue), "data", GODOT_VARIANT_TYPE_DICTIONARY);
-	register_signal<Wwise>(WwiseCallbackToSignal(AK_MusicSyncPoint), "data", GODOT_VARIANT_TYPE_DICTIONARY);
-	register_signal<Wwise>(WwiseCallbackToSignal(AK_MusicSyncAll), "data", GODOT_VARIANT_TYPE_DICTIONARY);
-	register_signal<Wwise>(WwiseCallbackToSignal(AK_MIDIEvent), "data", GODOT_VARIANT_TYPE_DICTIONARY);
-	register_signal<Wwise>(WwiseCallbackToSignal(AK_CallbackBits), "data", GODOT_VARIANT_TYPE_DICTIONARY);
-	register_signal<Wwise>(WwiseCallbackToSignal(AK_EnableGetSourcePlayPosition), "data", GODOT_VARIANT_TYPE_DICTIONARY);
-	register_signal<Wwise>(WwiseCallbackToSignal(AK_EnableGetMusicPlayPosition), "data", GODOT_VARIANT_TYPE_DICTIONARY);
-	register_signal<Wwise>(WwiseCallbackToSignal(AK_EnableGetSourceStreamBuffering), "data", GODOT_VARIANT_TYPE_DICTIONARY);
+	REGISTER_GODOT_SIGNAL(AK_EndOfEvent);
+	REGISTER_GODOT_SIGNAL(AK_EndOfDynamicSequenceItem);
+	REGISTER_GODOT_SIGNAL(AK_Marker);
+	REGISTER_GODOT_SIGNAL(AK_Duration);
+	REGISTER_GODOT_SIGNAL(AK_SpeakerVolumeMatrix);
+	REGISTER_GODOT_SIGNAL(AK_Starvation);
+	REGISTER_GODOT_SIGNAL(AK_MusicPlaylistSelect);
+	REGISTER_GODOT_SIGNAL(AK_MusicPlayStarted);
+	REGISTER_GODOT_SIGNAL(AK_MusicSyncBeat);
+	REGISTER_GODOT_SIGNAL(AK_MusicSyncBar);
+	REGISTER_GODOT_SIGNAL(AK_MusicSyncEntry);
+	REGISTER_GODOT_SIGNAL(AK_MusicSyncExit);
+	REGISTER_GODOT_SIGNAL(AK_MusicSyncGrid);
+	REGISTER_GODOT_SIGNAL(AK_MusicSyncUserCue);
+	REGISTER_GODOT_SIGNAL(AK_MusicSyncPoint);
+	REGISTER_GODOT_SIGNAL(AK_MusicSyncAll);
+	REGISTER_GODOT_SIGNAL(AK_MIDIEvent);
+	REGISTER_GODOT_SIGNAL(AK_CallbackBits);
+	REGISTER_GODOT_SIGNAL(AK_EnableGetSourcePlayPosition);
+	REGISTER_GODOT_SIGNAL(AK_EnableGetMusicPlayPosition);
+	REGISTER_GODOT_SIGNAL(AK_EnableGetSourceStreamBuffering);
 }
 
 void Wwise::_init()
@@ -452,21 +455,10 @@ void Wwise::eventCallback(AkCallbackType callbackType, AkCallbackInfo* callbackI
 			break;
 		}
 		case AK_CallbackBits:
-		{
-			break;
-		}
 		case AK_EnableGetSourcePlayPosition:
-		{
-			break;
-		}
 		case AK_EnableGetMusicPlayPosition:
-		{
-			break;
-		}
 		case AK_EnableGetSourceStreamBuffering:
-		{
 			break;
-		}
 		default:
 			AKASSERT(false);
 			break;
@@ -861,7 +853,8 @@ bool Wwise::postTriggerID(const unsigned int triggerID, const Object* gameObject
 						static_cast<AkGameObjectID>(gameObject->get_instance_id())), "Failed to post trigger ID " + String::num_int64(triggerID));
 }
 
-unsigned int Wwise::postExternalSource(const String eventName, const Object* gameObject, const String sourceObjectName, const String fileName, const unsigned int idCodec)
+unsigned int Wwise::postExternalSource(const String eventName, const Object* gameObject, const String sourceObjectName, const String fileName, 
+	const unsigned int idCodec)
 {
 	AKASSERT(!eventName.empty());
 	AKASSERT(gameObject);
@@ -878,7 +871,7 @@ unsigned int Wwise::postExternalSource(const String eventName, const Object* gam
 	source.szFile = szFileOsString;
 	source.idCodec = idCodec;
 
-	AkPlayingID playingID = AK::SoundEngine::PostEvent(eventName.unicode_str(), static_cast<AkGameObjectID>(gameObject->get_instance_id()), 0, NULL, 0, 1, &source);
+	AkPlayingID playingID = AK::SoundEngine::PostEvent(eventName.unicode_str(), static_cast<AkGameObjectID>(gameObject->get_instance_id()), 0, nullptr, 0, 1, &source);
 
 	if (playingID == AK_INVALID_PLAYING_ID)
 	{
@@ -889,7 +882,8 @@ unsigned int Wwise::postExternalSource(const String eventName, const Object* gam
 	return static_cast<unsigned int>(playingID);
 }
 
-unsigned int Wwise::postExternalSourceID(const unsigned int eventID, const Object* gameObject, const unsigned int sourceObjectID, const String fileName, const unsigned int idCodec)
+unsigned int Wwise::postExternalSourceID(const unsigned int eventID, const Object* gameObject, const unsigned int sourceObjectID, 
+	const String fileName, const unsigned int idCodec)
 {
 	AKASSERT(gameObject);
 	AKASSERT(!fileName.empty());
@@ -915,28 +909,28 @@ unsigned int Wwise::postExternalSourceID(const unsigned int eventID, const Objec
 	return static_cast<unsigned int>(playingID);
 }
 
-int Wwise::getSourcePlayPosition(const unsigned int playingID, bool extrapolate)
+int Wwise::getSourcePlayPosition(const unsigned int playingID, const bool extrapolate)
 {
 	AkTimeMs position;
 	AKRESULT result = AK::SoundEngine::GetSourcePlayPosition(static_cast<AkPlayingID>(playingID), &position, extrapolate);
 
 	if (result == AK_Fail)
 	{
-		ERROR_CHECK(result, "Failed to get Source Play Position");
+		ERROR_CHECK(result, "Failed to get Source Play Position for playing ID " + String::num_int64(playingID));
 		return static_cast<int>(AK_INVALID_PLAYING_ID);
 	}
 
 	return static_cast<int>(position);
 }
 
-Dictionary Wwise::getPlayingSegmentInfo(const unsigned int playingID, bool extrapolate)
+Dictionary Wwise::getPlayingSegmentInfo(const unsigned int playingID, const bool extrapolate)
 {
 	AkSegmentInfo segmentInfo;
 	AKRESULT result = AK::MusicEngine::GetPlayingSegmentInfo(static_cast<AkPlayingID>(playingID), segmentInfo, extrapolate);
 
 	if (result == AK_Fail)
 	{
-		ERROR_CHECK(result, "Failed to get playing Segment Info");
+		ERROR_CHECK(result, "Failed to get playing Segment Info for playing ID " + String::num_int64(playingID));
 	}
 
 	Dictionary segment;
