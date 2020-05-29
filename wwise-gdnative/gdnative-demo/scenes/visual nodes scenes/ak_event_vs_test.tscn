@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scripts/visual scripts/ak_event_vs_test.vs" type="Script" id=1]
+[ext_resource path="res://scripts/3d/bank_init_test.gd" type="Script" id=2]
+[ext_resource path="res://wwise/nodes/ak_listener.gd" type="Script" id=3]
+
+[node name="Spatial" type="Spatial"]
+
+[node name="Banks" type="Node" parent="."]
+script = ExtResource( 2 )
+
+[node name="Visual Script" type="Spatial" parent="."]
+script = ExtResource( 1 )
+
+[node name="AkListener" type="Spatial" parent="."]
+script = ExtResource( 3 )
