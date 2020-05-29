@@ -19,7 +19,7 @@ gravity_scale = 0.0
 [node name="AkEvent" type="Spatial" parent="Event Test"]
 script = ExtResource( 2 )
 event = 3991942870
-trigger_on = 7
+trigger_on = 6
 stop_on = 7
 stop_fade_time = 1000
 

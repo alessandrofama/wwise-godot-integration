@@ -93,7 +93,7 @@ void Wwise::_register_methods()
 	register_method("get_playing_segment_info", &Wwise::getPlayingSegmentInfo);
 	register_method("set_game_obj_output_bus_volume", &Wwise::setGameObjectOutputBusVolume);
 	register_method("set_game_obj_aux_send_values", &Wwise::setGameObjectAuxSendValues);
-	register_method("set_obj_obstruction_and_occlusion", &Wwise::setObjectObstructionAndOcclusion);
+	register_method("set_obj_obstruction_and_occlusion", &Wwise::setObjectObstructionAndOcclusion); 
 
 	register_signal<Wwise>(WwiseCallbackToSignal(AK_EndOfEvent), "data", GODOT_VARIANT_TYPE_DICTIONARY);
 	register_signal<Wwise>(WwiseCallbackToSignal(AK_EndOfDynamicSequenceItem), "data", GODOT_VARIANT_TYPE_DICTIONARY);
@@ -962,15 +962,20 @@ bool Wwise::setGameObjectOutputBusVolume(const unsigned int eventID, const unsig
 																		static_cast<AkGameObjectID>(listenerID), fControlValue), "Could not set the Game Object Outpus Bus Volume");
 }
 
-bool Wwise::setGameObjectAuxSendValues(const unsigned int eventID, Dictionary akAuxSendValue, const unsigned int sendValues)
+bool Wwise::setGameObjectAuxSendValues(const unsigned int eventID, const Array akAuxSendValues, const unsigned int sendValues)
 {
-	AkAuxSendValue environment;
-	environment.auxBusID = static_cast<const unsigned int>(akAuxSendValue["aux_bus_id"]);
-	environment.fControlValue = static_cast<float>(akAuxSendValue["control_value"]);
-	environment.listenerID = AK_INVALID_GAME_OBJECT;
+	AkAuxSendValue environments[AK_MAX_ENVIRONMENTS];
+
+	for (int i = 0; i < akAuxSendValues.size(); i++)
+	{
+		Dictionary auxBusData = akAuxSendValues[i];
+		environments[i].auxBusID = static_cast<const unsigned int>(auxBusData["aux_bus_id"]);
+		environments[i].fControlValue = static_cast<float>(auxBusData["control_value"]);
+		environments[i].listenerID = AK_INVALID_GAME_OBJECT;
+	}
 
 	return ERROR_CHECK(AK::SoundEngine::SetGameObjectAuxSendValues(static_cast<AkGameObjectID>(eventID),
-																	&environment, sendValues), "Could not set the Game Object Aux Send Values");
+																	environments, sendValues), "Could not set the Game Object Aux Send Values");
 }
 
 bool Wwise::setObjectObstructionAndOcclusion(const unsigned int eventID, const unsigned int listenerID, float fCalculatedObs, float fCalculatedOcc)

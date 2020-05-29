@@ -43,6 +43,13 @@
 								</Reference>
 							</ReferenceList>
 						</AuxBus>
+						<AuxBus Name="SmallVerb" ID="{37A27B08-0572-42F5-BE2B-9B20252B6E7D}">
+							<ReferenceList>
+								<Reference Name="Effect0" PluginName="Wwise RoomVerb" CompanyID="0" PluginID="118" PluginType="3">
+									<ObjectRef Name="Room_Small" ID="{577F1466-A63B-47F7-98BD-C56E433F8B5D}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+								</Reference>
+							</ReferenceList>
+						</AuxBus>
 					</ChildrenList>
 				</Bus>
 			</ChildrenList>

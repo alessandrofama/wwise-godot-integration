@@ -75,7 +75,7 @@ namespace godot
 		Dictionary getPlayingSegmentInfo(const unsigned int playingID, bool extrapolate);
 
 		bool setGameObjectOutputBusVolume(const unsigned int eventID, const unsigned int listenerID, float fControlValue);
-		bool setGameObjectAuxSendValues(const unsigned int eventID, Dictionary akAuxSendValue, const unsigned int sendValues);
+		bool setGameObjectAuxSendValues(const unsigned int eventID, const Array akAuxSendValues, const unsigned int sendValues);
 		bool setObjectObstructionAndOcclusion(const unsigned int eventID, const unsigned int listenerID, float fCalculatedObs, float fCalculatedOcc);
 
 	private:

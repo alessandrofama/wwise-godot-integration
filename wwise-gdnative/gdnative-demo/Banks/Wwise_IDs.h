@@ -81,6 +81,7 @@ namespace AK
     {
         static const AkUniqueID LARGEVERB = 2757439665U;
         static const AkUniqueID ROOMVERB = 1572913279U;
+        static const AkUniqueID SMALLVERB = 117523933U;
     } // namespace AUX_BUSSES
 
     namespace AUDIO_DEVICES

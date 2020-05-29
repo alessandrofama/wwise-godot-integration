@@ -16,6 +16,7 @@
 			<ShortName>Init</ShortName>
 			<Path>1355168291.bnk</Path>
 			<IncludedAuxBusses>
+				<AuxBus Id="117523933" Name="SmallVerb" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\SmallVerb"/>
 				<AuxBus Id="1572913279" Name="RoomVerb" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\RoomVerb"/>
 				<AuxBus Id="2757439665" Name="LargeVerb" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\LargeVerb"/>
 			</IncludedAuxBusses>

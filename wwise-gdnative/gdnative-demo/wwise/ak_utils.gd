@@ -94,4 +94,4 @@ enum GameEvent{
 	}
 	
 const OCCLUSION_DETECTION_INTERVAL = 200
-const OCCLUSION_ADDEND = 0.2
+const OCCLUSION_ADDEND = 0.35
