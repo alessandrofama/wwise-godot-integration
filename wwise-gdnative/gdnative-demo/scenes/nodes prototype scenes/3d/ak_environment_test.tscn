@@ -41,10 +41,10 @@ extents = Vector3( 48.7969, 24.118, 1 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0388641, 4.76837e-07, 0.00125408 )
 
 [node name="StaticBody" type="KinematicBody" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12.6425, 4.52658, 96.0153 )
+transform = Transform( 0.00247025, -0.000724464, 0.999997, -0.000987655, 0.999999, 0.000726908, -0.999996, -0.000989449, 0.00246954, -12.6425, 4.52658, 96.0153 )
 
 [node name="AkEvent" type="Spatial" parent="StaticBody"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.934373, -1.08244, -0.965607 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.345745, 0.163964, 0.0282364 )
 script = ExtResource( 3 )
 event = 3991942870
 trigger_on = 3
@@ -57,9 +57,10 @@ shape = SubResource( 1 )
 
 [node name="StaticBody2" type="KinematicBody" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9.10978, 4.52658, 35.5894 )
+collision_layer = 0
 
 [node name="AkEvent" type="Spatial" parent="StaticBody2"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.744938, -1.08244, -0.965607 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.744938, -1.08244, 0.0169868 )
 script = ExtResource( 3 )
 event = 3991942870
 trigger_on = 3
@@ -72,6 +73,7 @@ shape = SubResource( 1 )
 
 [node name="StaticBody3" type="KinematicBody" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 67.666, 4.52658, 58.4757 )
+collision_layer = 0
 
 [node name="AkEvent" type="Spatial" parent="StaticBody3"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.744938, -1.08244, -0.965607 )
@@ -89,7 +91,7 @@ shape = SubResource( 1 )
 transform = Transform( 0.0528414, 0, -0.998603, 0, 1, 0, 0.998603, 0, 0.0528414, 15.0204, 5.79474, 33.9885 )
 
 [node name="Camera" type="Camera" parent="Target"]
-transform = Transform( -0.989331, 0.112248, 0.092863, 0.14548, 0.727657, 0.670336, 0.00767142, 0.676694, -0.736224, 0.00518513, 13.9166, -11.3593 )
+transform = Transform( -0.995411, -0.0231103, 0.092863, 0.0453403, 0.740671, 0.670336, -0.0842726, 0.67147, -0.736224, -0.373859, 13.9724, -11.3564 )
 v_offset = 2.169
 current = true
 fov = 83.6
@@ -101,17 +103,17 @@ target = NodePath("../Kinematic")
 
 [node name="Kinematic" type="KinematicBody" parent="Target"]
 transform = Transform( 1, 0, -2.98023e-08, 0, 1, 0, 0, 0, 1, -9.53674e-07, 0, 0 )
+collision_layer = 0
 script = ExtResource( 5 )
 cam = NodePath("../Camera")
 
 [node name="CollisionShape" type="CollisionShape" parent="Target/Kinematic"]
 shape = SubResource( 2 )
 
-[node name="CSGSphere" type="CSGSphere" parent="Target/Kinematic"]
-
-[node name="AkListener" type="Spatial" parent="Target/Kinematic"]
-transform = Transform( 0.999553, 0.0205268, -0.0217168, -0.0244486, 0.979625, -0.199346, 0.0171823, 0.199788, 0.979689, -0.954704, 3.18901, -6.52152 )
+[node name="AkListener" type="Spatial" parent="Target/Kinematic/CollisionShape"]
 script = ExtResource( 4 )
+
+[node name="CSGSphere" type="CSGSphere" parent="Target/Kinematic"]
 
 [node name="Target" type="Spatial" parent="Target"]
 transform = Transform( -0.676612, 0.12507, 0.0764476, 0.0980726, 0.717161, 0.681998, 0.0208429, 0.685593, -0.727347, -1.1192, 5.12974, -6.51433 )
