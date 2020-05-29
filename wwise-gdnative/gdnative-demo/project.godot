@@ -14,6 +14,51 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Banks/wwise_ids.gd"
 }, {
+"base": "Node",
+"class": "AkAuxData",
+"language": "GDScript",
+"path": "res://wwise/ak_aux_data.gd"
+}, {
+"base": "Area",
+"class": "AkEnvironment",
+"language": "GDScript",
+"path": "res://wwise/nodes/ak_environment.gd"
+}, {
+"base": "AkEventHandler",
+"class": "AkEvent",
+"language": "GDScript",
+"path": "res://wwise/nodes/ak_event.gd"
+}, {
+"base": "AkGameObj",
+"class": "AkEventHandler",
+"language": "GDScript",
+"path": "res://wwise/ak_event_handler.gd"
+}, {
+"base": "AkGameObj2D",
+"class": "AkEventHandler2D",
+"language": "GDScript",
+"path": "res://wwise/ak_event_handler_2d.gd"
+}, {
+"base": "Spatial",
+"class": "AkGameObj",
+"language": "GDScript",
+"path": "res://wwise/ak_game_obj.gd"
+}, {
+"base": "Node2D",
+"class": "AkGameObj2D",
+"language": "GDScript",
+"path": "res://wwise/ak_game_obj_2d.gd"
+}, {
+"base": "Node",
+"class": "AkGameObjectEnvironmentData",
+"language": "GDScript",
+"path": "res://wwise/ak_game_obj_environment_data.gd"
+}, {
+"base": "Spatial",
+"class": "AkListener",
+"language": "GDScript",
+"path": "res://wwise/nodes/ak_listener.gd"
+}, {
 "base": "Reference",
 "class": "AkUtils",
 "language": "GDScript",
@@ -21,6 +66,15 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "AK": "",
+"AkAuxData": "",
+"AkEnvironment": "",
+"AkEvent": "",
+"AkEventHandler": "",
+"AkEventHandler2D": "",
+"AkGameObj": "",
+"AkGameObj2D": "",
+"AkGameObjectEnvironmentData": "",
+"AkListener": "",
 "AkUtils": ""
 }
 
@@ -37,7 +91,35 @@ WwiseSettings="res://wwise/wwise_settings.gd"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "wwise_ids_converter" )
+enabled=PoolStringArray( "wwise", "wwise_ids_converter" )
+
+[input]
+
+move_forward={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":87,"unicode":0,"echo":false,"script":null)
+ ]
+}
+move_right={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":68,"unicode":0,"echo":false,"script":null)
+ ]
+}
+move_left={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":65,"unicode":0,"echo":false,"script":null)
+ ]
+}
+move_backward={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":83,"unicode":0,"echo":false,"script":null)
+ ]
+}
+move_sprint={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777237,"unicode":0,"echo":false,"script":null)
+ ]
+}
 
 [rendering]
 

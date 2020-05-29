@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://wwise/nodes/ak_bank_2d.gd" type="Script" id=1]
+[ext_resource path="res://scripts/misc/set_base_path.gd" type="Script" id=2]
+
+[node name="Bank Initialisation 2D" type="Node2D"]
+
+[node name="BasePath" type="Node" parent="."]
+script = ExtResource( 2 )
+
+[node name="Init" type="Node2D" parent="."]
+script = ExtResource( 1 )
+load_on = 1
+
+[node name="Testbank" type="Node2D" parent="."]
+script = ExtResource( 1 )
+bank = 3291379323
+load_on = 3

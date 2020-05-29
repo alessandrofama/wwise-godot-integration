@@ -76,6 +76,10 @@ namespace godot
 		int getSourcePlayPosition(const unsigned int playingID, const bool extrapolate);
 		Dictionary getPlayingSegmentInfo(const unsigned int playingID, const bool extrapolate);
 
+		bool setGameObjectOutputBusVolume(const unsigned int eventID, const unsigned int listenerID, float fControlValue);
+		bool setGameObjectAuxSendValues(const unsigned int eventID, const Array akAuxSendValues, const unsigned int sendValues);
+		bool setObjectObstructionAndOcclusion(const unsigned int eventID, const unsigned int listenerID, float fCalculatedObs, float fCalculatedOcc);
+
 	private:
 		static void eventCallback(AkCallbackType callbackType, AkCallbackInfo* callbackInfo);
 

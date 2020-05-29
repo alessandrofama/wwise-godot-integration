@@ -79,6 +79,7 @@ static const char* WwiseErrorString(AKRESULT errcode)
 }
 
 const float INVALID_RTPC_VALUE = 1.0f;
+const unsigned int AK_MAX_ENVIRONMENTS = 4;
 
 static bool CheckError(const AKRESULT result, const String message, const char* function, const char* file, const int line)
 {
