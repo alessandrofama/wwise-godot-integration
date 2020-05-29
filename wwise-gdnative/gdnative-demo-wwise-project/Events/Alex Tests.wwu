@@ -58,6 +58,17 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="Music_Long_Att" ID="{10B5067E-B3B3-4CBB-BCAF-369C5F677E91}">
+					<ChildrenList>
+						<Action Name="" ID="{FC4D91EE-DD76-4C87-973A-712EFA4D152E}" ShortID="312207700">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Music_Test_01_Long_Attenuation" ID="{12FCACD4-0C10-4487-9D70-D94981D367A8}" WorkUnitID="{7D5184BC-D414-4812-9C0D-76A9619A1055}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

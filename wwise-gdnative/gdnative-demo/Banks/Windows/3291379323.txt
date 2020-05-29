@@ -1,5 +1,6 @@
 Event	ID	Name			Wwise Object Path	Notes
 	1014047073	External_Source_Event			\Alex Tests\External_Source_Event	
+	1272633243	Music_Long_Att			\Alex Tests\Music_Long_Att	
 	1939884427	Music_2D			\Alex Tests\Music_2D	
 	2385628198	Footsteps			\Alex Tests\Footsteps	
 	2787445937	Snyth_One_Test			\Alex Tests\Snyth_One_Test	
@@ -25,6 +26,7 @@ State	ID	Name	State Group			Notes
 
 Custom State	ID	Name	State Group	Owner		Notes
 	195568195	Intense	MusicState	\Interactive Music Hierarchy\Alex\Music_Test_2D\Combat Music\bar_music_BEAT_109		
+	555873370	Intense	MusicState	\Interactive Music Hierarchy\Alex\Music_Test_01_Long_Attenuation\Combat Music\bar_music_BEAT_109		
 	866806263	Intense	MusicState	\Interactive Music Hierarchy\Alex\Music_Test_1\Combat Music\bar_music_BEAT_109		
 
 Game Parameter	ID	Name			Wwise Object Path	Notes
