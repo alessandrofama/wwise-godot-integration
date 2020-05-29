@@ -19,3 +19,7 @@ Release
 ```
 scons target=release platform=windows wwise_sdk="%WWISESDK%"
 ```
+
+### macOS 64-bit (Scons)
+
+TODO
