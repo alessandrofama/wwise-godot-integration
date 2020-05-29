@@ -68,11 +68,13 @@ namespace godot
 		bool postTrigger(const String triggerName, const Object* gameObject);
 		bool postTriggerID(const unsigned int triggerID, const Object* gameObject);
 
-		unsigned int postExternalSource(const String eventName, const Object* gameObject, const String sourceObjectName, const String fileName, const unsigned int idCodec);
-		unsigned int postExternalSourceID(const unsigned int eventID, const Object* gameObject, const unsigned int sourceObjectID, const String fileName, const unsigned int idCodec);
+		unsigned int postExternalSource(const String eventName, const Object* gameObject, const String sourceObjectName, 
+										const String fileName, const unsigned int idCodec);
+		unsigned int postExternalSourceID(const unsigned int eventID, const Object* gameObject, const unsigned int sourceObjectID, 
+										const String fileName, const unsigned int idCodec);
 
-		int getSourcePlayPosition(const unsigned int playingID, bool extrapolate);
-		Dictionary getPlayingSegmentInfo(const unsigned int playingID, bool extrapolate);
+		int getSourcePlayPosition(const unsigned int playingID, const bool extrapolate);
+		Dictionary getPlayingSegmentInfo(const unsigned int playingID, const bool extrapolate);
 
 		bool setGameObjectOutputBusVolume(const unsigned int eventID, const unsigned int listenerID, float fControlValue);
 		bool setGameObjectAuxSendValues(const unsigned int eventID, const Array akAuxSendValues, const unsigned int sendValues);

@@ -116,10 +116,10 @@ static const char* WwiseCallbackToSignal(AkCallbackType callbackType)
 	case AK_MusicSyncAll:				return "music_sync_all";
 	case AK_MIDIEvent:					return "midi_event";
 	case AK_CallbackBits:				return "callback_bits";
-	case AK_EnableGetSourcePlayPosition:return "enable_get_source_play_position";
-	case AK_EnableGetMusicPlayPosition:	return "enable_get_music_play_position";
+	case AK_EnableGetSourcePlayPosition:	return "enable_get_source_play_position";
+	case AK_EnableGetMusicPlayPosition:		return "enable_get_music_play_position";
 	case AK_EnableGetSourceStreamBuffering:	return "enable_get_source_stream_buffering";
-	default:							return "Unknown callback";
+	default:								return "Unknown callback";
 	}
 }
 
