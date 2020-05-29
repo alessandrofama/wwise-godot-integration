@@ -45,6 +45,11 @@
 				</Sound>
 				<Sound Name="synth_one_test" ID="{8CAC6EDA-755C-4587-A8E9-B2E5B78F313F}" ShortID="219235558">
 					<PropertyList>
+						<Property Name="Inclusion" Type="bool">
+							<ValueList>
+								<Value>False</Value>
+							</ValueList>
+						</Property>
 						<Property Name="Pitch" Type="int32">
 							<ValueList>
 								<Value>1200</Value>
@@ -52,7 +57,7 @@
 						</Property>
 						<Property Name="Volume" Type="Real64">
 							<ValueList>
-								<Value>-6</Value>
+								<Value>-11</Value>
 							</ValueList>
 						</Property>
 					</PropertyList>

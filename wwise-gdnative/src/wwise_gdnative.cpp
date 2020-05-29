@@ -94,6 +94,9 @@ void Wwise::_register_methods()
 	register_method("post_external_source_id", &Wwise::postExternalSourceID);
 	register_method("get_source_play_position", &Wwise::getSourcePlayPosition);
 	register_method("get_playing_segment_info", &Wwise::getPlayingSegmentInfo);
+	register_method("set_game_obj_output_bus_volume", &Wwise::setGameObjectOutputBusVolume);
+	register_method("set_game_obj_aux_send_values", &Wwise::setGameObjectAuxSendValues);
+	register_method("set_obj_obstruction_and_occlusion", &Wwise::setObjectObstructionAndOcclusion); 
 
 	REGISTER_GODOT_SIGNAL(AK_EndOfEvent);
 	REGISTER_GODOT_SIGNAL(AK_EndOfDynamicSequenceItem);
@@ -945,4 +948,32 @@ Dictionary Wwise::getPlayingSegmentInfo(const unsigned int playingID, const bool
 	segment["iRemainingLookAheadTime"] = static_cast<int>(segmentInfo.iRemainingLookAheadTime);
 
 	return segment;
+}
+
+bool Wwise::setGameObjectOutputBusVolume(const unsigned int eventID, const unsigned int listenerID, float fControlValue)
+{
+	return ERROR_CHECK(AK::SoundEngine::SetGameObjectOutputBusVolume(static_cast<AkGameObjectID>(eventID), 
+																		static_cast<AkGameObjectID>(listenerID), fControlValue), "Could not set the Game Object Outpus Bus Volume");
+}
+
+bool Wwise::setGameObjectAuxSendValues(const unsigned int eventID, const Array akAuxSendValues, const unsigned int sendValues)
+{
+	AkAuxSendValue environments[AK_MAX_ENVIRONMENTS];
+
+	for (int i = 0; i < akAuxSendValues.size(); i++)
+	{
+		Dictionary auxBusData = akAuxSendValues[i];
+		environments[i].auxBusID = static_cast<const unsigned int>(auxBusData["aux_bus_id"]);
+		environments[i].fControlValue = static_cast<float>(auxBusData["control_value"]);
+		environments[i].listenerID = AK_INVALID_GAME_OBJECT;
+	}
+
+	return ERROR_CHECK(AK::SoundEngine::SetGameObjectAuxSendValues(static_cast<AkGameObjectID>(eventID),
+																	environments, sendValues), "Could not set the Game Object Aux Send Values");
+}
+
+bool Wwise::setObjectObstructionAndOcclusion(const unsigned int eventID, const unsigned int listenerID, float fCalculatedObs, float fCalculatedOcc)
+{
+	return ERROR_CHECK(AK::SoundEngine::SetObjectObstructionAndOcclusion(static_cast<AkGameObjectID>(eventID), 
+																			static_cast<AkGameObjectID>(listenerID), fCalculatedObs, fCalculatedOcc), "Could not set Obstruction and Occlusion");
 }

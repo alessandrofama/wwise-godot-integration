@@ -1,0 +1,64 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://wwise/nodes/ak_event.gd" type="Script" id=1]
+[ext_resource path="res://wwise/nodes/ak_listener.gd" type="Script" id=2]
+[ext_resource path="res://wwise/nodes/ak_state.gd" type="Script" id=3]
+[ext_resource path="res://wwise/nodes/ak_bank.gd" type="Script" id=4]
+
+[sub_resource type="BoxShape" id=1]
+
+[sub_resource type="BoxShape" id=2]
+
+[node name="Main" type="Spatial"]
+
+[node name="Banks" type="Node" parent="."]
+
+[node name="AkBank - INIT" type="Spatial" parent="Banks"]
+script = ExtResource( 4 )
+load_on = 1
+
+[node name="AkBank - TESTBANK" type="Spatial" parent="Banks"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00990868, 0, 0 )
+script = ExtResource( 4 )
+bank = 3291379323
+load_on = 1
+
+[node name="Event Test" type="RigidBody" parent="."]
+mass = 39.51
+gravity_scale = 0.0
+
+[node name="AkEvent" type="Spatial" parent="Event Test"]
+script = ExtResource( 1 )
+event = 3991942870
+trigger_on = 3
+stop_fade_time = 1000
+
+[node name="CollisionShape" type="CollisionShape" parent="Event Test"]
+shape = SubResource( 1 )
+
+[node name="CSGBox" type="CSGBox" parent="Event Test/CollisionShape"]
+
+[node name="AkState" type="Spatial" parent="Event Test"]
+script = ExtResource( 3 )
+state_group = 1021618141
+state_value = 4223512837
+trigger_on = 6
+
+[node name="Rigidbody Test" type="RigidBody" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.45492, 5.21612, -0.169855 )
+input_capture_on_drag = true
+contacts_reported = 1
+contact_monitor = true
+can_sleep = false
+
+[node name="CollisionShape" type="CollisionShape" parent="Rigidbody Test"]
+shape = SubResource( 2 )
+
+[node name="CSGBox" type="CSGBox" parent="Rigidbody Test/CollisionShape"]
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.894084, 0.4479, 0, -0.4479, 0.894084, 0, 3.71821, 8.71377 )
+
+[node name="AkListener" type="Spatial" parent="Camera"]
+script = ExtResource( 2 )
+[connection signal="body_entered" from="Rigidbody Test" to="Event Test/AkState" method="_on_body_entered"]
