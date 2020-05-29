@@ -30,14 +30,8 @@ Custom State	ID	Name	State Group	Owner		Notes
 Game Parameter	ID	Name			Wwise Object Path	Notes
 	2242381963	Enemies			\Alex\Enemies	
 
-Modulator Envelope	ID	Name			Wwise Object Path	Notes
-	1056217185	Modulator Envelope (Custom)				
-
 Trigger	ID	Name			Wwise Object Path	Notes
 	1927797142	MusicTrigger			\Alex\MusicTrigger	
-
-Source plug-ins	ID	Name	Type		Wwise Object Path	Notes
-	936738730	Wwise Synth One	Wwise Synth One		\Actor-Mixer Hierarchy\Default Work Unit\synth_one_test\Wwise Synth One	
 
 External Source	ID	Name			Wwise Object Path	Notes
 	618371124	External_Source			\Default Work Unit\external_source_obj\External_Source	
@@ -50,14 +44,14 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	266509003	otto_footsteps_gravel_4	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Windows\SFX\otto_footsteps_gravel_4_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Gravel\otto_footsteps_gravel_4		50128
 	330814601	otto_footsteps_water_2	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Windows\SFX\otto_footsteps_water_2_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Water\otto_footsteps_water_2		115012
 	368631978	otto_footsteps_grass_3	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Windows\SFX\otto_footsteps_grass_3_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Grass\otto_footsteps_grass_3		69184
-	401793486	bar_music_SEQ1_109	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Windows\SFX\bar_music_SEQ1_109_3D1D1BA5.wem		\Interactive Music Hierarchy\Alex\Music_Test_1\Combat Music\bar_music_SEQ1_109		219775
+	401793486	bar_music_SEQ1_109	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Windows\SFX\bar_music_SEQ1_109_3D1D1BA5.wem		\Interactive Music Hierarchy\Alex\Music_Test_2D\Combat Music\bar_music_SEQ1_109		219775
 	408411585	RevCrash AllOver	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Windows\SFX\RevCrash AllOver_D79FB2B7.wem		\Interactive Music Hierarchy\Alex\Stingers\RevCrash AllOver\RevCrash AllOver		650056
 	433024557	otto_footsteps_wood_1	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Windows\SFX\otto_footsteps_wood_1_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Wood\otto_footsteps_wood_1		47096
 	453536678	otto_footsteps_gravel_5	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Windows\SFX\otto_footsteps_gravel_5_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Gravel\otto_footsteps_gravel_5		108864
 	484615795	piano-100	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Windows\SFX\piano-100_9728D936.wmid		\Interactive Music Hierarchy\Alex\piano-100\piano-100		16992
 	575939703	otto_footsteps_gravel_3	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Windows\SFX\otto_footsteps_gravel_3_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Gravel\otto_footsteps_gravel_3		112032
-	584072642	bar_music_BEAT_109	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Windows\SFX\bar_music_beat_109_3D1D1BA5.wem		\Interactive Music Hierarchy\Alex\Music_Test_1\Combat Music\bar_music_BEAT_109		367041
-	638431784	bar_music_SEQ2_109	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Windows\SFX\bar_music_SEQ2_109_3D1D1BA5.wem		\Interactive Music Hierarchy\Alex\Music_Test_1\Combat Music\bar_music_SEQ2_109		450289
+	584072642	bar_music_BEAT_109	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Windows\SFX\bar_music_beat_109_3D1D1BA5.wem		\Interactive Music Hierarchy\Alex\Music_Test_2D\Combat Music\bar_music_BEAT_109		367041
+	638431784	bar_music_SEQ2_109	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Windows\SFX\bar_music_SEQ2_109_3D1D1BA5.wem		\Interactive Music Hierarchy\Alex\Music_Test_2D\Combat Music\bar_music_SEQ2_109		450289
 	701113954	otto_footsteps_wood_6	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Windows\SFX\otto_footsteps_wood_6_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Wood\otto_footsteps_wood_6		43500
 	709201403	otto_footsteps_gravel_2	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Windows\SFX\otto_footsteps_gravel_2_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Gravel\otto_footsteps_gravel_2		101588
 	710015741	otto_footsteps_water_1	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Windows\SFX\otto_footsteps_water_1_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Water\otto_footsteps_water_1		105512

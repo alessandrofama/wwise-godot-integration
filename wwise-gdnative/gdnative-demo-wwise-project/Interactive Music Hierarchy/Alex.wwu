@@ -5,7 +5,7 @@
 			<ChildrenList>
 				<MusicPlaylistContainer Name="Music_Test_1" ID="{0E619955-125D-4006-B2DD-C1987E84A7D4}" ShortID="580787544">
 					<PropertyList>
-						<Property Name="3DSpatialization" Type="int16" Value="1"/>
+						<Property Name="3DSpatialization" Type="int16" Value="2"/>
 						<Property Name="Tempo" Type="Real64" Value="109"/>
 						<Property Name="UseGameAuxSends" Type="bool" Value="True"/>
 					</PropertyList>
@@ -14,7 +14,8 @@
 							<Custom>
 								<Attenuation Name="Attenuation (Custom)" ID="{E628207D-8A5D-4811-A4EF-A4C33E1E9A22}" ShortID="982682038">
 									<PropertyList>
-										<Property Name="RadiusMax" Type="Real64" Value="30"/>
+										<Property Name="ConeInnerAngle" Type="int32" Value="165"/>
+										<Property Name="RadiusMax" Type="Real64" Value="45"/>
 									</PropertyList>
 									<CurveUsageInfoList>
 										<VolumeDryUsage>
@@ -31,7 +32,7 @@
 															<SegmentShape>Exp2</SegmentShape>
 														</Point>
 														<Point>
-															<XPos>30</XPos>
+															<XPos>45</XPos>
 															<YPos>-200</YPos>
 															<Flags>37</Flags>
 														</Point>
@@ -52,7 +53,32 @@
 											<CurveUsageInfo Platform="Linked" CurveToUse="None"/>
 										</HighPassFilterUsage>
 										<SpreadUsage>
-											<CurveUsageInfo Platform="Linked" CurveToUse="None"/>
+											<CurveUsageInfo Platform="Linked" CurveToUse="Custom">
+												<Curve Name="Spread" ID="{5ED72037-C413-4911-BD30-C1F1161E8A2C}">
+													<PropertyList>
+														<Property Name="Flags" Type="int32" Value="1"/>
+													</PropertyList>
+													<PointList>
+														<Point>
+															<XPos>0</XPos>
+															<YPos>100</YPos>
+															<Flags>5</Flags>
+															<SegmentShape>Log2</SegmentShape>
+														</Point>
+														<Point>
+															<XPos>12.20219</XPos>
+															<YPos>23.37541</YPos>
+															<Flags>0</Flags>
+															<SegmentShape>Exp2</SegmentShape>
+														</Point>
+														<Point>
+															<XPos>45</XPos>
+															<YPos>0</YPos>
+															<Flags>37</Flags>
+														</Point>
+													</PointList>
+												</Curve>
+											</CurveUsageInfo>
 										</SpreadUsage>
 										<FocusUsage>
 											<CurveUsageInfo Platform="Linked" CurveToUse="None"/>

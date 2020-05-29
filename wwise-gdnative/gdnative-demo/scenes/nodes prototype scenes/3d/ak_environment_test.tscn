@@ -1,30 +1,9 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://wwise/nodes/ak_environment.gd" type="Script" id=1]
 [ext_resource path="res://wwise/nodes/ak_bank.gd" type="Script" id=2]
 [ext_resource path="res://wwise/nodes/ak_event.gd" type="Script" id=3]
-[ext_resource path="res://wwise/nodes/ak_listener.gd" type="Script" id=4]
-[ext_resource path="res://scripts/misc/sphere_mover_environment.gd" type="Script" id=5]
-[ext_resource path="res://scripts/misc/third_person_camera.gd" type="Script" id=6]
-
-[sub_resource type="BoxShape" id=1]
-
-[sub_resource type="SphereShape" id=2]
-
-[sub_resource type="BoxShape" id=3]
-extents = Vector3( 1.0365, 0.856177, 1.00627 )
-
-[sub_resource type="BoxShape" id=4]
-extents = Vector3( 0.643546, 1, 1 )
-
-[sub_resource type="SpatialMaterial" id=6]
-albedo_color = Color( 0.458824, 0.458824, 0.458824, 1 )
-
-[sub_resource type="BoxShape" id=11]
-extents = Vector3( 107.792, 1, 136.306 )
-
-[sub_resource type="SpatialMaterial" id=7]
-albedo_color = Color( 0.294118, 0.294118, 0.294118, 1 )
+[ext_resource path="res://scripts/misc/Player.tscn" type="PackedScene" id=4]
 
 [sub_resource type="SpatialMaterial" id=8]
 albedo_color = Color( 0.286275, 0.113725, 0.290196, 1 )
@@ -37,117 +16,168 @@ extents = Vector3( 49.76, 23.7229, 1 )
 [sub_resource type="BoxShape" id=10]
 extents = Vector3( 48.7969, 24.118, 1 )
 
+[sub_resource type="BoxShape" id=4]
+extents = Vector3( 0.643546, 1, 1 )
+
+[sub_resource type="BoxShape" id=1]
+
+[sub_resource type="BoxShape" id=3]
+extents = Vector3( 1.0365, 0.856177, 1.00627 )
+
+[sub_resource type="SpatialMaterial" id=6]
+albedo_color = Color( 0.458824, 0.458824, 0.458824, 1 )
+
+[sub_resource type="BoxShape" id=11]
+extents = Vector3( 107.792, 1, 136.306 )
+
 [node name="Spatial" type="Spatial"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0388641, 4.76837e-07, 0.00125408 )
 
-[node name="StaticBody" type="KinematicBody" parent="."]
-transform = Transform( 0.00247025, -0.000724464, 0.999997, -0.000987655, 0.999999, 0.000726908, -0.999996, -0.000989449, 0.00246954, -12.6425, 4.52658, 96.0153 )
+[node name="Room1" type="Spatial" parent="."]
+transform = Transform( 0.351, 0, 0, 0, 0.575, 0, 0, 0, 0.321, -10.5886, 6.78828, 65.2641 )
 
-[node name="AkEvent" type="Spatial" parent="StaticBody"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.345745, 0.163964, 0.0282364 )
+[node name="CSGBox2" type="CSGBox" parent="Room1"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 27.0458, 17.1895, 112.433 )
+width = 100.0
+height = 50.0
+depth = 1.0
+material = SubResource( 8 )
+
+[node name="StaticBody" type="StaticBody" parent="Room1/CSGBox2"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Room1/CSGBox2/StaticBody"]
+shape = SubResource( 9 )
+
+[node name="CSGBox4" type="CSGBox" parent="Room1"]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -24.4691, 17.1895, 62.9087 )
+width = 100.0
+height = 50.0
+depth = 1.0
+material = SubResource( 8 )
+
+[node name="StaticBody" type="StaticBody" parent="Room1/CSGBox4"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Room1/CSGBox4/StaticBody"]
+shape = SubResource( 10 )
+
+[node name="CSGBox3" type="CSGBox" parent="Room1"]
+transform = Transform( 1, 0, 0, 0, -0.000575944, 1, 0, -1, -0.000575944, 25.4363, -7.83764, 63.0759 )
+width = 100.0
+height = 100.0
+depth = 1.0
+material = SubResource( 8 )
+
+[node name="RoomVerb" type="Area" parent="Room1"]
+transform = Transform( 77.7151, 0, 0, 0, 31.2748, 0, 0, 0, 50.5109, 26.5956, 5.10316, 65.6837 )
+gravity_vec = Vector3( 0, 0, 0 )
+gravity = 0.0
+script = ExtResource( 1 )
+aux_bus_id = 1572913279
+
+[node name="CollisionShape" type="CollisionShape" parent="Room1/RoomVerb"]
+shape = SubResource( 4 )
+
+[node name="Event" type="KinematicBody" parent="Room1"]
+transform = Transform( 0.00703776, -0.002064, 2.84899, -0.00171766, 1.73913, 0.00126419, -3.11525, -0.0030824, 0.00769326, -5.85154, -3.93339, 95.7982 )
+
+[node name="AkEvent" type="Spatial" parent="Room1/Event"]
+transform = Transform( 1, 0, -1.62981e-09, 0, 1, 2.53522e-10, 0, -2.73985e-10, 1, -0.345734, 0.163963, 0.0748301 )
 script = ExtResource( 3 )
 event = 3991942870
 trigger_on = 3
 is_environment_aware = true
 
-[node name="CSGBox2" type="CSGBox" parent="StaticBody"]
+[node name="CSGBox2" type="CSGBox" parent="Room1/Event"]
 
-[node name="CollisionShape" type="CollisionShape" parent="StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="Room1/Event"]
 shape = SubResource( 1 )
 
-[node name="StaticBody2" type="KinematicBody" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9.10978, 4.52658, 35.5894 )
+[node name="Room2" type="Spatial" parent="."]
+transform = Transform( 0.175, 0, 0, 0, 0.287, 0, 0, 0, 0.16, -10.5147, 4.59858, 22.0028 )
+
+[node name="CSGBox2" type="CSGBox" parent="Room2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 27.0458, 17.1895, 112.433 )
+width = 100.0
+height = 50.0
+depth = 1.0
+
+[node name="CSGBox4" type="CSGBox" parent="Room2"]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -24.4691, 17.1895, 62.9087 )
+width = 100.0
+height = 50.0
+depth = 1.0
+
+[node name="CSGBox3" type="CSGBox" parent="Room2"]
+transform = Transform( 1, 0, 0, 0, -0.000575944, 1, 0, -1, -0.000575944, 25.4363, -7.83764, 63.0759 )
+width = 100.0
+height = 100.0
+depth = 1.0
+
+[node name="SmallVerb" type="Area" parent="Room2"]
+transform = Transform( 43.6003, 0, 0, 0, 62.6578, 0, 0, 0, 42.0976, 24.6412, -10.5229, 66.3681 )
+script = ExtResource( 1 )
+aux_bus_id = 117523933
+
+[node name="CollisionShape" type="CollisionShape" parent="Room2/SmallVerb"]
+shape = SubResource( 3 )
+
+[node name="Event2" type="KinematicBody" parent="Room2"]
+transform = Transform( 5.71429, 0, 0, 0, 3.48432, 0, 0, 0, 6.25, 8.02813, -0.250871, 84.9165 )
 collision_layer = 0
 
-[node name="AkEvent" type="Spatial" parent="StaticBody2"]
+[node name="AkEvent" type="Spatial" parent="Room2/Event2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.744938, -1.08244, 0.0169868 )
 script = ExtResource( 3 )
 event = 3991942870
 trigger_on = 3
 is_environment_aware = true
 
-[node name="CSGBox2" type="CSGBox" parent="StaticBody2"]
+[node name="CSGBox2" type="CSGBox" parent="Room2/Event2"]
 
-[node name="CollisionShape" type="CollisionShape" parent="StaticBody2"]
+[node name="CollisionShape" type="CollisionShape" parent="Room2/Event2"]
 shape = SubResource( 1 )
 
-[node name="StaticBody3" type="KinematicBody" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 67.666, 4.52658, 58.4757 )
+[node name="Room3" type="Spatial" parent="."]
+transform = Transform( -7.64949e-09, 0, 0.16, 0, 0.287, 0, -0.175, 0, -6.99382e-09, 53.3249, 4.59858, 60.1244 )
+
+[node name="CSGBox2" type="CSGBox" parent="Room3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 27.0458, 17.1895, 112.433 )
+width = 100.0
+height = 50.0
+depth = 1.0
+
+[node name="CSGBox4" type="CSGBox" parent="Room3"]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -24.4691, 17.1895, 62.9087 )
+width = 100.0
+height = 50.0
+depth = 1.0
+
+[node name="CSGBox3" type="CSGBox" parent="Room3"]
+transform = Transform( 1, 0, 0, 0, -0.000575944, 1, 0, -1, -0.000575944, 25.4363, -7.83764, 63.0759 )
+width = 100.0
+height = 100.0
+depth = 1.0
+
+[node name="Event3" type="KinematicBody" parent="Room3"]
+transform = Transform( -2.49779e-07, 0, -5.71429, 0, 3.48432, 0, 6.25, 0, -2.73196e-07, 9.42105, -0.250871, 89.6319 )
 collision_layer = 0
 
-[node name="AkEvent" type="Spatial" parent="StaticBody3"]
+[node name="AkEvent" type="Spatial" parent="Room3/Event3"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.744938, -1.08244, -0.965607 )
 script = ExtResource( 3 )
 event = 3991942870
 trigger_on = 3
 is_environment_aware = true
 
-[node name="CSGBox2" type="CSGBox" parent="StaticBody3"]
+[node name="CSGBox2" type="CSGBox" parent="Room3/Event3"]
 
-[node name="CollisionShape" type="CollisionShape" parent="StaticBody3"]
+[node name="CollisionShape" type="CollisionShape" parent="Room3/Event3"]
 shape = SubResource( 1 )
 
-[node name="Target" type="Spatial" parent="."]
-transform = Transform( 0.0528414, 0, -0.998603, 0, 1, 0, 0.998603, 0, 0.0528414, 15.0204, 5.79474, 33.9885 )
-
-[node name="Camera" type="Camera" parent="Target"]
-transform = Transform( -0.995411, -0.0231103, 0.092863, 0.0453403, 0.740671, 0.670336, -0.0842726, 0.67147, -0.736224, -0.373859, 13.9724, -11.3564 )
-v_offset = 2.169
-current = true
-fov = 83.6
-near = 0.79
-script = ExtResource( 6 )
-min_distance = 4.155
-max_distance = 8.19
-target = NodePath("../Kinematic")
-
-[node name="Kinematic" type="KinematicBody" parent="Target"]
-transform = Transform( 1, 0, -2.98023e-08, 0, 1, 0, 0, 0, 1, -9.53674e-07, 0, 0 )
-collision_layer = 0
-script = ExtResource( 5 )
-cam = NodePath("../Camera")
-
-[node name="CollisionShape" type="CollisionShape" parent="Target/Kinematic"]
-shape = SubResource( 2 )
-
-[node name="AkListener" type="Spatial" parent="Target/Kinematic/CollisionShape"]
-script = ExtResource( 4 )
-
-[node name="CSGSphere" type="CSGSphere" parent="Target/Kinematic"]
-
-[node name="Target" type="Spatial" parent="Target"]
-transform = Transform( -0.676612, 0.12507, 0.0764476, 0.0980726, 0.717161, 0.681998, 0.0208429, 0.685593, -0.727347, -1.1192, 5.12974, -6.51433 )
-
-[node name="AkEnvironment" type="Area" parent="."]
-transform = Transform( 47.993, 0, 0, 0, 36.135, 0, 0, 0, 46.456, 26.1987, 43.563, 65.9708 )
-gravity_vec = Vector3( 0, 0, 0 )
-gravity = 0.0
-priority = 1.0
-script = ExtResource( 1 )
-aux_bus_id = 2757439665
-env_priority = 1
-
-[node name="CollisionShape" type="CollisionShape" parent="AkEnvironment"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.287959, -0.0808637 )
-shape = SubResource( 3 )
-
-[node name="AkEnvironment2" type="Area" parent="."]
-transform = Transform( 27.278, 0, 0, 0, 17.983, 0, 0, 0, 16.214, -1.25356, 9.7226, 86.3485 )
-gravity_vec = Vector3( 0, 0, 0 )
-gravity = 0.0
-script = ExtResource( 1 )
-aux_bus_id = 1572913279
-
-[node name="CollisionShape" type="CollisionShape" parent="AkEnvironment2"]
-shape = SubResource( 4 )
-
-[node name="AkEnvironment3" type="Area" parent="."]
-transform = Transform( 7.63005, 0, 0, 0, 17.9828, 0, 0, 0, 6.73561, -6.20249, 1.57849, 32.6217 )
-script = ExtResource( 1 )
-aux_bus_id = 117523933
-
-[node name="CollisionShape" type="CollisionShape" parent="AkEnvironment3"]
-shape = SubResource( 3 )
+[node name="Player" parent="." instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 23.6754, 11.0902, 31.338 )
+walk_speed = 20
+sprint_speed = 30
 
 [node name="AkBank" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.7226, 0 )
@@ -160,119 +190,32 @@ script = ExtResource( 2 )
 bank = 3291379323
 load_on = 1
 
-[node name="CSGBox" type="CSGBox" parent="."]
+[node name="LargeVerb" type="Area" parent="."]
+transform = Transform( 47.993, 0, 0, 0, 36.135, 0, 0, 0, 46.456, 26.1987, 43.563, 65.9708 )
+gravity_vec = Vector3( 0, 0, 0 )
+gravity = 0.0
+priority = 1.0
+script = ExtResource( 1 )
+aux_bus_id = 2757439665
+env_priority = 1
+
+[node name="CollisionShape" type="CollisionShape" parent="LargeVerb"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.287959, -0.0808637 )
+shape = SubResource( 3 )
+
+[node name="Floor" type="CSGBox" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.56943, 0 )
 width = 300.0
 height = 1.0
 depth = 300.0
 material = SubResource( 6 )
 
-[node name="StaticBody" type="StaticBody" parent="CSGBox"]
+[node name="StaticBody" type="StaticBody" parent="Floor"]
 
-[node name="CollisionShape" type="CollisionShape" parent="CSGBox/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="Floor/StaticBody"]
 shape = SubResource( 11 )
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 transform = Transform( 1, 0, 0, 0, -0.916649, 0.399693, 0, -0.399693, -0.916649, 0, 9.7226, 0 )
 shadow_enabled = true
 shadow_bias = -0.01
-
-[node name="Node" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.7226, 0 )
-
-[node name="CSGBox2" type="CSGBox" parent="Node"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 27.0458, 17.1895, 112.433 )
-width = 100.0
-height = 50.0
-depth = 1.0
-material = SubResource( 7 )
-
-[node name="CSGBox4" type="CSGBox" parent="Node"]
-transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -24.4691, 17.1895, 62.9087 )
-width = 100.0
-height = 50.0
-depth = 1.0
-material = SubResource( 7 )
-
-[node name="CSGBox3" type="CSGBox" parent="Node"]
-transform = Transform( 1, 0, 0, 0, -0.000575944, 1, 0, -1, -0.000575944, 25.4363, -7.83764, 63.0759 )
-width = 100.0
-height = 100.0
-depth = 1.0
-material = SubResource( 7 )
-
-[node name="Node2" type="Spatial" parent="."]
-transform = Transform( 0.351, 0, 0, 0, 0.575, 0, 0, 0, 0.321, -10.5886, 6.78828, 65.2641 )
-
-[node name="CSGBox2" type="CSGBox" parent="Node2"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 27.0458, 17.1895, 112.433 )
-width = 100.0
-height = 50.0
-depth = 1.0
-material = SubResource( 8 )
-
-[node name="StaticBody" type="StaticBody" parent="Node2/CSGBox2"]
-
-[node name="CollisionShape" type="CollisionShape" parent="Node2/CSGBox2/StaticBody"]
-shape = SubResource( 9 )
-
-[node name="CSGBox4" type="CSGBox" parent="Node2"]
-transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -24.4691, 17.1895, 62.9087 )
-width = 100.0
-height = 50.0
-depth = 1.0
-material = SubResource( 8 )
-
-[node name="StaticBody" type="StaticBody" parent="Node2/CSGBox4"]
-
-[node name="CollisionShape" type="CollisionShape" parent="Node2/CSGBox4/StaticBody"]
-shape = SubResource( 10 )
-
-[node name="CSGBox3" type="CSGBox" parent="Node2"]
-transform = Transform( 1, 0, 0, 0, -0.000575944, 1, 0, -1, -0.000575944, 25.4363, -7.83764, 63.0759 )
-width = 100.0
-height = 100.0
-depth = 1.0
-material = SubResource( 8 )
-
-[node name="Node3" type="Spatial" parent="."]
-transform = Transform( 0.175, 0, 0, 0, 0.287, 0, 0, 0, 0.16, -10.5147, 4.59858, 22.0028 )
-
-[node name="CSGBox2" type="CSGBox" parent="Node3"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 27.0458, 17.1895, 112.433 )
-width = 100.0
-height = 50.0
-depth = 1.0
-
-[node name="CSGBox4" type="CSGBox" parent="Node3"]
-transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -24.4691, 17.1895, 62.9087 )
-width = 100.0
-height = 50.0
-depth = 1.0
-
-[node name="CSGBox3" type="CSGBox" parent="Node3"]
-transform = Transform( 1, 0, 0, 0, -0.000575944, 1, 0, -1, -0.000575944, 25.4363, -7.83764, 63.0759 )
-width = 100.0
-height = 100.0
-depth = 1.0
-
-[node name="Node4" type="Spatial" parent="."]
-transform = Transform( -7.64949e-09, 0, 0.16, 0, 0.287, 0, -0.175, 0, -6.99382e-09, 53.3249, 4.59858, 60.1244 )
-
-[node name="CSGBox2" type="CSGBox" parent="Node4"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 27.0458, 17.1895, 112.433 )
-width = 100.0
-height = 50.0
-depth = 1.0
-
-[node name="CSGBox4" type="CSGBox" parent="Node4"]
-transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -24.4691, 17.1895, 62.9087 )
-width = 100.0
-height = 50.0
-depth = 1.0
-
-[node name="CSGBox3" type="CSGBox" parent="Node4"]
-transform = Transform( 1, 0, 0, 0, -0.000575944, 1, 0, -1, -0.000575944, 25.4363, -7.83764, 63.0759 )
-width = 100.0
-height = 100.0
-depth = 1.0
