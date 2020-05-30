@@ -60,6 +60,7 @@ Wwise::~Wwise()
 void Wwise::_register_methods()
 {
 	register_method("_process", &Wwise::_process);
+	register_method("set_current_language", &Wwise::setCurrentLanguage);
 	register_method("load_bank", &Wwise::loadBank);
 	register_method("load_bank_id", &Wwise::loadBankID);
 	register_method("unload_bank", &Wwise::unloadBank);
@@ -126,13 +127,14 @@ void Wwise::_init()
 	if (!initialisationResult)
 	{
 		ERROR_CHECK(AK_Fail, "Wwise systems initialisation failed!");
+		return;
 	}
 	else
 	{
 		Godot::print("Wwise systems initialisation succeeded");
 	}
 
-	String basePath = getPlatformProjectSetting("wwise/common_user_settings/base_path");
+	String basePath = getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + "base_path");
 	MAP_PATH(basePath);
 
 #ifdef AK_WIN
@@ -147,7 +149,13 @@ void Wwise::_init()
 #error "Platform not supported"
 #endif
 
-	setBasePath(basePath);
+	bool setBasePathResult = setBasePath(basePath);
+	AKASSERT(setBasePathResult);
+
+	String startupLanguage = getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + "startup_language");
+
+	bool setCurrentLanguageResult = setCurrentLanguage(startupLanguage);
+	AKASSERT(setCurrentLanguageResult);
 }
 
 void Wwise::_process(const float delta)
@@ -167,6 +175,19 @@ bool Wwise::setBasePath(const String basePath)
 	AKASSERT(basePathOsString);
 
 	return ERROR_CHECK(lowLevelIO.SetBasePath(basePathOsString), basePath);
+}
+
+bool Wwise::setCurrentLanguage(const String language)
+{
+	AKASSERT(!language.empty());
+
+	AkOSChar* languageOsString = nullptr;
+
+	const wchar_t* languageChar = language.unicode_str();
+	CONVERT_WIDE_TO_OSCHAR(languageChar, languageOsString);
+	AKASSERT(languageOsString);
+
+	return ERROR_CHECK(AK::StreamMgr::SetCurrentLanguage(languageOsString), language);
 }
 
 bool Wwise::loadBank(const String bankName)
