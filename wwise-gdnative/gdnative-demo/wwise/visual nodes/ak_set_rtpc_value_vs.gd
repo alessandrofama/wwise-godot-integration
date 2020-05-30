@@ -1,7 +1,7 @@
 tool
 extends VisualScriptCustomNode
 
-export(AK.GAME_PARAMETERS._enum) var game_parameter:int
+export(AK.GAME_PARAMETERS._enum) var game_parameter:int = 0
 
 func _get_caption():
 	return "Ak Set RTPC Value"

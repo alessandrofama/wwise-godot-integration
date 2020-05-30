@@ -42,7 +42,7 @@ func _get_output_value_port_name(idx):
 		0: return "Playing ID"
 		1: return "Game Object"
 	
-func _step(inputs, outputs, start_mode, _working_mem):
+func _step(inputs, outputs, _start_mode, _working_mem):
 	Wwise.register_game_obj(self, "ID: " + String(event))
 	var playing_id = Wwise.post_event_id(event, self)
 	Wwise.set_3d_position(self, inputs[0])
