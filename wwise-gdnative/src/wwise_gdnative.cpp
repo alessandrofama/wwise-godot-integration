@@ -60,7 +60,6 @@ Wwise::~Wwise()
 void Wwise::_register_methods()
 {
 	register_method("_process", &Wwise::_process);
-	register_method("set_base_path", &Wwise::setBasePath);
 	register_method("load_bank", &Wwise::loadBank);
 	register_method("load_bank_id", &Wwise::loadBankID);
 	register_method("unload_bank", &Wwise::unloadBank);
@@ -119,6 +118,8 @@ void Wwise::_init()
 {
 	signalDataMutex = Mutex::_new();
 	signalDataArray = new Array();
+	projectSettings = ProjectSettings::get_singleton();
+	AKASSERT(projectSettings);
 
 	bool initialisationResult = initialiseWwiseSystems();
 
@@ -130,6 +131,23 @@ void Wwise::_init()
 	{
 		Godot::print("Wwise systems initialisation succeeded");
 	}
+
+	String basePath = getPlatformProjectSetting("wwise/common_user_settings/base_path");
+	MAP_PATH(basePath);
+
+#ifdef AK_WIN
+	basePath += "/Windows";
+#elif defined(AK_MAC_OS_X)
+	basePath += "/Mac";
+#elif defined(AK_IOS)
+	basePath += "/iOS";
+#elif defined(AK_ANDROID)
+	basePath += "/Android";
+#else
+#error "Platform not supported"
+#endif
+
+	setBasePath(basePath);
 }
 
 void Wwise::_process(const float delta)
@@ -887,6 +905,43 @@ void Wwise::emitSignals()
 	AKASSERT(signalDataArray->size() == 0);
 
 	signalDataMutex->unlock();
+}
+
+Variant Wwise::getPlatformProjectSetting(const String setting)
+{
+	AKASSERT(projectSettings);
+	AKASSERT(!setting.empty());
+
+	String platformSetting = setting;
+
+#ifdef AK_WIN
+	platformSetting += GODOT_WINDOWS_SETTING_POSTFIX;
+#elif defined(AK_MAC_OS_X)
+	platformSetting += GODOT_MAC_OSX_SETTING_POSTFIX;
+#elif defined(AK_IOS)
+	platformSetting += GODOT_IOS_SETTING_POSTFIX;
+#elif defined(AK_ANDROID)
+	platformSetting += GODOT_ANDROID_SETTING_POSTFIX;
+#else
+#error "Platform not supported"
+#endif
+
+	// Try to get the platform-specific setting, if it exists
+	if (projectSettings && projectSettings->has_setting(platformSetting))
+	{
+		return projectSettings->get(platformSetting);
+	}
+
+	// Otherwise, try to get the default platform-agnostic setting
+	if (projectSettings && projectSettings->has_setting(setting))
+	{
+		return projectSettings->get(setting);
+	}
+	else
+	{
+		AKASSERT(false);
+		return "";
+	}
 }
 
 bool Wwise::initialiseWwiseSystems()

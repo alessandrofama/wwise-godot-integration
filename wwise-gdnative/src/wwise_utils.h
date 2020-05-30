@@ -5,6 +5,14 @@
 
 using namespace godot;
 
+#ifdef __ANDROID__
+#define MAP_PATH(path) \
+    path = path.replace("res://", "file:///android_asset/");
+#else
+#define MAP_PATH(path) \
+    path = path.replace("res://", "./");
+#endif
+
 static const char* WwiseErrorString(AKRESULT errcode)
 {
 	switch (errcode)

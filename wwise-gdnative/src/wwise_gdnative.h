@@ -7,6 +7,7 @@
 #include <Object.hpp>
 #include <Spatial.hpp>
 #include <Mutex.hpp>
+#include <ProjectSettings.hpp>
 
 #include <AK/SoundEngine/Common/AkSoundEngine.h> 
 #include <AK/SoundEngine/Common/AkMemoryMgr.h>
@@ -81,15 +82,23 @@ namespace godot
 		bool setObjectObstructionAndOcclusion(const unsigned int eventID, const unsigned int listenerID, float fCalculatedObs, float fCalculatedOcc);
 
 	private:
-		static void eventCallback(AkCallbackType callbackType, AkCallbackInfo* callbackInfo);
+		const String GODOT_WINDOWS_SETTING_POSTFIX = ".Windows";
+		const String GODOT_MAC_OSX_SETTING_POSTFIX = ".OSX";
+		const String GODOT_IOS_SETTING_POSTFIX = ".iOS";
+		const String GODOT_ANDROID_SETTING_POSTFIX = ".Android";
 
+		static void eventCallback(AkCallbackType callbackType, AkCallbackInfo* callbackInfo);
 		void emitSignals();
+
+		Variant getPlatformProjectSetting(const String setting);
+
 		bool initialiseWwiseSystems();
 		bool shutdownWwiseSystems();
 
 		static Mutex* signalDataMutex;
 		static Array* signalDataArray;
 
+		ProjectSettings* projectSettings;
 		CAkDefaultIOHookBlocking lowLevelIO;
 	};
 }
