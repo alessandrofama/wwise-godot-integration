@@ -4,7 +4,7 @@ extends VisualScriptCustomNode
 export(AK.EVENTS._enum) var event:int
 
 func _get_caption():
-	return "Post Ak Event"
+	return "Ak Post Event"
 	
 func _get_category():
 	return "Wwise"
@@ -43,12 +43,11 @@ func _get_output_value_port_name(idx):
 		1: return "Game Object"
 	
 func _step(inputs, outputs, start_mode, _working_mem):
-	if start_mode == START_MODE_BEGIN_SEQUENCE:
-		Wwise.register_game_obj(self, "ID: " + String(event))
-		var playing_id = Wwise.post_event_id(event, self)
-		Wwise.set_3d_position(self, inputs[0])
+	Wwise.register_game_obj(self, "ID: " + String(event))
+	var playing_id = Wwise.post_event_id(event, self)
+	Wwise.set_3d_position(self, inputs[0])
 		
-		outputs[0] = playing_id
-		outputs[1] = self
+	outputs[0] = playing_id
+	outputs[1] = self
 	
 	return 0
