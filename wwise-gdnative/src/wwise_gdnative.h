@@ -16,6 +16,7 @@
 #include <AK/Tools/Common/AkPlatformFuncs.h>
 #include <AK/MusicEngine/Common/AkMusicEngine.h>
 #include <AK/SoundEngine/Common/AkQueryParameters.h>
+#include <AK/SpatialAudio/Common/AkSpatialAudio.h>  
 #include <AkDefaultIOHookBlocking.h>
 
 #include "wwise_utils.h"
@@ -81,6 +82,9 @@ namespace godot
 		bool setGameObjectOutputBusVolume(const unsigned int eventID, const unsigned int listenerID, float fControlValue);
 		bool setGameObjectAuxSendValues(const unsigned int eventID, const Array akAuxSendValues, const unsigned int sendValues);
 		bool setObjectObstructionAndOcclusion(const unsigned int eventID, const unsigned int listenerID, float fCalculatedObs, float fCalculatedOcc);
+
+		bool setGeometry(Array vertices, Array triangles, Object* gameObject);
+		bool registerSpatialListener(const Object* gameObject);
 
 	private:
 		const String GODOT_WINDOWS_SETTING_POSTFIX = ".Windows";
