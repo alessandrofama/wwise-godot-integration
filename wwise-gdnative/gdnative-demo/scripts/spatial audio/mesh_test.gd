@@ -28,11 +28,10 @@ func set_geometry() -> void:
 		triangles.append(b)
 		triangles.append(c)
 		
-		Wwise.set_geometry(vertices, triangles, self)
-		vertices.clear()
-		triangles.clear()
+	Wwise.set_geometry(vertices, triangles, self)
+	vertices.clear()
+	triangles.clear()
 
-func _input(ev):
-	if Input.is_key_pressed(KEY_G):
+func _ready():
 		set_geometry()
 		
