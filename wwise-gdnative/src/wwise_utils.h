@@ -140,7 +140,7 @@ enum class VectorType
 
 static inline void Vector3ToAkVector(const Vector3& inVector, AkVector& outVector)
 {
-	outVector.X = inVector.x;
+	outVector.X = -inVector.x;
 	outVector.Y = inVector.y;
 	outVector.Z = inVector.z;
 }
