@@ -97,6 +97,8 @@ void Wwise::_register_methods()
 	register_method("set_game_obj_output_bus_volume", &Wwise::setGameObjectOutputBusVolume);
 	register_method("set_game_obj_aux_send_values", &Wwise::setGameObjectAuxSendValues);
 	register_method("set_obj_obstruction_and_occlusion", &Wwise::setObjectObstructionAndOcclusion); 
+	register_method("set_geometry", &Wwise::setGeometry);
+	register_method("register_spatial_listener", &Wwise::registerSpatialListener);
 
 	REGISTER_GODOT_SIGNAL(AK_EndOfEvent);
 	REGISTER_GODOT_SIGNAL(AK_EndOfDynamicSequenceItem);
@@ -982,4 +984,53 @@ bool Wwise::setObjectObstructionAndOcclusion(const unsigned int eventID, const u
 {
 	return ERROR_CHECK(AK::SoundEngine::SetObjectObstructionAndOcclusion(static_cast<AkGameObjectID>(eventID), 
 																			static_cast<AkGameObjectID>(listenerID), fCalculatedObs, fCalculatedOcc), "Could not set Obstruction and Occlusion");
+}
+
+
+bool Wwise::setGeometry(Array vertices, Array triangles, Object* gameObject)
+{
+	AkGeometryParams geometry;
+
+	int vertexCount = vertices.size();
+	geometry.NumVertices = vertexCount;
+
+	auto akVertices = std::make_unique<AkVertex[]>(vertexCount);
+
+	for (int i = 0; i < vertexCount; i++)
+	{
+		Vector3 point = vertices[i];
+		akVertices[i].X = -point.x;		// Seems to be flipped in Wwise otherwise
+		akVertices[i].Y = point.y;
+		akVertices[i].Z = point.z;
+	}
+
+	geometry.Vertices = akVertices.get();
+
+	int numTriangles = triangles.size() / 3;
+	geometry.NumTriangles = numTriangles;
+
+	auto akTriangles = std::make_unique<AkTriangle[]>(numTriangles);
+
+	for (int i = 0; i < numTriangles; i++)
+	{
+		akTriangles[i].point0 = triangles[3 * i + 0];
+		akTriangles[i].point1 = triangles[3 * i + 1];
+		akTriangles[i].point2 = triangles[3 * i + 2];
+		akTriangles[i].surface = AK_INVALID_SURFACE;
+	}
+
+	geometry.Triangles = akTriangles.get();
+
+	geometry.NumSurfaces = 0;
+	geometry.Surfaces = NULL;
+	geometry.EnableDiffraction = true;
+
+	geometry.EnableDiffractionOnBoundaryEdges = false;
+
+	return ERROR_CHECK(AK::SpatialAudio::SetGeometry(static_cast<AkGeometrySetID>(gameObject->get_instance_id()), geometry), "Failed to register geometry");
+}
+
+bool Wwise::registerSpatialListener(const Object* gameObject)
+{
+	return ERROR_CHECK(AK::SpatialAudio::RegisterListener(static_cast<AkGameObjectID>(gameObject->get_instance_id())), "Failed to register Spatial Audio Listener");
 }
