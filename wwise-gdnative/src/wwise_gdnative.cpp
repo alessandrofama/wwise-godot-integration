@@ -583,7 +583,6 @@ bool Wwise::setObjectObstructionAndOcclusion(const unsigned int eventID, const u
 																			static_cast<AkGameObjectID>(listenerID), fCalculatedObs, fCalculatedOcc), "Could not set Obstruction and Occlusion");
 }
 
-
 bool Wwise::setGeometry(Array vertices, Array triangles, Object* gameObject)
 {
 	AkGeometryParams geometry;
@@ -608,8 +607,8 @@ bool Wwise::setGeometry(Array vertices, Array triangles, Object* gameObject)
 	geometry.NumTriangles = numTriangles;
 	auto akTriangles = std::make_unique<AkTriangle[]>(numTriangles);
 
-	{
 	for (int i = 0; i < numTriangles; i++)
+	{
 		akTriangles[i].point0 = triangles[3 * i + 0];
 		akTriangles[i].point1 = triangles[3 * i + 1];
 		akTriangles[i].point2 = triangles[3 * i + 2];
@@ -1051,6 +1050,12 @@ bool Wwise::initialiseWwiseSystems()
 	AkMusicSettings musicInit;
 	AK::MusicEngine::GetDefaultInitSettings(musicInit);
 	if (!ERROR_CHECK(AK::MusicEngine::Init(&musicInit), "Music engine initialisation failed"))
+	{
+		return false;
+	}
+
+	AkSpatialAudioInitSettings settings;
+	if (!ERROR_CHECK(AK::SpatialAudio::Init(settings), "Spatial Audio initialisation failed"))
 	{
 		return false;
 	}
