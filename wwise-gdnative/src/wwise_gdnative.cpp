@@ -583,7 +583,7 @@ bool Wwise::setObjectObstructionAndOcclusion(const unsigned int eventID, const u
 																			static_cast<AkGameObjectID>(listenerID), fCalculatedObs, fCalculatedOcc), "Could not set Obstruction and Occlusion");
 }
 
-bool Wwise::setGeometry(Array vertices, Array triangles, Object* gameObject)
+bool Wwise::setGeometry(const Array vertices, const Array triangles, const Object* gameObject)
 {
 	AkGeometryParams geometry;
 

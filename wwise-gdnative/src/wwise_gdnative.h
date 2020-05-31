@@ -83,7 +83,7 @@ namespace godot
 		bool setGameObjectAuxSendValues(const unsigned int eventID, const Array akAuxSendValues, const unsigned int sendValues);
 		bool setObjectObstructionAndOcclusion(const unsigned int eventID, const unsigned int listenerID, float fCalculatedObs, float fCalculatedOcc);
 
-		bool setGeometry(Array vertices, Array triangles, Object* gameObject);
+		bool setGeometry(const Array vertices, const Array triangles, const Object* gameObject);
 		bool registerSpatialListener(const Object* gameObject);
 
 	private:
