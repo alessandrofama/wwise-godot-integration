@@ -7,6 +7,7 @@
 #include <Object.hpp>
 #include <Spatial.hpp>
 #include <Mutex.hpp>
+#include <ProjectSettings.hpp>
 
 #include <AK/SoundEngine/Common/AkSoundEngine.h> 
 #include <AK/SoundEngine/Common/AkMemoryMgr.h>
@@ -39,6 +40,7 @@ namespace godot
 		void _process(const float delta);
 
 		bool setBasePath(const String basePath);
+		bool setCurrentLanguage(const String language);
 		bool loadBank(const String bankName);
 		bool loadBankID(const unsigned int bankID);
 		bool unloadBank(const String bankName);
@@ -85,15 +87,25 @@ namespace godot
 		bool registerSpatialListener(const Object* gameObject);
 
 	private:
-		static void eventCallback(AkCallbackType callbackType, AkCallbackInfo* callbackInfo);
+		const String GODOT_WINDOWS_SETTING_POSTFIX = ".Windows";
+		const String GODOT_MAC_OSX_SETTING_POSTFIX = ".OSX";
+		const String GODOT_IOS_SETTING_POSTFIX = ".iOS";
+		const String GODOT_ANDROID_SETTING_POSTFIX = ".Android";
 
+		const String WWISE_COMMON_USER_SETTINGS_PATH = "wwise/common_user_settings/";
+
+		static void eventCallback(AkCallbackType callbackType, AkCallbackInfo* callbackInfo);
 		void emitSignals();
+
+		Variant getPlatformProjectSetting(const String setting);
+
 		bool initialiseWwiseSystems();
 		bool shutdownWwiseSystems();
 
 		static Mutex* signalDataMutex;
 		static Array* signalDataArray;
 
+		ProjectSettings* projectSettings;
 		CAkDefaultIOHookBlocking lowLevelIO;
 	};
 }

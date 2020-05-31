@@ -1,9 +1,6 @@
 extends Node
 
-func _enter_tree():
-
-	Wwise.set_base_path("Banks/Windows/")
-	
+func _enter_tree():	
 	var initBankResult = Wwise.load_bank_id(AK.BANKS.INIT)
 	print("Init Bank result: ", initBankResult)
 	

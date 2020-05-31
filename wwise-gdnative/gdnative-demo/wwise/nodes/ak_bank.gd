@@ -6,8 +6,7 @@ export(AkUtils.GameEvent) var load_on:int = AkUtils.GameEvent.NONE
 export(AkUtils.GameEvent) var unload_on:int = AkUtils.GameEvent.NONE
 
 func _init() -> void:
-	# placeholder setting base path here
-	Wwise.set_base_path("Banks/Windows/")
+	pass
 
 func handle_game_event(gameEvent:int) -> void:
 	if load_on == gameEvent:
