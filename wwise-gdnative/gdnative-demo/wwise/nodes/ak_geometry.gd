@@ -2,8 +2,9 @@ extends Spatial
 
 var vertices = []
 var triangles = []
-
 var mesh_instance
+
+export(bool) var is_static:bool = true
 
 func create_mesh_data_tool(mesh:Mesh) -> MeshDataTool:
 	var array_mesh = mesh
@@ -37,3 +38,9 @@ func set_geometry(mesh_instance:MeshInstance) -> void:
 func _ready():
 	mesh_instance = get_parent()
 	set_geometry(mesh_instance)
+	if not is_static:
+		set_notify_transform(true)
+	
+func _notification(notification):
+	if(notification == NOTIFICATION_TRANSFORM_CHANGED):
+		set_geometry(mesh_instance)

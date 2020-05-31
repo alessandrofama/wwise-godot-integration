@@ -24,12 +24,13 @@ material/0 = null
 script = ExtResource( 1 )
 
 [node name="Cube4" type="MeshInstance" parent="."]
-transform = Transform( 1.99159, 0, 0, 0, 1.9824, 0, 0, 0, 1.84247, -20.4651, 1.90735e-06, -0.0822898 )
+transform = Transform( 1.99159, 0, 0, 0, 1.9824, 0, 0, 0, 1.84247, -20.4651, 1.90735e-06, -1.24314 )
 mesh = SubResource( 2 )
 material/0 = null
 
 [node name="AkGeometry" type="Spatial" parent="Cube4"]
 script = ExtResource( 1 )
+is_static = false
 
 [node name="Cube5" type="MeshInstance" parent="."]
 transform = Transform( 1.99159, 0, 0, 0, 1.44418, 1.26217, 0, -1.35803, 1.34224, 23.7317, 13.1035, -0.238576 )
