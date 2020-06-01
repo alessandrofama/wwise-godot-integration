@@ -21,6 +21,8 @@ var ray:RayCast
 var colliding_objects:Array = []
 var ak_environment_data:AkGameObjectEnvironmentData
 
+var last_position:Vector3
+
 func _enter_tree():
 	register_game_object(self, self.get_name())
 	
@@ -125,7 +127,9 @@ func stop_event() -> void:
 	Wwise.stop_event(playingID, stop_fade_time, interpolation_mode)
 	
 func _process(_delta) -> void:
-	Wwise.set_3d_position(self, get_global_transform())
+	if not get_global_transform().origin == last_position:
+		Wwise.set_3d_position(self, get_global_transform())
+		last_position = get_global_transform().origin
 	if is_environment_aware:
 		ak_environment_data.update_aux_send(self, self.get_global_transform().origin)
 	

@@ -6,6 +6,7 @@
 				<MusicPlaylistContainer Name="Music_Test_1" ID="{0E619955-125D-4006-B2DD-C1987E84A7D4}" ShortID="580787544">
 					<PropertyList>
 						<Property Name="3DSpatialization" Type="int16" Value="2"/>
+						<Property Name="EnableDiffraction" Type="bool" Value="True"/>
 						<Property Name="Tempo" Type="Real64" Value="109"/>
 						<Property Name="UseGameAuxSends" Type="bool" Value="True"/>
 					</PropertyList>
@@ -15,7 +16,7 @@
 								<Attenuation Name="Attenuation (Custom)" ID="{E628207D-8A5D-4811-A4EF-A4C33E1E9A22}" ShortID="982682038">
 									<PropertyList>
 										<Property Name="ConeInnerAngle" Type="int32" Value="165"/>
-										<Property Name="RadiusMax" Type="Real64" Value="45"/>
+										<Property Name="RadiusMax" Type="Real64" Value="30"/>
 									</PropertyList>
 									<CurveUsageInfoList>
 										<VolumeDryUsage>
@@ -32,7 +33,7 @@
 															<SegmentShape>Exp2</SegmentShape>
 														</Point>
 														<Point>
-															<XPos>45</XPos>
+															<XPos>30</XPos>
 															<YPos>-200</YPos>
 															<Flags>37</Flags>
 														</Point>
@@ -44,7 +45,26 @@
 											<CurveUsageInfo Platform="Linked" CurveToUse="UseVolumeDry"/>
 										</VolumeWetGameUsage>
 										<VolumeWetUserUsage>
-											<CurveUsageInfo Platform="Linked" CurveToUse="UseVolumeDry"/>
+											<CurveUsageInfo Platform="Linked" CurveToUse="UseVolumeDry">
+												<Curve Name="VolumeWetUser" ID="{0623459C-9CF4-49ED-8D6A-C643573D846C}">
+													<PropertyList>
+														<Property Name="Flags" Type="int32" Value="3"/>
+													</PropertyList>
+													<PointList>
+														<Point>
+															<XPos>0</XPos>
+															<YPos>0</YPos>
+															<Flags>5</Flags>
+															<SegmentShape>Exp2</SegmentShape>
+														</Point>
+														<Point>
+															<XPos>30</XPos>
+															<YPos>-200</YPos>
+															<Flags>37</Flags>
+														</Point>
+													</PointList>
+												</Curve>
+											</CurveUsageInfo>
 										</VolumeWetUserUsage>
 										<LowPassFilterUsage>
 											<CurveUsageInfo Platform="Linked" CurveToUse="None"/>
@@ -66,13 +86,13 @@
 															<SegmentShape>Log2</SegmentShape>
 														</Point>
 														<Point>
-															<XPos>12.20219</XPos>
+															<XPos>8.13479333333333</XPos>
 															<YPos>23.37541</YPos>
 															<Flags>0</Flags>
 															<SegmentShape>Exp2</SegmentShape>
 														</Point>
 														<Point>
-															<XPos>45</XPos>
+															<XPos>30</XPos>
 															<YPos>0</YPos>
 															<Flags>37</Flags>
 														</Point>
@@ -872,6 +892,7 @@
 				<MusicPlaylistContainer Name="Music_Test_01_Long_Attenuation" ID="{12FCACD4-0C10-4487-9D70-D94981D367A8}" ShortID="219877063">
 					<PropertyList>
 						<Property Name="3DSpatialization" Type="int16" Value="2"/>
+						<Property Name="EnableDiffraction" Type="bool" Value="True"/>
 						<Property Name="Tempo" Type="Real64" Value="109"/>
 						<Property Name="UseGameAuxSends" Type="bool" Value="True"/>
 					</PropertyList>
@@ -881,7 +902,7 @@
 								<Attenuation Name="Attenuation (Custom)" ID="{3A35BC95-C734-4040-A2B2-E5A31119D5FE}" ShortID="345685909">
 									<PropertyList>
 										<Property Name="ConeInnerAngle" Type="int32" Value="165"/>
-										<Property Name="RadiusMax" Type="Real64" Value="115"/>
+										<Property Name="RadiusMax" Type="Real64" Value="135"/>
 									</PropertyList>
 									<CurveUsageInfoList>
 										<VolumeDryUsage>
@@ -898,7 +919,7 @@
 															<SegmentShape>Exp2</SegmentShape>
 														</Point>
 														<Point>
-															<XPos>115</XPos>
+															<XPos>135</XPos>
 															<YPos>-200</YPos>
 															<Flags>37</Flags>
 														</Point>
@@ -932,13 +953,13 @@
 															<SegmentShape>Log2</SegmentShape>
 														</Point>
 														<Point>
-															<XPos>30.82287</XPos>
+															<XPos>36.1833691304348</XPos>
 															<YPos>17.91094</YPos>
 															<Flags>0</Flags>
 															<SegmentShape>Exp2</SegmentShape>
 														</Point>
 														<Point>
-															<XPos>115</XPos>
+															<XPos>135</XPos>
 															<YPos>0</YPos>
 															<Flags>37</Flags>
 														</Point>

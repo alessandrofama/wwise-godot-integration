@@ -1054,8 +1054,8 @@ bool Wwise::initialiseWwiseSystems()
 		return false;
 	}
 
-	AkSpatialAudioInitSettings settings;
-	if (!ERROR_CHECK(AK::SpatialAudio::Init(settings), "Spatial Audio initialisation failed"))
+	AkSpatialAudioInitSettings spatialSettings;
+	if (!ERROR_CHECK(AK::SpatialAudio::Init(spatialSettings), "Spatial Audio initialisation failed"))
 	{
 		return false;
 	}
