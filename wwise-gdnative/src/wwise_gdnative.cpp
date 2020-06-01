@@ -92,6 +92,7 @@ void Wwise::_register_methods()
 	register_method("set_game_obj_aux_send_values", &Wwise::setGameObjectAuxSendValues);
 	register_method("set_obj_obstruction_and_occlusion", &Wwise::setObjectObstructionAndOcclusion); 
 	register_method("set_geometry", &Wwise::setGeometry);
+	register_method("remove_geometry", &Wwise::removeGeometry);
 	register_method("register_spatial_listener", &Wwise::registerSpatialListener);
 
 	REGISTER_GODOT_SIGNAL(AK_EndOfEvent);
@@ -626,8 +627,17 @@ bool Wwise::setGeometry(const Array vertices, const Array triangles, const Objec
 	return ERROR_CHECK(AK::SpatialAudio::SetGeometry(static_cast<AkGeometrySetID>(gameObject->get_instance_id()), geometry), "Failed to register geometry");
 }
 
+bool Wwise::removeGeometry(const Object* gameObject)
+{
+	AKASSERT(gameObject);
+
+	return ERROR_CHECK(AK::SpatialAudio::RemoveGeometry(static_cast<AkGeometrySetID>(gameObject->get_instance_id())), "Failed to remove geometry");
+}
+
 bool Wwise::registerSpatialListener(const Object* gameObject)
 {
+	AKASSERT(gameObject);
+
 	return ERROR_CHECK(AK::SpatialAudio::RegisterListener(static_cast<AkGameObjectID>(gameObject->get_instance_id())), "Failed to register Spatial Audio Listener");
 }
 
