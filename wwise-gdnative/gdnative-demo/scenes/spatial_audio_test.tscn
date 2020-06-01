@@ -7,9 +7,9 @@
 
 [sub_resource type="CubeMesh" id=1]
 
-[sub_resource type="PrismMesh" id=3]
+[sub_resource type="PrismMesh" id=2]
 
-[sub_resource type="CubeMesh" id=2]
+[sub_resource type="CubeMesh" id=3]
 size = Vector3( 50, 0.1, 50 )
 
 [node name="Spatial" type="Spatial"]
@@ -23,7 +23,6 @@ mesh = SubResource( 1 )
 material/0 = null
 
 [node name="AkGeometry" type="Spatial" parent="Room/Cube7"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 script = ExtResource( 1 )
 is_static = false
 
@@ -33,7 +32,6 @@ mesh = SubResource( 1 )
 material/0 = null
 
 [node name="AkGeometry" type="Spatial" parent="Room/Cube9"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 script = ExtResource( 1 )
 is_static = false
 
@@ -43,7 +41,6 @@ mesh = SubResource( 1 )
 material/0 = null
 
 [node name="AkGeometry" type="Spatial" parent="Room/Cube10"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 script = ExtResource( 1 )
 is_static = false
 
@@ -53,7 +50,6 @@ mesh = SubResource( 1 )
 material/0 = null
 
 [node name="AkGeometry" type="Spatial" parent="Room/Cube11"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 script = ExtResource( 1 )
 is_static = false
 
@@ -63,7 +59,6 @@ mesh = SubResource( 1 )
 material/0 = null
 
 [node name="AkGeometry" type="Spatial" parent="Room/Cube12"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 script = ExtResource( 1 )
 is_static = false
 
@@ -73,7 +68,6 @@ mesh = SubResource( 1 )
 material/0 = null
 
 [node name="AkGeometry" type="Spatial" parent="Room/Cube13"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 script = ExtResource( 1 )
 is_static = false
 
@@ -83,7 +77,7 @@ script = ExtResource( 3 )
 
 [node name="MeshInstance" type="MeshInstance" parent="Listener"]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
-mesh = SubResource( 3 )
+mesh = SubResource( 2 )
 material/0 = null
 
 [node name="Banks" type="Node" parent="."]
@@ -97,7 +91,7 @@ trigger_on = 3
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11.2404, 0, -23.4113 )
-mesh = SubResource( 2 )
+mesh = SubResource( 3 )
 material/0 = null
 
 [node name="AkGeometry" type="Spatial" parent="MeshInstance"]
