@@ -5,6 +5,7 @@ var triangles = []
 var mesh_instance
 
 export(bool) var is_static:bool = true
+export(bool) var enable_diffraction_on_boundary_edges:bool = false
 
 func create_mesh_data_tool(mesh:Mesh) -> MeshDataTool:
 	var array_mesh = mesh
@@ -16,8 +17,8 @@ func create_mesh_data_tool(mesh:Mesh) -> MeshDataTool:
 	mesh_data_tool.create_from_surface(array_mesh, 0)
 	return mesh_data_tool
 	
-func set_geometry(mesh_instance:MeshInstance) -> void:
-	var mdt = create_mesh_data_tool(mesh_instance.mesh)
+func set_geometry(mesh_inst:MeshInstance) -> void:
+	var mdt = create_mesh_data_tool(mesh_inst.mesh)
 		
 	for i in range(mdt.get_vertex_count()):
 		var vertex = to_global(mdt.get_vertex(i))
@@ -30,8 +31,9 @@ func set_geometry(mesh_instance:MeshInstance) -> void:
 		triangles.append(a)
 		triangles.append(b)
 		triangles.append(c)
-		
-	Wwise.set_geometry(vertices, triangles, self)
+	
+	Wwise.set_geometry(vertices, triangles, self, enable_diffraction_on_boundary_edges)
+	
 	vertices.clear()
 	triangles.clear()
 

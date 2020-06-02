@@ -1,0 +1,64 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://wwise/nodes/ak_geometry.gd" type="Script" id=1]
+
+[sub_resource type="CubeMesh" id=1]
+
+[node name="Room" type="Spatial"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.296088, 0 )
+
+[node name="Cube7" type="MeshInstance" parent="."]
+transform = Transform( 10, 0, 0, 0, 0.1, 0, 0, 0, 9.98597, 0, 6.53883, -23.1154 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="AkGeometry" type="Spatial" parent="Cube7"]
+script = ExtResource( 1 )
+is_static = false
+
+[node name="Cube9" type="MeshInstance" parent="."]
+transform = Transform( 10, 0, 0, 0, -4.37114e-09, 3.5, 0, -0.1, -1.5299e-07, 0, 3.2831, -33.1402 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="AkGeometry" type="Spatial" parent="Cube9"]
+script = ExtResource( 1 )
+is_static = false
+
+[node name="Cube10" type="MeshInstance" parent="."]
+transform = Transform( -4.37114e-07, -0.1, -1.5299e-07, 0, -4.37114e-09, 3.5, -10, 4.37114e-09, 6.6874e-15, -9.59089, 3.2831, -23.2521 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="AkGeometry" type="Spatial" parent="Cube10"]
+script = ExtResource( 1 )
+is_static = false
+
+[node name="Cube11" type="MeshInstance" parent="."]
+transform = Transform( -10.6121, 1.186e-08, 1.50807e-14, 0, -4.37114e-09, 3.5, 9.53674e-07, 0.1, 1.5299e-07, -0.0618658, 3.2831, -13.0761 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="AkGeometry" type="Spatial" parent="Cube11"]
+script = ExtResource( 1 )
+is_static = false
+
+[node name="Cube12" type="MeshInstance" parent="."]
+transform = Transform( 3.79009e-06, 0.389027, 5.95173e-07, 0, -4.18363e-09, 3.34986, 2.97039, -3.0045e-08, -4.59658e-14, 10.1053, 3.2831, -16.1092 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="AkGeometry" type="Spatial" parent="Cube12"]
+script = ExtResource( 1 )
+is_static = false
+enable_diffraction_on_boundary_edges = true
+
+[node name="Cube13" type="MeshInstance" parent="."]
+transform = Transform( -7.10639e-06, -0.345089, -8.79919e-07, 0, -2.62268e-09, 3.5, 3.936, -1.8835e-08, -4.8026e-14, 10.2261, 3.2831, -29.2357 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="AkGeometry" type="Spatial" parent="Cube13"]
+script = ExtResource( 1 )
+is_static = false
+enable_diffraction_on_boundary_edges = true

@@ -49,6 +49,8 @@ namespace godot
 		bool registerListener(const Object* gameObject);
 		bool registerGameObject(const Object* gameObject, const String gameObjectName);
 
+		bool SetListeners(const Object* emitter, const Object* listener);
+
 		bool set3DPosition(const Object* gameObject, const Transform transform);
 		bool set2DPosition(const Object* gameObject, const Transform2D transform2D, const float zDepth);
 
@@ -83,7 +85,7 @@ namespace godot
 		bool setGameObjectAuxSendValues(const unsigned int eventID, const Array akAuxSendValues, const unsigned int sendValues);
 		bool setObjectObstructionAndOcclusion(const unsigned int eventID, const unsigned int listenerID, float fCalculatedObs, float fCalculatedOcc);
 
-		bool setGeometry(const Array vertices, const Array triangles, const Object* gameObject);
+		bool setGeometry(const Array vertices, const Array triangles, const Object* gameObject, bool enableDiffractionOnBoundaryEdges);
 		bool removeGeometry(const Object* gameObject);
 		bool registerSpatialListener(const Object* gameObject);
 

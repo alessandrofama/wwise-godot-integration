@@ -147,6 +147,14 @@
 						</SwitchContainer>
 					</SwitchContainers>
 				</Event>
+				<Event Id="2626652388" Name="GeometryDemo" ObjectPath="\Events\Alex Tests\GeometryDemo">
+					<IncludedMemoryFiles>
+						<File Id="258193767" Language="SFX">
+							<ShortName>Marker_Test_001.wav</ShortName>
+							<Path>SFX\Marker_Test_001_10C4C929.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
 				<Event Id="3991942870" Name="Music" ObjectPath="\Events\Alex Tests\Music">
 					<IncludedMemoryFiles>
 						<File Id="401793486" Language="SFX">

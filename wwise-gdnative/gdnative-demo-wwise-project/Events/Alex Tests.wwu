@@ -69,6 +69,17 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="GeometryDemo" ID="{36617A3C-3D46-42E9-BC0A-2516D487AD44}">
+					<ChildrenList>
+						<Action Name="" ID="{5F7A94A9-BEA1-4A09-A7D9-A1CC6D42ADBB}" ShortID="48048038">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="GeometryDemo" ID="{F321ACEA-FDA9-40C8-B666-7E6B68D311A7}" WorkUnitID="{F86D44CF-30AB-4187-A660-DA289EDCAD5C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

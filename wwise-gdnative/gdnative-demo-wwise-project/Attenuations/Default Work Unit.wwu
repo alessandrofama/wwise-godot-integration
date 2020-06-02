@@ -1,6 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{1E68136D-4E9A-4ADA-96E5-29DC22AF7034}" SchemaVersion="97">
 	<Attenuations>
-		<WorkUnit Name="Default Work Unit" ID="{1E68136D-4E9A-4ADA-96E5-29DC22AF7034}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{1E68136D-4E9A-4ADA-96E5-29DC22AF7034}" PersistMode="Standalone">
+			<ChildrenList>
+				<Attenuation Name="Emitter_Geometry_Attenuation" ID="{898E4108-B8B7-4A00-8B9A-AFDD412549DE}" ShortID="687288453">
+					<PropertyList>
+						<Property Name="RadiusMax" Type="Real64" Value="40"/>
+					</PropertyList>
+					<CurveUsageInfoList>
+						<VolumeDryUsage>
+							<CurveUsageInfo Platform="Linked" CurveToUse="Custom">
+								<Curve Name="VolumeDry" ID="{48D0F138-6CAA-40F0-845C-4D64BFC3A6AB}">
+									<PropertyList>
+										<Property Name="Flags" Type="int32" Value="3"/>
+									</PropertyList>
+									<PointList>
+										<Point>
+											<XPos>0</XPos>
+											<YPos>0</YPos>
+											<Flags>5</Flags>
+										</Point>
+										<Point>
+											<XPos>9.592476</XPos>
+											<YPos>-5.42666</YPos>
+											<Flags>0</Flags>
+										</Point>
+										<Point>
+											<XPos>19.623824</XPos>
+											<YPos>-10.17886</YPos>
+											<Flags>0</Flags>
+										</Point>
+										<Point>
+											<XPos>30.219436</XPos>
+											<YPos>-16.3532</YPos>
+											<Flags>0</Flags>
+										</Point>
+										<Point>
+											<XPos>40</XPos>
+											<YPos>-200</YPos>
+											<Flags>37</Flags>
+										</Point>
+									</PointList>
+								</Curve>
+							</CurveUsageInfo>
+						</VolumeDryUsage>
+						<VolumeWetGameUsage>
+							<CurveUsageInfo Platform="Linked" CurveToUse="UseVolumeDry">
+								<Curve Name="VolumeWetGame" ID="{8D043F5A-823E-412B-93A5-87974233278E}">
+									<PropertyList>
+										<Property Name="Flags" Type="int32" Value="3"/>
+									</PropertyList>
+									<PointList>
+										<Point>
+											<XPos>0</XPos>
+											<YPos>-12.23211</YPos>
+											<Flags>5</Flags>
+										</Point>
+										<Point>
+											<XPos>1.755484</XPos>
+											<YPos>0</YPos>
+											<Flags>0</Flags>
+										</Point>
+										<Point>
+											<XPos>40</XPos>
+											<YPos>-200</YPos>
+											<Flags>37</Flags>
+										</Point>
+									</PointList>
+								</Curve>
+							</CurveUsageInfo>
+						</VolumeWetGameUsage>
+						<VolumeWetUserUsage>
+							<CurveUsageInfo Platform="Linked" CurveToUse="UseVolumeDry">
+								<Curve Name="VolumeWetUser" ID="{8150876C-A360-47C7-AE3B-116D36577F80}">
+									<PropertyList>
+										<Property Name="Flags" Type="int32" Value="3"/>
+									</PropertyList>
+									<PointList>
+										<Point>
+											<XPos>0</XPos>
+											<YPos>0</YPos>
+											<Flags>5</Flags>
+										</Point>
+										<Point>
+											<XPos>9.592476</XPos>
+											<YPos>-5.42666</YPos>
+											<Flags>0</Flags>
+										</Point>
+										<Point>
+											<XPos>19.623824</XPos>
+											<YPos>-10.17886</YPos>
+											<Flags>0</Flags>
+										</Point>
+										<Point>
+											<XPos>30.219436</XPos>
+											<YPos>-16.3532</YPos>
+											<Flags>0</Flags>
+										</Point>
+										<Point>
+											<XPos>40</XPos>
+											<YPos>-200</YPos>
+											<Flags>37</Flags>
+										</Point>
+									</PointList>
+								</Curve>
+							</CurveUsageInfo>
+						</VolumeWetUserUsage>
+						<LowPassFilterUsage>
+							<CurveUsageInfo Platform="Linked" CurveToUse="None"/>
+						</LowPassFilterUsage>
+						<HighPassFilterUsage>
+							<CurveUsageInfo Platform="Linked" CurveToUse="None"/>
+						</HighPassFilterUsage>
+						<SpreadUsage>
+							<CurveUsageInfo Platform="Linked" CurveToUse="None"/>
+						</SpreadUsage>
+						<FocusUsage>
+							<CurveUsageInfo Platform="Linked" CurveToUse="None"/>
+						</FocusUsage>
+					</CurveUsageInfoList>
+				</Attenuation>
+			</ChildrenList>
+		</WorkUnit>
 	</Attenuations>
 </WwiseDocument>

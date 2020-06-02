@@ -21,6 +21,7 @@ var ray:RayCast
 var colliding_objects:Array = []
 var ak_environment_data:AkGameObjectEnvironmentData
 
+export(bool) var is_spatial = false
 var last_position:Vector3
 
 func _enter_tree():
@@ -34,6 +35,9 @@ func _ready() -> void:
 		set_up_raycast()
 		ak_environment_data = AkGameObjectEnvironmentData.new()
 		ak_environment_data.update_aux_send(self, self.get_global_transform().origin)
+	if is_spatial:
+		listener = get_listener()
+		Wwise.set_listeners(self, listener)
 		
 func set_up_raycast() -> void:
 	ray = RayCast.new()

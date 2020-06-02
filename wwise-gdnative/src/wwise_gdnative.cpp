@@ -67,6 +67,7 @@ void Wwise::_register_methods()
 	register_method("unload_bank_id", &Wwise::unloadBankID);
 	register_method("register_listener", &Wwise::registerListener);
 	register_method("register_game_obj", &Wwise::registerGameObject);
+	register_method("set_listeners", &Wwise::SetListeners);
 	register_method("set_3d_position", &Wwise::set3DPosition);
 	register_method("set_2d_position", &Wwise::set2DPosition);
 	register_method("post_event", &Wwise::postEvent);
@@ -244,6 +245,13 @@ bool Wwise::registerGameObject(const Object* gameObject, const String gameObject
 
 	return ERROR_CHECK(AK::SoundEngine::RegisterGameObj(static_cast<AkGameObjectID>(gameObject->get_instance_id()), 
 						gameObjectName.alloc_c_string()), gameObjectName);
+}
+
+bool Wwise::SetListeners(const Object* emitter, const Object* listener)
+{
+	static const int kNumLstnrsForEm = 1;
+	static const AkGameObjectID aLstnrsForEmitter[kNumLstnrsForEm] = { static_cast<AkGameObjectID>(listener->get_instance_id()) };
+	return ERROR_CHECK(AK::SoundEngine::SetListeners(static_cast<AkGameObjectID>(emitter->get_instance_id()), aLstnrsForEmitter, 1), "Failed to associate Emitter with listener");
 }
 
 bool Wwise::set3DPosition(const Object* gameObject, const Transform transform)
@@ -584,7 +592,7 @@ bool Wwise::setObjectObstructionAndOcclusion(const unsigned int eventID, const u
 																			static_cast<AkGameObjectID>(listenerID), fCalculatedObs, fCalculatedOcc), "Could not set Obstruction and Occlusion");
 }
 
-bool Wwise::setGeometry(const Array vertices, const Array triangles, const Object* gameObject)
+bool Wwise::setGeometry(const Array vertices, const Array triangles, const Object* gameObject, bool enableDiffractionOnBoundaryEdges)
 {
 	AkGeometryParams geometry;
 
@@ -605,15 +613,32 @@ bool Wwise::setGeometry(const Array vertices, const Array triangles, const Objec
 
 	int numTriangles = triangles.size() / 3;
 
+	if ((triangles.size() % 3) != 0)
+	{
+		Godot::print("Wrong number of triangles on: " + String(gameObject->get_instance_id()));
+	}
+
 	geometry.NumTriangles = numTriangles;
 	auto akTriangles = std::make_unique<AkTriangle[]>(numTriangles);
 
+	int triangleIdx = 0;
 	for (int i = 0; i < numTriangles; i++)
 	{
-		akTriangles[i].point0 = triangles[3 * i + 0];
-		akTriangles[i].point1 = triangles[3 * i + 1];
-		akTriangles[i].point2 = triangles[3 * i + 2];
-		akTriangles[i].surface = AK_INVALID_SURFACE;
+		akTriangles[triangleIdx].point0 = triangles[3 * i + 0];
+		akTriangles[triangleIdx].point1 = triangles[3 * i + 1];
+		akTriangles[triangleIdx].point2 = triangles[3 * i + 2];
+		akTriangles[triangleIdx].surface = AK_INVALID_SURFACE;
+
+		if (akTriangles[triangleIdx].point0 != akTriangles[triangleIdx].point1 
+			&& akTriangles[triangleIdx].point0 != akTriangles[triangleIdx].point2 
+			&& akTriangles[triangleIdx].point1 != akTriangles[triangleIdx].point2)
+		{
+			++triangleIdx;
+		}
+		else
+		{
+			Godot::print("Skipped degenerate triangles");
+		}
 	}
 
 	geometry.Triangles = akTriangles.get();
@@ -622,7 +647,7 @@ bool Wwise::setGeometry(const Array vertices, const Array triangles, const Objec
 	geometry.Surfaces = NULL;
 	geometry.EnableDiffraction = true;
 
-	geometry.EnableDiffractionOnBoundaryEdges = false;
+	geometry.EnableDiffractionOnBoundaryEdges = enableDiffractionOnBoundaryEdges;
 
 	return ERROR_CHECK(AK::SpatialAudio::SetGeometry(static_cast<AkGeometrySetID>(gameObject->get_instance_id()), geometry), "Failed to register geometry");
 }
@@ -1065,6 +1090,22 @@ bool Wwise::initialiseWwiseSystems()
 	}
 
 	AkSpatialAudioInitSettings spatialSettings;
+	spatialSettings.uMaxSoundPropagationDepth = AK_MAX_SOUND_PROPAGATION_DEPTH;
+	spatialSettings.uDiffractionFlags = (AkUInt32)DefaultDiffractionFlags;
+	spatialSettings.fDiffractionShadowAttenFactor = AK_DEFAULT_DIFFR_SHADOW_ATTEN;
+	spatialSettings.fDiffractionShadowDegrees = AK_DEFAULT_DIFFR_SHADOW_DEGREES;
+;
+
+	spatialSettings.fMovementThreshold = AK_DEFAULT_MOVEMENT_THRESHOLD;
+
+	spatialSettings.uNumberOfPrimaryRays = 100;
+	spatialSettings.uMaxReflectionOrder = 1;
+	spatialSettings.fMaxPathLength = 10000.0f;
+
+	spatialSettings.bEnableDiffractionOnReflection = true;
+	spatialSettings.bEnableDirectPathDiffraction = true;
+	spatialSettings.bEnableTransmission = true;
+
 	if (!ERROR_CHECK(AK::SpatialAudio::Init(spatialSettings), "Spatial Audio initialisation failed"))
 	{
 		return false;

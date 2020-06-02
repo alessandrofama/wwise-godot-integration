@@ -12,6 +12,7 @@ Game Parameter	ID	Name			Wwise Object Path	Notes
 Audio Bus	ID	Name			Wwise Object Path	Notes
 	3803692087	Master Audio Bus			\Default Work Unit\Master Audio Bus	
 	3991942870	Music			\Default Work Unit\Master Audio Bus\Music	
+	4209325213	GeometryBus			\Default Work Unit\Master Audio Bus\GeometryBus	
 
 Auxiliary Bus	ID	Name			Wwise Object Path	Notes
 	117523933	SmallVerb			\Default Work Unit\Master Audio Bus\SmallVerb	

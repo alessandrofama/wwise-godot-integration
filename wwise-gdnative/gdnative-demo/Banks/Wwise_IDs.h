@@ -15,6 +15,7 @@ namespace AK
     {
         static const AkUniqueID EXTERNAL_SOURCE_EVENT = 1014047073U;
         static const AkUniqueID FOOTSTEPS = 2385628198U;
+        static const AkUniqueID GEOMETRYDEMO = 2626652388U;
         static const AkUniqueID MUSIC = 3991942870U;
         static const AkUniqueID MUSIC_2D = 1939884427U;
         static const AkUniqueID MUSIC_LONG_ATT = 1272633243U;
@@ -74,6 +75,7 @@ namespace AK
 
     namespace BUSSES
     {
+        static const AkUniqueID GEOMETRYBUS = 4209325213U;
         static const AkUniqueID MASTER_AUDIO_BUS = 3803692087U;
         static const AkUniqueID MUSIC = 3991942870U;
     } // namespace BUSSES

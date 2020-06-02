@@ -11,6 +11,9 @@
 					</ReferenceList>
 					<ChildrenList>
 						<Bus Name="Music" ID="{DAD778F8-83A2-4F89-B797-E1FCA0679D4E}">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Effect0">
 									<Custom>
@@ -50,6 +53,29 @@
 								</Reference>
 							</ReferenceList>
 						</AuxBus>
+						<Bus Name="GeometryBus" ID="{470320BB-61B8-42A6-BB8A-A0C68EFAD7C9}">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="2"/>
+								<Property Name="CenterPercentage" Type="int32">
+									<ValueList>
+										<Value>0</Value>
+									</ValueList>
+								</Property>
+								<Property Name="EnableDiffraction" Type="bool" Value="True"/>
+								<Property Name="ListenerRelativeRouting" Type="bool" Value="True"/>
+								<Property Name="OutputBusVolume" Type="Real64">
+									<ValueList>
+										<Value>-6</Value>
+									</ValueList>
+								</Property>
+								<Property Name="UseGameAuxSends" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="Emitter_Geometry_Attenuation" ID="{898E4108-B8B7-4A00-8B9A-AFDD412549DE}" WorkUnitID="{1E68136D-4E9A-4ADA-96E5-29DC22AF7034}"/>
+								</Reference>
+							</ReferenceList>
+						</Bus>
 					</ChildrenList>
 				</Bus>
 			</ChildrenList>

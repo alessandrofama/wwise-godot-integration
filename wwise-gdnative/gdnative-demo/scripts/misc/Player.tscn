@@ -29,3 +29,4 @@ far = 250.0
 
 [node name="AkListener" type="Spatial" parent="Head/Camera"]
 script = ExtResource( 2 )
+is_spatial = true
