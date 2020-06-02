@@ -5,6 +5,7 @@ var triangles = []
 var mesh_instance
 
 export(bool) var is_static:bool = true
+export(bool) var enable_diffraction:bool = false
 export(bool) var enable_diffraction_on_boundary_edges:bool = false
 
 func create_mesh_data_tool(mesh:Mesh) -> MeshDataTool:
@@ -32,7 +33,7 @@ func set_geometry(mesh_inst:MeshInstance) -> void:
 		triangles.append(b)
 		triangles.append(c)
 	
-	Wwise.set_geometry(vertices, triangles, self, enable_diffraction_on_boundary_edges)
+	Wwise.set_geometry(vertices, triangles, self, enable_diffraction, enable_diffraction_on_boundary_edges)
 	
 	vertices.clear()
 	triangles.clear()

@@ -592,7 +592,7 @@ bool Wwise::setObjectObstructionAndOcclusion(const unsigned int eventID, const u
 																			static_cast<AkGameObjectID>(listenerID), fCalculatedObs, fCalculatedOcc), "Could not set Obstruction and Occlusion");
 }
 
-bool Wwise::setGeometry(const Array vertices, const Array triangles, const Object* gameObject, bool enableDiffractionOnBoundaryEdges)
+bool Wwise::setGeometry(const Array vertices, const Array triangles, const Object* gameObject, bool enableDiffraction, bool enableDiffractionOnBoundaryEdges)
 {
 	AkGeometryParams geometry;
 
@@ -645,8 +645,7 @@ bool Wwise::setGeometry(const Array vertices, const Array triangles, const Objec
 
 	geometry.NumSurfaces = 0;
 	geometry.Surfaces = NULL;
-	geometry.EnableDiffraction = true;
-
+	geometry.EnableDiffraction = enableDiffraction;
 	geometry.EnableDiffractionOnBoundaryEdges = enableDiffractionOnBoundaryEdges;
 
 	return ERROR_CHECK(AK::SpatialAudio::SetGeometry(static_cast<AkGeometrySetID>(gameObject->get_instance_id()), geometry), "Failed to register geometry");
@@ -1094,7 +1093,6 @@ bool Wwise::initialiseWwiseSystems()
 	spatialSettings.uDiffractionFlags = (AkUInt32)DefaultDiffractionFlags;
 	spatialSettings.fDiffractionShadowAttenFactor = AK_DEFAULT_DIFFR_SHADOW_ATTEN;
 	spatialSettings.fDiffractionShadowDegrees = AK_DEFAULT_DIFFR_SHADOW_DEGREES;
-;
 
 	spatialSettings.fMovementThreshold = AK_DEFAULT_MOVEMENT_THRESHOLD;
 
