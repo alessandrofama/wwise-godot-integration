@@ -36,7 +36,6 @@ func _add_common_user_settings():
 				PROPERTY_HINT_NONE, "")
 	_add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "samples_per_frame", 2, TYPE_INT, 
 				PROPERTY_HINT_ENUM, "256, 512, 1024, 2048")
-
 	_add_setting(WWISE_COMMON_USER_SETTINGS_MAIN_OUTPUT_PATH + "audio_device_shareset", "", TYPE_STRING, 
 				PROPERTY_HINT_NONE, "")
 	_add_setting(WWISE_COMMON_USER_SETTINGS_MAIN_OUTPUT_PATH + "device_id", 0, TYPE_INT, 
@@ -50,15 +49,31 @@ func _add_common_user_settings():
 	_add_setting(WWISE_COMMON_USER_SETTINGS_MAIN_OUTPUT_PATH + "channel_config/number_of_channels",
 				 0, TYPE_INT, PROPERTY_HINT_NONE, "")
 
-	_add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "streaming_look_ahead_ratio", 1, TYPE_REAL, 
+	_add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "streaming_look_ahead_ratio", 1.0, TYPE_REAL, 
 				PROPERTY_HINT_RANGE, "0.0, 1.0")
 	_add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "sample_rate", 4, TYPE_INT, 
 				PROPERTY_HINT_ENUM, "16000, 24000, 32000, 44100, 48000")
 	_add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "number_of_refills_in_voice", 1, TYPE_INT, 
 				PROPERTY_HINT_ENUM, "2, 4")
-				
-	_add_setting(WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "TODO", 0, TYPE_INT, 
-				PROPERTY_HINT_NONE, "")
+	
+	_add_setting(WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "max_sound_propagation_depth",	
+				8.0, TYPE_REAL, PROPERTY_HINT_RANGE, "0.0,8.0")
+	_add_setting(WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "diffraction_flags",
+				11, TYPE_INT, PROPERTY_HINT_FLAGS, "Use Built In Param, Use Obstruction, [Unused], Calc Emitter Virtual Position")
+	_add_setting(WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "movement_threshold",
+				1.0, TYPE_REAL, PROPERTY_HINT_NONE, "")
+	_add_setting(WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "number_of_primary_rays",
+				100, TYPE_INT, PROPERTY_HINT_NONE, "")
+	_add_setting(WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "max_reflection_order",
+				1.0, TYPE_REAL, PROPERTY_HINT_RANGE, "0.0,4.0")
+	_add_setting(WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "max_path_length",
+				10000.0, TYPE_REAL, PROPERTY_HINT_NONE, "")
+	_add_setting(WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "enable_diffraction_on_reflections",
+				true, TYPE_BOOL, PROPERTY_HINT_NONE, "")
+	_add_setting(WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "enable_direct_path_diffraction",
+				true, TYPE_BOOL, PROPERTY_HINT_NONE, "")
+	_add_setting(WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "enable_transmission",
+				true, TYPE_BOOL, PROPERTY_HINT_NONE, "")
 				
 func _add_common_advanced_settings():
 	_add_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "IO_memory_size", 2097152, TYPE_INT, 
@@ -82,8 +97,10 @@ func _add_common_advanced_settings():
 	_add_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "debug_out_of_range_limit", 
 				0, TYPE_INT, PROPERTY_HINT_NONE, "")
 
-	_add_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "spatial_audio/TODO", 
-				0, TYPE_INT, PROPERTY_HINT_NONE, "")
+	_add_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "spatial_audio/diffraction_shadow_attenuation_factor", 
+				2.0, TYPE_REAL, PROPERTY_HINT_RANGE, "1.0,3.0")
+	_add_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "spatial_audio/diffraction_shadow_degrees", 
+				30.0, TYPE_REAL, PROPERTY_HINT_RANGE, "0.1,180.0")
 
 	_add_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "render_during_focus_loss", 
 				0, TYPE_BOOL, PROPERTY_HINT_NONE, "")
