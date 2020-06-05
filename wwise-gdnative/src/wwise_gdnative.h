@@ -97,6 +97,8 @@ namespace godot
 		const String GODOT_ANDROID_SETTING_POSTFIX = ".Android";
 
 		const String WWISE_COMMON_USER_SETTINGS_PATH = "wwise/common_user_settings/";
+		const String WWISE_COMMON_ADVANCED_SETTINGS_PATH = "wwise/common_advanced_settings/";
+		const String WWISE_SPATIAL_AUDIO_PATH = "spatial_audio/";
 
 		static void eventCallback(AkCallbackType callbackType, AkCallbackInfo* callbackInfo);
 		void emitSignals();

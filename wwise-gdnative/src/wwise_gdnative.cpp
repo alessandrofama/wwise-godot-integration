@@ -1114,20 +1114,30 @@ bool Wwise::initialiseWwiseSystems()
 	}
 
 	AkSpatialAudioInitSettings spatialSettings;
-	spatialSettings.uMaxSoundPropagationDepth = AK_MAX_SOUND_PROPAGATION_DEPTH;
-	spatialSettings.uDiffractionFlags = (AkUInt32)DefaultDiffractionFlags;
-	spatialSettings.fDiffractionShadowAttenFactor = AK_DEFAULT_DIFFR_SHADOW_ATTEN;
-	spatialSettings.fDiffractionShadowDegrees = AK_DEFAULT_DIFFR_SHADOW_DEGREES;
+	spatialSettings.uMaxSoundPropagationDepth = static_cast<unsigned int>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + 
+												WWISE_SPATIAL_AUDIO_PATH + "max_sound_propagation_depth"));
+	spatialSettings.uDiffractionFlags = static_cast<unsigned int>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH +
+											WWISE_SPATIAL_AUDIO_PATH + "diffraction_flags"));
+	spatialSettings.fDiffractionShadowAttenFactor = static_cast<float>(getPlatformProjectSetting(WWISE_COMMON_ADVANCED_SETTINGS_PATH +
+													WWISE_SPATIAL_AUDIO_PATH + "diffraction_shadow_attenuation_factor"));
+	spatialSettings.fDiffractionShadowDegrees = static_cast<float>(getPlatformProjectSetting(WWISE_COMMON_ADVANCED_SETTINGS_PATH +
+												WWISE_SPATIAL_AUDIO_PATH + "diffraction_shadow_degrees"));
 
-	spatialSettings.fMovementThreshold = AK_DEFAULT_MOVEMENT_THRESHOLD;
+	spatialSettings.fMovementThreshold = static_cast<float>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH +
+											WWISE_SPATIAL_AUDIO_PATH + "movement_threshold"));
+	spatialSettings.uNumberOfPrimaryRays = static_cast<unsigned int>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH +
+											WWISE_SPATIAL_AUDIO_PATH + "number_of_primary_rays"));
+	spatialSettings.uMaxReflectionOrder = static_cast<unsigned int>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH +
+											WWISE_SPATIAL_AUDIO_PATH + "max_reflection_order"));
+	spatialSettings.fMaxPathLength = static_cast<float>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH +
+										WWISE_SPATIAL_AUDIO_PATH + "max_path_length"));
 
-	spatialSettings.uNumberOfPrimaryRays = 100;
-	spatialSettings.uMaxReflectionOrder = 1;
-	spatialSettings.fMaxPathLength = 10000.0f;
-
-	spatialSettings.bEnableDiffractionOnReflection = true;
-	spatialSettings.bEnableDirectPathDiffraction = true;
-	spatialSettings.bEnableTransmission = true;
+	spatialSettings.bEnableDiffractionOnReflection = static_cast<bool>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH +
+														WWISE_SPATIAL_AUDIO_PATH + "enable_diffraction_on_reflections"));
+	spatialSettings.bEnableDirectPathDiffraction = static_cast<bool>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH +
+													WWISE_SPATIAL_AUDIO_PATH + "enable_direct_path_diffraction"));
+	spatialSettings.bEnableTransmission = static_cast<bool>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH +
+											WWISE_SPATIAL_AUDIO_PATH + "enable_transmission"));
 
 	if (!ERROR_CHECK(AK::SpatialAudio::Init(spatialSettings), "Spatial Audio initialisation failed"))
 	{
