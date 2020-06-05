@@ -16,7 +16,8 @@
 #include <AK/Tools/Common/AkPlatformFuncs.h>
 #include <AK/MusicEngine/Common/AkMusicEngine.h>
 #include <AK/SoundEngine/Common/AkQueryParameters.h>
-#include <AK/SpatialAudio/Common/AkSpatialAudio.h>  
+#include <AK/SpatialAudio/Common/AkSpatialAudio.h> 
+#include <AK/Soundengine/Common/AkVirtualAcoustics.h>
 #include <AkDefaultIOHookBlocking.h>
 
 #include "wwise_utils.h"
@@ -85,7 +86,7 @@ namespace godot
 		bool setGameObjectAuxSendValues(const unsigned int eventID, const Array akAuxSendValues, const unsigned int sendValues);
 		bool setObjectObstructionAndOcclusion(const unsigned int eventID, const unsigned int listenerID, float fCalculatedObs, float fCalculatedOcc);
 
-		bool setGeometry(const Array vertices, const Array triangles, const Object* gameObject, bool enableDiffraction, bool enableDiffractionOnBoundaryEdges);
+		bool setGeometry(const Array vertices, const Array triangles, const String acousticTexture, const float occlusionValue, const Object* gameObject, bool enableDiffraction, bool enableDiffractionOnBoundaryEdges);
 		bool removeGeometry(const Object* gameObject);
 		bool registerSpatialListener(const Object* gameObject);
 

@@ -7,6 +7,7 @@ State	ID	Name	State Group			Notes
 	4223512837	Intense	MusicState			
 
 Game Parameter	ID	Name			Wwise Object Path	Notes
+	539599102	TestTexture			\Default Work Unit\TestTexture	
 	2242381963	Enemies			\Alex\Enemies	
 
 Audio Bus	ID	Name			Wwise Object Path	Notes

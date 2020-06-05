@@ -7,6 +7,8 @@ var mesh_instance
 export(bool) var is_static:bool = true
 export(bool) var enable_diffraction:bool = false
 export(bool) var enable_diffraction_on_boundary_edges:bool = false
+export(String) var acoustic_texture:String
+export(float) var occlusion_value:float = 1.0
 
 func create_mesh_data_tool(mesh:Mesh) -> MeshDataTool:
 	var array_mesh = mesh
@@ -24,20 +26,20 @@ func set_geometry(mesh_inst:MeshInstance) -> void:
 	for i in range(mdt.get_vertex_count()):
 		var vertex = to_global(mdt.get_vertex(i))
 		vertices.append(vertex)
-		
-	for i in range(mdt.get_face_count()):
-		var a = mdt.get_face_vertex(i, 0)
-		var b = mdt.get_face_vertex(i, 1)
-		var c = mdt.get_face_vertex(i, 2)
-		triangles.append(a)
-		triangles.append(b)
-		triangles.append(c)
 	
-	Wwise.set_geometry(vertices, triangles, self, enable_diffraction, enable_diffraction_on_boundary_edges)
+	for i in range(mdt.get_face_count()):
+		var point_0 = mdt.get_face_vertex(i, 0)
+		var point_1 = mdt.get_face_vertex(i, 1)
+		var point_2 = mdt.get_face_vertex(i, 2)
+		triangles.append(point_0)
+		triangles.append(point_1)
+		triangles.append(point_2)
+	
+	Wwise.set_geometry(vertices, triangles, acoustic_texture, occlusion_value, self, enable_diffraction, enable_diffraction_on_boundary_edges)
 	
 	vertices.clear()
 	triangles.clear()
-
+	
 func _ready():
 	mesh_instance = get_parent()
 	set_geometry(mesh_instance)
@@ -46,4 +48,5 @@ func _ready():
 	
 func _notification(notification):
 	if(notification == NOTIFICATION_TRANSFORM_CHANGED):
+		Wwise.remove_geometry(self)
 		set_geometry(mesh_instance)

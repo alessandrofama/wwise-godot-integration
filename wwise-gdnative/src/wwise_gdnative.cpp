@@ -592,7 +592,7 @@ bool Wwise::setObjectObstructionAndOcclusion(const unsigned int eventID, const u
 																			static_cast<AkGameObjectID>(listenerID), fCalculatedObs, fCalculatedOcc), "Could not set Obstruction and Occlusion");
 }
 
-bool Wwise::setGeometry(const Array vertices, const Array triangles, const Object* gameObject, bool enableDiffraction, bool enableDiffractionOnBoundaryEdges)
+bool Wwise::setGeometry(const Array vertices, const Array triangles, const String acousticTexture, const float occlusionValue, const Object* gameObject, bool enableDiffraction, bool enableDiffractionOnBoundaryEdges)
 {
 	AkGeometryParams geometry;
 
@@ -604,47 +604,72 @@ bool Wwise::setGeometry(const Array vertices, const Array triangles, const Objec
 	for (int i = 0; i < vertexCount; i++)
 	{
 		Vector3 point = vertices[i];
-		akVertices[i].X = -point.x;		// Seems to be flipped in Wwise otherwise
-		akVertices[i].Y = point.y;
-		akVertices[i].Z = point.z;
+		AkVertex v;
+		v.X = -point.x;		// Seems to be flipped in Wwise otherwise
+		v.Y = point.y;
+		v.Z = point.z;
+
+		akVertices[i] = v;
 	}
 
 	geometry.Vertices = akVertices.get();
 
 	int numTriangles = triangles.size() / 3;
 
-	if ((triangles.size() % 3) != 0)
+	if ((numTriangles % 3) != 0)
 	{
-		Godot::print("Wrong number of triangles on: " + String(gameObject->get_instance_id()));
+		Godot::print("Wrong number of triangles on mesh {0}", gameObject->get_instance_id());
 	}
 
 	geometry.NumTriangles = numTriangles;
 	auto akTriangles = std::make_unique<AkTriangle[]>(numTriangles);
 
+	if (!acousticTexture.empty())
+	{
+		AkAcousticSurface akSurfaces[1];
+
+		geometry.NumSurfaces = 1;
+
+		AkAcousticTexture akAcousticTexture;
+		akAcousticTexture.ID = AK::SoundEngine::GetIDFromString(acousticTexture.unicode_str());
+		//akAcousticTexture.fAbsorptionHigh = acousticTexture["fAbsorptionHigh"];
+		//akAcousticTexture.fAbsorptionLow = acousticTexture["fAbsorptionLow"];
+		//akAcousticTexture.fAbsorptionMidHigh = acousticTexture["fAbsorptionMidHigh"];
+		//akAcousticTexture.fAbsorptionMidLow = acousticTexture["fAbsorptionMidLow"];
+		//akAcousticTexture.fAbsorptionOffset = acousticTexture["fAbsorptionOffset"];
+		//akAcousticTexture.fScattering = acousticTexture["fScattering"];
+
+		akSurfaces[0].textureID = akAcousticTexture.ID;
+		akSurfaces[0].occlusion = occlusionValue;
+		akSurfaces[0].strName = "surface test";
+
+		geometry.Surfaces = akSurfaces;
+	}
+
 	int triangleIdx = 0;
+
 	for (int i = 0; i < numTriangles; i++)
 	{
-		akTriangles[triangleIdx].point0 = triangles[3 * i + 0];
-		akTriangles[triangleIdx].point1 = triangles[3 * i + 1];
-		akTriangles[triangleIdx].point2 = triangles[3 * i + 2];
-		akTriangles[triangleIdx].surface = AK_INVALID_SURFACE;
+		AkTriangle t;
+		t.point0 = triangles[3 * i + 0];
+		t.point1 = triangles[3 * i + 1];
+		t.point2 = triangles[3 * i + 2];
+		t.surface = !acousticTexture.empty() ? 0 : AK_INVALID_SURFACE;
 
-		if (akTriangles[triangleIdx].point0 != akTriangles[triangleIdx].point1 
-			&& akTriangles[triangleIdx].point0 != akTriangles[triangleIdx].point2 
-			&& akTriangles[triangleIdx].point1 != akTriangles[triangleIdx].point2)
+		if (t.point0 != t.point1 && t.point0 != t.point2 && t.point1 != t.point2)
 		{
-			++triangleIdx;
+			akTriangles[triangleIdx] = t;
 		}
 		else
 		{
 			Godot::print("Skipped degenerate triangles");
 		}
+
+		++triangleIdx;
 	}
 
 	geometry.Triangles = akTriangles.get();
 
-	geometry.NumSurfaces = 0;
-	geometry.Surfaces = NULL;
 	geometry.EnableDiffraction = enableDiffraction;
 	geometry.EnableDiffractionOnBoundaryEdges = enableDiffractionOnBoundaryEdges;
 
