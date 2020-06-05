@@ -28,5 +28,6 @@ fov = 80.0
 far = 250.0
 
 [node name="AkListener" type="Spatial" parent="Head/Camera"]
+transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0, 0, 0 )
 script = ExtResource( 2 )
 is_spatial = true

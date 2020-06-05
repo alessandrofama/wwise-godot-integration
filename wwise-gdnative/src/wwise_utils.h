@@ -153,10 +153,10 @@ static inline void GetAkVector(const Transform& t, AkVector& outVector, const Ve
 		Vector3ToAkVector(t.get_origin(), outVector);
 		break;
 	case VectorType::FORWARD:
-		Vector3ToAkVector(t.get_basis().elements[2].normalized(), outVector);
+		Vector3ToAkVector(t.get_basis().z.normalized(), outVector);
 		break;
 	case VectorType::UP:
-		Vector3ToAkVector(t.get_basis().elements[1].normalized(), outVector);
+		Vector3ToAkVector(t.get_basis().y.normalized(), outVector);
 		break;
 	default:
 		break;
