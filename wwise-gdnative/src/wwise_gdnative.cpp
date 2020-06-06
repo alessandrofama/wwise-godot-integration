@@ -711,8 +711,6 @@ bool Wwise::setPortal(const Object* gameObject, const Transform transform, const
 {
 	AKASSERT(gameObject);
 
-	AkPortalParams portalParams;
-
 	AkVector position;	GetAkVector(transform, position, VectorType::POSITION);
 	AkVector forward;	GetAkVector(transform, forward, VectorType::FORWARD);
 	AkVector up;		GetAkVector(transform, up, VectorType::UP);
