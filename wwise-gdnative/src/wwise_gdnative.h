@@ -106,6 +106,7 @@ namespace godot
 		const String WWISE_COMMON_USER_SETTINGS_PATH = "wwise/common_user_settings/";
 		const String WWISE_COMMON_ADVANCED_SETTINGS_PATH = "wwise/common_advanced_settings/";
 		const String WWISE_SPATIAL_AUDIO_PATH = "spatial_audio/";
+		const String WWISE_COMMUNICATION_SETTINGS_PATH = "wwise/communication_settings/";
 
 		static void eventCallback(AkCallbackType callbackType, AkCallbackInfo* callbackInfo);
 		void emitSignals();
@@ -117,6 +118,7 @@ namespace godot
 
 		static Mutex* signalDataMutex;
 		static Array* signalDataArray;
+		static int signalCallbackDataMaxSize;
 
 		ProjectSettings* projectSettings;
 		CAkDefaultIOHookBlocking lowLevelIO;

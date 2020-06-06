@@ -40,10 +40,10 @@ func _add_common_user_settings():
 				PROPERTY_HINT_NONE, "")
 	_add_setting(WWISE_COMMON_USER_SETTINGS_MAIN_OUTPUT_PATH + "device_id", 0, TYPE_INT, 
 				PROPERTY_HINT_NONE, "")
-	_add_setting(WWISE_COMMON_USER_SETTINGS_MAIN_OUTPUT_PATH + "panning_rule", String("Speakers"), TYPE_STRING, 
+	_add_setting(WWISE_COMMON_USER_SETTINGS_MAIN_OUTPUT_PATH + "panning_rule", 0, TYPE_INT, 
 				PROPERTY_HINT_ENUM, "Speakers, Headphones")
 	_add_setting(WWISE_COMMON_USER_SETTINGS_MAIN_OUTPUT_PATH + "channel_config/channel_config_type",
-				 String("Annonymous"), TYPE_STRING, PROPERTY_HINT_ENUM, "Annonymous, Standard, Ambisonics")
+				 0, TYPE_INT, PROPERTY_HINT_ENUM, "Annonymous, Standard, Ambisonics")
 	_add_setting(WWISE_COMMON_USER_SETTINGS_MAIN_OUTPUT_PATH + "channel_config/channel_mask",
 				 String("NONE"), TYPE_STRING, PROPERTY_HINT_ENUM, "NONE, Everything, SETUP_ALL_SPEAKERS")
 	_add_setting(WWISE_COMMON_USER_SETTINGS_MAIN_OUTPUT_PATH + "channel_config/number_of_channels",
@@ -95,13 +95,14 @@ func _add_common_advanced_settings():
 	_add_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "debug_out_of_range_check_enabled", 
 				0, TYPE_BOOL, PROPERTY_HINT_NONE, "")
 	_add_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "debug_out_of_range_limit", 
-				0, TYPE_INT, PROPERTY_HINT_NONE, "")
+				16, TYPE_REAL, PROPERTY_HINT_NONE, "")
 
 	_add_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "spatial_audio/diffraction_shadow_attenuation_factor", 
 				2.0, TYPE_REAL, PROPERTY_HINT_RANGE, "1.0,3.0")
 	_add_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "spatial_audio/diffraction_shadow_degrees", 
 				30.0, TYPE_REAL, PROPERTY_HINT_RANGE, "0.1,180.0")
 
+# TODO: the following three settings are not yet implemented
 	_add_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "render_during_focus_loss", 
 				0, TYPE_BOOL, PROPERTY_HINT_NONE, "")
 	_add_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "sound_bank_persistent_data_path", 
@@ -110,8 +111,6 @@ func _add_common_advanced_settings():
 				0, TYPE_BOOL, PROPERTY_HINT_NONE, "")
 	
 func _add_commnunication_settings():
-	_add_setting(WWISE_COMMUNICATION_SETTINGS_PATH + "pool_size", 262144, TYPE_INT, 
-				PROPERTY_HINT_NONE, "")
 	_add_setting(WWISE_COMMUNICATION_SETTINGS_PATH + "discovery_broadcast_port", 24024, 
 				TYPE_INT, PROPERTY_HINT_NONE, "")
 	_add_setting(WWISE_COMMUNICATION_SETTINGS_PATH + "command_port", 0, 
@@ -124,16 +123,16 @@ func _add_commnunication_settings():
 				TYPE_STRING, PROPERTY_HINT_NONE, "")
 	
 func _add_ios_advanced_settings():
-	_add_setting(WWISE_IOS_ADVANCED_SETTINGS_PATH + "audio_session_category", String("Ambient"),
-				TYPE_STRING, PROPERTY_HINT_ENUM, "Ambient, Solo Ambient, Play And Record")
-	_add_setting(WWISE_IOS_ADVANCED_SETTINGS_PATH + "audio_session_category_options", 52,
-				TYPE_INT, PROPERTY_HINT_FLAGS, "Nothing, Everything, Mix with others, Duck others, Allow bluetooth, Default to speaker")
-	_add_setting(WWISE_IOS_ADVANCED_SETTINGS_PATH + "audio_session_mode", 1,
-				TYPE_INT, PROPERTY_HINT_FLAGS, "Default, Voice Chat, Game Chat, Video Recording, Measurement, Movie Playback, Video Chat")
+	_add_setting(WWISE_IOS_ADVANCED_SETTINGS_PATH + "audio_session_category", 0,
+				TYPE_INT, PROPERTY_HINT_ENUM, "Ambient, Solo Ambient, Play And Record")
+	_add_setting(WWISE_IOS_ADVANCED_SETTINGS_PATH + "audio_session_category_options", 13,
+				TYPE_INT, PROPERTY_HINT_FLAGS, "Mix with others, Duck others, Allow bluetooth, Default to speaker")
+	_add_setting(WWISE_IOS_ADVANCED_SETTINGS_PATH + "audio_session_mode", 0,
+				TYPE_INT, PROPERTY_HINT_ENUM, "Default, Voice Chat, Game Chat, Video Recording, Measurement, Movie Playback, Video Chat")
 	
 func _add_windows_advanced_settings():
-	_add_setting(WWISE_WINDOWS_ADVANCED_SETTINGS_PATH + "audio_API", 30,
-				TYPE_INT, PROPERTY_HINT_FLAGS, "None, Default, Wasapi, X Audio 2, Direct Sound")
+	_add_setting(WWISE_WINDOWS_ADVANCED_SETTINGS_PATH + "audio_API", 7,
+				TYPE_INT, PROPERTY_HINT_FLAGS, "Wasapi, X Audio 2, Direct Sound")
 	_add_setting(WWISE_WINDOWS_ADVANCED_SETTINGS_PATH + "global_focus", 1,
 				TYPE_BOOL, PROPERTY_HINT_NONE, "")
 
