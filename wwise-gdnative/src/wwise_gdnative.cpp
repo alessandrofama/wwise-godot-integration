@@ -95,6 +95,11 @@ void Wwise::_register_methods()
 	register_method("set_geometry", &Wwise::setGeometry);
 	register_method("remove_geometry", &Wwise::removeGeometry);
 	register_method("register_spatial_listener", &Wwise::registerSpatialListener);
+	register_method("set_room", &Wwise::setRoom);
+	register_method("remove_room", &Wwise::removeRoom);
+	register_method("set_portal", &Wwise::setPortal);
+	register_method("remove_portal", &Wwise::removePortal);
+	register_method("set_game_obj_in_room", &Wwise::setGameObjectInRoom);
 
 	REGISTER_GODOT_SIGNAL(AK_EndOfEvent);
 	REGISTER_GODOT_SIGNAL(AK_EndOfDynamicSequenceItem);
@@ -696,7 +701,7 @@ bool Wwise::setRoom(const Object* gameObject, const unsigned int akAuxBusID)
 
 	AkRoomParams roomParams;
 	roomParams.ReverbAuxBus = akAuxBusID;
-	roomParams.strName = Object::cast_to<Spatial>(gameObject)->get_name().unicode_str();
+	roomParams.strName = Object::cast_to<Node>(gameObject)->get_name().unicode_str();
 	return ERROR_CHECK(AK::SpatialAudio::SetRoom(static_cast<AkRoomID>(gameObject->get_instance_id()), roomParams), "Failed to set Room for Game Object: " 
 																													+ String::num_int64(gameObject->get_instance_id()));
 }
