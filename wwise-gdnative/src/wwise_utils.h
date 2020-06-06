@@ -88,6 +88,7 @@ static const char* WwiseErrorString(AKRESULT errcode)
 
 const float INVALID_RTPC_VALUE = 1.0f;
 const unsigned int AK_MAX_ENVIRONMENTS = 4;
+const int INVALID_ROOM_ID = -1;
 
 static bool CheckError(const AKRESULT result, const String message, const char* function, const char* file, const int line)
 {
@@ -160,6 +161,19 @@ static inline void GetAkVector(const Transform& t, AkVector& outVector, const Ve
 		break;
 	default:
 		break;
+	}
+}
+
+static inline bool findMatchingVertex(Vector3 vertex, Dictionary vertDict, int& outIdx)
+{
+	if (vertDict.has(vertex))
+	{
+		outIdx = vertDict[vertex];
+		return true;
+	}
+	else
+	{
+		return false;
 	}
 }
 

@@ -9,6 +9,8 @@ export(bool) var enable_diffraction:bool = false
 export(bool) var enable_diffraction_on_boundary_edges:bool = false
 export(String) var acoustic_texture:String
 export(float) var occlusion_value:float = 1.0
+export(NodePath) var room:NodePath
+var room_node
 
 func create_mesh_data_tool(mesh:Mesh) -> MeshDataTool:
 	var array_mesh = mesh
@@ -35,7 +37,10 @@ func set_geometry(mesh_inst:MeshInstance) -> void:
 		triangles.append(point_1)
 		triangles.append(point_2)
 	
-	Wwise.set_geometry(vertices, triangles, acoustic_texture, occlusion_value, self, enable_diffraction, enable_diffraction_on_boundary_edges)
+	if not room.is_empty():
+		room_node = get_node(room)
+	
+	Wwise.set_geometry(vertices, triangles, acoustic_texture, occlusion_value, self, enable_diffraction, enable_diffraction_on_boundary_edges, room_node)
 	
 	vertices.clear()
 	triangles.clear()

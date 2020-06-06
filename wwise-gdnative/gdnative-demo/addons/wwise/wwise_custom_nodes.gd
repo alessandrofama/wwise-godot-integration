@@ -17,6 +17,8 @@ func _enter_tree():
 	
 	# Spatial Audio Nodes
 	add_custom_type("AkGeometry", "Spatial", preload("res://wwise/nodes/ak_geometry.gd"), preload("res://addons/wwise/wwise_node.png"))
+	add_custom_type("AkRoom", "Area", preload("res://wwise/nodes/ak_room.gd"), preload("res://addons/wwise/wwise_node.png"))
+	add_custom_type("AkPortal", "Area", preload("res://wwise/nodes/ak_portal.gd"), preload("res://addons/wwise/wwise_node.png"))
 	
 	# 2D Nodes
 	add_custom_type("AkEvent2D", "Node2D", preload("res://wwise/nodes/ak_event_2d.gd"), preload("res://addons/wwise/wwise_node.png"))
@@ -47,6 +49,8 @@ func _exit_tree():
 	
 	# Spatial Audio Nodes
 	remove_custom_type("AkGeometry")
+	remove_custom_type("AkRoom")
+	remove_custom_type("AkPortal")
 	
 	# 2D Nodes
 	remove_custom_type("AkEvent2D")

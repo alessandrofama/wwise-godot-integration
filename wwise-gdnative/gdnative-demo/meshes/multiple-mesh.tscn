@@ -13,18 +13,8 @@ enable_diffraction = true
 enable_diffraction_on_boundary_edges = true
 acoustic_texture = "TestTexture"
 
-[node name="AkGeometry" type="Spatial" parent="Cube002" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, -1.42109e-14, 0, 1.42109e-14, 1, 0, 0, 0 )
+[node name="AkGeometry" type="Spatial" parent="Cube004" index="0"]
 script = ExtResource( 2 )
-is_static = false
-enable_diffraction = true
-enable_diffraction_on_boundary_edges = true
-acoustic_texture = "TestTexture"
 
-[node name="AkGeometry2" type="Spatial" parent="Cube001" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, -2.84217e-14, 0, 2.84217e-14, 1, 0, 0, 0 )
+[node name="AkGeometry" type="Spatial" parent="Cube005" index="0"]
 script = ExtResource( 2 )
-is_static = false
-enable_diffraction = true
-enable_diffraction_on_boundary_edges = true
-acoustic_texture = "TestTexture"

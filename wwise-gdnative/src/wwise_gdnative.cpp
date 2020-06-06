@@ -100,6 +100,7 @@ void Wwise::_register_methods()
 	register_method("set_portal", &Wwise::setPortal);
 	register_method("remove_portal", &Wwise::removePortal);
 	register_method("set_game_obj_in_room", &Wwise::setGameObjectInRoom);
+	register_method("remove_game_obj_from_room", &Wwise::removeGameObjectFromRoom);
 
 	REGISTER_GODOT_SIGNAL(AK_EndOfEvent);
 	REGISTER_GODOT_SIGNAL(AK_EndOfDynamicSequenceItem);
@@ -603,11 +604,30 @@ bool Wwise::setGeometry(const Array vertices, const Array triangles, const Strin
 	AkGeometryParams geometry;
 
 	int vertexCount = vertices.size();
+	auto vertRemap = std::make_unique<int[]>(vertexCount);
+	PoolVector3Array uniqueVerts;
+	Dictionary vertDict;
+
+	// removing duplicate verts
+	for (int v = 0; v < vertexCount; ++v)
+	{
+		int vertIdx = 0;
+		
+		if (!findMatchingVertex(vertices[v], vertDict, vertIdx))
+		{
+			vertIdx = uniqueVerts.size();
+			uniqueVerts.append(vertices[v]);
+			vertDict[vertices[v]] = vertIdx;
+		}
+		vertRemap[v] = vertIdx;
+	}
+
+	vertexCount = uniqueVerts.size();
 	auto akVertices = std::make_unique<AkVertex[]>(vertexCount);
 
 	for (int i = 0; i < vertexCount; i++)
 	{
-		Vector3 point = vertices[i];
+		Vector3 point = uniqueVerts[i];
 		AkVertex v;
 		v.X = -point.x;		// Seems to be flipped in Wwise otherwise
 		v.Y = point.y;
@@ -652,31 +672,32 @@ bool Wwise::setGeometry(const Array vertices, const Array triangles, const Strin
 	for (int i = 0; i < numTriangles; i++)
 	{
 		AkTriangle t;
-		t.point0 = triangles[3 * i + 0];
-		t.point1 = triangles[3 * i + 1];
-		t.point2 = triangles[3 * i + 2];
+		t.point0 = vertRemap[triangles[3 * i + 0]];
+		t.point1 = vertRemap[triangles[3 * i + 1]];
+		t.point2 = vertRemap[triangles[3 * i + 2]];
 		t.surface = !acousticTexture.empty() ? 0 : AK_INVALID_SURFACE;
+
+		akTriangles[triangleIdx] = t;
 
 		if (t.point0 != t.point1 && t.point0 != t.point2 && t.point1 != t.point2)
 		{
-			akTriangles[triangleIdx] = t;
+			++triangleIdx;
 		}
 		else
 		{
 			Godot::print("Skipped degenerate triangles");
 		}
-
-		++triangleIdx;
 	}
 
 	geometry.Vertices = akVertices.get();
 	geometry.NumVertices = vertexCount;
 	geometry.Triangles = akTriangles.get();
-	geometry.NumTriangles = numTriangles;
+	geometry.NumTriangles = triangleIdx;
 
 	geometry.EnableDiffraction = enableDiffraction;
 	geometry.EnableDiffractionOnBoundaryEdges = enableDiffractionOnBoundaryEdges;
-	geometry.RoomID = static_cast<AkRoomID>(associatedRoom->get_instance_id());
+	AkRoomID roomID;
+	geometry.RoomID = associatedRoom ? static_cast<AkRoomID>(associatedRoom->get_instance_id()) : static_cast<AkRoomID>(roomID.OutdoorsGameObjID);
 
 	return ERROR_CHECK(AK::SpatialAudio::SetGeometry(static_cast<AkGeometrySetID>(gameObject->get_instance_id()), geometry), "Failed to register geometry");
 }
@@ -695,13 +716,13 @@ bool Wwise::registerSpatialListener(const Object* gameObject)
 	return ERROR_CHECK(AK::SpatialAudio::RegisterListener(static_cast<AkGameObjectID>(gameObject->get_instance_id())), "Failed to register Spatial Audio Listener");
 }
 
-bool Wwise::setRoom(const Object* gameObject, const unsigned int akAuxBusID)
+bool Wwise::setRoom(const Object* gameObject, const unsigned int akAuxBusID, const String gameObjectName)
 {
 	AKASSERT(gameObject);
 
 	AkRoomParams roomParams;
 	roomParams.ReverbAuxBus = akAuxBusID;
-	roomParams.strName = Object::cast_to<Node>(gameObject)->get_name().unicode_str();
+	roomParams.strName = gameObjectName.unicode_str();
 	return ERROR_CHECK(AK::SpatialAudio::SetRoom(static_cast<AkRoomID>(gameObject->get_instance_id()), roomParams), "Failed to set Room for Game Object: " 
 																													+ String::num_int64(gameObject->get_instance_id()));
 }
@@ -712,7 +733,7 @@ bool Wwise::removeRoom(const Object* gameObject)
 																											+ String::num_int64(gameObject->get_instance_id()));
 }
 
-bool Wwise::setPortal(const Object* gameObject, const Transform transform, const Vector3 extent, const Object* frontRoom, const Object* backRoom, bool enabled)
+bool Wwise::setPortal(const Object* gameObject, const Transform transform, const Vector3 extent, const Object* frontRoom, const Object* backRoom, bool enabled, const String portalName)
 {
 	AKASSERT(gameObject);
 
@@ -725,13 +746,15 @@ bool Wwise::setPortal(const Object* gameObject, const Transform transform, const
 
 	AkVector akExtent;	Vector3ToAkVector(extent, akExtent);
 
+	AkRoomID roomID;
+
 	AkPortalParams portalParams;
 	portalParams.Transform = akTransform;
 	portalParams.Extent = akExtent;
-	portalParams.FrontRoom = static_cast<AkRoomID>(frontRoom->get_instance_id());
-	portalParams.BackRoom = static_cast<AkRoomID>(backRoom->get_instance_id());
+	portalParams.FrontRoom = frontRoom ? static_cast<AkRoomID>(frontRoom->get_instance_id()) : static_cast<AkRoomID>(INVALID_ROOM_ID);
+	portalParams.BackRoom = backRoom ? static_cast<AkRoomID>(backRoom->get_instance_id()) : static_cast<AkRoomID>(INVALID_ROOM_ID);
 	portalParams.bEnabled = enabled;
-	portalParams.strName = Object::cast_to<Spatial>(gameObject)->get_name().unicode_str();
+	portalParams.strName = portalName.unicode_str();
 
 	return ERROR_CHECK(AK::SpatialAudio::SetPortal(static_cast<AkPortalID>(gameObject->get_instance_id()), portalParams), "Failed to set Portal on GameObject: " 
 																														  + String::num_int64(gameObject->get_instance_id()));
@@ -748,8 +771,17 @@ bool Wwise::setGameObjectInRoom(const Object* gameObject, const Object* room)
 {
 	AKASSERT(gameObject);
 	AKASSERT(room);
+	return ERROR_CHECK(AK::SpatialAudio::SetGameObjectInRoom(static_cast<AkGameObjectID>(gameObject->get_instance_id()), static_cast<AkRoomID>(room->get_instance_id())), 
+																						"Failed to set Game Object in Room: " + String::num_int64(room->get_instance_id()));
+}
 
-	return ERROR_CHECK(AK::SpatialAudio::SetGameObjectInRoom(static_cast<AkGameObjectID>(gameObject->get_instance_id()), static_cast<AkRoomID>(room->get_instance_id())), "Failed to set Game Object in Room");
+bool Wwise::removeGameObjectFromRoom(const Object* gameObject)
+{
+	AKASSERT(gameObject);
+
+	AkRoomID roomID;
+	return ERROR_CHECK(AK::SpatialAudio::SetGameObjectInRoom(static_cast<AkGameObjectID>(gameObject->get_instance_id()), INVALID_ROOM_ID), "Failed to remove Game Object from Room: "
+																																			+ String::num_int64(gameObject->get_instance_id()));
 }
 
 void Wwise::eventCallback(AkCallbackType callbackType, AkCallbackInfo* callbackInfo)

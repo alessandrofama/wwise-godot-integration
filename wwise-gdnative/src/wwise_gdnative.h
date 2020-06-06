@@ -90,11 +90,12 @@ namespace godot
 						 const Object* gameObject, bool enableDiffraction, bool enableDiffractionOnBoundaryEdges, const Object* associatedRoom);
 		bool removeGeometry(const Object* gameObject);
 		bool registerSpatialListener(const Object* gameObject);
-		bool setRoom(const Object* gameObject, const unsigned int akAuxBusID);
+		bool setRoom(const Object* gameObject, const unsigned int akAuxBusID, const String gameObjectName);
 		bool removeRoom(const Object* gameObject);
-		bool setPortal(const Object* gameObject, const Transform transform, const Vector3 extent, const Object* frontRoom, const Object* backRoom, bool enabled);
+		bool setPortal(const Object* gameObject, const Transform transform, const Vector3 extent, const Object* frontRoom, const Object* backRoom, bool enabled, const String portalName);
 		bool removePortal(const Object* gameObject);
 		bool setGameObjectInRoom(const Object* gameObject, const Object* room);
+		bool removeGameObjectFromRoom(const Object* gameObject);
 
 	private:
 		const String GODOT_WINDOWS_SETTING_POSTFIX = ".Windows";
