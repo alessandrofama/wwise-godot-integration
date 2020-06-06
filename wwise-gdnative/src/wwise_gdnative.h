@@ -86,9 +86,15 @@ namespace godot
 		bool setGameObjectAuxSendValues(const unsigned int eventID, const Array akAuxSendValues, const unsigned int sendValues);
 		bool setObjectObstructionAndOcclusion(const unsigned int eventID, const unsigned int listenerID, float fCalculatedObs, float fCalculatedOcc);
 
-		bool setGeometry(const Array vertices, const Array triangles, const String acousticTexture, const float occlusionValue, const Object* gameObject, bool enableDiffraction, bool enableDiffractionOnBoundaryEdges);
+		bool setGeometry(const Array vertices, const Array triangles, const String acousticTexture, const float occlusionValue, 
+						 const Object* gameObject, bool enableDiffraction, bool enableDiffractionOnBoundaryEdges, const Object* associatedRoom);
 		bool removeGeometry(const Object* gameObject);
 		bool registerSpatialListener(const Object* gameObject);
+		bool setRoom(const Object* gameObject, const unsigned int akAuxBusID);
+		bool removeRoom(const Object* gameObject);
+		bool setPortal(const Object* gameObject, const Transform transform, const Vector3 extent, const Object* frontRoom, const Object* backRoom, bool enabled);
+		bool removePortal(const Object* gameObject);
+		bool setGameObjectInRoom(const Object* gameObject, const Object* room);
 
 	private:
 		const String GODOT_WINDOWS_SETTING_POSTFIX = ".Windows";
