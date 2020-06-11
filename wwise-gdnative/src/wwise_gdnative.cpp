@@ -27,8 +27,9 @@
 
 using namespace godot;
 
-Mutex* Wwise::signalDataMutex;
-Array* Wwise::signalDataArray;
+Mutex* Wwise::signalDataMutex = nullptr;
+Array* Wwise::signalDataArray = nullptr;
+int Wwise::signalCallbackDataMaxSize = 4096;
 
 namespace AK
 {
@@ -155,6 +156,7 @@ void Wwise::_init()
 {
 	signalDataMutex = Mutex::_new();
 	signalDataArray = new Array();
+
 	projectSettings = ProjectSettings::get_singleton();
 	AKASSERT(projectSettings);
 
@@ -192,6 +194,17 @@ void Wwise::_init()
 
 	bool setCurrentLanguageResult = setCurrentLanguage(startupLanguage);
 	AKASSERT(setCurrentLanguageResult);
+
+	signalCallbackDataMaxSize = 
+	static_cast<unsigned int>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + "callback_manager_buffer_size"));
+
+	const bool engineLogging =
+	static_cast<bool>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + "engine_logging"));
+
+	if (engineLogging)
+	{
+		AK::Monitor::SetLocalOutput(AK::Monitor::ErrorLevel_All);
+	}
 }
 
 void Wwise::_process(const float delta)
@@ -1150,7 +1163,15 @@ void Wwise::eventCallback(AkCallbackType callbackType, AkCallbackInfo* callbackI
 		break;
 	}
 
-	signalDataArray->append(signalData);
+	if (signalDataArray->size() <= signalCallbackDataMaxSize)
+	{
+		signalDataArray->append(signalData);
+	}
+	else
+	{
+		Godot::print_warning("Exceeded the signal callback data maximum size (callback manager)",
+							__FUNCTION__, __FILE__, __LINE__);
+	}
 
 	signalDataMutex->unlock();
 }
@@ -1207,6 +1228,7 @@ Variant Wwise::getPlatformProjectSetting(const String setting)
 	else
 	{
 		AKASSERT(false);
+		Godot::print("Failed to get setting " + platformSetting);
 		return "";
 	}
 }
@@ -1229,52 +1251,230 @@ bool Wwise::initialiseWwiseSystems()
 
 	AkDeviceSettings deviceSettings;
 	AK::StreamMgr::GetDefaultDeviceSettings(deviceSettings);
+
+	deviceSettings.bUseStreamCache = 
+	static_cast<bool>(getPlatformProjectSetting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "use_stream_cache"));
+
+	deviceSettings.fTargetAutoStmBufferLength = 
+	static_cast<float>(getPlatformProjectSetting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "target_auto_stream_buffer_length_ms"));
+
+	deviceSettings.uIOMemorySize = 
+	static_cast<unsigned int>(getPlatformProjectSetting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "IO_memory_size"));
+
+	deviceSettings.uMaxCachePinnedBytes = 
+	static_cast<unsigned int>(getPlatformProjectSetting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "maximum_pinned_bytes_in_cache"));
+
 	if (!ERROR_CHECK(lowLevelIO.Init(deviceSettings), "Low level IO failed"))
 	{
 		return false;
 	}
 
 	AkInitSettings initSettings;
-	AkPlatformInitSettings platformInitSettings;
 	AK::SoundEngine::GetDefaultInitSettings(initSettings);
+
+	initSettings.bDebugOutOfRangeCheckEnabled = 
+	static_cast<bool>(getPlatformProjectSetting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "debug_out_of_range_check_enabled"));
+
+	initSettings.bEnableGameSyncPreparation = 
+	static_cast<bool>(getPlatformProjectSetting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "enable_game_sync_preparation"));
+
+	initSettings.fDebugOutOfRangeLimit = 
+	static_cast<float>(getPlatformProjectSetting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "debug_out_of_range_limit"));
+
+	initSettings.settingsMainOutput.audioDeviceShareset = 
+	AK::SoundEngine::GetIDFromString(static_cast<String>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH +
+									"main_output/audio_device_shareset")).alloc_c_string());
+
+	const unsigned int channelConfigType = 
+	static_cast<unsigned int>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + "main_output/channel_config/channel_config_type"));
+
+	const unsigned int numChannels = 
+	static_cast<unsigned int>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + "main_output/channel_config/number_of_channels"));
+	
+	if (channelConfigType == AK_ChannelConfigType_Anonymous)
+	{
+		initSettings.settingsMainOutput.channelConfig.SetAnonymous(numChannels);
+	}
+	else if (channelConfigType == AK_ChannelConfigType_Standard)
+	{
+		initSettings.settingsMainOutput.channelConfig.SetStandard(numChannels);
+	}
+	else if (channelConfigType == AK_ChannelConfigType_Ambisonic)
+	{
+		initSettings.settingsMainOutput.channelConfig.SetAmbisonic(numChannels);
+	}
+	else
+	{
+		AKASSERT(false);
+	}
+
+	initSettings.settingsMainOutput.idDevice = 
+	static_cast<unsigned int>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + "main_output/device_id"));
+
+	initSettings.settingsMainOutput.ePanningRule = 
+	static_cast<AkPanningRule>(static_cast<unsigned int>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + "main_output/panning_rule")));
+
+	initSettings.uCommandQueueSize = 
+	static_cast<unsigned int>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + "command_queue_size"));
+
+	initSettings.uContinuousPlaybackLookAhead = 
+	static_cast<unsigned int>(getPlatformProjectSetting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "continuous_playback_look_ahead"));
+
+	initSettings.uMaxHardwareTimeoutMs = 
+	static_cast<unsigned int>(getPlatformProjectSetting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "maximum_hardware_timeout_ms"));
+
+	initSettings.uMaxNumPaths = 
+	static_cast<unsigned int>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + "maximum_number_of_positioning_paths"));
+
+	initSettings.uMonitorQueuePoolSize = 
+	static_cast<unsigned int>(getPlatformProjectSetting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "monitor_queue_pool_size"));
+
+	const unsigned int numSamplesPerFrameEnum = 
+	static_cast<unsigned int>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + "samples_per_frame"));
+
+	switch (numSamplesPerFrameEnum)
+	{
+		case SamplesPerFrame::SAMPLES_256:
+			initSettings.uNumSamplesPerFrame = 256;
+			break;
+		case SamplesPerFrame::SAMPLES_512:
+			initSettings.uNumSamplesPerFrame = 512;
+			break;
+		case SamplesPerFrame::SAMPLES_1024:
+			initSettings.uNumSamplesPerFrame = 1024;
+			break;
+		case SamplesPerFrame::SAMPLES_2048:
+			initSettings.uNumSamplesPerFrame = 2048;
+		default:
+			AKASSERT(false);
+			break;
+	}
+
+	AkPlatformInitSettings platformInitSettings;
 	AK::SoundEngine::GetDefaultPlatformInitSettings(platformInitSettings);
+
+	// Common platform settings
+	const unsigned int numRefillsInVoiceEnum = 
+	static_cast<unsigned int>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + "number_of_refills_in_voice"));
+
+	switch (numRefillsInVoiceEnum)
+	{
+		case NumRefillsInVoice::REFILLS_2:
+			platformInitSettings.uNumRefillsInVoice = 2;
+			break;
+		case NumRefillsInVoice::REFILLS_4:
+			platformInitSettings.uNumRefillsInVoice = 4;
+			break;
+		default:
+			AKASSERT(false);
+			break;
+	}
+
+	const unsigned int sampleRateEnum =
+	static_cast<unsigned int>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + "sample_rate"));
+
+	switch (sampleRateEnum)
+	{
+		case SampleRate::RATE_16000:
+			platformInitSettings.uSampleRate = 16000;
+			break;
+		case SampleRate::RATE_24000:
+			platformInitSettings.uSampleRate = 24000;
+			break;
+		case SampleRate::RATE_32000:
+			platformInitSettings.uSampleRate = 32000;
+			break;
+		case SampleRate::RATE_44100:
+			platformInitSettings.uSampleRate = 44100;
+			break;
+		case SampleRate::RATE_48000:
+			platformInitSettings.uSampleRate = 48000;
+			break;
+		default:
+			AKASSERT(false);
+			break;
+	}
+
+	// Platform-specific settings
+#ifdef AK_WIN
+	platformInitSettings.bGlobalFocus = 
+	static_cast<bool>(getPlatformProjectSetting("wwise/windows_advanced_settings/global_focus"));
+
+	platformInitSettings.eAudioAPI = 
+	static_cast<AkAudioAPI>(static_cast<unsigned int>(getPlatformProjectSetting("wwise/windows_advanced_settings/audio_API")));
+#elif defined(AK_MAC_OS_X)
+
+#elif defined(AK_IOS)
+	const unsigned int sessionCategoryEnum =
+	static_cast<unsigned int>(getPlatformProjectSetting("wwise/ios_advanced_settings/audio_session_category")));
+
+	platformInitSettings.audioSession.eCategory = static_cast<AkAudioSessionCategory>(sessionCategoryEnum);
+
+	const unsigned int sessionCategoryFlags =
+	static_cast<unsigned int>(getPlatformProjectSetting("wwise/ios_advanced_settings/audio_session_category_options")));
+
+	platformInitSettings.audioSession.eCategoryOptions = static_cast<AkAudioSessionCategoryOptions>(sessionCategoryEnum);
+
+	const unsigned int audioSessionModeEnum =
+	static_cast<unsigned int>(getPlatformProjectSetting("wwise/ios_advanced_settings/audio_session_mode")));
+
+	platformInitSettings.audioSession.eMode = static_cast<AkAudioSessionMode>(audioSessionModeEnum);
+#elif defined(AK_ANDROID)
+
+#else
+#error "Platform not supported"
+#endif
+
 	if (!ERROR_CHECK(AK::SoundEngine::Init(&initSettings, &platformInitSettings), "Sound engine initialisation failed"))
 	{
 		return false;
 	}
 
-	AkMusicSettings musicInit;
-	AK::MusicEngine::GetDefaultInitSettings(musicInit);
-	if (!ERROR_CHECK(AK::MusicEngine::Init(&musicInit), "Music engine initialisation failed"))
+	AkMusicSettings musicInitSettings;
+	AK::MusicEngine::GetDefaultInitSettings(musicInitSettings);
+
+	musicInitSettings.fStreamingLookAheadRatio = 
+	static_cast<float>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + "streaming_look_ahead_ratio"));
+
+	if (!ERROR_CHECK(AK::MusicEngine::Init(&musicInitSettings), "Music engine initialisation failed"))
 	{
 		return false;
 	}
 
 	AkSpatialAudioInitSettings spatialSettings;
-	spatialSettings.uMaxSoundPropagationDepth = static_cast<unsigned int>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + 
-												WWISE_SPATIAL_AUDIO_PATH + "max_sound_propagation_depth"));
-	spatialSettings.uDiffractionFlags = static_cast<unsigned int>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH +
-											WWISE_SPATIAL_AUDIO_PATH + "diffraction_flags"));
-	spatialSettings.fDiffractionShadowAttenFactor = static_cast<float>(getPlatformProjectSetting(WWISE_COMMON_ADVANCED_SETTINGS_PATH +
-													WWISE_SPATIAL_AUDIO_PATH + "diffraction_shadow_attenuation_factor"));
-	spatialSettings.fDiffractionShadowDegrees = static_cast<float>(getPlatformProjectSetting(WWISE_COMMON_ADVANCED_SETTINGS_PATH +
-												WWISE_SPATIAL_AUDIO_PATH + "diffraction_shadow_degrees"));
 
-	spatialSettings.fMovementThreshold = static_cast<float>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH +
-											WWISE_SPATIAL_AUDIO_PATH + "movement_threshold"));
-	spatialSettings.uNumberOfPrimaryRays = static_cast<unsigned int>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH +
-											WWISE_SPATIAL_AUDIO_PATH + "number_of_primary_rays"));
-	spatialSettings.uMaxReflectionOrder = static_cast<unsigned int>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH +
-											WWISE_SPATIAL_AUDIO_PATH + "max_reflection_order"));
-	spatialSettings.fMaxPathLength = static_cast<float>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH +
-										WWISE_SPATIAL_AUDIO_PATH + "max_path_length"));
+	spatialSettings.uMaxSoundPropagationDepth = 
+	static_cast<unsigned int>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "max_sound_propagation_depth"));
+	
+	spatialSettings.uDiffractionFlags = 
+	static_cast<unsigned int>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "diffraction_flags"));
 
-	spatialSettings.bEnableDiffractionOnReflection = static_cast<bool>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH +
-														WWISE_SPATIAL_AUDIO_PATH + "enable_diffraction_on_reflections"));
-	spatialSettings.bEnableDirectPathDiffraction = static_cast<bool>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH +
-													WWISE_SPATIAL_AUDIO_PATH + "enable_direct_path_diffraction"));
-	spatialSettings.bEnableTransmission = static_cast<bool>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH +
-											WWISE_SPATIAL_AUDIO_PATH + "enable_transmission"));
+	spatialSettings.fDiffractionShadowAttenFactor = 
+	static_cast<float>(getPlatformProjectSetting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "diffraction_shadow_attenuation_factor"));
+	
+	spatialSettings.fDiffractionShadowDegrees = 
+	static_cast<float>(getPlatformProjectSetting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "diffraction_shadow_degrees"));
+
+	spatialSettings.fMovementThreshold = 
+	static_cast<float>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "movement_threshold"));
+
+	spatialSettings.uNumberOfPrimaryRays = 
+	static_cast<unsigned int>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "number_of_primary_rays"));
+	
+	spatialSettings.uMaxReflectionOrder = 
+	static_cast<unsigned int>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "max_reflection_order"));
+	
+	spatialSettings.fMaxPathLength = 
+	static_cast<float>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "max_path_length"));
+
+	spatialSettings.bEnableDiffractionOnReflection = 
+	static_cast<bool>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "enable_diffraction_on_reflections"));
+	
+	spatialSettings.bEnableDirectPathDiffraction = 
+	static_cast<bool>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "enable_direct_path_diffraction"));
+	
+	spatialSettings.bEnableTransmission = 
+	static_cast<bool>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "enable_transmission"));
 
 	if (!ERROR_CHECK(AK::SpatialAudio::Init(spatialSettings), "Spatial Audio initialisation failed"))
 	{
@@ -1282,9 +1482,25 @@ bool Wwise::initialiseWwiseSystems()
 	}
 
 #ifndef AK_OPTIMIZED
-	AkCommSettings settingsComm;
-	AK::Comm::GetDefaultInitSettings(settingsComm);
-	if (!ERROR_CHECK(AK::Comm::Init(settingsComm), "Comm initialisation failed"))
+	AkCommSettings commSettings;
+	AK::Comm::GetDefaultInitSettings(commSettings);
+
+	commSettings.bInitSystemLib = 
+	static_cast<bool>(getPlatformProjectSetting(WWISE_COMMUNICATION_SETTINGS_PATH + "initialize_system_comms"));
+
+	commSettings.ports.uCommand = 
+	static_cast<unsigned int>(getPlatformProjectSetting(WWISE_COMMUNICATION_SETTINGS_PATH + "command_port"));
+
+	commSettings.ports.uDiscoveryBroadcast = 
+	static_cast<unsigned int>(getPlatformProjectSetting(WWISE_COMMUNICATION_SETTINGS_PATH + "discovery_broadcast_port"));
+
+	commSettings.ports.uNotification = 
+	static_cast<unsigned int>(getPlatformProjectSetting(WWISE_COMMUNICATION_SETTINGS_PATH + "notification_port"));
+
+	AKPLATFORM::SafeStrCpy(commSettings.szAppNetworkName, static_cast<String>(getPlatformProjectSetting(WWISE_COMMUNICATION_SETTINGS_PATH +
+							"network_name")).alloc_c_string(), AK_COMM_SETTINGS_MAX_STRING_SIZE);
+
+	if (!ERROR_CHECK(AK::Comm::Init(commSettings), "Comm initialisation failed"))
 	{
 		return false;
 	}

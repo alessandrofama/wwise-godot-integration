@@ -13,6 +13,29 @@ using namespace godot;
     path = path.replace("res://", "./");
 #endif
 
+enum SamplesPerFrame
+{
+	SAMPLES_256 = 0,
+	SAMPLES_512,
+	SAMPLES_1024,
+	SAMPLES_2048
+};
+
+enum NumRefillsInVoice
+{
+	REFILLS_2 = 0,
+	REFILLS_4
+};
+
+enum SampleRate
+{
+	RATE_16000 = 0,
+	RATE_24000,
+	RATE_32000,
+	RATE_44100,
+	RATE_48000
+};
+
 static const char* WwiseErrorString(AKRESULT errcode)
 {
 	switch (errcode)
