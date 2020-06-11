@@ -96,6 +96,10 @@ namespace godot
 		bool removePortal(const Object* gameObject);
 		bool setGameObjectInRoom(const Object* gameObject, const Object* room);
 		bool removeGameObjectFromRoom(const Object* gameObject);
+		bool setEarlyReflectionsAuxSend(const Object* gameObject, const unsigned int auxBusID);
+
+		bool addOutput(const String shareSet, const unsigned int outputID);
+		bool removeOutput(const unsigned int outputID);
 
 	private:
 		const String GODOT_WINDOWS_SETTING_POSTFIX = ".Windows";

@@ -14,6 +14,7 @@ opts.Add(BoolVariable('use_llvm', "Use the LLVM / Clang compiler", 'no'))
 opts.Add(PathVariable('target_path', 'The path where the lib is installed.', 'gdnative-demo/wwise/bin/'))
 opts.Add(PathVariable('target_name', 'The library name.', 'WwiseGDNative', PathVariable.PathAccept))
 opts.Add(PathVariable('wwise_sdk', 'The Wwise SDK path', '', PathVariable.PathAccept))
+opts.Add(ListVariable('plugins', 'List of plugins', '', ['reflect', 'motion', 'convolution', 'soundseed_grain', 'soundseed_air_impact']))
 
 # Local dependency paths, adapt them to your setup
 godot_headers_path = "../godot-cpp/godot_headers/"
@@ -57,6 +58,19 @@ wwise_plugins_library = ["AkGainFX", "AkHarmonizerFX", "AkStereoDelayFX", "AkTim
                          "AkExpanderFX", "AkCompressorFX", "AkMatrixReverbFX", "AkParametricEQFX", 
                          "AkDelayFX","AkSilenceSource", "AkToneSource", "AkFlangerFX", "AkSineSource",
                          "AkRecorderFX", "AkAudioInputSource", "AkSynthOneSource", "AkSpatialAudio"]
+
+if 'reflect' in env['plugins']:
+    wwise_plugins_library.append('AkReflectFX')
+
+if 'convolution' in env['plugins']:
+    wwise_plugins_library.append('AkConvolutionReverbFX')
+
+if 'soundseed_grain' in env['plugins']:
+    wwise_plugins_library.append('AkSoundSeedGrainSource')
+
+if 'soundseed_air_impact' in env['plugins']:
+    wwise_plugins_library.append(['AkSoundSeedWindSource', 'AkSoundSeedImpactFX', 'AkSoundSeedWooshSource'])
+
 print("Wwise SDK headers path: " + wwise_sdk_headers_path)
 print("Wwise SDK libs path: " + wwise_sdk_libs_path)
 
@@ -102,6 +116,15 @@ if env['platform'] == "osx":
         env.Append(CXXFLAGS=['-std=c++17'])
         env.Append(LINKFLAGS=['-arch', 'x86_64', '-framework', 'CoreAudio', '-Wl,-undefined,dynamic_lookup'])
 
+    if 'reflect' in env['plugins']:
+        env.Append(CPPDEFINES=['AK_REFLECT'])
+    if 'convolution' in env['plugins']:
+        env.Append(CPPDEFINES=['AK_CONVOLUTION'])
+    if 'soundseed_grain' in env['plugins']:
+        env.Append(CPPDEFINES=['AK_SOUNDSEED_GRAIN'])
+    if 'soundseed_air_impact' in env['plugins']:
+        env.Append(CPPDEFINES=['AK_SOUNDSEED_AIR_IMPACT'])
+
 elif env['platform'] in ('x11', 'linux'):
     env['target_path'] += 'x11/'
     cpp_library += '.linux'
@@ -120,6 +143,10 @@ elif env['platform'] == "windows":
         env['target_path'] += 'release/'
 
     cpp_library += '.windows'
+
+    if 'motion' in env['plugins']:
+        wwise_plugins_library.append(['AkMotionSink', 'AkMotionSourceSource'])
+    
     # This makes sure to keep the session environment variables on windows,
     # that way you can run scons in a vs 2017 prompt and it will find all the required tools
     env.Append(ENV=os.environ)
@@ -136,6 +163,17 @@ elif env['platform'] == "windows":
         env.Append(CPPDEFINES=['AK_OPTIMIZED'])
         env.Append(CPPDEFINES=['NDEBUG'])
         env.Append(CCFLAGS=['-O2', '-EHsc', '-MD'])
+
+    if 'reflect' in env['plugins']:
+        env.Append(CPPDEFINES=['AK_REFLECT'])
+    if 'motion' in env['plugins']:
+        env.Append(CPPDEFINES=['AK_MOTION'])
+    if 'convolution' in env['plugins']:
+        env.Append(CPPDEFINES=['AK_CONVOLUTION'])
+    if 'soundseed_grain' in env['plugins']:
+        env.Append(CPPDEFINES=['AK_SOUNDSEED_GRAIN'])
+    if 'soundseed_air_impact' in env['plugins']:
+        env.Append(CPPDEFINES=['AK_SOUNDSEED_AIR_IMPACT'])
 
 if env['target'] in ('debug', 'd'):
     cpp_library += '.debug'
@@ -170,6 +208,8 @@ if env['target'] in ('debug', 'd'):
 
 if env['platform'] == "windows":
     env.Append(LIBS=['advapi32', 'user32', 'ole32'])
+if env['platform'] == "windows" and 'motion' in env['plugins']:
+    env.Append(LIBS=['XInput', 'Dinput8', 'Winmm', 'oleaut32'])
 
 library = env.SharedLibrary(target=env['target_path'] + env['target_name'] , source=sources)
 

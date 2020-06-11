@@ -2,6 +2,29 @@
 
 #include <AK/Plugin/AllPluginsFactories.h>
 
+#if defined(AK_REFLECT)
+#include <AK/Plugin/AkReflectFXFactory.h>
+#endif
+
+#if defined(AK_MOTION)
+#include <AK/Plugin/AkMotionSinkFactory.h>
+#include <AK/Plugin/AkMotionSourceSourceFactory.h>
+#endif
+
+#if defined(AK_CONVOLUTION)
+#include <AK/Plugin/AkConvolutionReverbFXFactory.h>
+#endif
+
+#if defined(AK_SOUNDSEED_GRAIN)
+#include <AK/Plugin/AkSoundSeedGrainSourceFactory.h>
+#endif
+
+#if defined(AK_SOUNDSEED_AIR_IMPACT)
+#include <AK/Plugin/AkSoundSeedWindSourceFactory.h>
+#include <AK/Plugin/AkSoundSeedImpactFXFactory.h>
+#include <AK/Plugin/AkSoundSeedWooshSourceFactory.h>
+#endif
+
 using namespace godot;
 
 Mutex* Wwise::signalDataMutex;
@@ -101,6 +124,9 @@ void Wwise::_register_methods()
 	register_method("remove_portal", &Wwise::removePortal);
 	register_method("set_game_obj_in_room", &Wwise::setGameObjectInRoom);
 	register_method("remove_game_obj_from_room", &Wwise::removeGameObjectFromRoom);
+	register_method("set_early_reflections_aux_send", &Wwise::setEarlyReflectionsAuxSend);
+	register_method("add_output", &Wwise::addOutput);
+	register_method("remove_output", &Wwise::removeOutput);
 
 	REGISTER_GODOT_SIGNAL(AK_EndOfEvent);
 	REGISTER_GODOT_SIGNAL(AK_EndOfDynamicSequenceItem);
@@ -782,6 +808,23 @@ bool Wwise::removeGameObjectFromRoom(const Object* gameObject)
 	AkRoomID roomID;
 	return ERROR_CHECK(AK::SpatialAudio::SetGameObjectInRoom(static_cast<AkGameObjectID>(gameObject->get_instance_id()), INVALID_ROOM_ID), "Failed to remove Game Object from Room: "
 																																			+ String::num_int64(gameObject->get_instance_id()));
+}
+
+bool Wwise::setEarlyReflectionsAuxSend(const Object* gameObject, const unsigned int auxBusID)
+{
+	return ERROR_CHECK(AK::SpatialAudio::SetEarlyReflectionsAuxSend(static_cast<AkGameObjectID>(gameObject->get_instance_id()), static_cast<AkAuxBusID>(auxBusID)), "Failed to set Early Reflections Aux Send");
+}
+
+bool Wwise::addOutput(const String shareSet, const unsigned int outputID)
+{
+	AkOutputSettings outputSettings(shareSet.unicode_str(), outputID);
+
+	return ERROR_CHECK(AK::SoundEngine::AddOutput(outputSettings), "Failed to add share set to output ID: " + String::num_int64(outputID));
+}
+
+bool Wwise::removeOutput(const unsigned int outputID)
+{
+	return ERROR_CHECK(AK::SoundEngine::RemoveOutput(outputID), "Failed to remove output ID: " + String::num_int64(outputID));
 }
 
 void Wwise::eventCallback(AkCallbackType callbackType, AkCallbackInfo* callbackInfo)
