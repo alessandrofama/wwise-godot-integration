@@ -126,6 +126,7 @@ void Wwise::_register_methods()
 	register_method("set_game_obj_in_room", &Wwise::setGameObjectInRoom);
 	register_method("remove_game_obj_from_room", &Wwise::removeGameObjectFromRoom);
 	register_method("set_early_reflections_aux_send", &Wwise::setEarlyReflectionsAuxSend);
+	register_method("set_early_reflections_volume", &Wwise::setEarlyReflectionsVolume);
 	register_method("add_output", &Wwise::addOutput);
 	register_method("remove_output", &Wwise::removeOutput);
 
