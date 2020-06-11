@@ -825,7 +825,16 @@ bool Wwise::removeGameObjectFromRoom(const Object* gameObject)
 
 bool Wwise::setEarlyReflectionsAuxSend(const Object* gameObject, const unsigned int auxBusID)
 {
+	AKASSERT(gameObject);
+
 	return ERROR_CHECK(AK::SpatialAudio::SetEarlyReflectionsAuxSend(static_cast<AkGameObjectID>(gameObject->get_instance_id()), static_cast<AkAuxBusID>(auxBusID)), "Failed to set Early Reflections Aux Send");
+}
+
+bool Wwise::setEarlyReflectionsVolume(const Object* gameObject, const float volume)
+{
+	AKASSERT(gameObject);
+
+	return ERROR_CHECK(AK::SpatialAudio::SetEarlyReflectionsVolume(static_cast<AkGameObjectID>(gameObject->get_instance_id()), volume), "Failed to set Early Reflections volume");
 }
 
 bool Wwise::addOutput(const String shareSet, const unsigned int outputID)

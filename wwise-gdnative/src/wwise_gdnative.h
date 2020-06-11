@@ -97,6 +97,7 @@ namespace godot
 		bool setGameObjectInRoom(const Object* gameObject, const Object* room);
 		bool removeGameObjectFromRoom(const Object* gameObject);
 		bool setEarlyReflectionsAuxSend(const Object* gameObject, const unsigned int auxBusID);
+		bool setEarlyReflectionsVolume(const Object* gameObject, const float volume);
 
 		bool addOutput(const String shareSet, const unsigned int outputID);
 		bool removeOutput(const unsigned int outputID);
