@@ -124,3 +124,7 @@ move_sprint={
 [rendering]
 
 environment/default_environment="res://default_env.tres"
+
+[wwise]
+
+common_user_settings/engine_logging=true

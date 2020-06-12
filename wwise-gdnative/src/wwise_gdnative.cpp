@@ -31,6 +31,8 @@ Mutex* Wwise::signalDataMutex = nullptr;
 Array* Wwise::signalDataArray = nullptr;
 int Wwise::signalCallbackDataMaxSize = 4096;
 
+CAkLock g_localOutputLock;
+
 namespace AK
 {
 	void* __cdecl AllocHook(size_t in_size)
@@ -64,6 +66,20 @@ namespace AK
 	)
 	{
 		VirtualFree(in_pMemAddress, in_size, in_dwFreeType);
+	}
+#endif
+}
+
+#define AK_MONITOR_IMPLEMENT_ERRORCODES
+
+void LocalOutput(AK::Monitor::ErrorCode in_eErrorCode, const AkOSChar* in_pszError, AK::Monitor::ErrorLevel in_eErrorLevel, AkPlayingID in_playingID, AkGameObjectID in_gameObjID)
+{
+#ifndef AK_OPTIMIZED
+	AkAutoLock<CAkLock> autoLock(g_localOutputLock);
+
+	if (in_eErrorCode != AK::Monitor::ErrorCode::ErrorCode_NoError)
+	{
+		Godot::print_error("Wwise monitor: " + String(AK::Monitor::s_aszErrorCodes[in_eErrorCode]), "LocalOutput", "", 0);
 	}
 #endif
 }
@@ -204,7 +220,8 @@ void Wwise::_init()
 
 	if (engineLogging)
 	{
-		AK::Monitor::SetLocalOutput(AK::Monitor::ErrorLevel_All);
+		ERROR_CHECK(AK::Monitor::SetLocalOutput(AK::Monitor::ErrorLevel_All, static_cast<AK::Monitor::LocalOutputFunc>(LocalOutput)), 
+					"Failed to set ErrorLevel_All");
 	}
 }
 
@@ -1173,7 +1190,7 @@ void Wwise::eventCallback(AkCallbackType callbackType, AkCallbackInfo* callbackI
 		break;
 	}
 
-	if (signalDataArray->size() <= signalCallbackDataMaxSize)
+	if (signalDataArray->size() < signalCallbackDataMaxSize)
 	{
 		signalDataArray->append(signalData);
 	}

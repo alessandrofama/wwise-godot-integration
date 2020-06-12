@@ -14,6 +14,9 @@
 #include <AK/SoundEngine/Common/AkModule.h>
 #include <AK/SoundEngine/Common/IAkStreamMgr.h>
 #include <AK/Tools/Common/AkPlatformFuncs.h>
+#include <AK/Tools/Common/AkLock.h>
+#include <AK/Tools/Common/AkAutoLock.h>
+#include <AK/Tools/Common/AkMonitorError.h>
 #include <AK/MusicEngine/Common/AkMusicEngine.h>
 #include <AK/SoundEngine/Common/AkQueryParameters.h>
 #include <AK/SpatialAudio/Common/AkSpatialAudio.h> 
