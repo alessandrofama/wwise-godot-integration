@@ -729,9 +729,9 @@ bool Wwise::setGeometry(const Array vertices, const Array triangles, const Strin
 	for (int i = 0; i < numTriangles; i++)
 	{
 		AkTriangle t;
-		t.point0 = vertRemap[triangles[3 * i + 0]];
-		t.point1 = vertRemap[triangles[3 * i + 1]];
-		t.point2 = vertRemap[triangles[3 * i + 2]];
+		t.point0 = vertRemap[static_cast<unsigned int>(triangles[3 * i + 0])];
+		t.point1 = vertRemap[static_cast<unsigned int>(triangles[3 * i + 1])];
+		t.point2 = vertRemap[static_cast<unsigned int>(triangles[3 * i + 2])];
 		t.surface = !acousticTexture.empty() ? 0 : AK_INVALID_SURFACE;
 
 		akTriangles[triangleIdx] = t;

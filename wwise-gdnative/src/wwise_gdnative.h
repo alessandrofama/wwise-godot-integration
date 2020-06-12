@@ -20,7 +20,7 @@
 #include <AK/MusicEngine/Common/AkMusicEngine.h>
 #include <AK/SoundEngine/Common/AkQueryParameters.h>
 #include <AK/SpatialAudio/Common/AkSpatialAudio.h> 
-#include <AK/Soundengine/Common/AkVirtualAcoustics.h>
+#include <AK/SoundEngine/Common/AkVirtualAcoustics.h>
 #include <AkDefaultIOHookBlocking.h>
 
 #include "wwise_utils.h"
