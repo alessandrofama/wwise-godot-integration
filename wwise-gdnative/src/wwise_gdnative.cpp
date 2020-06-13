@@ -70,6 +70,14 @@ namespace AK
 #endif
 }
 
+#if defined(AK_ENABLE_ASSERTS)
+void WwiseAssertHook(const char* in_pszExpression, const char* in_pszFileName, int in_lineNumber)
+{
+	String msg = "AKASSERT: " + String(in_pszExpression);
+	Godot::print_warning(msg, "WwiseAssertHook", String(in_pszFileName), in_lineNumber);
+	AKPLATFORM::OutputDebugMsg(msg.alloc_c_string());
+}
+#endif
 
 void LocalOutput(AK::Monitor::ErrorCode in_eErrorCode, const AkOSChar* in_pszError, AK::Monitor::ErrorLevel in_eErrorLevel, AkPlayingID in_playingID, AkGameObjectID in_gameObjID)
 {
@@ -1295,6 +1303,10 @@ bool Wwise::initialiseWwiseSystems()
 
 	AkInitSettings initSettings;
 	AK::SoundEngine::GetDefaultInitSettings(initSettings);
+
+#if defined(AK_ENABLE_ASSERTS)
+	initSettings.pfnAssertHook = WwiseAssertHook;
+#endif
 
 	initSettings.bDebugOutOfRangeCheckEnabled = 
 	static_cast<bool>(getPlatformProjectSetting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "debug_out_of_range_check_enabled"));
