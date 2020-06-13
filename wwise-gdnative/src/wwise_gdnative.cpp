@@ -70,18 +70,15 @@ namespace AK
 #endif
 }
 
-#define AK_MONITOR_IMPLEMENT_ERRORCODES
 
 void LocalOutput(AK::Monitor::ErrorCode in_eErrorCode, const AkOSChar* in_pszError, AK::Monitor::ErrorLevel in_eErrorLevel, AkPlayingID in_playingID, AkGameObjectID in_gameObjID)
 {
-#ifndef AK_OPTIMIZED
 	AkAutoLock<CAkLock> autoLock(g_localOutputLock);
 
 	if (in_eErrorCode != AK::Monitor::ErrorCode::ErrorCode_NoError)
 	{
-		Godot::print_error("Wwise monitor: " + String(AK::Monitor::s_aszErrorCodes[in_eErrorCode]), "LocalOutput", "", 0);
+		Godot::print_error(String(in_pszError), "Wwise monitor", "", 0);
 	}
-#endif
 }
 
 Wwise::~Wwise() 
