@@ -128,3 +128,4 @@ environment/default_environment="res://default_env.tres"
 [wwise]
 
 common_user_settings/engine_logging=true
+common_user_settings/main_output/audio_device_shareset="System"
