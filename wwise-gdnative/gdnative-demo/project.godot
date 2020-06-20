@@ -55,6 +55,11 @@ _global_script_classes=[ {
 "path": "res://wwise/ak_game_obj_environment_data.gd"
 }, {
 "base": "Spatial",
+"class": "AkGeometry",
+"language": "GDScript",
+"path": "res://wwise/nodes/ak_geometry.gd"
+}, {
+"base": "Spatial",
 "class": "AkListener",
 "language": "GDScript",
 "path": "res://wwise/nodes/ak_listener.gd"
@@ -74,6 +79,7 @@ _global_script_class_icons={
 "AkGameObj": "",
 "AkGameObj2D": "",
 "AkGameObjectEnvironmentData": "",
+"AkGeometry": "",
 "AkListener": "",
 "AkUtils": ""
 }

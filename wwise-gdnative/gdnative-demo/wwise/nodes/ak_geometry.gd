@@ -1,4 +1,5 @@
 extends Spatial
+class_name AkGeometry
 
 var vertices = []
 var triangles = []
@@ -22,7 +23,7 @@ func create_mesh_data_tool(mesh:Mesh) -> MeshDataTool:
 	mesh_data_tool.create_from_surface(array_mesh, 0)
 	return mesh_data_tool
 	
-func set_geometry(mesh_inst:MeshInstance) -> void:
+func set_geometry(mesh_inst:MeshInstance) -> bool:
 	var mdt = create_mesh_data_tool(mesh_inst.mesh)
 		
 	for i in range(mdt.get_vertex_count()):
@@ -40,13 +41,16 @@ func set_geometry(mesh_inst:MeshInstance) -> void:
 	if not room.is_empty():
 		room_node = get_node(room)
 	
-	Wwise.set_geometry(vertices, triangles, acoustic_texture, occlusion_value, self, enable_diffraction, enable_diffraction_on_boundary_edges, room_node)
+	var result = Wwise.set_geometry(vertices, triangles, acoustic_texture, occlusion_value, self, enable_diffraction, enable_diffraction_on_boundary_edges, room_node)
 	
 	vertices.clear()
 	triangles.clear()
 	
+	return result
+	
 func _ready():
 	mesh_instance = get_parent()
+	#warning-ignore:return_value_discarded
 	set_geometry(mesh_instance)
 	if not is_static:
 		set_notify_transform(true)
@@ -54,4 +58,5 @@ func _ready():
 func _notification(notification):
 	if(notification == NOTIFICATION_TRANSFORM_CHANGED):
 		Wwise.remove_geometry(self)
+		#warning-ignore:return_value_discarded
 		set_geometry(mesh_instance)
