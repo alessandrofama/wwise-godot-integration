@@ -24,13 +24,13 @@ struct PendingCallback
 	}
 };
 
-CAkLock pendingCallbacksLock;
-std::vector<PendingCallback*> pendingCallbacks;
+CAkLock g_pendingCallbacksLock;
+std::vector<PendingCallback*> g_pendingCallbacks;
 
 void WampEventCallback(const uint64_t& in_subscriptionId, const AK::WwiseAuthoringAPI::JsonProvider& in_rJson)
 {
-	AkAutoLock<CAkLock> ScopedLock(pendingCallbacksLock);
-	pendingCallbacks.push_back(new PendingCallback(in_subscriptionId, in_rJson.GetJsonString()));
+	AkAutoLock<CAkLock> ScopedLock(g_pendingCallbacksLock);
+	g_pendingCallbacks.push_back(new PendingCallback(in_subscriptionId, in_rJson.GetJsonString()));
 }
 
 Waapi::~Waapi()
@@ -182,13 +182,13 @@ String Waapi::getLastString()
 
 void Waapi::processCallbacks()
 {
-	if (!pendingCallbacks.empty())
+	if (!g_pendingCallbacks.empty())
 	{
 		std::vector<PendingCallback*> callbacksCopy;
 		{
-			AkAutoLock<CAkLock> ScopedLock(pendingCallbacksLock);
-			callbacksCopy = pendingCallbacks;
-			pendingCallbacks.clear();
+			AkAutoLock<CAkLock> ScopedLock(g_pendingCallbacksLock);
+			callbacksCopy = g_pendingCallbacks;
+			g_pendingCallbacks.clear();
 		}
 
 		for (auto pendingCallback : callbacksCopy)
