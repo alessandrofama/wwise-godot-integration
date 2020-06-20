@@ -39,7 +39,31 @@ class TestPostEvent:
 		var playing_id = Wwise.post_event_id(AK.EVENTS.PLAY_CHIMES_WITH_MARKER, node)
 		yield(yield_for(0.1), YIELD)
 		assert_true(Wwise.stop_event(playing_id, 0, AkUtils.AkInterpolationMode.LINEAR))
-	
+		
+	func test_assert_post_trigger_string():
+		var playing_id = Wwise.post_event_id(AK.EVENTS.MUSIC, node)
+		yield(yield_for(0.1), YIELD)
+		assert_true(Wwise.post_trigger("MusicTrigger", node), "Post Trigger should be true")
+		Wwise.stop_event(playing_id, 0, AkUtils.AkInterpolationMode.LINEAR)
+		
+	func test_assert_post_trigger_id():
+		var playing_id = Wwise.post_event_id(AK.EVENTS.MUSIC, node)
+		yield(yield_for(0.1), YIELD)
+		assert_true(Wwise.post_trigger_id(AK.TRIGGERS.MUSICTRIGGER, node), "Post Trigger ID should be true")
+		Wwise.stop_event(playing_id, 0, AkUtils.AkInterpolationMode.LINEAR)
+		
+	func test_assert_external_source_string():
+		var desired_value = Wwise.post_external_source("External_Source_Event", node, "External_Source", "ExternalSources/External_Source_Demo.wem", AkUtils.AkCodecID.AKCODECID_PCM)
+		yield(yield_for(0.1), YIELD)
+		assert_true(desired_value > 0, "External Source Playing ID should be greater than 0")
+		Wwise.stop_event(desired_value, 0, AkUtils.AkInterpolationMode.LINEAR)
+
+	func test_assert_external_source_id():
+		var desired_value = Wwise.post_external_source_id(AK.EVENTS.EXTERNAL_SOURCE_EVENT, node, AK.EXTERNAL_SOURCES.EXTERNAL_SOURCE, "ExternalSources/External_Source_Demo.wem", AkUtils.AkCodecID.AKCODECID_PCM)
+		yield(yield_for(0.1), YIELD)
+		assert_true(desired_value > 0, "External Source Playing ID should be greater than 0")
+		Wwise.stop_event(desired_value, 0, AkUtils.AkInterpolationMode.LINEAR)
+		
 	func after_all():
 		Wwise.unregister_game_obj(node)		
 		Wwise.unload_bank_id(AK.BANKS.TESTBANK)	
