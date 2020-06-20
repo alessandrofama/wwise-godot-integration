@@ -27,10 +27,10 @@ struct PendingCallback
 CAkLock g_pendingCallbacksLock;
 std::vector<PendingCallback*> g_pendingCallbacks;
 
-void WampEventCallback(const uint64_t& in_subscriptionId, const AK::WwiseAuthoringAPI::JsonProvider& in_rJson)
+void WampEventCallback(const uint64_t& subscriptionId, const AK::WwiseAuthoringAPI::JsonProvider& rJson)
 {
 	AkAutoLock<CAkLock> ScopedLock(g_pendingCallbacksLock);
-	g_pendingCallbacks.push_back(new PendingCallback(in_subscriptionId, in_rJson.GetJsonString()));
+	g_pendingCallbacks.push_back(new PendingCallback(subscriptionId, rJson.GetJsonString()));
 }
 
 Waapi::~Waapi()
