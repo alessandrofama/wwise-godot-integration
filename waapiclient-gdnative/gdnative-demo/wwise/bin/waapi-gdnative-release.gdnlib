@@ -1,0 +1,13 @@
+[general]
+
+singleton=false
+load_once=true
+symbol_prefix="wwise_"
+reloadable=true
+
+[entry]
+Windows.64="res://wwise/bin/win64/release/WaapiGDNative.dll"
+
+[dependencies]
+Windows.64=[]
+OSX.64=[]
