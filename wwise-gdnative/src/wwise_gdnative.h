@@ -52,6 +52,7 @@ namespace godot
 
 		bool registerListener(const Object* gameObject);
 		bool registerGameObject(const Object* gameObject, const String gameObjectName);
+		bool unregisterGameObject(const Object* gameObject);
 
 		bool SetListeners(const Object* emitter, const Object* listener);
 
