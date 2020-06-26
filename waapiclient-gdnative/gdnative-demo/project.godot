@@ -22,6 +22,7 @@ config/icon="res://icon.png"
 [autoload]
 
 Waapi="*res://wwise/bin/waapi-gdnative-debug.gdns"
+WaapiPicker="*res://wwise/waapi_picker.gd"
 
 [rendering]
 
