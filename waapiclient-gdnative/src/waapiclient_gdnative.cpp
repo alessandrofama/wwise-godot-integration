@@ -40,15 +40,15 @@ Waapi::~Waapi()
 void Waapi::_register_methods()
 {
 	register_method("_process", &Waapi::_process);
-	register_method("connect", &Waapi::connect);
-	register_method("is_connected", &Waapi::isConnected);
-	register_method("disconnect", &Waapi::disconnect);
+	register_method("connect_client", &Waapi::connectClient);
+	register_method("is_client_connected", &Waapi::isClientConnected);
+	register_method("disconnect_client", &Waapi::disconnectClient);
 	register_method("subscribe", &Waapi::subscribe);
 	register_method("subscribe_with_timeout", &Waapi::subscribeWithTimeout);
 	register_method("unsusbscribe", &Waapi::unsubscribe);
 	register_method("unsubscribe_with_timeout", &Waapi::unsubscribeWithTimeout);
-	register_method("call", &Waapi::call);
-	register_method("call_with_timetout", &Waapi::callWithTimeout);
+	register_method("client_call", &Waapi::clientCall);
+	register_method("client_call_with_timetout", &Waapi::clientCallWithTimeout);
 	register_method("get_last_string", &Waapi::getLastString);
 
 	register_signal<Waapi>("wamp_event", "data", GODOT_VARIANT_TYPE_DICTIONARY);
@@ -64,19 +64,19 @@ void Waapi::_process(const float delta)
 	processCallbacks();
 }
 
-bool Waapi::connect(const String uri, const unsigned int port)
+bool Waapi::connectClient(const String uri, const unsigned int port)
 {
 	AKASSERT(!uri.empty());
 
 	return client.Connect(uri.alloc_c_string(), port);
 }
 
-bool Waapi::isConnected()
+bool Waapi::isClientConnected()
 {
 	return client.IsConnected();
 }
 
-void Waapi::disconnect()
+void Waapi::disconnectClient()
 {
 	client.Disconnect();
 }
@@ -142,7 +142,7 @@ Dictionary Waapi::unsubscribeWithTimeout(const uint64_t subscriptionId, const in
 	return result;
 }
 
-Dictionary Waapi::call(const String uri, const String args, const String options)
+Dictionary Waapi::clientCall(const String uri, const String args, const String options)
 {
 	AKASSERT(!uri.empty());
 	AKASSERT(!args.empty());
@@ -158,7 +158,7 @@ Dictionary Waapi::call(const String uri, const String args, const String options
 	return result;
 }
 
-Dictionary Waapi::callWithTimeout(const String uri, const String args, const String options, const int timeoutMs)
+Dictionary Waapi::clientCallWithTimeout(const String uri, const String args, const String options, const int timeoutMs)
 {
 	AKASSERT(!uri.empty());
 	AKASSERT(!args.empty());

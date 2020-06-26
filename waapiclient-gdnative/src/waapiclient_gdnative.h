@@ -26,17 +26,17 @@ namespace godot
 		void _init();
 		void _process(const float delta);
 
-		bool connect(const String uri, const unsigned int port);
-		bool isConnected();
-		void disconnect();
+		bool connectClient(const String uri, const unsigned int port);
+		bool isClientConnected();
+		void disconnectClient();
 
 		Dictionary subscribe(const String uri, const String options);
 		Dictionary subscribeWithTimeout(const String uri, const String options, const int timeoutMs);
 		Dictionary unsubscribe(const uint64_t subscriptionId);
 		Dictionary unsubscribeWithTimeout(const uint64_t subscriptionId, const int timeoutMs);
 
-		Dictionary call(const String uri, const String args, const String options);
-		Dictionary callWithTimeout(const String uri, const String args, const String options, const int timeoutMs);
+		Dictionary clientCall(const String uri, const String args, const String options);
+		Dictionary clientCallWithTimeout(const String uri, const String args, const String options, const int timeoutMs);
 
 		String getLastString();
 
