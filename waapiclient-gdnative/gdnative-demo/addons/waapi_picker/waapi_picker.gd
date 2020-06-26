@@ -22,10 +22,9 @@ func _enter_tree():
 	refreshProjectButton.connect("button_up", self, "_on_refreshProjectButtonClick")
 
 func _on_draw_waapiPickerControl():
-	if editorViewport:
-		var width = editorViewport.rect_size.x - 6
-		var height = get_editor_interface().get_base_control().get_size().y - editorViewport.rect_size.y - 150
-		parentWaapiContainer.set_size(Vector2(width, height))
+	var width = editorViewport.rect_size.x - 6
+	var height = get_editor_interface().get_base_control().get_size().y - editorViewport.rect_size.y - 150
+	parentWaapiContainer.set_size(Vector2(width, height))
 
 func _on_refreshProjectButtonClick():
 	var connectResult = Waapi.connect_client("127.0.0.1", 8080)
