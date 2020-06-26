@@ -4,5 +4,5 @@
 
 [resource]
 resource_name = "waapi-gdnative-release"
-class_name = "Wwise"
+class_name = "Waapi"
 library = ExtResource( 1 )
