@@ -24,6 +24,10 @@ config/icon="res://icon.png"
 Waapi="*res://wwise/bin/waapi-gdnative-debug.gdns"
 WaapiPicker="*res://wwise/waapi_picker.gd"
 
+[editor_plugins]
+
+enabled=PoolStringArray( "gut" )
+
 [rendering]
 
 environment/default_environment="res://default_env.tres"
