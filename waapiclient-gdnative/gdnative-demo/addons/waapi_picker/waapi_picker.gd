@@ -20,7 +20,8 @@ func _enter_tree():
 	assert(error == OK)
 	
 	refreshProjectButton = waapiPickerControl.find_node("RefreshProjectButton")
-	refreshProjectButton.connect("button_up", self, "_on_refreshProjectButtonClick")
+	error = refreshProjectButton.connect("button_up", self, "_on_refreshProjectButtonClick")
+	assert(error == OK)
 	
 	projectObjectsTree = waapiPickerControl.find_node("ProjectObjectsTree")
 
@@ -46,18 +47,25 @@ func _on_refreshProjectButtonClick():
 			
 			var wwiseProjectTree = projectObjectsTree.create_item()
 			wwiseProjectTree.set_text(0, "WwiseProject")
+			wwiseProjectTree.set_icon(0, preload("res://addons/waapi_picker/icons/wwise_project.png"))
 			var eventsTree = projectObjectsTree.create_item()
 			eventsTree.set_text(0, "Events")
+			eventsTree.set_icon(0, preload("res://addons/waapi_picker/icons/folder.png"))
 			var switchesTree = projectObjectsTree.create_item()
 			switchesTree.set_text(0, "Switches")
+			switchesTree.set_icon(0, preload("res://addons/waapi_picker/icons/folder.png"))
 			var statesTree = projectObjectsTree.create_item()
 			statesTree.set_text(0, "States")
+			statesTree.set_icon(0, preload("res://addons/waapi_picker/icons/folder.png"))
 			var soundbanksTree = projectObjectsTree.create_item()
 			soundbanksTree.set_text(0, "SoundBanks")
+			soundbanksTree.set_icon(0, preload("res://addons/waapi_picker/icons/folder.png"))
 			var auxiliaryBusesTree = projectObjectsTree.create_item()
 			auxiliaryBusesTree.set_text(0, "Auxiliary Buses")
+			auxiliaryBusesTree.set_icon(0, preload("res://addons/waapi_picker/icons/folder.png"))
 			var virtualAcousticsTree = projectObjectsTree.create_item()
 			virtualAcousticsTree.set_text(0, "Virtual Acoustics")
+			virtualAcousticsTree.set_icon(0, preload("res://addons/waapi_picker/icons/folder.png"))
 			
 			for object in jsonDocument.result["return"]:
 				var item = null
@@ -66,16 +74,22 @@ func _on_refreshProjectButtonClick():
 					wwiseProjectTree.set_text(0, object.name)
 				elif object.type == "Event":
 					item = projectObjectsTree.create_item(eventsTree)
+					item.set_icon(0, preload("res://addons/waapi_picker/icons/event.png"))
 				elif object.type == "Switch":
 					item = projectObjectsTree.create_item(switchesTree)
+					item.set_icon(0, preload("res://addons/waapi_picker/icons/switch.png"))
 				elif object.type == "State":
 					item = projectObjectsTree.create_item(statesTree)
+					item.set_icon(0, preload("res://addons/waapi_picker/icons/state.png"))
 				elif object.type == "SoundBank":
 					item = projectObjectsTree.create_item(soundbanksTree)
+					item.set_icon(0, preload("res://addons/waapi_picker/icons/soundbank.png"))
 				elif object.type == "AuxBus":
 					item = projectObjectsTree.create_item(auxiliaryBusesTree)
+					item.set_icon(0, preload("res://addons/waapi_picker/icons/auxbus.png"))
 				elif object.type == "AcousticTexture":
 					item = projectObjectsTree.create_item(virtualAcousticsTree)
+					item.set_icon(0, preload("res://addons/waapi_picker/icons/acoustictexture.png"))
 				else:
 					assert(false) # Not supported type
 				
