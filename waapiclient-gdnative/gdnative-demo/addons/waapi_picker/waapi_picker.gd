@@ -33,8 +33,8 @@ func _on_refreshProjectButtonClick():
 	var connectResult = Waapi.connect_client("127.0.0.1", 8080)
 
 	if connectResult:	
-		var args = {"from": {"ofType": ["Event"]}}
-		var options = {"return": ["id", "name"]}
+		var args = {"from": {"ofType": ["Project", "Event", "Switch", "State", "SoundBank", "AuxBus", "AcousticTexture"]}}
+		var options = {"return": ["id", "name", "type"]}
 	
 		var dict = Waapi.client_call("ak.wwise.core.object.get", JSON.print(args), JSON.print(options))
 		var jsonDocument = JSON.parse(dict["resultString"])
@@ -43,11 +43,44 @@ func _on_refreshProjectButtonClick():
 			print(jsonDocument.result["return"])
 			
 			projectObjectsTree.clear()
+			
+			var wwiseProjectTree = projectObjectsTree.create_item()
+			wwiseProjectTree.set_text(0, "WwiseProject")
 			var eventsTree = projectObjectsTree.create_item()
 			eventsTree.set_text(0, "Events")
-			for event in jsonDocument.result["return"]:
-				var item = projectObjectsTree.create_item(eventsTree)
-				item.set_text(0, event.name)
+			var switchesTree = projectObjectsTree.create_item()
+			switchesTree.set_text(0, "Switches")
+			var statesTree = projectObjectsTree.create_item()
+			statesTree.set_text(0, "States")
+			var soundbanksTree = projectObjectsTree.create_item()
+			soundbanksTree.set_text(0, "SoundBanks")
+			var auxiliaryBusesTree = projectObjectsTree.create_item()
+			auxiliaryBusesTree.set_text(0, "Auxiliary Buses")
+			var virtualAcousticsTree = projectObjectsTree.create_item()
+			virtualAcousticsTree.set_text(0, "Virtual Acoustics")
+			
+			for object in jsonDocument.result["return"]:
+				var item = null
+				
+				if object.type == "Project":
+					wwiseProjectTree.set_text(0, object.name)
+				elif object.type == "Event":
+					item = projectObjectsTree.create_item(eventsTree)
+				elif object.type == "Switch":
+					item = projectObjectsTree.create_item(switchesTree)
+				elif object.type == "State":
+					item = projectObjectsTree.create_item(statesTree)
+				elif object.type == "SoundBank":
+					item = projectObjectsTree.create_item(soundbanksTree)
+				elif object.type == "AuxBus":
+					item = projectObjectsTree.create_item(auxiliaryBusesTree)
+				elif object.type == "AcousticTexture":
+					item = projectObjectsTree.create_item(virtualAcousticsTree)
+				else:
+					assert(false) # Not supported type
+				
+				if item:
+					item.set_text(0, object.name)
 		
 	if Waapi.is_client_connected():
 		Waapi.disconnect_client()
