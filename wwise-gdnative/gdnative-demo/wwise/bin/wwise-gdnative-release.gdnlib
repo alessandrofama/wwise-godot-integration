@@ -6,9 +6,15 @@ symbol_prefix="wwise_"
 reloadable=true
 
 [entry]
-Windows.64="res://wwise/bin/win64/release/WwiseGDNative.dll"
+
 OSX.64="res://wwise/bin/osx/release/libWwiseGDNative.dylib"
+Windows.64="res://wwise/bin/win64/release/WwiseGDNative.dll"
+iOS.armv7="res://wwise/bin/iOS/release/armv7/libWwiseGDNative.dylib"
+iOS.arm64="res://wwise/bin/iOS/release/arm64/libWwiseGDNative.dylib"
 
 [dependencies]
-Windows.64=[]
-OSX.64=[]
+
+OSX.64=[  ]
+Windows.64=[  ]
+iOS.armv7=[  ]
+iOS.arm64=[  ]

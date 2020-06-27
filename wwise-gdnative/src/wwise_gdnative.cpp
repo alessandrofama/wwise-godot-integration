@@ -1325,9 +1325,10 @@ bool Wwise::initialiseWwiseSystems()
 	initSettings.fDebugOutOfRangeLimit = 
 	static_cast<float>(getPlatformProjectSetting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "debug_out_of_range_limit"));
 
+	String audioDeviceShareSet = getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH +
+									"main_output/audio_device_shareset");
 	initSettings.settingsMainOutput.audioDeviceShareset = 
-	AK::SoundEngine::GetIDFromString(static_cast<String>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH +
-									"main_output/audio_device_shareset")).alloc_c_string());
+	AK::SoundEngine::GetIDFromString(audioDeviceShareSet.alloc_c_string());
 
 	const unsigned int channelConfigType = 
 	static_cast<unsigned int>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + "main_output/channel_config/channel_config_type"));
@@ -1450,17 +1451,17 @@ bool Wwise::initialiseWwiseSystems()
 
 #elif defined(AK_IOS)
 	const unsigned int sessionCategoryEnum =
-	static_cast<unsigned int>(getPlatformProjectSetting("wwise/ios_advanced_settings/audio_session_category")));
+	static_cast<unsigned int>(getPlatformProjectSetting("wwise/ios_advanced_settings/audio_session_category"));
 
 	platformInitSettings.audioSession.eCategory = static_cast<AkAudioSessionCategory>(sessionCategoryEnum);
 
 	const unsigned int sessionCategoryFlags =
-	static_cast<unsigned int>(getPlatformProjectSetting("wwise/ios_advanced_settings/audio_session_category_options")));
+	static_cast<unsigned int>(getPlatformProjectSetting("wwise/ios_advanced_settings/audio_session_category_options"));
 
 	platformInitSettings.audioSession.eCategoryOptions = static_cast<AkAudioSessionCategoryOptions>(sessionCategoryEnum);
 
 	const unsigned int audioSessionModeEnum =
-	static_cast<unsigned int>(getPlatformProjectSetting("wwise/ios_advanced_settings/audio_session_mode")));
+	static_cast<unsigned int>(getPlatformProjectSetting("wwise/ios_advanced_settings/audio_session_mode"));
 
 	platformInitSettings.audioSession.eMode = static_cast<AkAudioSessionMode>(audioSessionModeEnum);
 #elif defined(AK_ANDROID)
@@ -1541,8 +1542,9 @@ bool Wwise::initialiseWwiseSystems()
 	commSettings.ports.uNotification = 
 	static_cast<unsigned int>(getPlatformProjectSetting(WWISE_COMMUNICATION_SETTINGS_PATH + "notification_port"));
 
-	AKPLATFORM::SafeStrCpy(commSettings.szAppNetworkName, static_cast<String>(getPlatformProjectSetting(WWISE_COMMUNICATION_SETTINGS_PATH +
-							"network_name")).alloc_c_string(), AK_COMM_SETTINGS_MAX_STRING_SIZE);
+	String networkName = getPlatformProjectSetting(WWISE_COMMUNICATION_SETTINGS_PATH +
+							"network_name");
+	AKPLATFORM::SafeStrCpy(commSettings.szAppNetworkName, networkName.alloc_c_string(), AK_COMM_SETTINGS_MAX_STRING_SIZE);
 
 	if (!ERROR_CHECK(AK::Comm::Init(commSettings), "Comm initialisation failed"))
 	{
