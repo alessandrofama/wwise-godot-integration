@@ -31,10 +31,6 @@ enabled=PoolStringArray( "gut", "waapi_picker" )
 
 singletons=[  ]
 
-[editor_plugins]
-
-enabled=PoolStringArray( "gut" )
-
 [rendering]
 
 environment/default_environment="res://default_env.tres"
