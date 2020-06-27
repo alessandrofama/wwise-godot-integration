@@ -48,16 +48,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="WwiseProjectLabel" type="Label" parent="ParentVBoxContainer/TopVBoxContainer/ButtonsHContainer"]
-margin_left = 249.0
-margin_top = 3.0
-margin_right = 344.0
-margin_bottom = 17.0
-text = "Wwise project:"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="SearchText" type="TextEdit" parent="ParentVBoxContainer/TopVBoxContainer"]
 margin_top = 24.0
 margin_right = 1015.0
