@@ -25,7 +25,7 @@ Waapi="*res://wwise/bin/waapi-gdnative-debug.gdns"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "waapi_picker" )
+enabled=PoolStringArray( "gut", "waapi_picker" )
 
 [gdnative]
 
