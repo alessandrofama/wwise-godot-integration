@@ -5,6 +5,7 @@ var waapiPickerControl := Control.new()
 var editorViewport = null
 var parentWaapiContainer = null
 var refreshProjectButton = null
+var projectObjectsTree = null
 
 func _enter_tree():
 	waapiPickerControl = preload("res://addons/waapi_picker/waapi_picker.tscn").instance()
@@ -20,6 +21,8 @@ func _enter_tree():
 	
 	refreshProjectButton = waapiPickerControl.find_node("RefreshProjectButton")
 	refreshProjectButton.connect("button_up", self, "_on_refreshProjectButtonClick")
+	
+	projectObjectsTree = waapiPickerControl.find_node("ProjectObjectsTree")
 
 func _on_draw_waapiPickerControl():
 	var width = editorViewport.rect_size.x - 6
@@ -38,6 +41,13 @@ func _on_refreshProjectButtonClick():
 	
 		if jsonDocument.error == OK and jsonDocument.result.has("return"):
 			print(jsonDocument.result["return"])
+			
+			projectObjectsTree.clear()
+			var eventsTree = projectObjectsTree.create_item()
+			eventsTree.set_text(0, "Events")
+			for event in jsonDocument.result["return"]:
+				var item = projectObjectsTree.create_item(eventsTree)
+				item.set_text(0, event.name)
 		
 	if Waapi.is_client_connected():
 		Waapi.disconnect_client()
