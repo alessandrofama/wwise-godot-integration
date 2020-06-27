@@ -48,7 +48,7 @@ void Waapi::_register_methods()
 	register_method("unsusbscribe", &Waapi::unsubscribe);
 	register_method("unsubscribe_with_timeout", &Waapi::unsubscribeWithTimeout);
 	register_method("client_call", &Waapi::clientCall);
-	register_method("client_call_with_timetout", &Waapi::clientCallWithTimeout);
+	register_method("client_call_with_timeout", &Waapi::clientCallWithTimeout);
 	register_method("get_last_string", &Waapi::getLastString);
 
 	register_signal<Waapi>("wamp_event", "data", GODOT_VARIANT_TYPE_DICTIONARY);
