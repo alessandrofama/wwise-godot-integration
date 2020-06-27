@@ -5,6 +5,7 @@ var waapiPickerControl := Control.new()
 var editorViewport = null
 var parentWaapiContainer = null
 var refreshProjectButton = null
+var exportSoundbanksButton = null
 var projectObjectsTree = null
 
 func _enter_tree():
@@ -21,6 +22,10 @@ func _enter_tree():
 	
 	refreshProjectButton = waapiPickerControl.find_node("RefreshProjectButton")
 	error = refreshProjectButton.connect("button_up", self, "_on_refreshProjectButtonClick")
+	assert(error == OK)
+	
+	exportSoundbanksButton = waapiPickerControl.find_node("ExportSoundbanksButton")
+	error = exportSoundbanksButton.connect("button_up", self, "_on_exportSoundbanksButtonClick")
 	assert(error == OK)
 	
 	projectObjectsTree = waapiPickerControl.find_node("ProjectObjectsTree")
@@ -95,6 +100,25 @@ func _on_refreshProjectButtonClick():
 				
 				if item:
 					item.set_text(0, object.name)
+		
+	if Waapi.is_client_connected():
+		Waapi.disconnect_client()
+		
+func _on_exportSoundbanksButtonClick():
+	var connectResult = Waapi.connect_client("127.0.0.1", 8080)
+
+	if connectResult:	
+		var args = {"command": "GenerateAllSoundbanksAllPlatforms"}
+		var options = {}
+	
+		var dict = Waapi.client_call("ak.wwise.ui.commands.execute", JSON.print(args), JSON.print(options))
+		var jsonDocument = JSON.parse(dict["resultString"])
+		var callResult = dict["callResult"]
+	
+		if jsonDocument.error == OK and callResult:
+			print("Generated soundbanks OK")
+		else:
+			printerr("Error when generated soundbanks with result: " + String(jsonDocument.result))
 		
 	if Waapi.is_client_connected():
 		Waapi.disconnect_client()
