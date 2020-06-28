@@ -123,6 +123,7 @@ if env['platform'] == "ios":
 
 if env['platform'] == "android":
     wwise_soundengine_sample_path = env['wwise_sdk'] + "/samples/SoundEngine/Android/"
+    wwise_soundengine_zip_path = env['wwise_sdk'] + "/samples/SoundEngine/Android/libzip/lib/"
     if env['target'] in ('debug', 'd'):
         if env['android_arch'] == 'armv7':
             wwise_sdk_libs_path = env['wwise_sdk'] + "/Android_armeabi-v7a/Debug/lib/"
@@ -318,27 +319,27 @@ elif env['platform'] == 'android':
     env['CC'] = toolchain + "/bin/clang"
     env['CXX'] = toolchain + "/bin/clang++"
     env['AR'] = toolchain + "/bin/" + arch_info['tool_path'] + "-ar"
-    env["AS"] = toolchain + "/bin/" + arch_info['tool_path'] + "-as"
-    env["LD"] = toolchain + "/bin/" + arch_info['tool_path'] + "-ld"
-    env["STRIP"] = toolchain + "/bin/" + arch_info['tool_path'] + "-strip"
-    env["RANLIB"] = toolchain + "/bin/" + arch_info['tool_path'] + "-ranlib"
-    env['OBJCOPY'] = toolchain + "/bin/" + arch_info['tool_path'] + "-objcopy"
-    env['LINK'] = toolchain + "/bin/clang++"
-    target_platform = env['ANDROID_NDK_ROOT'] + ("/platforms/android-%s" % api_level) + ('/%s/usr/lib' % arch_info['target_platform'])
-    env['SHLINKFLAGS'] = ["-Wl", "-shared", "--sysroot=%s" % target_platform, "-Wl", "-z", "noexecstack"]
-
-    env.Append(CCFLAGS=['--target=' + arch_info['target'] + env['android_api_level'], '-march=' + arch_info['march'], '-fPIC'])
+    # env["AS"] = toolchain + "/bin/" + arch_info['tool_path'] + "-as"
+    # env["LD"] = toolchain + "/bin/" + arch_info['tool_path'] + "-ld"
+    # env["STRIP"] = toolchain + "/bin/" + arch_info['tool_path'] + "-strip"
+    # env["RANLIB"] = toolchain + "/bin/" + arch_info['tool_path'] + "-ranlib"
+    # env['OBJCOPY'] = toolchain + "/bin/" + arch_info['tool_path'] + "-objcopy"
+    # env['LINK'] = toolchain + "/bin/clang++"
+    # target_platform = env['ANDROID_NDK_ROOT'] + ("/platforms/android-%s" % api_level) + ('/%s/usr/lib' % arch_info['target_platform'])
+    # env['SHLINKFLAGS'] = ['-v', "-Wl", "-shared", "--sysroot=%s" % target_platform, "-Wl", "-z", "noexecstack"]
+    env['SHLINKFLAGS'] = ['-v']
+    # env.Append(CCFLAGS=['--target=' + arch_info['target'] + env['android_api_level'], '-march=' + arch_info['march'], '-fPIC'])
+    env.Append(CCFLAGS=['--target=' + arch_info['target'] + env['android_api_level'], '-march=' + arch_info['march'], '-fPIC'])#, '-fPIE', '-fno-addrsig', '-Oz'])
     env.Append(CCFLAGS= arch_info['ccflags'])
 
     if env['target'] == 'debug':
-        env.Append(CCFLAGS=['-std=c++14'])
+        env.Append(CXXFLAGS=['-std=c++14'])
         env.Append(LINKFLAGS=['-Wl,-undefined,dynamic_lookup'])
-        env.Append(LIBS=['android', 'OpenSLES', 'zip', 'z'])
+        env.Append(CPPDEFINES=['AK_SUPPORT_WCHAR'])
     elif env['target'] == 'release':
         env.Append(CPPDEFINES=['AK_OPTIMIZED'])
         env.Append(CCFLAGS=['-std=c++14'])
         env.Append(LINKFLAGS=['-Wl,-undefined,dynamic_lookup'])
-        env.Append(LIBS=['android', 'OpenSLES', 'zip', 'z'])
 
 elif env['platform'] in ('x11', 'linux'):
     env['target_path'] += 'x11/'
@@ -423,9 +424,12 @@ env.Append(CPPPATH=['src/'])
 sources = []
 sources.append(Glob('src/*.cpp')) 
 sources.append(Glob(wwise_soundengine_sample_path + '*.cpp'))
-sources.append(Glob(wwise_soundengine_sample_common_path + '*.cpp'))
+if env['platform'] != "android":
+    sources.append(Glob(wwise_soundengine_sample_common_path + '*.cpp'))
 
 # wwise specific configuration
+if env['platform'] == "android":
+    env.Append(CPPPATH=[wwise_soundengine_zip_path])
 env.Append(CPPPATH=[wwise_sdk_headers_path, wwise_soundengine_sample_path])
 env.Append(LIBPATH=[wwise_sdk_libs_path])
 env.Append(LIBS=[wwise_memorymanager_library, wwise_soundengine_library, wwise_streammanager_library, wwise_musicengine_library, wwise_plugins_library])
@@ -440,6 +444,8 @@ if env['platform'] == "windows":
     env.Append(LIBS=['advapi32', 'user32', 'ole32'])
 if env['platform'] == "windows" and 'motion' in env['plugins']:
     env.Append(LIBS=['XInput', 'Dinput8', 'Winmm', 'oleaut32'])
+if env['platform'] == "android":
+    env.Append(LIBS=['android', 'OpenSLES', 'zip', 'z'])
 
 library = env.SharedLibrary(target=env['target_path'] + env['target_name'] , source=sources)
 
