@@ -67,7 +67,7 @@ else:
 opts = Variables([], ARGUMENTS)
 
 # Gets the standard flags CC, CCX, etc.
-env = Environment(ENV = os.environ)
+env = DefaultEnvironment()
 
 env
 
@@ -83,7 +83,7 @@ opts.Add(ListVariable('plugins', 'List of plugins', '', ['reflect', 'motion', 'c
 opts.Add(EnumVariable('ios_arch', 'Target iOS architecture', 'arm64', ['armv7', 'arm64']))
 opts.Add('IPHONEPATH', 'Path to iPhone toolchain', '/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain')
 opts.Add(EnumVariable('android_arch', 'Target Android architecture', 'armv7', ['armv7','arm64v8','x86','x86_64']))
-opts.Add('android_api_level', 'Target Android API level','17' if ARGUMENTS.get("android_arch", 'armv7') in ['armv7', 'x86'] else '21')
+opts.Add('android_api_level', 'Target Android API level','18' if ARGUMENTS.get("android_arch", 'armv7') in ['armv7', 'x86'] else '21')
 opts.Add('ANDROID_NDK_ROOT', 'Path to your Android NDK installation. By default, uses ANDROID_NDK_ROOT from your defined environment variables.', os.environ.get("ANDROID_NDK_ROOT", None))
 
 # Local dependency paths, adapt them to your setup
@@ -303,18 +303,18 @@ elif env['platform'] == 'android':
     arch_info_table = {
         "armv7" : {
             "march":"armv7-a", "target":"armv7a-linux-androideabi", "tool_path":"arm-linux-androideabi", "compiler_path":"armv7a-linux-androideabi",
-            "ccflags" : ['-mfpu=neon'], "target_platform": "arch-arm"
+            "ccflags" : ['-mfpu=neon']
             },
         "arm64v8" : {
             "march":"armv8-a", "target":"aarch64-linux-android", "tool_path":"aarch64-linux-android", "compiler_path":"aarch64-linux-android",
-            "ccflags" : [], "target_platform": "arch-arm64"
+            "ccflags" : []
             },
         "x86" : {
             "march":"i686", "target":"i686-linux-android", "tool_path":"i686-linux-android", "compiler_path":"i686-linux-android",
-            "ccflags" : ['-mstackrealign'], "target_platform": "arch-x86"
+            "ccflags" : ['-mstackrealign']
             },
         "x86_64" : {"march":"x86-64", "target":"x86_64-linux-android", "tool_path":"x86_64-linux-android", "compiler_path":"x86_64-linux-android",
-            "ccflags" : [], "target_platform": "arch-x86_64"
+            "ccflags" : []
         }
     }
     arch_info = arch_info_table[env['android_arch']]
@@ -322,19 +322,15 @@ elif env['platform'] == 'android':
     env['CC'] = toolchain + "/bin/clang"
     env['CXX'] = toolchain + "/bin/clang++"
     env['AR'] = toolchain + "/bin/" + arch_info['tool_path'] + "-ar"
-    env['SHLINKFLAGS'] = ['-v']
-    env.Append(CCFLAGS=['--target=' + arch_info['target'] + env['android_api_level'], '-march=' + arch_info['march'], '-fPIC'])#, '-fPIE', '-fno-addrsig', '-Oz'])
-    env.Append(CCFLAGS= arch_info['ccflags'])
+    #env['SHLINKFLAGS'] = ['-v']
+    env.Append(CXXFLAGS=['--target=' + arch_info['target'] + env['android_api_level'], '-march=' + arch_info['march'], '-fPIC'])#, '-fPIE', '-fno-addrsig', '-Oz'])
+    env.Append(CXXFLAGS=arch_info['ccflags'])
 
     if env['target'] == 'debug':
-        env.Append(LINKFLAGS=['-Wl,-undefined,dynamic_lookup', '--target=' + arch_info['target'] + env['android_api_level'], '-march=' + arch_info['march'], '-fPIC'])
-        env.Append(CPPDEFINES=['AK_SUPPORT_WCHAR'])
-    elif env['target'] == 'release':
-        env.Append(CPPDEFINES=['AK_SUPPORT_WCHAR','AK_OPTIMIZED'])
         env.Append(LINKFLAGS=['-Wl,-undefined,dynamic_lookup'])
-
-    # android_ndk_include = env['ANDROID_NDK_ROOT'] + "platforms/" + "android-" + env['android_api_level'] + "/" + arch_info['target_platform'] + "/" + "usr/lib"
-    # android_toolchain_include = toolchain + "/lib64"
+    elif env['target'] == 'release':
+        env.Append(CPPDEFINES=['AK_OPTIMIZED'])
+        env.Append(LINKFLAGS=['-Wl,-undefined,dynamic_lookup'])
     
 elif env['platform'] in ('x11', 'linux'):
     env['target_path'] += 'x11/'
@@ -419,14 +415,12 @@ env.Append(CPPPATH=['src/'])
 sources = []
 sources.append(Glob('src/*.cpp')) 
 sources.append(Glob(wwise_soundengine_sample_path + '*.cpp'))
-if env['platform'] != "android":
-    sources.append(Glob(wwise_soundengine_sample_common_path + '*.cpp'))
+sources.append(Glob(wwise_soundengine_sample_common_path + '*.cpp'))
 
 # wwise specific configuration
 if env['platform'] == "android":
     env.Append(CPPPATH=[wwise_soundengine_zip_path, wwise_soundengine_posix_path])
-    env.Append(LIBPATH=[toolchain + "/sysroot" + "/usr" + "/lib" + "/" + arch_info["tool_path"] + "/" + env["android_api_level"]])
-    # env.Append(LIBPATH=[android_ndk_include, android_toolchain_include, target_platform])
+    env.Append(LIBPATH=[toolchain + "/sysroot" + "/usr" + "/lib/" + arch_info["tool_path"] + "/" + env["android_api_level"] + "/"])
 env.Append(CPPPATH=[wwise_sdk_headers_path, wwise_soundengine_sample_path])
 env.Append(LIBPATH=[wwise_sdk_libs_path])
 env.Append(LIBS=[wwise_memorymanager_library, wwise_soundengine_library, wwise_streammanager_library, wwise_musicengine_library, wwise_plugins_library])
@@ -442,7 +436,8 @@ if env['platform'] == "windows":
 if env['platform'] == "windows" and 'motion' in env['plugins']:
     env.Append(LIBS=['XInput', 'Dinput8', 'Winmm', 'oleaut32'])
 if env['platform'] == "android":
-    env.Append(LIBS=['android', 'OpenSLES', 'zip', 'z'])
+    env.Append(LINKFLAGS=['-android', '-OpenSLES',])
+    env.Append(LIBS=['z', 'zip'])
 
 library = env.SharedLibrary(target=env['target_path'] + env['target_name'] , source=sources)
 
