@@ -67,7 +67,9 @@ else:
 opts = Variables([], ARGUMENTS)
 
 # Gets the standard flags CC, CCX, etc.
-env = DefaultEnvironment()
+env = Environment(ENV = os.environ)
+
+env
 
 # Define our options
 opts.Add(EnumVariable('target', "Compilation target", 'debug', ['d', 'debug', 'r', 'release']))
@@ -123,6 +125,7 @@ if env['platform'] == "ios":
 
 if env['platform'] == "android":
     wwise_soundengine_sample_path = env['wwise_sdk'] + "/samples/SoundEngine/Android/"
+    wwise_soundengine_posix_path = env['wwise_sdk'] + "/samples/SoundEngine/POSIX/"
     wwise_soundengine_zip_path = env['wwise_sdk'] + "/samples/SoundEngine/Android/libzip/lib/"
     if env['target'] in ('debug', 'd'):
         if env['android_arch'] == 'armv7':
@@ -294,7 +297,7 @@ elif env['platform'] == 'android':
         toolchain += "linux-x86_64"
     elif host_platform == "osx":
         toolchain += "darwin-x86_64"
-    env.PrependENVPath('PATH', toolchain + "/bin") # This does nothing half of the time, but we'll put it here anyways
+    #env.PrependENVPath('PATH', toolchain + "/bin") # This does nothing half of the time, but we'll put it here anyways
 
     # Get architecture info
     arch_info_table = {
@@ -319,28 +322,20 @@ elif env['platform'] == 'android':
     env['CC'] = toolchain + "/bin/clang"
     env['CXX'] = toolchain + "/bin/clang++"
     env['AR'] = toolchain + "/bin/" + arch_info['tool_path'] + "-ar"
-    # env["AS"] = toolchain + "/bin/" + arch_info['tool_path'] + "-as"
-    # env["LD"] = toolchain + "/bin/" + arch_info['tool_path'] + "-ld"
-    # env["STRIP"] = toolchain + "/bin/" + arch_info['tool_path'] + "-strip"
-    # env["RANLIB"] = toolchain + "/bin/" + arch_info['tool_path'] + "-ranlib"
-    # env['OBJCOPY'] = toolchain + "/bin/" + arch_info['tool_path'] + "-objcopy"
-    # env['LINK'] = toolchain + "/bin/clang++"
-    # target_platform = env['ANDROID_NDK_ROOT'] + ("/platforms/android-%s" % api_level) + ('/%s/usr/lib' % arch_info['target_platform'])
-    # env['SHLINKFLAGS'] = ['-v', "-Wl", "-shared", "--sysroot=%s" % target_platform, "-Wl", "-z", "noexecstack"]
     env['SHLINKFLAGS'] = ['-v']
-    # env.Append(CCFLAGS=['--target=' + arch_info['target'] + env['android_api_level'], '-march=' + arch_info['march'], '-fPIC'])
     env.Append(CCFLAGS=['--target=' + arch_info['target'] + env['android_api_level'], '-march=' + arch_info['march'], '-fPIC'])#, '-fPIE', '-fno-addrsig', '-Oz'])
     env.Append(CCFLAGS= arch_info['ccflags'])
 
     if env['target'] == 'debug':
-        env.Append(CXXFLAGS=['-std=c++14'])
-        env.Append(LINKFLAGS=['-Wl,-undefined,dynamic_lookup'])
+        env.Append(LINKFLAGS=['-Wl,-undefined,dynamic_lookup', '--target=' + arch_info['target'] + env['android_api_level'], '-march=' + arch_info['march'], '-fPIC'])
         env.Append(CPPDEFINES=['AK_SUPPORT_WCHAR'])
     elif env['target'] == 'release':
-        env.Append(CPPDEFINES=['AK_OPTIMIZED'])
-        env.Append(CCFLAGS=['-std=c++14'])
+        env.Append(CPPDEFINES=['AK_SUPPORT_WCHAR','AK_OPTIMIZED'])
         env.Append(LINKFLAGS=['-Wl,-undefined,dynamic_lookup'])
 
+    # android_ndk_include = env['ANDROID_NDK_ROOT'] + "platforms/" + "android-" + env['android_api_level'] + "/" + arch_info['target_platform'] + "/" + "usr/lib"
+    # android_toolchain_include = toolchain + "/lib64"
+    
 elif env['platform'] in ('x11', 'linux'):
     env['target_path'] += 'x11/'
     cpp_library += '.linux'
@@ -429,7 +424,9 @@ if env['platform'] != "android":
 
 # wwise specific configuration
 if env['platform'] == "android":
-    env.Append(CPPPATH=[wwise_soundengine_zip_path])
+    env.Append(CPPPATH=[wwise_soundengine_zip_path, wwise_soundengine_posix_path])
+    env.Append(LIBPATH=[toolchain + "/sysroot" + "/usr" + "/lib" + "/" + arch_info["tool_path"] + "/" + env["android_api_level"]])
+    # env.Append(LIBPATH=[android_ndk_include, android_toolchain_include, target_platform])
 env.Append(CPPPATH=[wwise_sdk_headers_path, wwise_soundengine_sample_path])
 env.Append(LIBPATH=[wwise_sdk_libs_path])
 env.Append(LIBS=[wwise_memorymanager_library, wwise_soundengine_library, wwise_streammanager_library, wwise_musicengine_library, wwise_plugins_library])
