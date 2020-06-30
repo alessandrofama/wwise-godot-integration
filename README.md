@@ -4,3 +4,5 @@
 [![Godot Engine logo](/godot-logo.png)](https://godotengine.org)
 
 WIP Wwise 2019.2.1.7250 integration for the Godot game engine
+
+Windows, macOS, iOS and Android support
