@@ -9,6 +9,7 @@ var exportSoundbanksButton = null
 var unfilteredProjectObjectsTree = null
 var projectObjectsTree = null
 var searchText = null
+var isShowingViewport = true
 
 var projectIcon			= preload("res://addons/waapi_picker/icons/wwise_project.png")
 var folderIcon			= preload("res://addons/waapi_picker/icons/folder.png")
@@ -32,7 +33,10 @@ func _enter_tree():
 
 	waapiPickerControl.rect_min_size.y = 200
 	parentWaapiContainer = waapiPickerControl.find_node("ParentVBoxContainer")
-	var error = waapiPickerControl.connect("resized", self, "_on_resized_waapiPickerControl")
+	var error = editorViewport.connect("resized", self, "_on_resized_editorViewport")
+	assert(error == OK)
+	
+	error = editorViewport.connect("visibility_changed", self, "_on_visibility_changed_editorViewport")
 	assert(error == OK)
 	
 	refreshProjectButton = waapiPickerControl.find_node("RefreshProjectButton")
@@ -52,11 +56,25 @@ func _enter_tree():
 	
 	_on_refreshProjectButtonClick()
 
-func _on_resized_waapiPickerControl():
+func _on_resized_editorViewport():
 	var width = editorViewport.rect_size.x - 6
 	var height = get_editor_interface().get_base_control().get_size().y - editorViewport.rect_size.y - 150
-	parentWaapiContainer.set_size(Vector2(width, height))
 
+	parentWaapiContainer.set_size(Vector2(width, height))
+	
+func _on_visibility_changed_editorViewport():
+	var width = editorViewport.rect_size.x - 6
+	var height = 0
+	
+	if isShowingViewport:
+		height = get_editor_interface().get_base_control().get_size().y - 110
+		isShowingViewport = false
+	else:
+		height = get_editor_interface().get_base_control().get_size().y - editorViewport.rect_size.y - 150
+		isShowingViewport = true	
+
+	parentWaapiContainer.set_size(Vector2(width, height))
+	
 func _on_refreshProjectButtonClick():
 	var connectResult = Waapi.connect_client("127.0.0.1", 8080)
 
