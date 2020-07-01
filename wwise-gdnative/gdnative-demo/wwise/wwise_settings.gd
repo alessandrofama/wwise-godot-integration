@@ -8,6 +8,7 @@ const WWISE_COMMON_ADVANCED_SETTINGS_PATH = "wwise/common_advanced_settings/"
 const WWISE_COMMUNICATION_SETTINGS_PATH = "wwise/communication_settings/"
 const WWISE_IOS_ADVANCED_SETTINGS_PATH = "wwise/ios_advanced_settings/"
 const WWISE_WINDOWS_ADVANCED_SETTINGS_PATH = "wwise/windows_advanced_settings/"
+const WWISE_ANDROID_ADVANCED_SETTINGS_PATH = "wwise/android_advanced_settings/"
 
 func _init():
 	_add_common_user_settings()
@@ -15,6 +16,7 @@ func _init():
 	_add_commnunication_settings()
 	_add_ios_advanced_settings()
 	_add_windows_advanced_settings()
+	_add_android_advanced_settings()
 
 	var error = ProjectSettings.save()
 	
@@ -134,6 +136,12 @@ func _add_windows_advanced_settings():
 	_add_setting(WWISE_WINDOWS_ADVANCED_SETTINGS_PATH + "audio_API", 7,
 				TYPE_INT, PROPERTY_HINT_FLAGS, "Wasapi, X Audio 2, Direct Sound")
 	_add_setting(WWISE_WINDOWS_ADVANCED_SETTINGS_PATH + "global_focus", 1,
+				TYPE_BOOL, PROPERTY_HINT_NONE, "")
+
+func _add_android_advanced_settings():
+	_add_setting(WWISE_ANDROID_ADVANCED_SETTINGS_PATH + "audio_API", 3,
+				TYPE_INT, PROPERTY_HINT_FLAGS, "AAudio, OPENSL_ES")
+	_add_setting(WWISE_ANDROID_ADVANCED_SETTINGS_PATH + "round_frame_size_to_hw_size", 1,
 				TYPE_BOOL, PROPERTY_HINT_NONE, "")
 
 func _add_setting(name, defaultValue, type, hint, hintString):
