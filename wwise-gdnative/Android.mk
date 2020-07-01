@@ -184,7 +184,7 @@ include $(PREBUILT_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := WwiseGDNative.android.$(CONFIGURATION).$(APP_ABI)
-LOCAL_MODULE_FILENAME := libWwiseGDNative
+LOCAL_MODULE_FILENAME := libWwiseGDNative.$(CONFIGURATION).$(APP_ABI)
 FILE_LIST_CORE := $(wildcard $(LOCAL_PATH)/../godot-cpp/src/core/*.cpp)
 FILE_LIST_GEN := $(wildcard $(LOCAL_PATH)/../godot-cpp/src/gen/*.cpp)
 FILE_LIST_10 := $(wildcard $(LOCAL_PATH)/../godot-cpp/src/*.cpp)
