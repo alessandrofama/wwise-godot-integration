@@ -19,7 +19,7 @@ __meta__ = {
 
 [node name="TopVBoxContainer" type="VBoxContainer" parent="ParentVBoxContainer"]
 margin_right = 1015.0
-margin_bottom = 49.0
+margin_bottom = 48.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -48,16 +48,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="SearchText" type="TextEdit" parent="ParentVBoxContainer/TopVBoxContainer"]
+[node name="SearchText" type="LineEdit" parent="ParentVBoxContainer/TopVBoxContainer"]
 margin_top = 24.0
 margin_right = 1015.0
-margin_bottom = 49.0
-rect_min_size = Vector2( 0, 25 )
-text = "Search Wwise Item"
-caret_blink = true
+margin_bottom = 48.0
+text = "Search Wwise Project..."
 
 [node name="ProjectObjectsTree" type="Tree" parent="ParentVBoxContainer"]
-margin_top = 53.0
+margin_top = 52.0
 margin_right = 1015.0
 margin_bottom = 277.0
 rect_min_size = Vector2( 0, 120 )
