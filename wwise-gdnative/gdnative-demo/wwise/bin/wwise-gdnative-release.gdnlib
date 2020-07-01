@@ -7,13 +7,18 @@ reloadable=true
 
 [entry]
 
+Android.arm64-v8a="res://wwise/bin/android/release/arm64-v8a/libWwiseGDNative.Release.arm64-v8a.so"
 OSX.64="res://wwise/bin/osx/release/libWwiseGDNative.dylib"
 Windows.64="res://wwise/bin/win64/release/WwiseGDNative.dll"
 iOS.armv7="res://wwise/bin/iOS/release/armv7/libWwiseGDNative.dylib"
 iOS.arm64="res://wwise/bin/iOS/release/arm64/libWwiseGDNative.dylib"
+Android.armeabi-v7="res://wwise/bin/android/release/armeabi-v7/libWwiseGDNative.Release.armeabi-v7.so"
+Android.x86="res://wwise/bin/android/release/x86/libWwiseGDNative.Release.x86.so"
+Android.x86_64="res://wwise/bin/android/release/x86_64/libWwiseGDNative.Release.x86_64.so"
 
 [dependencies]
 
+Android.arm64-v8a=[  ]
 OSX.64=[  ]
 Windows.64=[  ]
 iOS.armv7=[  ]
