@@ -11,7 +11,7 @@ const int INVALID_ROOM_ID = -1;
 
 #ifdef __ANDROID__
 #define MAP_PATH(path) \
-    path = path.replace("res://", "file:///android_asset/");
+    path = path.replace("res://", "");
 #else
 #define MAP_PATH(path) \
     path = path.replace("res://", "./");
