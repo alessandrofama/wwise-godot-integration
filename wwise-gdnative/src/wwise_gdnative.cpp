@@ -1467,6 +1467,26 @@ bool Wwise::initialiseWwiseSystems()
 
 #elif defined(AK_ANDROID)
 
+	platformInitSettings.eAudioAPI = 
+	static_cast<AkAudioAPIAndroid>(static_cast<unsigned int>(getPlatformProjectSetting("wwise/android_advanced_settings/audio_API")));
+
+	platformInitSettings.bRoundFrameSizeToHWSize = 
+	static_cast<bool>(getPlatformProjectSetting("wwise/android_advanced_settings/round_frame_size_to_hw_size"));
+
+	JNIEnv* env = godot::android_api->godot_android_get_env();
+
+	JavaVM* javaVM;
+	env->GetJavaVM(&javaVM);
+	platformInitSettings.pJavaVM = javaVM;
+
+	jobject activity = godot::android_api->godot_android_get_activity();
+	platformInitSettings.jActivity = activity;
+
+	if (!ERROR_CHECK(lowLevelIO.InitAndroidIO(javaVM, activity), "Initialising Android IO failed"))
+	{
+		return false;
+	}
+
 #else
 #error "Platform not supported"
 #endif
