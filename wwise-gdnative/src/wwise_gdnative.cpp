@@ -243,8 +243,8 @@ bool Wwise::setBasePath(const String basePath)
 
 	AkOSChar* basePathOsString = nullptr;
 
-	const wchar_t* basePathChar = basePath.unicode_str();
-	CONVERT_WIDE_TO_OSCHAR(basePathChar, basePathOsString);
+	const char* basePathChar = basePath.alloc_c_string();
+	CONVERT_CHAR_TO_OSCHAR(basePathChar, basePathOsString);
 	AKASSERT(basePathOsString);
 
 	return ERROR_CHECK(lowLevelIO.SetBasePath(basePathOsString), basePath);
@@ -256,8 +256,8 @@ bool Wwise::setCurrentLanguage(const String language)
 
 	AkOSChar* languageOsString = nullptr;
 
-	const wchar_t* languageChar = language.unicode_str();
-	CONVERT_WIDE_TO_OSCHAR(languageChar, languageOsString);
+	const char* languageChar = language.alloc_c_string();
+	CONVERT_CHAR_TO_OSCHAR(languageChar, languageOsString);
 	AKASSERT(languageOsString);
 
 	return ERROR_CHECK(AK::StreamMgr::SetCurrentLanguage(languageOsString), language);
@@ -268,7 +268,7 @@ bool Wwise::loadBank(const String bankName)
 	AkBankID bankID;
 	AKASSERT(!bankName.empty());
 
-	return ERROR_CHECK(AK::SoundEngine::LoadBank(bankName.unicode_str(), bankID), bankName);
+	return ERROR_CHECK(AK::SoundEngine::LoadBank(bankName.alloc_c_string(), bankID), bankName);
 }
 
 bool Wwise::loadBankID(const unsigned int bankID)
@@ -280,7 +280,7 @@ bool Wwise::unloadBank(const String bankName)
 {
 	AKASSERT(!bankName.empty());
 
-	return ERROR_CHECK(AK::SoundEngine::UnloadBank(bankName.unicode_str(), NULL), bankName);
+	return ERROR_CHECK(AK::SoundEngine::UnloadBank(bankName.alloc_c_string(), NULL), bankName);
 }
 
 bool Wwise::unloadBankID(const unsigned int bankID)
@@ -373,7 +373,7 @@ unsigned int Wwise::postEvent(const String eventName, const Object* gameObject)
 	AKASSERT(!eventName.empty());
 	AKASSERT(gameObject);
 
-	AkPlayingID playingID = AK::SoundEngine::PostEvent(eventName.unicode_str(), static_cast<AkGameObjectID>(gameObject->get_instance_id()));
+	AkPlayingID playingID = AK::SoundEngine::PostEvent(eventName.alloc_c_string(), static_cast<AkGameObjectID>(gameObject->get_instance_id()));
 
 	if (playingID == AK_INVALID_PLAYING_ID) 
 	{
@@ -389,7 +389,7 @@ unsigned int Wwise::postEventCallback(const String eventName, const unsigned int
 	AKASSERT(!eventName.empty());
 	AKASSERT(gameObject);
 
-	AkPlayingID playingID = AK::SoundEngine::PostEvent(eventName.unicode_str(), static_cast<AkGameObjectID>(gameObject->get_instance_id()),
+	AkPlayingID playingID = AK::SoundEngine::PostEvent(eventName.alloc_c_string(), static_cast<AkGameObjectID>(gameObject->get_instance_id()),
 														flags, eventCallback);
 
 	if (playingID == AK_INVALID_PLAYING_ID)
@@ -446,8 +446,8 @@ bool Wwise::setSwitch(const String switchGroup, const String switchState, const 
 	AKASSERT(!switchState.empty());
 	AKASSERT(gameObject);
 
-	return ERROR_CHECK(AK::SoundEngine::SetSwitch(switchGroup.unicode_str(), 
-						switchState.unicode_str(), 
+	return ERROR_CHECK(AK::SoundEngine::SetSwitch(switchGroup.alloc_c_string(), 
+						switchState.alloc_c_string(), 
 						static_cast<AkGameObjectID>(gameObject->get_instance_id())),
 						"Switch " + switchGroup + " and state " + switchState);
 }
@@ -466,7 +466,7 @@ bool Wwise::setState(const String stateGroup, const String stateValue)
 	AKASSERT(!stateGroup.empty());
 	AKASSERT(!stateValue.empty());
 
-	return ERROR_CHECK(AK::SoundEngine::SetState(stateGroup.unicode_str(), stateValue.unicode_str()),
+	return ERROR_CHECK(AK::SoundEngine::SetState(stateGroup.alloc_c_string(), stateValue.alloc_c_string()),
 						"Failed to set state " + stateGroup + " and value " + stateValue);
 }
 
@@ -485,7 +485,7 @@ float Wwise::getRTPCValue(const String rtpcName, const Object* gameObject)
 	AkRtpcValue value;
 	AK::SoundEngine::Query::RTPCValue_type type = AK::SoundEngine::Query::RTPCValue_GameObject;
 
-	if (!ERROR_CHECK(AK::SoundEngine::Query::GetRTPCValue(rtpcName.unicode_str(), 
+	if (!ERROR_CHECK(AK::SoundEngine::Query::GetRTPCValue(rtpcName.alloc_c_string(), 
 		static_cast<AkGameObjectID>(gameObject->get_instance_id()),
 		static_cast<AkPlayingID>(0), value, type), rtpcName))
 	{
@@ -517,7 +517,7 @@ bool Wwise::setRTPCValue(const String rtpcName, const float rtpcValue, const Obj
 	AKASSERT(!rtpcName.empty());
 	AKASSERT(gameObject);
 
-	return ERROR_CHECK(AK::SoundEngine::SetRTPCValue(rtpcName.unicode_str(), static_cast<AkRtpcValue>(rtpcValue), 
+	return ERROR_CHECK(AK::SoundEngine::SetRTPCValue(rtpcName.alloc_c_string(), static_cast<AkRtpcValue>(rtpcValue), 
 						static_cast<AkGameObjectID>(gameObject->get_instance_id())), rtpcName);
 }
 
@@ -534,7 +534,7 @@ bool Wwise::postTrigger(const String triggerName, const Object* gameObject)
 	AKASSERT(!triggerName.empty());
 	AKASSERT(gameObject);
 
-	return ERROR_CHECK(AK::SoundEngine::PostTrigger(triggerName.unicode_str(),
+	return ERROR_CHECK(AK::SoundEngine::PostTrigger(triggerName.alloc_c_string(),
 						static_cast<AkGameObjectID>(gameObject->get_instance_id())), "Failed to post trigger " + triggerName);
 }
 
@@ -555,16 +555,16 @@ unsigned int Wwise::postExternalSource(const String eventName, const Object* gam
 	AKASSERT(!fileName.empty());
 
 	AkExternalSourceInfo source;
-	source.iExternalSrcCookie = AK::SoundEngine::GetIDFromString(sourceObjectName.unicode_str());
+	source.iExternalSrcCookie = AK::SoundEngine::GetIDFromString(sourceObjectName.alloc_c_string());
 
 	AkOSChar* szFileOsString = nullptr;
 
-	CONVERT_WIDE_TO_OSCHAR(fileName.unicode_str(), szFileOsString);
+	CONVERT_CHAR_TO_OSCHAR(fileName.alloc_c_string(), szFileOsString);
 
 	source.szFile = szFileOsString;
 	source.idCodec = idCodec;
 
-	AkPlayingID playingID = AK::SoundEngine::PostEvent(eventName.unicode_str(), static_cast<AkGameObjectID>(gameObject->get_instance_id()), 0, nullptr, 0, 1, &source);
+	AkPlayingID playingID = AK::SoundEngine::PostEvent(eventName.alloc_c_string(), static_cast<AkGameObjectID>(gameObject->get_instance_id()), 0, nullptr, 0, 1, &source);
 
 	if (playingID == AK_INVALID_PLAYING_ID)
 	{
@@ -586,7 +586,7 @@ unsigned int Wwise::postExternalSourceID(const unsigned int eventID, const Objec
 
 	AkOSChar* szFileOsString = nullptr;
 
-	CONVERT_WIDE_TO_OSCHAR(fileName.unicode_str(), szFileOsString);
+	CONVERT_CHAR_TO_OSCHAR(fileName.alloc_c_string(), szFileOsString);
 
 	source.szFile = szFileOsString;
 	source.idCodec = idCodec;
@@ -722,7 +722,7 @@ bool Wwise::setGeometry(const Array vertices, const Array triangles, const Strin
 		geometry.NumSurfaces = 1;
 
 		AkAcousticTexture akAcousticTexture;
-		akAcousticTexture.ID = AK::SoundEngine::GetIDFromString(acousticTexture.unicode_str());
+		akAcousticTexture.ID = AK::SoundEngine::GetIDFromString(acousticTexture.alloc_c_string());
 		//akAcousticTexture.fAbsorptionHigh = acousticTexture["fAbsorptionHigh"];
 		//akAcousticTexture.fAbsorptionLow = acousticTexture["fAbsorptionLow"];
 		//akAcousticTexture.fAbsorptionMidHigh = acousticTexture["fAbsorptionMidHigh"];
@@ -792,7 +792,7 @@ bool Wwise::setRoom(const Object* gameObject, const unsigned int akAuxBusID, con
 
 	AkRoomParams roomParams;
 	roomParams.ReverbAuxBus = akAuxBusID;
-	roomParams.strName = gameObjectName.unicode_str();
+	roomParams.strName = gameObjectName.alloc_c_string();
 	return ERROR_CHECK(AK::SpatialAudio::SetRoom(static_cast<AkRoomID>(gameObject->get_instance_id()), roomParams), "Failed to set Room for Game Object: " 
 																													+ String::num_int64(gameObject->get_instance_id()));
 }
@@ -824,7 +824,7 @@ bool Wwise::setPortal(const Object* gameObject, const Transform transform, const
 	portalParams.FrontRoom = frontRoom ? static_cast<AkRoomID>(frontRoom->get_instance_id()) : static_cast<AkRoomID>(INVALID_ROOM_ID);
 	portalParams.BackRoom = backRoom ? static_cast<AkRoomID>(backRoom->get_instance_id()) : static_cast<AkRoomID>(INVALID_ROOM_ID);
 	portalParams.bEnabled = enabled;
-	portalParams.strName = portalName.unicode_str();
+	portalParams.strName = portalName.alloc_c_string();
 
 	return ERROR_CHECK(AK::SpatialAudio::SetPortal(static_cast<AkPortalID>(gameObject->get_instance_id()), portalParams), "Failed to set Portal on GameObject: " 
 																														  + String::num_int64(gameObject->get_instance_id()));
@@ -870,7 +870,7 @@ bool Wwise::setEarlyReflectionsVolume(const Object* gameObject, const float volu
 
 bool Wwise::addOutput(const String shareSet, const unsigned int outputID)
 {
-	AkOutputSettings outputSettings(shareSet.unicode_str(), outputID);
+	AkOutputSettings outputSettings(shareSet.alloc_c_string(), outputID);
 
 	return ERROR_CHECK(AK::SoundEngine::AddOutput(outputSettings), "Failed to add share set to output ID: " + String::num_int64(outputID));
 }
@@ -1464,6 +1464,7 @@ bool Wwise::initialiseWwiseSystems()
 	static_cast<unsigned int>(getPlatformProjectSetting("wwise/ios_advanced_settings/audio_session_mode"));
 
 	platformInitSettings.audioSession.eMode = static_cast<AkAudioSessionMode>(audioSessionModeEnum);
+
 #elif defined(AK_ANDROID)
 
 #else
