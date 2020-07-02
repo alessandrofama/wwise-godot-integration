@@ -23,3 +23,21 @@ scons target=release platform=windows wwise_sdk="%WWISESDK%"
 ### macOS 64-bit (Scons)
 
 TODO
+
+### Android (ndk-build)
+
+Available target configurations:
+* debug_android_armeabi-v7a
+* debug_android_x86
+* debug_android_arm64-v8a
+* debug_android_x86_64
+* release_android_armeabi-v7a
+* release_android_x86
+* release_android_arm64-v8a
+* release_android_x86_64
+
+Example command (replace PM5_CONFIG with your desired configuration):
+
+```
+%ANDROID_NDK_ROOT%/ndk-build NDK_PROJECT_PATH=. APP_BUILD_SCRIPT=Android.mk PM5_CONFIG=debug_android_arm64-v8a NDK_LIBS_OUT=./gdnative-demo/wwise/bin/android/debug -j4
+```
