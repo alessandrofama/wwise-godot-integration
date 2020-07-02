@@ -113,7 +113,7 @@ void Wwise::_register_methods()
 	register_method("register_listener", &Wwise::registerListener);
 	register_method("register_game_obj", &Wwise::registerGameObject);
 	register_method("unregister_game_obj", &Wwise::unregisterGameObject);
-	register_method("set_listeners", &Wwise::SetListeners);
+	register_method("set_listeners", &Wwise::setListeners);
 	register_method("set_3d_position", &Wwise::set3DPosition);
 	register_method("set_2d_position", &Wwise::set2DPosition);
 	register_method("post_event", &Wwise::postEvent);
@@ -325,7 +325,7 @@ bool Wwise::unregisterGameObject(const Object* gameObject)
 	return ERROR_CHECK(AK::SoundEngine::UnregisterGameObj(static_cast<AkGameObjectID>(gameObject->get_instance_id())), "Failed to unregister Game Object: " + String::num_int64(gameObject->get_instance_id()));
 }
 
-bool Wwise::SetListeners(const Object* emitter, const Object* listener)
+bool Wwise::setListeners(const Object* emitter, const Object* listener)
 {
 	static const int kNumLstnrsForEm = 1;
 	static const AkGameObjectID aLstnrsForEmitter[kNumLstnrsForEm] = { static_cast<AkGameObjectID>(listener->get_instance_id()) };

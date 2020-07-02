@@ -54,7 +54,7 @@ namespace godot
 		bool registerGameObject(const Object* gameObject, const String gameObjectName);
 		bool unregisterGameObject(const Object* gameObject);
 
-		bool SetListeners(const Object* emitter, const Object* listener);
+		bool setListeners(const Object* emitter, const Object* listener);
 
 		bool set3DPosition(const Object* gameObject, const Transform transform);
 		bool set2DPosition(const Object* gameObject, const Transform2D transform2D, const float zDepth);
