@@ -89,12 +89,11 @@ func _on_refreshProjectButtonClick():
 
 		if jsonProjectDocument.error == OK and jsonProjectDocument.result.has("return"):
 			print(jsonProjectDocument.result["return"])
-			
 			_create_projectObjectsTree("")
-			
+
 	if Waapi.is_client_connected():
 		Waapi.disconnect_client()
-		
+
 func _on_exportSoundbanksButtonClick():
 	var connectResult = Waapi.connect_client("127.0.0.1", 8080)
 
@@ -113,7 +112,7 @@ func _on_exportSoundbanksButtonClick():
 		
 	if Waapi.is_client_connected():
 		Waapi.disconnect_client()
-		
+
 func _create_projectObjectsTree(textFilter):
 	# Initialise tree
 	projectObjectsTree.clear()
@@ -166,11 +165,11 @@ func _create_projectObjectsTree(textFilter):
 				item = projectObjectsTree.create_item(auxiliaryBusesTree)
 			elif "\\Virtual Acoustics\\" in object.path:
 				item = projectObjectsTree.create_item(virtualAcousticsTree)
-				
+
 			if item:			
 				item.set_text(0, object.name)
 				item.set_icon(0, workUnitIcon)
-				
+
 	# Create switch groups, state groups and buses
 	for object in jsonProjectDocument.result["return"]:
 		var item = null
@@ -201,7 +200,7 @@ func _create_projectObjectsTree(textFilter):
 				workUnit = workUnit.get_next()		
 		if item:
 			item.set_text(0, object.name)
-			
+
 	# Create child switches, states and aux busses
 	# Create events, soundbanks and acoustic textures
 	for object in jsonProjectDocument.result["return"]:
@@ -272,24 +271,9 @@ func _create_projectObjectsTree(textFilter):
 				workUnit = workUnit.get_next()	
 		if item:
 			item.set_text(0, object.name)
-		
+
 func _on_searchTextChanged(new_text):		
-	var folder = projectObjectsTree.get_root().get_children()
-	
-	while folder !=  null:
-		var object = folder.get_children()
-		
-		while object !=  null:
-			if object.get_children() == null and not new_text in object.get_text(0):
-				object.set_custom_color(0, Color.gray)
-				object.set("visibility", false) # Hide
-			else:
-				object.set_custom_color(0, Color.yellow)
-				object.set("visibility", true) # Show
-				
-			object = object.get_next()
-				
-		folder = folder.get_next()
+	_create_projectObjectsTree(new_text)
 
 func _exit_tree():
 	remove_control_from_bottom_panel(waapiPickerControl)
