@@ -6,7 +6,8 @@ var editorViewport = null
 var parentWaapiContainer = null
 var refreshProjectButton = null
 var exportSoundbanksButton = null
-var unfilteredProjectObjectsTree = null
+
+var jsonProjectDocument = null
 var projectObjectsTree = null
 var searchText = null
 var isShowingViewport = true
@@ -19,6 +20,7 @@ var switchIcon 			= preload("res://addons/waapi_picker/icons/switch.png")
 var stateGroupIcon 		= preload("res://addons/waapi_picker/icons/stategroup.png")
 var stateIcon 			= preload("res://addons/waapi_picker/icons/state.png")
 var soundBankIcon 		= preload("res://addons/waapi_picker/icons/soundbank.png")
+var busIcon				= preload("res://addons/waapi_picker/icons/bus.png")
 var auxBusIcon 			= preload("res://addons/waapi_picker/icons/auxbus.png")
 var acousticTextureIcon	= preload("res://addons/waapi_picker/icons/acoustictexture.png")
 var workUnitIcon 		= preload("res://addons/waapi_picker/icons/workunit.png")
@@ -48,7 +50,6 @@ func _enter_tree():
 	assert(error == OK)
 	
 	projectObjectsTree = waapiPickerControl.find_node("ProjectObjectsTree")
-	unfilteredProjectObjectsTree = projectObjectsTree
 	
 	searchText = waapiPickerControl.find_node("SearchText")
 	error = searchText.connect("text_changed", self, "_on_searchTextChanged")
@@ -79,89 +80,18 @@ func _on_refreshProjectButtonClick():
 	var connectResult = Waapi.connect_client("127.0.0.1", 8080)
 
 	if connectResult:	
-		var args = {"from": {"ofType": ["Project", "Event", "Switch", "SwitchGroup", "State", 
-					"StateGroup", "SoundBank", "AuxBus", "AcousticTexture", "WorkUnit"]}}
-
+		var args = {"from": {"ofType": ["Project", "SwitchGroup", "StateGroup", "Bus", "Switch", "State",
+										"AuxBus", "Event", "SoundBank", "AcousticTexture", "WorkUnit"]}}
 		var options = {"return": ["id", "name", "type", "workunit", "path"]}
 	
-		var dict = Waapi.client_call("ak.wwise.core.object.get", JSON.print(args), JSON.print(options))
-		var jsonDocument = JSON.parse(dict["resultString"])
-		
-		# TODO: populate the tree
-		# first create folders for each of the parent types (events, switches etc)
-		# then create work units within the folders
-		# after that, create switch groups and state groups
-		# after that, create child switches and states
-		# to finish, create remaining childs like events, acoustic textures etc
-		
-		# TODO: abstract call in a function _create_project_tree(String filter)
-		# TODO: cache the dict["resultString"]
+		var clientCallDict = Waapi.client_call("ak.wwise.core.object.get", JSON.print(args), JSON.print(options))
+		jsonProjectDocument = JSON.parse(clientCallDict["resultString"])
 
-		if jsonDocument.error == OK and jsonDocument.result.has("return"):
-			print(jsonDocument.result["return"])
+		if jsonProjectDocument.error == OK and jsonProjectDocument.result.has("return"):
+			print(jsonProjectDocument.result["return"])
 			
-			projectObjectsTree.clear()
+			_create_projectObjectsTree("")
 			
-			var wwiseProjectTree = projectObjectsTree.create_item()
-			wwiseProjectTree.set_text(0, "WwiseProject")
-			wwiseProjectTree.set_icon(0, projectIcon)
-			var eventsTree = projectObjectsTree.create_item()
-			eventsTree.set_text(0, "Events")
-			eventsTree.set_icon(0, folderIcon)
-			var switchesTree = projectObjectsTree.create_item()
-			switchesTree.set_text(0, "Switches")
-			switchesTree.set_icon(0, folderIcon)
-			var statesTree = projectObjectsTree.create_item()
-			statesTree.set_text(0, "States")
-			statesTree.set_icon(0, folderIcon)
-			var soundbanksTree = projectObjectsTree.create_item()
-			soundbanksTree.set_text(0, "SoundBanks")
-			soundbanksTree.set_icon(0, folderIcon)
-			var auxiliaryBusesTree = projectObjectsTree.create_item()
-			auxiliaryBusesTree.set_text(0, "Auxiliary Buses")
-			auxiliaryBusesTree.set_icon(0, folderIcon)
-			var virtualAcousticsTree = projectObjectsTree.create_item()
-			virtualAcousticsTree.set_text(0, "Virtual Acoustics")
-			virtualAcousticsTree.set_icon(0, folderIcon)
-			
-			for object in jsonDocument.result["return"]:
-				var item = null
-				
-				if object.type == "Project":
-					wwiseProjectTree.set_text(0, object.name)
-				elif object.type == "Event":
-					item = projectObjectsTree.create_item(eventsTree)
-					item.set_icon(0, eventIcon)
-				elif object.type == "Switch":
-					item = projectObjectsTree.create_item(switchesTree)
-					item.set_icon(0, switchIcon)
-				elif object.type == "SwitchGroup":
-					item = projectObjectsTree.create_item(switchesTree)
-					item.set_icon(0, switchGroupIcon)
-				elif object.type == "State":
-					item = projectObjectsTree.create_item(statesTree)
-					item.set_icon(0, stateIcon)
-				elif object.type == "StateGroup":
-					item = projectObjectsTree.create_item(statesTree)
-					item.set_icon(0, stateGroupIcon)
-				elif object.type == "SoundBank":
-					item = projectObjectsTree.create_item(soundbanksTree)
-					item.set_icon(0, soundBankIcon)
-				elif object.type == "AuxBus":
-					item = projectObjectsTree.create_item(auxiliaryBusesTree)
-					item.set_icon(0, auxBusIcon)
-				elif object.type == "AcousticTexture":
-					item = projectObjectsTree.create_item(virtualAcousticsTree)
-					item.set_icon(0, acousticTextureIcon)
-				elif object.type == "WorkUnit":
-					item = projectObjectsTree.create_item(virtualAcousticsTree)
-					item.set_icon(0, workUnitIcon)
-				else:
-					assert(false) # Not supported type
-				
-				if item:
-					item.set_text(0, object.name)
-		
 	if Waapi.is_client_connected():
 		Waapi.disconnect_client()
 		
@@ -184,9 +114,166 @@ func _on_exportSoundbanksButtonClick():
 	if Waapi.is_client_connected():
 		Waapi.disconnect_client()
 		
-func _on_searchTextChanged(new_text):	
-	projectObjectsTree = unfilteredProjectObjectsTree
+func _create_projectObjectsTree(textFilter):
+	# Initialise tree
+	projectObjectsTree.clear()
 	
+	# Create root node
+	var wwiseProjectRoot = projectObjectsTree.create_item()
+	wwiseProjectRoot.set_text(0, "WwiseProject")
+	wwiseProjectRoot.set_icon(0, projectIcon)
+
+	# Create folders for each of the parent types (events, switches etc)
+	var eventsTree = projectObjectsTree.create_item(wwiseProjectRoot)
+	eventsTree.set_text(0, "Events")
+	eventsTree.set_icon(0, folderIcon)
+	var switchesTree = projectObjectsTree.create_item(wwiseProjectRoot)
+	switchesTree.set_text(0, "Switches")
+	switchesTree.set_icon(0, folderIcon)
+	var statesTree = projectObjectsTree.create_item(wwiseProjectRoot)
+	statesTree.set_text(0, "States")
+	statesTree.set_icon(0, folderIcon)
+	var soundbanksTree = projectObjectsTree.create_item(wwiseProjectRoot)
+	soundbanksTree.set_text(0, "SoundBanks")
+	soundbanksTree.set_icon(0, folderIcon)
+	var auxiliaryBusesTree = projectObjectsTree.create_item(wwiseProjectRoot)
+	auxiliaryBusesTree.set_text(0, "Auxiliary Buses")
+	auxiliaryBusesTree.set_icon(0, folderIcon)
+	var virtualAcousticsTree = projectObjectsTree.create_item(wwiseProjectRoot)
+	virtualAcousticsTree.set_text(0, "Virtual Acoustics")
+	virtualAcousticsTree.set_icon(0, folderIcon)
+	
+	# Set project root name
+	for object in jsonProjectDocument.result["return"]:
+		if object.type == "Project":
+			wwiseProjectRoot.set_text(0, object.name)
+			break
+
+	# Create work units hierarchy	
+	for object in jsonProjectDocument.result["return"]:
+		if object.type == "WorkUnit":
+			var item = null
+			
+			if "\\Events\\" in object.path:
+				item = projectObjectsTree.create_item(eventsTree)
+			elif "\\Switches\\" in object.path:
+				item = projectObjectsTree.create_item(switchesTree)
+			elif "\\States\\" in object.path:
+				item = projectObjectsTree.create_item(statesTree)
+			elif "\\SoundBanks\\" in object.path:
+				item = projectObjectsTree.create_item(soundbanksTree)
+			elif "\\Master-Mixer Hierarchy\\" in object.path:
+				item = projectObjectsTree.create_item(auxiliaryBusesTree)
+			elif "\\Virtual Acoustics\\" in object.path:
+				item = projectObjectsTree.create_item(virtualAcousticsTree)
+				
+			if item:			
+				item.set_text(0, object.name)
+				item.set_icon(0, workUnitIcon)
+				
+	# Create switch groups, state groups and buses
+	for object in jsonProjectDocument.result["return"]:
+		var item = null
+		
+		if object.type == "SwitchGroup":
+			var workUnit = switchesTree.get_children()
+			while workUnit:
+				if workUnit.get_text(0) in object.path:
+					item = projectObjectsTree.create_item(workUnit)
+					item.set_icon(0, switchGroupIcon)
+					break	
+				workUnit = workUnit.get_next()
+		elif object.type == "StateGroup":
+			var workUnit = statesTree.get_children()
+			while workUnit:
+				if workUnit.get_text(0) in object.path:
+					item = projectObjectsTree.create_item(workUnit)
+					item.set_icon(0, stateGroupIcon)
+					break
+				workUnit = workUnit.get_next()
+		elif object.type == "Bus":
+			var workUnit = auxiliaryBusesTree.get_children()
+			while workUnit:
+				if workUnit.get_text(0) in object.path:
+					item = projectObjectsTree.create_item(workUnit)
+					item.set_icon(0, busIcon)
+					break
+				workUnit = workUnit.get_next()		
+		if item:
+			item.set_text(0, object.name)
+			
+	# Create child switches, states and aux busses
+	# Create events, soundbanks and acoustic textures
+	for object in jsonProjectDocument.result["return"]:
+		var item = null
+		
+		if object.type == "Switch":
+			var workUnit = switchesTree.get_children()
+			while workUnit:
+				if workUnit.get_text(0) in object.path:
+					var switchGroup = workUnit.get_children()
+					while switchGroup:
+						if switchGroup.get_text(0) in object.path:
+							item = projectObjectsTree.create_item(switchGroup)
+							item.set_icon(0, switchIcon)
+							break
+						switchGroup = switchGroup.get_next()
+					break	
+				workUnit = workUnit.get_next()
+		elif object.type == "State":
+			var workUnit = statesTree.get_children()
+			while workUnit:
+				if workUnit.get_text(0) in object.path:
+					var stateGroup = workUnit.get_children()
+					while stateGroup:
+						if stateGroup.get_text(0) in object.path:
+							item = projectObjectsTree.create_item(stateGroup)
+							item.set_icon(0, stateIcon)
+							break
+						stateGroup = stateGroup.get_next()
+					break	
+				workUnit = workUnit.get_next()
+		elif object.type == "AuxBus":
+			var workUnit = auxiliaryBusesTree.get_children()
+			while workUnit:
+				if workUnit.get_text(0) in object.path:
+					var bus = workUnit.get_children()
+					while bus:
+						if bus.get_text(0) in object.path:
+							item = projectObjectsTree.create_item(bus)
+							item.set_icon(0, auxBusIcon)
+							break
+						bus = bus.get_next()
+					break	
+				workUnit = workUnit.get_next()
+		elif object.type == "Event":
+			var workUnit = eventsTree.get_children()
+			while workUnit:
+				if workUnit.get_text(0) in object.path:
+					item = projectObjectsTree.create_item(workUnit)
+					item.set_icon(0, eventIcon)
+					break	
+				workUnit = workUnit.get_next()
+		elif object.type == "SoundBank":
+			var workUnit = soundbanksTree.get_children()
+			while workUnit:
+				if workUnit.get_text(0) in object.path:
+					item = projectObjectsTree.create_item(workUnit)
+					item.set_icon(0, soundBankIcon)
+					break	
+				workUnit = workUnit.get_next()
+		elif object.type == "AcousticTexture":
+			var workUnit = virtualAcousticsTree.get_children()
+			while workUnit:
+				if workUnit.get_text(0) in object.path:
+					item = projectObjectsTree.create_item(workUnit)
+					item.set_icon(0, acousticTextureIcon)
+					break	
+				workUnit = workUnit.get_next()	
+		if item:
+			item.set_text(0, object.name)
+		
+func _on_searchTextChanged(new_text):		
 	var folder = projectObjectsTree.get_root().get_children()
 	
 	while folder !=  null:
