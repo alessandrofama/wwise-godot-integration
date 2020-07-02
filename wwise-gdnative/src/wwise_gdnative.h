@@ -105,6 +105,8 @@ namespace godot
 
 		bool addOutput(const String shareSet, const unsigned int outputID);
 		bool removeOutput(const unsigned int outputID);
+		bool suspend(bool renderAnyway);
+		bool wakeupFromSuspend();
 
 	private:
 		const String GODOT_WINDOWS_SETTING_POSTFIX = ".Windows";

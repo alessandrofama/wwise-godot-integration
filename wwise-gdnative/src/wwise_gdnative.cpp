@@ -151,6 +151,8 @@ void Wwise::_register_methods()
 	register_method("set_early_reflections_volume", &Wwise::setEarlyReflectionsVolume);
 	register_method("add_output", &Wwise::addOutput);
 	register_method("remove_output", &Wwise::removeOutput);
+	register_method("suspend", &Wwise::suspend);
+	register_method("wakeup_from_suspend", &Wwise::wakeupFromSuspend);
 
 	REGISTER_GODOT_SIGNAL(AK_EndOfEvent);
 	REGISTER_GODOT_SIGNAL(AK_EndOfDynamicSequenceItem);
@@ -878,6 +880,16 @@ bool Wwise::addOutput(const String shareSet, const unsigned int outputID)
 bool Wwise::removeOutput(const unsigned int outputID)
 {
 	return ERROR_CHECK(AK::SoundEngine::RemoveOutput(outputID), "Failed to remove output ID: " + String::num_int64(outputID));
+}
+
+bool Wwise::suspend(bool renderAnyway)
+{
+	return ERROR_CHECK(AK::SoundEngine::Suspend(renderAnyway), "Failed to suspend SoundEngine");
+}
+
+bool Wwise::wakeupFromSuspend()
+{
+	return ERROR_CHECK(AK::SoundEngine::WakeupFromSuspend(), "Failed to wake up SoundEngine from suspend");
 }
 
 void Wwise::eventCallback(AkCallbackType callbackType, AkCallbackInfo* callbackInfo)
