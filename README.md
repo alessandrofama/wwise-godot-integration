@@ -5,23 +5,24 @@
 
 ## Overview
 
-Welcome! This repository provides an integration for Audiokinetic's Wwise audio middleware with the Godot game engine. At the moment, Wwise version 2019.2.1.7250 is supported.
+Welcome! This repository provides an integration of Audiokinetic's Wwise audio middleware with the Godot game engine. At the moment, Wwise version 2019.2.1.7250 is supported.
 
 ## Features
 
 * Wwise wrapper libraries that can be used in games and apps for Windows, macOS, iOS and Android.
-* Multi-platform build with Scons for the Wwise and Waapi wrappers.
-* Wwise and Waapi wrappers unit tests using [Gut](https://github.com/bitwes/Gut).
-* Wwise and Waapi Godot test projects.
-* Wwise profiler connection enabled in debug buids of the GDNative wrapper (Windows and macOS).
-* Blocking I/O implementation for loading banks (the Wwise GDNative wrapper can be extended to use custom I/O).
+* Multi-platform build with Scons for the Wwise and Wwise authoring API (Waapi) wrappers.
+* Wwise and Waapi wrappers unit tests with [Gut](https://github.com/bitwes/Gut).
+* Wwise and Waapi Godot testbed projects.
+* Wwise profiler connection enabled in debug buids of the GDNative wrapper.
+* Blocking I/O implementation that can be extended to use custom I/O devices.
 * Custom Godot nodes: AkEvent, AkBank, AkListener, AkState, AkSwitch, AkEnvironment, AkGeometry, AkRoom, AkPortal, AkEarlyReflections.
 * Custom Godot Visual Script nodes: AkLoadBank, AkUnloadBank, AkPostEvent, AkSet3DPosition, AkSetState, AkSetSwitch, AkGetRTPCValue, AkSetRTPCValue.
 * Custom Godot signals that can be mapped to event callbacks: end of event, audio marker, music sync beat etc.
-* Wwise IDs converter from C++ header to GDScript.
-* Waapi picker in the Godot editor that allows querying and searching the Wwise project and generating soundbanks from the Wwise authoring app.
+* Wwise IDs converter from C++ to GDScript code.
+* Waapi picker in the Godot editor that allows querying and searching the Wwise project and generating soundbanks from Godot's editor.
 * Wwise settings configurable per-platform in the Godot editor.
-* Spatial audio API support e.g. can send geometry from Godot to Wwise.
+* Spatial audio API support.
+* Wwise plug-ins support.
 * Integration app to ease the process of integrating Wwise in Godot projects.
 
 ## Getting started
