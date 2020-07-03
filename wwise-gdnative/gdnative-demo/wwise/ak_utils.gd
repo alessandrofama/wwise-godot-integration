@@ -1,6 +1,6 @@
 class_name AkUtils
 
-enum AkInterpolationMode {
+enum AkCurveInterpolation {
 	LOG3			= 0,
 	SINE			= 1,
 	LOG1			= 2,

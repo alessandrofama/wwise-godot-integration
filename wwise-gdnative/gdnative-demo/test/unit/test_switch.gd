@@ -15,7 +15,7 @@ class TestSwitch:
 		yield(yield_for(0.1), YIELD)
 		assert_true(Wwise.set_switch("FootstepsSwitch", "Wood", node), "Set Switch should be true")
 		var playing_id = Wwise.post_event_id(AK.EVENTS.FOOTSTEPS, node)
-		Wwise.stop_event(playing_id, 0, AkUtils.AkInterpolationMode.LINEAR)
+		Wwise.stop_event(playing_id, 0, AkUtils.AkCurveInterpolation.LINEAR)
 		Wwise.unregister_game_obj(node)
 		
 	func test_assert_set_switch_id():
@@ -23,7 +23,7 @@ class TestSwitch:
 		yield(yield_for(0.1), YIELD)
 		assert_true(Wwise.set_switch_id(AK.SWITCHES.FOOTSTEPSSWITCH.GROUP, AK.SWITCHES.FOOTSTEPSSWITCH.SWITCH.WOOD, node), "Set Switch should be true")
 		var playing_id = Wwise.post_event_id(AK.EVENTS.FOOTSTEPS, node)
-		Wwise.stop_event(playing_id, 0, AkUtils.AkInterpolationMode.LINEAR)
+		Wwise.stop_event(playing_id, 0, AkUtils.AkCurveInterpolation.LINEAR)
 		Wwise.unregister_game_obj(node)
 	
 	func after_all():
