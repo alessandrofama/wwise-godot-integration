@@ -22,7 +22,7 @@ class TestRTPC:
 		playing_id = Wwise.post_event_id(AK.EVENTS.MUSIC, node)
 		var desired_value: float = 3
 		assert_eq(Wwise.get_rtpc("Enemies", node), desired_value, "RTPC value should be: " + str(desired_value))
-		Wwise.stop_event(playing_id, 0, AkUtils.AkInterpolationMode.LINEAR)		
+		Wwise.stop_event(playing_id, 0, AkUtils.AkCurveInterpolation.LINEAR)		
 		
 	func test_assert_set_rtpc_id():
 		assert_true(Wwise.set_rtpc_id(AK.GAME_PARAMETERS.MUSICVOLUME, -33, node), "Set RTPC ID should be true")
@@ -32,7 +32,7 @@ class TestRTPC:
 		playing_id = Wwise.post_event_id(AK.EVENTS.MUSIC, node)
 		var desired_value: float = 3
 		assert_eq(Wwise.get_rtpc_id(AK.GAME_PARAMETERS.ENEMIES, node), desired_value, "RTPC value should be: " + str(desired_value))
-		Wwise.stop_event(playing_id, 0, AkUtils.AkInterpolationMode.LINEAR)
+		Wwise.stop_event(playing_id, 0, AkUtils.AkCurveInterpolation.LINEAR)
 	
 	func after_all():
 		Wwise.unregister_game_obj(node)		

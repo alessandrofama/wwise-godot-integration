@@ -25,5 +25,5 @@ func _process(_delta):
 
 func _input(_ev):
 	if Input.is_key_pressed(KEY_P):
-		var stopEventResult = Wwise.stop_event(playingID, 3000, AkUtils.AkInterpolationMode.LINEAR)
+		var stopEventResult = Wwise.stop_event(playingID, 3000, AkUtils.AkCurveInterpolation.LINEAR)
 		print("Stop Event: ", stopEventResult)

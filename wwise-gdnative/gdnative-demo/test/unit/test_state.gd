@@ -15,7 +15,7 @@ class TestState:
 		yield(yield_for(0.1), YIELD)
 		assert_true(Wwise.set_state("MusicState", "Intense"), "Set State should be true")
 		var playing_id = Wwise.post_event_id(AK.EVENTS.MUSIC, node)
-		Wwise.stop_event(playing_id, 0, AkUtils.AkInterpolationMode.LINEAR)
+		Wwise.stop_event(playing_id, 0, AkUtils.AkCurveInterpolation.LINEAR)
 		Wwise.unregister_game_obj(node)
 		
 	func test_assert_set_state_id():
@@ -23,7 +23,7 @@ class TestState:
 		yield(yield_for(0.1), YIELD)
 		assert_true(Wwise.set_state_id(AK.STATES.MUSICSTATE.GROUP, AK.STATES.MUSICSTATE.STATE.INTENSE), "Set State should be true")
 		var playing_id = Wwise.post_event_id(AK.EVENTS.FOOTSTEPS, node)
-		Wwise.stop_event(playing_id, 0, AkUtils.AkInterpolationMode.LINEAR)
+		Wwise.stop_event(playing_id, 0, AkUtils.AkCurveInterpolation.LINEAR)
 		Wwise.unregister_game_obj(node)
 	
 	func after_all():

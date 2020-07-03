@@ -436,8 +436,8 @@ bool Wwise::stopEvent(const int playingID, const int fadeTime, const int interpo
 {
 	AKASSERT(fadeTime >= 0);
 
-	AK::SoundEngine::StopPlayingID(static_cast<AkPlayingID>(playingID), static_cast<AkTimeMs>(fadeTime), 
-									static_cast<AkCurveInterpolation>(interpolation));
+	AK::SoundEngine::ExecuteActionOnPlayingID(AK::SoundEngine::AkActionOnEventType::AkActionOnEventType_Stop, static_cast<AkPlayingID>(playingID), static_cast<AkTimeMs>(fadeTime),
+					static_cast<AkCurveInterpolation>(interpolation));
 
 	return true;
 }
