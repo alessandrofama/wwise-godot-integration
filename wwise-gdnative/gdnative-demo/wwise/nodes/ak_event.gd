@@ -5,7 +5,7 @@ export(AK.EVENTS._enum) var event:int
 export(AkUtils.GameEvent) var trigger_on:int = AkUtils.GameEvent.NONE
 export(AkUtils.GameEvent) var stop_on:int = AkUtils.GameEvent.NONE
 export(int) var stop_fade_time = 0
-export (AkUtils.AkInterpolationMode) var interpolation_mode = AkUtils.AkInterpolationMode.LINEAR
+export(AkUtils.AkCurveInterpolation) var interpolation_mode = AkUtils.AkCurveInterpolation.LINEAR
 var playingID:int
 
 export(bool) var use_callback = false
