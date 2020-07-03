@@ -659,13 +659,13 @@ Dictionary Wwise::getPlayingSegmentInfo(const unsigned int playingID, const bool
 	return segment;
 }
 
-bool Wwise::setGameObjectOutputBusVolume(const unsigned int eventID, const unsigned int listenerID, float fControlValue)
+bool Wwise::setGameObjectOutputBusVolume(const unsigned int gameObjectID, const unsigned int listenerID, float fControlValue)
 {
-	return ERROR_CHECK(AK::SoundEngine::SetGameObjectOutputBusVolume(static_cast<AkGameObjectID>(eventID), 
+	return ERROR_CHECK(AK::SoundEngine::SetGameObjectOutputBusVolume(static_cast<AkGameObjectID>(gameObjectID), 
 																		static_cast<AkGameObjectID>(listenerID), fControlValue), "Could not set the Game Object Outpus Bus Volume");
 }
 
-bool Wwise::setGameObjectAuxSendValues(const unsigned int eventID, const Array akAuxSendValues, const unsigned int sendValues)
+bool Wwise::setGameObjectAuxSendValues(const unsigned int gameObjectID, const Array akAuxSendValues, const unsigned int sendValues)
 {
 	AkAuxSendValue environments[AK_MAX_ENVIRONMENTS];
 
@@ -677,13 +677,13 @@ bool Wwise::setGameObjectAuxSendValues(const unsigned int eventID, const Array a
 		environments[i].listenerID = AK_INVALID_GAME_OBJECT;
 	}
 
-	return ERROR_CHECK(AK::SoundEngine::SetGameObjectAuxSendValues(static_cast<AkGameObjectID>(eventID),
+	return ERROR_CHECK(AK::SoundEngine::SetGameObjectAuxSendValues(static_cast<AkGameObjectID>(gameObjectID),
 																	environments, sendValues), "Could not set the Game Object Aux Send Values");
 }
 
-bool Wwise::setObjectObstructionAndOcclusion(const unsigned int eventID, const unsigned int listenerID, float fCalculatedObs, float fCalculatedOcc)
+bool Wwise::setObjectObstructionAndOcclusion(const unsigned int gameObjectID, const unsigned int listenerID, float fCalculatedObs, float fCalculatedOcc)
 {
-	return ERROR_CHECK(AK::SoundEngine::SetObjectObstructionAndOcclusion(static_cast<AkGameObjectID>(eventID), 
+	return ERROR_CHECK(AK::SoundEngine::SetObjectObstructionAndOcclusion(static_cast<AkGameObjectID>(gameObjectID), 
 																			static_cast<AkGameObjectID>(listenerID), fCalculatedObs, fCalculatedOcc), "Could not set Obstruction and Occlusion");
 }
 

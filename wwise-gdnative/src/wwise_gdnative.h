@@ -87,9 +87,9 @@ namespace godot
 		int getSourcePlayPosition(const unsigned int playingID, const bool extrapolate);
 		Dictionary getPlayingSegmentInfo(const unsigned int playingID, const bool extrapolate);
 
-		bool setGameObjectOutputBusVolume(const unsigned int eventID, const unsigned int listenerID, float fControlValue);
-		bool setGameObjectAuxSendValues(const unsigned int eventID, const Array akAuxSendValues, const unsigned int sendValues);
-		bool setObjectObstructionAndOcclusion(const unsigned int eventID, const unsigned int listenerID, float fCalculatedObs, float fCalculatedOcc);
+		bool setGameObjectOutputBusVolume(const unsigned int gameObjectID, const unsigned int listenerID, float fControlValue);
+		bool setGameObjectAuxSendValues(const unsigned int gameObjectID, const Array akAuxSendValues, const unsigned int sendValues);
+		bool setObjectObstructionAndOcclusion(const unsigned int gameObjectID, const unsigned int listenerID, float fCalculatedObs, float fCalculatedOcc);
 
 		bool setGeometry(const Array vertices, const Array triangles, const String acousticTexture, const float occlusionValue, 
 						 const Object* gameObject, bool enableDiffraction, bool enableDiffractionOnBoundaryEdges, const Object* associatedRoom);
