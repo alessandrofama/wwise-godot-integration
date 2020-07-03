@@ -105,6 +105,7 @@ Wwise::~Wwise()
 void Wwise::_register_methods()
 {
 	register_method("_process", &Wwise::_process);
+	register_method("_notification", &Wwise::_notification);
 	register_method("set_current_language", &Wwise::setCurrentLanguage);
 	register_method("load_bank", &Wwise::loadBank);
 	register_method("load_bank_id", &Wwise::loadBankID);
@@ -237,6 +238,22 @@ void Wwise::_process(const float delta)
 {
 	emitSignals();
 	ERROR_CHECK(AK::SoundEngine::RenderAudio(), "");
+}
+
+void Wwise::_notification(int notification)
+{
+#ifdef AK_ANDROID
+
+	if (notification == NOTIFICATION_WM_FOCUS_OUT)
+	{
+		Wwise::suspend(false);
+	}
+	if (notification == NOTIFICATION_WM_FOCUS_IN)
+	{
+		Wwise::wakeupFromSuspend();
+	}
+
+#endif 
 }
 
 bool Wwise::setBasePath(const String basePath)

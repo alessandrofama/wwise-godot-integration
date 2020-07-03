@@ -42,6 +42,7 @@ namespace godot
 		static void _register_methods();
 		void _init();
 		void _process(const float delta);
+		void _notification(int notification);
 
 		bool setBasePath(const String basePath);
 		bool setCurrentLanguage(const String language);
