@@ -24,8 +24,8 @@ func _init():
 		push_error("Encountered error %d when saving project settings." % error)
 
 func _add_common_user_settings():
-	_add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "base_path", String("res://Banks"), 
-				TYPE_STRING, PROPERTY_HINT_DIR, "res://Banks")
+	_add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "base_path", String("res://wwise/GeneratedSoundBanks"), 
+				TYPE_STRING, PROPERTY_HINT_DIR, "res://wwise/GeneratedSoundBanks")
 	_add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "startup_language", String("English(US)"), TYPE_STRING, 
 				PROPERTY_HINT_NONE, "")
 	_add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "callback_manager_buffer_size", 4096, TYPE_INT, 

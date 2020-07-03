@@ -12,7 +12,7 @@ _global_script_classes=[ {
 "base": "Reference",
 "class": "AK",
 "language": "GDScript",
-"path": "res://Banks/wwise_ids.gd"
+"path": "res://wwise/GeneratedSoundBanks/wwise_ids.gd"
 }, {
 "base": "Node",
 "class": "AkAuxData",
