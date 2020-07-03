@@ -98,7 +98,7 @@ func _on_exportSoundbanksButtonClick():
 	var connectResult = Waapi.connect_client("127.0.0.1", 8080)
 
 	if connectResult:	
-		var args = {"command": "GenerateAllSoundbanksAllPlatforms"}
+		var args = {"command": "GenerateAllSoundbanksAllPlatformsAutoClose"}
 		var options = {}
 	
 		var dict = Waapi.client_call("ak.wwise.ui.commands.execute", JSON.print(args), JSON.print(options))
