@@ -88,7 +88,7 @@ func _on_refreshProjectButtonClick():
 		jsonProjectDocument = JSON.parse(clientCallDict["resultString"])
 
 		if jsonProjectDocument.error == OK and jsonProjectDocument.result.has("return"):
-			print(jsonProjectDocument.result["return"])
+			#print(jsonProjectDocument.result["return"])
 			_create_projectObjectsTree("")
 
 	if Waapi.is_client_connected():
@@ -171,6 +171,10 @@ func _create_projectObjectsTree(textFilter):
 				item.set_icon(0, workUnitIcon)
 
 	# Create switch groups, state groups and buses
+	var numSwitchGroups = 0
+	var numStateGroups = 0
+	var numBusGroups = 0
+	
 	for object in jsonProjectDocument.result["return"]:
 		var item = null
 		
@@ -178,24 +182,30 @@ func _create_projectObjectsTree(textFilter):
 			var workUnit = switchesTree.get_children()
 			while workUnit:
 				if workUnit.get_text(0) in object.path:
-					item = projectObjectsTree.create_item(workUnit)
-					item.set_icon(0, switchGroupIcon)
+					if textFilter.empty() or textFilter in object.name:
+						item = projectObjectsTree.create_item(workUnit)
+						item.set_icon(0, switchGroupIcon)
+						numSwitchGroups += 1
 					break	
 				workUnit = workUnit.get_next()
 		elif object.type == "StateGroup":
 			var workUnit = statesTree.get_children()
 			while workUnit:
 				if workUnit.get_text(0) in object.path:
-					item = projectObjectsTree.create_item(workUnit)
-					item.set_icon(0, stateGroupIcon)
+					if textFilter.empty() or textFilter in object.name:
+						item = projectObjectsTree.create_item(workUnit)
+						item.set_icon(0, stateGroupIcon)
+						numStateGroups += 1
 					break
 				workUnit = workUnit.get_next()
 		elif object.type == "Bus":
 			var workUnit = auxiliaryBusesTree.get_children()
 			while workUnit:
 				if workUnit.get_text(0) in object.path:
-					item = projectObjectsTree.create_item(workUnit)
-					item.set_icon(0, busIcon)
+					if textFilter.empty() or textFilter in object.name:
+						item = projectObjectsTree.create_item(workUnit)
+						item.set_icon(0, busIcon)
+						numBusGroups += 1
 					break
 				workUnit = workUnit.get_next()		
 		if item:
@@ -203,6 +213,13 @@ func _create_projectObjectsTree(textFilter):
 
 	# Create child switches, states and aux busses
 	# Create events, soundbanks and acoustic textures
+	var numSwitches = 0
+	var numStates = 0
+	var numAuxBux = 0
+	var numEvents = 0
+	var numSoundBanks = 0
+	var numAcousticTextures = 0
+	
 	for object in jsonProjectDocument.result["return"]:
 		var item = null
 		
@@ -213,8 +230,10 @@ func _create_projectObjectsTree(textFilter):
 					var switchGroup = workUnit.get_children()
 					while switchGroup:
 						if switchGroup.get_text(0) in object.path:
-							item = projectObjectsTree.create_item(switchGroup)
-							item.set_icon(0, switchIcon)
+							if textFilter.empty() or textFilter in object.name:
+								item = projectObjectsTree.create_item(switchGroup)
+								item.set_icon(0, switchIcon)
+								numSwitches += 1
 							break
 						switchGroup = switchGroup.get_next()
 					break	
@@ -226,8 +245,10 @@ func _create_projectObjectsTree(textFilter):
 					var stateGroup = workUnit.get_children()
 					while stateGroup:
 						if stateGroup.get_text(0) in object.path:
-							item = projectObjectsTree.create_item(stateGroup)
-							item.set_icon(0, stateIcon)
+							if textFilter.empty() or textFilter in object.name:
+								item = projectObjectsTree.create_item(stateGroup)
+								item.set_icon(0, stateIcon)
+								numStates += 1
 							break
 						stateGroup = stateGroup.get_next()
 					break	
@@ -239,8 +260,10 @@ func _create_projectObjectsTree(textFilter):
 					var bus = workUnit.get_children()
 					while bus:
 						if bus.get_text(0) in object.path:
-							item = projectObjectsTree.create_item(bus)
-							item.set_icon(0, auxBusIcon)
+							if textFilter.empty() or textFilter in object.name:
+								item = projectObjectsTree.create_item(bus)
+								item.set_icon(0, auxBusIcon)
+								numAuxBux += 1
 							break
 						bus = bus.get_next()
 					break	
@@ -249,31 +272,51 @@ func _create_projectObjectsTree(textFilter):
 			var workUnit = eventsTree.get_children()
 			while workUnit:
 				if workUnit.get_text(0) in object.path:
-					item = projectObjectsTree.create_item(workUnit)
-					item.set_icon(0, eventIcon)
+					if textFilter.empty() or textFilter in object.name:
+						item = projectObjectsTree.create_item(workUnit)
+						item.set_icon(0, eventIcon)
+						numEvents += 1
 					break	
 				workUnit = workUnit.get_next()
 		elif object.type == "SoundBank":
 			var workUnit = soundbanksTree.get_children()
 			while workUnit:
 				if workUnit.get_text(0) in object.path:
-					item = projectObjectsTree.create_item(workUnit)
-					item.set_icon(0, soundBankIcon)
+					if textFilter.empty() or textFilter in object.name:
+						item = projectObjectsTree.create_item(workUnit)
+						item.set_icon(0, soundBankIcon)
+						numSoundBanks += 1
 					break	
 				workUnit = workUnit.get_next()
 		elif object.type == "AcousticTexture":
 			var workUnit = virtualAcousticsTree.get_children()
 			while workUnit:
 				if workUnit.get_text(0) in object.path:
-					item = projectObjectsTree.create_item(workUnit)
-					item.set_icon(0, acousticTextureIcon)
+					if textFilter.empty() or textFilter in object.name:
+						item = projectObjectsTree.create_item(workUnit)
+						item.set_icon(0, acousticTextureIcon)
+						numAcousticTextures += 1
 					break	
 				workUnit = workUnit.get_next()	
 		if item:
 			item.set_text(0, object.name)
+			
+	# Delete trees that don't have more than 1 fitered item
+	if numSwitches == 0 and numSwitchGroups == 0:
+		switchesTree.free()
+	if numEvents == 0:
+		eventsTree.free()
+	if numStates == 0 and numStateGroups == 0:
+		statesTree.free()
+	if numAuxBux == 0 and numBusGroups == 0:
+		auxiliaryBusesTree.free()
+	if numAcousticTextures == 0:
+		virtualAcousticsTree.free()
+	if numSoundBanks == 0:
+		soundbanksTree.free()
 
-func _on_searchTextChanged(new_text):		
-	_create_projectObjectsTree(new_text)
+func _on_searchTextChanged(textFilter):
+	_create_projectObjectsTree(textFilter)
 
 func _exit_tree():
 	remove_control_from_bottom_panel(waapiPickerControl)
