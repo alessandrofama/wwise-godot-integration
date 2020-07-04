@@ -868,7 +868,6 @@ bool Wwise::removeGameObjectFromRoom(const Object* gameObject)
 {
 	AKASSERT(gameObject);
 
-	AkRoomID roomID;
 	return ERROR_CHECK(AK::SpatialAudio::SetGameObjectInRoom(static_cast<AkGameObjectID>(gameObject->get_instance_id()), INVALID_ROOM_ID), "Failed to remove Game Object from Room: "
 																																			+ String::num_int64(gameObject->get_instance_id()));
 }
