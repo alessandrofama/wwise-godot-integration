@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://addons/waapi_picker/icons/search.png" type="Texture" id=1]
+[ext_resource path="res://addons/waapi_picker/waapi_picker_drag.gd" type="Script" id=2]
 
 [node name="WwisePickerControl" type="Control"]
 margin_right = 959.277
@@ -64,6 +65,8 @@ margin_bottom = 277.0
 rect_min_size = Vector2( 0, 120 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
+allow_reselect = true
+script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

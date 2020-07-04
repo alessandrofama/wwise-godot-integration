@@ -25,6 +25,9 @@ var auxBusIcon 			= preload("res://addons/waapi_picker/icons/auxbus.png")
 var acousticTextureIcon	= preload("res://addons/waapi_picker/icons/acoustictexture.png")
 var workUnitIcon 		= preload("res://addons/waapi_picker/icons/workunit.png")
 
+var selected_item = null
+var world_position:Vector3
+
 func _enter_tree():
 	waapiPickerControl = preload("res://addons/waapi_picker/waapi_picker.tscn").instance()
 	var buttonResult = add_control_to_bottom_panel(waapiPickerControl,"Waapi Picker")
@@ -50,13 +53,15 @@ func _enter_tree():
 	assert(error == OK)
 	
 	projectObjectsTree = waapiPickerControl.find_node("ProjectObjectsTree")
+	error = projectObjectsTree.connect("cell_selected", self, "_on_cell_selected")
+	assert(error == OK)
 	
 	searchText = waapiPickerControl.find_node("SearchText")
 	error = searchText.connect("text_changed", self, "_on_searchTextChanged")
 	assert(error == OK)
 	
 	_on_refreshProjectButtonClick()
-
+	
 func _on_resized_editorViewport():
 	var width = editorViewport.rect_size.x - 6
 	var height = get_editor_interface().get_base_control().get_size().y - editorViewport.rect_size.y - 150
@@ -82,7 +87,7 @@ func _on_refreshProjectButtonClick():
 	if connectResult:	
 		var args = {"from": {"ofType": ["Project", "SwitchGroup", "StateGroup", "Bus", "Switch", "State",
 										"AuxBus", "Event", "SoundBank", "AcousticTexture", "WorkUnit"]}}
-		var options = {"return": ["id", "name", "type", "workunit", "path"]}
+		var options = {"return": ["id", "name", "type", "workunit", "path", "shortId"]}
 	
 		var clientCallDict = Waapi.client_call("ak.wwise.core.object.get", JSON.print(args), JSON.print(options))
 		jsonProjectDocument = JSON.parse(clientCallDict["resultString"])
@@ -275,6 +280,8 @@ func _create_projectObjectsTree(textFilter):
 					if textFilter.empty() or textFilter in object.name:
 						item = projectObjectsTree.create_item(workUnit)
 						item.set_icon(0, eventIcon)
+						item.set_meta("Type", object.type)
+						item.set_meta("ShortId", object.shortId)
 						numEvents += 1
 					break	
 				workUnit = workUnit.get_next()
@@ -321,3 +328,38 @@ func _on_searchTextChanged(textFilter):
 func _exit_tree():
 	remove_control_from_bottom_panel(waapiPickerControl)
 	waapiPickerControl.queue_free()
+
+func handles(object):
+	return true
+
+func forward_spatial_gui_input(camera, event):
+	if event is InputEventMouseMotion:
+		var from = camera.project_ray_origin(event.position)
+		var end = from + camera.project_ray_normal(event.position) * 3000
+		var space_state = get_editor_interface().get_editor_viewport().get_child(1).get_viewport().world.direct_space_state
+		var intersection = space_state.intersect_ray(from, end)
+
+		if not intersection.empty():
+			world_position = intersection.position
+		else:
+			var root = get_editor_interface().get_edited_scene_root().get_global_transform().origin
+			from = camera.project_ray_origin(event.position)
+			end = from + camera.project_ray_normal(event.position) * root.distance_to(camera.global_transform.origin)
+			world_position = end
+	return false
+
+func _notification(notification):
+	if notification == NOTIFICATION_DRAG_END:
+		if selected_item:
+			if selected_item.get_meta("Type") == "Event":
+				var ak_event:AkEvent = preload("res://wwise/nodes/ak_event.gd").new()
+				ak_event.name = selected_item.get_text(0)
+				ak_event.event = selected_item.get_meta("ShortId") 
+				var root = get_editor_interface().get_edited_scene_root()
+				root.add_child(ak_event)
+				ak_event.owner = root
+				ak_event.global_transform.origin = world_position
+				selected_item = null
+
+func _on_cell_selected():
+	selected_item = projectObjectsTree.get_selected()
