@@ -1,18 +1,22 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <h1>Wwise GDNative installation</h1>
+    <installation></installation>
   </div>
 </template>
 
+<style scoped>
+h1 {
+  padding: 20px 0px;
+}
+</style>
+
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
+import Installation from "../components/Installation.vue";
 
 export default {
-  name: "Home",
   components: {
-    HelloWorld
+    installation: Installation
   }
 };
 </script>
