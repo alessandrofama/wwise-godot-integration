@@ -53,7 +53,7 @@ func _enter_tree():
 	assert(error == OK)
 	
 	projectObjectsTree = waapiPickerControl.find_node("ProjectObjectsTree")
-	error = projectObjectsTree.connect("cell_selected", self, "_on_cell_selected")
+	error = projectObjectsTree.connect("cell_selected", self, "_on_cellSelected")
 	assert(error == OK)
 	
 	searchText = waapiPickerControl.find_node("SearchText")
@@ -361,5 +361,5 @@ func _notification(notification):
 				akEvent.global_transform.origin = worldPosition
 				selectedItem = null
 
-func _on_cell_selected():
+func _on_cellSelected():
 	selectedItem = projectObjectsTree.get_selected()
