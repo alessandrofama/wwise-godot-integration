@@ -11,25 +11,26 @@
             accept=".godot"
             @change="previewFilePath"
           />
-          <label class="custom-file-label" for="customFile">{{
-            previewGodotProjectFilePath
-          }}</label>
+          <label class="custom-file-label" for="customFile">
+            {{ previewGodotProjectFilePath }}
+          </label>
           <span class="form-text text-muted">Select Godot's project file.</span>
         </div>
         <span
           v-if="isIntegrationInstalled"
           class="form-text"
-          style="margin-top:1%"
-          >The Wwise Godot Integration is already installed. Please update or
-          uninstall the integration.</span
+          style="margin-top: 1%;"
         >
-        <span v-else class="form-text" style="margin-top:1%"
-          >Installing the Wwise Godot integration will copy the required files
-          to your Godot Project.</span
-        >
+          The Wwise Godot Integration is already installed. Please update or
+          uninstall the integration.
+        </span>
+        <span v-else class="form-text" style="margin-top: 1%;">
+          Installing the Wwise Godot integration will copy the required files to
+          your Godot Project.
+        </span>
       </div>
 
-      <div class="from-group b-button-toolbar ">
+      <div class="from-group b-button-toolbar">
         <b-button-group class="mx-1">
           <button name="submit" type="submit" class="btn btn-primary">
             <span v-if="isIntegrationInstalled">Update</span>
@@ -37,12 +38,7 @@
           </button>
         </b-button-group>
         <b-button-group class="mx-1">
-          <button
-            v-if="isIntegrationInstalled"
-            name="submit"
-            type="submit"
-            class="btn btn-secondary"
-          >
+          <button v-if="isIntegrationInstalled" class="btn btn-secondary">
             <span>Uninstall</span>
           </button>
         </b-button-group>
@@ -50,15 +46,13 @@
     </form>
     <div class="progressing">
       <transition name="fadeInstall">
-        <div v-if="installing" class="progress">
-          <div
-            class="progress-bar"
-            role="progressbar"
-            :style="{ width: progress + '%' }"
-            aria-valuenow="100"
-            aria-valuemin="0"
-            aria-valuemax="100"
-          ></div>
+        <div v-if="installing">
+          <b-progress
+            :max="max"
+            show-progress
+            animated
+            :value="progress"
+          ></b-progress>
         </div>
       </transition>
     </div>
@@ -75,7 +69,9 @@ export default {
   data() {
     return {
       previewGodotProjectFilePath: "Choose File",
-      installing: false
+      installing: false,
+      progress: 0,
+      max: 100
     };
   },
 
@@ -121,6 +117,8 @@ export default {
       }
     },
     extractIntegration() {
+      var vm = this;
+
       fs.createReadStream(
         // eslint-disable-next-line no-undef
         path.join(__static, "Wwise-Godot-Integration.zip")
@@ -128,10 +126,12 @@ export default {
         unzipper
           .Extract({ path: this.godotProjectPath })
           .on("error", err => console.error("error", err))
-          .on("finish", () => this.updateGodotProjectFile())
+          .on("finish", () => vm.updateGodotProjectFile())
       );
     },
     updateGodotProjectFile() {
+      var vm = this;
+      this.progress = 25;
       try {
         var projectFileData = fs.readFileSync(
           // eslint-disable-next-line no-undef
@@ -147,6 +147,7 @@ export default {
           console.log("Error:", err.stack);
         } else {
           console.log("append succeeded");
+          vm.progress = 100;
         }
       });
     },
