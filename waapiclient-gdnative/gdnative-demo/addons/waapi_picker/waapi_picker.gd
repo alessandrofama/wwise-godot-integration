@@ -63,10 +63,11 @@ func _enter_tree():
 	_on_refreshProjectButtonClick()
 	
 func _on_resized_editorViewport():
-	var width = editorViewport.rect_size.x - 6
-	var height = get_editor_interface().get_base_control().get_size().y - editorViewport.rect_size.y - 150
-
-	parentWaapiContainer.set_size(Vector2(width, height))
+	if editorViewport:
+		var width = editorViewport.rect_size.x - 6
+		var height = get_editor_interface().get_base_control().get_size().y - editorViewport.rect_size.y - 150
+	
+		parentWaapiContainer.set_size(Vector2(width, height))
 	
 func _on_visibility_changed_editorViewport():
 	var width = editorViewport.rect_size.x - 6
