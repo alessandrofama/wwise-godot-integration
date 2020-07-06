@@ -25,8 +25,8 @@ var auxBusIcon 			= preload("res://addons/waapi_picker/icons/auxbus.png")
 var acousticTextureIcon	= preload("res://addons/waapi_picker/icons/acoustictexture.png")
 var workUnitIcon 		= preload("res://addons/waapi_picker/icons/workunit.png")
 
-var selected_item = null
-var world_position:Vector3
+var selectedItem = null
+var worldPosition:Vector3
 
 func _enter_tree():
 	waapiPickerControl = preload("res://addons/waapi_picker/waapi_picker.tscn").instance()
@@ -336,30 +336,30 @@ func forward_spatial_gui_input(camera, event):
 	if event is InputEventMouseMotion:
 		var from = camera.project_ray_origin(event.position)
 		var end = from + camera.project_ray_normal(event.position) * 3000
-		var space_state = get_editor_interface().get_editor_viewport().get_child(1).get_viewport().world.direct_space_state
-		var intersection = space_state.intersect_ray(from, end)
+		var spaceState = get_editor_interface().get_editor_viewport().get_child(1).get_viewport().world.direct_space_state
+		var intersection = spaceState.intersect_ray(from, end)
 
 		if not intersection.empty():
-			world_position = intersection.position
+			worldPosition = intersection.position
 		else:
 			var root = get_editor_interface().get_edited_scene_root().get_global_transform().origin
 			from = camera.project_ray_origin(event.position)
 			end = from + camera.project_ray_normal(event.position) * root.distance_to(camera.global_transform.origin)
-			world_position = end
+			worldPosition = end
 	return false
 
 func _notification(notification):
 	if notification == NOTIFICATION_DRAG_END:
-		if selected_item:
-			if selected_item.get_meta("Type") == "Event":
-				var ak_event:AkEvent = preload("res://wwise/nodes/ak_event.gd").new()
-				ak_event.name = selected_item.get_text(0)
-				ak_event.event = selected_item.get_meta("ShortId") 
+		if selectedItem:
+			if selectedItem.get_meta("Type") == "Event":
+				var akEvent:AkEvent = preload("res://wwise/nodes/ak_event.gd").new()
+				akEvent.name = selectedItem.get_text(0)
+				akEvent.event = selectedItem.get_meta("ShortId") 
 				var root = get_editor_interface().get_edited_scene_root()
-				root.add_child(ak_event)
-				ak_event.owner = root
-				ak_event.global_transform.origin = world_position
-				selected_item = null
+				root.add_child(akEvent)
+				akEvent.owner = root
+				akEvent.global_transform.origin = worldPosition
+				selectedItem = null
 
 func _on_cell_selected():
-	selected_item = projectObjectsTree.get_selected()
+	selectedItem = projectObjectsTree.get_selected()
