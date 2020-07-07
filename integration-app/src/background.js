@@ -1,5 +1,5 @@
 "use strict";
-
+import path from "path";
 import { app, protocol, BrowserWindow } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS_DEVTOOLS } from "electron-devtools-installer";
@@ -24,7 +24,9 @@ function createWindow() {
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
       nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION
     },
-    resizable: false
+    resizable: false,
+    // eslint-disable-next-line no-undef
+    icon: path.join(__static, "icon.png")
   });
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
@@ -35,6 +37,7 @@ function createWindow() {
     createProtocol("app");
     // Load the index.html when not in development
     win.loadURL("app://./index.html");
+    win.setMenu(null);
   }
 
   win.on("closed", () => {
