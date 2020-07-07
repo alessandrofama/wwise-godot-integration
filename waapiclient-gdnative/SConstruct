@@ -76,10 +76,12 @@ if env['platform'] == "osx":
     cpp_library += '.osx'
     
     if env['target'] in ('debug', 'd'):
+        env.Append(CPPDEFINES=['AK_ENABLE_ASSERTS'])
         env.Append(CCFLAGS=['-g', '-O2', '-arch', 'x86_64'])
         env.Append(CXXFLAGS=['-std=c++17'])
         env.Append(LINKFLAGS=['-arch', 'x86_64', '-framework', 'CoreAudio', '-Wl,-undefined,dynamic_lookup'])
     else:
+        env.Append(CPPDEFINES=['AK_ENABLE_ASSERTS'])        
         env.Append(CPPDEFINES=['AK_OPTIMIZED'])
         env.Append(CCFLAGS=['-g', '-O3', '-arch', 'x86_64'])
         env.Append(CXXFLAGS=['-std=c++17'])
