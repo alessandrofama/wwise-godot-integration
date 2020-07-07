@@ -2,7 +2,8 @@
 
 ## Build instructions
 
-Building the Wwise GDNative library requires that the Godot bindings have been previously built at `godot_cpp/bin` e.g. `libgodot-cpp.windows.debug.64.lib`
+Building the Waapi GDNative library requires that the Godot bindings have been previously built at `godot_cpp/bin` e.g. `libgodot-cpp.windows.debug.64.lib`
+The Waapi wrapper is only available for Windows and macOS 64-bit.
 
 ### Windows 64-bit (Scons)
 
