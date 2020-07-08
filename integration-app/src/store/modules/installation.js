@@ -1,7 +1,7 @@
 const state = {
   godotProjectPath: "",
   godotProjectFilePath: "",
-  isIntegrationInstalled: false
+  isIntegrationInstalled: false,
 };
 
 const mutations = {
@@ -15,7 +15,7 @@ const mutations = {
 
   SET_INTEGRATION_INSTALLED(state, payload) {
     state.isIntegrationInstalled = payload;
-  }
+  },
 };
 
 const actions = {
@@ -29,26 +29,26 @@ const actions = {
 
   setIntegrationInstalled: ({ commit }, payload) => {
     commit("SET_INTEGRATION_INSTALLED", payload);
-  }
+  },
 };
 
 const getters = {
-  godotProjectPath: state => {
+  godotProjectPath: (state) => {
     return state.godotProjectPath;
   },
 
-  godotProjectFilePath: state => {
+  godotProjectFilePath: (state) => {
     return state.godotProjectFilePath;
   },
 
-  isIntegrationInstalled: state => {
+  isIntegrationInstalled: (state) => {
     return state.isIntegrationInstalled;
-  }
+  },
 };
 
 export default {
   state,
   mutations,
   actions,
-  getters
+  getters,
 };

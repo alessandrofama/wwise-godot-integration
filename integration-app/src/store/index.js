@@ -6,5 +6,5 @@ import installation from "./modules/installation";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  modules: { installation }
+  modules: { installation },
 });

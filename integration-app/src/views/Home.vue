@@ -16,7 +16,7 @@ import Installation from "../components/Installation.vue";
 
 export default {
   components: {
-    installation: Installation
-  }
+    installation: Installation,
+  },
 };
 </script>

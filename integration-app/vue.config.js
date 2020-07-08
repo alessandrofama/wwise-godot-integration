@@ -5,9 +5,9 @@ module.exports = {
       builderOptions: {
         productName: "Wwise Godot Integration App",
         win: {
-          target: "portable"
-        }
-      }
-    }
-  }
+          target: "portable",
+        },
+      },
+    },
+  },
 };

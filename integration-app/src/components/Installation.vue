@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="!installing && !installed">
+    <div v-if="!installing && !installed && !installationFailed">
       <form @submit.prevent="onSubmit">
         <div class="form-group">
           <p></p>
@@ -46,10 +46,10 @@
         </div>
       </form>
     </div>
-    <div v-else>
-      <h3 v-if="!installed">Installing...</h3>
+    <div v-if="installing && !installationFailed">
+      <h3 v-if="installing">Installing...</h3>
       <h3 v-else>Installation completed successfully</h3>
-      <p style="margin-top: 5%">{{ installText }}</p>
+      <p style="margin-top: 5%;">{{ installText }}</p>
       <div v-if="installed" class="b-button-toolbar">
         <b-button-group>
           <button v-on:click="openProjectInExplorer" class="btn btn-primary">
@@ -75,6 +75,10 @@
         </transition>
       </div>
     </div>
+    <div v-if="installationFailed">
+      <h3>Installation failed</h3>
+      <p style="margin-top: 5%;">{{ installText }}</p>
+    </div>
   </div>
 </template>
 
@@ -93,11 +97,12 @@ export default {
       previewGodotProjectFilePath: "Select File",
       installing: false,
       installed: false,
+      installationFailed: false,
       installText: "",
       progress: 0,
       max: 100,
       gitDownloadDestionationPath:
-        remote.app.getPath("temp") + "/wwise_gdnative"
+        remote.app.getPath("temp") + "/wwise_gdnative",
     };
   },
 
@@ -110,14 +115,14 @@ export default {
     },
     isIntegrationInstalled() {
       return this.$store.getters.isIntegrationInstalled;
-    }
+    },
   },
 
   methods: {
     ...mapActions([
       "setGodotProjectPath",
       "setGodotProjectFilePath",
-      "setIntegrationInstalled"
+      "setIntegrationInstalled",
     ]),
     onSubmit() {
       this.installing = true;
@@ -131,6 +136,7 @@ export default {
 
       this.setGodotProjectPaths(filePath);
     },
+
     setGodotProjectPaths(godotFilePath) {
       this.setGodotProjectFilePath(godotFilePath);
 
@@ -146,60 +152,57 @@ export default {
       }
     },
     async getIntegrationFiles() {
-      this.progress = 20;
-      this.installText = "Getting integration files from repository";
+      this.updateProgressTextandBar(
+        "Getting integration files from repository",
+        20
+      );
+
+      console.log(fs.existsSync(this.gitDownloadDestionationPath));
 
       if (fs.existsSync(this.gitDownloadDestionationPath)) {
-        fs.rmdirSync(this.gitDownloadDestionationPath, { recursive: true });
+        fs.rmdirSync(this.gitDownloadDestionationPath, {
+          recursive: true,
+        });
       }
 
       await fetchRepoDir({
         src: "alessandrofama/fmod-love/fmod-love",
         dir: this.gitDownloadDestionationPath,
-        options: { replace: true }
+        replace: true,
       }).then(
         () => {
           this.copyIntegrationFilesToProject();
         },
-        error => {
-          console.log(error);
+        (err) => {
+          this.failInstallation(err);
         }
       );
     },
     copyIntegrationFilesToProject() {
-      this.progress = 40;
-      this.installText = "Copying integration files to Godot project";
       var vm = this;
 
-      copydir(
-        this.gitDownloadDestionationPath,
-        this.godotProjectPath,
-        {
-          utimes: true, // keep add time and modify time
-          mode: true, // keep file mode
-          cover: true // cover file when exists, default is true
-        },
-        function(err) {
-          if (err) throw err;
-          vm.removeTempIntegrationFiles();
-        }
+      this.updateProgressTextandBar(
+        "Copying integration files to Godot project",
+        40
       );
-    },
-    removeTempIntegrationFiles() {
-      this.progress = 60;
-      this.installText = "Removing temporary files";
-      var vm = this;
-      fs.rmdir(this.gitDownloadDestionationPath, { recursive: true }, function(
-        err
-      ) {
-        if (err) throw err;
-        vm.updateGodotProjectFile();
-      });
+
+      try {
+        copydir.sync(this.gitDownloadDestionationPath, this.godotProjectPath, {
+          utimes: true,
+          mode: true,
+          cover: true,
+        });
+      } catch (err) {
+        vm.failInstallation(err);
+        return;
+      }
+
+      vm.updateGodotProjectFile();
     },
     updateGodotProjectFile() {
       var vm = this;
-      this.progress = 80;
-      this.installText = "Updating Godot project file";
+
+      this.updateProgressTextandBar("Updating Godot project file", 80);
       try {
         var projectFileData = fs.readFileSync(
           // eslint-disable-next-line no-undef
@@ -207,34 +210,47 @@ export default {
           "utf8"
         );
       } catch (err) {
-        console.log("Error:", err);
+        vm.failInstallation(err);
+        return;
       }
 
-      fs.appendFile(this.godotProjectFilePath, projectFileData, function(err) {
-        if (err) {
-          console.log("Error:", err);
-        } else {
-          vm.progress = 100;
-          vm.finishInstallation();
-        }
-      });
+      try {
+        fs.appendFileSync(this.godotProjectFilePath, projectFileData);
+      } catch (err) {
+        vm.failInstallation(err);
+        return;
+      }
+
+      vm.finishInstallation();
     },
     finishInstallation() {
-      this.installText =
-        "Open your Godot project and activate the Wwise integration in the addons tab of the project settings.";
+      this.updateProgressTextandBar(
+        "Open your Godot project and activate the Wwise integration in the addons tab of the project settings.",
+        100
+      );
+
       this.installed = true;
       this.installing = false;
     },
     openProjectInExplorer() {
-      openExplorer(this.godotProjectPath, err => {
+      var vm = this;
+      openExplorer(this.godotProjectPath, (err) => {
         if (err) {
-          console.log(err);
-        } else {
-          console.log("error");
+          vm.failInstallation(err);
         }
       });
-    }
-  }
+    },
+    updateProgressTextandBar(text, bar) {
+      this.installText = text;
+      this.progress = bar;
+    },
+    failInstallation(err) {
+      this.updateProgressTextandBar(`Installation failed: ${err.message} `, 0);
+      this.installed = false;
+      this.installing = false;
+      this.installationFailed = true;
+    },
+  },
 };
 </script>
 
