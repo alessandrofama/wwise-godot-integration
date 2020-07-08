@@ -51,6 +51,7 @@ Release
 
 ```
 scons target=release platform=ios ios_arch=arm64 wwise_sdk=/Applications/Audiokinetic/Wwise\ 2019.2.1.7250/SDK
+```
 
 ### Android (ndk-build)
 
