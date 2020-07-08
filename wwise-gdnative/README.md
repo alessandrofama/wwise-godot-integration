@@ -37,6 +37,21 @@ Release
 scons target=release platform=osx wwise_sdk=/Applications/Audiokinetic/Wwise\ 2019.2.1.7250/SDK
 ```
 
+### iOS ARM 64-bit (Scons)
+
+Other architectures like armv7 are also supported, though arm64 examples are mentioned below. Please check the Sconstruct for details.
+
+Debug (includes Wwise profiler connection)
+
+```
+scons target=debug platform=ios ios_arch=arm64 wwise_sdk=/Applications/Audiokinetic/Wwise\ 2019.2.1.7250/SDK
+```
+
+Release
+
+```
+scons target=release platform=ios ios_arch=arm64 wwise_sdk=/Applications/Audiokinetic/Wwise\ 2019.2.1.7250/SDK
+
 ### Android (ndk-build)
 
 Available target configurations:
