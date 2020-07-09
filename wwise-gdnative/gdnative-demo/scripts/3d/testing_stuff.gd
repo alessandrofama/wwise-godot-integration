@@ -1,13 +1,10 @@
 extends CSGBox
 
-export(float) var rtpcValue = 0.0
-var musicVolume:float = -96.0
-var playingID:int = 0
+var musicVolume = -96.0
+var playingID = 0
 
 var rtpcSlider = null
 var stateButton = null
-
-export(AK.STATES.MUSICSTATE.STATE._enum) var state = AK.STATES.MUSICSTATE.STATE.CALM
 
 func _ready():
 	var goResult = Wwise.register_game_obj(self, "TestGO")
