@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/wwise_node.png-d9608f77874c71fc6d1d3e412256ce2b.stex"
+path="res://.import/wwise_node.png-4c58180aab61d7e2e5a410e173ed07a7.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/wwise/wwise_node.png"
-dest_files=[ "res://.import/wwise_node.png-d9608f77874c71fc6d1d3e412256ce2b.stex" ]
+source_file="res://addons/wwise_custom_nodes/wwise_node.png"
+dest_files=[ "res://.import/wwise_node.png-4c58180aab61d7e2e5a410e173ed07a7.stex" ]
 
 [params]
 
