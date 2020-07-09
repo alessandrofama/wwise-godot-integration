@@ -1,18 +1,38 @@
 <template>
-  <nav class="navbar navbar-expand-sm navbar-light bg-light">
-    <router-link to="/" class="navbar-brand"
-      >Wwise Godot Integration App</router-link
+  <b-navbar type="light" variant="light">
+    <router-link to="/">
+      <b-navbar-brand>Wwise Godot Integration App</b-navbar-brand></router-link
     >
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-toggle="collapse"
-      data-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-  </nav>
+    <b-navbar-nav class="ml-auto">
+      <b-nav-item-dropdown text="Help" right>
+        <b-dropdown-item
+          v-on:click="
+            openLinkInBrowser(
+              'https://github.com/alessandrofama/wwise-godot-integration'
+            )
+          "
+          >GitHub Repository</b-dropdown-item
+        >
+        <b-dropdown-item
+          v-on:click="
+            openLinkInBrowser(
+              'https://github.com/alessandrofama/wwise-godot-integration/wiki'
+            )
+          "
+          >Documentation</b-dropdown-item
+        >
+      </b-nav-item-dropdown>
+    </b-navbar-nav>
+  </b-navbar>
 </template>
+
+<script>
+export default {
+  methods: {
+    openLinkInBrowser(url) {
+      var shell = require("electron").shell;
+      shell.openExternal(url);
+    },
+  },
+};
+</script>

@@ -859,6 +859,16 @@
     global-agent "^2.0.2"
     global-tunnel-ng "^2.7.1"
 
+"@etclabscore/dl-github-releases@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@etclabscore/dl-github-releases/-/dl-github-releases-1.1.2.tgz#8badce095cfa899840ba2ec299d8350a08d07a7a"
+  integrity sha512-5W78lT49TrX0YLVQBMNEuG2/3oOHWg+mjfp+TpIPzzeDBw2c8FIS2so8uE8k0Cr0/OMz/Otf6jtAaba65ouEPA==
+  dependencies:
+    commander "^2.20.3"
+    extract-zip "^1.7.0"
+    lodash "^4.17.15"
+    node-fetch "^2.6.0"
+
 "@hapi/address@2.x.x":
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/@hapi/address/-/address-2.1.4.tgz#5d67ed43f3fd41a69d4b9ff7b56e7c0d1d0a81e5"
@@ -2988,7 +2998,7 @@ commander@2.17.x:
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.17.1.tgz#bd77ab7de6de94205ceacc72f1716d29f20a77bf"
   integrity sha512-wPMUt6FnH2yzG95SA6mzjQOEKUU3aLaDEmzs1ti+1E9h+CsrZghRlqEM/EJ4KscsQVG8uNN4uVreUeT8+drlgg==
 
-commander@^2.18.0, commander@^2.20.0:
+commander@^2.18.0, commander@^2.20.0, commander@^2.20.3:
   version "2.20.3"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.3.tgz#fd485e84c03eb4881c20722ba48035e8531aeb33"
   integrity sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==
@@ -4401,7 +4411,7 @@ extglob@^2.0.4:
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
 
-extract-zip@^1.0.3, extract-zip@^1.6.5:
+extract-zip@^1.0.3, extract-zip@^1.6.5, extract-zip@^1.7.0:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/extract-zip/-/extract-zip-1.7.0.tgz#556cc3ae9df7f452c493a0cfb51cc30277940927"
   integrity sha512-xoh5G1W/PB0/27lXgMQyIhP5DSY/LhoCsOyZgb+6iMmRtCwVBo55uKaMoEYrDCKQhWvqEip5ZPKAc6eFNyf/MA==

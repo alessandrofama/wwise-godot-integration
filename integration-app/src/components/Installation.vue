@@ -20,12 +20,16 @@
           <span
             v-if="isIntegrationInstalled"
             class="form-text"
-            style="margin-top: 3%;"
+            style="margin-top: 3%; font-size: large;"
           >
             The Wwise Godot Integration is already installed. Please update or
             uninstall the integration.
           </span>
-          <span v-else class="form-text" style="margin-top: 3%;">
+          <span
+            v-else
+            class="form-text"
+            style="margin-top: 3%; font-size: large;"
+          >
             Installing the Wwise Godot integration will copy the required files
             to your Godot Project.
           </span>
@@ -33,35 +37,52 @@
 
         <div class="from-group b-button-toolbar">
           <b-button-group>
-            <button name="submit" type="submit" class="btn btn-primary">
-              <span v-if="isIntegrationInstalled">Update</span>
-              <span v-else>Install</span>
+            <button
+              v-if="!isIntegrationInstalled"
+              name="submit"
+              type="submit"
+              class="btn btn-primary"
+            >
+              <span>Install</span>
+            </button>
+            <button
+              v-if="isIntegrationInstalled"
+              name="submit"
+              type="submit"
+              class="btn btn-primary"
+            >
+              <span>Update</span>
             </button>
           </b-button-group>
           <b-button-group class="mx-1">
-            <button v-if="isIntegrationInstalled" class="btn btn-secondary">
+            <button
+              v-if="isIntegrationInstalled"
+              class="btn btn-secondary"
+              v-on:click="uninstallIntegration"
+            >
               <span>Uninstall</span>
             </button>
           </b-button-group>
         </div>
       </form>
     </div>
-    <div v-if="installing && !installationFailed">
-      <h3 v-if="installing">Installing...</h3>
-      <h3 v-else>Installation completed successfully</h3>
-      <p style="margin-top: 5%;">{{ installText }}</p>
-      <div v-if="installed" class="b-button-toolbar">
+    <div v-if="installed">
+      <h3>{{ installHeader }} completed successfully</h3>
+      <p style="margin-top: 5%; font-size: large;">{{ installText }}</p>
+      <div class="b-button-toolbar">
         <b-button-group>
           <button v-on:click="openProjectInExplorer" class="btn btn-primary">
             <span>Open Project directory</span>
           </button>
-        </b-button-group>
-        <b-button-group class="mx-1">
-          <button v-if="isIntegrationInstalled" class="btn btn-secondary">
-            <span>Uninstall</span>
+          <button v-on:click="onInit" class="btn btn-primary mx-1">
+            <span>Start over</span>
           </button>
         </b-button-group>
       </div>
+    </div>
+    <div v-if="installing">
+      <h3>Installing...</h3>
+      <p style="margin-top: 5%;">{{ installText }}</p>
       <div class="progressing">
         <transition name="fadeInstall">
           <div v-show="installing">
@@ -76,8 +97,11 @@
       </div>
     </div>
     <div v-if="installationFailed">
-      <h3>Installation failed</h3>
+      <h3>{{ installHeader }} failed</h3>
       <p style="margin-top: 5%;">{{ installText }}</p>
+      <button v-on:click="onInit" class="btn btn-primary">
+        <span>Start over</span>
+      </button>
     </div>
   </div>
 </template>
@@ -98,11 +122,14 @@ export default {
       installing: false,
       installed: false,
       installationFailed: false,
+      installHeader: "",
       installText: "",
       progress: 0,
       max: 100,
-      gitDownloadDestionationPath:
-        remote.app.getPath("temp") + "/wwise_gdnative",
+      gitDownloadDestionationPath: path.join(
+        remote.app.getPath("temp"),
+        "/wwise_gdnative"
+      ),
     };
   },
 
@@ -124,8 +151,16 @@ export default {
       "setGodotProjectFilePath",
       "setIntegrationInstalled",
     ]),
+    onInit() {
+      this.installed = false;
+      this.installing = false;
+      this.installationFailed = false;
+      this.previewGodotProjectFilePath = "Select File";
+      this.setIntegrationInstalled(false);
+    },
     onSubmit() {
       this.installing = true;
+      this.installHeader = "Installation";
       this.getIntegrationFiles();
     },
     previewFilePath(event) {
@@ -145,7 +180,16 @@ export default {
       this.checkIntegrationAlreadyInstalled();
     },
     checkIntegrationAlreadyInstalled() {
-      if (fs.existsSync(path.join(this.godotProjectPath, "wwise"))) {
+      var wwisePath = path.join(this.godotProjectPath, "wwise");
+      var addonsPath = path.join(this.godotProjectPath, "addons");
+      var wwiseAddonsPath = path.join(addonsPath, "wwise");
+      var wwiseIdsConverterPath = path.join(addonsPath, "wwise_ids_converter");
+
+      if (fs.existsSync(wwisePath)) {
+        this.setIntegrationInstalled(true);
+      } else if (fs.existsSync(wwiseAddonsPath)) {
+        this.setIntegrationInstalled(true);
+      } else if (fs.existsSync(wwiseIdsConverterPath)) {
         this.setIntegrationInstalled(true);
       } else {
         this.setIntegrationInstalled(false);
@@ -156,8 +200,6 @@ export default {
         "Getting integration files from repository",
         20
       );
-
-      console.log(fs.existsSync(this.gitDownloadDestionationPath));
 
       if (fs.existsSync(this.gitDownloadDestionationPath)) {
         fs.rmdirSync(this.gitDownloadDestionationPath, {
@@ -174,7 +216,7 @@ export default {
           this.copyIntegrationFilesToProject();
         },
         (err) => {
-          this.failInstallation(err);
+          this.displayFailureMessage(err);
         }
       );
     },
@@ -193,11 +235,14 @@ export default {
           cover: true,
         });
       } catch (err) {
-        vm.failInstallation(err);
+        vm.displayFailureMessage(err);
         return;
       }
-
-      vm.updateGodotProjectFile();
+      if (!this.isIntegrationInstalled) {
+        vm.updateGodotProjectFile();
+      } else {
+        vm.finishInstallation();
+      }
     },
     updateGodotProjectFile() {
       var vm = this;
@@ -210,16 +255,11 @@ export default {
           "utf8"
         );
       } catch (err) {
-        vm.failInstallation(err);
+        vm.displayFailureMessage(err);
         return;
       }
 
-      try {
-        fs.appendFileSync(this.godotProjectFilePath, projectFileData);
-      } catch (err) {
-        vm.failInstallation(err);
-        return;
-      }
+      fs.appendFileSync(this.godotProjectFilePath, projectFileData);
 
       vm.finishInstallation();
     },
@@ -232,11 +272,27 @@ export default {
       this.installed = true;
       this.installing = false;
     },
+    uninstallIntegration() {
+      this.installHeader = "Uninstalling the integration";
+      var wwisePath = path.join(this.godotProjectPath, "wwise");
+      var addonsPath = path.join(this.godotProjectPath, "addons");
+      var wwiseAddonsPath = path.join(addonsPath, "wwise");
+      var wwiseIdsConverterPath = path.join(addonsPath, "wwise_ids_converter");
+
+      this.removeDirectory(wwisePath);
+      this.removeDirectory(wwiseAddonsPath);
+      this.removeDirectory(wwiseIdsConverterPath);
+
+      this.updateProgressTextandBar("", 100);
+
+      this.installed = true;
+      this.installing = false;
+    },
     openProjectInExplorer() {
       var vm = this;
       openExplorer(this.godotProjectPath, (err) => {
         if (err) {
-          vm.failInstallation(err);
+          vm.displayFailureMessage(err);
         }
       });
     },
@@ -244,11 +300,23 @@ export default {
       this.installText = text;
       this.progress = bar;
     },
-    failInstallation(err) {
-      this.updateProgressTextandBar(`Installation failed: ${err.message} `, 0);
+    displayFailureMessage(err) {
+      var message;
+
+      err == Error ? (message = err.message) : (message = err);
+
+      this.updateProgressTextandBar(`Error: ${message} `, 0);
+
       this.installed = false;
       this.installing = false;
       this.installationFailed = true;
+    },
+    removeDirectory(path) {
+      if (fs.existsSync(path)) {
+        fs.rmdirSync(path, {
+          recursive: true,
+        });
+      }
     },
   },
 };

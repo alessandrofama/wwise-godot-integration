@@ -1,1 +1,8 @@
-asdasdasd
+[autoload]
+
+WwiseSettings="res://wwise/wwise_settings.gd"
+Wwise="*res://wwise/bin/wwise-gdnative-debug.gdns"
+
+[editor_plugins]
+
+enabled=PoolStringArray( "wwise", "wwise_ids_converter" )
