@@ -1591,14 +1591,10 @@ bool Wwise::initialiseWwiseSystems()
 	commSettings.ports.uNotification = 
 	static_cast<unsigned int>(getPlatformProjectSetting(WWISE_COMMUNICATION_SETTINGS_PATH + "notification_port"));
 
-	String networkName = getPlatformProjectSetting(WWISE_COMMUNICATION_SETTINGS_PATH +
-							"network_name");
+	String networkName = getPlatformProjectSetting(WWISE_COMMUNICATION_SETTINGS_PATH + "network_name");
 	AKPLATFORM::SafeStrCpy(commSettings.szAppNetworkName, networkName.alloc_c_string(), AK_COMM_SETTINGS_MAX_STRING_SIZE);
 
-	if (!ERROR_CHECK(AK::Comm::Init(commSettings), "Comm initialisation failed"))
-	{
-		return false;
-	}
+	ERROR_CHECK(AK::Comm::Init(commSettings), "Comm initialisation failed");
 #endif
 
 	return true;
