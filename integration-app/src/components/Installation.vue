@@ -274,10 +274,12 @@ export default {
       this.removeDirectory(wwiseIdsConverterPath);
 
       this.removeStringFromFile(
-        `WwiseSettings="res://wwise/wwise_settings.gd"`
+        `WwiseSettings="res://wwise/wwise_settings.gd"`,
+        this.godotProjectFilePath
       );
       this.removeStringFromFile(
-        `Wwise="*res://wwise/bin/wwise-gdnative-debug.gdns"`
+        `Wwise="*res://wwise/bin/wwise-gdnative-debug.gdns"`,
+        this.godotProjectFilePath
       );
 
       this.updateProgressTextandBar("", 100);
@@ -285,12 +287,12 @@ export default {
       this.installed = true;
       this.installing = false;
     },
-    removeStringFromFile(string) {
-      var data = fs.readFileSync(this.godotProjectFilePath, "utf-8");
+    removeStringFromFile(string, file) {
+      var data = fs.readFileSync(file, "utf-8");
       var stringToRemove = string;
 
       var newValue = data.replace(stringToRemove, "");
-      fs.writeFileSync(this.godotProjectFilePath, newValue, "utf-8");
+      fs.writeFileSync(file, newValue, "utf-8");
     },
     openProjectInExplorer() {
       var vm = this;
