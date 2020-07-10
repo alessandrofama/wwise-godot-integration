@@ -1,7 +1,7 @@
 tool
 extends VisualScriptCustomNode
 
-export(AK.BANKS._enum) var bank:int = AK.BANKS._enum.INIT
+export(AK.BANKS._enum) var bank:int
 
 func _get_caption():
 	return "Ak Load Bank"

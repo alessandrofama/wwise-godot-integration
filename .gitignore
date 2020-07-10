@@ -2,3 +2,6 @@
 wwise-gdnative/bin/
 
 wwise-gdnative/obj/
+
+integration-app/node_modules
+integration-app/dist_electron
