@@ -266,12 +266,15 @@ export default {
       this.installHeader = "Uninstalling the integration";
       var wwisePath = path.join(this.godotProjectPath, "wwise");
       var addonsPath = path.join(this.godotProjectPath, "addons");
-      var wwiseAddonsPath = path.join(addonsPath, "wwise");
+      var wwiseAddonsPath = path.join(addonsPath, "wwise_custom_nodes");
       var wwiseIdsConverterPath = path.join(addonsPath, "wwise_ids_converter");
+      var wwiseBuildExportPath = path.join(addonsPath, "wwise_build_export");
+      var overrideFilePath = path.join(this.godotProjectPath, "override.cfg");
 
       this.removeDirectory(wwisePath);
       this.removeDirectory(wwiseAddonsPath);
       this.removeDirectory(wwiseIdsConverterPath);
+      this.removeDirectory(wwiseBuildExportPath);
 
       this.removeStringFromFile(
         `WwiseSettings="res://wwise/wwise_settings.gd"`,
@@ -281,6 +284,8 @@ export default {
         `Wwise="*res://wwise/bin/wwise-gdnative-debug.gdns"`,
         this.godotProjectFilePath
       );
+
+      fs.unlinkSync(overrideFilePath);
 
       this.updateProgressTextandBar("", 100);
 
