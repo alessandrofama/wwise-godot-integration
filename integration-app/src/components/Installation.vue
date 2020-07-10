@@ -248,26 +248,6 @@ export default {
         vm.displayFailureMessage(err);
         return;
       }
-      if (!this.isIntegrationInstalled) {
-        vm.updateGodotProjectFile();
-      } else {
-        vm.finishInstallation();
-      }
-    },
-    updateGodotProjectFile() {
-      var vm = this;
-
-      this.updateProgressTextandBar("Updating Godot project file", 80);
-      try {
-        fs.copyFileSync(
-          // eslint-disable-next-line no-undef
-          path.join(__static, "override.cfg"),
-          this.godotProjectPath
-        );
-      } catch (err) {
-        vm.displayFailureMessage(err);
-        return;
-      }
 
       vm.finishInstallation();
     },
