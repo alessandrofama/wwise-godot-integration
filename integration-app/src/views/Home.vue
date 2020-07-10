@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <h1>Wwise GDNative installation</h1>
+    <h1></h1>
     <installation></installation>
   </div>
 </template>
