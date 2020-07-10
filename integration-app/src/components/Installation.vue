@@ -272,7 +272,7 @@ export default {
     },
     finishInstallation() {
       this.updateProgressTextandBar(
-        "Open your Godot project and activate the Wwise integration in the addons tab of the project settings.",
+        "The Wwise Godot integration was installed successfully and is ready to use.",
         100
       );
 
@@ -368,7 +368,7 @@ export default {
 }
 
 .fadeInstall-leave-active {
-  transition: opacity 3s;
+  transition: opacity 4s;
   opacity: 0;
 }
 </style>
