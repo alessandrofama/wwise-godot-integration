@@ -7,6 +7,7 @@ Building the Wwise GDNative library requires that the Godot bindings have been p
 ### Windows 64-bit (Scons)
 
 You might need to execute `vcvars64.bat` before building. For VS2017, it's located at `C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build`
+The build requires that the %WWISESDK% symbol is defined in the system (it's defined by default after installing Wwise on Windows). Otherwise, you'd need to specify the path to your Wwise SDK installation.
 
 Debug (includes Wwise profiler connection)
 
@@ -22,7 +23,35 @@ scons target=release platform=windows wwise_sdk="%WWISESDK%"
 
 ### macOS 64-bit (Scons)
 
-TODO
+The main difference with Windows is that the build requires the Wwise SDK path passed in the build call (see examples below).
+
+Debug (includes Wwise profiler connection)
+
+```
+scons target=debug platform=osx wwise_sdk=/Applications/Audiokinetic/Wwise\ 2019.2.1.7250/SDK
+```
+
+Release
+
+```
+scons target=release platform=osx wwise_sdk=/Applications/Audiokinetic/Wwise\ 2019.2.1.7250/SDK
+```
+
+### iOS ARM 64-bit (Scons)
+
+Other architectures like armv7 are also supported, though arm64 examples are mentioned below. Please check the Sconstruct for details.
+
+Debug (includes Wwise profiler connection)
+
+```
+scons target=debug platform=ios ios_arch=arm64 wwise_sdk=/Applications/Audiokinetic/Wwise\ 2019.2.1.7250/SDK
+```
+
+Release
+
+```
+scons target=release platform=ios ios_arch=arm64 wwise_sdk=/Applications/Audiokinetic/Wwise\ 2019.2.1.7250/SDK
+```
 
 ### Android (ndk-build)
 

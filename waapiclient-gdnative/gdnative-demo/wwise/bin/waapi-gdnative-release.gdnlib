@@ -3,13 +3,14 @@
 singleton=false
 load_once=true
 symbol_prefix="waapi_"
-reloadable=false
+reloadable=true
 
 [entry]
 
+OSX.64="res://wwise/bin/osx/release/libWaapiGDNative.dylib"
 Windows.64="res://wwise/bin/win64/release/WaapiGDNative.dll"
 
 [dependencies]
 
-Windows.64=[  ]
 OSX.64=[  ]
+Windows.64=[  ]

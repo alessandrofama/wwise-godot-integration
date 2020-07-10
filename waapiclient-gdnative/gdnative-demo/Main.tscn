@@ -9,18 +9,23 @@
 [node name="Spatial" type="Spatial"]
 script = ExtResource( 1 )
 
-[node name="CSGBox" type="CSGBox" parent="."]
+[node name="StaticBody" type="StaticBody" parent="."]
 transform = Transform( 4.99993, 0, 0, 0, 1, 0, 0, 0, 2.88225, -21.397, 0, 0 )
+
+[node name="CSGBox" type="CSGBox" parent="StaticBody"]
 use_collision = true
 
-[node name="CollisionShape" type="CollisionShape" parent="CSGBox"]
+[node name="CollisionShape" type="CollisionShape" parent="StaticBody"]
 shape = SubResource( 1 )
 
-[node name="CSGBox2" type="CSGBox" parent="."]
+[node name="StaticBody2" type="StaticBody" parent="."]
 transform = Transform( 3.54758, 0, 0, 0, 7.55707, 0, 0, 0, 3.31904, -10.2116, 0, 0 )
-use_collision = true
-width = 1.73502
 
-[node name="CollisionShape" type="CollisionShape" parent="CSGBox2"]
+[node name="CollisionShape" type="CollisionShape" parent="StaticBody2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1.04528, 0, 0, 0 )
 shape = SubResource( 2 )
+
+[node name="CSGBox2" type="CSGBox" parent="StaticBody2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+use_collision = true
+width = 1.73502

@@ -254,12 +254,12 @@ elif env['platform'] == 'ios':
     if env['target'] == 'debug':
         env.Append(CCFLAGS=['-Og', '-g', '-std=c++14', '-arch', env['ios_arch'], '-isysroot', sdk_path])
         env.Append(LINKFLAGS=['-framework', 'CoreAudio', '-framework', 'AudioToolbox', '-arch', env['ios_arch'], 
-                            '-Wl,-undefined,dynamic_lookup', '-isysroot', sdk_path, '-F' + sdk_path])
+                            '-isysroot', sdk_path, '-F' + sdk_path])
     elif env['target'] == 'release':
         env.Append(CPPDEFINES=['AK_OPTIMIZED'])
         env.Append(CCFLAGS=['-O3', '-g', '-std=c++14', '-arch', env['ios_arch'], '-isysroot', sdk_path])
         env.Append(LINKFLAGS=['-framework', 'CoreAudio', '-framework', 'AudioToolbox', '-arch', env['ios_arch'], 
-                            '-Wl,-undefined,dynamic_lookup', '-isysroot', sdk_path, '-F' + sdk_path])
+                             '-isysroot', sdk_path, '-F' + sdk_path])
 
 elif env['platform'] == 'android':
 
@@ -439,7 +439,10 @@ if env['platform'] == "android":
     env.Append(LINKFLAGS=['-android', '-OpenSLES',])
     env.Append(LIBS=['z', 'zip'])
 
-library = env.SharedLibrary(target=env['target_path'] + env['target_name'] , source=sources)
+if env['platform'] == 'ios':
+    library = env.StaticLibrary(target=env['target_path'] + env['target_name'] , source=sources)
+else:
+    library = env.SharedLibrary(target=env['target_path'] + env['target_name'] , source=sources)
 
 Default(library)
 

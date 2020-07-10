@@ -97,7 +97,7 @@ Wwise="*res://wwise/bin/wwise-gdnative-debug.gdns"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "gut", "wwise", "wwise_ids_converter" )
+enabled=PoolStringArray( "gut", "wwise_build_export", "wwise_custom_nodes", "wwise_ids_converter" )
 
 [input]
 

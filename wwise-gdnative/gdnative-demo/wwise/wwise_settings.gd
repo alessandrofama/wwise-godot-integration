@@ -18,10 +18,11 @@ func _init():
 	_add_windows_advanced_settings()
 	_add_android_advanced_settings()
 
-	var error = ProjectSettings.save()
-	
-	if error: 
-		push_error("Encountered error %d when saving project settings." % error)
+	if Engine.editor_hint:
+		var error = ProjectSettings.save()
+		
+		if error: 
+			push_error("Encountered error %d when saving project settings." % error)
 
 func _add_common_user_settings():
 	_add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "base_path", String("res://wwise/GeneratedSoundBanks"), 

@@ -19,3 +19,43 @@ script = ExtResource( 3 )
 [node name="Camera" type="Camera" parent="."]
 transform = Transform( 1, 0, 0, 0, 0.951175, 0.308652, 0, -0.308652, 0.951175, 0.0495974, 3.31446, 0.735916 )
 script = ExtResource( 2 )
+
+[node name="UICanvasLayer" type="CanvasLayer" parent="."]
+follow_viewport_enable = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UICanvasLayer"]
+margin_left = 17.0
+margin_right = 517.0
+margin_bottom = 110.0
+rect_scale = Vector2( 2, 2 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RTPCSlider" type="HSlider" parent="UICanvasLayer/HBoxContainer"]
+margin_right = 367.0
+margin_bottom = 110.0
+grow_horizontal = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 105.93
+max_value = 5.0
+step = 0.1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="StateButton" type="CheckButton" parent="UICanvasLayer/HBoxContainer"]
+margin_left = 371.0
+margin_right = 500.0
+margin_bottom = 110.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_color_hover = Color( 0, 0, 0, 1 )
+custom_colors/font_color_pressed = Color( 0, 0, 0, 1 )
+text = "Intense"
+__meta__ = {
+"_edit_use_anchors_": false
+}

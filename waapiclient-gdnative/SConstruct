@@ -8,8 +8,8 @@ env = DefaultEnvironment()
 
 # Define our options
 opts.Add(EnumVariable('target', "Compilation target", 'debug', ['d', 'debug', 'r', 'release']))
-opts.Add(EnumVariable('platform', "Compilation platform", '', ['', 'windows', 'x11', 'linux', 'osx']))
-opts.Add(EnumVariable('p', "Compilation target, alias for 'platform'", '', ['', 'windows', 'x11', 'linux', 'osx']))
+opts.Add(EnumVariable('platform', "Compilation platform", '', ['', 'windows', 'osx']))
+opts.Add(EnumVariable('p', "Compilation target, alias for 'platform'", '', ['', 'windows', 'osx']))
 opts.Add(BoolVariable('use_llvm', "Use the LLVM / Clang compiler", 'no'))
 opts.Add(PathVariable('target_path', 'The path where the lib is installed.', 'gdnative-demo/wwise/bin/'))
 opts.Add(PathVariable('target_name', 'The library name.', 'WaapiGDNative', PathVariable.PathAccept))
@@ -76,24 +76,16 @@ if env['platform'] == "osx":
     cpp_library += '.osx'
     
     if env['target'] in ('debug', 'd'):
+        env.Append(CPPDEFINES=['AK_ENABLE_ASSERTS'])
         env.Append(CCFLAGS=['-g', '-O2', '-arch', 'x86_64'])
         env.Append(CXXFLAGS=['-std=c++17'])
         env.Append(LINKFLAGS=['-arch', 'x86_64', '-framework', 'CoreAudio', '-Wl,-undefined,dynamic_lookup'])
     else:
+        env.Append(CPPDEFINES=['AK_ENABLE_ASSERTS'])        
         env.Append(CPPDEFINES=['AK_OPTIMIZED'])
         env.Append(CCFLAGS=['-g', '-O3', '-arch', 'x86_64'])
         env.Append(CXXFLAGS=['-std=c++17'])
         env.Append(LINKFLAGS=['-arch', 'x86_64', '-framework', 'CoreAudio', '-Wl,-undefined,dynamic_lookup'])
-
-elif env['platform'] in ('x11', 'linux'):
-    env['target_path'] += 'x11/'
-    cpp_library += '.linux'
-    if env['target'] in ('debug', 'd'):
-        env.Append(CCFLAGS=['-fPIC', '-g3', '-Og'])
-        env.Append(CXXFLAGS=['-std=c++17'])
-    else:
-        env.Append(CCFLAGS=['-fPIC', '-g', '-O3'])
-        env.Append(CXXFLAGS=['-std=c++17'])
 
 elif env['platform'] == "windows":
     env['target_path'] += 'win64/'

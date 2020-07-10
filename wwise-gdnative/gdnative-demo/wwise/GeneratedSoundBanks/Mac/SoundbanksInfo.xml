@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SoundBanksInfo Platform="Mac" BasePlatform="Mac" SchemaVersion="12" SoundbankVersion="135">
+	<RootPaths>
+		<ProjectRoot>C:\Users\jorge\Desktop\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\</ProjectRoot>
+		<SourceFilesRoot>C:\Users\jorge\Desktop\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Mac\</SourceFilesRoot>
+		<SoundBanksRoot>C:\Users\jorge\Desktop\wwise-godot-integration\wwise-gdnative\gdnative-demo\wwise\GeneratedSoundBanks\Mac\</SoundBanksRoot>
+		<ExternalSourcesInputFile></ExternalSourcesInputFile>
+		<ExternalSourcesOutputRoot>C:\Users\jorge\Desktop\wwise-godot-integration\wwise-gdnative\gdnative-demo\wwise\GeneratedSoundBanks\Mac</ExternalSourcesOutputRoot>
+	</RootPaths>
+	<DialogueEvents/>
+	<StreamedFiles/>
+	<MediaFilesNotInAnyBank/>
+	<SoundBanks>
+		<SoundBank Id="1355168291" Language="SFX">
+			<ObjectPath>Init</ObjectPath>
+			<ShortName>Init</ShortName>
+			<Path>1355168291.bnk</Path>
+			<IncludedAuxBusses>
+				<AuxBus Id="117523933" Name="SmallVerb" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\SmallVerb"/>
+				<AuxBus Id="1572913279" Name="RoomVerb" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\RoomVerb"/>
+				<AuxBus Id="2757439665" Name="LargeVerb" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\LargeVerb"/>
+			</IncludedAuxBusses>
+			<GameParameters>
+				<GameParameter Id="2242381963" Name="Enemies" ObjectPath="\Game Parameters\Alex\Enemies"/>
+			</GameParameters>
+		</SoundBank>
+		<SoundBank Id="3291379323" Language="SFX">
+			<ObjectPath>\SoundBanks\Alex\TestBank</ObjectPath>
+			<ShortName>TestBank</ShortName>
+			<Path>3291379323.bnk</Path>
+			<IncludedEvents>
+				<Event Id="1014047073" Name="External_Source_Event" ObjectPath="\Events\Alex Tests\External_Source_Event"/>
+				<Event Id="2385628198" Name="Footsteps" ObjectPath="\Events\Alex Tests\Footsteps">
+					<IncludedMemoryFiles>
+						<File Id="102632397" Language="SFX">
+							<ShortName>otto_footsteps_grass_2.wav</ShortName>
+							<Path>SFX\otto_footsteps_grass_2_10C4C929.wem</Path>
+						</File>
+						<File Id="126934278" Language="SFX">
+							<ShortName>otto_footsteps_wood_2.wav</ShortName>
+							<Path>SFX\otto_footsteps_wood_2_10C4C929.wem</Path>
+						</File>
+						<File Id="222333393" Language="SFX">
+							<ShortName>otto_footsteps_wood_3.wav</ShortName>
+							<Path>SFX\otto_footsteps_wood_3_10C4C929.wem</Path>
+						</File>
+						<File Id="224267691" Language="SFX">
+							<ShortName>otto_footsteps_grass_4.wav</ShortName>
+							<Path>SFX\otto_footsteps_grass_4_10C4C929.wem</Path>
+						</File>
+						<File Id="266509003" Language="SFX">
+							<ShortName>otto_footsteps_gravel_4.wav</ShortName>
+							<Path>SFX\otto_footsteps_gravel_4_10C4C929.wem</Path>
+						</File>
+						<File Id="330814601" Language="SFX">
+							<ShortName>otto_footsteps_water_2.wav</ShortName>
+							<Path>SFX\otto_footsteps_water_2_10C4C929.wem</Path>
+						</File>
+						<File Id="368631978" Language="SFX">
+							<ShortName>otto_footsteps_grass_3.wav</ShortName>
+							<Path>SFX\otto_footsteps_grass_3_10C4C929.wem</Path>
+						</File>
+						<File Id="433024557" Language="SFX">
+							<ShortName>otto_footsteps_wood_1.wav</ShortName>
+							<Path>SFX\otto_footsteps_wood_1_10C4C929.wem</Path>
+						</File>
+						<File Id="453536678" Language="SFX">
+							<ShortName>otto_footsteps_gravel_5.wav</ShortName>
+							<Path>SFX\otto_footsteps_gravel_5_10C4C929.wem</Path>
+						</File>
+						<File Id="575939703" Language="SFX">
+							<ShortName>otto_footsteps_gravel_3.wav</ShortName>
+							<Path>SFX\otto_footsteps_gravel_3_10C4C929.wem</Path>
+						</File>
+						<File Id="701113954" Language="SFX">
+							<ShortName>otto_footsteps_wood_6.wav</ShortName>
+							<Path>SFX\otto_footsteps_wood_6_10C4C929.wem</Path>
+						</File>
+						<File Id="709201403" Language="SFX">
+							<ShortName>otto_footsteps_gravel_2.wav</ShortName>
+							<Path>SFX\otto_footsteps_gravel_2_10C4C929.wem</Path>
+						</File>
+						<File Id="710015741" Language="SFX">
+							<ShortName>otto_footsteps_water_1.wav</ShortName>
+							<Path>SFX\otto_footsteps_water_1_10C4C929.wem</Path>
+						</File>
+						<File Id="742368316" Language="SFX">
+							<ShortName>otto_footsteps_gravel_1.wav</ShortName>
+							<Path>SFX\otto_footsteps_gravel_1_10C4C929.wem</Path>
+						</File>
+						<File Id="761338767" Language="SFX">
+							<ShortName>otto_footsteps_water_3.wav</ShortName>
+							<Path>SFX\otto_footsteps_water_3_10C4C929.wem</Path>
+						</File>
+						<File Id="871561785" Language="SFX">
+							<ShortName>otto_footsteps_wood_4.wav</ShortName>
+							<Path>SFX\otto_footsteps_wood_4_10C4C929.wem</Path>
+						</File>
+						<File Id="974008506" Language="SFX">
+							<ShortName>otto_footsteps_grass_1.wav</ShortName>
+							<Path>SFX\otto_footsteps_grass_1_10C4C929.wem</Path>
+						</File>
+						<File Id="1010036921" Language="SFX">
+							<ShortName>otto_footsteps_water_4.wav</ShortName>
+							<Path>SFX\otto_footsteps_water_4_10C4C929.wem</Path>
+						</File>
+						<File Id="1025442465" Language="SFX">
+							<ShortName>otto_footsteps_wood_5.wav</ShortName>
+							<Path>SFX\otto_footsteps_wood_5_10C4C929.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+					<SwitchContainers>
+						<SwitchContainer SwitchValue="{49E8DDA4-E22C-4F77-A260-5A741D94CF8A}">
+							<Media>
+								<File Id="974008506"/>
+								<File Id="102632397"/>
+								<File Id="368631978"/>
+								<File Id="224267691"/>
+							</Media>
+						</SwitchContainer>
+						<SwitchContainer SwitchValue="{9459A983-328C-4C78-A1C6-E641A591E40C}">
+							<Media>
+								<File Id="710015741"/>
+								<File Id="330814601"/>
+								<File Id="761338767"/>
+								<File Id="1010036921"/>
+							</Media>
+						</SwitchContainer>
+						<SwitchContainer SwitchValue="{7D3E1E0B-1484-424F-B959-9F96E657CDD6}">
+							<Media>
+								<File Id="742368316"/>
+								<File Id="709201403"/>
+								<File Id="575939703"/>
+								<File Id="266509003"/>
+								<File Id="453536678"/>
+							</Media>
+						</SwitchContainer>
+						<SwitchContainer SwitchValue="{F26D1B5E-6FBC-4841-A415-84A3D48C25E5}">
+							<Media>
+								<File Id="433024557"/>
+								<File Id="126934278"/>
+								<File Id="222333393"/>
+								<File Id="871561785"/>
+								<File Id="1025442465"/>
+								<File Id="701113954"/>
+							</Media>
+						</SwitchContainer>
+					</SwitchContainers>
+				</Event>
+				<Event Id="2626652388" Name="GeometryDemo" ObjectPath="\Events\Alex Tests\GeometryDemo">
+					<IncludedMemoryFiles>
+						<File Id="258193767" Language="SFX">
+							<ShortName>Marker_Test_001.wav</ShortName>
+							<Path>SFX\Marker_Test_001_10C4C929.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="3991942870" Name="Music" ObjectPath="\Events\Alex Tests\Music">
+					<IncludedMemoryFiles>
+						<File Id="401793486" Language="SFX">
+							<ShortName>bar_music_SEQ1_109.wav</ShortName>
+							<Path>SFX\bar_music_SEQ1_109_3D1D1BA5.wem</Path>
+						</File>
+						<File Id="408411585" Language="SFX">
+							<ShortName>RevCrash AllOver.wav</ShortName>
+							<Path>SFX\RevCrash AllOver_D79FB2B7.wem</Path>
+						</File>
+						<File Id="584072642" Language="SFX">
+							<ShortName>bar_music_beat_109.wav</ShortName>
+							<Path>SFX\bar_music_beat_109_3D1D1BA5.wem</Path>
+						</File>
+						<File Id="638431784" Language="SFX">
+							<ShortName>bar_music_SEQ2_109.wav</ShortName>
+							<Path>SFX\bar_music_SEQ2_109_3D1D1BA5.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="1939884427" Name="Music_2D" ObjectPath="\Events\Alex Tests\Music_2D">
+					<IncludedMemoryFiles>
+						<File Id="401793486" Language="SFX">
+							<ShortName>bar_music_SEQ1_109.wav</ShortName>
+							<Path>SFX\bar_music_SEQ1_109_3D1D1BA5.wem</Path>
+						</File>
+						<File Id="584072642" Language="SFX">
+							<ShortName>bar_music_beat_109.wav</ShortName>
+							<Path>SFX\bar_music_beat_109_3D1D1BA5.wem</Path>
+						</File>
+						<File Id="638431784" Language="SFX">
+							<ShortName>bar_music_SEQ2_109.wav</ShortName>
+							<Path>SFX\bar_music_SEQ2_109_3D1D1BA5.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="1272633243" Name="Music_Long_Att" ObjectPath="\Events\Alex Tests\Music_Long_Att">
+					<IncludedMemoryFiles>
+						<File Id="401793486" Language="SFX">
+							<ShortName>bar_music_SEQ1_109.wav</ShortName>
+							<Path>SFX\bar_music_SEQ1_109_3D1D1BA5.wem</Path>
+						</File>
+						<File Id="408411585" Language="SFX">
+							<ShortName>RevCrash AllOver.wav</ShortName>
+							<Path>SFX\RevCrash AllOver_D79FB2B7.wem</Path>
+						</File>
+						<File Id="584072642" Language="SFX">
+							<ShortName>bar_music_beat_109.wav</ShortName>
+							<Path>SFX\bar_music_beat_109_3D1D1BA5.wem</Path>
+						</File>
+						<File Id="638431784" Language="SFX">
+							<ShortName>bar_music_SEQ2_109.wav</ShortName>
+							<Path>SFX\bar_music_SEQ2_109_3D1D1BA5.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="3900723121" Name="Play_chimes_with_marker" ObjectPath="\Events\Default Work Unit\Play_chimes_with_marker">
+					<IncludedMemoryFiles>
+						<File Id="804869470" Language="SFX">
+							<ShortName>chimes_with_marker.wav</ShortName>
+							<Path>SFX\chimes_with_marker_10C4C929.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="2787445937" Name="Snyth_One_Test" ObjectPath="\Events\Alex Tests\Snyth_One_Test">
+					<IncludedMemoryFiles>
+						<File Id="484615795" Language="SFX">
+							<ShortName>piano-100.mid</ShortName>
+							<Path>SFX\piano-100_9728D936.wmid</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+			</IncludedEvents>
+			<GameParameters>
+				<GameParameter Id="2242381963" Name="Enemies" ObjectPath="\Game Parameters\Alex\Enemies"/>
+			</GameParameters>
+			<SwitchGroups>
+				<SwitchGroup Id="3586861854" Name="FootstepsSwitch" ObjectPath="\Switches\Alex\FootstepsSwitch">
+					<Switches>
+						<Switch Id="4248645337" Name="Grass" ObjectPath="\Switches\Alex\FootstepsSwitch\Grass"/>
+						<Switch Id="2185786256" Name="Gravel" ObjectPath="\Switches\Alex\FootstepsSwitch\Gravel"/>
+						<Switch Id="2058049674" Name="Wood" ObjectPath="\Switches\Alex\FootstepsSwitch\Wood"/>
+						<Switch Id="2654748154" Name="Water" ObjectPath="\Switches\Alex\FootstepsSwitch\Water"/>
+					</Switches>
+				</SwitchGroup>
+			</SwitchGroups>
+			<Triggers>
+				<Trigger Id="1927797142" Name="MusicTrigger" ObjectPath="\Triggers\Alex\MusicTrigger"/>
+			</Triggers>
+			<ExternalSources>
+				<Source Id="618371124" Name="External_Source" ObjectPath="\Actor-Mixer Hierarchy\Default Work Unit\external_source_obj\External_Source"/>
+			</ExternalSources>
+		</SoundBank>
+	</SoundBanks>
+</SoundBanksInfo>
