@@ -19,6 +19,7 @@ function createWindow() {
   win = new BrowserWindow({
     width: 700,
     height: 480,
+    title: "Wwise Godot Integration App",
     webPreferences: {
       // Use pluginOptions.nodeIntegration, leave this alone
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
@@ -28,6 +29,10 @@ function createWindow() {
     resizable: false,
     // eslint-disable-next-line no-undef
     icon: path.join(__static, "icon.png"),
+  });
+
+  win.on("page-title-updated", function (e) {
+    e.preventDefault();
   });
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {

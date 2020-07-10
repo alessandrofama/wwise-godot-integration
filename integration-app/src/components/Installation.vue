@@ -33,6 +33,11 @@
             Installing the Wwise Godot integration will copy the required files
             to your Godot Project.
           </span>
+          <span
+            class="form-text"
+            style="margin-top: 3%; font-size: large; color: red;"
+            >{{ errorHint }}</span
+          >
         </div>
 
         <div class="from-group b-button-toolbar">
@@ -110,9 +115,6 @@
 import { mapActions } from "vuex";
 import fs from "fs";
 import path from "path";
-import copydir from "copy-dir";
-import openExplorer from "open-file-explorer";
-import dlRelease from "download-github-release";
 import { remote } from "electron";
 
 export default {
@@ -124,6 +126,7 @@ export default {
       installationFailed: false,
       installHeader: "",
       installText: "",
+      errorHint: "",
       progress: 0,
       max: 100,
       gitDownloadDestionationPath: path.join(
@@ -157,8 +160,14 @@ export default {
       this.installationFailed = false;
       this.previewGodotProjectFilePath = "Select File";
       this.setIntegrationInstalled(false);
+      this.errorHint = "";
     },
     onSubmit() {
+      if (path.extname(this.godotProjectFilePath) != ".godot") {
+        this.errorHint = "Please select a valid .godot file.";
+        return;
+      }
+
       this.installing = true;
       this.installHeader = "Installation";
       this.getIntegrationFiles();
@@ -170,6 +179,12 @@ export default {
       this.previewGodotProjectFilePath = filePath;
 
       this.setGodotProjectPaths(filePath);
+      if (path.extname(this.godotProjectFilePath) != ".godot") {
+        this.errorHint = "Please select a valid .godot file.";
+        return;
+      } else {
+        this.errorHint = "";
+      }
     },
 
     setGodotProjectPaths(godotFilePath) {
@@ -196,6 +211,8 @@ export default {
       }
     },
     getIntegrationFiles() {
+      var dlRelease = require("download-github-release");
+
       var vm = this;
 
       this.updateProgressTextandBar(
@@ -231,6 +248,8 @@ export default {
         });
     },
     copyIntegrationFilesToProject() {
+      var copydir = require("copy-dir");
+
       var vm = this;
 
       this.updateProgressTextandBar(
@@ -300,6 +319,7 @@ export default {
       fs.writeFileSync(file, newValue, "utf-8");
     },
     openProjectInExplorer() {
+      var openExplorer = require("open-file-explorer");
       var vm = this;
       openExplorer(this.godotProjectPath, (err) => {
         if (err) {
