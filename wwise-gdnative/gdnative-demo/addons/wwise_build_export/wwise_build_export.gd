@@ -39,7 +39,7 @@ class WwiseBuildExport:
 			if "Windows" in features:
 				platform = "/Windows/"
 			elif "OSX" in features:
-				platform = "/OSX/"
+				platform = "/Mac/"
 			elif "iOS" in features:
 				platform = "/iOS/"
 				
