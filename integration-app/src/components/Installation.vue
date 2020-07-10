@@ -261,7 +261,7 @@ export default {
       try {
         fs.copyFileSync(
           // eslint-disable-next-line no-undef
-          path.join(__static, "projectFileData.txt"),
+          path.join(__static, "override.cfg"),
           this.godotProjectPath
         );
       } catch (err) {
