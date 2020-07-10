@@ -14,6 +14,7 @@ const routes = [
 
 const router = new VueRouter({
   routes,
+  mode: process.env.IS_ELECTRON ? "hash" : "history",
 });
 
 export default router;

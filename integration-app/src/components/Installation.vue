@@ -110,9 +110,9 @@
 import { mapActions } from "vuex";
 import fs from "fs";
 import path from "path";
-import fetchRepoDir from "fetch-repo-dir";
 import copydir from "copy-dir";
 import openExplorer from "open-file-explorer";
+import dlRelease from "download-github-release";
 import { remote } from "electron";
 
 export default {
@@ -128,7 +128,7 @@ export default {
       max: 100,
       gitDownloadDestionationPath: path.join(
         remote.app.getPath("temp"),
-        "/wwise_gdnative"
+        "wwise_gdnative"
       ),
     };
   },
@@ -195,37 +195,47 @@ export default {
         this.setIntegrationInstalled(false);
       }
     },
-    async getIntegrationFiles() {
+    getIntegrationFiles() {
+      var vm = this;
+
       this.updateProgressTextandBar(
         "Getting integration files from repository",
         20
       );
 
-      if (fs.existsSync(this.gitDownloadDestionationPath)) {
-        fs.rmdirSync(this.gitDownloadDestionationPath, {
-          recursive: true,
-        });
+      if (!fs.existsSync(this.gitDownloadDestionationPath)) {
+        fs.mkdirSync(this.gitDownloadDestionationPath);
       }
 
-      await fetchRepoDir({
-        src: "alessandrofama/fmod-love/fmod-love",
-        dir: this.gitDownloadDestionationPath,
-        replace: true,
-      }).then(
-        () => {
-          this.copyIntegrationFilesToProject();
-        },
-        (err) => {
-          this.displayFailureMessage(err);
-        }
-      );
+      function filterRelease(release) {
+        return release.prerelease === false;
+      }
+
+      function filterAsset() {
+        return true;
+      }
+
+      dlRelease(
+        "alessandrofama",
+        "testrepo",
+        this.gitDownloadDestionationPath,
+        filterRelease,
+        filterAsset,
+        false
+      )
+        .then(function () {
+          vm.copyIntegrationFilesToProject();
+        })
+        .catch(function (err) {
+          vm.displayFailureMessage(err);
+        });
     },
     copyIntegrationFilesToProject() {
       var vm = this;
 
       this.updateProgressTextandBar(
         "Copying integration files to Godot project",
-        40
+        50
       );
 
       try {
@@ -249,17 +259,15 @@ export default {
 
       this.updateProgressTextandBar("Updating Godot project file", 80);
       try {
-        var projectFileData = fs.readFileSync(
+        fs.copyFileSync(
           // eslint-disable-next-line no-undef
           path.join(__static, "projectFileData.txt"),
-          "utf8"
+          this.godotProjectPath
         );
       } catch (err) {
         vm.displayFailureMessage(err);
         return;
       }
-
-      fs.appendFileSync(this.godotProjectFilePath, projectFileData);
 
       vm.finishInstallation();
     },
@@ -268,6 +276,8 @@ export default {
         "Open your Godot project and activate the Wwise integration in the addons tab of the project settings.",
         100
       );
+
+      this.removeDirectory(this.gitDownloadDestionationPath);
 
       this.installed = true;
       this.installing = false;
@@ -283,10 +293,24 @@ export default {
       this.removeDirectory(wwiseAddonsPath);
       this.removeDirectory(wwiseIdsConverterPath);
 
+      this.removeStringFromFile(
+        `WwiseSettings="res://wwise/wwise_settings.gd"`
+      );
+      this.removeStringFromFile(
+        `Wwise="*res://wwise/bin/wwise-gdnative-debug.gdns"`
+      );
+
       this.updateProgressTextandBar("", 100);
 
       this.installed = true;
       this.installing = false;
+    },
+    removeStringFromFile(string) {
+      var data = fs.readFileSync(this.godotProjectFilePath, "utf-8");
+      var stringToRemove = string;
+
+      var newValue = data.replace(stringToRemove, "");
+      fs.writeFileSync(this.godotProjectFilePath, newValue, "utf-8");
     },
     openProjectInExplorer() {
       var vm = this;
@@ -306,6 +330,8 @@ export default {
       err == Error ? (message = err.message) : (message = err);
 
       this.updateProgressTextandBar(`Error: ${message} `, 0);
+
+      this.removeDirectory(this.gitDownloadDestionationPath);
 
       this.installed = false;
       this.installing = false;
