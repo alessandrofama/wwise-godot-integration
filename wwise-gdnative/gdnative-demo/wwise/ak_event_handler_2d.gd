@@ -28,5 +28,5 @@ func _on_body_exited(body:Object) -> void:
 	if group_tag.empty() or body.is_in_group(group_tag):
 		handle_game_event(AkUtils.GameEvent.BODY_EXIT);
 	
-func handle_game_event(_gameEvent:int) -> void:
+func handle_game_event(_game_event:int) -> void:
 	pass

@@ -5,8 +5,8 @@ export(AK.EVENTS._enum) var event:int
 export(AkUtils.GameEvent) var trigger_on:int = AkUtils.GameEvent.NONE
 export(AkUtils.GameEvent) var stop_on:int = AkUtils.GameEvent.NONE
 export(int) var stop_fade_time = 0
-export(AkUtils.AkCurveInterpolation) var interpolation_mode = AkUtils.AkCurveInterpolation.LINEAR
-var playingID:int
+export(AkUtils.AkCurveInterpolation) var stop_interpolation_curve = AkUtils.AkCurveInterpolation.LINEAR
+var playing_id:int
 
 export(bool) var use_callback = false
 export(AkUtils.AkCallbackType) var callback_type = AkUtils.AkCallbackType.AK_EndOfEvent
@@ -19,7 +19,6 @@ var colliding_objects:Array = []
 var ak_environment_data:AkGameObjectEnvironmentData
 
 export(bool) var is_spatial = false
-var last_position:Vector3
 
 func _enter_tree():
 	register_game_object(self, self.get_name())
@@ -39,32 +38,28 @@ func _ready() -> void:
 		ray = set_up_raycast(self)
 		ak_environment_data = AkGameObjectEnvironmentData.new()
 		
-func handle_game_event(gameEvent:int) -> void:
-	if trigger_on == gameEvent:
+func handle_game_event(game_event:int) -> void:
+	if trigger_on == game_event:
 		post_event()
-	if stop_on == gameEvent:
+	if stop_on == game_event:
 		stop_event()
 		
 func post_event() -> void:
 	if not use_callback:
-		playingID = Wwise.post_event_id(event, self)
+		playing_id = Wwise.post_event_id(event, self)
 	else:
-		playingID = Wwise.post_event_id_callback(event, callback_type, self)
+		playing_id = Wwise.post_event_id_callback(event, callback_type, self)
 	
 func stop_event() -> void:
-	Wwise.stop_event(playingID, stop_fade_time, interpolation_mode)
+	Wwise.stop_event(playing_id, stop_fade_time, stop_interpolation_curve)
 		
 func _process(_delta) -> void:
-	# Checking if the position of the Event hasn't changed. In that case not calling
-	# Wwise.set_3d_position and saving API calls.
-	if not get_global_transform().origin == last_position:
-		Wwise.set_3d_position(self, get_global_transform())
-		last_position = get_global_transform().origin
+	Wwise.set_3d_position(self, get_global_transform())
 	
 	if is_environment_aware:
 		ak_environment_data.update_aux_send(self, self.get_global_transform().origin)
 	
 func _physics_process(_delta) -> void:
-		if listener and not is_spatial:
+		if listener and not is_spatial and not is_environment_aware:
 			set_obstruction_and_occlusion(self, listener, colliding_objects, ray, 0)
 

@@ -51,7 +51,7 @@ func set_obstruction_and_occlusion(event:Spatial, listener:Spatial, colliding_ob
 	if OS.get_ticks_msec() >= next_occlusion_update:
 		next_occlusion_update = OS.get_ticks_msec() + AkUtils.OCCLUSION_DETECTION_INTERVAL
 		var current_occlusion = compute_occlusion(listener.get_global_transform(), self.get_global_transform(), colliding_objects, ray)
-		Wwise.set_obj_obstruction_and_occlusion(event.get_instance_id(), listener.get_instance_id(), current_occlusion, current_occlusion)
+		Wwise.set_obj_obstruction_and_occlusion(event.get_instance_id(), listener.get_instance_id(),0, current_occlusion)
 		
 func connect_signals(callback_receiver:NodePath, callback_type) -> void:
 	if callback_receiver.is_empty():
