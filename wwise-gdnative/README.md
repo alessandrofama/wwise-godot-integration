@@ -55,11 +55,15 @@ scons target=release platform=ios ios_arch=arm64 wwise_sdk=/Applications/Audioki
 
 ### Android (ndk-build)
 
-Available target configurations:
+To build the Android GDNative library we are using ndk-build. 
+
+The available debug target configurations are the following (includes Wwise profiler connection):
 * debug_android_armeabi-v7a
 * debug_android_x86
 * debug_android_arm64-v8a
 * debug_android_x86_64
+
+The release target configurates are the following: 
 * release_android_armeabi-v7a
 * release_android_x86
 * release_android_arm64-v8a
@@ -70,3 +74,5 @@ Example command (replace PM5_CONFIG with your desired configuration):
 ```
 %ANDROID_NDK_ROOT%/ndk-build NDK_PROJECT_PATH=. APP_BUILD_SCRIPT=Android.mk PM5_CONFIG=debug_android_arm64-v8a NDK_LIBS_OUT=./gdnative-demo/wwise/bin/android/debug -j4
 ```
+
+Having whitespaces in your NDK, Wwise SDK or output libs paths will likely result in errors while running ndk-build.
