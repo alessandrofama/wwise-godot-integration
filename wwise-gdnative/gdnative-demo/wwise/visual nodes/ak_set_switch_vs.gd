@@ -1,8 +1,8 @@
 tool
 extends VisualScriptCustomNode
 
-export(int) var switch_group:int
-export(int) var switch_value:int
+export(String) var switch_group:String
+export(String) var switch_value:String
 
 func _get_caption():
 	return "Ak Set Switch"
@@ -29,6 +29,6 @@ func _get_input_value_port_type(idx):
 
 func _step(inputs, _outputs, start_mode, _working_mem):
 	if start_mode == START_MODE_BEGIN_SEQUENCE:
-		Wwise.set_switch_id(switch_group, switch_value, inputs[0])
+		Wwise.set_switch(switch_group, switch_value, inputs[0])
 
 	return 0

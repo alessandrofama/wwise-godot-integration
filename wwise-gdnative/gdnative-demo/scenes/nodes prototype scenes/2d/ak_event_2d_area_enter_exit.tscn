@@ -24,9 +24,6 @@ texture = ExtResource( 2 )
 position = Vector2( 1, -1.16635 )
 z_index = -1
 script = ExtResource( 3 )
-__meta__ = {
-"_edit_lock_": true
-}
 event = 1939884427
 trigger_on = 4
 stop_on = 5

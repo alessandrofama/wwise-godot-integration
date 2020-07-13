@@ -15,7 +15,7 @@ func _enter_tree():
 # to/from this Room.	
 func _on_body_enter(body):
 	var child_nodes = body.get_children()
-	# Getting all the childs nodes of the nodes above and appending them
+	# Getting all the children nodes of the nodes above and appending them
 	# to the child_nodes array, since the Event or Listener could be nested 
 	# somewhere in the tree...
 	for child in child_nodes:

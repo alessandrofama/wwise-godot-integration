@@ -15,6 +15,7 @@
 
 [node name="AkBank - INIT" type="Spatial" parent="Banks"]
 script = ExtResource( 4 )
+bank = 1355168291
 load_on = 1
 
 [node name="AkBank - TESTBANK" type="Spatial" parent="Banks"]
@@ -40,8 +41,8 @@ shape = SubResource( 1 )
 
 [node name="AkState" type="Spatial" parent="Event Test"]
 script = ExtResource( 3 )
-state_group = 1021618141
-state_value = 4223512837
+state_group = "MusicState"
+state_value = "Intense"
 trigger_on = 6
 
 [node name="Rigidbody Test" type="RigidBody" parent="."]

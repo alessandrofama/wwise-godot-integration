@@ -52,8 +52,8 @@ texture = ExtResource( 2 )
 
 [node name="AkState2D" type="Node2D" parent="RigidBody2D2/CollisionShape2D/Icon"]
 script = ExtResource( 5 )
-state_group = 1021618141
-state_value = 4223512837
+state_group = "MusicState"
+state_value = "Intense"
 trigger_on = 6
 
 [node name="Listener" type="Sprite" parent="."]

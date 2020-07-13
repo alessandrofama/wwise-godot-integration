@@ -1,8 +1,8 @@
 extends AkEventHandler
 
 export(NodePath) var ak_event:NodePath
-export(int) var switch_group:int
-export(int) var switch_value:int
+export(String) var switch_group:String
+export(String) var switch_value:String
 export(AkUtils.GameEvent) var trigger_on = AkUtils.GameEvent.NONE
 
 func handle_game_event(game_event:int) -> void:
@@ -14,4 +14,4 @@ func set_switch() -> void:
 		push_error("AkEvent NodePath in AkSwitch is empty, id: " + String(self.get_instance_id()))
 		return
 	var event:Object = get_node(ak_event)
-	Wwise.set_switch_id(switch_group, switch_value, event)
+	Wwise.set_switch(switch_group, switch_value, event)

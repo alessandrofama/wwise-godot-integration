@@ -39,8 +39,8 @@ material = SubResource( 1 )
 transform = Transform( 3.01146, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 script = ExtResource( 4 )
 ak_event = NodePath("../../Player/AkEvent")
-switch_group = 3586861854
-switch_value = 2185786256
+switch_group = "FootstepsSwitch"
+switch_value = "Gravel"
 trigger_on = 6
 
 [node name="Area" type="Area" parent="CSGBox/Gravel Switch"]
@@ -58,8 +58,8 @@ material = SubResource( 3 )
 transform = Transform( 3.01146, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 script = ExtResource( 4 )
 ak_event = NodePath("../../Player/AkEvent")
-switch_group = 3586861854
-switch_value = 2058049674
+switch_group = "FootstepsSwitch"
+switch_value = "Wood"
 trigger_on = 6
 
 [node name="Area2" type="Area" parent="CSGBox2/Wood Switch"]
@@ -77,8 +77,8 @@ material = SubResource( 4 )
 transform = Transform( 3.01146, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 script = ExtResource( 4 )
 ak_event = NodePath("../../Player/AkEvent")
-switch_group = 3586861854
-switch_value = 4248645337
+switch_group = "FootstepsSwitch"
+switch_value = "Grass"
 trigger_on = 6
 
 [node name="Area3" type="Area" parent="CSGBox3/Grass Switch"]
@@ -96,8 +96,8 @@ material = SubResource( 5 )
 transform = Transform( 3.01146, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 script = ExtResource( 4 )
 ak_event = NodePath("../../Player/AkEvent")
-switch_group = 3586861854
-switch_value = 2654748154
+switch_group = "FootstepsSwitch"
+switch_value = "Water"
 trigger_on = 6
 
 [node name="Area4" type="Area" parent="CSGBox4/Water Switch"]

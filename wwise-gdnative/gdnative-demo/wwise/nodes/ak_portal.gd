@@ -1,6 +1,5 @@
 extends Area
 
-
 var extent:Vector3
 export(NodePath) var front_room:NodePath
 var front_room_node
