@@ -3,8 +3,9 @@
     <div v-if="!installing && !installed && !installationFailed">
       <form @submit.prevent="onSubmit">
         <div class="form-group">
-          <p></p>
-          <label for="godotProject">Select Godot's project file.</label>
+          <label for="godotProject" style="font-size: large;"
+            >Select Godot's project file.</label
+          >
           <div class="custom-file" style="margin-top: 1%;">
             <input
               type="file"

@@ -7,7 +7,7 @@
 
 <style scoped>
 h1 {
-  padding: 20px 0px;
+  padding: 15px 0px;
 }
 </style>
 

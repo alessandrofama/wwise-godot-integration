@@ -18,7 +18,7 @@ function createWindow() {
   // Create the browser window.
   win = new BrowserWindow({
     width: 700,
-    height: 480,
+    height: 420,
     title: "Wwise Godot Integration App",
     webPreferences: {
       // Use pluginOptions.nodeIntegration, leave this alone
