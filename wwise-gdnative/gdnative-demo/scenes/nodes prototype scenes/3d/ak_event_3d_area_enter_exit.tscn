@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://wwise/nodes/ak_event.gd" type="Script" id=1]
 [ext_resource path="res://wwise/nodes/ak_listener.gd" type="Script" id=2]
@@ -8,14 +8,13 @@
 
 [sub_resource type="BoxShape" id=2]
 
-[sub_resource type="BoxShape" id=3]
-
 [node name="Main" type="Spatial"]
 
 [node name="Banks" type="Node" parent="."]
 
 [node name="AkBank - INIT" type="Spatial" parent="Banks"]
 script = ExtResource( 3 )
+bank = 1355168291
 load_on = 1
 
 [node name="AkBank - TESTBANK" type="Spatial" parent="Banks"]
@@ -24,39 +23,32 @@ script = ExtResource( 3 )
 bank = 3291379323
 load_on = 1
 
-[node name="Event Test" type="CSGBox" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4.26765, 0, 0 )
-
-[node name="AkEvent" type="Spatial" parent="Event Test"]
+[node name="AkEvent" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12.8225, 0, 0 )
 script = ExtResource( 1 )
+group_tag = "Test"
 event = 3991942870
 trigger_on = 4
 stop_on = 5
 stop_fade_time = 500
 
-[node name="Area" type="Area" parent="Event Test/AkEvent"]
+[node name="Area" type="Area" parent="AkEvent" groups=[
+"Test",
+]]
 
-[node name="RigidBody" type="RigidBody" parent="Event Test/AkEvent/Area"]
-gravity_scale = 0.0
-
-[node name="CollisionShape" type="CollisionShape" parent="Event Test/AkEvent/Area/RigidBody"]
+[node name="CollisionShape" type="CollisionShape" parent="AkEvent/Area"]
 shape = SubResource( 1 )
 
-[node name="CollisionShape" type="CollisionShape" parent="Event Test/AkEvent/Area"]
+[node name="Area" type="Area" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 22.6306, 0, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Area"]
 shape = SubResource( 2 )
 
-[node name="Area Test" type="CSGBox" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.45754, 0, 0 )
-
-[node name="Area" type="Area" parent="Area Test"]
-
-[node name="CollisionShape" type="CollisionShape" parent="Area Test/Area"]
-shape = SubResource( 3 )
-
 [node name="Camera" type="Camera" parent="."]
-transform = Transform( 1, 0, 0, 0, 0.894084, 0.4479, 0, -0.4479, 0.894084, 0, 3.71821, 8.71377 )
+transform = Transform( 1, 0, 0, 0, 0.894084, 0.4479, 0, -0.4479, 0.894084, 21.5328, 3.71821, 8.71377 )
 
 [node name="AkListener" type="Spatial" parent="Camera"]
 script = ExtResource( 2 )
-[connection signal="area_entered" from="Area Test/Area" to="Event Test/AkEvent" method="_on_area_entered"]
-[connection signal="area_exited" from="Area Test/Area" to="Event Test/AkEvent" method="_on_area_exited"]
+[connection signal="area_entered" from="Area" to="AkEvent" method="_on_area_entered"]
+[connection signal="area_exited" from="Area" to="AkEvent" method="_on_area_exited"]
