@@ -1,7 +1,7 @@
 extends Area
 class_name AkEnvironment
 
-export(AK.AUX_BUSSES._enum) var aux_bus_id:int
+export(AK.AUX_BUSSES._enum) var aux_bus:int
 
 export var env_priority = 0
 

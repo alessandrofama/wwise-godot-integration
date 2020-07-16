@@ -36,8 +36,8 @@ func add_highest_priority_environments():
 	if ak_aux_data.aux_array.size() < active_environments.size():
 		for i in active_environments.size():
 			var env = active_environments[i]
-			if i == 0 and !ak_aux_data.aux_array.has(env.aux_bus_id):
-				var aux_data = {"aux_bus_id": env.aux_bus_id, "control_value":  1.0}
+			if i == 0 and !ak_aux_data.aux_array.has(env.aux_bus):
+				var aux_data = {"aux_bus_id": env.aux_bus, "control_value":  1.0}
 				ak_aux_data.aux_array.append(aux_data)
 
 func update_aux_send(event:Object, event_position:Vector3) -> void:
