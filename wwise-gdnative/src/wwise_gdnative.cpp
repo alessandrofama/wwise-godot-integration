@@ -690,6 +690,10 @@ bool Wwise::setObjectObstructionAndOcclusion(const unsigned int gameObjectID, co
 bool Wwise::setGeometry(const Array vertices, const Array triangles, const String acousticTexture, const float occlusionValue, 
 						const Object* gameObject, bool enableDiffraction, bool enableDiffractionOnBoundaryEdges, const Object* associatedRoom)
 {
+	AKASSERT(!vertices.empty());
+	AKASSERT(!triangles.empty());
+	AKASSERT(gameObject);
+
 	AkGeometryParams geometry;
 
 	int vertexCount = vertices.size();
@@ -729,7 +733,7 @@ bool Wwise::setGeometry(const Array vertices, const Array triangles, const Strin
 
 	if ((numTriangles % 3) != 0)
 	{
-		Godot::print("Wrong number of triangles on mesh {0}", gameObject->get_instance_id());
+		Godot::print("Wrong number of triangles on mesh {0}", String::num_int64(gameObject->get_instance_id()));
 	}
 
 	auto akTriangles = std::make_unique<AkTriangle[]>(numTriangles);
@@ -742,6 +746,8 @@ bool Wwise::setGeometry(const Array vertices, const Array triangles, const Strin
 
 		AkAcousticTexture akAcousticTexture;
 		akAcousticTexture.ID = AK::SoundEngine::GetIDFromString(acousticTexture.alloc_c_string());
+
+		// Not possible to get the acoustic texture values through AK::SoundEngine, maybe looking at WAAPI
 		//akAcousticTexture.fAbsorptionHigh = acousticTexture["fAbsorptionHigh"];
 		//akAcousticTexture.fAbsorptionLow = acousticTexture["fAbsorptionLow"];
 		//akAcousticTexture.fAbsorptionMidHigh = acousticTexture["fAbsorptionMidHigh"];
@@ -751,7 +757,7 @@ bool Wwise::setGeometry(const Array vertices, const Array triangles, const Strin
 
 		akSurfaces[0].textureID = akAcousticTexture.ID;
 		akSurfaces[0].occlusion = occlusionValue;
-		akSurfaces[0].strName = "surface test";
+		akSurfaces[0].strName = acousticTexture.alloc_c_string();
 
 		geometry.Surfaces = akSurfaces;
 	}
@@ -774,7 +780,7 @@ bool Wwise::setGeometry(const Array vertices, const Array triangles, const Strin
 		}
 		else
 		{
-			Godot::print("Skipped degenerate triangles");
+			Godot::print("Skipped degenerate triangles on mesh {0}", String::num_int64(gameObject->get_instance_id()));
 		}
 	}
 
@@ -785,8 +791,7 @@ bool Wwise::setGeometry(const Array vertices, const Array triangles, const Strin
 
 	geometry.EnableDiffraction = enableDiffraction;
 	geometry.EnableDiffractionOnBoundaryEdges = enableDiffractionOnBoundaryEdges;
-	AkRoomID roomID;
-	geometry.RoomID = associatedRoom ? static_cast<AkRoomID>(associatedRoom->get_instance_id()) : static_cast<AkRoomID>(roomID.OutdoorsGameObjID);
+	geometry.RoomID = associatedRoom ? static_cast<AkRoomID>(associatedRoom->get_instance_id()) : static_cast<AkRoomID>(OUTDOORS_ROOM_ID);
 
 	return ERROR_CHECK(AK::SpatialAudio::SetGeometry(static_cast<AkGeometrySetID>(gameObject->get_instance_id()), geometry), "Failed to register geometry");
 }

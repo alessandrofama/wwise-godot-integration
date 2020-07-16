@@ -8,7 +8,7 @@ var mesh_instance
 export(bool) var is_static:bool = true
 export(bool) var enable_diffraction:bool = false
 export(bool) var enable_diffraction_on_boundary_edges:bool = false
-export(String) var acoustic_texture:String
+export(String) var acoustic_texture:String = ""
 export(float) var occlusion_value:float = 1.0
 export(NodePath) var room:NodePath
 var room_node
@@ -48,15 +48,18 @@ func set_geometry(mesh_inst:MeshInstance) -> bool:
 	
 	return result
 	
-func _ready():
+func _enter_tree():
 	mesh_instance = get_parent()
 	#warning-ignore:return_value_discarded
 	set_geometry(mesh_instance)
 	if not is_static:
 		set_notify_transform(true)
+
+func _exit_tree():
+	Wwise.remove_geometry(self)
 	
 func _notification(notification):
 	if(notification == NOTIFICATION_TRANSFORM_CHANGED):
-		Wwise.remove_geometry(self)
-		#warning-ignore:return_value_discarded
-		set_geometry(mesh_instance)
+		if Wwise.remove_geometry(self):
+			#warning-ignore:return_value_discarded
+			set_geometry(mesh_instance)

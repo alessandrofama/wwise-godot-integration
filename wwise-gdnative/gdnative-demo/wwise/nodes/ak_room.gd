@@ -2,14 +2,15 @@ extends Area
 
 export(AK.AUX_BUSSES._enum) var aux_bus_id:int
 
-func _ready():
-	Wwise.set_room(self, aux_bus_id, self.get_name())
-
 func _enter_tree():
+	Wwise.set_room(self, aux_bus_id, self.get_name())
 	#warning-ignore:return_value_discarded
 	connect("body_entered", self, "_on_body_enter")
 	#warning-ignore:return_value_discarded
 	connect("body_exited", self, "_on_body_exit")
+
+func _exit_tree():
+	Wwise.remove_room(self)
 
 # If any Event or Listener enters or exites this Area, it will added or removed
 # to/from this Room.	
