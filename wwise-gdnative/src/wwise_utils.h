@@ -13,8 +13,17 @@ const AkGameObjectID OUTDOORS_ROOM_ID = (AkGameObjectID)-4;
 #ifdef __ANDROID__
 #define MAP_PATH(path) \
     path = path.replace("res://", "");
+#define MAP_PATH_STANDALONE(path) \
+    path = path.replace("res://", "");
+#elif defined(AK_WIN) || defined(AK_MAC_OS_X)
+#define MAP_PATH(path) \
+	path = path.replace("res://", "./");
+#define MAP_PATH_STANDALONE(path) \
+	path = path.replace("res://", OS::get_singleton()->get_user_data_dir() + "/");
 #else
 #define MAP_PATH(path) \
+    path = path.replace("res://", "./");
+#define MAP_PATH_STANDALONE(path) \
     path = path.replace("res://", "./");
 #endif
 
@@ -196,6 +205,42 @@ static inline bool findMatchingVertex(Vector3 vertex, Dictionary vertDict, int& 
 		return true;
 	}
 	else
+	{
+		return false;
+	}
+}
+
+static bool copyDirectory(String from, String to)
+{
+	Directory* dir = Directory::_new();
+
+	if (!dir->dir_exists(to))
+	{
+		dir->make_dir_recursive(to);
+	}
+
+	if (dir->open(from) == godot::Error::OK) 
+	{
+		dir->list_dir_begin(true);
+		String fileName = dir->get_next();
+		while (fileName != "")
+		{
+			if (dir->file_exists(fileName))
+			{
+				if (dir->current_is_dir())
+				{
+					copyDirectory(from + "/" + fileName, to + "/" + fileName);
+				}
+				else
+				{
+					dir->copy(from + "/" + fileName, to + "/" + fileName);
+				}
+			}
+			fileName = dir->get_next();
+		}
+		return true;
+	}
+	else 
 	{
 		return false;
 	}

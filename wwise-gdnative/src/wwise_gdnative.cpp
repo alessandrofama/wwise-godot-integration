@@ -199,19 +199,39 @@ void Wwise::_init()
 	}
 
 	String basePath = getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + "base_path");
-	MAP_PATH(basePath);
+	String banksPath = basePath;
 
 #ifdef AK_WIN
-	basePath += "/Windows";
+	String platformBanksSuffix = "/Windows";
 #elif defined(AK_MAC_OS_X)
-	basePath += "/Mac";
+	String platformBanksSuffix = "/Mac";
 #elif defined(AK_IOS)
-	basePath += "/iOS";
+	String platformBanksSuffix = "/iOS";
 #elif defined(AK_ANDROID)
-	basePath += "/Android";
+	String platformBanksSuffix = "/Android";
 #else
 #error "Platform not supported"
 #endif
+
+	if (OS::get_singleton()->has_feature("standalone"))
+	{
+		MAP_PATH_STANDALONE(basePath);
+
+#if defined(AK_WIN) || defined(AK_MAC_OS_X)
+		bool copyBanksResult = copyDirectory(banksPath + platformBanksSuffix, OS::get_singleton()->get_user_data_dir() + "/wwise/GeneratedSoundBanks" + platformBanksSuffix);
+
+		if (!copyBanksResult)
+		{
+			ERROR_CHECK(AK_Fail, "Copying banks to user:// failed!");
+		}
+#endif
+	}
+	else
+	{
+		MAP_PATH(basePath);
+	}
+
+	basePath += platformBanksSuffix;
 
 	bool setBasePathResult = setBasePath(basePath);
 	AKASSERT(setBasePathResult);
