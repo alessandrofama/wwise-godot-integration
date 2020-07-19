@@ -10,7 +10,9 @@ func _get_category():
 	return "Wwise"
 
 func _get_text():
-	return ""
+	for idx in AK.EVENTS._enum.values().size():
+		if event == AK.EVENTS._enum.values()[idx]:
+			return AK.EVENTS._enum.keys()[idx]
 	
 func _has_input_sequence_port():
 	return true
