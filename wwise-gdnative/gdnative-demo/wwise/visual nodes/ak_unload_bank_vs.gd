@@ -8,6 +8,11 @@ func _get_caption():
 	
 func _get_category():
 	return "Wwise"
+	
+func _get_text():
+	for idx in AK.BANKS._enum.values().size():
+		if bank == AK.BANKS._enum.values()[idx]:
+			return AK.BANKS._enum.keys()[idx]
 
 func _has_input_sequence_port():
 	return true
