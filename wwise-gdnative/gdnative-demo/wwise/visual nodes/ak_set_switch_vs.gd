@@ -9,6 +9,9 @@ func _get_caption():
 	
 func _get_category():
 	return "Wwise"
+	
+func _get_text():
+	return switch_group + " / " + switch_value
 
 func _has_input_sequence_port():
 	return true
