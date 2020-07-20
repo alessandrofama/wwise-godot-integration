@@ -35,7 +35,11 @@ The docs for the GDNative interfaces, custom nodes and addons can be accessed th
 
 ## Known issues
 
-TODO: list of known issues or things that aren't working as expected
+The known issues are being logged into the [issues page](https://github.com/alessandrofama/wwise-godot-integration/issues) of this repo. Please check this page first, then log a new issue if you haven't found it listed.
+
+## Contributing
+
+Any contribution is welcome. Please send pull-requests with fixes or additions!
 
 ## License
 
