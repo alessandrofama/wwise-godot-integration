@@ -1,0 +1,4592 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{9D68BE5F-8CA6-43E0-BCE2-C7D59F63E582}" SchemaVersion="97">
+	<Effects>
+		<WorkUnit Name="Factory Convolution Reverb Effects Stereo" ID="{9D68BE5F-8CA6-43E0-BCE2-C7D59F63E582}" PersistMode="Standalone">
+			<ChildrenList>
+				<Folder Name="Rooms" ID="{8F1E395F-AC8A-4B19-BE8C-74BF69F66604}" ShortID="520744161">
+					<ChildrenList>
+						<Effect Name="Bright_Echo_Chamber_Stereo" ID="{364EC604-EDCB-4908-AF1A-27B6C3898803}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">
+							<Comment>Impulse response created by Pinguin ing.büro
+© 2010 Pinguin ing.büro.  All rights reserved.
+IR Pre-delay: 4ms </Comment>
+							<PropertyList>
+								<Property Name="CenterLevel" Type="Real32" Value="-12"/>
+								<Property Name="IRConvolutionSmooth" Type="Real32" Value="12"/>
+								<Property Name="IRConvolutionStop" Type="Real64" Value="1.01459237938597"/>
+								<Property Name="IRConvolutionThreshold" Type="Real32" Value="-79"/>
+								<Property Name="IRLevel" Type="Real32" Value="-21"/>
+								<Property Name="PreDelay" Type="Real32" Value="12"/>
+							</PropertyList>
+							<ChildrenList>
+								<PluginMediaSource Name="AK Hamburg Echo Chamber" ID="{1EC8D311-6031-4BD4-A538-EDD062C4AC92}">
+									<ParentPluginID>8323075</ParentPluginID>
+									<PropertyList>
+										<Property Name="DataFileName" Type="string" Value="AK_Factory_IR\Rooms\AK Hamburg Echo Chamber.wav"/>
+									</PropertyList>
+									<MediaIDList>
+										<MediaID ID="185425062"/>
+									</MediaIDList>
+								</PluginMediaSource>
+							</ChildrenList>
+							<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="" ID="{AE2CDBD7-39B2-4516-AF7B-F03620693923}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLPF">
+				<Curve Name="" ID="{CA524B83-B12D-47A5-923D-64FBD57CE04D}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="5"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>20000</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>1.28783333333333</XPos>
+							<YPos>20000</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLevel">
+				<Curve Name="" ID="{F452B161-68C0-4160-A86D-8F889C6CAD97}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="1"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>1.28783333333333</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+						</Effect>
+						<Effect Name="Damped_Chamber_Stereo" ID="{9835E14A-EDDC-4F14-83E9-C44D7B983E1C}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">
+							<Comment>Impulse response created by Pinguin ing.büro
+© 2010 Pinguin ing.büro.  All rights reserved.
+IR Pre-delay: 4ms
+</Comment>
+							<PropertyList>
+								<Property Name="CenterLevel" Type="Real32" Value="-12"/>
+								<Property Name="IRConvolutionSmooth" Type="Real32" Value="19"/>
+								<Property Name="IRConvolutionStop" Type="Real64" Value="0.311367598684207"/>
+								<Property Name="IRConvolutionThreshold" Type="Real32" Value="-58"/>
+								<Property Name="IRLPFAutomate" Type="bool" Value="True"/>
+								<Property Name="IRLevel" Type="Real32" Value="-20"/>
+								<Property Name="IRStretch" Type="Real32" Value="97"/>
+								<Property Name="PreDelay" Type="Real32" Value="13"/>
+							</PropertyList>
+							<ChildrenList>
+								<PluginMediaSource Name="AK Hamburg Echo Chamber" ID="{21702E7B-FF1F-4F93-85D5-A60DAA1F4682}">
+									<ParentPluginID>8323075</ParentPluginID>
+									<PropertyList>
+										<Property Name="DataFileName" Type="string" Value="AK_Factory_IR\Rooms\AK Hamburg Echo Chamber.wav"/>
+									</PropertyList>
+									<MediaIDList>
+										<MediaID ID="538281099"/>
+									</MediaIDList>
+								</PluginMediaSource>
+							</ChildrenList>
+							<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="" ID="{555FB4A6-C29B-49A7-AD73-45989A812F33}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLPF">
+				<Curve Name="" ID="{9FF7A6C1-8470-42EB-A79C-C8F51C1C91C4}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="5"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>1309.03226</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>0.30325</XPos>
+							<YPos>20</YPos>
+							<Flags>0</Flags>
+						</Point>
+						<Point>
+							<XPos>1.28783333333333</XPos>
+							<YPos>20</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLevel">
+				<Curve Name="" ID="{440E82E6-3F4F-48AE-9BCC-3FC9315D15D6}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="1"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>1.28783333333333</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+						</Effect>
+						<Effect Name="Blue_Reflective_Room_Stereo" ID="{3802F6E2-C426-42F5-8A0F-A118110A5EF8}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">
+							<Comment>Impulse response created by Pinguin ing.büro
+© 2010 Pinguin ing.büro.  All rights reserved.
+IR Pre-delay: 8ms 
+</Comment>
+							<PropertyList>
+								<Property Name="CenterLevel" Type="Real32" Value="-12"/>
+								<Property Name="IRConvolutionStop" Type="Real64" Value="0.656770250822369"/>
+								<Property Name="IRLevel" Type="Real32" Value="-26"/>
+								<Property Name="PreDelay" Type="Real32" Value="7"/>
+							</PropertyList>
+							<ChildrenList>
+								<PluginMediaSource Name="AK Blue Noise_Room" ID="{220EFEE1-7F13-4EA4-80D2-7E6E197BA77E}">
+									<ParentPluginID>8323075</ParentPluginID>
+									<PropertyList>
+										<Property Name="DataFileName" Type="string" Value="AK_Factory_IR\Rooms\AK Blue Noise Room 01.wav"/>
+									</PropertyList>
+									<MediaIDList>
+										<MediaID ID="358895006"/>
+									</MediaIDList>
+								</PluginMediaSource>
+							</ChildrenList>
+							<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="" ID="{5B183C70-5A49-495E-8972-6D4F765342E1}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLPF">
+				<Curve Name="" ID="{DDCC859A-8649-4BC3-8AD2-1F4471BD30C4}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="5"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>20000</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>0.9055</XPos>
+							<YPos>20000</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLevel">
+				<Curve Name="" ID="{AAAB6C0C-8F83-43B0-B95C-61C372DCE71B}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="1"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>-4.77547</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>0.149533440397578</XPos>
+							<YPos>0</YPos>
+							<Flags>0</Flags>
+						</Point>
+						<Point>
+							<XPos>0.9055</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+						</Effect>
+						<Effect Name="Resonant_Room_Stereo" ID="{9C83D35E-C112-418E-A78B-0D5343C76236}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">
+							<Comment>Impulse response created by Pinguin ing.büro
+© 2010 Pinguin ing.büro.  All rights reserved.
+IR Pre-delay: 8ms 
+
+</Comment>
+							<PropertyList>
+								<Property Name="CenterLevel" Type="Real32" Value="-12"/>
+								<Property Name="IRConvolutionStop" Type="Real64" Value="0.586774328399123"/>
+								<Property Name="IRConvolutionThreshold" Type="Real32" Value="-48"/>
+								<Property Name="IRLevel" Type="Real32" Value="-27"/>
+								<Property Name="IRStretch" Type="Real32" Value="88"/>
+								<Property Name="PreDelay" Type="Real32" Value="7"/>
+								<Property Name="StereoWidth" Type="Real32" Value="140"/>
+							</PropertyList>
+							<ChildrenList>
+								<PluginMediaSource Name="AK Blue Noise Room 01" ID="{E2405E23-5F0A-41D7-B854-DF78E534D101}">
+									<ParentPluginID>8323075</ParentPluginID>
+									<PropertyList>
+										<Property Name="DataFileName" Type="string" Value="AK_Factory_IR\Rooms\AK Blue Noise Room 01.wav"/>
+									</PropertyList>
+									<MediaIDList>
+										<MediaID ID="477192351"/>
+									</MediaIDList>
+								</PluginMediaSource>
+							</ChildrenList>
+							<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="" ID="{CCDCA38B-EFEA-4429-9BAF-8B2B71A478BD}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLPF">
+				<Curve Name="" ID="{91CAB4AA-F85C-4C08-B98D-77FAAA321419}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="5"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>20000</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>0.9055</XPos>
+							<YPos>20000</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLevel">
+				<Curve Name="" ID="{858279BA-2B08-42B2-95BF-ABAEC350BD13}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="1"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>-4.77547</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>0.213224905781929</XPos>
+							<YPos>0</YPos>
+							<Flags>0</Flags>
+						</Point>
+						<Point>
+							<XPos>0.9055</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+						</Effect>
+						<Effect Name="Bright_Room_Stereo" ID="{2E5F2D82-94F7-40F0-8F3F-84E1ED51D42B}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">
+							<Comment>Impulse response created by Pinguin ing.büro
+© 2010 Pinguin ing.büro.  All rights reserved.
+IR Pre-delay: 6ms
+
+</Comment>
+							<PropertyList>
+								<Property Name="CenterLevel" Type="Real32" Value="-12"/>
+								<Property Name="IRConvolutionSmooth" Type="Real32" Value="26"/>
+								<Property Name="IRConvolutionStop" Type="Real64" Value="1.32175493421053"/>
+								<Property Name="IRConvolutionThreshold" Type="Real32" Value="-51"/>
+								<Property Name="IRLevel" Type="Real32" Value="-28"/>
+								<Property Name="PreDelay" Type="Real32" Value="19"/>
+								<Property Name="StereoWidth" Type="Real32" Value="140"/>
+							</PropertyList>
+							<ChildrenList>
+								<PluginMediaSource Name="AK Blue Noise Room 02" ID="{7113FA76-290B-46C7-934E-FC3104C13403}">
+									<ParentPluginID>8323075</ParentPluginID>
+									<PropertyList>
+										<Property Name="DataFileName" Type="string" Value="AK_Factory_IR\Rooms\AK Blue Noise Room 02.wav"/>
+									</PropertyList>
+									<MediaIDList>
+										<MediaID ID="828807711"/>
+									</MediaIDList>
+								</PluginMediaSource>
+							</ChildrenList>
+							<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="" ID="{5BA1F10B-E429-48A8-82F3-90E064B72224}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLPF">
+				<Curve Name="" ID="{006023BF-2996-430E-9F35-C700F623C189}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="5"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>20000</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>1.699</XPos>
+							<YPos>20000</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLevel">
+				<Curve Name="" ID="{1D6B315D-F720-470B-8C38-9CAAA5B06C73}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="1"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>-6.56651</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>0.49879</XPos>
+							<YPos>0</YPos>
+							<Flags>0</Flags>
+						</Point>
+						<Point>
+							<XPos>1.699</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+						</Effect>
+						<Effect Name="Live_Room_Stereo" ID="{5C6D89FC-7BDE-4CDF-B0FD-A7D0B067A7ED}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">
+							<Comment>Impulse response created by Pinguin ing.büro
+© 2010 Pinguin ing.büro.  All rights reserved.
+IR Pre-delay: 8ms 
+</Comment>
+							<PropertyList>
+								<Property Name="CenterLevel" Type="Real32" Value="-12"/>
+								<Property Name="IRConvolutionSmooth" Type="Real32" Value="11"/>
+								<Property Name="IRConvolutionStop" Type="Real64" Value="1.49983182565789"/>
+								<Property Name="IRConvolutionThreshold" Type="Real32" Value="-77"/>
+								<Property Name="IRLevel" Type="Real32" Value="-23"/>
+								<Property Name="IRStretch" Type="Real32" Value="96"/>
+								<Property Name="PreDelay" Type="Real32" Value="11"/>
+							</PropertyList>
+							<ChildrenList>
+								<PluginMediaSource Name="AK Luna Studio" ID="{F0214EF8-B9F1-4513-9BF0-2C17DB934FD5}">
+									<ParentPluginID>8323075</ParentPluginID>
+									<PropertyList>
+										<Property Name="DataFileName" Type="string" Value="AK_Factory_IR\Rooms\AK Luna Studio.wav"/>
+									</PropertyList>
+									<MediaIDList>
+										<MediaID ID="749103418"/>
+									</MediaIDList>
+								</PluginMediaSource>
+							</ChildrenList>
+							<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="" ID="{E200636E-A301-4452-B80D-299B2850B388}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLPF">
+				<Curve Name="" ID="{99ED4D48-8226-4BAB-98CA-045BC4477647}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="5"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>20000</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>2.08195833333333</XPos>
+							<YPos>20000</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLevel">
+				<Curve Name="" ID="{1A933313-E5CE-40D7-92BB-D704502E0AA6}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="1"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>2.08195833333333</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+						</Effect>
+						<Effect Name="Petite_Room_Stereo" ID="{B213362A-B021-4F48-AE45-8CD298A2BC29}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">
+							<Comment>Impulse response created by Pinguin ing.büro
+© 2010 Pinguin ing.büro.  All rights reserved.
+IR Pre-delay: 8ms 
+</Comment>
+							<PropertyList>
+								<Property Name="CenterLevel" Type="Real32" Value="-12"/>
+								<Property Name="IRConvolutionStop" Type="Real64" Value="1.15055592105263"/>
+								<Property Name="IRConvolutionThreshold" Type="Real32" Value="-78"/>
+								<Property Name="IRLevel" Type="Real32" Value="-25"/>
+								<Property Name="IRStretch" Type="Real32" Value="70"/>
+								<Property Name="PreDelay" Type="Real32" Value="5"/>
+							</PropertyList>
+							<ChildrenList>
+								<PluginMediaSource Name="AK Luna Studio" ID="{64942F62-D719-4DCE-92FC-3C040065DEF5}">
+									<ParentPluginID>8323075</ParentPluginID>
+									<PropertyList>
+										<Property Name="DataFileName" Type="string" Value="AK_Factory_IR\Rooms\AK Luna Studio.wav"/>
+									</PropertyList>
+									<MediaIDList>
+										<MediaID ID="1012937349"/>
+									</MediaIDList>
+								</PluginMediaSource>
+							</ChildrenList>
+							<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="" ID="{D5222EF3-CD4E-4A1D-83DD-59FFA5AD27CD}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLPF">
+				<Curve Name="" ID="{3D7E57BD-AC80-4575-AF37-6C30F0B99D55}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="5"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>20000</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>2.08195833333333</XPos>
+							<YPos>20000</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLevel">
+				<Curve Name="" ID="{88E1F116-E5C9-470F-8421-A7447D48514A}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="1"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>2.08195833333333</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+						</Effect>
+						<Effect Name="Intimate_Room_Stereo" ID="{5ADDCD2F-7A9C-42B8-8D0B-14083D32EF83}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">
+							<Comment>Impulse response created by Pinguin ing.büro
+© 2010 Pinguin ing.büro.  All rights reserved.
+IR Pre-delay: 5ms 
+</Comment>
+							<PropertyList>
+								<Property Name="CenterLevel" Type="Real32" Value="-12"/>
+								<Property Name="IRConvolutionStop" Type="Real64" Value="1.13456513843202"/>
+								<Property Name="IRLevel" Type="Real32" Value="-24"/>
+								<Property Name="IRStretch" Type="Real32" Value="50"/>
+								<Property Name="PreDelay" Type="Real32" Value="5"/>
+							</PropertyList>
+							<ChildrenList>
+								<PluginMediaSource Name="AK Hamburg Karl Schneider Halle" ID="{6676DD52-CE82-48D0-8C11-8910933FEEFA}">
+									<ParentPluginID>8323075</ParentPluginID>
+									<PropertyList>
+										<Property Name="DataFileName" Type="string" Value="AK_Factory_IR\Rooms\AK Hamburg Karl Schneider Halle.wav"/>
+									</PropertyList>
+									<MediaIDList>
+										<MediaID ID="237532661"/>
+									</MediaIDList>
+								</PluginMediaSource>
+							</ChildrenList>
+							<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="" ID="{60CD0E41-2761-4B63-818B-6A01233DC07F}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLPF">
+				<Curve Name="" ID="{054D3A9E-6870-41E0-B203-29CBECBA6137}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="5"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>20000</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>1.55716666666667</XPos>
+							<YPos>20000</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLevel">
+				<Curve Name="" ID="{EC56907F-B9D1-4348-98F7-1C8C6D7DAA14}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="1"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>1.55716666666667</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+						</Effect>
+						<Effect Name="Gated_Metallic_Reflections_Stereo" ID="{54CE8B32-9AA8-4EF3-A620-4530C27ABBF7}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">
+							<Comment>Impulse response created by Pinguin ing.büro
+© 2010 Pinguin ing.büro.  All rights reserved.
+IR Pre-delay: 7ms 
+</Comment>
+							<PropertyList>
+								<Property Name="CenterLevel" Type="Real32" Value="-12"/>
+								<Property Name="IRConvolutionSmooth" Type="Real32" Value="12"/>
+								<Property Name="IRConvolutionStop" Type="Real64" Value="3.24565285773026"/>
+								<Property Name="IRConvolutionThreshold" Type="Real32" Value="-68"/>
+								<Property Name="IRLPFAutomate" Type="bool" Value="True"/>
+								<Property Name="IRLevel" Type="Real32" Value="-25"/>
+								<Property Name="IRStretch" Type="Real32" Value="50"/>
+								<Property Name="PreDelay" Type="Real32" Value="24"/>
+							</PropertyList>
+							<ChildrenList>
+								<PluginMediaSource Name="AK Stair Way Hall" ID="{0A3DCE8C-790D-45FB-AA4A-D32C0AD8F146}">
+									<ParentPluginID>8323075</ParentPluginID>
+									<PropertyList>
+										<Property Name="DataFileName" Type="string" Value="AK_Factory_IR\Large Spaces\AK Stair Way Hall.wav"/>
+									</PropertyList>
+									<MediaIDList>
+										<MediaID ID="304471121"/>
+									</MediaIDList>
+								</PluginMediaSource>
+							</ChildrenList>
+							<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="" ID="{4DA1CCF3-7FE9-4ECD-B05C-C02BFC9D1108}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLPF">
+				<Curve Name="" ID="{5D1600CD-455D-4E51-BC48-19415DC6A8E1}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="5"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>15488.3871</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>4.73227083333333</XPos>
+							<YPos>15560</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLevel">
+				<Curve Name="" ID="{9C5AC8E4-4C5C-4B94-86DE-4A922CB26C35}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="1"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>4.73227083333333</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+						</Effect>
+						<Effect Name="BlueNoise_Room_03_Org_Stereo" ID="{3E386021-45A2-45D7-BC77-F2550965DF14}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">
+							<Comment>Impulse response created by Pinguin ing.büro
+© 2010 Pinguin ing.büro.  All rights reserved.
+IR Pre-delay: 3ms 
+</Comment>
+							<PropertyList>
+								<Property Name="IRConvolutionStop" Type="Real64" Value="0.573875"/>
+								<Property Name="IRLRMix" Type="Real32" Value="6"/>
+								<Property Name="IRLevel" Type="Real32" Value="-25"/>
+								<Property Name="PreDelay" Type="Real32" Value="3"/>
+							</PropertyList>
+							<ChildrenList>
+								<PluginMediaSource Name="AK Blue Noise Room 03" ID="{507AD50D-8703-4CD8-880E-5C11D4E133E1}">
+									<ParentPluginID>8323075</ParentPluginID>
+									<PropertyList>
+										<Property Name="DataFileName" Type="string" Value="AK_Factory_IR\Rooms\AK Blue Noise Room 03.wav"/>
+									</PropertyList>
+									<MediaIDList>
+										<MediaID ID="680452062"/>
+									</MediaIDList>
+								</PluginMediaSource>
+							</ChildrenList>
+							<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="" ID="{802140BA-87C0-4225-9C27-865462A5A6F2}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLPF">
+				<Curve Name="" ID="{3EF628DD-0B1F-4D12-BA37-E6542ECB45A4}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="5"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>20000</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>0.573875</XPos>
+							<YPos>20000</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLevel">
+				<Curve Name="" ID="{F1B6780D-7792-45AC-B24C-AC74919051E6}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="1"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>0.573875</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+						</Effect>
+						<Effect Name="Luna_Studio_Org_Stereo" ID="{7343EC93-EA2A-4450-A559-39DA617A98E8}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">
+							<Comment>Impulse response created by Pinguin ing.büro
+© 2010 Pinguin ing.büro.  All rights reserved.
+IR Pre-delay: 8ms 
+</Comment>
+							<PropertyList>
+								<Property Name="IRConvolutionSmooth" Type="Real32" Value="5"/>
+								<Property Name="IRConvolutionStop" Type="Real64" Value="1.18822293037281"/>
+								<Property Name="IRConvolutionThreshold" Type="Real32" Value="-76"/>
+								<Property Name="IRLRMix" Type="Real32" Value="8"/>
+								<Property Name="IRLevel" Type="Real32" Value="-28"/>
+								<Property Name="PreDelay" Type="Real32" Value="8"/>
+							</PropertyList>
+							<ChildrenList>
+								<PluginMediaSource Name="AK Luna Studio" ID="{F77C031B-A37D-4B46-90E5-F65781FC5369}">
+									<ParentPluginID>8323075</ParentPluginID>
+									<PropertyList>
+										<Property Name="DataFileName" Type="string" Value="AK_Factory_IR\Rooms\AK Luna Studio.wav"/>
+									</PropertyList>
+									<MediaIDList>
+										<MediaID ID="765420740"/>
+									</MediaIDList>
+								</PluginMediaSource>
+							</ChildrenList>
+							<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="" ID="{9B7F0089-4046-4F4D-819B-BA2B41FDEF01}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLPF">
+				<Curve Name="" ID="{C3BA71E0-9EBF-4AB4-8968-6376CA28E3F3}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="5"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>20000</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>2.08195833333333</XPos>
+							<YPos>20000</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLevel">
+				<Curve Name="" ID="{90049F1E-B7E9-4E9E-8D91-A7AD1AB3F3F8}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="1"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>2.08195833333333</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+						</Effect>
+						<Effect Name="BlueNoise_Room_02_Org_Stereo" ID="{2B102451-B3FC-4FBD-88EB-B774F1D421FD}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">
+							<Comment>Impulse response created by Pinguin ing.büro
+© 2010 Pinguin ing.büro.  All rights reserved.
+IR Pre-delay: 8ms 
+</Comment>
+							<PropertyList>
+								<Property Name="IRConvolutionStop" Type="Real64" Value="1.699"/>
+								<Property Name="IRLevel" Type="Real32" Value="-32"/>
+								<Property Name="PreDelay" Type="Real32" Value="8"/>
+							</PropertyList>
+							<ChildrenList>
+								<PluginMediaSource Name="AK Blue Noise Room 02" ID="{4CDF023A-F100-4A7D-80A2-CB591F591EDC}">
+									<ParentPluginID>8323075</ParentPluginID>
+									<PropertyList>
+										<Property Name="DataFileName" Type="string" Value="AK_Factory_IR\Rooms\AK Blue Noise Room 02.wav"/>
+									</PropertyList>
+									<MediaIDList>
+										<MediaID ID="830379118"/>
+									</MediaIDList>
+								</PluginMediaSource>
+							</ChildrenList>
+							<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="" ID="{A5F1BD80-1FFF-4D90-8B10-7F6D9A06B63A}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLPF">
+				<Curve Name="" ID="{9E755616-C868-4194-BCC2-70A1D1222499}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="5"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>20000</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>1.699</XPos>
+							<YPos>20000</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLevel">
+				<Curve Name="" ID="{22DDC01C-C685-43BD-AE13-7D4BF50BC48A}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="1"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>1.699</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+						</Effect>
+						<Effect Name="BlueNoise_Room_01_Org_Stereo" ID="{56609EEE-FAE1-4314-A51C-508315783090}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">
+							<Comment>Impulse response created by Pinguin ing.büro
+© 2010 Pinguin ing.büro.  All rights reserved.
+IR Pre-delay: 6ms </Comment>
+							<PropertyList>
+								<Property Name="IRConvolutionStop" Type="Real64" Value="0.9055"/>
+								<Property Name="IRConvolutionThreshold" Type="Real32" Value="-75"/>
+								<Property Name="IRLRMix" Type="Real32" Value="5"/>
+								<Property Name="IRLevel" Type="Real32" Value="-27"/>
+								<Property Name="PreDelay" Type="Real32" Value="6"/>
+							</PropertyList>
+							<ChildrenList>
+								<PluginMediaSource Name="AK Blue Noise Room 01" ID="{35482B35-AD23-4C36-9863-2252DA794223}">
+									<ParentPluginID>8323075</ParentPluginID>
+									<PropertyList>
+										<Property Name="DataFileName" Type="string" Value="AK_Factory_IR\Rooms\AK Blue Noise Room 01.wav"/>
+									</PropertyList>
+									<MediaIDList>
+										<MediaID ID="238341605"/>
+									</MediaIDList>
+								</PluginMediaSource>
+							</ChildrenList>
+							<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="" ID="{025D2CB9-7D87-40EC-AAF7-A9E3D4DA4497}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLPF">
+				<Curve Name="" ID="{1E3C03D2-E05C-4E66-A3AB-ADF1E365CE46}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="5"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>20000</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>0.9055</XPos>
+							<YPos>20000</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLevel">
+				<Curve Name="" ID="{AEB949D1-AC1A-4E06-9D3A-F3093BD78840}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="1"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>0.9055</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+						</Effect>
+						<Effect Name="Hamburg_Pinguin_Buro_Org_Stereo" ID="{C04CE8D7-3F83-4026-9F72-FA22CD045D6B}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">
+							<Comment>Impulse response created by Pinguin ing.büro
+© 2010 Pinguin ing.büro.  All rights reserved.
+IR Pre-delay: 0ms 
+</Comment>
+							<PropertyList>
+								<Property Name="IRConvolutionStop" Type="Real64" Value="0.331080523574561"/>
+								<Property Name="IRConvolutionThreshold" Type="Real32" Value="-47"/>
+								<Property Name="IRLevel" Type="Real32" Value="-12"/>
+							</PropertyList>
+							<ChildrenList>
+								<PluginMediaSource Name="AK Hamburg Pinguin Buro" ID="{3BE96017-02D3-40B6-AF9E-E89764DC3631}">
+									<ParentPluginID>8323075</ParentPluginID>
+									<PropertyList>
+										<Property Name="DataFileName" Type="string" Value="AK_Factory_IR\Rooms\AK Hamburg Pinguin Buro.wav"/>
+									</PropertyList>
+									<MediaIDList>
+										<MediaID ID="879974926"/>
+									</MediaIDList>
+								</PluginMediaSource>
+							</ChildrenList>
+							<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="" ID="{E3007CE6-61B7-4148-BA0F-92C71C419B38}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLPF">
+				<Curve Name="" ID="{C7101C3A-A26F-44D9-8BBB-AC5A48C8AFE8}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="5"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>20000</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>1.25029166666667</XPos>
+							<YPos>20000</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLevel">
+				<Curve Name="" ID="{154D81D1-35F0-4553-B50B-F277002EC459}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="1"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>1.25029166666667</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+						</Effect>
+						<Effect Name="Hamburg_Karl_Schneider_Halle_Org_Stereo" ID="{2F7FFF44-D67F-4804-95CD-9D99B00A397F}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">
+							<Comment>Impulse response created by Pinguin ing.büro
+© 2010 Pinguin ing.büro.  All rights reserved.
+IR Pre-delay: 5ms </Comment>
+							<PropertyList>
+								<Property Name="IRConvolutionSmooth" Type="Real32" Value="9"/>
+								<Property Name="IRConvolutionStop" Type="Real64" Value="1.32152508223684"/>
+								<Property Name="IRConvolutionThreshold" Type="Real32" Value="-83"/>
+								<Property Name="IRLevel" Type="Real32" Value="-28"/>
+								<Property Name="PreDelay" Type="Real32" Value="5"/>
+							</PropertyList>
+							<ChildrenList>
+								<PluginMediaSource Name="AK Hamburg Karl Schneider Halle" ID="{E8DE3F46-8E2D-46D4-95BC-1E8E5673CEF9}">
+									<ParentPluginID>8323075</ParentPluginID>
+									<PropertyList>
+										<Property Name="DataFileName" Type="string" Value="AK_Factory_IR\Rooms\AK Hamburg Karl Schneider Halle.wav"/>
+									</PropertyList>
+									<MediaIDList>
+										<MediaID ID="634339356"/>
+									</MediaIDList>
+								</PluginMediaSource>
+							</ChildrenList>
+							<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="" ID="{B9918665-802E-4556-8994-6BF58C88FE4C}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLPF">
+				<Curve Name="" ID="{C2838CEE-65BF-4A55-AEC9-F97CE5D035BC}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="5"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>20000</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>1.55716666666667</XPos>
+							<YPos>20000</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLevel">
+				<Curve Name="" ID="{10D075AF-5551-4755-81FD-18ECE01B2881}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="1"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>1.55716666666667</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+						</Effect>
+						<Effect Name="Hamburg_Echo_Chamber_Org_Stereo" ID="{B004D266-1CF1-4ADD-AA8D-BEDE4C30D620}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">
+							<Comment>Impulse response created by Pinguin ing.büro
+© 2010 Pinguin ing.büro.  All rights reserved.
+IR Pre-delay: 4ms 
+</Comment>
+							<PropertyList>
+								<Property Name="IRConvolutionSmooth" Type="Real32" Value="8"/>
+								<Property Name="IRConvolutionStop" Type="Real64" Value="0.762532894736842"/>
+								<Property Name="IRConvolutionThreshold" Type="Real32" Value="-77"/>
+								<Property Name="IRLRMix" Type="Real32" Value="4"/>
+								<Property Name="IRLevel" Type="Real32" Value="-13"/>
+								<Property Name="PreDelay" Type="Real32" Value="4"/>
+							</PropertyList>
+							<ChildrenList>
+								<PluginMediaSource Name="AK Hamburg Echo Chamber" ID="{EB7CAD97-6B2B-4742-97D5-9C7BFFFCB430}">
+									<ParentPluginID>8323075</ParentPluginID>
+									<PropertyList>
+										<Property Name="DataFileName" Type="string" Value="AK_Factory_IR\Rooms\AK Hamburg Echo Chamber.wav"/>
+									</PropertyList>
+									<MediaIDList>
+										<MediaID ID="667537848"/>
+									</MediaIDList>
+								</PluginMediaSource>
+							</ChildrenList>
+							<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="" ID="{BD218E4A-8B64-42BB-B4BF-F2072DF8DBF7}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLPF">
+				<Curve Name="" ID="{4A9C17DA-7EBA-4C27-9AF2-A2A289D9AECF}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="5"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>20000</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>1.28783333333333</XPos>
+							<YPos>20000</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLevel">
+				<Curve Name="" ID="{19E0C887-9659-4073-8A1F-4B2EC809DF42}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="1"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>1.28783333333333</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+						</Effect>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="Large Spaces" ID="{E582F9A1-2D34-46D9-B55E-AC8402D7F629}" ShortID="170872515">
+					<ChildrenList>
+						<Effect Name="HamburgParkhaus_Stereo" ID="{D5DA8C30-01BE-4D5D-826A-23A2CBE6779C}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">
+							<Comment>Impulse response created by Pinguin ing.büro
+© 2010 Pinguin ing.büro.  All rights reserved.
+IR Pre-delay: 4ms 
+</Comment>
+							<PropertyList>
+								<Property Name="CenterLevel" Type="Real32" Value="-12"/>
+								<Property Name="IRConvolutionStop" Type="Real64" Value="3.92034854714912"/>
+								<Property Name="IRConvolutionThreshold" Type="Real32" Value="-76"/>
+								<Property Name="IRLPFAutomate" Type="bool" Value="True"/>
+								<Property Name="IRLevel" Type="Real32" Value="-20"/>
+								<Property Name="IRStretch" Type="Real32" Value="78"/>
+								<Property Name="PreDelay" Type="Real32" Value="15"/>
+							</PropertyList>
+							<ChildrenList>
+								<PluginMediaSource Name="AK Hamburg Parkhaus" ID="{F5643149-8089-46B4-81BE-A77E435F4A39}">
+									<ParentPluginID>8323075</ParentPluginID>
+									<PropertyList>
+										<Property Name="DataFileName" Type="string" Value="AK_Factory_IR\Large Spaces\AK Hamburg Parkhaus.wav"/>
+									</PropertyList>
+									<MediaIDList>
+										<MediaID ID="785966779"/>
+									</MediaIDList>
+								</PluginMediaSource>
+							</ChildrenList>
+							<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="" ID="{0D5CF4BE-FA7A-4AD0-B682-89AD18ABEB66}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLPF">
+				<Curve Name="" ID="{AEA98406-67CB-41CF-B9AC-C93FAD9EC69A}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="5"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>17207.09678</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>3.00391</XPos>
+							<YPos>16506.30058</YPos>
+							<Flags>0</Flags>
+						</Point>
+						<Point>
+							<XPos>6.86908333333333</XPos>
+							<YPos>14056.12903</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLevel">
+				<Curve Name="" ID="{DC023771-17CC-4F47-A192-CB2759BFB308}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="1"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>6.86908333333333</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+						</Effect>
+						<Effect Name="Space_Ship_Stereo" ID="{9C98D629-945C-4B36-A590-1F9278DFA055}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">
+							<Comment>Impulse response created by Pinguin ing.büro
+© 2010 Pinguin ing.büro.  All rights reserved.
+IR Pre-delay: 7ms 
+</Comment>
+							<PropertyList>
+								<Property Name="CenterLevel" Type="Real32" Value="-12"/>
+								<Property Name="IRConvolutionStop" Type="Real64" Value="3.25343619791666"/>
+								<Property Name="IRConvolutionThreshold" Type="Real32" Value="-72"/>
+								<Property Name="IRLPFAutomate" Type="bool" Value="True"/>
+								<Property Name="IRLevel" Type="Real32" Value="-28"/>
+								<Property Name="IRStretch" Type="Real32" Value="56"/>
+								<Property Name="PreDelay" Type="Real32" Value="7"/>
+							</PropertyList>
+							<ChildrenList>
+								<PluginMediaSource Name="AK Stair Way Hall" ID="{8D8913CE-9343-49C7-B562-29C1A9944A27}">
+									<ParentPluginID>8323075</ParentPluginID>
+									<PropertyList>
+										<Property Name="DataFileName" Type="string" Value="AK_Factory_IR\Large Spaces\AK Stair Way Hall.wav"/>
+									</PropertyList>
+									<MediaIDList>
+										<MediaID ID="539027192"/>
+									</MediaIDList>
+								</PluginMediaSource>
+							</ChildrenList>
+							<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="" ID="{C84290C2-54E4-43E2-8D12-EED63A28B0B7}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLPF">
+				<Curve Name="" ID="{C0E97EF1-818B-4B6B-8829-D850CCDC5241}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="5"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>15488.3871</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>4.73227083333333</XPos>
+							<YPos>15560</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLevel">
+				<Curve Name="" ID="{02F83CDD-50AF-4768-B3FD-57DCDD1DE7D2}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="1"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>4.73227083333333</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+						</Effect>
+						<Effect Name="Bright_Metallic_Space_Stereo" ID="{9EBA7D87-78D0-4152-99FC-2E140C9A2BEC}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">
+							<Comment>Impulse response created by Pinguin ing.büro
+© 2010 Pinguin ing.büro.  All rights reserved.
+IR Pre-delay: 7ms 
+</Comment>
+							<PropertyList>
+								<Property Name="CenterLevel" Type="Real32" Value="-12"/>
+								<Property Name="IRConvolutionStop" Type="Real64" Value="2.99658597176535"/>
+								<Property Name="IRConvolutionThreshold" Type="Real32" Value="-65"/>
+								<Property Name="IRLPFAutomate" Type="bool" Value="True"/>
+								<Property Name="IRLevel" Type="Real32" Value="-32"/>
+								<Property Name="IRStretch" Type="Real32" Value="97"/>
+								<Property Name="PreDelay" Type="Real32" Value="13"/>
+							</PropertyList>
+							<ChildrenList>
+								<PluginMediaSource Name="AK Stair Way Hall" ID="{68868578-9A15-49D1-9D7E-0B3F2AEC3A63}">
+									<ParentPluginID>8323075</ParentPluginID>
+									<PropertyList>
+										<Property Name="DataFileName" Type="string" Value="AK_Factory_IR\Large Spaces\AK Stair Way Hall.wav"/>
+									</PropertyList>
+									<MediaIDList>
+										<MediaID ID="811934406"/>
+									</MediaIDList>
+								</PluginMediaSource>
+							</ChildrenList>
+							<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="" ID="{352A1E46-0588-449D-BE16-0F572FD86902}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLPF">
+				<Curve Name="" ID="{B2D97890-2224-44A1-AB49-388C2DCA7C2C}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="5"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>15488.3871</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>4.73227083333333</XPos>
+							<YPos>15560</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLevel">
+				<Curve Name="" ID="{4F90AE0E-4378-4B43-AA14-E49C9016B0D9}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="1"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>4.73227083333333</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+						</Effect>
+						<Effect Name="Large_Warehouse_Stereo" ID="{2E41C407-651F-486D-BC6E-3DC0332C154B}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">
+							<Comment>Impulse response created by Pinguin ing.büro
+© 2010 Pinguin ing.büro.  All rights reserved.
+IR Pre-delay: 0ms 
+</Comment>
+							<PropertyList>
+								<Property Name="CenterLevel" Type="Real32" Value="-12"/>
+								<Property Name="IRConvolutionStop" Type="Real64" Value="1.26684806743421"/>
+								<Property Name="IRConvolutionThreshold" Type="Real32" Value="-76"/>
+								<Property Name="IRLPFAutomate" Type="bool" Value="True"/>
+								<Property Name="IRLevel" Type="Real32" Value="-30"/>
+								<Property Name="IRStretch" Type="Real32" Value="153"/>
+								<Property Name="PreDelay" Type="Real32" Value="77"/>
+							</PropertyList>
+							<ChildrenList>
+								<PluginMediaSource Name="AK Hamburg Fabrik SCOUT" ID="{1EC9BCD4-19BA-4AE0-BB05-D1AD66F9F72B}">
+									<ParentPluginID>8323075</ParentPluginID>
+									<PropertyList>
+										<Property Name="DataFileName" Type="string" Value="AK_Factory_IR\Large Spaces\AK Hamburg Fabrik SCOUT.wav"/>
+									</PropertyList>
+									<MediaIDList>
+										<MediaID ID="765520478"/>
+									</MediaIDList>
+								</PluginMediaSource>
+							</ChildrenList>
+							<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="" ID="{626395AF-CC6B-43A2-BD54-9B0FE8A890CB}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLPF">
+				<Curve Name="" ID="{2CDD9C56-2E97-4BE2-9AC8-BD71CE19F993}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="5"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>20000</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>1.47558333333333</XPos>
+							<YPos>20</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLevel">
+				<Curve Name="" ID="{D296C31E-55BA-42BF-9B5F-B44CC0436693}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="1"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>-12.65336</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>0.613698664633546</XPos>
+							<YPos>0</YPos>
+							<Flags>0</Flags>
+						</Point>
+						<Point>
+							<XPos>1.47558333333333</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+						</Effect>
+						<Effect Name="Hamburg_Parkhaus_Org_Stereo" ID="{9853150B-EA16-4230-B6D7-4C416521EA44}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">
+							<Comment>Impulse response created by Pinguin ing.büro
+© 2010 Pinguin ing.büro.  All rights reserved.
+IR Pre-delay: 4ms 
+</Comment>
+							<PropertyList>
+								<Property Name="IRConvolutionSmooth" Type="Real32" Value="6"/>
+								<Property Name="IRConvolutionStop" Type="Real64" Value="4.3722619243421"/>
+								<Property Name="IRConvolutionThreshold" Type="Real32" Value="-61"/>
+								<Property Name="IRLevel" Type="Real32" Value="-22"/>
+								<Property Name="PreDelay" Type="Real32" Value="4"/>
+							</PropertyList>
+							<ChildrenList>
+								<PluginMediaSource Name="AK Hamburg Parkhaus" ID="{72804A69-D338-40C4-A3DF-CB9121E56309}">
+									<ParentPluginID>8323075</ParentPluginID>
+									<PropertyList>
+										<Property Name="DataFileName" Type="string" Value="AK_Factory_IR\Large Spaces\AK Hamburg Parkhaus.wav"/>
+									</PropertyList>
+									<MediaIDList>
+										<MediaID ID="1010311289"/>
+									</MediaIDList>
+								</PluginMediaSource>
+							</ChildrenList>
+							<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="" ID="{B47580E9-E693-4C24-A567-4233150907DB}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLPF">
+				<Curve Name="" ID="{CAB081A4-C9CF-4A9F-A56E-E2141FEE7CD1}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="5"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>20000</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>6.86908333333333</XPos>
+							<YPos>20000</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLevel">
+				<Curve Name="" ID="{4AA98392-2FC5-4877-AA7A-D871576EB93D}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="1"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>6.86908333333333</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+						</Effect>
+						<Effect Name="Hamburg_Fabrik_SCOUT_Org_Stereo" ID="{0E8734EA-2046-4052-9BFA-B26785748441}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">
+							<Comment>Impulse response created by Pinguin ing.büro
+© 2010 Pinguin ing.büro.  All rights reserved.
+IR Pre-delay: 0ms </Comment>
+							<PropertyList>
+								<Property Name="IRConvolutionSmooth" Type="Real32" Value="7"/>
+								<Property Name="IRConvolutionStop" Type="Real64" Value="1.02901069078947"/>
+								<Property Name="IRConvolutionThreshold" Type="Real32" Value="-74"/>
+								<Property Name="IRLRMix" Type="Real32" Value="7"/>
+								<Property Name="IRLevel" Type="Real32" Value="-40"/>
+							</PropertyList>
+							<ChildrenList>
+								<PluginMediaSource Name="AK Hamburg Fabrik SCOUT" ID="{8776D08B-A0B5-448E-A09A-E355E3646440}">
+									<ParentPluginID>8323075</ParentPluginID>
+									<PropertyList>
+										<Property Name="DataFileName" Type="string" Value="AK_Factory_IR\Large Spaces\AK Hamburg Fabrik SCOUT.wav"/>
+									</PropertyList>
+									<MediaIDList>
+										<MediaID ID="825862339"/>
+									</MediaIDList>
+								</PluginMediaSource>
+							</ChildrenList>
+							<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="" ID="{36B1C860-2E0A-4E4C-AF6B-DA8B7BBEBB67}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLPF">
+				<Curve Name="" ID="{EF0F3B93-1538-4EE8-A3C2-F46B0A2A3481}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="5"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>20000</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>1.47558333333333</XPos>
+							<YPos>20000</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLevel">
+				<Curve Name="" ID="{83D7D855-E31C-48C0-9FF1-A6AB7C8C09FE}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="1"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>1.47558333333333</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+						</Effect>
+						<Effect Name="Hamburg_Fabrik_Org_Stereo" ID="{F208312A-C650-4CD6-9D81-5CA7B1368F07}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">
+							<Comment>Impulse response created by Pinguin ing.büro
+© 2010 Pinguin ing.büro.  All rights reserved.
+IR Pre-delay: 0ms 
+</Comment>
+							<PropertyList>
+								<Property Name="IRConvolutionStop" Type="Real64" Value="1.48404173519737"/>
+								<Property Name="IRConvolutionThreshold" Type="Real32" Value="-82"/>
+								<Property Name="IRLRMix" Type="Real32" Value="32"/>
+								<Property Name="IRLevel" Type="Real32" Value="-25"/>
+							</PropertyList>
+							<ChildrenList>
+								<PluginMediaSource Name="AK Hamburg Fabrik" ID="{4AEBCBEE-DCE1-4E5A-879B-843712E0648C}">
+									<ParentPluginID>8323075</ParentPluginID>
+									<PropertyList>
+										<Property Name="DataFileName" Type="string" Value="AK_Factory_IR\Large Spaces\AK Hamburg Fabrik.wav"/>
+									</PropertyList>
+									<MediaIDList>
+										<MediaID ID="734720824"/>
+									</MediaIDList>
+								</PluginMediaSource>
+							</ChildrenList>
+							<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="" ID="{CAFC89D3-7737-4BD0-99D2-9D08C6A96D4E}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLPF">
+				<Curve Name="" ID="{0809AFA2-D9D4-4D88-991F-427D46F9E3AC}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="5"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>20000</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>1.923875</XPos>
+							<YPos>20000</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLevel">
+				<Curve Name="" ID="{0CFCBAE5-2BB8-46AC-9C48-B8C0D830FE2C}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="1"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>1.923875</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+						</Effect>
+						<Effect Name="Stair_Way_Hall_Org_Stereo" ID="{EBCE524C-A59C-484A-8E88-DB89BB7F578F}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">
+							<Comment>Impulse response created by Pinguin ing.büro
+© 2010 Pinguin ing.büro.  All rights reserved.
+IR Pre-delay: 7ms 
+</Comment>
+							<PropertyList>
+								<Property Name="IRConvolutionSmooth" Type="Real32" Value="10"/>
+								<Property Name="IRConvolutionStop" Type="Real64" Value="3.06663603344298"/>
+								<Property Name="IRConvolutionThreshold" Type="Real32" Value="-60"/>
+								<Property Name="IRLevel" Type="Real32" Value="-30"/>
+								<Property Name="PreDelay" Type="Real32" Value="7"/>
+							</PropertyList>
+							<ChildrenList>
+								<PluginMediaSource Name="AK Stair Way Hall" ID="{4AB19057-35F9-4A73-A1F5-FED1EFF110D5}">
+									<ParentPluginID>8323075</ParentPluginID>
+									<PropertyList>
+										<Property Name="DataFileName" Type="string" Value="AK_Factory_IR\Large Spaces\AK Stair Way Hall.wav"/>
+									</PropertyList>
+									<MediaIDList>
+										<MediaID ID="46969464"/>
+									</MediaIDList>
+								</PluginMediaSource>
+							</ChildrenList>
+							<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="" ID="{C355542D-4EFC-4F03-9838-E3D3BC245967}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLPF">
+				<Curve Name="" ID="{A3C2434E-6BC8-41C1-92C8-4E79A2418371}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="5"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>20000</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>4.73227083333333</XPos>
+							<YPos>20000</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLevel">
+				<Curve Name="" ID="{612279FB-4319-4C45-826F-0D4C6A0DEF3E}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="1"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>4.73227083333333</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+						</Effect>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="Cathedrals and Churches" ID="{F4FB196F-C7A1-4C4A-B93F-4AA3AC5473A1}" ShortID="605653257">
+					<ChildrenList>
+						<Effect Name="Dark_Cathedral_Stereo" ID="{5D107457-F392-439F-AF71-8D0235D9C0F8}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">
+							<Comment>Impulse response created by Pinguin ing.büro
+© 2010 Pinguin ing.büro.  All rights reserved.
+IR Pre-delay: 20ms 
+</Comment>
+							<PropertyList>
+								<Property Name="CenterLevel" Type="Real32" Value="-12"/>
+								<Property Name="IRConvolutionSmooth" Type="Real32" Value="5"/>
+								<Property Name="IRConvolutionStop" Type="Real64" Value="4.04647541966427"/>
+								<Property Name="IRConvolutionThreshold" Type="Real32" Value="-62"/>
+								<Property Name="IRLPFAutomate" Type="bool" Value="True"/>
+								<Property Name="IRLevel" Type="Real32" Value="-45"/>
+								<Property Name="IRStretch" Type="Real32" Value="119"/>
+								<Property Name="PreDelay" Type="Real32" Value="64"/>
+							</PropertyList>
+							<ChildrenList>
+								<PluginMediaSource Name="AK St-Katharinen" ID="{5314F988-340E-4631-B4BC-52FB22E4AD77}">
+									<ParentPluginID>8323075</ParentPluginID>
+									<PropertyList>
+										<Property Name="DataFileName" Type="string" Value="AK_Factory_IR\Churches\AK St-Katharinen.wav"/>
+									</PropertyList>
+									<MediaIDList>
+										<MediaID ID="99990636"/>
+									</MediaIDList>
+								</PluginMediaSource>
+							</ChildrenList>
+							<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="" ID="{C52A2C96-440C-43CE-8187-C98337CC7E5C}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLPF">
+				<Curve Name="" ID="{AC3B840F-048F-4CCD-A35B-FACA50745303}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="5"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>9043.22581</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>5.44758333333333</XPos>
+							<YPos>5820.64516</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLevel">
+				<Curve Name="" ID="{4989E76F-912C-4686-8B5F-329A529E5D89}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="1"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>5.44758333333333</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+						</Effect>
+						<Effect Name="Colossal_Cathedral_Stereo" ID="{512A7648-07B6-486E-9D3E-8B7323C79E8C}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">
+							<Comment>Impulse response created by Pinguin ing.büro
+© 2010 Pinguin ing.büro.  All rights reserved.
+IR Pre-delay: 20ms </Comment>
+							<PropertyList>
+								<Property Name="CenterLevel" Type="Real32" Value="-12"/>
+								<Property Name="IRConvolutionSmooth" Type="Real32" Value="8"/>
+								<Property Name="IRConvolutionStop" Type="Real64" Value="4.04647541966427"/>
+								<Property Name="IRConvolutionThreshold" Type="Real32" Value="-67"/>
+								<Property Name="IRLPFAutomate" Type="bool" Value="True"/>
+								<Property Name="IRLevel" Type="Real32" Value="-45"/>
+								<Property Name="PreDelay" Type="Real32" Value="49"/>
+							</PropertyList>
+							<ChildrenList>
+								<PluginMediaSource Name="AK St-Katharinen" ID="{C5313782-BD0A-4C94-9B74-E9F268B84A87}">
+									<ParentPluginID>8323075</ParentPluginID>
+									<PropertyList>
+										<Property Name="DataFileName" Type="string" Value="AK_Factory_IR\Churches\AK St-Katharinen.wav"/>
+									</PropertyList>
+									<MediaIDList>
+										<MediaID ID="101091315"/>
+									</MediaIDList>
+								</PluginMediaSource>
+							</ChildrenList>
+							<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="" ID="{955573BF-8A23-463B-85A8-641E767D4494}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLPF">
+				<Curve Name="" ID="{6149C231-C3EE-4D03-9D47-45D75B8C3CC3}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="5"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>15989.67742</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>5.44758333333333</XPos>
+							<YPos>13411.60915</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLevel">
+				<Curve Name="" ID="{DC0FE705-682B-4D95-A4BD-F5B9951673F5}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="1"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>5.44758333333333</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+						</Effect>
+						<Effect Name="Lost_in_a_Cathedral_Stereo" ID="{16D1461A-6690-47BC-A4CE-17E72BF46592}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">
+							<Comment>Impulse response created by Pinguin ing.büro
+© 2010 Pinguin ing.büro.  All rights reserved.
+IR Pre-delay: 20ms </Comment>
+							<PropertyList>
+								<Property Name="IRConvolutionStop" Type="Real64" Value="4.04647541966427"/>
+								<Property Name="IRConvolutionThreshold" Type="Real32" Value="-63"/>
+								<Property Name="IRLPFAutomate" Type="bool" Value="True"/>
+								<Property Name="IRLevel" Type="Real32" Value="-45"/>
+								<Property Name="IRStretch" Type="Real32" Value="151"/>
+							</PropertyList>
+							<ChildrenList>
+								<PluginMediaSource Name="AK St-Katharinen" ID="{E7B574A3-AD36-4D7A-BB0E-E25E3ED6C822}">
+									<ParentPluginID>8323075</ParentPluginID>
+									<PropertyList>
+										<Property Name="DataFileName" Type="string" Value="AK_Factory_IR\Churches\AK St-Katharinen.wav"/>
+									</PropertyList>
+									<MediaIDList>
+										<MediaID ID="535111107"/>
+									</MediaIDList>
+								</PluginMediaSource>
+							</ChildrenList>
+							<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="" ID="{1191723E-5285-4918-8ACA-BB143920E832}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLPF">
+				<Curve Name="" ID="{79EFFA26-299C-43AD-98A7-D359D7D0F02F}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="5"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>12409.03486</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>5.44758333333333</XPos>
+							<YPos>10761.93952</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLevel">
+				<Curve Name="" ID="{AB142F40-4807-49D9-AC59-15E4D4408801}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="1"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>5.44758333333333</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+						</Effect>
+						<Effect Name="Filtered_Cathedral_Stereo" ID="{ED869973-C49E-4162-A83D-CDB7C3F510E5}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">
+							<Comment>Impulse response created by Pinguin ing.büro
+© 2010 Pinguin ing.büro.  All rights reserved.
+IR Pre-delay: 20ms </Comment>
+							<PropertyList>
+								<Property Name="CenterLevel" Type="Real32" Value="-12"/>
+								<Property Name="IRConvolutionSmooth" Type="Real32" Value="5"/>
+								<Property Name="IRConvolutionStop" Type="Real64" Value="4.04647541966427"/>
+								<Property Name="IRConvolutionThreshold" Type="Real32" Value="-62"/>
+								<Property Name="IRLPFAutomate" Type="bool" Value="True"/>
+								<Property Name="IRLevel" Type="Real32" Value="-45"/>
+								<Property Name="IRStretch" Type="Real32" Value="107"/>
+								<Property Name="PreDelay" Type="Real32" Value="60"/>
+							</PropertyList>
+							<ChildrenList>
+								<PluginMediaSource Name="AK St-Katharinen" ID="{CAF740FD-0DE5-4D73-8C7F-FAAB52665D18}">
+									<ParentPluginID>8323075</ParentPluginID>
+									<PropertyList>
+										<Property Name="DataFileName" Type="string" Value="AK_Factory_IR\Churches\AK St-Katharinen.wav"/>
+									</PropertyList>
+									<MediaIDList>
+										<MediaID ID="8071170"/>
+									</MediaIDList>
+								</PluginMediaSource>
+							</ChildrenList>
+							<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="" ID="{2EADBA05-2ECF-4BA3-8E25-D2AC3C9F23CE}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLPF">
+				<Curve Name="" ID="{A6A11F90-81ED-4DED-8E48-C830905C47B1}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="5"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>2096.77697</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>5.44758333333333</XPos>
+							<YPos>1667.10207</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLevel">
+				<Curve Name="" ID="{2AE24426-12AB-417A-A095-32F406CB933F}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="1"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>5.44758333333333</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+						</Effect>
+						<Effect Name="Medium_Church_Stereo" ID="{F474ED32-C27E-4816-9B50-AC5B99453438}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">
+							<Comment>Impulse response created by Pinguin ing.büro
+© 2010 Pinguin ing.büro.  All rights reserved.
+IR Pre-delay: 5ms </Comment>
+							<PropertyList>
+								<Property Name="CenterLevel" Type="Real32" Value="-12"/>
+								<Property Name="IRConvolutionSmooth" Type="Real32" Value="43"/>
+								<Property Name="IRConvolutionStop" Type="Real64" Value="3.46235964912281"/>
+								<Property Name="IRConvolutionThreshold" Type="Real32" Value="-66"/>
+								<Property Name="IRLPFAutomate" Type="bool" Value="True"/>
+								<Property Name="IRLevel" Type="Real32" Value="-32"/>
+								<Property Name="IRStretch" Type="Real32" Value="68"/>
+								<Property Name="PreDelay" Type="Real32" Value="22"/>
+							</PropertyList>
+							<ChildrenList>
+								<PluginMediaSource Name="AK Medium Church" ID="{947B2DEF-09DA-4546-9EDD-3BE75AB3C2B1}">
+									<ParentPluginID>8323075</ParentPluginID>
+									<PropertyList>
+										<Property Name="DataFileName" Type="string" Value="AK_Factory_IR\Churches\AK Medium Church.wav"/>
+									</PropertyList>
+									<MediaIDList>
+										<MediaID ID="1035327887"/>
+									</MediaIDList>
+								</PluginMediaSource>
+							</ChildrenList>
+							<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="" ID="{C39B5958-C2ED-4818-AF59-3BE8177D0B3D}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLPF">
+				<Curve Name="" ID="{56AA0CB5-BFD4-4BED-B74C-AA2D50E9ED02}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="5"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>7324.51614</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>4.69891666666667</XPos>
+							<YPos>3242.58065</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLevel">
+				<Curve Name="" ID="{57218730-958A-4A0D-852D-ED93633F3F37}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="1"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>4.69891666666667</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+						</Effect>
+						<Effect Name="Famous_Church_Stereo" ID="{0CF97F8C-F5A2-4FCA-BAD2-508D7FE2731D}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">
+							<Comment>Impulse response created by Pinguin ing.büro
+© 2010 Pinguin ing.büro.  All rights reserved.
+IR Pre-delay: 5ms </Comment>
+							<PropertyList>
+								<Property Name="CenterLevel" Type="Real32" Value="-12"/>
+								<Property Name="IRConvolutionSmooth" Type="Real32" Value="47"/>
+								<Property Name="IRConvolutionStop" Type="Real64" Value="3.47008813048246"/>
+								<Property Name="IRConvolutionThreshold" Type="Real32" Value="-65"/>
+								<Property Name="IRLPFAutomate" Type="bool" Value="True"/>
+								<Property Name="IRLevel" Type="Real32" Value="-38"/>
+								<Property Name="IRStretch" Type="Real32" Value="123"/>
+								<Property Name="PreDelay" Type="Real32" Value="60"/>
+							</PropertyList>
+							<ChildrenList>
+								<PluginMediaSource Name="AK Medium Church" ID="{D89E8FFC-F6B7-46CD-B475-25DE33104B93}">
+									<ParentPluginID>8323075</ParentPluginID>
+									<PropertyList>
+										<Property Name="DataFileName" Type="string" Value="AK_Factory_IR\Churches\AK Medium Church.wav"/>
+									</PropertyList>
+									<MediaIDList>
+										<MediaID ID="659069708"/>
+									</MediaIDList>
+								</PluginMediaSource>
+							</ChildrenList>
+							<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="" ID="{A8DFAFAB-57FB-4084-A855-A655A7B75219}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLPF">
+				<Curve Name="" ID="{80C9A6E4-A2A6-4780-96C7-8D9DB5375035}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="5"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>5319.35277</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>4.69891666666667</XPos>
+							<YPos>1523.87082</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLevel">
+				<Curve Name="" ID="{F31F5FB8-12D0-49E1-8ED9-51DB259988EE}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="1"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>4.69891666666667</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+						</Effect>
+						<Effect Name="StKatharinen_Org_Stereo" ID="{9C3A1E3A-5E83-45E6-BF99-418C5ACCE6FE}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">
+							<Comment>Impulse response created by Pinguin ing.büro
+© 2010 Pinguin ing.büro.  All rights reserved.
+IR Pre-delay: 20ms </Comment>
+							<PropertyList>
+								<Property Name="IRConvolutionSmooth" Type="Real32" Value="6"/>
+								<Property Name="IRConvolutionStop" Type="Real64" Value="4.04595979845626"/>
+								<Property Name="IRConvolutionThreshold" Type="Real32" Value="-71"/>
+								<Property Name="IRLRMix" Type="Real32" Value="5"/>
+								<Property Name="IRLevel" Type="Real32" Value="-42"/>
+								<Property Name="PreDelay" Type="Real32" Value="20"/>
+							</PropertyList>
+							<ChildrenList>
+								<PluginMediaSource Name="AK St-Katharinen" ID="{D5A61DB3-EE33-431A-BD34-2FF9611F6282}">
+									<ParentPluginID>8323075</ParentPluginID>
+									<PropertyList>
+										<Property Name="DataFileName" Type="string" Value="AK_Factory_IR\Churches\AK St-Katharinen.wav"/>
+									</PropertyList>
+									<MediaIDList>
+										<MediaID ID="1005069349"/>
+									</MediaIDList>
+								</PluginMediaSource>
+							</ChildrenList>
+							<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="" ID="{F7A11955-D5F1-4DF1-883F-9002200C843A}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLPF">
+				<Curve Name="" ID="{1D3CE03C-7962-4DDE-856D-EC8DF64B3B55}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="5"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>20000</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>5.44758333333333</XPos>
+							<YPos>20000</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLevel">
+				<Curve Name="" ID="{99DBE383-0017-45FD-AB9D-5A9EB54F17C1}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="1"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>5.44758333333333</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+						</Effect>
+						<Effect Name="MediumChurch_Org_Stereo" ID="{E2147EF3-E3FD-4AE7-B13C-266736AC7839}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">
+							<Comment>Impulse response created by Pinguin ing.büro
+© 2010 Pinguin ing.büro.  All rights reserved.
+IR Pre-delay: 5ms </Comment>
+							<PropertyList>
+								<Property Name="IRConvolutionSmooth" Type="Real32" Value="6"/>
+								<Property Name="IRConvolutionStop" Type="Real64" Value="1.88601457975987"/>
+								<Property Name="IRConvolutionThreshold" Type="Real32" Value="-70"/>
+								<Property Name="IRLevel" Type="Real32" Value="-38"/>
+								<Property Name="PreDelay" Type="Real32" Value="5"/>
+							</PropertyList>
+							<ChildrenList>
+								<PluginMediaSource Name="AK Medium Church" ID="{9C238E27-5F6F-49E3-A0B5-C2143DD1336B}">
+									<ParentPluginID>8323075</ParentPluginID>
+									<PropertyList>
+										<Property Name="DataFileName" Type="string" Value="AK_Factory_IR\Churches\AK Medium Church.wav"/>
+									</PropertyList>
+									<MediaIDList>
+										<MediaID ID="1010865615"/>
+									</MediaIDList>
+								</PluginMediaSource>
+							</ChildrenList>
+							<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="" ID="{7E123DAE-AEA4-42BE-A628-5AE8935F714F}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLPF">
+				<Curve Name="" ID="{9DC9872E-E46C-4541-A37B-57B68199CCF4}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="5"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>20000</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>4.69891666666667</XPos>
+							<YPos>20000</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLevel">
+				<Curve Name="" ID="{0B78A7B0-51F8-418A-82CF-80DA6F317DCC}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="1"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>4.69891666666667</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+						</Effect>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="Halls" ID="{6806ADE2-832F-487B-9A0C-597EEDD31F3F}" ShortID="482323779">
+					<ChildrenList>
+						<Effect Name="Large_Bright_Space_Stereo" ID="{550CC1B9-D5A2-4E69-BC22-8EF3C4F0645C}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">
+							<Comment>Impulse response created by Pinguin ing.büro
+© 2010 Pinguin ing.büro.  All rights reserved.
+IR Pre-delay: 6ms</Comment>
+							<PropertyList>
+								<Property Name="CenterLevel" Type="Real32" Value="-12"/>
+								<Property Name="IRConvolutionSmooth" Type="Real32" Value="27"/>
+								<Property Name="IRConvolutionStop" Type="Real64" Value="1.88021217105263"/>
+								<Property Name="IRConvolutionThreshold" Type="Real32" Value="-71"/>
+								<Property Name="IRLevel" Type="Real32" Value="-23"/>
+								<Property Name="PreDelay" Type="Real32" Value="24"/>
+							</PropertyList>
+							<ChildrenList>
+								<PluginMediaSource Name="AK Berlin Teldex" ID="{BE2B50C1-670E-4C34-BF9B-0F68780E6780}">
+									<ParentPluginID>8323075</ParentPluginID>
+									<PropertyList>
+										<Property Name="DataFileName" Type="string" Value="AK_Factory_IR\Halls\AK Berlin Teldex.wav"/>
+									</PropertyList>
+									<MediaIDList>
+										<MediaID ID="733994131"/>
+									</MediaIDList>
+								</PluginMediaSource>
+							</ChildrenList>
+							<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="" ID="{46AE141C-356B-4584-AFD8-773C6C677E94}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLPF">
+				<Curve Name="" ID="{332967BC-50FE-440B-9884-AEA24A24BE19}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="5"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>20000</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>3.1064375</XPos>
+							<YPos>20000</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLevel">
+				<Curve Name="" ID="{10DAC2F7-9621-48E8-A693-996857FD40EA}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="1"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>3.1064375</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+						</Effect>
+						<Effect Name="Lecture_Hall_Stereo" ID="{59FC4298-964A-41B4-9CE3-8D4514B508D1}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">
+							<Comment>Impulse response created by Pinguin ing.büro
+© 2010 Pinguin ing.büro.  All rights reserved.
+IR Pre-delay: 6ms</Comment>
+							<PropertyList>
+								<Property Name="CenterLevel" Type="Real32" Value="-12"/>
+								<Property Name="IRConvolutionStop" Type="Real64" Value="1.90064925986842"/>
+								<Property Name="IRConvolutionThreshold" Type="Real32" Value="-81"/>
+								<Property Name="IRLPFAutomate" Type="bool" Value="True"/>
+								<Property Name="IRLevel" Type="Real32" Value="-25"/>
+								<Property Name="IRStretch" Type="Real32" Value="157"/>
+								<Property Name="PreDelay" Type="Real32" Value="24"/>
+							</PropertyList>
+							<ChildrenList>
+								<PluginMediaSource Name="AK Berlin Teldex" ID="{74A74A9F-7BBC-40A4-AE8F-AEFE26BF5747}">
+									<ParentPluginID>8323075</ParentPluginID>
+									<PropertyList>
+										<Property Name="DataFileName" Type="string" Value="AK_Factory_IR\Halls\AK Berlin Teldex.wav"/>
+									</PropertyList>
+									<MediaIDList>
+										<MediaID ID="1045271282"/>
+									</MediaIDList>
+								</PluginMediaSource>
+							</ChildrenList>
+							<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="" ID="{DF12AF7D-2A81-48F4-B83D-80AC56C2650A}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLPF">
+				<Curve Name="" ID="{35F8EDA4-4BA0-45E6-A4F2-926507687CBF}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="5"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>12265.80645</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>3.1064375</XPos>
+							<YPos>6680</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLevel">
+				<Curve Name="" ID="{0A02793C-9BEC-4560-8F4B-A7A4B0460741}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="1"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>3.1064375</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+						</Effect>
+						<Effect Name="Dark_Hall_Stereo" ID="{15C60F36-DA64-4C3D-9185-CA8DACB76330}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">
+							<Comment>Impulse response created by Pinguin ing.büro
+© 2010 Pinguin ing.büro.  All rights reserved.
+IR Pre-delay: 6ms</Comment>
+							<PropertyList>
+								<Property Name="CenterLevel" Type="Real32" Value="-12"/>
+								<Property Name="IRConvolutionSmooth" Type="Real32" Value="24"/>
+								<Property Name="IRConvolutionStop" Type="Real64" Value="1.53278166118421"/>
+								<Property Name="IRConvolutionThreshold" Type="Real32" Value="-81"/>
+								<Property Name="IRLPFAutomate" Type="bool" Value="True"/>
+								<Property Name="IRLevel" Type="Real32" Value="-25"/>
+								<Property Name="IRStretch" Type="Real32" Value="144"/>
+								<Property Name="PreDelay" Type="Real32" Value="24"/>
+							</PropertyList>
+							<ChildrenList>
+								<PluginMediaSource Name="AK Berlin Teldex" ID="{A8F0CB83-4005-44E4-9C2F-95052ED3CAA9}">
+									<ParentPluginID>8323075</ParentPluginID>
+									<PropertyList>
+										<Property Name="DataFileName" Type="string" Value="AK_Factory_IR\Halls\AK Berlin Teldex.wav"/>
+									</PropertyList>
+									<MediaIDList>
+										<MediaID ID="689379105"/>
+									</MediaIDList>
+								</PluginMediaSource>
+							</ChildrenList>
+							<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="" ID="{491E7D70-0964-4D0A-8DC6-7CD5EFCE44AF}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLPF">
+				<Curve Name="" ID="{5661B3A5-D389-4DF8-A058-6DAD07751D1E}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="5"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>3099.35643</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>1.87146120763194</XPos>
+							<YPos>1653.29971</YPos>
+							<Flags>0</Flags>
+						</Point>
+						<Point>
+							<XPos>3.1064375</XPos>
+							<YPos>20</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLevel">
+				<Curve Name="" ID="{DA02D171-F5D8-477C-AEDF-5B3B066078AD}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="1"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>-3.56857</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>1.17939367631935</XPos>
+							<YPos>-2.47235</YPos>
+							<Flags>0</Flags>
+						</Point>
+						<Point>
+							<XPos>3.1064375</XPos>
+							<YPos>-2.472</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+						</Effect>
+						<Effect Name="Short_Hall_Stereo" ID="{7CCA1CF8-86A1-4EF8-B8B1-B236E286390D}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">
+							<Comment>Impulse response created by Pinguin ing.büro
+© 2010 Pinguin ing.büro.  All rights reserved.
+IR Pre-delay: 6ms</Comment>
+							<PropertyList>
+								<Property Name="CenterLevel" Type="Real32" Value="-12"/>
+								<Property Name="IRConvolutionSmooth" Type="Real32" Value="13"/>
+								<Property Name="IRConvolutionStop" Type="Real64" Value="2.08969233141447"/>
+								<Property Name="IRConvolutionThreshold" Type="Real32" Value="-72"/>
+								<Property Name="IRLPFAutomate" Type="bool" Value="True"/>
+								<Property Name="IRLevel" Type="Real32" Value="-26"/>
+								<Property Name="IRStretch" Type="Real32" Value="93"/>
+								<Property Name="PreDelay" Type="Real32" Value="17"/>
+							</PropertyList>
+							<ChildrenList>
+								<PluginMediaSource Name="AK Berlin Teldex" ID="{BEC683B7-F228-43CE-BFA0-8F641B9AA366}">
+									<ParentPluginID>8323075</ParentPluginID>
+									<PropertyList>
+										<Property Name="DataFileName" Type="string" Value="AK_Factory_IR\Halls\AK Berlin Teldex.wav"/>
+									</PropertyList>
+									<MediaIDList>
+										<MediaID ID="162018684"/>
+									</MediaIDList>
+								</PluginMediaSource>
+							</ChildrenList>
+							<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="" ID="{C53FD750-F5E3-4F76-9E68-C82560AC6E9D}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLPF">
+				<Curve Name="" ID="{EDC66E1B-3C86-4ED7-A55B-26E65A507904}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="5"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>10332.25966</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>1.88096060102842</XPos>
+							<YPos>4732.65455</YPos>
+							<Flags>0</Flags>
+						</Point>
+						<Point>
+							<XPos>3.1064375</XPos>
+							<YPos>20</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLevel">
+				<Curve Name="" ID="{66F27B2C-B8D4-4B2C-968D-63346C054C4E}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="1"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>1.45615</XPos>
+							<YPos>-0.62827</YPos>
+							<Flags>0</Flags>
+							<SegmentShape>Exp3</SegmentShape>
+						</Point>
+						<Point>
+							<XPos>2.18165</XPos>
+							<YPos>-118.74346</YPos>
+							<Flags>0</Flags>
+						</Point>
+						<Point>
+							<XPos>3.1064375</XPos>
+							<YPos>-120</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+						</Effect>
+						<Effect Name="Crowded_Hall_Stereo" ID="{78D73A9A-C8A9-446B-8DD5-302A4B7E34A0}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">
+							<Comment>Impulse response created by Pinguin ing.büro
+© 2010 Pinguin ing.büro.  All rights reserved.
+IR Pre-delay: 10ms </Comment>
+							<PropertyList>
+								<Property Name="CenterLevel" Type="Real32" Value="-12"/>
+								<Property Name="IRConvolutionStop" Type="Real64" Value="1.77250822368421"/>
+								<Property Name="IRConvolutionThreshold" Type="Real32" Value="-70"/>
+								<Property Name="IRLPFAutomate" Type="bool" Value="True"/>
+								<Property Name="IRLevel" Type="Real32" Value="-38"/>
+								<Property Name="IRStretch" Type="Real32" Value="150"/>
+								<Property Name="PreDelay" Type="Real32" Value="55"/>
+							</PropertyList>
+							<ChildrenList>
+								<PluginMediaSource Name="AK Brasilien Halle" ID="{DFA34AB6-25FF-4677-ADC1-8E4F112BA18E}">
+									<ParentPluginID>8323075</ParentPluginID>
+									<PropertyList>
+										<Property Name="DataFileName" Type="string" Value="AK_Factory_IR\Halls\AK Brasilien Halle.wav"/>
+									</PropertyList>
+									<MediaIDList>
+										<MediaID ID="609174261"/>
+									</MediaIDList>
+								</PluginMediaSource>
+							</ChildrenList>
+							<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="" ID="{DB5417FB-75E9-4644-B183-85B340E11C9C}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLPF">
+				<Curve Name="" ID="{965AB376-B9EE-4BC5-AD76-00968A19E9EB}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="5"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>11621.29032</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>3.285625</XPos>
+							<YPos>11478.06452</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLevel">
+				<Curve Name="" ID="{94230A4B-1954-46CD-B37A-905846A779A8}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="1"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>-8.73985</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>1.04496</XPos>
+							<YPos>-4.05124</YPos>
+							<Flags>0</Flags>
+						</Point>
+						<Point>
+							<XPos>2.00561</XPos>
+							<YPos>-19.00462</YPos>
+							<Flags>0</Flags>
+						</Point>
+						<Point>
+							<XPos>3.285625</XPos>
+							<YPos>-19.005</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+						</Effect>
+						<Effect Name="BerlinTeldex_Org_Stereo" ID="{86F343F3-FF4A-409A-BCB9-A67B20A11167}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">
+							<Comment>Impulse response created by Pinguin ing.büro
+© 2010 Pinguin ing.büro.  All rights reserved.
+IR Pre-delay: 6ms</Comment>
+							<PropertyList>
+								<Property Name="IRConvolutionSmooth" Type="Real32" Value="5"/>
+								<Property Name="IRConvolutionStop" Type="Real64" Value="2.00283470394737"/>
+								<Property Name="IRConvolutionThreshold" Type="Real32" Value="-77"/>
+								<Property Name="IRLevel" Type="Real32" Value="-24"/>
+								<Property Name="PreDelay" Type="Real32" Value="6"/>
+							</PropertyList>
+							<ChildrenList>
+								<PluginMediaSource Name="AK Berlin Teldex" ID="{F790A942-06D7-4B0D-98CA-00192F55631F}">
+									<ParentPluginID>8323075</ParentPluginID>
+									<PropertyList>
+										<Property Name="DataFileName" Type="string" Value="AK_Factory_IR\Halls\AK Berlin Teldex.wav"/>
+									</PropertyList>
+									<MediaIDList>
+										<MediaID ID="654850748"/>
+									</MediaIDList>
+								</PluginMediaSource>
+							</ChildrenList>
+							<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="" ID="{AEE6C08C-1962-4C7A-BB13-C7B9B5151783}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLPF">
+				<Curve Name="" ID="{C182BF06-DC76-4979-ABE0-DA6D76A2E7B7}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="5"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>20000</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>3.1064375</XPos>
+							<YPos>20000</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLevel">
+				<Curve Name="" ID="{2BF8ECA0-6300-4BA1-9D67-5BA799F6C9D0}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="1"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>3.1064375</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+						</Effect>
+						<Effect Name="Berlin_Stadtbad_Org_Stereo" ID="{0F20E8CA-32D7-44A5-AB2B-6912F5D44AA5}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">
+							<Comment>Impulse response created by Pinguin ing.büro
+© 2010 Pinguin ing.büro.  All rights reserved.
+IR Pre-delay: 5ms 
+</Comment>
+							<PropertyList>
+								<Property Name="IRConvolutionSmooth" Type="Real32" Value="9"/>
+								<Property Name="IRConvolutionStop" Type="Real64" Value="4.20190210389254"/>
+								<Property Name="IRConvolutionThreshold" Type="Real32" Value="-60"/>
+								<Property Name="IRLRMix" Type="Real32" Value="-4"/>
+								<Property Name="IRLevel" Type="Real32" Value="-21"/>
+								<Property Name="PreDelay" Type="Real32" Value="5"/>
+							</PropertyList>
+							<ChildrenList>
+								<PluginMediaSource Name="AK Berlin Stadtbad" ID="{BE26ADD0-4A3E-4342-8A3F-4AF02920A1A1}">
+									<ParentPluginID>8323075</ParentPluginID>
+									<PropertyList>
+										<Property Name="DataFileName" Type="string" Value="AK_Factory_IR\Halls\AK Berlin Stadtbad.wav"/>
+									</PropertyList>
+									<MediaIDList>
+										<MediaID ID="88530504"/>
+									</MediaIDList>
+								</PluginMediaSource>
+							</ChildrenList>
+							<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="" ID="{D669E7D3-E53F-4739-B7DE-4E9BCAE3F560}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLPF">
+				<Curve Name="" ID="{5889DD56-A873-450B-825B-4E4F2CAEABCD}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="5"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>20000</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>6.09727083333333</XPos>
+							<YPos>20000</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLevel">
+				<Curve Name="" ID="{6CDD6A1B-73F8-45C9-86E8-8045188A3381}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="1"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>6.09727083333333</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+						</Effect>
+						<Effect Name="Brasilien_Halle_Org_Stereo" ID="{46F2CD79-D065-47F3-B694-3A8DAF559247}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">
+							<Comment>Impulse response created by Pinguin ing.büro
+© 2010 Pinguin ing.büro.  All rights reserved.
+IR Pre-delay: 10ms 
+</Comment>
+							<PropertyList>
+								<Property Name="IRConvolutionSmooth" Type="Real32" Value="5"/>
+								<Property Name="IRConvolutionStop" Type="Real64" Value="2.01568770559211"/>
+								<Property Name="IRConvolutionThreshold" Type="Real32" Value="-76"/>
+								<Property Name="IRLevel" Type="Real32" Value="-43"/>
+								<Property Name="PreDelay" Type="Real32" Value="10"/>
+							</PropertyList>
+							<ChildrenList>
+								<PluginMediaSource Name="AK Brasilien Halle" ID="{55A22F2C-DD1C-4B35-A865-6CA83DB573C6}">
+									<ParentPluginID>8323075</ParentPluginID>
+									<PropertyList>
+										<Property Name="DataFileName" Type="string" Value="AK_Factory_IR\Halls\AK Brasilien Halle.wav"/>
+									</PropertyList>
+									<MediaIDList>
+										<MediaID ID="417701481"/>
+									</MediaIDList>
+								</PluginMediaSource>
+							</ChildrenList>
+							<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="" ID="{2D28747F-22D9-4640-AE58-EE33FBEE2843}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLPF">
+				<Curve Name="" ID="{552907B0-FFDA-41C0-930B-3036EFCEE195}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="5"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>20000</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>3.285625</XPos>
+							<YPos>20000</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLevel">
+				<Curve Name="" ID="{04358C3E-B457-49CF-A9A2-48C0B9075B6E}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="1"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>3.285625</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+						</Effect>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="Exteriors" ID="{4358A3C1-4794-4434-A840-BB3252E4B57A}" ShortID="713698831">
+					<ChildrenList>
+						<Effect Name="HamburgHarburgerSee_Slap_01_Stereo" ID="{2E7C5BA9-9228-4731-BC1C-DFD8146FEA86}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">
+							<Comment>Impulse response created by Pinguin ing.büro
+© 2010 Pinguin ing.büro.  All rights reserved.
+IR Pre-delay: 2ms </Comment>
+							<PropertyList>
+								<Property Name="CenterLevel" Type="Real32" Value="-12"/>
+								<Property Name="IRConvolutionSmooth" Type="Real32" Value="2"/>
+								<Property Name="IRConvolutionStop" Type="Real64" Value="0.837511307565789"/>
+								<Property Name="IRConvolutionThreshold" Type="Real32" Value="-70"/>
+								<Property Name="IRLPFAutomate" Type="bool" Value="True"/>
+								<Property Name="IRLevel" Type="Real32" Value="-23"/>
+								<Property Name="PreDelay" Type="Real32" Value="6"/>
+								<Property Name="StereoWidth" Type="Real32" Value="46"/>
+							</PropertyList>
+							<ChildrenList>
+								<PluginMediaSource Name="AK Hamburg Harburger See" ID="{3F6FB504-8D95-4B23-9015-F1F87AF22F50}">
+									<ParentPluginID>8323075</ParentPluginID>
+									<PropertyList>
+										<Property Name="DataFileName" Type="string" Value="AK_Factory_IR\Exteriors\AK Hamburg Harburger See.wav"/>
+									</PropertyList>
+									<MediaIDList>
+										<MediaID ID="930622549"/>
+									</MediaIDList>
+								</PluginMediaSource>
+							</ChildrenList>
+							<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="" ID="{6C35EFFE-E089-49DA-B56B-35DD3D03CF36}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLPF">
+				<Curve Name="" ID="{804BBCD2-B62F-4B24-9504-6707984C2A44}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="5"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>13483.22581</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>0.863083333333333</XPos>
+							<YPos>6321.93549</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLevel">
+				<Curve Name="" ID="{D83CAB4C-EAD7-496C-BAD5-2446C659D828}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="1"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>0.863083333333333</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+						</Effect>
+						<Effect Name="HamburgHarburgerSee_Slap_02_Stereo" ID="{04EFB765-E41F-4AB3-8FE3-7AED99DDD52A}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">
+							<Comment>Impulse response created by Pinguin ing.büro
+© 2010 Pinguin ing.büro.  All rights reserved.
+IR Pre-delay: 2ms </Comment>
+							<PropertyList>
+								<Property Name="CenterLevel" Type="Real32" Value="-12"/>
+								<Property Name="IRConvolutionSmooth" Type="Real32" Value="16"/>
+								<Property Name="IRConvolutionStop" Type="Real64" Value="0.765116262335526"/>
+								<Property Name="IRConvolutionThreshold" Type="Real32" Value="-82"/>
+								<Property Name="IRLPFAutomate" Type="bool" Value="True"/>
+								<Property Name="IRLevel" Type="Real32" Value="-30"/>
+								<Property Name="IRStretch" Type="Real32" Value="102"/>
+								<Property Name="PreDelay" Type="Real32" Value="11"/>
+								<Property Name="StereoWidth" Type="Real32" Value="41"/>
+							</PropertyList>
+							<ChildrenList>
+								<PluginMediaSource Name="AK Hamburg Harburger See" ID="{1523AA96-D5B1-462D-9619-F40F5BC1471B}">
+									<ParentPluginID>8323075</ParentPluginID>
+									<PropertyList>
+										<Property Name="DataFileName" Type="string" Value="AK_Factory_IR\Exteriors\AK Hamburg Harburger See.wav"/>
+									</PropertyList>
+									<MediaIDList>
+										<MediaID ID="612082618"/>
+									</MediaIDList>
+								</PluginMediaSource>
+							</ChildrenList>
+							<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="" ID="{90227902-C1E7-4CF1-B98B-041FE1322FBC}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLPF">
+				<Curve Name="" ID="{311B7344-EEAC-42D5-98F7-5020F6633C2D}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="5"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>7682.57782</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>0.863083333333333</XPos>
+							<YPos>1094.19315</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLevel">
+				<Curve Name="" ID="{311F328B-CDEF-4CBA-9632-5AB611001861}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="1"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>0.863083333333333</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+						</Effect>
+						<Effect Name="HamburgStadtpark_Dense_Reflections_Stereo" ID="{40F14767-4D6A-4AD7-8BE8-216A9B8B23B3}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">
+							<Comment>Impulse response created by Pinguin ing.büro
+© 2010 Pinguin ing.büro.  All rights reserved.
+IR Pre-delay: 8ms </Comment>
+							<PropertyList>
+								<Property Name="CenterLevel" Type="Real32" Value="-12"/>
+								<Property Name="IRConvolutionStop" Type="Real64" Value="0.830041666666667"/>
+								<Property Name="IRConvolutionThreshold" Type="Real32" Value="-65"/>
+								<Property Name="IRLPFAutomate" Type="bool" Value="True"/>
+								<Property Name="IRLevel" Type="Real32" Value="-32"/>
+								<Property Name="PreDelay" Type="Real32" Value="11"/>
+								<Property Name="StereoWidth" Type="Real32" Value="75"/>
+							</PropertyList>
+							<ChildrenList>
+								<PluginMediaSource Name="AK Hamburg Stadtpark 01" ID="{822FA9DA-7687-4794-90DA-AA3A8C91580A}">
+									<ParentPluginID>8323075</ParentPluginID>
+									<PropertyList>
+										<Property Name="DataFileName" Type="string" Value="AK_Factory_IR\Exteriors\AK Hamburg Stadtpark 01.wav"/>
+									</PropertyList>
+									<MediaIDList>
+										<MediaID ID="1051291759"/>
+									</MediaIDList>
+								</PluginMediaSource>
+							</ChildrenList>
+							<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="" ID="{1ABCB2D3-7272-4DCC-A335-AE1D4816AF81}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLPF">
+				<Curve Name="" ID="{A8D1FB0F-052B-4AA7-B0B4-E0DFE510A2C9}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="5"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>13125.16129</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>0.830041666666667</XPos>
+							<YPos>11836.12903</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLevel">
+				<Curve Name="" ID="{D0AA2380-CCC6-4510-94A7-6DD4D8439A77}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="1"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>0.830041666666667</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+						</Effect>
+						<Effect Name="HamburgVolksdorferWald_Diffusion_Stereo" ID="{73217A8E-9777-4DDE-AC50-101FACDD4F06}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">
+							<Comment>Impulse response created by Pinguin ing.büro
+© 2010 Pinguin ing.büro.  All rights reserved.
+IR Pre-delay: 9ms 
+</Comment>
+							<PropertyList>
+								<Property Name="CenterLevel" Type="Real32" Value="-12"/>
+								<Property Name="IRConvolutionSmooth" Type="Real32" Value="18"/>
+								<Property Name="IRConvolutionStop" Type="Real64" Value="0.943644634046053"/>
+								<Property Name="IRConvolutionThreshold" Type="Real32" Value="-73"/>
+								<Property Name="IRLPFAutomate" Type="bool" Value="True"/>
+								<Property Name="IRLevel" Type="Real32" Value="-26"/>
+								<Property Name="PreDelay" Type="Real32" Value="8"/>
+							</PropertyList>
+							<ChildrenList>
+								<PluginMediaSource Name="AK Hamburg Volksdorfer Wald" ID="{D598937B-2ABE-4263-862F-4BE4C4E4DA67}">
+									<ParentPluginID>8323075</ParentPluginID>
+									<PropertyList>
+										<Property Name="DataFileName" Type="string" Value="AK_Factory_IR\Exteriors\AK Hamburg Volksdorfer Wald.wav"/>
+									</PropertyList>
+									<MediaIDList>
+										<MediaID ID="299482527"/>
+									</MediaIDList>
+								</PluginMediaSource>
+							</ChildrenList>
+							<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="" ID="{F7B1303C-FABC-414C-A435-DA6E5D183EF5}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLPF">
+				<Curve Name="" ID="{C7DE8273-C6D2-44CE-A62B-4FB17438A033}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="5"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>13268.3871</YPos>
+							<Flags>5</Flags>
+							<SegmentShape>Log1</SegmentShape>
+						</Point>
+						<Point>
+							<XPos>1.12292121306533</XPos>
+							<YPos>20</YPos>
+							<Flags>0</Flags>
+							<SegmentShape>Exp1</SegmentShape>
+						</Point>
+						<Point>
+							<XPos>2.08633333333333</XPos>
+							<YPos>20</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLevel">
+				<Curve Name="" ID="{6CB8D703-2520-427E-A652-9C77CBD0905A}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="1"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>2.08633333333333</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+						</Effect>
+						<Effect Name="HamburgStadtpark_ER_Stereo" ID="{4B9E6294-B9AB-44D5-880A-745E92E2AC34}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">
+							<Comment>Impulse response created by Pinguin ing.büro
+© 2010 Pinguin ing.büro.  All rights reserved.
+IR Pre-delay: 8ms 
+</Comment>
+							<PropertyList>
+								<Property Name="CenterLevel" Type="Real32" Value="-12"/>
+								<Property Name="IRConvolutionStop" Type="Real64" Value="0.199319216008772"/>
+								<Property Name="IRConvolutionThreshold" Type="Real32" Value="-49"/>
+								<Property Name="IRLPFAutomate" Type="bool" Value="True"/>
+								<Property Name="IRLevel" Type="Real32" Value="-31"/>
+								<Property Name="IRStretch" Type="Real32" Value="55"/>
+								<Property Name="PreDelay" Type="Real32" Value="13"/>
+								<Property Name="StereoWidth" Type="Real32" Value="96"/>
+							</PropertyList>
+							<ChildrenList>
+								<PluginMediaSource Name="AK Hamburg Stadtpark 01" ID="{55105436-A217-4AC5-8F9D-C4DAB8A97557}">
+									<ParentPluginID>8323075</ParentPluginID>
+									<PropertyList>
+										<Property Name="DataFileName" Type="string" Value="AK_Factory_IR\Exteriors\AK Hamburg Stadtpark 01.wav"/>
+									</PropertyList>
+									<MediaIDList>
+										<MediaID ID="152920738"/>
+									</MediaIDList>
+								</PluginMediaSource>
+							</ChildrenList>
+							<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="" ID="{7394F299-069D-47CC-8BD7-502EDC476824}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLPF">
+				<Curve Name="" ID="{4BE1A7F9-8132-43B4-8DAF-F2FA81CB1824}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="5"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>20000</YPos>
+							<Flags>5</Flags>
+							<SegmentShape>Log3</SegmentShape>
+						</Point>
+						<Point>
+							<XPos>0.21322</XPos>
+							<YPos>20</YPos>
+							<Flags>0</Flags>
+							<SegmentShape>Constant</SegmentShape>
+						</Point>
+						<Point>
+							<XPos>0.830041666666667</XPos>
+							<YPos>20</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLevel">
+				<Curve Name="" ID="{91B9DCAF-2D98-4B45-8F92-246BA9694D54}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="1"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>0.830041666666667</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+						</Effect>
+						<Effect Name="HamburgStadtpark_Stage_Reflections_Stereo" ID="{4A2A637B-4311-4632-9DFE-78E200E4C1B7}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">
+							<Comment>Impulse response created by Pinguin ing.büro
+© 2010 Pinguin ing.büro.  All rights reserved.
+IR Pre-delay: 3ms </Comment>
+							<PropertyList>
+								<Property Name="CenterLevel" Type="Real32" Value="-12"/>
+								<Property Name="IRConvolutionStop" Type="Real64" Value="0.965764391447369"/>
+								<Property Name="IRConvolutionThreshold" Type="Real32" Value="-76"/>
+								<Property Name="IRLPFAutomate" Type="bool" Value="True"/>
+								<Property Name="IRLevel" Type="Real32" Value="-23"/>
+								<Property Name="IRStretch" Type="Real32" Value="79"/>
+								<Property Name="PreDelay" Type="Real32" Value="11"/>
+								<Property Name="StereoWidth" Type="Real32" Value="77"/>
+							</PropertyList>
+							<ChildrenList>
+								<PluginMediaSource Name="AK Hamburg Stadtpark 02" ID="{ED2C8D5F-4C93-4527-9FB5-5AB0886DFE34}">
+									<ParentPluginID>8323075</ParentPluginID>
+									<PropertyList>
+										<Property Name="DataFileName" Type="string" Value="AK_Factory_IR\Exteriors\AK Hamburg Stadtpark 02.wav"/>
+									</PropertyList>
+									<MediaIDList>
+										<MediaID ID="195840689"/>
+									</MediaIDList>
+								</PluginMediaSource>
+							</ChildrenList>
+							<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="" ID="{9D540172-9B82-4A96-A99A-CFD4B99E344D}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLPF">
+				<Curve Name="" ID="{A8787490-AD15-414A-B519-F9051086A405}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="5"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>6107.09677</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>0.33712</XPos>
+							<YPos>2608.5765</YPos>
+							<Flags>0</Flags>
+						</Point>
+						<Point>
+							<XPos>1.124875</XPos>
+							<YPos>20</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLevel">
+				<Curve Name="" ID="{5AB1B221-1D77-4A71-898C-657F193DC56A}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="1"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>1.124875</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+						</Effect>
+						<Effect Name="HamburgStadtpark_Stage_Reflections_Gated_Stereo" ID="{1595BB47-4657-468F-970D-35424031D6A9}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">
+							<Comment>Impulse response created by Pinguin ing.büro
+© 2010 Pinguin ing.büro.  All rights reserved.
+IR Pre-delay: 3ms </Comment>
+							<PropertyList>
+								<Property Name="CenterLevel" Type="Real32" Value="-12"/>
+								<Property Name="IRConvolutionStop" Type="Real64" Value="0.723398231907895"/>
+								<Property Name="IRConvolutionThreshold" Type="Real32" Value="-62"/>
+								<Property Name="IRLPFAutomate" Type="bool" Value="True"/>
+								<Property Name="IRLevel" Type="Real32" Value="-20"/>
+								<Property Name="IRStretch" Type="Real32" Value="59"/>
+								<Property Name="PreDelay" Type="Real32" Value="11"/>
+								<Property Name="StereoWidth" Type="Real32" Value="49"/>
+							</PropertyList>
+							<ChildrenList>
+								<PluginMediaSource Name="AK Hamburg Stadtpark 02" ID="{97E580AC-488A-4296-964B-5B8B91C87A80}">
+									<ParentPluginID>8323075</ParentPluginID>
+									<PropertyList>
+										<Property Name="DataFileName" Type="string" Value="AK_Factory_IR\Exteriors\AK Hamburg Stadtpark 02.wav"/>
+									</PropertyList>
+									<MediaIDList>
+										<MediaID ID="433739779"/>
+									</MediaIDList>
+								</PluginMediaSource>
+							</ChildrenList>
+							<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="" ID="{41568711-B392-4812-AA4B-7F3EA4E7CFF4}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLPF">
+				<Curve Name="" ID="{F0A06B08-0C6B-426F-8230-24BE556B0B58}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="5"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>6107.09677</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>1.124875</XPos>
+							<YPos>20</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLevel">
+				<Curve Name="" ID="{A58AE16A-DA67-492C-9669-6ADF7F7B8D05}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="1"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>1.124875</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+						</Effect>
+						<Effect Name="Hamburg_Harburger_See_Org_Stereo" ID="{6DDA445C-80F8-44FD-B46D-0EA014F0B551}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">
+							<Comment>Impulse response created by Pinguin ing.büro
+© 2010 Pinguin ing.büro.  All rights reserved.
+IR Pre-delay: 2ms </Comment>
+							<PropertyList>
+								<Property Name="IRConvolutionSmooth" Type="Real32" Value="5"/>
+								<Property Name="IRConvolutionStop" Type="Real64" Value="0.80912109375"/>
+								<Property Name="IRConvolutionThreshold" Type="Real32" Value="-83"/>
+								<Property Name="IRLevel" Type="Real32" Value="-25"/>
+								<Property Name="PreDelay" Type="Real32" Value="2"/>
+							</PropertyList>
+							<ChildrenList>
+								<PluginMediaSource Name="AK Hamburg Harburger See" ID="{E93B7651-0A28-4AAC-A86F-D3995CB3E07D}">
+									<ParentPluginID>8323075</ParentPluginID>
+									<PropertyList>
+										<Property Name="DataFileName" Type="string" Value="AK_Factory_IR\Exteriors\AK Hamburg Harburger See.wav"/>
+									</PropertyList>
+									<MediaIDList>
+										<MediaID ID="926581161"/>
+									</MediaIDList>
+								</PluginMediaSource>
+							</ChildrenList>
+							<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="" ID="{5DEE8A12-1026-435F-82BF-80C7198C1245}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLPF">
+				<Curve Name="" ID="{8842FE75-258F-4386-9122-6493009DA8BC}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="5"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>20000</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>0.863083333333333</XPos>
+							<YPos>20000</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLevel">
+				<Curve Name="" ID="{018E8F51-2B88-4F50-B65D-93C3253C8015}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="1"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>0.863083333333333</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+						</Effect>
+						<Effect Name="Hamburg_Stadtpark_01_Org_Stereo" ID="{78CD34E4-8E38-4EC8-959D-2515592CD807}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">
+							<Comment>Impulse response created by Pinguin ing.büro
+© 2010 Pinguin ing.büro.  All rights reserved.
+IR Pre-delay: 8ms 
+</Comment>
+							<PropertyList>
+								<Property Name="IRConvolutionStop" Type="Real64" Value="0.830041666666667"/>
+								<Property Name="IRLRMix" Type="Real32" Value="9"/>
+								<Property Name="IRLevel" Type="Real32" Value="-27"/>
+								<Property Name="PreDelay" Type="Real32" Value="8"/>
+							</PropertyList>
+							<ChildrenList>
+								<PluginMediaSource Name="AK Hamburg Stadtpark 01" ID="{BF048F2A-BA09-46E4-A29F-E1150D014061}">
+									<ParentPluginID>8323075</ParentPluginID>
+									<PropertyList>
+										<Property Name="DataFileName" Type="string" Value="AK_Factory_IR\Exteriors\AK Hamburg Stadtpark 01.wav"/>
+									</PropertyList>
+									<MediaIDList>
+										<MediaID ID="584321412"/>
+									</MediaIDList>
+								</PluginMediaSource>
+							</ChildrenList>
+							<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="" ID="{5C24A690-65B6-43B5-A29F-78965B6B83E2}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLPF">
+				<Curve Name="" ID="{5BBFA9D5-1365-450C-AB81-EC12377F6FEF}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="5"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>20000</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>0.830041666666667</XPos>
+							<YPos>20000</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLevel">
+				<Curve Name="" ID="{3554B778-EC9F-48D3-AC5D-07BB498154A7}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="1"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>0.830041666666667</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+						</Effect>
+						<Effect Name="Hamburg_Stadtpark_02_Org_Stereo" ID="{9B1AD6AB-F223-41DE-AAF6-E0EBB8067F18}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">
+							<Comment>Impulse response created by Pinguin ing.büro
+© 2010 Pinguin ing.büro.  All rights reserved.
+IR Pre-delay: 3ms 
+</Comment>
+							<PropertyList>
+								<Property Name="IRConvolutionStop" Type="Real64" Value="1.02311821546053"/>
+								<Property Name="IRConvolutionThreshold" Type="Real32" Value="-82"/>
+								<Property Name="IRLRMix" Type="Real32" Value="-26"/>
+								<Property Name="IRLevel" Type="Real32" Value="-20"/>
+								<Property Name="PreDelay" Type="Real32" Value="3"/>
+							</PropertyList>
+							<ChildrenList>
+								<PluginMediaSource Name="AK Hamburg Stadtpark 02" ID="{20E26D41-8E0A-4B04-B5B3-340BB77A42C4}">
+									<ParentPluginID>8323075</ParentPluginID>
+									<PropertyList>
+										<Property Name="DataFileName" Type="string" Value="AK_Factory_IR\Exteriors\AK Hamburg Stadtpark 02.wav"/>
+									</PropertyList>
+									<MediaIDList>
+										<MediaID ID="1002455079"/>
+									</MediaIDList>
+								</PluginMediaSource>
+							</ChildrenList>
+							<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="" ID="{F8AA1642-5C79-4BA1-9777-2DCD78FE6E80}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLPF">
+				<Curve Name="" ID="{666B0509-21CE-43D2-8FA0-0ABD2B6F6EFC}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="5"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>20000</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>1.124875</XPos>
+							<YPos>20000</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLevel">
+				<Curve Name="" ID="{4532106B-3134-4E88-9D96-F3948021C0EE}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="1"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>1.124875</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+						</Effect>
+						<Effect Name="Hamburg_Volksdorfer_Wald_Org_Stereo" ID="{3089900C-A344-4941-9605-5C4232550802}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">
+							<Comment>Impulse response created by Pinguin ing.büro
+© 2010 Pinguin ing.büro.  All rights reserved.
+IR Pre-delay: 9ms 
+</Comment>
+							<PropertyList>
+								<Property Name="IRConvolutionStop" Type="Real64" Value="1.59218585526316"/>
+								<Property Name="IRConvolutionThreshold" Type="Real32" Value="-88"/>
+								<Property Name="IRLevel" Type="Real32" Value="-25"/>
+								<Property Name="PreDelay" Type="Real32" Value="9"/>
+							</PropertyList>
+							<ChildrenList>
+								<PluginMediaSource Name="AK Hamburg Volksdorfer Wald" ID="{1AD06791-38BB-4CF8-B88E-E0F7A249317E}">
+									<ParentPluginID>8323075</ParentPluginID>
+									<PropertyList>
+										<Property Name="DataFileName" Type="string" Value="AK_Factory_IR\Exteriors\AK Hamburg Volksdorfer Wald.wav"/>
+									</PropertyList>
+									<MediaIDList>
+										<MediaID ID="13000250"/>
+									</MediaIDList>
+								</PluginMediaSource>
+							</ChildrenList>
+							<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="" ID="{7A5E9F8D-7DA2-456B-A7AE-45A7B574461D}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLPF">
+				<Curve Name="" ID="{91DB9D74-57E4-4B1A-A8CA-BEA2B9357852}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="5"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>20000</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>2.08633333333333</XPos>
+							<YPos>20000</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+			<CurveInfo Name="IRLevel">
+				<Curve Name="" ID="{7D2AD4CD-D5E2-4710-8B13-C53832E7D456}">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="1"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>0</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>2.08633333333333</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+						</Effect>
+					</ChildrenList>
+				</Folder>
+			</ChildrenList>
+		</WorkUnit>
+	</Effects>
+</WwiseDocument>

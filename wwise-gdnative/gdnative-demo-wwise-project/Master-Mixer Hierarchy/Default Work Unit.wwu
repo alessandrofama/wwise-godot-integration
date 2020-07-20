@@ -136,6 +136,13 @@
 						</Bus>
 					</ChildrenList>
 				</Bus>
+				<Bus Name="Motion Factory Bus" ID="{2AF9B9C6-6EF1-46E9-B5F2-E30C9E602C74}">
+					<ReferenceList>
+						<Reference Name="AudioDevice">
+							<ObjectRef Name="Default_Motion_Device" ID="{A089518C-CDA1-41DD-A771-0D54C0EAD956}" WorkUnitID="{6CCA1E47-C1CC-4D31-BF8C-840A8F287A4C}"/>
+						</Reference>
+					</ReferenceList>
+				</Bus>
 			</ChildrenList>
 		</WorkUnit>
 	</Busses>

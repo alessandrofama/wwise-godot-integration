@@ -80,6 +80,21 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Folder Name="Plugins" ID="{559D5036-586A-4C19-A8CB-3E3D764ADEA9}" ShortID="229853628">
+					<ChildrenList>
+						<Event Name="Convolution" ID="{E9EA4B6F-6D0E-457D-B658-394C4F4B6B65}">
+							<ChildrenList>
+								<Action Name="" ID="{1B4D1FEC-84ED-40C2-ADBC-65C14BA9D0F9}" ShortID="60923371">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="ConvolutionTest" ID="{0062E65A-19A0-45A1-B843-0A5C361B2E77}" WorkUnitID="{F86D44CF-30AB-4187-A660-DA289EDCAD5C}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+					</ChildrenList>
+				</Folder>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>
