@@ -25,7 +25,7 @@ Welcome! This repository provides an integration of [Audiokinetic's Wwise audio 
 
 ## Getting started
 
-If you are a game developer that would like to integrate Wwise into your Godot project, go to the [releases](https://github.com/alessandrofama/wwise-godot-integration/releases) page to download the integration app and files. Don't forget to checkout the [tutorials](https://github.com/alessandrofama/wwise-godot-integration/wiki/Tutorials) on the wiki.
+If you are a game developer that would like to integrate Wwise into your Godot project, go to the [releases](https://github.com/alessandrofama/wwise-godot-integration/releases) page to download the integration app and files. Don't forget to check out the [tutorials](https://github.com/alessandrofama/wwise-godot-integration/wiki/Tutorials) on the wiki.
 
 If you would like to modify the code of the GDNative wrappers or build them yourself, go to the [Wwise GDNative](https://github.com/alessandrofama/wwise-godot-integration/tree/master/wwise-gdnative) or [Waapi GDNative](https://github.com/alessandrofama/wwise-godot-integration/tree/master/waapi-gdnative) pages for build instructions.
 
