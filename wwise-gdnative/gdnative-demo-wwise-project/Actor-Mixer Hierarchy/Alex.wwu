@@ -1096,6 +1096,328 @@ IR Pre-delay: 7ms
 								<ActiveSource Name="SoundSeed Air Wind" ID="{A22A0000-9452-4668-B441-E951EB4A1CFA}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
+						<Sound Name="SoundSeedImpact" ID="{2BB0C248-9EEF-478C-87F2-895D489203B7}" ShortID="1778598">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="2"/>
+								<Property Name="UseGameAuxSends" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<Custom CreatedFrom="{898E4108-B8B7-4A00-8B9A-AFDD412549DE}">
+										<Attenuation Name="Emitter_Geometry_Attenuation (Custom)" ID="{5706C3D7-B37D-426A-AA56-D1E7C43C0F33}" ShortID="43573292">
+											<PropertyList>
+												<Property Name="RadiusMax" Type="Real64" Value="40"/>
+											</PropertyList>
+											<CurveUsageInfoList>
+												<VolumeDryUsage>
+													<CurveUsageInfo Platform="Linked" CurveToUse="Custom">
+														<Curve Name="VolumeDry" ID="{5D0BD9DE-B4D4-45C6-9F53-BA8CBE71F44B}">
+															<PropertyList>
+																<Property Name="Flags" Type="int32" Value="3"/>
+															</PropertyList>
+															<PointList>
+																<Point>
+																	<XPos>0</XPos>
+																	<YPos>0</YPos>
+																	<Flags>5</Flags>
+																</Point>
+																<Point>
+																	<XPos>9.592476</XPos>
+																	<YPos>-5.42666</YPos>
+																	<Flags>0</Flags>
+																</Point>
+																<Point>
+																	<XPos>19.623824</XPos>
+																	<YPos>-10.17886</YPos>
+																	<Flags>0</Flags>
+																</Point>
+																<Point>
+																	<XPos>30.219436</XPos>
+																	<YPos>-16.3532</YPos>
+																	<Flags>0</Flags>
+																</Point>
+																<Point>
+																	<XPos>40</XPos>
+																	<YPos>-200</YPos>
+																	<Flags>37</Flags>
+																</Point>
+															</PointList>
+														</Curve>
+													</CurveUsageInfo>
+												</VolumeDryUsage>
+												<VolumeWetGameUsage>
+													<CurveUsageInfo Platform="Linked" CurveToUse="UseVolumeDry">
+														<Curve Name="VolumeWetGame" ID="{B90B4164-D5E8-40AF-AC33-F2DB3B1E27BC}">
+															<PropertyList>
+																<Property Name="Flags" Type="int32" Value="3"/>
+															</PropertyList>
+															<PointList>
+																<Point>
+																	<XPos>0</XPos>
+																	<YPos>-12.23211</YPos>
+																	<Flags>5</Flags>
+																</Point>
+																<Point>
+																	<XPos>1.755484</XPos>
+																	<YPos>0</YPos>
+																	<Flags>0</Flags>
+																</Point>
+																<Point>
+																	<XPos>40</XPos>
+																	<YPos>-200</YPos>
+																	<Flags>37</Flags>
+																</Point>
+															</PointList>
+														</Curve>
+													</CurveUsageInfo>
+												</VolumeWetGameUsage>
+												<VolumeWetUserUsage>
+													<CurveUsageInfo Platform="Linked" CurveToUse="UseVolumeDry">
+														<Curve Name="VolumeWetUser" ID="{0C38A48C-3223-44BB-961C-3561B33C2ECC}">
+															<PropertyList>
+																<Property Name="Flags" Type="int32" Value="3"/>
+															</PropertyList>
+															<PointList>
+																<Point>
+																	<XPos>0</XPos>
+																	<YPos>0</YPos>
+																	<Flags>5</Flags>
+																</Point>
+																<Point>
+																	<XPos>9.592476</XPos>
+																	<YPos>-5.42666</YPos>
+																	<Flags>0</Flags>
+																</Point>
+																<Point>
+																	<XPos>19.623824</XPos>
+																	<YPos>-10.17886</YPos>
+																	<Flags>0</Flags>
+																</Point>
+																<Point>
+																	<XPos>30.219436</XPos>
+																	<YPos>-16.3532</YPos>
+																	<Flags>0</Flags>
+																</Point>
+																<Point>
+																	<XPos>40</XPos>
+																	<YPos>-200</YPos>
+																	<Flags>37</Flags>
+																</Point>
+															</PointList>
+														</Curve>
+													</CurveUsageInfo>
+												</VolumeWetUserUsage>
+												<LowPassFilterUsage>
+													<CurveUsageInfo Platform="Linked" CurveToUse="None"/>
+												</LowPassFilterUsage>
+												<HighPassFilterUsage>
+													<CurveUsageInfo Platform="Linked" CurveToUse="None"/>
+												</HighPassFilterUsage>
+												<SpreadUsage>
+													<CurveUsageInfo Platform="Linked" CurveToUse="Custom">
+														<Curve Name="Spread" ID="{63EF1AF5-B1B1-43D1-9F15-F51ACB661F1A}">
+															<PropertyList>
+																<Property Name="Flags" Type="int32" Value="1"/>
+															</PropertyList>
+															<PointList>
+																<Point>
+																	<XPos>0</XPos>
+																	<YPos>100</YPos>
+																	<Flags>5</Flags>
+																</Point>
+																<Point>
+																	<XPos>5.39185</XPos>
+																	<YPos>49.45652</YPos>
+																	<Flags>0</Flags>
+																</Point>
+																<Point>
+																	<XPos>19.12226</XPos>
+																	<YPos>16.84783</YPos>
+																	<Flags>0</Flags>
+																</Point>
+																<Point>
+																	<XPos>40</XPos>
+																	<YPos>0</YPos>
+																	<Flags>37</Flags>
+																</Point>
+															</PointList>
+														</Curve>
+													</CurveUsageInfo>
+												</SpreadUsage>
+												<FocusUsage>
+													<CurveUsageInfo Platform="Linked" CurveToUse="None"/>
+												</FocusUsage>
+											</CurveUsageInfoList>
+										</Attenuation>
+									</Custom>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B5D06FC6-20AC-4570-BC56-F30998705AA9}"/>
+								</Reference>
+								<Reference Name="Effect0">
+									<Custom>
+										<Effect Name="SoundSeed_Impact_(Custom)" ID="{CCEA42A4-6334-4E01-89B8-B593C6ADB2A0}" ShortID="1041325803" PluginName="SoundSeed Impact" CompanyID="0" PluginID="116" PluginType="3">											<PluginData>
+	<ModeList GlobalGain="0.000000"/>
+</PluginData>
+										</Effect>
+									</Custom>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{3FE3D261-2E4D-4287-95DD-8B4DF14D5A58}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Marker_Test_001" ID="{2FBC090B-6423-49F2-89B6-A96B1AE62B47}">
+									<Language>SFX</Language>
+									<AudioFile>Marker_Test_001.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="258193767"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="Marker_Test_001" ID="{2FBC090B-6423-49F2-89B6-A96B1AE62B47}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="SoundSeedGrain" ID="{FFC0D30E-442E-4361-99B3-376D6D9C8134}" ShortID="123922176">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B5D06FC6-20AC-4570-BC56-F30998705AA9}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{3FE3D261-2E4D-4287-95DD-8B4DF14D5A58}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<SourcePlugin Name="SoundSeed Grain" ID="{F95D684B-706D-4176-9B9A-89624137FB74}" ShortID="789837903" PluginName="SoundSeed Grain" CompanyID="0" PluginID="183">
+									<PropertyList>
+										<Property Name="Attack" Type="Real32" Value="303"/>
+										<Property Name="FilterFreq" Type="Real32" Value="9541"/>
+										<Property Name="GrainTime" Type="Real32" Value="0.81"/>
+										<Property Name="GrainTimeMod2Depth" Type="Real32" Value="1"/>
+										<Property Name="MarkerSelect" Type="Real32" Value="21.6"/>
+										<Property Name="MarkerSelectMod1Depth" Type="Real32" Value="87"/>
+										<Property Name="ModPeriod3" Type="Real32" Value="1.52"/>
+										<Property Name="ModRate1" Type="Real32" Value="1064.78"/>
+										<Property Name="ModRate2" Type="Real32" Value="17.288"/>
+										<Property Name="ModRate3" Type="Real32" Value="1.275"/>
+										<Property Name="ModSelect3" Type="int32" Value="1"/>
+										<Property Name="ModWaveform3" Type="int32" Value="5"/>
+										<Property Name="OutputLevel" Type="Real32">
+											<RTPCList>
+												<RTPC Name="" ID="{688402B8-B8D6-4510-A72E-34FFAA8DADEA}" ShortID="478128388">
+													<ReferenceList>
+														<Reference Name="ControlInput">
+															<Custom>
+																<ModulatorEnvelope Name="Modulator Envelope (Custom)" ID="{84E3F0F9-4CEF-4671-8A56-3C2F5DED0B2E}" ShortID="207084865">
+																	<PropertyList>
+																		<Property Name="EnvelopeAttackCurve" Type="Real64" Value="36"/>
+																		<Property Name="EnvelopeAttackTime" Type="Real64" Value="0.01"/>
+																		<Property Name="EnvelopeDecayTime" Type="Real64" Value="0.474"/>
+																	</PropertyList>
+																</ModulatorEnvelope>
+															</Custom>
+														</Reference>
+													</ReferenceList>
+													<Curve Name="" ID="{F5699956-B8F6-445A-A934-D2E9C03E22DF}">
+														<PropertyList>
+															<Property Name="Flags" Type="int32" Value="3"/>
+														</PropertyList>
+														<PointList>
+															<Point>
+																<XPos>0</XPos>
+																<YPos>-96</YPos>
+																<Flags>21</Flags>
+															</Point>
+															<Point>
+																<XPos>1</XPos>
+																<YPos>0</YPos>
+																<Flags>53</Flags>
+															</Point>
+														</PointList>
+													</Curve>
+												</RTPC>
+											</RTPCList>
+										</Property>
+										<Property Name="Speed" Type="Real32" Value="1.1"/>
+										<Property Name="Transpose" Type="Real32" Value="-707"/>
+									</PropertyList>
+									<ChildrenList>
+										<AudioFileSource Name="chimes_with_marker" ID="{8482592A-133B-4328-8142-DD9808320149}">
+											<PropertyList>
+												<Property Name="MarkerInputMode" Type="int16" Value="2"/>
+											</PropertyList>
+											<Language>SoundSeed Grain</Language>
+											<AudioFile>chimes_with_marker.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="712063785"/>
+											</MediaIDList>
+											<PluginInnerObjectList>
+												<List Name="Markers">
+													<PluginInnerObject Name="" ID="{E7F56245-BFEF-4E68-8150-C82848BD102A}" PluginName="Marker" CompanyID="0" PluginID="993">
+														<PropertyList>
+															<Property Name="Label" Type="string" Value="Chimes_end_marker_test"/>
+															<Property Name="Time" Type="Real64" Value="0.351097178683385"/>
+														</PropertyList>
+													</PluginInnerObject>
+												</List>
+											</PluginInnerObjectList>
+										</AudioFileSource>
+									</ChildrenList>
+									<Language>SFX</Language>
+									<PluginInnerObjectList>
+										<List Name="ParameterModulatorAssociation">
+											<PluginInnerObject Name="" ID="{F83EA178-1704-455F-A761-8C4E9E9D7C7D}" PluginName="ParameterModulatorAssociation" CompanyID="0" PluginID="185">
+												<PropertyList>
+													<Property Name="ModDisplayName" Type="string" Value="Mod 1"/>
+													<Property Name="ModID" Type="int32" Value="151"/>
+													<Property Name="ModName" Type="string" Value="MarkerSelectMod1Depth"/>
+													<Property Name="ParamDisplayName" Type="string" Value="Position"/>
+													<Property Name="ParamID" Type="int32" Value="150"/>
+													<Property Name="ParamName" Type="string" Value="MarkerSelect"/>
+												</PropertyList>
+											</PluginInnerObject>
+											<PluginInnerObject Name="" ID="{4422B5F8-F292-40C7-B79C-7E05AEF71E8A}" PluginName="ParameterModulatorAssociation" CompanyID="0" PluginID="185">
+												<PropertyList>
+													<Property Name="ModID" Type="int32" Value="-1"/>
+													<Property Name="ParamDisplayName" Type="string" Value="Emissions per Second"/>
+													<Property Name="ParamName" Type="string" Value="GrainRate"/>
+												</PropertyList>
+											</PluginInnerObject>
+											<PluginInnerObject Name="" ID="{C7A4E3D9-8C6A-42C6-8DF1-5C51B77A8A8F}" PluginName="ParameterModulatorAssociation" CompanyID="0" PluginID="185">
+												<PropertyList>
+													<Property Name="ModDisplayName" Type="string" Value="Mod 2"/>
+													<Property Name="ModID" Type="int32" Value="142"/>
+													<Property Name="ModName" Type="string" Value="GrainTimeMod2Depth"/>
+													<Property Name="ParamDisplayName" Type="string" Value="Time between Emissions"/>
+													<Property Name="ParamID" Type="int32" Value="140"/>
+													<Property Name="ParamName" Type="string" Value="GrainTime"/>
+												</PropertyList>
+											</PluginInnerObject>
+											<PluginInnerObject Name="" ID="{EA01764F-7CBD-463A-A32C-62F367257096}" PluginName="ParameterModulatorAssociation" CompanyID="0" PluginID="185">
+												<PropertyList>
+													<Property Name="ModID" Type="int32" Value="-1"/>
+													<Property Name="ParamDisplayName" Type="string" Value="Pitch"/>
+													<Property Name="ParamID" Type="int32" Value="30"/>
+													<Property Name="ParamName" Type="string" Value="Transpose"/>
+												</PropertyList>
+											</PluginInnerObject>
+											<PluginInnerObject Name="" ID="{977E4480-942E-4F98-A075-E706371F227B}" PluginName="ParameterModulatorAssociation" CompanyID="0" PluginID="185">
+												<PropertyList>
+													<Property Name="ModID" Type="int32" Value="-1"/>
+													<Property Name="ParamDisplayName" Type="string" Value="Duration"/>
+													<Property Name="ParamID" Type="int32" Value="80"/>
+													<Property Name="ParamName" Type="string" Value="Duration"/>
+												</PropertyList>
+											</PluginInnerObject>
+										</List>
+									</PluginInnerObjectList>
+								</SourcePlugin>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="SoundSeed Grain" ID="{F95D684B-706D-4176-9B9A-89624137FB74}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
 					</ChildrenList>
 				</Folder>
 			</ChildrenList>

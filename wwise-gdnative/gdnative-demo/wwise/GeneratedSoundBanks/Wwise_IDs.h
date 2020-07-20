@@ -22,6 +22,7 @@ namespace AK
         static const AkUniqueID MUSIC_LONG_ATT = 1272633243U;
         static const AkUniqueID PLAY_CHIMES_WITH_MARKER = 3900723121U;
         static const AkUniqueID SNYTH_ONE_TEST = 2787445937U;
+        static const AkUniqueID SOUNDSEED_GRAIN = 3404211905U;
         static const AkUniqueID SOUNDSEED_WIND = 623594218U;
     } // namespace EVENTS
 
