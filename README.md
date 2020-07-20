@@ -39,6 +39,6 @@ TODO: list of known issues or things that aren't working as expected
 
 ## License
 
-Wwise is a commercial audio middleware so you must get a license in order to use it in your commercial projects. Please visit https://www.audiokinetic.com/pricing/ for details.
+Wwise is an audio middleware that is free for non-commercial projects. Otherwise, you will need to pay for a license. Please visit https://www.audiokinetic.com/pricing/ for details.
 
-The integration files, code and scripts in this repo are released under the MIT license.
+The integration files, code and scripts in this repository are released under the MIT license.
