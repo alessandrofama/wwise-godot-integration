@@ -31,7 +31,7 @@ If you would like to modify the code of the GDNative wrappers or build them your
 
 ## Documentation
 
-TODO: list documentation pages. Wrapper docs in the wiki. Official Wwise docs.
+The docs for the GDNative interfaces, custom nodes and addons can be accessed via the [wiki](https://github.com/alessandrofama/wwise-godot-integration/wiki)
 
 ## Known issues
 
@@ -39,6 +39,6 @@ TODO: list of known issues or things that aren't working as expected
 
 ## License
 
-Wwise is a commercial audio middleware so you must get a license in order to use it in your projects. Please visit https://www.audiokinetic.com/pricing/ for details.
+Wwise is a commercial audio middleware so you must get a license in order to use it in your commercial projects. Please visit https://www.audiokinetic.com/pricing/ for details.
 
-The integration files, code and scripts are released under MIT license. This means you can use the integration in your projects (commercial or not), for free.
+The integration files, code and scripts in this repo are released under the MIT license.
