@@ -9,6 +9,11 @@ func _get_caption():
 func _get_category():
 	return "Wwise"
 
+func _get_text():
+	for idx in AK.GAME_PARAMETERS._enum.values().size():
+		if game_parameter == AK.GAME_PARAMETERS._enum.values()[idx]:
+			return AK.GAME_PARAMETERS._enum.keys()[idx]
+
 func _has_input_sequence_port():
 	return true
 	
