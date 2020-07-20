@@ -1072,6 +1072,30 @@ IR Pre-delay: 7ms
 								<ItemRef Name="Marker_Test_001" ID="{E67E60B9-B91F-47B3-A6CE-29DA49FFABEC}"/>
 							</Playlist>
 						</RandomSequenceContainer>
+						<Sound Name="SoundSeedWind" ID="{BD428553-8579-4443-A2DD-013A8D3BA0F7}" ShortID="531297360">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B5D06FC6-20AC-4570-BC56-F30998705AA9}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{3FE3D261-2E4D-4287-95DD-8B4DF14D5A58}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<SourcePlugin Name="SoundSeed Air Wind" ID="{A22A0000-9452-4668-B441-E951EB4A1CFA}" ShortID="109314945" PluginName="SoundSeed Air Wind" CompanyID="0" PluginID="119">
+									<Language>SFX</Language>
+									<PluginData/>
+									<PluginInnerObjectList>
+										<List Name="Deflectors">
+											<PluginInnerObject Name="" ID="{6217B669-11B0-4B41-A057-C2119D2FD5D6}" PluginName="Deflector" CompanyID="0" PluginID="121"/>
+										</List>
+									</PluginInnerObjectList>
+								</SourcePlugin>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="SoundSeed Air Wind" ID="{A22A0000-9452-4668-B441-E951EB4A1CFA}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
 					</ChildrenList>
 				</Folder>
 			</ChildrenList>

@@ -93,6 +93,17 @@
 								</Action>
 							</ChildrenList>
 						</Event>
+						<Event Name="SoundSeed_Wind" ID="{1D6C8F4E-34CE-4703-9617-DC5DBD10A333}">
+							<ChildrenList>
+								<Action Name="" ID="{864ED37A-B685-472D-B857-9465EEF003B2}" ShortID="110209436">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="SoundSeedWind" ID="{BD428553-8579-4443-A2DD-013A8D3BA0F7}" WorkUnitID="{F86D44CF-30AB-4187-A660-DA289EDCAD5C}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
 					</ChildrenList>
 				</Folder>
 			</ChildrenList>
