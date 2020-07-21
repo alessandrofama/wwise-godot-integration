@@ -5,7 +5,12 @@
 			<ChildrenList>
 				<AudioDevice Name="System" ID="{C2502B42-56CD-4AE8-AFC8-AB91DD53CD5B}" PluginName="System" CompanyID="0" PluginID="174" PluginType="7"/>
 				<AudioDevice Name="No_Output" ID="{2E38549F-757F-444A-A484-EE1F3796F105}" PluginName="No Output" CompanyID="0" PluginID="181" PluginType="7"/>
-				<AudioDevice Name="Default_Motion_Device" ID="{A089518C-CDA1-41DD-A771-0D54C0EAD956}" PluginName="Wwise Motion" CompanyID="0" PluginID="507" PluginType="7"/>
+				<AudioDevice Name="Default_Motion_Device" ID="{A089518C-CDA1-41DD-A771-0D54C0EAD956}" PluginName="Wwise Motion" CompanyID="0" PluginID="507" PluginType="7">
+					<PropertyList>
+						<Property Name="Color" Type="int16" Value="1"/>
+						<Property Name="OverrideColor" Type="bool" Value="True"/>
+					</PropertyList>
+				</AudioDevice>
 			</ChildrenList>
 		</WorkUnit>
 	</AudioDevices>

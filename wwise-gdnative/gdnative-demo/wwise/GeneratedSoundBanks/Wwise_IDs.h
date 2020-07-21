@@ -17,6 +17,7 @@ namespace AK
         static const AkUniqueID EXTERNAL_SOURCE_EVENT = 1014047073U;
         static const AkUniqueID FOOTSTEPS = 2385628198U;
         static const AkUniqueID GEOMETRYDEMO = 2626652388U;
+        static const AkUniqueID MOTIONAUX = 2223369763U;
         static const AkUniqueID MUSIC = 3991942870U;
         static const AkUniqueID MUSIC_2D = 1939884427U;
         static const AkUniqueID MUSIC_LONG_ATT = 1272633243U;
@@ -100,6 +101,7 @@ namespace AK
     namespace AUX_BUSSES
     {
         static const AkUniqueID LARGEVERB = 2757439665U;
+        static const AkUniqueID MOTION_AUX = 2297584640U;
         static const AkUniqueID ROOMVERB = 1572913279U;
         static const AkUniqueID SMALLVERB = 117523933U;
     } // namespace AUX_BUSSES

@@ -142,6 +142,9 @@
 							<ObjectRef Name="Default_Motion_Device" ID="{A089518C-CDA1-41DD-A771-0D54C0EAD956}" WorkUnitID="{6CCA1E47-C1CC-4D31-BF8C-840A8F287A4C}"/>
 						</Reference>
 					</ReferenceList>
+					<ChildrenList>
+						<AuxBus Name="Motion_Aux" ID="{F3365977-746C-47DB-921C-B81C6893DEDD}"/>
+					</ChildrenList>
 				</Bus>
 			</ChildrenList>
 		</WorkUnit>

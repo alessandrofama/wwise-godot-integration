@@ -126,6 +126,17 @@
 								</Action>
 							</ChildrenList>
 						</Event>
+						<Event Name="MotionAux" ID="{A638AFC2-35FC-48CA-9DE8-99A4B9649AE8}">
+							<ChildrenList>
+								<Action Name="" ID="{0B7F1823-AD09-4383-A527-7354F08C9CBF}" ShortID="568895322">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="MotionAux" ID="{0DA63775-7CD0-4F53-B037-05CABB9A7474}" WorkUnitID="{F86D44CF-30AB-4187-A660-DA289EDCAD5C}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
 					</ChildrenList>
 				</Folder>
 			</ChildrenList>
