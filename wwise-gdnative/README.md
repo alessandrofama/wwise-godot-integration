@@ -76,3 +76,21 @@ Example command (replace PM5_CONFIG with your desired configuration):
 ```
 
 Having whitespaces in your NDK, Wwise SDK or output libs paths will likely result in errors while running ndk-build.
+
+### Plugins (Scons)
+
+The integration supports following plugins:
+
+| Plugin | Compilation Parameter | Supported Platforms |
+|-|-|-|
+| Reflect | reflect | All
+| Motion | motion | Windows
+| Convolution | convolution | All
+| SoundSeed Air + SoundSeed Impact | soundseed_air_impact | All
+| SoundSeed Grain | soundseed_grain | All
+
+Add the plugins separated by comma as a compilation parameter to Scons (example):
+
+```
+scons target=release platform=windows wwise_sdk="%WWISESDK% plugins=convolution,reflect,motion
+```
