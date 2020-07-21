@@ -1,0 +1,34 @@
+language: cpp
+python:
+  - "2.7"
+matrix:
+  include:
+    - env: PLATFORM=osx BINDINGS_ARGS="platform=osx generate_bindings=true target=release" LIB_ARGS="platform=osx target=release wwise_sdk=../wwisesdk/2019.2.1.7250/"
+      os: osx
+      compiler: clang
+      addons:
+        homebrew:
+          packages:
+            - scons
+            - p7zip
+          update: true
+cache:
+  directories:
+    - $HOME/Library/Caches/Homebrew
+    - /usr/local/Homebrew
+before_cache:
+  - if [ "${TRAVIS_OS_NAME}" = "osx" ]; then brew cleanup; fi
+# Credit https://discourse.brew.sh/t/best-practice-for-homebrew-on-travis-brew-update-is-5min-to-build-time/5215/9
+# Cache only .git files under "/usr/local/Homebrew" so "brew update" does not take 5min every build
+  - if [ "${TRAVIS_OS_NAME}" = "osx" ]; then find /usr/local/Homebrew \! -regex ".+\.git.+" -delete; fi
+before_install:
+  - mkdir wwisesdk && cd wwisesdk
+  - wget https://www.dropbox.com/s/z27mc0xls25mhlu/2019.2.1.7250.zip
+  - if [[ "$PLATFORM" == "osx" ]]; then 7z x 2019.2.1.7250.zip; fi
+  - cd ../
+  - cd godot-cpp
+install:
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then scons $BINDINGS_ARGS && cd ../wwise-gdnative; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then scons $LIB_ARGS; fi
+script:
+- echo "Build complete"
