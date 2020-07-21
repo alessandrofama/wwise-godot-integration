@@ -749,12 +749,22 @@
 							</ReferenceList>
 							<ChildrenList>
 								<Sound Name="Marker_Test_001" ID="{93724415-F357-4C32-B5B8-5C87E9CF1516}" ShortID="36001897">
+									<PropertyList>
+										<Property Name="ReflectionsVolume" Type="Real64">
+											<ValueList>
+												<Value>9</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B5D06FC6-20AC-4570-BC56-F30998705AA9}"/>
 										</Reference>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{3FE3D261-2E4D-4287-95DD-8B4DF14D5A58}"/>
+										</Reference>
+										<Reference Name="ReflectionsAuxSend">
+											<ObjectRef Name="ReflectAux" ID="{4164D71D-5199-4DA6-AB89-1717F8ED494E}" WorkUnitID="{3FE3D261-2E4D-4287-95DD-8B4DF14D5A58}"/>
 										</Reference>
 									</ReferenceList>
 									<ChildrenList>
