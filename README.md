@@ -1,4 +1,5 @@
 # Wwise Godot Integration
+[![Build Status](https://travis-ci.com/alessandrofama/wwise-godot-integration.svg?token=BfcnymVgT84X7d4hjzaJ&branch=master)](https://travis-ci.com/alessandrofama/wwise-godot-integration)
 
 [![Wwise logo](/wwise-logo.png)](https://www.audiokinetic.com/products/wwise/)
 [![Godot Engine logo](/godot-logo.png)](https://godotengine.org)
