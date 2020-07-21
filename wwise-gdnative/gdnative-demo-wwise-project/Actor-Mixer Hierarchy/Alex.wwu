@@ -1467,7 +1467,7 @@ IR Pre-delay: 7ms
 								<Property Name="RandomOrSequence" Type="int16" Value="0"/>
 								<Property Name="UserAuxSendVolume0" Type="Real64">
 									<ValueList>
-										<Value>5</Value>
+										<Value>7</Value>
 									</ValueList>
 								</Property>
 								<Property Name="Volume" Type="Real64">
@@ -1513,6 +1513,97 @@ IR Pre-delay: 7ms
 							</ChildrenList>
 							<Playlist>
 								<ItemRef Name="bombe_explosion_dry" ID="{B51AEAAD-5AC4-4096-A5C4-861D068B2F01}"/>
+							</Playlist>
+						</RandomSequenceContainer>
+						<RandomSequenceContainer Name="MotionSource" ID="{DBB24AB2-854B-4138-8375-849364B7F0ED}" ShortID="508799805">
+							<PropertyList>
+								<Property Name="PlayMechanismLoop" Type="bool" Value="True"/>
+								<Property Name="PlayMechanismSpecialTransitionsType" Type="int16" Value="1"/>
+								<Property Name="PlayMechanismStepOrContinuous" Type="int16" Value="0"/>
+								<Property Name="RandomOrSequence" Type="int16" Value="0"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-5</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B5D06FC6-20AC-4570-BC56-F30998705AA9}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Motion Factory Bus" ID="{2AF9B9C6-6EF1-46E9-B5F2-E30C9E602C74}" WorkUnitID="{3FE3D261-2E4D-4287-95DD-8B4DF14D5A58}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="MotionSource" ID="{1FB51BF3-A8C3-48BE-ACA6-72CBFAD3835D}" ShortID="135182045">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B5D06FC6-20AC-4570-BC56-F30998705AA9}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{3FE3D261-2E4D-4287-95DD-8B4DF14D5A58}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<SourcePlugin Name="Wwise Motion Source" ID="{0420AFF4-D938-4C27-BDFB-F01CBC75EE19}" ShortID="862342132" PluginName="Wwise Motion Source" CompanyID="0" PluginID="409">
+											<PropertyList>
+												<Property Name="ChannelConfig" Type="int16">
+													<ValueList>
+														<Value>2</Value>
+													</ValueList>
+												</Property>
+												<Property Name="DriverA" Type="Real32">
+													<RTPCList>
+														<RTPC Name="" ID="{FE301269-B77D-4559-92C3-5B1943B5103B}" ShortID="32291016">
+															<ReferenceList>
+																<Reference Name="ControlInput">
+																	<Custom CreatedFrom="{7FD106DE-8642-4474-A750-A689323C3D5C}">
+																		<ModulatorTime Name="New Modulator Time (Custom)" ID="{48DB6A57-0824-485A-9530-5C5DC2CED2C0}" ShortID="142843164">
+																			<PropertyList>
+																				<Property Name="TimeModDuration" Type="Real64" Value="100"/>
+																				<Property Name="TimeModLoops" Type="int32" Value="0"/>
+																			</PropertyList>
+																		</ModulatorTime>
+																	</Custom>
+																</Reference>
+															</ReferenceList>
+															<Curve Name="" ID="{552220B9-4D0C-46BA-886C-01337CAF19BD}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="1"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>1</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>52.526</XPos>
+																		<YPos>1</YPos>
+																		<Flags>0</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>100</XPos>
+																		<YPos>1</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</RTPC>
+													</RTPCList>
+												</Property>
+											</PropertyList>
+											<Language>SFX</Language>
+										</SourcePlugin>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="Wwise Motion Source" ID="{0420AFF4-D938-4C27-BDFB-F01CBC75EE19}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+							<Playlist>
+								<ItemRef Name="MotionSource" ID="{1FB51BF3-A8C3-48BE-ACA6-72CBFAD3835D}"/>
 							</Playlist>
 						</RandomSequenceContainer>
 					</ChildrenList>

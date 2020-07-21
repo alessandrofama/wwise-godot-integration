@@ -25,5 +25,5 @@ script = ExtResource( 3 )
 
 [node name="AkEvent" type="Spatial" parent="."]
 script = ExtResource( 1 )
-event = 2297584640
+event = 2209794929
 trigger_on = 3
