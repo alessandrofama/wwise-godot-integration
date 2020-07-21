@@ -1099,7 +1099,17 @@ IR Pre-delay: 7ms
 						<Sound Name="SoundSeedImpact" ID="{2BB0C248-9EEF-478C-87F2-895D489203B7}" ShortID="1778598">
 							<PropertyList>
 								<Property Name="3DSpatialization" Type="int16" Value="2"/>
+								<Property Name="Pitch" Type="int32">
+									<ValueList>
+										<Value>1240</Value>
+									</ValueList>
+								</Property>
 								<Property Name="UseGameAuxSends" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-11</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Attenuation">
@@ -1256,8 +1266,38 @@ IR Pre-delay: 7ms
 								</Reference>
 								<Reference Name="Effect0">
 									<Custom>
-										<Effect Name="SoundSeed_Impact_(Custom)" ID="{CCEA42A4-6334-4E01-89B8-B593C6ADB2A0}" ShortID="1041325803" PluginName="SoundSeed Impact" CompanyID="0" PluginID="116" PluginType="3">											<PluginData>
-	<ModeList GlobalGain="0.000000"/>
+										<Effect Name="SoundSeed_Impact_(Custom)" ID="{CCEA42A4-6334-4E01-89B8-B593C6ADB2A0}" ShortID="1041325803" PluginName="SoundSeed Impact" CompanyID="0" PluginID="116" PluginType="3">
+											<PropertyList>
+												<Property Name="BWAmt" Type="Real32" Value="362"/>
+												<Property Name="FreqAmt" Type="Real32" Value="97"/>
+												<Property Name="FreqVar" Type="Real32" Value="158"/>
+												<Property Name="OutputLevel" Type="Real32" Value="-12.5"/>
+											</PropertyList>
+											<PluginData>
+	<ModeList Filename="explosion_large_model" GlobalGain="27.917000">
+		<Mode Freq="20.000000" Mag="61.345001" BW="23.768000"/>
+		<Mode Freq="2347.600098" Mag="19.441000" BW="422.690002"/>
+		<Mode Freq="3211.000000" Mag="15.953000" BW="363.459991"/>
+		<Mode Freq="3838.300049" Mag="13.003000" BW="309.619995"/>
+		<Mode Freq="4459.000000" Mag="11.265000" BW="385.000000"/>
+		<Mode Freq="5268.600098" Mag="8.344400" BW="390.380005"/>
+		<Mode Freq="5962.500000" Mag="6.438800" BW="350.000000"/>
+		<Mode Freq="6556.000000" Mag="4.624200" BW="277.309998"/>
+		<Mode Freq="7230.799805" Mag="3.633000" BW="344.619995"/>
+		<Mode Freq="8024.399902" Mag="2.891600" BW="403.850006"/>
+		<Mode Freq="8823.599609" Mag="1.719100" BW="694.619995"/>
+		<Mode Freq="10350.000000" Mag="-0.512810" BW="726.919983"/>
+		<Mode Freq="11646.000000" Mag="-2.551600" BW="608.460022"/>
+		<Mode Freq="12877.000000" Mag="-7.352200" BW="449.619995"/>
+		<Mode Freq="13818.000000" Mag="-8.798600" BW="624.619995"/>
+		<Mode Freq="15610.000000" Mag="-9.436400" BW="401.149994"/>
+		<Mode Freq="16437.000000" Mag="-9.852100" BW="436.149994"/>
+		<Mode Freq="19942.000000" Mag="-10.061000" BW="613.849976"/>
+		<Mode Freq="17668.000000" Mag="-10.117000" BW="640.770020"/>
+		<Mode Freq="14948.000000" Mag="-10.120000" BW="315.000000"/>
+		<Mode Freq="18788.000000" Mag="-11.724000" BW="490.000000"/>
+		<Mode Freq="20985.000000" Mag="-12.152000" BW="298.850006"/>
+	</ModeList>
 </PluginData>
 										</Effect>
 									</Custom>
@@ -1267,16 +1307,16 @@ IR Pre-delay: 7ms
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
-								<AudioFileSource Name="Marker_Test_001" ID="{2FBC090B-6423-49F2-89B6-A96B1AE62B47}">
+								<AudioFileSource Name="Explosion_3" ID="{F47980AC-D454-4637-947E-7E90C26AF6B4}">
 									<Language>SFX</Language>
-									<AudioFile>Marker_Test_001.wav</AudioFile>
+									<AudioFile>Explosion_3.wav</AudioFile>
 									<MediaIDList>
-										<MediaID ID="258193767"/>
+										<MediaID ID="215518025"/>
 									</MediaIDList>
 								</AudioFileSource>
 							</ChildrenList>
 							<ActiveSourceList>
-								<ActiveSource Name="Marker_Test_001" ID="{2FBC090B-6423-49F2-89B6-A96B1AE62B47}" Platform="Linked"/>
+								<ActiveSource Name="Explosion_3" ID="{F47980AC-D454-4637-947E-7E90C26AF6B4}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
 						<Sound Name="SoundSeedGrain" ID="{FFC0D30E-442E-4361-99B3-376D6D9C8134}" ShortID="123922176">

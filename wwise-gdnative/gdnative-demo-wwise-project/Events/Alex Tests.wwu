@@ -115,6 +115,17 @@
 								</Action>
 							</ChildrenList>
 						</Event>
+						<Event Name="SoundSeed_Impact" ID="{93EB78DC-43C5-4FD8-95EA-387FB1AD3A68}">
+							<ChildrenList>
+								<Action Name="" ID="{E513CC2E-B857-4023-9E80-6D9A5471CB16}" ShortID="243985727">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="SoundSeedImpact" ID="{2BB0C248-9EEF-478C-87F2-895D489203B7}" WorkUnitID="{F86D44CF-30AB-4187-A660-DA289EDCAD5C}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
 					</ChildrenList>
 				</Folder>
 			</ChildrenList>
