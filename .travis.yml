@@ -12,6 +12,8 @@ matrix:
             - scons
             - p7zip
           update: false
+git:
+  depth: false
 cache:
   directories:
     - $HOME/Library/Caches/Homebrew
