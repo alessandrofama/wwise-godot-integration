@@ -1,26 +1,42 @@
 # Wwise Godot Integration App
 
-wip
+## Build Instuctions
 
-## Project setup
+Building the integration app requires <a href="https://nodejs.org/">Node.js</a>.
+To setup the required modules run:
+
 ```
 yarn install
 ```
 
-### Compiles and hot-reloads for development
+If you use Yarn, or with NPM:
+
+```
+npm install
+```
+
+### Starting a development server:
+
+If you use Yarn:
+
 ```
 yarn electron:serve
 ```
 
-### Compiles for production
+or if you use NPM:
+
+```
+npm run electron:serve
+```
+
+### Building the app
+
+With Yarn:
 ```
 yarn electron:build
 ```
 
-### Lints and fixes files
+or with NPM:
 ```
-yarn lint
+npm run electron:build
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
