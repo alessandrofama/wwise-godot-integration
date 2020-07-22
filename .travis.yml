@@ -33,7 +33,9 @@ before_install:
   - mkdir bin && cd bin
   - wget https://www.dropbox.com/s/hcwlmpjvns1f25p/headers.zip
   - 7z x headers.zip
-  - cd ../../wwise-gdnative
+  - cd ../include/gen/
+  - wget https://www.dropbox.com/s/lw08yw81ge22del/gen.zip && 7z x gen.zip
+  - cd ../../../wwise-gdnative
 install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then scons $LIB_ARGS && cd ../waapiclient-gdnative; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then scons $LIB_ARGS; fi
