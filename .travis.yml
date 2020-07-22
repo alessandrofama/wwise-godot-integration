@@ -3,7 +3,7 @@ python:
   - "2.7"
 matrix:
   include:
-    - env: PLATFORM=osx BINDINGS_ARGS="platform=osx generate_bindings=true target=release" LIB_ARGS="platform=osx target=release wwise_sdk=../wwisesdk/2019.2.1.7250/"
+    - env: PLATFORM=osx LIB_ARGS="platform=osx target=release wwise_sdk=../wwisesdk/2019.2.1.7250/"
       os: osx
       compiler: clang
       addons:
@@ -26,12 +26,14 @@ before_cache:
 before_install:
   - if [[ "$PLATFORM" == "osx" ]]; then HOMEBREW_NO_AUTO_UPDATE=1 brew install p7zip scons; fi
   - mkdir wwisesdk && cd wwisesdk
-  - wget https://www.dropbox.com/s/z27mc0xls25mhlu/2019.2.1.7250.zip
-  - if [[ "$PLATFORM" == "osx" ]]; then 7z x 2019.2.1.7250.zip; fi
+  - wget https://www.dropbox.com/s/xkbp73tz3ph39mj/2019.2.1.7250.zip
+  - 7z x 2019.2.1.7250.zip
   - cd ../
-  - cd godot-cpp
+  - cd godot-cpp/bin/
+  - wget https://www.dropbox.com/s/hcwlmpjvns1f25p/headers.zip
+  - 7z x headers.zip
+  - cd ../../wwise-gdnative
 install:
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then scons $BINDINGS_ARGS && cd ../wwise-gdnative; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then scons $LIB_ARGS && cd ../waapiclient-gdnative; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then scons $LIB_ARGS; fi
 script:
