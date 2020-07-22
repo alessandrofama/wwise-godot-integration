@@ -17,9 +17,9 @@ cache:
     - $HOME/Library/Caches/Homebrew
     - /usr/local/Homebrew
 before_install:
-  - wget https://gist.githubusercontent.com/alessandrofama/2f73d0fbb3f5b52605564a7ed823c2e8/raw/4fc491449500d96578f534f2fd610c0db3a781cf/ignoremd.sh
+  - wget https://gist.githubusercontent.com/alessandrofama/2f73d0fbb3f5b52605564a7ed823c2e8/raw/8b4487736c946b16d53cf059986f94c5ec9fe86c/ignoremd.sh
   - chmod +x ignoremd.sh
-  - ./ignoremd.sh
+  - ./ignoremd.sh || travis_terminate 0
   - mkdir wwisesdk && cd wwisesdk
   - wget https://www.dropbox.com/s/z27mc0xls25mhlu/2019.2.1.7250.zip
   - if [[ "$PLATFORM" == "osx" ]]; then 7z x 2019.2.1.7250.zip; fi
