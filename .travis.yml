@@ -29,7 +29,8 @@ before_install:
   - wget https://www.dropbox.com/s/xkbp73tz3ph39mj/2019.2.1.7250.zip
   - 7z x 2019.2.1.7250.zip
   - cd ../
-  - cd godot-cpp/bin/
+  - cd godot-cpp
+  - mkdir bin && cd bin
   - wget https://www.dropbox.com/s/hcwlmpjvns1f25p/headers.zip
   - 7z x headers.zip
   - cd ../../wwise-gdnative
