@@ -27,6 +27,7 @@ before_install:
   - cd godot-cpp
 install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then scons $BINDINGS_ARGS && cd ../wwise-gdnative; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then scons $LIB_ARGS && cd ../waapiclient-gdnative; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then scons $LIB_ARGS; fi
 script:
 - echo "Build complete"
