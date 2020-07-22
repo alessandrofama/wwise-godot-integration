@@ -1,9 +1,10 @@
-language: cpp
 python:
   - "2.7"
 matrix:
   include:
-    - env: PLATFORM=osx LIB_ARGS="platform=osx target=release wwise_sdk=../wwisesdk/2019.2.1.7250/"
+    - name: OSX Release
+      language: cpp
+      env: PLATFORM=osx LIB_ARGS="platform=osx target=release wwise_sdk=../wwisesdk/2019.2.1.7250/"
       os: osx
       compiler: clang
       addons:
@@ -12,7 +13,9 @@ matrix:
             - scons
             - p7zip
           update: false
-    - env: PLATFORM=android LIB_ARGS="NDK_PROJECT_PATH=. APP_BUILD_SCRIPT=Android.mk PM5_CONFIG=release_android_arm64-v8a NDK_LIBS_OUT=./gdnative-demo/wwise/bin/android/release"
+    - name: Android ARMv7a Release
+      language: android
+      env: PLATFORM=android LIB_ARGS="NDK_PROJECT_PATH=. APP_BUILD_SCRIPT=Android.mk PM5_CONFIG=release_android_armeabi-v7a NDK_LIBS_OUT=./gdnative-demo/wwise/bin/android/release WWISESDK=../wwisesdk/2019.2.1.7250"
       os: linux
       android:
         components:
@@ -25,9 +28,6 @@ matrix:
           - android-sdk-preview-license-.+
           - android-sdk-license-.+
           - google-gdk-license-.+
-        language: android
-        jdk: oraclejdk8
-        sudo: true
 git:
   depth: false
 cache:
@@ -41,9 +41,7 @@ before_cache:
   - if [ "${TRAVIS_OS_NAME}" = "osx" ]; then find /usr/local/Homebrew \! -regex ".+\.git.+" -delete; fi
 before_install:
   - if [[ "$PLATFORM" == "osx" ]]; then HOMEBREW_NO_AUTO_UPDATE=1 brew install p7zip scons; fi
-  - if [[ "$PLATFORM" == "android" ]]; then mkdir -p $ANDROID_HOME/licenses; fi
-  - if [[ "$PLATFORM" == "android" ]]; then echo "8933bad161af4178b1185d1a37fbf41ea5269c55" > $ANDROID_HOME/licenses/android-sdk-license; fi
-  - if [[ "$PLATFORM" == "android" ]]; then echo "d56f5187479451eabf01fb78af6dfcb131a6481e" >> $ANDROID_HOME/licenses/android-sdk-license; fi
+  - if [[ "$PLATFORM" == "android" ]]; then sudo apt-get install p7zip p7zip-full p7zip-rar; fi
   - mkdir wwisesdk && cd wwisesdk
   - wget https://www.dropbox.com/s/xkbp73tz3ph39mj/2019.2.1.7250.zip
   - 7z x 2019.2.1.7250.zip
@@ -54,11 +52,13 @@ before_install:
   - 7z x headers.zip
   - cd ../include/gen/
   - wget https://www.dropbox.com/s/lw08yw81ge22del/gen.zip && 7z x gen.zip
+  - cd ../../src/gen/
+  - wget https://www.dropbox.com/s/99okjkeriimvbfk/srcgen.zip && 7z x srcgen.zip
   - cd ../../../wwise-gdnative
 install:
-  - if [[ "$PLATFORM" == "android" ]]; then echo y | sdkmanager "ndk-bundle"; fi
-  - if [[ "$PLATFORM" == "android" ]]; then echo y | sdkmanager "ndk;21.2.6472646"; fi
-  - if [[ "$PLATFORM" == "android" ]]; then echo y | sdkmanager "cmake;3.6.4111459"; fi
+  - if [[ "$PLATFORM" == "android" ]]; then echo "y" | sdkmanager "ndk-bundle" > /dev/null; fi
+  - if [[ "$PLATFORM" == "android" ]]; then echo "y" | sdkmanager "ndk;21.2.6472646" > /dev/null; fi
+  - if [[ "$PLATFORM" == "android" ]]; then echo "y"| sdkmanager "cmake;3.6.4111459" > /dev/null; fi
   - if [[ "$PLATFORM" == "android" ]]; then export ANDROID_NDK_ROOT=$ANDROID_HOME/ndk-bundle; fi
   - if [[ "$PLATFORM" == "android" ]]; then export ANDROID_NDK_HOME=$ANDROID_NDK_ROOT; fi
   - if [[ "$PLATFORM" == "android" ]]; then $ANDROID_NDK_ROOT/ndk-build $LIB_ARGS; fi
