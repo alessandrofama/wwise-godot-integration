@@ -2,9 +2,14 @@ python:
   - "2.7"
 matrix:
   include:
+    - name: Windows Release
+      language: cpp
+      env: PLATARG=windows
+      os: windows
+      compiler: clang
     - name: OSX Release
       language: cpp
-      env: PLATFORM=osx LIB_ARGS="platform=osx target=release wwise_sdk=../wwisesdk/2019.2.1.7250/"
+      env: PLATARG=osx LIB_ARGS="platform=osx target=release wwise_sdk=../wwisesdk/2019.2.1.7250/"
       os: osx
       compiler: clang
       addons:
@@ -15,7 +20,7 @@ matrix:
           update: false
     - name: Android ARMv7a Release
       language: android
-      env: PLATFORM=android LIB_ARGS="NDK_PROJECT_PATH=. APP_BUILD_SCRIPT=Android.mk PM5_CONFIG=release_android_armeabi-v7a NDK_LIBS_OUT=./gdnative-demo/wwise/bin/android/release WWISESDK=../wwisesdk/2019.2.1.7250"
+      env: PLATARG=android LIB_ARGS="NDK_PROJECT_PATH=. APP_BUILD_SCRIPT=Android.mk PM5_CONFIG=release_android_armeabi-v7a NDK_LIBS_OUT=./gdnative-demo/wwise/bin/android/release WWISESDK=../wwisesdk/2019.2.1.7250"
       os: linux
       android:
         components:
@@ -40,8 +45,9 @@ before_cache:
 # Cache only .git files under "/usr/local/Homebrew" so "brew update" does not take 5min every build
   - if [ "${TRAVIS_OS_NAME}" = "osx" ]; then find /usr/local/Homebrew \! -regex ".+\.git.+" -delete; fi
 before_install:
-  - if [[ "$PLATFORM" == "osx" ]]; then HOMEBREW_NO_AUTO_UPDATE=1 brew install p7zip scons; fi
-  - if [[ "$PLATFORM" == "android" ]]; then sudo apt-get install p7zip p7zip-full p7zip-rar; fi
+  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then wget -O scons.zip http://prdownloads.sourceforge.net/scons/scons-local-3.0.5.zip && mv scons.zip C:/scons.zip && 7z x C:/scons.zip -oC:/scons; fi
+  - if [[ "$PLATARG" == "osx" ]]; then HOMEBREW_NO_AUTO_UPDATE=1 brew install p7zip scons; fi
+  - if [[ "$PLATARG" == "android" ]]; then sudo apt-get install p7zip p7zip-full p7zip-rar; fi
   - mkdir wwisesdk && cd wwisesdk
   - wget https://www.dropbox.com/s/xkbp73tz3ph39mj/2019.2.1.7250.zip
   - 7z x 2019.2.1.7250.zip
@@ -55,14 +61,19 @@ before_install:
   - cd ../../src/gen/
   - wget https://www.dropbox.com/s/99okjkeriimvbfk/srcgen.zip && 7z x srcgen.zip
   - cd ../../../wwise-gdnative
+  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then wget https://gist.githubusercontent.com/alessandrofama/41d1c775cc6fe113002002c99a41b6fd/raw/89a50a55ac2aaa49ae0bb7e98ef7786cdb65629f/compile_cl.bat; fi
 install:
-  - if [[ "$PLATFORM" == "android" ]]; then echo "y" | sdkmanager "ndk-bundle" > /dev/null; fi
-  - if [[ "$PLATFORM" == "android" ]]; then echo "y" | sdkmanager "ndk;21.2.6472646" > /dev/null; fi
-  - if [[ "$PLATFORM" == "android" ]]; then echo "y"| sdkmanager "cmake;3.6.4111459" > /dev/null; fi
-  - if [[ "$PLATFORM" == "android" ]]; then export ANDROID_NDK_ROOT=$ANDROID_HOME/ndk-bundle; fi
-  - if [[ "$PLATFORM" == "android" ]]; then export ANDROID_NDK_HOME=$ANDROID_NDK_ROOT; fi
-  - if [[ "$PLATFORM" == "android" ]]; then $ANDROID_NDK_ROOT/ndk-build $LIB_ARGS; fi
+     
+  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then choco install visualstudio2019buildtools -y; fi 
+  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then choco install visualstudio2019-workload-vctools -y; fi 
+  - if [[ "$PLATARG" == "android" ]]; then echo "y" | sdkmanager "ndk-bundle" > /dev/null; fi
+  - if [[ "$PLATARG" == "android" ]]; then echo "y" | sdkmanager "ndk;21.2.6472646" > /dev/null; fi
+  - if [[ "$PLATARG" == "android" ]]; then echo "y"| sdkmanager "cmake;3.6.4111459" > /dev/null; fi
+  - if [[ "$PLATARG" == "android" ]]; then export ANDROID_NDK_ROOT=$ANDROID_HOME/ndk-bundle; fi
+  - if [[ "$PLATARG" == "android" ]]; then export ANDROID_NDK_HOME=$ANDROID_NDK_ROOT; fi
+  - if [[ "$PLATARG" == "android" ]]; then $ANDROID_NDK_ROOT/ndk-build $LIB_ARGS; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then scons $LIB_ARGS && cd ../waapiclient-gdnative; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then scons $LIB_ARGS; fi
 script:
-- echo "Build complete"
+  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then ./compile_cl.bat; fi
+  - echo "Build complete"
