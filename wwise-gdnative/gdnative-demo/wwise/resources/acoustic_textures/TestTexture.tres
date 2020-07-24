@@ -1,0 +1,13 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://wwise/nodes/ak_acoustic_texture.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+name = "TestTexture"
+absorption_high = 11.0
+absorption_low = 1.0
+absorption_mid_high = 1.0
+absorption_mid_low = 1.0
+absorption_offset = 0.0
+scattering = 24.0

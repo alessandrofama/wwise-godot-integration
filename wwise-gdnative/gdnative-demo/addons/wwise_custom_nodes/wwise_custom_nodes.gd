@@ -37,6 +37,9 @@ func _enter_tree():
 	VisualScriptEditor.add_custom_node("AkSetSwitch", "Wwise", preload("res://wwise/visual nodes/ak_set_switch_vs.gd"))
 	VisualScriptEditor.add_custom_node("AkGetRTPCValue", "Wwise", preload("res://wwise/visual nodes/ak_get_rtpc_value_vs.gd"))
 	VisualScriptEditor.add_custom_node("AkSetRTPCValue", "Wwise", preload("res://wwise/visual nodes/ak_set_rtpc_value_vs.gd"))
+
+	# Resources
+	add_custom_type("AkAcousticTexture", "Resource", preload("res://wwise/nodes/ak_acoustic_texture.gd"), preload("res://addons/wwise_custom_nodes/wwise_node.png"))
 			
 func _exit_tree():
 	# 3D Nodes
@@ -70,3 +73,6 @@ func _exit_tree():
 	VisualScriptEditor.remove_custom_node("AkSetSwitch", "Wwise")
 	VisualScriptEditor.remove_custom_node("AkGetRTPCValue", "Wwise")
 	VisualScriptEditor.remove_custom_node("AkSetRTPCValue", "Wwise")
+
+	#Resources
+	remove_custom_type("AkAcousticTexture")

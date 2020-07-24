@@ -707,7 +707,7 @@ bool Wwise::setObjectObstructionAndOcclusion(const unsigned int gameObjectID, co
 																			static_cast<AkGameObjectID>(listenerID), fCalculatedObs, fCalculatedOcc), "Could not set Obstruction and Occlusion");
 }
 
-bool Wwise::setGeometry(const Array vertices, const Array triangles, const String acousticTexture, const float occlusionValue, 
+bool Wwise::setGeometry(const Array vertices, const Array triangles, const Resource* acousticTexture, const float occlusionValue, 
 						const Object* gameObject, bool enableDiffraction, bool enableDiffractionOnBoundaryEdges, const Object* associatedRoom)
 {
 	AKASSERT(!vertices.empty());
@@ -758,26 +758,27 @@ bool Wwise::setGeometry(const Array vertices, const Array triangles, const Strin
 
 	auto akTriangles = std::make_unique<AkTriangle[]>(numTriangles);
 
-	if (!acousticTexture.empty())
+
+	if (acousticTexture)
 	{
 		AkAcousticSurface akSurfaces[1];
 
 		geometry.NumSurfaces = 1;
 
 		AkAcousticTexture akAcousticTexture;
-		akAcousticTexture.ID = AK::SoundEngine::GetIDFromString(acousticTexture.alloc_c_string());
+		akAcousticTexture.ID = AK::SoundEngine::GetIDFromString(static_cast<String>(acousticTexture->get("name")).alloc_c_string());
 
 		// Not possible to get the acoustic texture values through AK::SoundEngine, maybe looking at WAAPI
-		//akAcousticTexture.fAbsorptionHigh = acousticTexture["fAbsorptionHigh"];
-		//akAcousticTexture.fAbsorptionLow = acousticTexture["fAbsorptionLow"];
-		//akAcousticTexture.fAbsorptionMidHigh = acousticTexture["fAbsorptionMidHigh"];
-		//akAcousticTexture.fAbsorptionMidLow = acousticTexture["fAbsorptionMidLow"];
-		//akAcousticTexture.fAbsorptionOffset = acousticTexture["fAbsorptionOffset"];
-		//akAcousticTexture.fScattering = acousticTexture["fScattering"];
+		akAcousticTexture.fAbsorptionHigh = static_cast<float>(acousticTexture->get("absorption_high"));
+		akAcousticTexture.fAbsorptionLow = static_cast<float>(acousticTexture->get("absorption_low"));
+		akAcousticTexture.fAbsorptionMidHigh = static_cast<float>(acousticTexture->get("absorption_mid_high"));
+		akAcousticTexture.fAbsorptionMidLow = static_cast<float>(acousticTexture->get("absorption_mid_low"));
+		akAcousticTexture.fAbsorptionOffset = static_cast<float>(acousticTexture->get("absorption_offset"));
+		akAcousticTexture.fScattering = static_cast<float>(acousticTexture->get("scattering"));
 
 		akSurfaces[0].textureID = akAcousticTexture.ID;
 		akSurfaces[0].occlusion = occlusionValue;
-		akSurfaces[0].strName = acousticTexture.alloc_c_string();
+		akSurfaces[0].strName = static_cast<String>(acousticTexture->get("name")).alloc_c_string();
 
 		geometry.Surfaces = akSurfaces;
 	}
@@ -790,7 +791,7 @@ bool Wwise::setGeometry(const Array vertices, const Array triangles, const Strin
 		t.point0 = vertRemap[static_cast<unsigned int>(triangles[3 * i + 0])];
 		t.point1 = vertRemap[static_cast<unsigned int>(triangles[3 * i + 1])];
 		t.point2 = vertRemap[static_cast<unsigned int>(triangles[3 * i + 2])];
-		t.surface = !acousticTexture.empty() ? 0 : AK_INVALID_SURFACE;
+		t.surface = acousticTexture ? 0 : AK_INVALID_SURFACE;
 
 		akTriangles[triangleIdx] = t;
 
@@ -811,7 +812,7 @@ bool Wwise::setGeometry(const Array vertices, const Array triangles, const Strin
 
 	geometry.EnableDiffraction = enableDiffraction;
 	geometry.EnableDiffractionOnBoundaryEdges = enableDiffractionOnBoundaryEdges;
-	geometry.RoomID = associatedRoom ? static_cast<AkRoomID>(associatedRoom->get_instance_id()) : static_cast<AkRoomID>(OUTDOORS_ROOM_ID);
+	geometry.RoomID = associatedRoom ? static_cast<AkRoomID>(associatedRoom->get_instance_id()) : AkRoomID();
 
 	return ERROR_CHECK(AK::SpatialAudio::SetGeometry(static_cast<AkGeometrySetID>(gameObject->get_instance_id()), geometry), "Failed to register geometry");
 }

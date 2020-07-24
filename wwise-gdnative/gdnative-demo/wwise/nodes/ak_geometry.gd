@@ -8,7 +8,7 @@ var mesh_instance
 export(bool) var is_static:bool = true
 export(bool) var enable_diffraction:bool = false
 export(bool) var enable_diffraction_on_boundary_edges:bool = false
-export(String) var acoustic_texture:String = ""
+export(Resource) var acoustic_texture:Resource
 export(float) var occlusion_value:float = 1.0
 export(NodePath) var room:NodePath
 var room_node
