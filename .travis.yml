@@ -11,6 +11,7 @@ matrix:
       language: cpp
       env: PLATARG=osx LIB_ARGS="platform=osx target=release wwise_sdk=../wwisesdk/2019.2.1.7250/"
       os: osx
+      osx_image: xcode12
       compiler: clang
       addons:
         homebrew:
@@ -29,10 +30,9 @@ matrix:
           - tools
           - build-tools-26.0.0
           - android-26
-        licenses:
-          - android-sdk-preview-license-.+
-          - android-sdk-license-.+
-          - google-gdk-license-.+
+          - ndk-bundle
+          - ndk;21.3.6528147
+          - cmake;3.10.2.4988404
 git:
   depth: false
 cache:
@@ -66,9 +66,6 @@ install:
      
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then choco install visualstudio2019buildtools -y; fi 
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then choco install visualstudio2019-workload-vctools -y; fi 
-  - if [[ "$PLATARG" == "android" ]]; then echo "y" | sdkmanager "ndk-bundle" > /dev/null; fi
-  - if [[ "$PLATARG" == "android" ]]; then echo "y" | sdkmanager "ndk;21.2.6472646" > /dev/null; fi
-  - if [[ "$PLATARG" == "android" ]]; then echo "y"| sdkmanager "cmake;3.6.4111459" > /dev/null; fi
   - if [[ "$PLATARG" == "android" ]]; then export ANDROID_NDK_ROOT=$ANDROID_HOME/ndk-bundle; fi
   - if [[ "$PLATARG" == "android" ]]; then export ANDROID_NDK_HOME=$ANDROID_NDK_ROOT; fi
   - if [[ "$PLATARG" == "android" ]]; then $ANDROID_NDK_ROOT/ndk-build $LIB_ARGS; fi
