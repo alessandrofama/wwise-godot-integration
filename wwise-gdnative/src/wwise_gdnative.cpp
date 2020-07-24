@@ -766,7 +766,8 @@ bool Wwise::setGeometry(const Array vertices, const Array triangles, const Resou
 		geometry.NumSurfaces = 1;
 
 		AkAcousticTexture akAcousticTexture;
-		akAcousticTexture.ID = AK::SoundEngine::GetIDFromString(static_cast<String>(acousticTexture->get("name")).alloc_c_string());
+		String acousticTextureName = acousticTexture->get("name");
+		akAcousticTexture.ID = AK::SoundEngine::GetIDFromString(acousticTextureName.alloc_c_string());
 
 		// Not possible to get the acoustic texture values through AK::SoundEngine, maybe looking at WAAPI
 		akAcousticTexture.fAbsorptionHigh = static_cast<float>(acousticTexture->get("absorption_high"));
@@ -778,7 +779,7 @@ bool Wwise::setGeometry(const Array vertices, const Array triangles, const Resou
 
 		akSurfaces[0].textureID = akAcousticTexture.ID;
 		akSurfaces[0].occlusion = occlusionValue;
-		akSurfaces[0].strName = static_cast<String>(acousticTexture->get("name")).alloc_c_string();
+		akSurfaces[0].strName = acousticTextureName.alloc_c_string();
 
 		geometry.Surfaces = akSurfaces;
 	}
