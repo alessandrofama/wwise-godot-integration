@@ -564,7 +564,7 @@
 						<Property Name="UseGameAuxSends" Type="bool" Value="True"/>
 						<Property Name="Volume" Type="Real64">
 							<ValueList>
-								<Value>-5</Value>
+								<Value>-2</Value>
 							</ValueList>
 						</Property>
 					</PropertyList>
@@ -573,7 +573,7 @@
 							<Custom CreatedFrom="{898E4108-B8B7-4A00-8B9A-AFDD412549DE}">
 								<Attenuation Name="Emitter_Geometry_Attenuation (Custom)" ID="{5B1EAD6B-E7F3-4A0D-B798-364AAE32B8AD}" ShortID="252890140">
 									<PropertyList>
-										<Property Name="RadiusMax" Type="Real64" Value="40"/>
+										<Property Name="RadiusMax" Type="Real64" Value="135"/>
 									</PropertyList>
 									<CurveUsageInfoList>
 										<VolumeDryUsage>
@@ -589,22 +589,22 @@
 															<Flags>5</Flags>
 														</Point>
 														<Point>
-															<XPos>9.592476</XPos>
+															<XPos>32.3746065</XPos>
 															<YPos>-5.42666</YPos>
 															<Flags>0</Flags>
 														</Point>
 														<Point>
-															<XPos>19.623824</XPos>
+															<XPos>66.2304059999999</XPos>
 															<YPos>-10.17886</YPos>
 															<Flags>0</Flags>
 														</Point>
 														<Point>
-															<XPos>30.219436</XPos>
+															<XPos>101.9905965</XPos>
 															<YPos>-16.3532</YPos>
 															<Flags>0</Flags>
 														</Point>
 														<Point>
-															<XPos>40</XPos>
+															<XPos>135</XPos>
 															<YPos>-200</YPos>
 															<Flags>37</Flags>
 														</Point>
@@ -625,12 +625,12 @@
 															<Flags>5</Flags>
 														</Point>
 														<Point>
-															<XPos>1.755484</XPos>
+															<XPos>5.9247585</XPos>
 															<YPos>0</YPos>
 															<Flags>0</Flags>
 														</Point>
 														<Point>
-															<XPos>40</XPos>
+															<XPos>135</XPos>
 															<YPos>-200</YPos>
 															<Flags>37</Flags>
 														</Point>
@@ -651,22 +651,22 @@
 															<Flags>5</Flags>
 														</Point>
 														<Point>
-															<XPos>9.592476</XPos>
+															<XPos>32.3746065</XPos>
 															<YPos>-5.42666</YPos>
 															<Flags>0</Flags>
 														</Point>
 														<Point>
-															<XPos>19.623824</XPos>
+															<XPos>66.2304059999999</XPos>
 															<YPos>-10.17886</YPos>
 															<Flags>0</Flags>
 														</Point>
 														<Point>
-															<XPos>30.219436</XPos>
+															<XPos>101.9905965</XPos>
 															<YPos>-16.3532</YPos>
 															<Flags>0</Flags>
 														</Point>
 														<Point>
-															<XPos>40</XPos>
+															<XPos>135</XPos>
 															<YPos>-200</YPos>
 															<Flags>37</Flags>
 														</Point>
@@ -693,17 +693,17 @@
 															<Flags>5</Flags>
 														</Point>
 														<Point>
-															<XPos>5.39185</XPos>
+															<XPos>18.19749375</XPos>
 															<YPos>49.45652</YPos>
 															<Flags>0</Flags>
 														</Point>
 														<Point>
-															<XPos>19.12226</XPos>
+															<XPos>64.5376275000001</XPos>
 															<YPos>16.84783</YPos>
 															<Flags>0</Flags>
 														</Point>
 														<Point>
-															<XPos>40</XPos>
+															<XPos>135</XPos>
 															<YPos>0</YPos>
 															<Flags>37</Flags>
 														</Point>

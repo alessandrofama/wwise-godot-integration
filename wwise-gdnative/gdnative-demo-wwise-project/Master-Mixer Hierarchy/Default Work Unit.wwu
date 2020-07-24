@@ -136,17 +136,26 @@
 						</Bus>
 						<AuxBus Name="ReflectAux" ID="{4164D71D-5199-4DA6-AB89-1717F8ED494E}">
 							<PropertyList>
-								<Property Name="BusVolume" Type="Real64">
+								<Property Name="BusChannelConfig" Type="int32">
 									<ValueList>
-										<Value>-13</Value>
+										<Value>16641</Value>
 									</ValueList>
 								</Property>
+								<Property Name="BusVolume" Type="Real64">
+									<ValueList>
+										<Value>-17</Value>
+									</ValueList>
+								</Property>
+								<Property Name="EnableAttenuation" Type="bool" Value="False"/>
+								<Property Name="ListenerRelativeRouting" Type="bool" Value="True"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Effect0">
 									<Custom>
 										<Effect Name="Wwise_Reflect_(Custom)" ID="{207D1B4E-0E59-4831-BCD5-4DC7F2F4D428}" ShortID="750892401" PluginName="Wwise Reflect" CompanyID="0" PluginID="171" PluginType="3">
 											<PropertyList>
+												<Property Name="CursorNameCategory" Type="int32" Value="4"/>
+												<Property Name="ParamFilterCutoff" Type="Real32" Value="0.4"/>
 												<Property Name="SpeedOfSound" Type="Real32" Value="340"/>
 											</PropertyList>
 											<PluginData>
@@ -170,7 +179,7 @@
 						</Point>
 						<Point>
 							<XPos>100</XPos>
-							<YPos>-3</YPos>
+							<YPos>-2.49125</YPos>
 							<Flags>37</Flags>
 						</Point>
 					</PointList>
@@ -214,7 +223,7 @@
 						</Point>
 						<Point>
 							<XPos>100</XPos>
-							<YPos>100</YPos>
+							<YPos>94.10829</YPos>
 							<Flags>37</Flags>
 						</Point>
 					</PointList>
@@ -337,6 +346,9 @@
 									</Custom>
 								</Reference>
 							</ReferenceList>
+							<PositioningInfo>
+								<Panner Name="" ID="{17439BD5-F879-42A9-A0C5-B546D485D433}"/>
+							</PositioningInfo>
 						</AuxBus>
 					</ChildrenList>
 				</Bus>
