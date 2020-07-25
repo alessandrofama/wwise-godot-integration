@@ -60,7 +60,7 @@ before_install:
   - cd ../../src/gen/
   - wget https://www.dropbox.com/s/99okjkeriimvbfk/srcgen.zip && 7z x srcgen.zip
   - cd ../../../wwise-gdnative
-  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then wget https://gist.githubusercontent.com/alessandrofama/41d1c775cc6fe113002002c99a41b6fd/raw/89a50a55ac2aaa49ae0bb7e98ef7786cdb65629f/compile_cl.bat; fi
+  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then wget https://gist.githubusercontent.com/alessandrofama/41d1c775cc6fe113002002c99a41b6fd/raw/33bb505a00496acf40d957a8063e7b8fb201b4bf/compile_cl_wwise.bat && cp compile_cl_wwise.bat ../waapiclient-gdnative; fi
 install:
      
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then choco install visualstudio2019buildtools -y; fi 
@@ -72,10 +72,7 @@ install:
   - if [[ "$PLATARG" == "android" ]]; then export ANDROID_NDK_HOME=$ANDROID_NDK_ROOT; fi
   - if [[ "$PLATARG" == "android" ]]; then $ANDROID_NDK_ROOT/ndk-build $LIB_ARGS; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then scons $LIB_ARGS && cd ../waapiclient-gdnative; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then scons $LIB_ARGS && cd ../wwise-gdnative/gdnative-demo; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then wget https://gist.githubusercontent.com/alessandrofama/89cf3659c0fced6953f785b0b6d651f5/raw/fc81011f9b696864343e0198aae98f272abcf1e5/tests.sh && chmod +x tests.sh && cd ../; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then wget https://downloads.tuxfamily.org/godotengine/3.2.1/Godot_v3.2.1-stable_osx.64.zip && 7z x Godot_v3.2.1-stable_osx.64.zip; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then scons $LIB_ARGS; fi
 script:
-  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then ./compile_cl.bat; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then cd gdnative-demo && ./tests.sh ../Godot.app/Contents/MacOS/Godot; fi
+  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then ./compile_cl_wwise.bat && cd ../waapiclient-gdnative && ./compile_cl_wwise.bat; fi
   - echo "Build complete"
