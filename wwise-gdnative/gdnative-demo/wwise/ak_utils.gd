@@ -59,6 +59,7 @@ class Signals:
 	const ENABLE_GET_SOURCE_PLAY_POSITION = "enable_get_source_play_position"
 	const ENABLE_GET_MUSIC_PLAY_POSITION = "enable_get_music_play_position"
 	const ENABLE_GET_SOURCE_STREAM_BUFFERING = "enable_get_source_stream_buffering"
+	const BANK_CALLBACK					= "bank_callback"
 
 enum AkCodecID {
 	AKCODECID_BANK				= 0,

@@ -50,8 +50,12 @@ namespace godot
 		bool setCurrentLanguage(const String language);
 		bool loadBank(const String bankName);
 		bool loadBankID(const unsigned int bankID);
+		bool loadBankAsync(const String bankName);
+		bool loadBankAsyncID(const unsigned int bankID);
 		bool unloadBank(const String bankName);
 		bool unloadBankID(const unsigned int bankID);
+		bool unloadBankAsync(const String bankName);
+		bool unloadBankAsyncID(const unsigned int bankID);
 
 		bool registerListener(const Object* gameObject);
 		bool registerGameObject(const Object* gameObject, const String gameObjectName);
@@ -125,6 +129,9 @@ namespace godot
 		static void eventCallback(AkCallbackType callbackType, AkCallbackInfo* callbackInfo);
 		void emitSignals();
 
+		static void bankCallback(AkUInt32 in_bankID, const void* in_pInMemoryBankPtr, AKRESULT in_eLoadResult, AkMemPoolId in_memPoolId);
+		void emitBankSignals();
+
 		Variant getPlatformProjectSetting(const String setting);
 
 		bool initialiseWwiseSystems();
@@ -132,6 +139,7 @@ namespace godot
 
 		static Mutex* signalDataMutex;
 		static Array* signalDataArray;
+		static Array* signalBankDataArray;
 		static int signalCallbackDataMaxSize;
 
 		ProjectSettings* projectSettings;

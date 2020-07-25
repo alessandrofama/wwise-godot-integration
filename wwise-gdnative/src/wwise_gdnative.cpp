@@ -29,6 +29,7 @@ using namespace godot;
 
 Mutex* Wwise::signalDataMutex = nullptr;
 Array* Wwise::signalDataArray = nullptr;
+Array* Wwise::signalBankDataArray = nullptr;
 int Wwise::signalCallbackDataMaxSize = 4096;
 
 CAkLock g_localOutputLock;
@@ -109,8 +110,12 @@ void Wwise::_register_methods()
 	register_method("set_current_language", &Wwise::setCurrentLanguage);
 	register_method("load_bank", &Wwise::loadBank);
 	register_method("load_bank_id", &Wwise::loadBankID);
+	register_method("load_bank_async", &Wwise::loadBankAsync);
+	register_method("load_bank_async_id", &Wwise::loadBankAsyncID);
 	register_method("unload_bank", &Wwise::unloadBank);
 	register_method("unload_bank_id", &Wwise::unloadBankID);
+	register_method("unload_bank_async", &Wwise::unloadBankAsync);
+	register_method("unload_bank_async_id", &Wwise::unloadBankAsyncID);
 	register_method("register_listener", &Wwise::registerListener);
 	register_method("register_game_obj", &Wwise::registerGameObject);
 	register_method("unregister_game_obj", &Wwise::unregisterGameObject);
@@ -176,12 +181,14 @@ void Wwise::_register_methods()
 	REGISTER_GODOT_SIGNAL(AK_EnableGetSourcePlayPosition);
 	REGISTER_GODOT_SIGNAL(AK_EnableGetMusicPlayPosition);
 	REGISTER_GODOT_SIGNAL(AK_EnableGetSourceStreamBuffering);
+	register_signal<Wwise>("bank_callback", "data", GODOT_VARIANT_TYPE_DICTIONARY);
 }
 
 void Wwise::_init()
 {
 	signalDataMutex = Mutex::_new();
 	signalDataArray = new Array();
+	signalBankDataArray = new Array();
 
 	projectSettings = ProjectSettings::get_singleton();
 	AKASSERT(projectSettings);
@@ -257,6 +264,7 @@ void Wwise::_init()
 void Wwise::_process(const float delta)
 {
 	emitSignals();
+	emitBankSignals();
 	ERROR_CHECK(AK::SoundEngine::RenderAudio(), "");
 }
 
@@ -315,6 +323,19 @@ bool Wwise::loadBankID(const unsigned int bankID)
 	return ERROR_CHECK(AK::SoundEngine::LoadBank(bankID), "ID " + String::num_int64(bankID));
 }
 
+bool Wwise::loadBankAsync(const String bankName)
+{
+	AkBankID bankID;
+	AKASSERT(!bankName.empty());
+
+	return ERROR_CHECK(AK::SoundEngine::LoadBank(bankName.alloc_c_string(), (AkBankCallbackFunc)bankCallback, nullptr, bankID), "ID " + String::num_int64(bankID));
+}
+
+bool Wwise::loadBankAsyncID(const unsigned int bankID)
+{
+	return ERROR_CHECK(AK::SoundEngine::LoadBank(bankID, (AkBankCallbackFunc)bankCallback, nullptr), "ID " + String::num_int64(bankID));
+}
+
 bool Wwise::unloadBank(const String bankName)
 {
 	AKASSERT(!bankName.empty());
@@ -325,6 +346,18 @@ bool Wwise::unloadBank(const String bankName)
 bool Wwise::unloadBankID(const unsigned int bankID)
 {
 	return ERROR_CHECK(AK::SoundEngine::UnloadBank(bankID, NULL), "ID " + String::num_int64(bankID) + " failed");
+}
+
+bool Wwise::unloadBankAsync(const String bankName)
+{
+	AKASSERT(!bankName.empty());
+
+	return ERROR_CHECK(AK::SoundEngine::UnloadBank(bankName.alloc_c_string(), NULL, (AkBankCallbackFunc)bankCallback, nullptr), "Loading bank: " + bankName + " failed");
+}
+
+bool Wwise::unloadBankAsyncID(const unsigned int bankID)
+{
+	return ERROR_CHECK(AK::SoundEngine::UnloadBank(bankID, NULL, (AkBankCallbackFunc)bankCallback, nullptr), "ID " + String::num_int64(bankID) + " failed");
 }
 
 bool Wwise::registerListener(const Object* gameObject)
@@ -1286,6 +1319,44 @@ void Wwise::emitSignals()
 	}
 
 	AKASSERT(signalDataArray->size() == 0);
+
+	signalDataMutex->unlock();
+}
+
+void Wwise::bankCallback(AkUInt32 in_bankID, const void* in_pInMemoryBankPtr, AKRESULT in_eLoadResult, AkMemPoolId in_memPoolId)
+{
+	signalDataMutex->lock();
+
+	Dictionary signalData;
+	signalData["bankID"] = static_cast<unsigned int>(in_bankID);
+	signalData["result"] = static_cast<unsigned int>(in_eLoadResult);
+
+	if (signalBankDataArray->size() < signalCallbackDataMaxSize)
+	{
+		signalBankDataArray->append(signalData);
+	}
+	else
+	{
+		Godot::print_warning("Exceeded the signal callback data maximum size (callback manager)",
+			__FUNCTION__, __FILE__, __LINE__);
+	}
+
+	signalDataMutex->unlock();
+}
+
+void Wwise::emitBankSignals()
+{
+	signalDataMutex->lock();
+
+	const int initialArraySize = signalBankDataArray->size();
+
+	for (int signalIndex = 0; signalIndex < initialArraySize; ++signalIndex)
+	{
+		const Dictionary data = signalBankDataArray->pop_front();
+		emit_signal("bank_callback", data);
+	}
+
+	AKASSERT(signalBankDataArray->size() == 0);
 
 	signalDataMutex->unlock();
 }
