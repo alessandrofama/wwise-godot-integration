@@ -220,6 +220,8 @@ void Wwise::_init()
 	String platformBanksSuffix = "/iOS";
 #elif defined(AK_ANDROID)
 	String platformBanksSuffix = "/Android";
+#elif defined(AK_LINUX)
+	String platformBanksSuffix = "/Linux";
 #else
 #error "Platform not supported"
 #endif
@@ -1380,6 +1382,8 @@ Variant Wwise::getPlatformProjectSetting(const String setting)
 	platformSetting += GODOT_IOS_SETTING_POSTFIX;
 #elif defined(AK_ANDROID)
 	platformSetting += GODOT_ANDROID_SETTING_POSTFIX;
+#elif defined(AK_LINUX)
+	platformSetting += GODOT_LINUX_SETTING_POSTFIX;
 #else
 #error "Platform not supported"
 #endif
@@ -1616,6 +1620,10 @@ bool Wwise::initialiseWwiseSystems()
 	{
 		return false;
 	}
+
+#elif defined(AK_LINUX)
+
+	platformInitSettings.eAudioAPI = static_cast<AkAudioAPILinux>(static_cast<unsigned int>(getPlatformProjectSetting("wwise/linux_advanced_settings/audio_API")));
 
 #else
 #error "Platform not supported"
