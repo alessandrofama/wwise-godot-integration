@@ -2,6 +2,10 @@
 
 #include <AK/Plugin/AllPluginsFactories.h>
 
+#if defined(AK_LINUX)
+#include <memory>
+#endif
+
 #if defined(AK_REFLECT)
 #include <AK/Plugin/AkReflectFXFactory.h>
 #endif
