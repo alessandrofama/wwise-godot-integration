@@ -40,7 +40,7 @@ scons target=release platform=osx wwise_sdk=/Applications/Audiokinetic/Wwise\ 20
 
 ### Linux 64-bit (Scons)
 
-Building the Wwise GDNative library works exactly like Windows and macOS. You probably have to copy the Wwise SDK and the generated soundbanks from a Windows or macOS machine to your Linux machine, since the SDK and the authoring application can only be installed with the these two operating systems. 
+Building the Wwise GDNative library works exactly like Windows and macOS. You probably have to copy the Wwise SDK and the generated soundbanks from a Windows or macOS machine to your Linux machine, since the SDK and the authoring application can only be installed on these first two operating systems. 
 
 Debug (includes Wwise profiler connection)
 
