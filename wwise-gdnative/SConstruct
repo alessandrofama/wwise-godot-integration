@@ -362,6 +362,15 @@ elif env['platform'] in ('x11', 'linux'):
         env.Append(CCFLAGS=['-fPIC', '-g', '-O3'])
         env.Append(CXXFLAGS=['-std=c++14'])
 
+    if 'reflect' in env['plugins']:
+        env.Append(CPPDEFINES=['AK_REFLECT'])
+    if 'convolution' in env['plugins']:
+        env.Append(CPPDEFINES=['AK_CONVOLUTION'])
+    if 'soundseed_grain' in env['plugins']:
+        env.Append(CPPDEFINES=['AK_SOUNDSEED_GRAIN'])
+    if 'soundseed_air_impact' in env['plugins']:
+        env.Append(CPPDEFINES=['AK_SOUNDSEED_AIR_IMPACT'])
+
 elif env['platform'] == "windows":
     env['target_path'] += 'win64/'
     if env['target'] in ('debug', 'd'):
