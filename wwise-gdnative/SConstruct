@@ -69,8 +69,6 @@ opts = Variables([], ARGUMENTS)
 # Gets the standard flags CC, CCX, etc.
 env = DefaultEnvironment()
 
-env
-
 # Define our options
 opts.Add(EnumVariable('target', "Compilation target", 'debug', ['d', 'debug', 'r', 'release']))
 opts.Add(EnumVariable('platform', "Compilation platform", '', ['', 'windows', 'x11', 'linux', 'osx', 'ios', 'android']))
@@ -341,7 +339,12 @@ elif env['platform'] == 'android':
     
 elif env['platform'] in ('x11', 'linux'):
 
+    env.Prepend(_LIBFLAGS="-Wl,--start-group ")  # the trailing space is required
+    env.Append(_LIBFLAGS=" -Wl,--end-group")     # the leading space is required
+
     wwise_plugins_library.append("AkOpusDecoder")
+
+    env.Append(LIBPATH=['/lib/x86_64-linux-gnu'])
 
     env['target_path'] += 'linux/'
     if env['target'] in ('debug', 'd'):
@@ -353,9 +356,8 @@ elif env['platform'] in ('x11', 'linux'):
 
     if env['target'] in ('debug', 'd'):
         env.Append(CCFLAGS=['-Wall', '-fPIC', '-g3', '-Og'])
-        env.Append(CXXFLAGS=['-std=c++14', '-D__cdecl=""', '-m64'])
-        env.Append(CPPDEFINES=[])
-        env.Append(LINKFLAGS=['-Wl,-undefined,dynamic_lookup'])
+        env.Append(CXXFLAGS=['-std=c++14', '-D__cdecl=""'])
+        env.Append(LINKFLAGS=['-DEBUG'])
     else:
         env.Append(CCFLAGS=['-fPIC', '-g', '-O3'])
         env.Append(CXXFLAGS=['-std=c++14'])
@@ -457,8 +459,7 @@ if env['platform'] == "android":
     env.Append(LINKFLAGS=['-android', '-OpenSLES',])
     env.Append(LIBS=['z', 'zip'])
 if env["platform"] == "linux":
-    env.Append(LIBPATH=['/lib/x86_64-linux-gnu'])
-    env.Append(LIBS=['libSDL2', 'pthread'])
+    env.Append(LIBS=[ 'pthread', 'dl'])
     
 
 if env['platform'] == 'ios':
