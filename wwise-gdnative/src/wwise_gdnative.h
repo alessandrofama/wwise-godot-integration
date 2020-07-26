@@ -120,6 +120,7 @@ namespace godot
 		const String GODOT_MAC_OSX_SETTING_POSTFIX = ".OSX";
 		const String GODOT_IOS_SETTING_POSTFIX = ".iOS";
 		const String GODOT_ANDROID_SETTING_POSTFIX = ".Android";
+		const String GODOT_LINUX_SETTING_POSTFIX = ".Linux";
 
 		const String WWISE_COMMON_USER_SETTINGS_PATH = "wwise/common_user_settings/";
 		const String WWISE_COMMON_ADVANCED_SETTINGS_PATH = "wwise/common_advanced_settings/";

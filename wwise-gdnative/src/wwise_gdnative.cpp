@@ -2,6 +2,10 @@
 
 #include <AK/Plugin/AllPluginsFactories.h>
 
+#if defined(AK_LINUX)
+#include <memory>
+#endif
+
 #if defined(AK_REFLECT)
 #include <AK/Plugin/AkReflectFXFactory.h>
 #endif
@@ -216,6 +220,8 @@ void Wwise::_init()
 	String platformBanksSuffix = "/iOS";
 #elif defined(AK_ANDROID)
 	String platformBanksSuffix = "/Android";
+#elif defined(AK_LINUX)
+	String platformBanksSuffix = "/Linux";
 #else
 #error "Platform not supported"
 #endif
@@ -224,7 +230,7 @@ void Wwise::_init()
 	{
 		MAP_PATH_STANDALONE(basePath);
 
-#if defined(AK_WIN) || defined(AK_MAC_OS_X)
+#if defined(AK_WIN) || defined(AK_MAC_OS_X) || defined(AK_LINUX)
 		bool copyBanksResult = copyDirectory(banksPath + platformBanksSuffix, OS::get_singleton()->get_user_data_dir() + "/wwise/GeneratedSoundBanks" + platformBanksSuffix);
 
 		if (!copyBanksResult)
@@ -1376,6 +1382,8 @@ Variant Wwise::getPlatformProjectSetting(const String setting)
 	platformSetting += GODOT_IOS_SETTING_POSTFIX;
 #elif defined(AK_ANDROID)
 	platformSetting += GODOT_ANDROID_SETTING_POSTFIX;
+#elif defined(AK_LINUX)
+	platformSetting += GODOT_LINUX_SETTING_POSTFIX;
 #else
 #error "Platform not supported"
 #endif
@@ -1612,6 +1620,10 @@ bool Wwise::initialiseWwiseSystems()
 	{
 		return false;
 	}
+
+#elif defined(AK_LINUX)
+
+	platformInitSettings.eAudioAPI = static_cast<AkAudioAPILinux>(static_cast<unsigned int>(getPlatformProjectSetting("wwise/linux_advanced_settings/audio_API")));
 
 #else
 #error "Platform not supported"

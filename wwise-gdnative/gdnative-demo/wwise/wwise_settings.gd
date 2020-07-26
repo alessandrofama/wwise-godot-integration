@@ -9,6 +9,7 @@ const WWISE_COMMUNICATION_SETTINGS_PATH = "wwise/communication_settings/"
 const WWISE_IOS_ADVANCED_SETTINGS_PATH = "wwise/ios_advanced_settings/"
 const WWISE_WINDOWS_ADVANCED_SETTINGS_PATH = "wwise/windows_advanced_settings/"
 const WWISE_ANDROID_ADVANCED_SETTINGS_PATH = "wwise/android_advanced_settings/"
+const WWISE_LINUX_ADVANCED_SETTINGS_PATH = "wwise/linux_advanced_settings/"
 
 func _init():
 	_add_common_user_settings()
@@ -17,6 +18,7 @@ func _init():
 	_add_ios_advanced_settings()
 	_add_windows_advanced_settings()
 	_add_android_advanced_settings()
+	_add_linux_advanced_settings()
 
 	if Engine.editor_hint:
 		var error = ProjectSettings.save()
@@ -144,6 +146,10 @@ func _add_android_advanced_settings():
 				TYPE_INT, PROPERTY_HINT_FLAGS, "AAudio, OPENSL_ES")
 	_add_setting(WWISE_ANDROID_ADVANCED_SETTINGS_PATH + "round_frame_size_to_hw_size", 1,
 				TYPE_BOOL, PROPERTY_HINT_NONE, "")
+				
+func _add_linux_advanced_settings():
+	_add_setting(WWISE_LINUX_ADVANCED_SETTINGS_PATH + "audio_API", 3,
+				TYPE_INT, PROPERTY_HINT_FLAGS, "PuleAudio, ALSA")
 
 func _add_setting(name, defaultValue, type, hint, hintString):
 	if ProjectSettings.has_setting(name): 
