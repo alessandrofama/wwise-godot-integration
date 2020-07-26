@@ -8,7 +8,7 @@ Welcome! This repository provides an integration of [Audiokinetic's Wwise audio 
 
 ## Features
 
-* Wwise wrapper libraries that can be used in games and apps for Windows, macOS, iOS and Android. These are provided as [GDNative modules](https://docs.godotengine.org/en/stable/tutorials/plugins/gdnative/index.html).
+* Wwise wrapper libraries that can be used in games and apps for Windows, macOS, Linux, iOS and Android. These are provided as [GDNative modules](https://docs.godotengine.org/en/stable/tutorials/plugins/gdnative/index.html).
 * Integration app to ease the process of integrating Wwise into Godot projects.
 * Multi-platform build with Scons for the Wwise and Wwise authoring API (Waapi) wrappers. Visual Studio 2017 and 2019 solutions are provided to build on Windows.
 * Wwise and Waapi wrappers unit tests with [Gut](https://github.com/bitwes/Gut).
