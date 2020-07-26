@@ -15,7 +15,7 @@ const AkGameObjectID OUTDOORS_ROOM_ID = (AkGameObjectID)-4;
     path = path.replace("res://", "");
 #define MAP_PATH_STANDALONE(path) \
     path = path.replace("res://", "");
-#elif defined(AK_WIN) || defined(AK_MAC_OS_X)
+#elif defined(AK_WIN) || defined(AK_MAC_OS_X) || defined(AK_LINUX)
 #define MAP_PATH(path) \
 	path = path.replace("res://", "./");
 #define MAP_PATH_STANDALONE(path) \

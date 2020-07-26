@@ -230,7 +230,7 @@ void Wwise::_init()
 	{
 		MAP_PATH_STANDALONE(basePath);
 
-#if defined(AK_WIN) || defined(AK_MAC_OS_X)
+#if defined(AK_WIN) || defined(AK_MAC_OS_X) || defined(AK_LINUX)
 		bool copyBanksResult = copyDirectory(banksPath + platformBanksSuffix, OS::get_singleton()->get_user_data_dir() + "/wwise/GeneratedSoundBanks" + platformBanksSuffix);
 
 		if (!copyBanksResult)
