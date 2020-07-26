@@ -355,12 +355,12 @@ elif env['platform'] in ('x11', 'linux'):
     cpp_library += '.linux'
 
     if env['target'] in ('debug', 'd'):
-        env.Append(CCFLAGS=['-Wall', '-fPIC', '-g3', '-Og'])
+        env.Append(CCFLAGS=['-Wall', '-g3', '-Og'])
         env.Append(CXXFLAGS=['-std=c++14', '-D__cdecl=""'])
-        env.Append(LINKFLAGS=['-DEBUG'])
     else:
-        env.Append(CCFLAGS=['-fPIC', '-g', '-O3'])
-        env.Append(CXXFLAGS=['-std=c++14'])
+        env.Append(CCFLAGS=['-g', '-O3'])
+        env.Append(CXXFLAGS=['-std=c++14', '-D__cdecl=""'])
+        env.Append(CPPDEFINES=['AK_OPTIMIZED'])
 
     if 'reflect' in env['plugins']:
         env.Append(CPPDEFINES=['AK_REFLECT'])
