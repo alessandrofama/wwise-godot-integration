@@ -1,0 +1,96 @@
+Event	ID	Name			Wwise Object Path	Notes
+	480515238	SoundSeed_Impact			\Alex Tests\Plugins\SoundSeed_Impact	
+	623594218	SoundSeed_Wind			\Alex Tests\Plugins\SoundSeed_Wind	
+	1014047073	External_Source_Event			\Alex Tests\External_Source_Event	
+	1272633243	Music_Long_Att			\Alex Tests\Music_Long_Att	
+	1939884427	Music_2D			\Alex Tests\Music_2D	
+	2209794929	Motion_Source			\Alex Tests\Plugins\Motion_Source	
+	2297584640	Motion_Aux			\Alex Tests\Plugins\Motion_Aux	
+	2385628198	Footsteps			\Alex Tests\Footsteps	
+	2626652388	GeometryDemo			\Alex Tests\GeometryDemo	
+	2787445937	Snyth_One_Test			\Alex Tests\Snyth_One_Test	
+	3260090173	Convolution			\Alex Tests\Plugins\Convolution	
+	3404211905	SoundSeed_Grain			\Alex Tests\Plugins\SoundSeed_Grain	
+	3900723121	Play_chimes_with_marker			\Default Work Unit\Play_chimes_with_marker	
+	3991942870	Music			\Alex Tests\Music	
+
+Switch Group	ID	Name			Wwise Object Path	Notes
+	3586861854	FootstepsSwitch			\Alex\FootstepsSwitch	
+
+Switch	ID	Name	Switch Group			Notes
+	2058049674	Wood	FootstepsSwitch			
+	2185786256	Gravel	FootstepsSwitch			
+	2654748154	Water	FootstepsSwitch			
+	4248645337	Grass	FootstepsSwitch			
+
+State Group	ID	Name			Wwise Object Path	Notes
+	1021618141	MusicState			\Alex\MusicState	
+
+State	ID	Name	State Group			Notes
+	748895195	None	MusicState			
+	3753286132	Calm	MusicState			
+	4223512837	Intense	MusicState			
+
+Custom State	ID	Name	State Group	Owner		Notes
+	195568195	Intense	MusicState	\Interactive Music Hierarchy\Alex\Music_Test_2D\Combat Music\bar_music_BEAT_109		
+	555873370	Intense	MusicState	\Interactive Music Hierarchy\Alex\Music_Test_01_Long_Attenuation\Combat Music\bar_music_BEAT_109		
+	866806263	Intense	MusicState	\Interactive Music Hierarchy\Alex\Music_Test_1\Combat Music\bar_music_BEAT_109		
+
+Game Parameter	ID	Name			Wwise Object Path	Notes
+	2242381963	Enemies			\Alex\Enemies	
+
+Modulator Envelope	ID	Name			Wwise Object Path	Notes
+	207084865	Modulator Envelope (Custom)				
+
+Modulator Time	ID	Name			Wwise Object Path	Notes
+	142843164	New Modulator Time (Custom)				
+
+Trigger	ID	Name			Wwise Object Path	Notes
+	1927797142	MusicTrigger			\Alex\MusicTrigger	
+
+Effect plug-ins	ID	Name	Type				Notes
+	152884559	Space_Ship_Stereo_(Custom)	Wwise Convolution Reverb			Impulse response created by Pinguin ing.büro © 2010 Pinguin ing.büro.  All rights reserved. IR Pre-delay: 7ms  
+	1041325803	SoundSeed_Impact_(Custom)	SoundSeed Impact			
+
+Source plug-ins	ID	Name	Type		Wwise Object Path	Notes
+	109314945	SoundSeed Air Wind	SoundSeed Air Wind		\Actor-Mixer Hierarchy\Alex\Plugins\SoundSeedWind\SoundSeed Air Wind	
+	789837903	SoundSeed Grain	SoundSeed Grain		\Actor-Mixer Hierarchy\Alex\Plugins\SoundSeedGrain\SoundSeed Grain	
+	862342132	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Alex\Plugins\MotionSource\MotionSource\Wwise Motion Source	
+
+External Source	ID	Name			Wwise Object Path	Notes
+	618371124	External_Source			\Default Work Unit\external_source_obj\External_Source	
+
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	102632397	otto_footsteps_grass_2	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Linux\SFX\otto_footsteps_grass_2_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Grass\otto_footsteps_grass_2		57664
+	126934278	otto_footsteps_wood_2	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Linux\SFX\otto_footsteps_wood_2_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Wood\otto_footsteps_wood_2		55576
+	215518025	SoundSeedImpact	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Linux\SFX\Explosion_3_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Plugins\SoundSeedImpact		356890
+	222333393	otto_footsteps_wood_3	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Linux\SFX\otto_footsteps_wood_3_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Wood\otto_footsteps_wood_3		44766
+	224267691	otto_footsteps_grass_4	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Linux\SFX\otto_footsteps_grass_4_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Grass\otto_footsteps_grass_4		65732
+	258193767	Marker_Test_001	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Linux\SFX\Marker_Test_001_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\GeometryDemo\GeometryDemo\Marker_Test_001		938254
+	266509003	otto_footsteps_gravel_4	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Linux\SFX\otto_footsteps_gravel_4_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Gravel\otto_footsteps_gravel_4		50128
+	330814601	otto_footsteps_water_2	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Linux\SFX\otto_footsteps_water_2_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Water\otto_footsteps_water_2		115012
+	368631978	otto_footsteps_grass_3	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Linux\SFX\otto_footsteps_grass_3_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Grass\otto_footsteps_grass_3		69184
+	401793486	bar_music_SEQ1_109	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Linux\SFX\bar_music_SEQ1_109_3D1D1BA5.wem		\Interactive Music Hierarchy\Alex\Music_Test_1\Combat Music\bar_music_SEQ1_109		219775
+	408411585	RevCrash AllOver	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Linux\SFX\RevCrash AllOver_D79FB2B7.wem		\Interactive Music Hierarchy\Alex\Stingers\RevCrash AllOver\RevCrash AllOver		650056
+	433024557	otto_footsteps_wood_1	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Linux\SFX\otto_footsteps_wood_1_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Wood\otto_footsteps_wood_1		47096
+	453536678	otto_footsteps_gravel_5	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Linux\SFX\otto_footsteps_gravel_5_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Gravel\otto_footsteps_gravel_5		108864
+	484615795	piano-100	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Linux\SFX\piano-100_9728D936.wmid		\Interactive Music Hierarchy\Alex\piano-100\piano-100		16992
+	575939703	otto_footsteps_gravel_3	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Linux\SFX\otto_footsteps_gravel_3_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Gravel\otto_footsteps_gravel_3		112032
+	584072642	bar_music_BEAT_109	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Linux\SFX\bar_music_beat_109_3D1D1BA5.wem		\Interactive Music Hierarchy\Alex\Music_Test_1\Combat Music\bar_music_BEAT_109		367041
+	621017625	bombe_explosion_dry	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Linux\SFX\bombe_explosion_dry_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Plugins\MotionAux\bombe_explosion_dry		263464
+	638431784	bar_music_SEQ2_109	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Linux\SFX\bar_music_SEQ2_109_3D1D1BA5.wem		\Interactive Music Hierarchy\Alex\Music_Test_1\Combat Music\bar_music_SEQ2_109		450289
+	701113954	otto_footsteps_wood_6	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Linux\SFX\otto_footsteps_wood_6_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Wood\otto_footsteps_wood_6		43500
+	709201403	otto_footsteps_gravel_2	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Linux\SFX\otto_footsteps_gravel_2_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Gravel\otto_footsteps_gravel_2		101588
+	710015741	otto_footsteps_water_1	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Linux\SFX\otto_footsteps_water_1_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Water\otto_footsteps_water_1		105512
+	712063785	SoundSeed Grain	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Linux\Plugins\SoundSeed Grain\chimes_with_marker_AF15F127.wem	SoundSeed Grain (Custom)	\Actor-Mixer Hierarchy\Alex\Plugins\SoundSeedGrain\SoundSeed Grain		264744
+	742368316	otto_footsteps_gravel_1	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Linux\SFX\otto_footsteps_gravel_1_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Gravel\otto_footsteps_gravel_1		92152
+	761338767	otto_footsteps_water_3	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Linux\SFX\otto_footsteps_water_3_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Water\otto_footsteps_water_3		98276
+	804869470	chimes_with_marker	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Linux\SFX\chimes_with_marker_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\chimes_with_marker		264744
+	871561785	otto_footsteps_wood_4	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Linux\SFX\otto_footsteps_wood_4_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Wood\otto_footsteps_wood_4		44414
+	974008506	otto_footsteps_grass_1	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Linux\SFX\otto_footsteps_grass_1_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Grass\otto_footsteps_grass_1		56756
+	1010036921	otto_footsteps_water_4	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Linux\SFX\otto_footsteps_water_4_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Water\otto_footsteps_water_4		115908
+	1025442465	otto_footsteps_wood_5	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Linux\SFX\otto_footsteps_wood_5_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Wood\otto_footsteps_wood_5		37560
+
+Plug-in Media	ID	Name	Source file	Type	Wwise Object Path	Notes	Data Size
+	539027192	Space_Ship_Stereo_(Custom)	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Linux\Plugins\Wwise Convolution Reverb\AK_Factory_IR\Large Spaces\AK Stair Way Hall_D8D7B406.wem	Wwise Convolution Reverb (Custom)	\Actor-Mixer Hierarchy\Alex\Plugins\ConvolutionTest\Space_Ship_Stereo_(Custom)	Impulse response created by Pinguin ing.büro © 2010 Pinguin ing.büro.  All rights reserved. IR Pre-delay: 7ms  	459232
+
