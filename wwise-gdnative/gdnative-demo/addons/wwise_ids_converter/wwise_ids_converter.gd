@@ -75,6 +75,16 @@ func _convert(inputWwiseIDs, outputWwiseIDs):
 				
 	if enumBlock.size() > 0:
 		_appendEnumBlock()
+
+	# Checking if non-default/empty classes missing, adding empty classes and enums
+	# to avoid breaking custom node variable exports
+	var joinedLines = postProcessedLines.join("\n")	
+	if joinedLines.find("class EVENTS") == -1:
+		postProcessedLines.append("class EVENTS:\n\t enum _enum {}")
+	if joinedLines.find("class AUX_BUSSES") == -1:
+		postProcessedLines.append("class AUX_BUSSES:\n\t enum _enum {}")
+	if joinedLines.find("class GAME_PARAMETERS") == -1:
+		postProcessedLines.append("class GAME_PARAMETERS:\n\t enum _enum {}")
 	
 	var outWwiseIDs = postProcessedLines.join("\n")
 
@@ -82,6 +92,9 @@ func _convert(inputWwiseIDs, outputWwiseIDs):
 	wwiseIDsGDFile.open(outputWwiseIDs, File.WRITE)
 	wwiseIDsGDFile.store_string(outWwiseIDs)
 	wwiseIDsGDFile.close()
+	
+	# Running the tool multiple times in a row duplicates everything
+	postProcessedLines = PoolStringArray(["class_name AK"])
 
 	print("GDScript WWiseIDs generated at " + outputWwiseIDs)
 
