@@ -2,7 +2,7 @@ python:
   - "2.7"
 matrix:
   include:
-    - name: Linux Release
+    - name: Linux x64 (Release)
       language: cpp
       os: linux
       dist: bionic
@@ -15,12 +15,12 @@ matrix:
       env:
          - MATRIX_EVAL="CC=gcc-9 && CXX=g++-9"
          - PLATARG=linux LIB_ARGS="platform=linux target=release wwise_sdk='/home/travis/build/alessandrofama/wwise-godot-integration/wwisesdk/2019.2.1.7250'"
-    - name: Windows Release
+    - name: Windows x64 (Release)
       language: cpp
       env: PLATARG=windows
       os: windows
       compiler: clang
-    - name: OSX Release
+    - name: macOS x64 (Release)
       language: cpp
       env: PLATARG=osx LIB_ARGS="platform=osx target=release wwise_sdk=../wwisesdk/2019.2.1.7250/"
       os: osx
@@ -32,7 +32,7 @@ matrix:
             - scons
             - p7zip
           update: false
-    - name: Android ARMv7a Release
+    - name: Android arm64-v8a + armv7-a (Release)
       language: android
       env: 
         - PLATARG=android LIB_ARGS_ARM64V8="NDK_PROJECT_PATH=. APP_BUILD_SCRIPT=Android.mk PM5_CONFIG=release_android_arm64-v8a NDK_LIBS_OUT=./gdnative-demo/wwise/bin/android/release WWISESDK=../wwisesdk/2019.2.1.7250" 
