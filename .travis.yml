@@ -34,7 +34,9 @@ matrix:
           update: false
     - name: Android ARMv7a Release
       language: android
-      env: PLATARG=android LIB_ARGS="NDK_PROJECT_PATH=. APP_BUILD_SCRIPT=Android.mk PM5_CONFIG=release_android_armeabi-v7a NDK_LIBS_OUT=./gdnative-demo/wwise/bin/android/release WWISESDK=../wwisesdk/2019.2.1.7250"
+      env: 
+        - PLATARG=android LIB_ARGS_ARM64V8="NDK_PROJECT_PATH=. APP_BUILD_SCRIPT=Android.mk PM5_CONFIG=release_android_arm64-v8a NDK_LIBS_OUT=./gdnative-demo/wwise/bin/android/release WWISESDK=../wwisesdk/2019.2.1.7250" 
+        - LIB_ARGS_ARMV7="NDK_PROJECT_PATH=. APP_BUILD_SCRIPT=Android.mk PM5_CONFIG=release_android_armeabi-v7a NDK_LIBS_OUT=./gdnative-demo/wwise/bin/android/release WWISESDK=../wwisesdk/2019.2.1.7250"
       os: linux
       android:
         components:
@@ -84,10 +86,12 @@ install:
   - if [[ "$PLATARG" == "android" ]]; then echo y | sdkmanager --channel=3 --channel=1 "cmake;3.10.2.4988404" > /dev/null; fi
   - if [[ "$PLATARG" == "android" ]]; then export ANDROID_NDK_ROOT=$ANDROID_HOME/ndk-bundle; fi
   - if [[ "$PLATARG" == "android" ]]; then export ANDROID_NDK_HOME=$ANDROID_NDK_ROOT; fi
-  - if [[ "$PLATARG" == "android" ]]; then $ANDROID_NDK_ROOT/ndk-build $LIB_ARGS; fi
+  - if [[ "$PLATARG" == "android" ]]; then $ANDROID_NDK_ROOT/ndk-build $LIB_ARGS_ARM64V8; fi
+  - if [[ "$PLATARG" == "android" ]]; then echo "arm64-v8a build completed."; fi
+  - if [[ "$PLATARG" == "android" ]]; then $ANDROID_NDK_ROOT/ndk-build $LIB_ARGS_ARMV7; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then scons $LIB_ARGS && cd ../waapiclient-gdnative; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then scons $LIB_ARGS; fi
   - if [[ "$PLATARG" == "linux" ]]; then scons $LIB_ARGS; fi
 script:
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then ./compile_cl_wwise.bat && cd ../waapiclient-gdnative && ./compile_cl_wwise.bat; fi
-  - echo "Build complete"
+  - echo "Build completed"
