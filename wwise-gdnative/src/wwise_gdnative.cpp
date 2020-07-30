@@ -554,17 +554,26 @@ bool Wwise::setStateID(const unsigned int stateGroupID, const unsigned int state
 						"Failed to set state ID" + String::num_int64(stateGroupID) + " and value " + String::num_int64(stateValueID));
 }
 
-// todo: global rtpc
 float Wwise::getRTPCValue(const String rtpcName, const Object* gameObject)
 {
 	AKASSERT(!rtpcName.empty());
-	AKASSERT(gameObject);
-
 	AkRtpcValue value;
-	AK::SoundEngine::Query::RTPCValue_type type = AK::SoundEngine::Query::RTPCValue_GameObject;
+	AK::SoundEngine::Query::RTPCValue_type type = AK::SoundEngine::Query::RTPCValue_Default;
+	AkGameObjectID gameObjectID = AK_INVALID_GAME_OBJECT;
+
+	if (gameObject)
+	{
+		type = AK::SoundEngine::Query::RTPCValue_GameObject;
+		gameObjectID = static_cast<AkGameObjectID>(gameObject->get_instance_id());
+	}
+	else
+	{
+		type = AK::SoundEngine::Query::RTPCValue_Global;
+		gameObjectID = AK_INVALID_GAME_OBJECT;
+	}
 
 	if (!ERROR_CHECK(AK::SoundEngine::Query::GetRTPCValue(rtpcName.alloc_c_string(), 
-		static_cast<AkGameObjectID>(gameObject->get_instance_id()),
+		gameObjectID,
 		static_cast<AkPlayingID>(0), value, type), rtpcName))
 	{
 		return INVALID_RTPC_VALUE;
@@ -575,12 +584,22 @@ float Wwise::getRTPCValue(const String rtpcName, const Object* gameObject)
 
 float Wwise::getRTPCValueID(const unsigned int rtpcID, const Object* gameObject)
 {
-	AKASSERT(gameObject);
-
 	AkRtpcValue value;
-	AK::SoundEngine::Query::RTPCValue_type type = AK::SoundEngine::Query::RTPCValue_GameObject;
+	AK::SoundEngine::Query::RTPCValue_type type = AK::SoundEngine::Query::RTPCValue_Default;
+	AkGameObjectID gameObjectID = AK_INVALID_GAME_OBJECT;
 
-	if (!ERROR_CHECK(AK::SoundEngine::Query::GetRTPCValue(rtpcID, static_cast<AkGameObjectID>(gameObject->get_instance_id()),
+	if (gameObject)
+	{
+		type = AK::SoundEngine::Query::RTPCValue_GameObject;
+		gameObjectID = static_cast<AkGameObjectID>(gameObject->get_instance_id());
+	}
+	else
+	{
+		type = AK::SoundEngine::Query::RTPCValue_Global;
+		gameObjectID = AK_INVALID_GAME_OBJECT;
+	}
+
+	if (!ERROR_CHECK(AK::SoundEngine::Query::GetRTPCValue(rtpcID, gameObjectID,
 		static_cast<AkPlayingID>(0), value, type), String::num_int64(rtpcID)))
 	{
 		return INVALID_RTPC_VALUE;
@@ -589,22 +608,39 @@ float Wwise::getRTPCValueID(const unsigned int rtpcID, const Object* gameObject)
 	return static_cast<float>(value);
 }
 
-// todo: global rtpc
 bool Wwise::setRTPCValue(const String rtpcName, const float rtpcValue, const Object* gameObject)
 {
 	AKASSERT(!rtpcName.empty());
-	AKASSERT(gameObject);
+	AkGameObjectID gameObjectID = AK_INVALID_GAME_OBJECT;
 
-	return ERROR_CHECK(AK::SoundEngine::SetRTPCValue(rtpcName.alloc_c_string(), static_cast<AkRtpcValue>(rtpcValue), 
-						static_cast<AkGameObjectID>(gameObject->get_instance_id())), rtpcName);
+	if (gameObject)
+	{
+		gameObjectID = static_cast<AkGameObjectID>(gameObject->get_instance_id());
+	}
+	else
+	{
+		gameObjectID = AK_INVALID_GAME_OBJECT;
+	}
+
+	return ERROR_CHECK(AK::SoundEngine::SetRTPCValue(rtpcName.alloc_c_string(), static_cast<AkRtpcValue>(rtpcValue),
+		gameObjectID), rtpcName);
 }
 
 bool Wwise::setRTPCValueID(const unsigned int rtpcID, const float rtpcValue, const Object* gameObject)
 {
-	AKASSERT(gameObject);
+	AkGameObjectID gameObjectID = AK_INVALID_GAME_OBJECT;
 
-	return ERROR_CHECK(AK::SoundEngine::SetRTPCValue(rtpcID, static_cast<AkRtpcValue>(rtpcValue), 
-						static_cast<AkGameObjectID>(gameObject->get_instance_id())), String::num_int64(rtpcID));
+	if (gameObject)
+	{
+		gameObjectID = static_cast<AkGameObjectID>(gameObject->get_instance_id());
+	}
+	else
+	{
+		gameObjectID = AK_INVALID_GAME_OBJECT;
+	}
+
+	return ERROR_CHECK(AK::SoundEngine::SetRTPCValue(rtpcID, static_cast<AkRtpcValue>(rtpcValue),
+		gameObjectID), String::num_int64(rtpcID));
 }
 
 bool Wwise::postTrigger(const String triggerName, const Object* gameObject)
