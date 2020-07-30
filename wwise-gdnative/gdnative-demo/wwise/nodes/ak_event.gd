@@ -60,6 +60,6 @@ func _process(_delta) -> void:
 		ak_environment_data.update_aux_send(self, self.get_global_transform().origin)
 	
 func _physics_process(_delta) -> void:
-		if listener and not is_spatial and not is_environment_aware:
+		if listener and is_environment_aware:
 			set_obstruction_and_occlusion(self, listener, colliding_objects, ray, 0)
 
