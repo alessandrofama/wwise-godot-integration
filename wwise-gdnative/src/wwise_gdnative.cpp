@@ -276,8 +276,7 @@ void Wwise::_process(const float delta)
 
 void Wwise::_notification(int notification)
 {
-#ifdef AK_ANDROID
-
+#if defined(AK_ANDROID) || defined(AK_IOS)
 	if (notification == NOTIFICATION_WM_FOCUS_OUT)
 	{
 		Wwise::suspend(false);
@@ -286,7 +285,6 @@ void Wwise::_notification(int notification)
 	{
 		Wwise::wakeupFromSuspend();
 	}
-
 #endif 
 }
 
@@ -331,7 +329,7 @@ bool Wwise::loadBankID(const unsigned int bankID)
 
 bool Wwise::loadBankAsync(const String bankName)
 {
-	AkBankID bankID;
+	AkBankID bankID = 0;
 	AKASSERT(!bankName.empty());
 
 	return ERROR_CHECK(AK::SoundEngine::LoadBank(bankName.alloc_c_string(), (AkBankCallbackFunc)bankCallback, nullptr, bankID), "ID " + String::num_int64(bankID));
