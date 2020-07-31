@@ -96,7 +96,7 @@ Having whitespaces in your NDK, Wwise SDK or output libs paths will likely resul
 
 ### Plugins (Scons)
 
-The integration supports following plugins:
+The integration supports all factory plugins and the following premium plugins:
 
 | Plugin | Compilation Parameter | Supported Platforms |
 |-|-|-|
