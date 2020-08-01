@@ -99,13 +99,38 @@ install:
   - if [[ "$PLATARG" == "android" ]]; then export ANDROID_NDK_HOME=$ANDROID_NDK_ROOT; fi
   - if [[ "$PLATARG" == "android" ]]; then $ANDROID_NDK_ROOT/ndk-build $LIB_ARGS_ARM64V8; fi
   - if [[ "$PLATARG" == "android" ]]; then echo "arm64-v8a build completed."; fi
-  - if [[ "$PLATARG" == "android" ]]; then $ANDROID_NDK_ROOT/ndk-build $LIB_ARGS_ARMV7; fi
+  - if [[ "$PLATARG" == "android" ]]; then $ANDROID_NDK_ROOT/ndk-build $LIB_ARGS_ARMV7 && cd ../; fi
   - if [[ "$PLATARG" == "osx" ]]; then scons $LIB_ARGS && cd ../waapiclient-gdnative; fi
-  - if [[ "$PLATARG" == "osx" ]]; then scons $LIB_ARGS; fi
-  - if [[ "$PLATARG" == "linux" ]]; then scons $LIB_ARGS; fi
+  - if [[ "$PLATARG" == "osx" ]]; then scons $LIB_ARGS && cd ../; fi
+  - if [[ "$PLATARG" == "linux" ]]; then scons $LIB_ARGS && cd ../; fi
   - if [[ "$PLATARG" == "ios" ]]; then scons $LIB_ARGS_ARM64; fi
   - if [[ "$PLATARG" == "ios" ]]; then echo "arm64 build completed"; fi
-  - if [[ "$PLATARG" == "ios" ]]; then scons $LIB_ARGS_ARMV7; fi
+  - if [[ "$PLATARG" == "ios" ]]; then scons $LIB_ARGS_ARMV7 && cd ../; fi
 script:
-  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then ./compile_cl_wwise.bat && cd ../waapiclient-gdnative && ./compile_cl_wwise.bat; fi
+  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then ./compile_cl_wwise.bat && cd ../waapiclient-gdnative && ./compile_cl_wwise.bat && cd ../; fi
   - echo "Build completed"
+
+before_deploy:
+  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then cd wwise-gdnative/gdnative-demo/wwise/bin/ && 7z a Win64.zip win64/; fi
+  - if [[ "$PLATARG" == "osx" ]]; then cd wwise-gdnative/gdnative-demo/wwise/bin/ && 7z a macOS.zip osx/; fi
+  - if [[ "$PLATARG" == "ios" ]]; then cd wwise-gdnative/gdnative-demo/wwise/bin/ && 7z a iOS.zip iOS/; fi
+  - if [[ "$PLATARG" == "linux" ]]; then cd wwise-gdnative/gdnative-demo/wwise/bin/ && 7z a Linux.zip linux/; fi
+  - if [[ "$PLATARG" == "android" ]]; then cd wwise-gdnative/gdnative-demo/wwise/bin/ && 7z a Android.zip android/; fi
+    # Set up git user name and tag this commit
+  - git config --local user.name "alessandrofama"
+  - git config --local user.email "alessandro.fama@ymail.com"
+  - export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
+  - git tag $TRAVIS_TAG
+deploy:
+  provider: releases
+  api_key: $GITHUB_TOKEN
+  file:
+    - "Win64.zip"
+    - "macOS.zip"
+    - "iOS.zip"
+    - "Linux.zip"
+    - "Android.zip"
+  skip_cleanup: true
+  draft: true
+  on:
+    repo: alessandrofama/wwise-godot-integration
