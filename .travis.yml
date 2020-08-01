@@ -119,8 +119,8 @@ before_deploy:
     # Set up git user name and tag this commit
   - git config --local user.name "alessandrofama"
   - git config --local user.email "alessandro.fama@ymail.com"
-  - export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
-  - git tag $TRAVIS_TAG
+  - export TRAVIS_TAG="travis"
+  - git tag -f $TRAVIS_TAG
 deploy:
   provider: releases
   api_key: $GITHUB_TOKEN
