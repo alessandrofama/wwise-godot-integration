@@ -2,9 +2,14 @@ python:
   - "2.7"
 matrix:
   include:
-      - name: iOS arm64 + armv7 (Release)
+      - name: iOS arm64 + armv7 (Debug + Release)
         language: cpp
-        env: PLATARG=ios LIB_ARGS_ARM64="platform=ios ios_arch=arm64 target=release wwise_sdk=../wwisesdk/2019.2.1.7250" LIB_ARGS_ARMV7="platform=ios ios_arch=armv7 target=release wwise_sdk=../wwisesdk/2019.2.1.7250"
+        env: 
+          - PLATARG=ios 
+          - LIB_ARGS_ARM64_DEBUG="platform=ios ios_arch=arm64 target=debug wwise_sdk=../wwisesdk/2019.2.1.7250" 
+          - LIB_ARGS_ARMV7_DEBUG="platform=ios ios_arch=armv7 target=debug wwise_sdk=../wwisesdk/2019.2.1.7250"
+          - LIB_ARGS_ARM64_RELEASE="platform=ios ios_arch=arm64 target=release wwise_sdk=../wwisesdk/2019.2.1.7250" 
+          - LIB_ARGS_ARMV7_RELEASE="platform=ios ios_arch=armv7 target=release wwise_sdk=../wwisesdk/2019.2.1.7250"
         os: osx
         osx_image: xcode12
         compiler: clang
@@ -14,7 +19,7 @@ matrix:
               - scons
               - p7zip
             update: false
-      - name: Linux x64 (Release)
+      - name: Linux x64 (Debug + Release)
         language: cpp
         os: linux
         dist: bionic
@@ -26,7 +31,9 @@ matrix:
               - g++-9
         env:
           - MATRIX_EVAL="CC=gcc-9 && CXX=g++-9"
-          - PLATARG=linux LIB_ARGS="platform=linux target=release wwise_sdk='/home/travis/build/alessandrofama/wwise-godot-integration/wwisesdk/2019.2.1.7250'"
+          - PLATARG=linux 
+          - LIB_ARGS_DEBUG="platform=linux target=debug wwise_sdk='/home/travis/build/alessandrofama/wwise-godot-integration/wwisesdk/2019.2.1.7250'"
+          - LIB_ARGS_RELEASE="platform=linux target=release wwise_sdk='/home/travis/build/alessandrofama/wwise-godot-integration/wwisesdk/2019.2.1.7250'"
       - name: Windows x64 (Release)
         language: cpp
         env: PLATARG=windows
@@ -34,7 +41,10 @@ matrix:
         compiler: clang
       - name: macOS x64 (Release)
         language: cpp
-        env: PLATARG=osx LIB_ARGS="platform=osx target=release wwise_sdk=../wwisesdk/2019.2.1.7250/"
+        env: 
+          - PLATARG=osx 
+          - LIB_ARGS_DEBUG="platform=osx target=debug wwise_sdk=../wwisesdk/2019.2.1.7250/"
+          - LIB_ARGS_RELEASE="platform=osx target=release wwise_sdk=../wwisesdk/2019.2.1.7250/"
         os: osx
         osx_image: xcode12
         compiler: clang
@@ -47,8 +57,11 @@ matrix:
       - name: Android arm64-v8a + armv7-a (Release)
         language: android
         env: 
-          - PLATARG=android LIB_ARGS_ARM64V8="NDK_PROJECT_PATH=. APP_BUILD_SCRIPT=Android.mk PM5_CONFIG=release_android_arm64-v8a NDK_LIBS_OUT=./gdnative-demo/wwise/bin/android/release WWISESDK=../wwisesdk/2019.2.1.7250" 
-          - LIB_ARGS_ARMV7="NDK_PROJECT_PATH=. APP_BUILD_SCRIPT=Android.mk PM5_CONFIG=release_android_armeabi-v7a NDK_LIBS_OUT=./gdnative-demo/wwise/bin/android/release WWISESDK=../wwisesdk/2019.2.1.7250"
+          - PLATARG=android 
+          - LIB_ARGS_ARM64V8_DEBUG="NDK_PROJECT_PATH=. APP_BUILD_SCRIPT=Android.mk PM5_CONFIG=debug_android_arm64-v8a NDK_LIBS_OUT=./gdnative-demo/wwise/bin/android/debug WWISESDK=../wwisesdk/2019.2.1.7250" 
+          - LIB_ARGS_ARMV7_DEBUG="NDK_PROJECT_PATH=. APP_BUILD_SCRIPT=Android.mk PM5_CONFIG=debug_android_armeabi-v7a NDK_LIBS_OUT=./gdnative-demo/wwise/bin/android/debug WWISESDK=../wwisesdk/2019.2.1.7250"
+          - LIB_ARGS_ARM64V8_RELEASE="NDK_PROJECT_PATH=. APP_BUILD_SCRIPT=Android.mk PM5_CONFIG=release_android_arm64-v8a NDK_LIBS_OUT=./gdnative-demo/wwise/bin/android/release WWISESDK=../wwisesdk/2019.2.1.7250" 
+          - LIB_ARGS_ARMV7_RELEASE="NDK_PROJECT_PATH=. APP_BUILD_SCRIPT=Android.mk PM5_CONFIG=release_android_armeabi-v7a NDK_LIBS_OUT=./gdnative-demo/wwise/bin/android/release WWISESDK=../wwisesdk/2019.2.1.7250"
         os: linux
         android:
           components:
@@ -81,33 +94,29 @@ before_install:
   - cd ../
   - cd godot-cpp
   - mkdir bin && cd bin
-  - if [[ "$PLATARG" != "linux" ]]; then wget https://www.dropbox.com/s/tbyg9uz3ykfmcg2/headers.zip && 7z x headers.zip; fi
-  - if [[ "$PLATARG" == "linux" ]]; then wget https://www.dropbox.com/s/etdsughlgt605rm/linux_header.zip && 7z x linux_header.zip; fi
+  - wget https://www.dropbox.com/s/tbyg9uz3ykfmcg2/headers.zip && 7z x headers.zip
   - cd ../include/gen/
   - wget https://www.dropbox.com/s/lw08yw81ge22del/gen.zip && 7z x gen.zip
   - cd ../../src/gen/
-  - wget https://www.dropbox.com/s/99okjkeriimvbfk/srcgen.zip && 7z x srcgen.zip
+  - wget https://www.dropbox.com/s/23gw1ena812zb2v/srcgen.zip && 7z x srcgen.zip
   - cd ../../../wwise-gdnative
-  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then wget https://gist.githubusercontent.com/alessandrofama/41d1c775cc6fe113002002c99a41b6fd/raw/33bb505a00496acf40d957a8063e7b8fb201b4bf/compile_cl_wwise.bat && cp compile_cl_wwise.bat ../waapiclient-gdnative; fi
+  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then wget https://gist.githubusercontent.com/alessandrofama/41d1c775cc6fe113002002c99a41b6fd/raw/eae5087eb9ef2f5aa820a49d689bb775f855bbf5/compile_cl_wwise_debug.bat && cp compile_cl_wwise_debug.bat ../waapiclient-gdnative; fi
+  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then wget https://gist.githubusercontent.com/alessandrofama/e209a9327328a5de0a2286cb14bd315c/raw/acffbb42158ce57266d2398eb5e3f30477554239/compile_clwwise_release.bat && cp compile_cl_wwise_release.bat ../waapiclient-gdnative; fi
 install:
-  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then choco install visualstudio2019buildtools -y; fi 
-  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then choco install visualstudio2019-workload-vctools -y; fi 
   - if [[ "$PLATARG" == "android" ]]; then echo y | sdkmanager "ndk-bundle" > /dev/null; fi
   - if [[ "$PLATARG" == "android" ]]; then echo y | sdkmanager "ndk;21.2.6472646" > /dev/null; fi
   - if [[ "$PLATARG" == "android" ]]; then echo y | sdkmanager --channel=3 --channel=1 "cmake;3.10.2.4988404" > /dev/null; fi
   - if [[ "$PLATARG" == "android" ]]; then export ANDROID_NDK_ROOT=$ANDROID_HOME/ndk-bundle; fi
   - if [[ "$PLATARG" == "android" ]]; then export ANDROID_NDK_HOME=$ANDROID_NDK_ROOT; fi
-  - if [[ "$PLATARG" == "android" ]]; then $ANDROID_NDK_ROOT/ndk-build $LIB_ARGS_ARM64V8; fi
-  - if [[ "$PLATARG" == "android" ]]; then echo "arm64-v8a build completed."; fi
-  - if [[ "$PLATARG" == "android" ]]; then $ANDROID_NDK_ROOT/ndk-build $LIB_ARGS_ARMV7 && cd ../; fi
-  - if [[ "$PLATARG" == "osx" ]]; then scons $LIB_ARGS && cd ../waapiclient-gdnative; fi
-  - if [[ "$PLATARG" == "osx" ]]; then scons $LIB_ARGS && cd ../; fi
-  - if [[ "$PLATARG" == "linux" ]]; then scons $LIB_ARGS && cd ../; fi
-  - if [[ "$PLATARG" == "ios" ]]; then scons $LIB_ARGS_ARM64; fi
-  - if [[ "$PLATARG" == "ios" ]]; then echo "arm64 build completed"; fi
-  - if [[ "$PLATARG" == "ios" ]]; then scons $LIB_ARGS_ARMV7 && cd ../; fi
+  - if [[ "$PLATARG" == "android" ]]; then $ANDROID_NDK_ROOT/ndk-build $LIB_ARGS_ARM64V8_DEBUG && $ANDROID_NDK_ROOT/ndk-build $LIB_ARGS_ARMV7_DEBUG && $ANDROID_NDK_ROOT/ndk-build $LIB_ARGS_ARM64V8_RELEASE && $ANDROID_NDK_ROOT/ndk-build $LIB_ARGS_ARMV7_RELEASE; fi
+  - if [[ "$PLATARG" == "android" ]]; then echo "Android builds completed."; fi
+  - if [[ "$PLATARG" == "android" ]]; then cd ../; fi
+  - if [[ "$PLATARG" == "osx" ]]; then scons $LIB_ARGS_DEBUG && scons $LIB_ARGS_RELEASE && cd ../waapiclient-gdnative; fi
+  - if [[ "$PLATARG" == "osx" ]]; then scons $LIB_ARGS_DEBUG && cd ../; fi
+  - if [[ "$PLATARG" == "linux" ]]; then scons $LIB_ARGS_DEBUG && scons $LIB_ARGS_RELEASE && cd ../; fi
+  - if [[ "$PLATARG" == "ios" ]]; then scons $LIB_ARGS_ARM64_DEBUG && scons $LIB_ARGS_ARMV7_DEBUG && scons $LIB_ARGS_ARM64_RELEASE && scons $LIB_ARGS_ARMV7_RELEASE && cd ../; fi
 script:
-  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then ./compile_cl_wwise.bat && cd ../waapiclient-gdnative && ./compile_cl_wwise.bat && cd ../; fi
+  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then ./compile_cl_wwise_debug.bat && ./compile_cl_wwise_release.bat && cd ../waapiclient-gdnative && ./compile_cl_wwise_debug.bat && ./compile_cl_wwise_release.bat && cd ../; fi
   - echo "Build completed"
 
 before_deploy:
@@ -119,7 +128,7 @@ before_deploy:
     # Set up git user name and tag this commit
   - git config --local user.name "alessandrofama"
   - git config --local user.email "alessandro.fama@ymail.com"
-  - export TRAVIS_TAG="travis"
+  - export TRAVIS_TAG=${TRAVIS_TAG:-$(git log -1 --pretty=format:%ct)}
   - git tag -f $TRAVIS_TAG
 deploy:
   provider: releases
