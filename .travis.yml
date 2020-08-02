@@ -39,7 +39,7 @@ matrix:
         env: PLATARG=windows
         os: windows
         compiler: clang
-      - name: macOS x64 (Release)
+      - name: macOS x64 (Debug + Release)
         language: cpp
         env: 
           - PLATARG=osx 
@@ -54,7 +54,7 @@ matrix:
               - scons
               - p7zip
             update: false
-      - name: Android arm64-v8a + armv7-a (Release)
+      - name: Android arm64-v8a + armv7-a (Debug + Release)
         language: android
         env: 
           - PLATARG=android 
@@ -89,7 +89,7 @@ before_install:
   - if [[ "$PLATARG" == "android" ]]; then sudo apt-get install p7zip p7zip-full p7zip-rar; fi
   - if [[ "$PLATARG" == "linux" ]]; then sudo apt-get install p7zip p7zip-full p7zip-rar scons; fi
   - mkdir wwisesdk && cd wwisesdk
-  - wget https://www.dropbox.com/s/7uhesg2xc7ajc9k/2019.2.1.7250.zip
+  - wget https://www.dropbox.com/s/3rvi7td841fk2p8/2019.2.1.7250.zip
   - 7z x 2019.2.1.7250.zip
   - cd ../
   - cd godot-cpp
