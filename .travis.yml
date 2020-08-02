@@ -101,7 +101,7 @@ before_install:
   - wget https://www.dropbox.com/s/23gw1ena812zb2v/srcgen.zip && 7z x srcgen.zip -aoa
   - cd ../../../wwise-gdnative
   - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then wget https://gist.githubusercontent.com/alessandrofama/41d1c775cc6fe113002002c99a41b6fd/raw/eae5087eb9ef2f5aa820a49d689bb775f855bbf5/compile_cl_wwise_debug.bat && cp compile_cl_wwise_debug.bat ../waapiclient-gdnative; fi
-  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then wget https://gist.githubusercontent.com/alessandrofama/e209a9327328a5de0a2286cb14bd315c/raw/acffbb42158ce57266d2398eb5e3f30477554239/compile_clwwise_release.bat && cp compile_cl_wwise_release.bat ../waapiclient-gdnative; fi
+  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then wget https://gist.githubusercontent.com/alessandrofama/e209a9327328a5de0a2286cb14bd315c/raw/400425a2071c1dbe51e0d716ec0cd678ed1b8b37/compile_cl_wwise_release.bat && cp compile_cl_wwise_release.bat ../waapiclient-gdnative; fi
 install:
   - if [[ "$PLATARG" == "android" ]]; then echo y | sdkmanager "ndk-bundle" > /dev/null; fi
   - if [[ "$PLATARG" == "android" ]]; then echo y | sdkmanager "ndk;21.2.6472646" > /dev/null; fi
