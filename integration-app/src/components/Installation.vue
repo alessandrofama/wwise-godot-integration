@@ -1,6 +1,67 @@
 <template>
   <div>
     <div v-if="!installing && !installed && !installationFailed">
+      <div class="form-group">
+        <label>Platforms</label>
+        <div>
+          <div class="custom-control custom-checkbox custom-control-inline">
+            <input
+              name="platform"
+              id="platform_1"
+              type="checkbox"
+              class="custom-control-input"
+              value="Win64"
+              v-model="platforms"
+            />
+            <label for="platform_1" class="custom-control-label">Windows</label>
+          </div>
+          <div class="custom-control custom-checkbox custom-control-inline">
+            <input
+              name="platform"
+              id="platform_2"
+              type="checkbox"
+              class="custom-control-input"
+              value="macOS"
+              v-model="platforms"
+            />
+            <label for="platform_2" class="custom-control-label">macOS</label>
+          </div>
+          <div class="custom-control custom-checkbox custom-control-inline">
+            <input
+              name="platform"
+              id="platform_3"
+              type="checkbox"
+              class="custom-control-input"
+              value="Linux"
+              v-model="platforms"
+            />
+            <label for="platform_3" class="custom-control-label">Linux</label>
+          </div>
+          <div class="custom-control custom-checkbox custom-control-inline">
+            <input
+              name="platform"
+              id="platform_4"
+              type="checkbox"
+              class="custom-control-input"
+              value="Android"
+              v-model="platforms"
+            />
+            <label for="platform_4" class="custom-control-label">Android</label>
+          </div>
+          <div class="custom-control custom-checkbox custom-control-inline">
+            <input
+              name="platform"
+              id="platform_5"
+              type="checkbox"
+              class="custom-control-input"
+              value="iOS"
+              v-model="platforms"
+            />
+            <label for="platform_5" class="custom-control-label">iOS</label>
+          </div>
+        </div>
+      </div>
+
       <form @submit.prevent="onSubmit">
         <div class="form-group">
           <label for="godotProject" style="font-size: large;"
@@ -134,6 +195,7 @@ export default {
         remote.app.getPath("temp"),
         "wwise_gdnative"
       ),
+      platforms: [],
     };
   },
 
@@ -226,11 +288,16 @@ export default {
       }
 
       function filterRelease(release) {
-        return release.prerelease === false;
+        return release.prerelease === true;
       }
 
-      function filterAsset() {
-        return true;
+      function filterAsset(asset) {
+        for (let i = 0; i < vm.platforms.length; i++) {
+          console.log(vm.platforms[i]);
+          if (asset.name.indexOf(vm.platforms[i]) >= 0) {
+            return true;
+          }
+        }
       }
 
       dlRelease(
@@ -239,6 +306,7 @@ export default {
         this.gitDownloadDestionationPath,
         filterRelease,
         filterAsset,
+        false,
         false
       )
         .then(function () {
