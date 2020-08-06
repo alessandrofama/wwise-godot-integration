@@ -238,10 +238,13 @@ static bool copyDirectory(String from, String to)
 			}
 			fileName = dir->get_next();
 		}
+
+		dir->free();
 		return true;
 	}
 	else 
 	{
+		dir->free();
 		return false;
 	}
 }
