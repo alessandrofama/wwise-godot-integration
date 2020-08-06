@@ -30,20 +30,11 @@ class WwiseBuildExport:
 		var basePath = ProjectSettings.get_setting("wwise/common_user_settings/base_path")
 		print("Wwise base path: ", basePath)
 		
-		# Don't copy banks if we are on Android
-		if not "Android" in features:
+		# Only copy banks if we are exporting for iOS
+		if "iOS" in features:
 			print("Copying Wwise data to build...")
-			
-			var platform = null
-			
-			if "Windows" in features:
-				platform = "/Windows/"
-			elif "OSX" in features:
-				platform = "/Mac/"
-			elif "iOS" in features:
-				platform = "/iOS/"
-				
-			var generatedSoundBanksPath = basePath + platform
+
+			var generatedSoundBanksPath = basePath + "/iOS/"
 			
 			var dir = Directory.new()
 			
@@ -68,8 +59,8 @@ class WwiseBuildExport:
 			else:
 				print("Error when trying to open the generated soundbanks path")			
 
-		# Add missing StoreKit framework for iOS
-		add_ios_framework("StoreKit.framework")
+			# Add missing StoreKit framework for iOS
+			add_ios_framework("StoreKit.framework")
 		
 func _init():
 	add_export_plugin(WwiseBuildExport.new())
