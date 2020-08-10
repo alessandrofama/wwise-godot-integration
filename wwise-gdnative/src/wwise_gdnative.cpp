@@ -257,6 +257,7 @@ void Wwise::_init()
 	signalCallbackDataMaxSize = 
 	static_cast<unsigned int>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + "callback_manager_buffer_size"));
 
+#if !defined(AK_OPTIMIZED)
 	const bool engineLogging =
 	static_cast<bool>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + "engine_logging"));
 
@@ -265,6 +266,7 @@ void Wwise::_init()
 		ERROR_CHECK(AK::Monitor::SetLocalOutput(AK::Monitor::ErrorLevel_All, static_cast<AK::Monitor::LocalOutputFunc>(LocalOutput)), 
 					"Failed to set ErrorLevel_All");
 	}
+#endif
 }
 
 void Wwise::_process(const float delta)
