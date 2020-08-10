@@ -457,7 +457,6 @@ unsigned int Wwise::postEvent(const String eventName, const Object* gameObject)
 	if (playingID == AK_INVALID_PLAYING_ID) 
 	{
 		ERROR_CHECK(AK_InvalidID, eventName);
-		return static_cast<unsigned int>(AK_INVALID_PLAYING_ID);
 	}
 
 	return static_cast<unsigned int>(playingID);
@@ -474,7 +473,6 @@ unsigned int Wwise::postEventCallback(const String eventName, const unsigned int
 	if (playingID == AK_INVALID_PLAYING_ID)
 	{
 		ERROR_CHECK(AK_InvalidID, eventName);
-		return static_cast<unsigned int>(AK_INVALID_PLAYING_ID);
 	}
 
 	return static_cast<unsigned int>(playingID);
@@ -488,7 +486,7 @@ unsigned int Wwise::postEventID(const unsigned int eventID, const Object* gameOb
 
 	if (playingID == AK_INVALID_PLAYING_ID) 
 	{
-		return static_cast<unsigned int>(AK_INVALID_PLAYING_ID);
+		ERROR_CHECK(AK_InvalidID, eventID);
 	}
 
 	return static_cast<unsigned int>(playingID);
@@ -503,7 +501,7 @@ unsigned int Wwise::postEventIDCallback(const unsigned int eventID, const unsign
 
 	if (playingID == AK_INVALID_PLAYING_ID)
 	{
-		return static_cast<unsigned int>(AK_INVALID_PLAYING_ID);
+		ERROR_CHECK(AK_InvalidID, eventID);
 	}
 
 	return static_cast<unsigned int>(playingID);
