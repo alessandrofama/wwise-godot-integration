@@ -1365,13 +1365,13 @@ void Wwise::emitSignals()
 	signalDataMutex->unlock();
 }
 
-void Wwise::bankCallback(AkUInt32 in_bankID, const void* in_pInMemoryBankPtr, AKRESULT in_eLoadResult, AkMemPoolId in_memPoolId)
+void Wwise::bankCallback(AkUInt32 bankID, const void* inMemoryBankPtr, AKRESULT loadResult, AkMemPoolId memPoolId)
 {
 	signalDataMutex->lock();
 
 	Dictionary signalData;
-	signalData["bankID"] = static_cast<unsigned int>(in_bankID);
-	signalData["result"] = static_cast<unsigned int>(in_eLoadResult);
+	signalData["bankID"] = static_cast<unsigned int>(bankID);
+	signalData["result"] = static_cast<unsigned int>(loadResult);
 
 	if (signalBankDataArray->size() < signalCallbackDataMaxSize)
 	{
@@ -1380,7 +1380,7 @@ void Wwise::bankCallback(AkUInt32 in_bankID, const void* in_pInMemoryBankPtr, AK
 	else
 	{
 		Godot::print_warning("Exceeded the signal callback data maximum size (callback manager)",
-			__FUNCTION__, __FILE__, __LINE__);
+							__FUNCTION__, __FILE__, __LINE__);
 	}
 
 	signalDataMutex->unlock();

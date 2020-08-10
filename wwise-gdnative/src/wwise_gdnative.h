@@ -131,7 +131,7 @@ namespace godot
 		static void eventCallback(AkCallbackType callbackType, AkCallbackInfo* callbackInfo);
 		void emitSignals();
 
-		static void bankCallback(AkUInt32 in_bankID, const void* in_pInMemoryBankPtr, AKRESULT in_eLoadResult, AkMemPoolId in_memPoolId);
+		static void bankCallback(AkUInt32 bankID, const void* inMemoryBankPtr, AKRESULT loadResult, AkMemPoolId memPoolId);
 		void emitBankSignals();
 
 		Variant getPlatformProjectSetting(const String setting);
