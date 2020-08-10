@@ -100,6 +100,7 @@ Wwise::~Wwise()
 
 	signalDataMutex->free();
 	delete signalDataArray;
+	delete signalBankDataArray;
 
 	Godot::print("Wwise has shut down");
 }
