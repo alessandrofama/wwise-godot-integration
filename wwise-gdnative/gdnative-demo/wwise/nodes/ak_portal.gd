@@ -2,12 +2,12 @@ extends Area
 
 var extent:Vector3
 export(NodePath) var front_room:NodePath
-var front_room_node
+var front_room_node:Node
 export(NodePath) var back_room:NodePath
-var back_room_node
+var back_room_node:Node
 export(bool) var enabled:bool = true setget set_enabled
 
-func _ready():
+func _ready() -> void:
 	if not front_room.is_empty():		
 		front_room_node = get_node(front_room)
 	if not back_room.is_empty():

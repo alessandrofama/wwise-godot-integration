@@ -4,11 +4,11 @@ class_name AkEvent
 export(AK.EVENTS._enum) var event:int
 export(AkUtils.GameEvent) var trigger_on:int = AkUtils.GameEvent.NONE
 export(AkUtils.GameEvent) var stop_on:int = AkUtils.GameEvent.NONE
-export(int) var stop_fade_time = 0
-export(AkUtils.AkCurveInterpolation) var stop_interpolation_curve = AkUtils.AkCurveInterpolation.LINEAR
+export(int) var stop_fade_time:int = 0
+export(AkUtils.AkCurveInterpolation) var stop_interpolation_curve:int = AkUtils.AkCurveInterpolation.LINEAR
 var playing_id:int
 
-export(bool) var use_callback = false
+export(bool) var use_callback:bool = false
 export(AkUtils.AkCallbackType) var callback_type = AkUtils.AkCallbackType.AK_EndOfEvent
 export(NodePath) var callback_receiver:NodePath
 
@@ -18,7 +18,7 @@ var ray:RayCast
 var colliding_objects:Array = []
 var ak_environment_data:AkGameObjectEnvironmentData
 
-export(bool) var is_spatial = false
+export(bool) var is_spatial:bool = false
 
 func _enter_tree():
 	register_game_object(self, self.get_name())

@@ -3,7 +3,7 @@ extends AkEventHandler2D
 export(NodePath) var ak_event_2d:NodePath
 export(String) var switch_group:String
 export(String) var switch_value:String
-export(AkUtils.GameEvent) var trigger_on = AkUtils.GameEvent.NONE
+export(AkUtils.GameEvent) var trigger_on:int = AkUtils.GameEvent.NONE
 
 func handle_game_event(game_event:int) -> void:
 	if trigger_on == game_event:

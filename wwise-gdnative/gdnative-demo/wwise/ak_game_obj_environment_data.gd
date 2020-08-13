@@ -4,12 +4,12 @@ class_name AkGameObjectEnvironmentData
 var active_environments:Array = []
 var ak_aux_data:AkAuxData
 var last_position:Vector3 = Vector3(0, 0, 0)
-var hasEnvironmentListChanged = true
+var hasEnvironmentListChanged:bool = true
 
 func _init():
 	ak_aux_data = AkAuxData.new()
 	
-func add_environment(env:Object):	
+func add_environment(env:Object) -> void:	
 	if not env:
 		return
 	var index = active_environments.bsearch_custom(env, self, "compare_by_priority")

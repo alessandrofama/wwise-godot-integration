@@ -1,7 +1,7 @@
 extends Node2D
 class_name AkGameObj2D
 
-var signal_prefix = "_on_"
+var signal_prefix:String = "_on_"
 
 func register_game_object(object:Object, gameObjectName:String):
 	Wwise.register_game_obj(object, gameObjectName)
@@ -10,7 +10,7 @@ func connect_signals(callback_receiver:NodePath, callback_type) -> void:
 	if callback_receiver.is_empty():
 		print("Please select a callback node")
 	else:
-		var callback_node = get_node(callback_receiver)
+		var callback_node:Node = get_node(callback_receiver)
 		match(callback_type):
 			AkUtils.AkCallbackType.AK_EndOfEvent:
 				Wwise.connect(AkUtils.Signals.END_OF_EVENT, callback_node, signal_prefix + AkUtils.Signals.END_OF_EVENT)

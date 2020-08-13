@@ -1,7 +1,7 @@
 extends Spatial
 class_name AkListener
 
-export(bool) var is_spatial = false
+export(bool) var is_spatial:bool = false
 
 func _ready() -> void:
 	Wwise.register_listener(self)

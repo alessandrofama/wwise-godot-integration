@@ -3,12 +3,12 @@ extends AkEventHandler2D
 export(AK.EVENTS._enum) var event:int
 export(AkUtils.GameEvent) var trigger_on:int = AkUtils.GameEvent.NONE
 export(AkUtils.GameEvent) var stop_on:int = AkUtils.GameEvent.NONE
-export(int) var stop_fade_time = 0
-export (AkUtils.AkCurveInterpolation) var interpolation_mode = AkUtils.AkCurveInterpolation.LINEAR
+export(int) var stop_fade_time:int = 0
+export (AkUtils.AkCurveInterpolation) var interpolation_mode:int = AkUtils.AkCurveInterpolation.LINEAR
 
 var playingID:int
 
-export(bool) var use_callback = false
+export(bool) var use_callback:bool = false
 export(AkUtils.AkCallbackType) var callback_type = AkUtils.AkCallbackType.AK_EndOfEvent
 export(NodePath) var callback_receiver:NodePath
 
@@ -34,6 +34,6 @@ func post_event() -> void:
 func stop_event() -> void:
 	Wwise.stop_event(playingID, stop_fade_time, interpolation_mode)
 	
-func _process(_delta):
+func _process(_delta) -> void:
 	Wwise.set_2d_position(self, get_global_transform(), self.z_index)
 	

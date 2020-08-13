@@ -2,7 +2,7 @@ extends AkEventHandler2D
 
 export(String) var state_group:String
 export(String) var state_value:String
-export(AkUtils.GameEvent) var trigger_on = AkUtils.GameEvent.NONE
+export(AkUtils.GameEvent) var trigger_on:int = AkUtils.GameEvent.NONE
 
 func handle_game_event(game_event:int) -> void:
 	if trigger_on == game_event:

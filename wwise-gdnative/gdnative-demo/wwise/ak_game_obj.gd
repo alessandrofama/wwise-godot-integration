@@ -1,9 +1,9 @@
 extends Spatial
 class_name AkGameObj
 
-var signal_prefix = "_on_"
+var signal_prefix:String = "_on_"
 
-func register_game_object(object:Object, gameObjectName:String):
+func register_game_object(object:Object, gameObjectName:String) -> void:
 	Wwise.register_game_obj(object, gameObjectName)
 
 func get_listener() -> Spatial: 
@@ -14,7 +14,7 @@ func get_listener() -> Spatial:
 # It is used in compute_occlusion to check if there is any object between Event 
 # and Listener.
 func set_up_raycast(event:Spatial) -> RayCast:
-	var ray = RayCast.new()
+	var ray:RayCast = RayCast.new()
 	ray.enabled = true
 	ray.set_name("ray")
 	event.add_child(ray)
@@ -27,7 +27,7 @@ func set_up_raycast(event:Spatial) -> RayCast:
 # and occlusion values based on the number of objects hit. Here we are casting a ray
 # in the direction of the Listener and adding the OCCLUSION_ADDEND value to the occlusion
 # variable for each object between Event and Listener. 
-func compute_occlusion(listener_transform:Transform, source_transform:Transform, colliding_objects, ray) -> float:
+func compute_occlusion(listener_transform:Transform, source_transform:Transform, colliding_objects:Array, ray:RayCast) -> float:
 	colliding_objects.clear()
 	var occlusion_value:float = 0.0
 
@@ -50,14 +50,14 @@ func compute_occlusion(listener_transform:Transform, source_transform:Transform,
 func set_obstruction_and_occlusion(event:Spatial, listener:Spatial, colliding_objects:Array, ray:RayCast, next_occlusion_update:int) -> void:
 	if OS.get_ticks_msec() >= next_occlusion_update:
 		next_occlusion_update = OS.get_ticks_msec() + AkUtils.OCCLUSION_DETECTION_INTERVAL
-		var current_occlusion = compute_occlusion(listener.get_global_transform(), self.get_global_transform(), colliding_objects, ray)
-		Wwise.set_obj_obstruction_and_occlusion(event.get_instance_id(), listener.get_instance_id(),0, current_occlusion)
+		var current_occlusion:float = compute_occlusion(listener.get_global_transform(), self.get_global_transform(), colliding_objects, ray)
+		Wwise.set_obj_obstruction_and_occlusion(event.get_instance_id(), listener.get_instance_id(), 0, current_occlusion)
 		
 func connect_signals(callback_receiver:NodePath, callback_type) -> void:
 	if callback_receiver.is_empty():
 		print("Please select a callback node")
 	else:
-		var callback_node = get_node(callback_receiver)
+		var callback_node:Node = get_node(callback_receiver)
 		match(callback_type):
 			AkUtils.AkCallbackType.AK_EndOfEvent:
 				Wwise.connect(AkUtils.Signals.END_OF_EVENT, callback_node, signal_prefix + AkUtils.Signals.END_OF_EVENT)

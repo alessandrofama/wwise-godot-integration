@@ -1,9 +1,9 @@
 extends Spatial
 class_name AkGeometry
 
-var vertices = []
-var triangles = []
-var mesh_instance
+var vertices:Array = []
+var triangles:Array= []
+var mesh_instance:MeshInstance
 
 export(bool) var is_static:bool = true
 export(bool) var enable_diffraction:bool = false
@@ -11,7 +11,23 @@ export(bool) var enable_diffraction_on_boundary_edges:bool = false
 export(Resource) var acoustic_texture:Resource
 export(float) var occlusion_value:float = 1.0
 export(NodePath) var room:NodePath
-var room_node
+var room_node:Node
+
+func _enter_tree() -> void:
+	mesh_instance = get_parent()
+	#warning-ignore:return_value_discarded
+	set_geometry(mesh_instance)
+	if not is_static:
+		set_notify_transform(true)
+
+func _exit_tree() -> void:
+	Wwise.remove_geometry(self)
+	
+func _notification(notification:int) -> void:
+	if(notification == NOTIFICATION_TRANSFORM_CHANGED):
+		if Wwise.remove_geometry(self):
+			#warning-ignore:return_value_discarded
+			set_geometry(mesh_instance)
 
 func create_mesh_data_tool(mesh:Mesh) -> MeshDataTool:
 	var array_mesh = mesh
@@ -48,18 +64,4 @@ func set_geometry(mesh_inst:MeshInstance) -> bool:
 	
 	return result
 	
-func _enter_tree():
-	mesh_instance = get_parent()
-	#warning-ignore:return_value_discarded
-	set_geometry(mesh_instance)
-	if not is_static:
-		set_notify_transform(true)
 
-func _exit_tree():
-	Wwise.remove_geometry(self)
-	
-func _notification(notification):
-	if(notification == NOTIFICATION_TRANSFORM_CHANGED):
-		if Wwise.remove_geometry(self):
-			#warning-ignore:return_value_discarded
-			set_geometry(mesh_instance)
