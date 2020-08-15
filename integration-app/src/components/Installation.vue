@@ -195,6 +195,7 @@ export default {
         remote.app.getPath("temp"),
         "wwise_gdnative"
       ),
+      binariesDestionationPath: path.join(remote.app.getPath("temp"), "bin"),
       platforms: [],
     };
   },
@@ -310,6 +311,46 @@ export default {
         false
       )
         .then(function () {
+          vm.getBinaries();
+        })
+        .catch(function (err) {
+          vm.displayFailureMessage(err);
+        });
+    },
+    getBinaries() {
+      var dlRelease = require("download-github-release");
+
+      var vm = this;
+
+      this.updateProgressTextandBar("Getting binaries from repository", 40);
+
+      if (!fs.existsSync(this.binariesDestionationPath)) {
+        fs.mkdirSync(this.binariesDestionationPath);
+      }
+
+      function filterRelease(release) {
+        return release.prerelease === true;
+      }
+
+      function filterAsset(asset) {
+        for (let i = 0; i < vm.platforms.length; i++) {
+          console.log(vm.platforms[i]);
+          if (asset.name.indexOf(vm.platforms[i]) >= 0) {
+            return true;
+          }
+        }
+      }
+
+      dlRelease(
+        "alessandrofama",
+        "testrepo",
+        this.binariesDestionationPath,
+        filterRelease,
+        filterAsset,
+        false,
+        false
+      )
+        .then(function () {
           vm.copyIntegrationFilesToProject();
         })
         .catch(function (err) {
@@ -323,7 +364,7 @@ export default {
 
       this.updateProgressTextandBar(
         "Copying integration files to Godot project",
-        50
+        60
       );
 
       try {
@@ -332,6 +373,21 @@ export default {
           mode: true,
           cover: true,
         });
+      } catch (err) {
+        vm.displayFailureMessage(err);
+        return;
+      }
+
+      try {
+        copydir.sync(
+          this.binariesDestionationPath,
+          path.join(this.godotProjectPath, "wwise/bin/"),
+          {
+            utimes: true,
+            mode: true,
+            cover: true,
+          }
+        );
       } catch (err) {
         vm.displayFailureMessage(err);
         return;
