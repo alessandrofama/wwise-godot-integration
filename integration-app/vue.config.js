@@ -10,6 +10,7 @@ module.exports = {
         mac: {
           target: "dmg",
         },
+        artifactName: "${productName}.${ext}",
       },
     },
   },
