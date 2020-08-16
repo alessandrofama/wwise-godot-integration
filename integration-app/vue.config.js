@@ -7,6 +7,9 @@ module.exports = {
         win: {
           target: "portable",
         },
+        mac: {
+          target: "dmg",
+        },
       },
     },
   },
