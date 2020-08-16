@@ -195,7 +195,10 @@ export default {
         remote.app.getPath("temp"),
         "wwise_gdnative"
       ),
-      binariesDestionationPath: path.join(remote.app.getPath("temp"), "bin"),
+      binariesDestionationPath: path.join(
+        remote.app.getPath("temp"),
+        "wwise_gdnative/wwise/bin"
+      ),
       platforms: [],
     };
   },
@@ -293,12 +296,7 @@ export default {
       }
 
       function filterAsset(asset) {
-        for (let i = 0; i < vm.platforms.length; i++) {
-          console.log(vm.platforms[i]);
-          if (asset.name.indexOf(vm.platforms[i]) >= 0) {
-            return true;
-          }
-        }
+        return asset.name.indexOf("Integration") >= 0;
       }
 
       dlRelease(
@@ -323,10 +321,6 @@ export default {
       var vm = this;
 
       this.updateProgressTextandBar("Getting binaries from repository", 40);
-
-      if (!fs.existsSync(this.binariesDestionationPath)) {
-        fs.mkdirSync(this.binariesDestionationPath);
-      }
 
       function filterRelease(release) {
         return release.prerelease === true;
@@ -377,22 +371,6 @@ export default {
         vm.displayFailureMessage(err);
         return;
       }
-
-      try {
-        copydir.sync(
-          this.binariesDestionationPath,
-          path.join(this.godotProjectPath, "wwise/bin/"),
-          {
-            utimes: true,
-            mode: true,
-            cover: true,
-          }
-        );
-      } catch (err) {
-        vm.displayFailureMessage(err);
-        return;
-      }
-
       vm.finishInstallation();
     },
     finishInstallation() {
