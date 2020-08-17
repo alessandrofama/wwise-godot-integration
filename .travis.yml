@@ -2,6 +2,21 @@ python:
   - "2.7"
 matrix:
   include:
+      - name: macOS x64 (Debug + Release)
+        language: cpp
+        env: 
+          - PLATARG=osx 
+          - LIB_ARGS_DEBUG="platform=osx target=debug wwise_sdk=../wwisesdk/2019.2.1.7250/"
+          - LIB_ARGS_RELEASE="platform=osx target=release wwise_sdk=../wwisesdk/2019.2.1.7250/"
+        os: osx
+        osx_image: xcode12
+        compiler: clang
+        addons:
+          homebrew:
+            packages:
+              - scons
+              - p7zip
+            update: false
       - name: iOS arm64 + armv7 (Debug + Release)
         language: cpp
         env: 
@@ -39,21 +54,6 @@ matrix:
         env: PLATARG=windows
         os: windows
         compiler: clang
-      - name: macOS x64 (Debug + Release)
-        language: cpp
-        env: 
-          - PLATARG=osx 
-          - LIB_ARGS_DEBUG="platform=osx target=debug wwise_sdk=../wwisesdk/2019.2.1.7250/"
-          - LIB_ARGS_RELEASE="platform=osx target=release wwise_sdk=../wwisesdk/2019.2.1.7250/"
-        os: osx
-        osx_image: xcode12
-        compiler: clang
-        addons:
-          homebrew:
-            packages:
-              - scons
-              - p7zip
-            update: false
       - name: Android arm64-v8a + armv7-a (Debug + Release)
         language: android
         env: 
@@ -137,7 +137,9 @@ script:
   - echo "Build completed"
 before_deploy:
   - if [[ "$PLATARG" == "windows" ]]; then cd wwise-gdnative/gdnative-demo/wwise/bin/ && 7z a Win64.zip win64/; fi
-  - if [[ "$PLATARG" == "osx" ]]; then cd wwise-gdnative/gdnative-demo/wwise/bin/ && 7z a macOS.zip osx/; fi
+  - if [[ "$PLATARG" == "osx" ]]; then cd wwise-gdnative/gdnative-demo/wwise/bin/ && 7z a macOS.zip osx/ && cd ../../../../ && mv wwise-gdnative/gdnative-demo/wwise/bin/macOS.zip ./macOS.zip && cd wwise-gdnative/gdnative-demo/; fi
+  - if [[ "$PLATARG" == "osx" ]]; then rm -rf meshes scripts scenes test addons/gut .import wwise/resources wwise/GeneratedSoundBanks/Android wwise/GeneratedSoundBanks/iOS wwise/GeneratedSoundBanks/Linux wwise/GeneratedSoundBanks/Mac wwise/GeneratedSoundBanks/Windows wwise/bin/android wwise/bin/iOS wwise/bin/osx wwise/bin/win64 && rm -f .gitignore .gutconfig.json default_env.tres project.godot export_presets.cfg icon.png icon.png.import wwise/GeneratedSoundBanks/Wwise_IDs.h wwise/GeneratedSoundBanks/wwise_ids.gd && mv wwise/GeneratedSoundBanks/wwise_ids.backup wwise/GeneratedSoundBanks/wwise_ids.gd && find . -name '.import' -type f -delete; fi
+  - if [[ "$PLATARG" == "osx" ]]; then 7z a -r ../../Integration.zip * && cd ../../; fi
   - if [[ "$PLATARG" == "ios" ]]; then cd wwise-gdnative/gdnative-demo/wwise/bin/ && 7z a iOS.zip iOS/; fi
   - if [[ "$PLATARG" == "linux" ]]; then cd wwise-gdnative/gdnative-demo/wwise/bin/ && 7z a Linux.zip linux/; fi
   - if [[ "$PLATARG" == "android" ]]; then cd wwise-gdnative/gdnative-demo/wwise/bin/ && 7z a Android.zip android/; fi
@@ -158,6 +160,7 @@ deploy:
     - "Android.zip"
     - "Wwise Godot Integration App.dmg"
     - "Wwise Godot Integration App.exe"
+    - "Integration.zip"
   skip_cleanup: true
   draft: true
   on:
