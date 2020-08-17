@@ -2,20 +2,6 @@ python:
   - "2.7"
 matrix:
   include:
-      - name: Integration App macOS
-        language: cpp
-        env: 
-          - PLATARG=app
-        os: osx
-        osx_image: xcode12
-        compiler: clang
-        addons:
-          homebrew:
-            packages:
-              - node
-              - yarn
-              - p7zip
-            update: false
       - name: iOS arm64 + armv7 (Debug + Release)
         language: cpp
         env: 
@@ -86,37 +72,49 @@ matrix:
             - android-26
           licenses:
             - '.+'
+      - name: Integration App macOS
+        env: 
+          - PLATARG=app-osx
+          - BUILD=app
+        os: osx
+        osx_image: xcode12
+        addons:
+          homebrew:
+            packages:
+              - node
+              - yarn
+              - p7zip
+            update: false
+      - name: Integration App Windows
+        language: node_js
+        node_js:
+          - node
+        env: 
+          - PLATARG=app-win
+          - BUILD=app
+        os: windows
 git:
   depth: false
-cache:
-  directories:
-    - $HOME/Library/Caches/Homebrew
-    - /usr/local/Homebrew
-before_cache:
-  - if [ "${TRAVIS_OS_NAME}" = "osx" ]; then brew cleanup; fi
-# Credit https://discourse.brew.sh/t/best-practice-for-homebrew-on-travis-brew-update-is-5min-to-build-time/5215/9
-# Cache only .git files under "/usr/local/Homebrew" so "brew update" does not take 5min every build
-  - if [ "${TRAVIS_OS_NAME}" = "osx" ]; then find /usr/local/Homebrew \! -regex ".+\.git.+" -delete; fi
 before_install:
-  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then wget -O scons.zip http://prdownloads.sourceforge.net/scons/scons-local-3.0.5.zip && mv scons.zip C:/scons.zip && 7z x C:/scons.zip -oC:/scons; fi
+  - if [[ "$PLATARG" == "windows" ]]; then wget -O scons.zip http://prdownloads.sourceforge.net/scons/scons-local-3.0.5.zip && mv scons.zip C:/scons.zip && 7z x C:/scons.zip -oC:/scons; fi
   - if [[ "$PLATARG" == "osx" ]]; then HOMEBREW_NO_AUTO_UPDATE=1 brew install p7zip scons; fi
   - if [[ "$PLATARG" == "android" ]]; then sudo apt-get install p7zip p7zip-full p7zip-rar; fi
   - if [[ "$PLATARG" == "linux" ]]; then sudo apt-get install p7zip p7zip-full p7zip-rar scons; fi
-  - if [[ "$PLATARG" != "app" ]]; then mkdir wwisesdk && cd wwisesdk; fi
-  - if [[ "$PLATARG" != "app" ]]; then wget https://www.dropbox.com/s/3rvi7td841fk2p8/2019.2.1.7250.zip; fi
-  - if [[ "$PLATARG" != "app" ]]; then 7z x 2019.2.1.7250.zip -aoa; fi
-  - if [[ "$PLATARG" != "app" ]]; then cd ../; fi
-  - if [[ "$PLATARG" != "app" ]]; then cd godot-cpp; fi
-  - if [[ "$PLATARG" != "app" ]]; then mkdir bin && cd bin; fi
-  - if [[ "$PLATARG" != "app" ]]; then wget https://www.dropbox.com/s/tbyg9uz3ykfmcg2/headers.zip && 7z x headers.zip -aoa; fi
-  - if [[ "$PLATARG" != "app" ]]; then cd ../include/gen/; fi
-  - if [[ "$PLATARG" != "app" ]]; then wget https://www.dropbox.com/s/lw08yw81ge22del/gen.zip && 7z x gen.zip -aoa; fi
-  - if [[ "$PLATARG" != "app" ]]; then cd ../../src/gen/; fi
-  - if [[ "$PLATARG" != "app" ]]; then wget https://www.dropbox.com/s/23gw1ena812zb2v/srcgen.zip && 7z x srcgen.zip -aoa; fi
-  - if [[ "$PLATARG" != "app" ]]; then cd ../../../wwise-gdnative; fi
-  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then wget https://gist.githubusercontent.com/alessandrofama/41d1c775cc6fe113002002c99a41b6fd/raw/eae5087eb9ef2f5aa820a49d689bb775f855bbf5/compile_cl_wwise_debug.bat && cp compile_cl_wwise_debug.bat ../waapiclient-gdnative; fi
-  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then wget https://gist.githubusercontent.com/alessandrofama/e209a9327328a5de0a2286cb14bd315c/raw/400425a2071c1dbe51e0d716ec0cd678ed1b8b37/compile_cl_wwise_release.bat && cp compile_cl_wwise_release.bat ../waapiclient-gdnative; fi
-  - if [[ "$PLATARG" == "app" ]]; then cd integration-app; fi
+  - if [[ "$BUILD" != "app" ]]; then mkdir wwisesdk && cd wwisesdk; fi
+  - if [[ "$BUILD" != "app" ]]; then wget https://www.dropbox.com/s/3rvi7td841fk2p8/2019.2.1.7250.zip; fi
+  - if [[ "$BUILD" != "app" ]]; then 7z x 2019.2.1.7250.zip -aoa; fi
+  - if [[ "$BUILD" != "app" ]]; then cd ../; fi
+  - if [[ "$BUILD" != "app" ]]; then cd godot-cpp; fi
+  - if [[ "$BUILD" != "app" ]]; then mkdir bin && cd bin; fi
+  - if [[ "$BUILD" != "app" ]]; then wget https://www.dropbox.com/s/tbyg9uz3ykfmcg2/headers.zip && 7z x headers.zip -aoa; fi
+  - if [[ "$BUILD" != "app" ]]; then cd ../include/gen/; fi
+  - if [[ "$BUILD" != "app" ]]; then wget https://www.dropbox.com/s/lw08yw81ge22del/gen.zip && 7z x gen.zip -aoa; fi
+  - if [[ "$BUILD" != "app" ]]; then cd ../../src/gen/; fi
+  - if [[ "$BUILD" != "app" ]]; then wget https://www.dropbox.com/s/23gw1ena812zb2v/srcgen.zip && 7z x srcgen.zip -aoa; fi
+  - if [[ "$BUILD" != "app" ]]; then cd ../../../wwise-gdnative; fi
+  - if [[ "$PLATARG" == "windows" ]]; then wget https://gist.githubusercontent.com/alessandrofama/41d1c775cc6fe113002002c99a41b6fd/raw/eae5087eb9ef2f5aa820a49d689bb775f855bbf5/compile_cl_wwise_debug.bat && cp compile_cl_wwise_debug.bat ../waapiclient-gdnative; fi
+  - if [[ "$PLATARG" == "windows" ]]; then wget https://gist.githubusercontent.com/alessandrofama/e209a9327328a5de0a2286cb14bd315c/raw/400425a2071c1dbe51e0d716ec0cd678ed1b8b37/compile_cl_wwise_release.bat && cp compile_cl_wwise_release.bat ../waapiclient-gdnative; fi
+  - if [[ "$BUILD" == "app" ]]; then cd integration-app; fi
 install:
   - if [[ "$PLATARG" == "android" ]]; then echo y | sdkmanager "ndk-bundle" > /dev/null; fi
   - if [[ "$PLATARG" == "android" ]]; then echo y | sdkmanager "ndk;21.2.6472646" > /dev/null; fi
@@ -130,19 +128,20 @@ install:
   - if [[ "$PLATARG" == "osx" ]]; then scons $LIB_ARGS_DEBUG && cd ../; fi
   - if [[ "$PLATARG" == "linux" ]]; then scons $LIB_ARGS_DEBUG && scons $LIB_ARGS_RELEASE && cd ../; fi
   - if [[ "$PLATARG" == "ios" ]]; then scons $LIB_ARGS_ARM64_DEBUG && scons $LIB_ARGS_ARMV7_DEBUG && scons $LIB_ARGS_ARM64_RELEASE && scons $LIB_ARGS_ARMV7_RELEASE && cd ../; fi
-  - if [[ "$PLATARG" == "app" ]]; then yarn install; fi
+  - if [[ "$PLATARG" == "app-osx" ]]; then yarn install; fi
+  - if [[ "$PLATARG" == "app-win" ]]; then npm install; fi
 script:
-  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then ./compile_cl_wwise_debug.bat && ./compile_cl_wwise_release.bat && cd ../waapiclient-gdnative && ./compile_cl_wwise_debug.bat && ./compile_cl_wwise_release.bat && cd ../; fi
-  - if [[ "$PLATARG" == "app" ]]; then yarn electron:build; fi
+  - if [[ "$PLATARG" == "windows" ]]; then ./compile_cl_wwise_debug.bat && ./compile_cl_wwise_release.bat && cd ../waapiclient-gdnative && ./compile_cl_wwise_debug.bat && ./compile_cl_wwise_release.bat && cd ../; fi
+  - if [[ "$PLATARG" == "app-osx" ]]; then yarn electron:build; fi
+  - if [[ "$PLATARG" == "app-win" ]]; then npm run electron:build; fi
   - echo "Build completed"
-
 before_deploy:
-  - if [[ "$TRAVIS_OS_NAME" == "windows" ]]; then cd wwise-gdnative/gdnative-demo/wwise/bin/ && 7z a Win64.zip win64/; fi
+  - if [[ "$PLATARG" == "windows" ]]; then cd wwise-gdnative/gdnative-demo/wwise/bin/ && 7z a Win64.zip win64/; fi
   - if [[ "$PLATARG" == "osx" ]]; then cd wwise-gdnative/gdnative-demo/wwise/bin/ && 7z a macOS.zip osx/; fi
   - if [[ "$PLATARG" == "ios" ]]; then cd wwise-gdnative/gdnative-demo/wwise/bin/ && 7z a iOS.zip iOS/; fi
   - if [[ "$PLATARG" == "linux" ]]; then cd wwise-gdnative/gdnative-demo/wwise/bin/ && 7z a Linux.zip linux/; fi
   - if [[ "$PLATARG" == "android" ]]; then cd wwise-gdnative/gdnative-demo/wwise/bin/ && 7z a Android.zip android/; fi
-  - if [[ "$PLATARG" == "app" ]]; then cd dist_electron; fi
+  - if [[ "$BUILD" == "app" ]]; then cd dist_electron; fi
     # Set up git user name and tag this commit
   - git config --local user.name "alessandrofama"
   - git config --local user.email "alessandro.fama@ymail.com"
@@ -158,6 +157,7 @@ deploy:
     - "Linux.zip"
     - "Android.zip"
     - "Wwise Godot Integration App.dmg"
+    - "Wwise Godot Integration App.exe"
   skip_cleanup: true
   draft: true
   on:
