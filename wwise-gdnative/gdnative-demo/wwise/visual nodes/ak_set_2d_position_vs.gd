@@ -2,7 +2,7 @@ tool
 extends VisualScriptCustomNode
 
 func _get_caption():
-	return "Ak Set 3D Position"
+	return "Ak Set 2D Position"
 	
 func _get_category():
 	return "Wwise"
@@ -22,19 +22,19 @@ func _get_input_value_port_count():
 func _get_input_value_port_name(idx):
 	match idx:
 		0: return "Game Object"
-		1: return "Transform"
+		1: return "Transform 2D"
 
 func _get_input_value_port_type(idx):
 	match idx:
 		0: return TYPE_OBJECT
-		1: return TYPE_TRANSFORM
+		1: return TYPE_TRANSFORM2D
 
 func _step(inputs, _outputs, start_mode,_working_mem):
 	if start_mode == START_MODE_BEGIN_SEQUENCE:
 		if not inputs[0] is Object:
-			push_warning("Please connect a valid GameObject to the Ak Set 3D Position node")
-		if not inputs[1] is Transform:
-			push_warning("Please connect a valid Transform to the Ak Set 3D Position node")
+			push_warning("Please connect a valid GameObject to the Ak Set 2D Position node")
+		if not inputs[1] is Transform2D:
+			push_warning("Please connect a valid Transform to the Ak Set 2D Position node")
 
-	Wwise.set_3d_position(inputs[0], inputs[1])
+	Wwise.set_2d_position(inputs[0], inputs[1])
 	return 0

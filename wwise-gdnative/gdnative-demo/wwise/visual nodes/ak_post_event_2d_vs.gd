@@ -4,7 +4,7 @@ extends VisualScriptCustomNode
 export(AK.EVENTS._enum) var event:int
 
 func _get_caption():
-	return "Ak Post Event"
+	return "Ak Post Event 2D"
 	
 func _get_category():
 	return "Wwise"
@@ -25,11 +25,11 @@ func _get_input_value_port_count():
 	
 func _get_input_value_port_name(idx):
 	match idx:
-		0: return "Transform"
+		0: return "Transform2D"
 
 func _get_input_value_port_type(idx):
 	match idx:
-		0:	return TYPE_TRANSFORM
+		0:	return TYPE_TRANSFORM2D
 
 func _get_output_value_port_count():
 	return 2
@@ -49,7 +49,7 @@ func _step(inputs, outputs, _start_mode, _working_mem):
 	var playing_id = Wwise.post_event_id(event, self)
 	
 	if inputs[0]:
-		Wwise.set_3d_position(self, inputs[0])
+		Wwise.set_2d_position()
 		
 	outputs[0] = playing_id
 	outputs[1] = self
