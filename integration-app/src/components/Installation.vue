@@ -2,8 +2,9 @@
   <div>
     <div v-if="!installing && !installed && !installationFailed">
       <div class="form-group">
-        <label>Platforms</label>
         <div>
+        <label style="font-size: large;">Platform Selection</label>
+        <br>
           <div class="custom-control custom-checkbox custom-control-inline">
             <input
               name="platform"
@@ -62,10 +63,10 @@
         </div>
       </div>
 
-      <form @submit.prevent="onSubmit">
+      <form @submit.prevent="onSubmit" style="margin-top: 4%;">
         <div class="form-group">
           <label for="godotProject" style="font-size: large;"
-            >Select Godot's project file.</label
+            >Select Godot's project file:</label
           >
           <div class="custom-file" style="margin-top: 1%;">
             <input
@@ -82,7 +83,7 @@
           <span
             v-if="isIntegrationInstalled"
             class="form-text"
-            style="margin-top: 3%; font-size: large;"
+            style="margin-top: 5%; font-size: large;"
           >
             The Wwise Godot Integration is already installed. Please update or
             uninstall the integration.
@@ -90,14 +91,14 @@
           <span
             v-else
             class="form-text"
-            style="margin-top: 3%; font-size: large;"
+            style="margin-top: 5%; font-size: large;"
           >
             Installing the Wwise Godot integration will copy the required files
             to your Godot Project.
           </span>
           <span
             class="form-text"
-            style="margin-top: 3%; font-size: large; color: red;"
+            style="margin-top: 4%; font-size: large; color: red;"
             >{{ errorHint }}</span
           >
         </div>
@@ -292,7 +293,7 @@ export default {
       }
 
       function filterRelease(release) {
-        return release.prerelease === true;
+        return release.prerelease === false;
       }
 
       function filterAsset(asset) {
@@ -301,7 +302,7 @@ export default {
 
       dlRelease(
         "alessandrofama",
-        "testrepo",
+        "wwise-godot-integration",
         this.gitDownloadDestionationPath,
         filterRelease,
         filterAsset,
@@ -323,7 +324,7 @@ export default {
       this.updateProgressTextandBar("Getting binaries from repository", 40);
 
       function filterRelease(release) {
-        return release.prerelease === true;
+        return release.prerelease === false;
       }
 
       function filterAsset(asset) {
@@ -337,7 +338,7 @@ export default {
 
       dlRelease(
         "alessandrofama",
-        "testrepo",
+        "wwise-godot-integration",
         this.binariesDestionationPath,
         filterRelease,
         filterAsset,

@@ -5,8 +5,10 @@ class EVENTS:
 	}
 
 class STATES:
+	pass
 
 class SWITCHES:
+	pass
 
 class GAME_PARAMETERS:
 
