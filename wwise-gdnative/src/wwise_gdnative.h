@@ -31,6 +31,10 @@
 #include <AK/Comm/AkCommunication.h>
 #endif
 
+#if defined(AK_LINUX)
+#include <memory>
+#endif
+
 namespace godot
 {
 	class Wwise : public Node
