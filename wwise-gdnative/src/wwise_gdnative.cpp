@@ -31,9 +31,9 @@
 
 using namespace godot;
 
-Mutex* Wwise::signalDataMutex = nullptr;
-Array* Wwise::signalDataArray = nullptr;
-Array* Wwise::signalBankDataArray = nullptr;
+CAkLock Wwise::signalDataLock;
+std::unique_ptr<Array> Wwise::signalDataArray = nullptr;
+std::unique_ptr<Array> Wwise::signalBankDataArray = nullptr;
 int Wwise::signalCallbackDataMaxSize = 4096;
 
 CAkLock g_localOutputLock;
@@ -98,9 +98,8 @@ Wwise::~Wwise()
 {
 	shutdownWwiseSystems();
 
-	signalDataMutex->free();
-	delete signalDataArray;
-	delete signalBankDataArray;
+	signalDataArray = nullptr;
+	signalBankDataArray = nullptr;
 
 	Godot::print("Wwise has shut down");
 }
@@ -191,9 +190,8 @@ void Wwise::_register_methods()
 
 void Wwise::_init()
 {
-	signalDataMutex = Mutex::_new();
-	signalDataArray = new Array();
-	signalBankDataArray = new Array();
+	signalDataArray = std::make_unique<Array>();
+	signalBankDataArray = std::make_unique<Array>();
 
 	projectSettings = ProjectSettings::get_singleton();
 	AKASSERT(projectSettings);
@@ -1011,7 +1009,7 @@ bool Wwise::wakeupFromSuspend()
 
 void Wwise::eventCallback(AkCallbackType callbackType, AkCallbackInfo* callbackInfo)
 {
-	signalDataMutex->lock();
+	AkAutoLock<CAkLock> ScopedLock(signalDataLock);
 
 	Dictionary signalData;
 	signalData["callbackType"] = static_cast<unsigned int>(callbackType);
@@ -1341,13 +1339,11 @@ void Wwise::eventCallback(AkCallbackType callbackType, AkCallbackInfo* callbackI
 		Godot::print_warning("Exceeded the signal callback data maximum size (callback manager)",
 							__FUNCTION__, __FILE__, __LINE__);
 	}
-
-	signalDataMutex->unlock();
 }
 
 void Wwise::emitSignals()
 {
-	signalDataMutex->lock();
+	AkAutoLock<CAkLock> ScopedLock(signalDataLock);
 
 	const int initialArraySize = signalDataArray->size();
 
@@ -1360,13 +1356,11 @@ void Wwise::emitSignals()
 	}
 
 	AKASSERT(signalDataArray->size() == 0);
-
-	signalDataMutex->unlock();
 }
 
 void Wwise::bankCallback(AkUInt32 bankID, const void* inMemoryBankPtr, AKRESULT loadResult, AkMemPoolId memPoolId)
 {
-	signalDataMutex->lock();
+	AkAutoLock<CAkLock> ScopedLock(signalDataLock);
 
 	Dictionary signalData;
 	signalData["bankID"] = static_cast<unsigned int>(bankID);
@@ -1381,13 +1375,11 @@ void Wwise::bankCallback(AkUInt32 bankID, const void* inMemoryBankPtr, AKRESULT 
 		Godot::print_warning("Exceeded the signal callback data maximum size (callback manager)",
 							__FUNCTION__, __FILE__, __LINE__);
 	}
-
-	signalDataMutex->unlock();
 }
 
 void Wwise::emitBankSignals()
 {
-	signalDataMutex->lock();
+	AkAutoLock<CAkLock> ScopedLock(signalDataLock);
 
 	const int initialArraySize = signalBankDataArray->size();
 
@@ -1398,8 +1390,6 @@ void Wwise::emitBankSignals()
 	}
 
 	AKASSERT(signalBankDataArray->size() == 0);
-
-	signalDataMutex->unlock();
 }
 
 Variant Wwise::getPlatformProjectSetting(const String setting)
