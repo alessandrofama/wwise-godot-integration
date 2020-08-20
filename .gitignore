@@ -6,3 +6,10 @@ wwise-gdnative/obj/
 integration-app/node_modules
 integration-app/dist_electron
 wwise-gdnative/src/.vscode/
+
+utils/*.zip
+utils/android
+utils/iOS
+utils/linux
+utils/osx
+utils/win64
