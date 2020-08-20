@@ -139,9 +139,9 @@ namespace godot
 		bool initialiseWwiseSystems();
 		bool shutdownWwiseSystems();
 
-		static Mutex* signalDataMutex;
-		static Array* signalDataArray;
-		static Array* signalBankDataArray;
+		static CAkLock signalDataLock;
+		static std::unique_ptr<Array> signalDataArray;
+		static std::unique_ptr<Array> signalBankDataArray;
 		static int signalCallbackDataMaxSize;
 
 		ProjectSettings* projectSettings;
