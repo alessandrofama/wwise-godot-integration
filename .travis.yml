@@ -49,7 +49,7 @@ matrix:
           - PLATARG=linux 
           - LIB_ARGS_DEBUG="platform=linux target=debug wwise_sdk='/home/travis/build/alessandrofama/wwise-godot-integration/wwisesdk/2019.2.1.7250'"
           - LIB_ARGS_RELEASE="platform=linux target=release wwise_sdk='/home/travis/build/alessandrofama/wwise-godot-integration/wwisesdk/2019.2.1.7250'"
-      - name: Windows x64 (Release)
+      - name: Windows x64 (Debug + Release)
         language: cpp
         env: PLATARG=windows
         os: windows
@@ -121,7 +121,7 @@ install:
   - if [[ "$PLATARG" == "android" ]]; then echo y | sdkmanager --channel=3 --channel=1 "cmake;3.10.2.4988404" > /dev/null; fi
   - if [[ "$PLATARG" == "android" ]]; then export ANDROID_NDK_ROOT=$ANDROID_HOME/ndk-bundle; fi
   - if [[ "$PLATARG" == "android" ]]; then export ANDROID_NDK_HOME=$ANDROID_NDK_ROOT; fi
-  - if [[ "$PLATARG" == "android" ]]; then $ANDROID_NDK_ROOT/ndk-build $LIB_ARGS_ARM64V8_DEBUG && $ANDROID_NDK_ROOT/ndk-build $LIB_ARGS_ARMV7_DEBUG && $ANDROID_NDK_ROOT/ndk-build $LIB_ARGS_ARM64V8_RELEASE && $ANDROID_NDK_ROOT/ndk-build $LIB_ARGS_ARMV7_RELEASE; fi
+  - if [[ "$PLATARG" == "android" ]]; then $ANDROID_NDK_ROOT/ndk-build $LIB_ARGS_ARM64V8_DEBUG -j2 && $ANDROID_NDK_ROOT/ndk-build $LIB_ARGS_ARMV7_DEBUG -j2 && $ANDROID_NDK_ROOT/ndk-build $LIB_ARGS_ARM64V8_RELEASE -j2 && $ANDROID_NDK_ROOT/ndk-build $LIB_ARGS_ARMV7_RELEASE -j2; fi
   - if [[ "$PLATARG" == "android" ]]; then echo "Android builds completed."; fi
   - if [[ "$PLATARG" == "android" ]]; then cd ../; fi
   - if [[ "$PLATARG" == "osx" ]]; then scons $LIB_ARGS_DEBUG && scons $LIB_ARGS_RELEASE && cd ../waapiclient-gdnative; fi
