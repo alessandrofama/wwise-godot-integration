@@ -149,7 +149,7 @@ func _add_android_advanced_settings():
 				
 func _add_linux_advanced_settings():
 	_add_setting(WWISE_LINUX_ADVANCED_SETTINGS_PATH + "audio_API", 3,
-				TYPE_INT, PROPERTY_HINT_FLAGS, "PuleAudio, ALSA")
+				TYPE_INT, PROPERTY_HINT_FLAGS, "PulseAudio, ALSA")
 
 func _add_setting(name, defaultValue, type, hint, hintString):
 	if ProjectSettings.has_setting(name): 
