@@ -13,7 +13,7 @@ Welcome! This repository provides an integration of [Audiokinetic's Wwise audio 
 * Multi-platform build with Scons for the Wwise and Wwise authoring API (Waapi) wrappers. Visual Studio 2017 and 2019 solutions are provided to build on Windows.
 * Wwise and Waapi wrappers unit tests with [Gut](https://github.com/bitwes/Gut).
 * Wwise and Waapi testbed projects.
-* Wwise profiler connection enabled in debug buids of the GDNative wrapper.
+* Wwise profiler connection enabled in debug builds of the GDNative wrapper.
 * Stream manager uses the default blocking I/O implementation and it can be extended to use custom I/O devices.
 * Custom Godot nodes: AkEvent, AkBank, AkListener, AkState, AkSwitch, AkEnvironment, AkGeometry, AkRoom, AkPortal, AkEarlyReflections.
 * Custom Godot Visual Script nodes: AkLoadBank, AkUnloadBank, AkPostEvent, AkSet3DPosition, AkSetState, AkSetSwitch, AkGetRTPCValue, AkSetRTPCValue.
