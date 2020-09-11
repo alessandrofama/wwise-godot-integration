@@ -112,8 +112,10 @@ before_install:
   - if [[ "$BUILD" != "app" ]]; then cd ../../src/gen/; fi
   - if [[ "$BUILD" != "app" ]]; then wget https://www.dropbox.com/s/23gw1ena812zb2v/srcgen.zip && 7z x srcgen.zip -aoa; fi
   - if [[ "$BUILD" != "app" ]]; then cd ../../../wwise-gdnative; fi
-  - if [[ "$PLATARG" == "windows" ]]; then wget https://gist.githubusercontent.com/alessandrofama/41d1c775cc6fe113002002c99a41b6fd/raw/eae5087eb9ef2f5aa820a49d689bb775f855bbf5/compile_cl_wwise_debug.bat && cp compile_cl_wwise_debug.bat ../waapiclient-gdnative; fi
-  - if [[ "$PLATARG" == "windows" ]]; then wget https://gist.githubusercontent.com/alessandrofama/e209a9327328a5de0a2286cb14bd315c/raw/400425a2071c1dbe51e0d716ec0cd678ed1b8b37/compile_cl_wwise_release.bat && cp compile_cl_wwise_release.bat ../waapiclient-gdnative; fi
+  - if [[ "$PLATARG" == "windows" ]]; then wget https://gist.githubusercontent.com/alessandrofama/41d1c775cc6fe113002002c99a41b6fd/raw/eae5087eb9ef2f5aa820a49d689bb775f855bbf5/compile_cl_wwise_debug.bat; fi
+  - if [[ "$PLATARG" == "windows" ]]; then wget https://gist.githubusercontent.com/alessandrofama/e209a9327328a5de0a2286cb14bd315c/raw/400425a2071c1dbe51e0d716ec0cd678ed1b8b37/compile_cl_wwise_release.bat; fi
+  - if [[ "$PLATARG" == "windows" ]]; then wget https://gist.githubusercontent.com/alessandrofama/167b68b51ad23e8627bb278a8f7a6ee9/raw/a27500ac8c2d1400a853d06f0a9ce1d02ed1d7b2/compile_cl_waapi_debug.bat && cp compile_cl_waapi_debug.bat ../waapiclient-gdnative; fi
+  - if [[ "$PLATARG" == "windows" ]]; then wget https://gist.githubusercontent.com/alessandrofama/07563fdd14878342a2ec9f4621fe6800/raw/bdffef062e8904b10d83fa299d436f58625555f4/compile_cl_waapi_release.bat && cp compile_cl_waapi_release.bat ../waapiclient-gdnative; fi
   - if [[ "$BUILD" == "app" ]]; then cd integration-app; fi
 install:
   - if [[ "$PLATARG" == "android" ]]; then echo y | sdkmanager "ndk-bundle" > /dev/null; fi
@@ -125,18 +127,19 @@ install:
   - if [[ "$PLATARG" == "android" ]]; then echo "Android builds completed."; fi
   - if [[ "$PLATARG" == "android" ]]; then cd ../; fi
   - if [[ "$PLATARG" == "osx" ]]; then scons $LIB_ARGS_DEBUG && scons $LIB_ARGS_RELEASE && cd ../waapiclient-gdnative; fi
-  - if [[ "$PLATARG" == "osx" ]]; then scons $LIB_ARGS_DEBUG && cd ../; fi
+  - if [[ "$PLATARG" == "osx" ]]; then scons $LIB_ARGS_DEBUG target_path="../wwise-gdnative/gdnative-demo/wwise/bin/" && scons $LIB_ARGS_RELEASE target_path="../wwise-gdnative/gdnative-demo/wwise/bin/" && cd ../; fi
   - if [[ "$PLATARG" == "linux" ]]; then scons $LIB_ARGS_DEBUG && scons $LIB_ARGS_RELEASE && cd ../; fi
   - if [[ "$PLATARG" == "ios" ]]; then scons $LIB_ARGS_ARM64_DEBUG && scons $LIB_ARGS_ARMV7_DEBUG && scons $LIB_ARGS_ARM64_RELEASE && scons $LIB_ARGS_ARMV7_RELEASE && cd ../; fi
   - if [[ "$PLATARG" == "app-osx" ]]; then yarn install; fi
   - if [[ "$PLATARG" == "app-win" ]]; then npm install; fi
 script:
-  - if [[ "$PLATARG" == "windows" ]]; then ./compile_cl_wwise_debug.bat && ./compile_cl_wwise_release.bat && cd ../waapiclient-gdnative && ./compile_cl_wwise_debug.bat && ./compile_cl_wwise_release.bat && cd ../; fi
+  - if [[ "$PLATARG" == "windows" ]]; then ./compile_cl_wwise_debug.bat && ./compile_cl_wwise_release.bat && cd ../waapiclient-gdnative && ./compile_cl_waapi_debug.bat && ./compile_cl_waapi_release.bat && cd ../; fi
   - if [[ "$PLATARG" == "app-osx" ]]; then yarn electron:build; fi
   - if [[ "$PLATARG" == "app-win" ]]; then npm run electron:build; fi
   - echo "Build completed"
 before_deploy:
   - if [[ "$PLATARG" == "windows" ]]; then cd wwise-gdnative/gdnative-demo/wwise/bin/ && 7z a Win64.zip win64/; fi
+  - if [[ "$PLATARG" == "osx" ]]; then cp waapiclient-gdnative/gdnative-demo/wwise/bin/waapi-gdnative-debug.gdnlib wwise-gdnative/gdnative-demo/wwise/bin && cp waapiclient-gdnative/gdnative-demo/wwise/bin/waapi-gdnative-debug.gdns wwise-gdnative/gdnative-demo/wwise/bin && cp waapiclient-gdnative/gdnative-demo/wwise/bin/waapi-gdnative-release.gdnlib wwise-gdnative/gdnative-demo/wwise/bin && cp waapiclient-gdnative/gdnative-demo/wwise/bin/waapi-gdnative-release.gdns wwise-gdnative/gdnative-demo/wwise/bin; fi
   - if [[ "$PLATARG" == "osx" ]]; then cd wwise-gdnative/gdnative-demo/wwise/bin/ && 7z a macOS.zip osx/ && cd ../../../../ && mv wwise-gdnative/gdnative-demo/wwise/bin/macOS.zip ./macOS.zip && cd wwise-gdnative/gdnative-demo/; fi
   - if [[ "$PLATARG" == "osx" ]]; then rm -rf meshes scripts scenes test addons/gut .import wwise/resources wwise/GeneratedSoundBanks/Android wwise/GeneratedSoundBanks/iOS wwise/GeneratedSoundBanks/Linux wwise/GeneratedSoundBanks/Mac wwise/GeneratedSoundBanks/Windows wwise/bin/android wwise/bin/iOS wwise/bin/osx wwise/bin/win64 && rm -f .gitignore .gutconfig.json default_env.tres project.godot export_presets.cfg icon.png icon.png.import wwise/GeneratedSoundBanks/Wwise_IDs.h wwise/GeneratedSoundBanks/wwise_ids.gd && mv wwise/GeneratedSoundBanks/wwise_ids.backup wwise/GeneratedSoundBanks/wwise_ids.gd && find . -name '.import' -type f -delete; fi
   - if [[ "$PLATARG" == "osx" ]]; then 7z a -r ../../Integration.zip * && cd ../../; fi
