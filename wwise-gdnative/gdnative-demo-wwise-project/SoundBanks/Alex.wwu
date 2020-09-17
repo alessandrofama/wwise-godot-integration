@@ -6,7 +6,17 @@
 				<SoundBank Name="TestBank" ID="{0BF8853A-CC28-40DA-883A-F292AB79E5F8}">
 					<ObjectInclusionList>
 						<ObjectRef Name="Play_chimes_with_marker" ID="{4A7E8665-943D-4648-87C7-C34952306870}" WorkUnitID="{D11203C4-705A-4B94-A640-C4B762608D58}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Factory Reflect" ID="{923039AD-F8B4-46D4-BDA7-CB5A6EE595E0}" WorkUnitID="{923039AD-F8B4-46D4-BDA7-CB5A6EE595E0}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Alex Tests" ID="{A7F31287-7301-4738-8650-19044FD81678}" WorkUnitID="{A7F31287-7301-4738-8650-19044FD81678}" Origin="Manual" Filter="7"/>
+					</ObjectInclusionList>
+					<ObjectExclusionList/>
+					<GameSyncExclusionList/>
+				</SoundBank>
+				<SoundBank Name="Plugins" ID="{79DF2CFD-CEC5-467E-B319-785E83FD46C8}">
+					<ObjectInclusionList>
+						<ObjectRef Name="Plugins" ID="{83A9630F-2FD3-439B-B636-DF89EE6A5A59}" WorkUnitID="{83A9630F-2FD3-439B-B636-DF89EE6A5A59}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Plugins" ID="{83EE534B-1425-4AD4-83C0-76F689EA61F5}" WorkUnitID="{83EE534B-1425-4AD4-83C0-76F689EA61F5}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Plugins" ID="{98DDA886-670A-4C78-AFE6-6103B9F6107B}" WorkUnitID="{98DDA886-670A-4C78-AFE6-6103B9F6107B}" Origin="Manual" Filter="7"/>
 					</ObjectInclusionList>
 					<ObjectExclusionList/>
 					<GameSyncExclusionList/>

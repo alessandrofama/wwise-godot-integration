@@ -1,0 +1,375 @@
+Event	ID	Name			Wwise Object Path	Notes
+	243379636	Reflect			\Plugins\Plugins\Reflect	
+	480515238	SoundSeed_Impact			\Plugins\Plugins\SoundSeed_Impact	
+	623594218	SoundSeed_Wind			\Plugins\Plugins\SoundSeed_Wind	
+	2209794929	Motion_Source			\Plugins\Plugins\Motion_Source	
+	2297584640	Motion_Aux			\Plugins\Plugins\Motion_Aux	
+	3260090173	Convolution			\Plugins\Plugins\Convolution	
+	3404211905	SoundSeed_Grain			\Plugins\Plugins\SoundSeed_Grain	
+
+Game Parameter	ID	Name			Wwise Object Path	Notes
+	796049864	RPM			\Factory Motion\RPM	
+	1524500807	Playback_Rate			\Factory Motion\Playback_Rate	
+
+Modulator LFO	ID	Name			Wwise Object Path	Notes
+	10993746	Modulator LFO (Custom)				
+	646229522	Modulator LFO (Custom)				
+	806836234	Modulator LFO (Custom)				
+
+Modulator Envelope	ID	Name			Wwise Object Path	Notes
+	207084865	Modulator Envelope (Custom)				
+
+Modulator Time	ID	Name			Wwise Object Path	Notes
+	5013266	Modulator Time (Custom)				
+	11487050	Modulator Time (Custom)				
+	18692090	Modulator Time (Custom)				
+	18824215	Modulator Time (Custom)				
+	19682614	Modulator Time (Custom)				
+	23150201	Modulator Time (Custom)				
+	33496081	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	38769566	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	43925756	Modulator Time (Custom)				
+	45717212	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	54259373	Modulator Time (Custom)				
+	62472886	Modulator Time (Custom)				
+	65515829	Modulator Time (Custom)				
+	71973577	Modulator Time (Custom)				
+	74049420	Modulator Time (Custom)				
+	78766034	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	79112333	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	85237968	Modulator Time (Custom)				
+	85494141	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	92025009	Modulator Time (Custom)				
+	106461135	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	109078065	Modulator Time (Custom)				
+	110002656	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	118298274	Modulator Time (Custom)				
+	123280566	Modulator Time (Custom)				
+	139840479	Modulator Time (Custom)				
+	142843164	New Modulator Time (Custom)				
+	143668765	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	154860979	Modulator Time (Custom)				
+	177321197	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	180564855	Modulator Time (Custom)				
+	190798017	Modulator Time (Custom)				
+	194134429	Modulator Time (Custom)				
+	194840087	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	201871586	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	212095221	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	218129312	Modulator Time (Custom)				
+	220484319	Modulator Time (Custom)				
+	223216640	Modulator Time (Custom)				
+	227691926	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	230215675	Modulator Time (Custom)				
+	232417868	Modulator Time (Custom)				
+	238164267	Modulator Time (Custom)				
+	244023258	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	245342065	Modulator Time (Custom)				
+	248944386	Modulator Time (Custom)				
+	252848724	Modulator Time (Custom)				
+	253873062	Modulator Time (Custom)				
+	260278359	Modulator Time (Custom)				
+	263810352	Modulator Time (Custom)				
+	283111659	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	287413739	Modulator Time (Custom)				
+	289040010	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	298975923	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	311903661	Modulator Time (Custom)				
+	313556298	Modulator Time (Custom)				
+	314347639	Modulator Time (Custom)				
+	314704056	Modulator Time (Custom)				
+	318229056	Modulator Time (Custom)				
+	323583141	Modulator Time (Custom)				
+	329948324	Modulator Time (Custom)				
+	339474639	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	341630778	Modulator Time (Custom)				
+	346458329	Modulator Time (Custom)				
+	348720359	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	349372566	Modulator Time (Custom)				
+	351580630	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	354068852	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	355741653	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	356638151	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	357707755	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	359388282	Modulator Time (Custom)				
+	360606139	Modulator Time (Custom)				
+	362179100	Modulator Time (Custom)				
+	364760574	Modulator Time (Custom)				
+	365184991	Modulator Time (Custom)				
+	383151861	Modulator Time (Custom)				
+	383267108	Modulator Time (Custom)				
+	394749592	Modulator Time (Custom)				
+	395181180	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	403076444	Modulator Time (Custom)				
+	415675241	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	420133109	Modulator Time (Custom)				
+	431713145	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	432371805	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	439784641	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	444729531	Modulator Time (Custom)				
+	447429518	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	459148499	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	459257079	Modulator Time (Custom)				
+	466181887	Modulator Time (Custom)				
+	469044787	Modulator Time (Custom)				
+	477543367	Modulator Time (Custom)				
+	482793164	Modulator Time (Custom)				
+	484967869	Modulator Time (Custom)				
+	485212590	Modulator Time (Custom)				
+	488424175	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	489270156	Modulator Time (Custom)				
+	490269081	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	508060087	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	508247327	Modulator Time (Custom)				
+	513658468	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	517878992	Modulator Time (Custom)				
+	519018850	Modulator Time (Custom)				
+	521093017	Modulator Time (Custom)				
+	532340021	Modulator Time (Custom)				
+	534693594	Modulator Time (Custom)				
+	539281242	Modulator Time (Custom)				Modify the LFO property on the Playback Rate in the Time Modulation window to change the acceleration. Both drivers use the same LFO ShareSet. 
+	542079001	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	547378180	Modulator Time (Custom)				
+	551779448	Modulator Time (Custom)				
+	557561152	Modulator Time (Custom)				
+	573285136	Modulator Time (Custom)				
+	593678512	Modulator Time (Custom)				
+	600365186	Modulator Time (Custom)				
+	601552270	Modulator Time (Custom)				
+	603634834	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	614965559	Modulator Time (Custom)				
+	615134453	Modulator Time (Custom)				
+	616477424	Modulator Time (Custom)				
+	627040373	Modulator Time (Custom)				
+	632937293	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	641391048	Modulator Time (Custom)				
+	646841588	Modulator Time (Custom)				
+	647602357	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	657532222	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	658411151	Modulator Time (Custom)				
+	678528559	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	681564917	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	685837079	Modulator Time (Custom)				
+	700808531	Modulator Time (Custom)				
+	705189693	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	706231027	Modulator Time (Custom)				Modify the LFO property on the Playback Rate in the Time Modulation window to change the acceleration. Both drivers use the same LFO ShareSet. 
+	712869378	Modulator Time (Custom)				
+	729548916	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	730881247	Modulator Time (Custom)				
+	738926769	Modulator Time (Custom)				
+	741182785	Modulator Time (Custom)				
+	747542104	Modulator Time (Custom)				
+	752889231	Modulator Time (Custom)				
+	775070228	Modulator Time (Custom)				
+	775205383	Modulator Time (Custom)				
+	777656035	Modulator Time (Custom)				
+	782373264	Modulator Time (Custom)				
+	784125600	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	785730347	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	788507055	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	808118087	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	815141915	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	817374649	Modulator Time (Custom)				
+	819593266	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	835800594	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	836468248	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	840854419	Modulator Time (Custom)				
+	842003424	Modulator Time (Custom)				
+	844671965	Modulator Time (Custom)				
+	845795982	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	857433141	Modulator Time (Custom)				
+	861245734	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	864053732	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	883579274	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	884914432	Modulator Time (Custom)				
+	890435640	Modulator Time (Custom)				
+	899346686	Modulator Time (Custom)				
+	901668835	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	913125364	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	913182458	Modulator Time (Custom)				
+	916757124	Modulator Time (Custom)				
+	932528206	Modulator Time (Custom)				
+	941783331	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	948507010	Modulator Time (Custom)				
+	975309267	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	985888740	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	990682266	Modulator Time (Custom)				
+	997110381	Modulator Time (Custom)				
+	1004937451	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	1006432153	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	1008440023	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	1009011843	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	1013839829	Modulator Time (Custom)				
+	1018130035	Modulator Time (Custom)				
+	1027982177	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	1032913683	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	1034345616	Modulator Time (Custom)				
+	1040182065	Modulator Time (Custom)				
+	1049278812	Modulator Time (Custom)				
+	1052483207	Modulator Time (Custom)				
+	1060654232	Modulator Time (Custom)				
+	1062002288	Modulator Time (Custom)				
+	1067972785	Modulator Time (Custom)				The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	1070616320	Modulator Time (Custom)				
+
+Audio Bus	ID	Name			Wwise Object Path	Notes
+	431572087	Master Plugins			\Plugins\Master Plugins	
+	985987111	Motion Factory Bus			\Plugins\Motion Factory Bus	
+
+Auxiliary Bus	ID	Name			Wwise Object Path	Notes
+	1692308750	ReflectAux			\Plugins\Master Plugins\ReflectAux	
+	2297584640	Motion_Aux			\Plugins\Motion Factory Bus\Motion_Aux	
+
+Effect plug-ins	ID	Name	Type				Notes
+	152884559	Space_Ship_Stereo_(Custom)	Wwise Convolution Reverb			Impulse response created by Pinguin ing.büro © 2010 Pinguin ing.büro.  All rights reserved. IR Pre-delay: 7ms  
+	750892401	Wwise_Reflect_(Custom)	Wwise Reflect			
+	1041325803	SoundSeed_Impact_(Custom)	SoundSeed Impact			
+
+Source plug-ins	ID	Name	Type		Wwise Object Path	Notes
+	608358	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Ramps\Lifter\Uplifter\Long Uplifter\Wwise Motion Source	
+	25868842	SoundSeed Air Wind	SoundSeed Air Wind		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Game Driven Presets\Wind Ambiences\Polar Winds\SoundSeed Air Wind	
+	39885879	SoundSeed Air Woosh	SoundSeed Air Woosh		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Game Driven Presets\Weapons\Arrows\Arrow\SoundSeed Air Woosh	
+	45385959	SoundSeed Woosh	SoundSeed Air Woosh		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Static Presets (wave file substitutions)\Golf Club\SoundSeed Woosh	
+	53573390	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Basic\Double Click\Up Double Click\Up Double Click Moderate\Wwise Motion Source	
+	60142098	SoundSeed Air Wind	SoundSeed Air Wind		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Game Driven Presets\Vehicles\Airplane\Rumble\SoundSeed Air Wind	
+	60410286	Wwise Silence	Wwise Silence		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Game Driven Presets\Weapons\Arrows\Silence\Wwise Silence	
+	71084047	SoundSeed Air Woosh	SoundSeed Air Woosh		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Static Presets (wave file substitutions)\Weapons\Arrows\Arrows_02\Arrow\SoundSeed Air Woosh	
+	71113179	SoundSeed Air Wind	SoundSeed Air Wind		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Game Driven Presets\Wind Ambiences\Eerie Tunnel\SoundSeed Air Wind	
+	73647974	SoundSeed Wind	SoundSeed Air Wind		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Static Presets (wave file substitutions)\Non-Windy Ambiences\Surf\Random Wavebreak\Random_Wave02\SoundSeed Wind	
+	109314945	SoundSeed Air Wind	SoundSeed Air Wind		\Actor-Mixer Hierarchy\Plugins\Plugins\SoundSeedWind\SoundSeed Air Wind	
+	111857556	SoundSeed Air Wind	SoundSeed Air Wind		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Static Presets (wave file substitutions)\Wind Ambiences\Grove\SoundSeed Air Wind	
+	112128869	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Ramps\Lifter\Uplifter\Short Uplifter\Wwise Motion Source	
+	137670514	SoundSeed Woosh	SoundSeed Air Woosh		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Static Presets (wave file substitutions)\Weapons\Wooden Staff\SoundSeed Woosh	
+	151895944	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Ramps\Sweep\Sweep Up\Long Sweep Up\Wwise Motion Source	
+	158738632	SoundSeed Air Woosh	SoundSeed Air Woosh		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Static Presets (wave file substitutions)\Weapons\Arrows\Arrows_04\Arrow\SoundSeed Air Woosh	
+	162772315	SoundSeed Woosh	SoundSeed Air Woosh		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Static Presets (wave file substitutions)\Non-Windy Ambiences\Urban Scene\Random Car Pass-by_05\Car Pass-by\SoundSeed Woosh	
+	168391045	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Context\Variation\Rollercoaster\Wwise Motion Source	Modify the LFO property on the Playback Rate in the Time Modulation window to change the acceleration. Both drivers should have the same settings.
+	169132707	SoundSeed Wind	SoundSeed Air Wind		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Static Presets (wave file substitutions)\Non-Windy Ambiences\Surf\Random Wavebreak\Random_Wave01\SoundSeed Wind	
+	174409972	Wwise Silence	Wwise Silence		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Static Presets (wave file substitutions)\Weapons\Arrows\Arrows_04\Silence\Wwise Silence	
+	188214797	SoundSeed Woosh	SoundSeed Air Woosh		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Static Presets (wave file substitutions)\Non-Windy Ambiences\Urban Scene\Random Car Pass-by_04\Car Pass-by\SoundSeed Woosh	
+	191762433	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Basic\Slide\Short Slide\Short Slide Strong\Wwise Motion Source	
+	202947517	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Ramps\Sweep\Sweep Down\Short Sweep Down\Wwise Motion Source	
+	207007385	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Basic\Multiple Clicks\Multiple Clicks Strong\Wwise Motion Source	Modify Loop Count property from the Time modulator to change the number of repetition. 
+	207598865	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Context\Interaction\Pick Up Item\Wwise Motion Source	
+	223736328	SoundSeed Woosh	SoundSeed Air Woosh		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Game Driven Presets\Weapons\Generic Weapon Swing\SoundSeed Woosh	
+	229589517	Ville	SoundSeed Air Wind		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Static Presets (wave file substitutions)\Non-Windy Ambiences\Urban Scene\Background City Noise\Ville	
+	232816868	Wwise Silence	Wwise Silence		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Static Presets (wave file substitutions)\Weapons\Arrows\Arrows_02\Silence\Wwise Silence	
+	235054555	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Ramps\Sweep\Sweep Down\Long Sweep Down\Wwise Motion Source	
+	242858394	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Complex\Question Answer\Wwise Motion Source	The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated. 
+	249762077	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Context\Vehicle\Contact\Wwise Motion Source	
+	257412152	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Context\Vehicle\Car Crash Strong\Wwise Motion Source	
+	277732044	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Basic\Single Click\Single Click Strong\Wwise Motion Source	
+	291003850	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Context\SFX\Short Impact\Wwise Motion Source	
+	292002125	SoundSeed Woosh	SoundSeed Air Woosh		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Static Presets (wave file substitutions)\Weapons\Fly-By Dagger\SoundSeed Woosh	
+	309043750	Wwise Silence	Wwise Silence		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Static Presets (wave file substitutions)\Non-Windy Ambiences\Urban Scene\Random Car Pass-by_01\Silence\Wwise Silence	
+	309737562	SoundSeed Air Wind	SoundSeed Air Wind		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Game Driven Presets\Wind Ambiences\Kansas\SoundSeed Air Wind	
+	341433879	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Complex\Loud And Proud\Wwise Motion Source	The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated. 
+	347125916	SoundSeed Air Woosh	SoundSeed Air Woosh		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Static Presets (wave file substitutions)\Weapons\Arrows\Arrows_06\Arrow\SoundSeed Air Woosh	
+	356319053	SoundSeed Woosh	SoundSeed Air Woosh		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Static Presets (wave file substitutions)\Non-Windy Ambiences\Urban Scene\Random Car Pass-by_01\Car Pass-by\SoundSeed Woosh	
+	358361233	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Complex\MultiRamp\Wwise Motion Source	The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated. 
+	365762760	SoundSeed Woosh	SoundSeed Air Woosh		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Static Presets (wave file substitutions)\Non-Windy Ambiences\Urban Scene\Random Car Pass-by_03\Car Pass-by\SoundSeed Woosh	
+	372799448	Wwise Silence	Wwise Silence		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Static Presets (wave file substitutions)\Non-Windy Ambiences\Urban Scene\Random Car Pass-by_02\Silence\Wwise Silence	
+	390072249	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Basic\Double Click\Down Double Click\Down Double Click Strong\Wwise Motion Source	
+	400146702	SoundSeed Air Woosh	SoundSeed Air Woosh		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Game Driven Presets\Vehicles\Locomotive\SoundSeed Air Woosh	Variations on a mechanical theme. Made for looping.
+	414142681	Wwise Silence	Wwise Silence		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Static Presets (wave file substitutions)\Weapons\Arrows\Arrows_03\Silence\Wwise Silence	
+	417933580	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Basic\Double Click\Up Double Click\Up Double Click Strong\Wwise Motion Source	
+	426433600	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Basic\Long Press\Long Press Soft\Wwise Motion Source	
+	440766690	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Basic\Long Press\Long Press Moderate\Wwise Motion Source	
+	466528970	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Basic\Double Click\Up Double Click\Up Double Click Soft\Wwise Motion Source	
+	478891048	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Basic\Multiple Clicks\Multiple Clicks Soft\Wwise Motion Source	Modify Loop Count property from the Time modulator to change the number of repetitions. 
+	480750206	SoundSeed Air Woosh	SoundSeed Air Woosh		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Static Presets (wave file substitutions)\Weapons\Arrows\Arrows_01\Arrow\SoundSeed Air Woosh	
+	482620584	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Context\Variation\Heartbeat\Wwise Motion Source	The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated.
+	482980946	Wwise Silence	Wwise Silence		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Static Presets (wave file substitutions)\Weapons\Arrows\Arrows_06\Silence\Wwise Silence	
+	487056315	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Context\SFX\Explosion\Wwise Motion Source	
+	504047276	Wwise Silence	Wwise Silence		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Static Presets (wave file substitutions)\Non-Windy Ambiences\Urban Scene\Random Car Pass-by_04\Silence\Wwise Silence	
+	511713507	Wwise Silence	Wwise Silence		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Static Presets (wave file substitutions)\Non-Windy Ambiences\Surf\Random Wavebreak\Silence\Wwise Silence	
+	517142054	SoundSeed Woosh	SoundSeed Air Woosh		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Game Driven Presets\Vehicles\Car Pass-by\SoundSeed Woosh	
+	543414182	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Ramps\Stutter Ramps\Stutter Ramps Up\Short Stutter Ramps Up\Wwise Motion Source	
+	546433857	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Basic\Single Click\Single Click Moderate\Wwise Motion Source	
+	553787916	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Ramps\Lifter\Downlifter\Long Downlifter\Wwise Motion Source	
+	563948639	SoundSeed Woosh	SoundSeed Air Woosh		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Static Presets (wave file substitutions)\Weapons\Zorro\SoundSeed Woosh	
+	572475112	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Complex\Crossfaders\Wwise Motion Source	The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated. 
+	578624363	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Context\Variation\Martial March\Wwise Motion Source	To synchronise music with haptic feedback: 1) Convert the music's BPM to time (e.g. 1 bar @ 120BPM = 2 seconds)  2) Apply the converted time to the Duration property of the Time modulator  or Route your music, using an user-defined aux bus, to the Wwise Motion bus. 
+	586448895	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Context\Interaction\Drop Item\Wwise Motion Source	
+	588094097	SoundSeed Air Woosh	SoundSeed Air Woosh		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Static Presets (wave file substitutions)\Weapons\Arrows\Arrows_05\Arrow\SoundSeed Air Woosh	
+	595651121	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Basic\Double Click\Down Double Click\Down Double Click Moderate\Wwise Motion Source	
+	604518311	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Basic\Slide\Long Slide\Long Slide Strong\Wwise Motion Source	
+	606145335	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Basic\Basic Loop\Loop Strong\Wwise Motion Source	
+	606150867	SoundSeed Air Wind	SoundSeed Air Wind		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Static Presets (wave file substitutions)\Wind Ambiences\Polar Winds\SoundSeed Air Wind	
+	613518848	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Context\Military\Punch\Wwise Motion Source	
+	622973409	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Ramps\Pass By\Pass By 2 Miror\Wwise Motion Source	
+	640643725	SoundSeed Air Wind	SoundSeed Air Wind		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Game Driven Presets\Vehicles\Airplane\Jets\SoundSeed Air Wind	
+	641792197	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Ramps\Pass By\Pass By 2\Wwise Motion Source	
+	642198329	SoundSeed Air Woosh	SoundSeed Air Woosh		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Game Driven Presets\Vehicles\Chopper\SoundSeed Air Woosh	Variations on a mechanical theme. Made for looping.
+	644316850	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Ramps\Sweep\Sweep Up\Short Sweep Up\Wwise Motion Source	
+	653356739	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Context\Military\Artilery\Wwise Motion Source	
+	663109749	SoundSeed Air Wind	SoundSeed Air Wind		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Static Presets (wave file substitutions)\Wind Ambiences\Eerie Tunnel\SoundSeed Air Wind	
+	665309103	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Context\Variation\Phone Call\Wwise Motion Source	
+	675627263	SoundSeed Air Wind	SoundSeed Air Wind		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Static Presets (wave file substitutions)\Wind Ambiences\Weeping Willows\SoundSeed Air Wind	
+	685069953	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Context\Military\Assault Loop\Wwise Motion Source	The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated. 
+	685503655	SoundSeed Woosh	SoundSeed Air Woosh		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Static Presets (wave file substitutions)\Non-Windy Ambiences\Urban Scene\Random Car Pass-by_02\Car Pass-by\SoundSeed Woosh	
+	687451945	SoundSeed Woosh	SoundSeed Air Woosh		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Static Presets (wave file substitutions)\Weapons\Ogre's Club Swing\SoundSeed Woosh	
+	698518140	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Basic\Multiple Clicks\Multiple Clicks Moderate\Wwise Motion Source	Modify Loop Count property from the Time modulator to change the number of repetition. 
+	699772409	SoundSeed Wind	SoundSeed Air Wind		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Static Presets (wave file substitutions)\Non-Windy Ambiences\Surf\Surf\SoundSeed Wind	
+	702525742	Wwise Silence	Wwise Silence		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Static Presets (wave file substitutions)\Weapons\Arrows\Arrows_01\Silence\Wwise Silence	
+	709782740	Wwise Silence	Wwise Silence		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Static Presets (wave file substitutions)\Weapons\Arrows\Arrows_05\Silence\Wwise Silence	
+	710262726	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Complex\Sudden Steeps\Wwise Motion Source	The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated. 
+	710878116	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Basic\Basic Loop\Loop Moderate\Wwise Motion Source	
+	731969879	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Ramps\Stutter Ramps\Stutter Ramps Down\Short Stutter Ramps Down\Wwise Motion Source	
+	732259870	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Ramps\Pass By\Pass By 1 Miror\Wwise Motion Source	
+	745928427	Wwise Silence	Wwise Silence		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Static Presets (wave file substitutions)\Non-Windy Ambiences\Urban Scene\Random Car Pass-by_06\Silence\Wwise Silence	
+	761686719	SoundSeed Woosh	SoundSeed Air Woosh		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Game Driven Presets\Weapons\Wooden Staff\SoundSeed Woosh	
+	767342224	SoundSeed Wind	SoundSeed Air Wind		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Game Driven Presets\Waterfall\SoundSeed Wind	
+	773812617	Wwise Silence	Wwise Silence		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Static Presets (wave file substitutions)\Non-Windy Ambiences\Urban Scene\Random Car Pass-by_05\Silence\Wwise Silence	
+	780217381	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Context\Interaction\Open Door\Wwise Motion Source	
+	789837903	SoundSeed Grain	SoundSeed Grain		\Actor-Mixer Hierarchy\Plugins\Plugins\SoundSeedGrain\SoundSeed Grain	
+	789939026	SoundSeed Wind	SoundSeed Air Wind		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Static Presets (wave file substitutions)\Non-Windy Ambiences\Surf\Random Wavebreak\Random_Wave03\SoundSeed Wind	
+	790704623	Wwise Silence	Wwise Silence		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Static Presets (wave file substitutions)\Non-Windy Ambiences\Urban Scene\Random Car Pass-by_03\Silence\Wwise Silence	
+	809721861	SoundSeed Woosh	SoundSeed Air Woosh		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Static Presets (wave file substitutions)\Weapons\Generic Weapon Swing\SoundSeed Woosh	
+	816959187	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Context\Vehicle\Off-Road Dirt\Wwise Motion Source	
+	818065085	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Context\Vehicle\Parametrized RPM\Wwise Motion Source	RPM Game Parameter modifies the intensity of each driver.  
+	819386237	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Complex\Dazed And Confused\Wwise Motion Source	The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated. 
+	827305960	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Ramps\Pass By\Pass By 1\Wwise Motion Source	
+	837842948	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Complex\Interference\Wwise Motion Source	The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated. 
+	845310298	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Complex\Oscillation\Wwise Motion Source	The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated. 
+	849098007	SoundSeed Air Wind	SoundSeed Air Wind		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Game Driven Presets\Parachute Jump\SoundSeed Air Wind	
+	851135740	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Basic\Slide\Long Slide\Long Slide Moderate\Wwise Motion Source	
+	855318940	SoundSeed Air Wind	SoundSeed Air Wind		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Game Driven Presets\Wind Ambiences\Weeping Willows\SoundSeed Air Wind	
+	862342132	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Plugins\MotionSource\MotionSource\Wwise Motion Source	
+	885261379	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Ramps\Stutter Ramps\Stutter Ramps Down\Long Stutter Ramps Down\Wwise Motion Source	
+	886753808	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Complex\Dancing With The Actuators\Wwise Motion Source	The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated. 
+	890289506	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Context\Military\Landing\Wwise Motion Source	
+	896862517	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Basic\Long Press\Long Press Strong\Wwise Motion Source	
+	898145911	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Context\SFX\Long Impact\Wwise Motion Source	
+	920252076	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Basic\Slide\Long Slide\Long Slide Soft\Wwise Motion Source	
+	927840229	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Complex\Shredded Peaks\Wwise Motion Source	The Time modulator's Playback Rate property, on which a RTPC curve has been attached, affects the speed at which the driver is modulated. 
+	932020803	SoundSeed Air Wind	SoundSeed Air Wind		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Game Driven Presets\Wind Ambiences\Grove\SoundSeed Air Wind	
+	940749811	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Context\Vehicle\Car Crash Soft\Wwise Motion Source	
+	949017482	SoundSeed Woosh	SoundSeed Air Woosh		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Static Presets (wave file substitutions)\Non-Windy Ambiences\Urban Scene\Random Car Pass-by_06\Car Pass-by\SoundSeed Woosh	
+	964146970	SoundSeed Woosh	SoundSeed Air Woosh		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Game Driven Presets\Weapons\Fly-By Dagger\SoundSeed Woosh	
+	979343096	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Context\Vehicle\Off-Road Concrete\Wwise Motion Source	
+	988024366	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Context\Military\Gunshot\Wwise Motion Source	
+	989329657	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Basic\Slide\Short Slide\Short Slide Soft\Wwise Motion Source	
+	991312606	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Ramps\Lifter\Downlifter\Short Downlifter\Wwise Motion Source	
+	992829686	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Basic\Slide\Short Slide\Short Slide Moderate\Wwise Motion Source	
+	993923566	SoundSeed Air Woosh	SoundSeed Air Woosh		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Static Presets (wave file substitutions)\Weapons\Arrows\Arrows_03\Arrow\SoundSeed Air Woosh	
+	1000149844	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Context\Interaction\Open Vault\Wwise Motion Source	
+	1004073334	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Context\Military\Reload\Wwise Motion Source	
+	1018093596	SoundSeed Woosh	SoundSeed Air Woosh		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Game Driven Presets\Weapons\Ogre's Club Swing\SoundSeed Woosh	
+	1033398828	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Basic\Basic Loop\Loop Soft\Wwise Motion Source	
+	1037238193	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Basic\Single Click\Single Click Soft\Wwise Motion Source	
+	1049857322	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Basic\Double Click\Down Double Click\Down Double Click Soft\Wwise Motion Source	
+	1055065522	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Context\Vehicle\Car Crash Moderate\Wwise Motion Source	
+	1055663783	SoundSeed Air Woosh	SoundSeed Air Woosh		\Actor-Mixer Hierarchy\Plugins\Factory SoundSeed Air Objects\Game Driven Presets\Wings\SoundSeed Air Woosh	Each wing beating, made for looping.
+	1059581615	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Ramps\Stutter Ramps\Stutter Ramps Up\Long Stutter Ramps Up\Wwise Motion Source	
+	1061563755	Wwise Motion Source	Wwise Motion Source		\Actor-Mixer Hierarchy\Plugins\Factory Motion\Motion Factory Assets\Context\Vehicle\Off-Road Grass\Wwise Motion Source	
+
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	215518025	SoundSeedImpact	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Windows\SFX\Explosion_3_10C4C929.wem		\Actor-Mixer Hierarchy\Plugins\Plugins\SoundSeedImpact		356890
+	258193767	Marker_Test_001	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Windows\SFX\Marker_Test_001_10C4C929.wem		\Actor-Mixer Hierarchy\Plugins\Plugins\ConvolutionTest\Marker_Test_001		938254
+	621017625	bombe_explosion_dry	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Windows\SFX\bombe_explosion_dry_10C4C929.wem		\Actor-Mixer Hierarchy\Plugins\Plugins\MotionAux\bombe_explosion_dry		263464
+	712063785	SoundSeed Grain	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Windows\Plugins\SoundSeed Grain\chimes_with_marker_AF15F127.wem	SoundSeed Grain (Custom)	\Actor-Mixer Hierarchy\Plugins\Plugins\SoundSeedGrain\SoundSeed Grain		264744
+
+Plug-in Media	ID	Name	Source file	Type	Wwise Object Path	Notes	Data Size
+	539027192	Space_Ship_Stereo_(Custom)	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Windows\Plugins\Wwise Convolution Reverb\AK_Factory_IR\Large Spaces\AK Stair Way Hall_D8D7B406.wem	Wwise Convolution Reverb (Custom)	\Actor-Mixer Hierarchy\Plugins\Plugins\ConvolutionTest\Space_Ship_Stereo_(Custom)	Impulse response created by Pinguin ing.büro © 2010 Pinguin ing.büro.  All rights reserved. IR Pre-delay: 7ms  	459232
+

@@ -25,7 +25,8 @@ Game Parameter	ID	Name			Wwise Object Path	Notes
 	4262522749	Wood_Bright			\Factory Reflect Acoustic Textures\Textures\Wood_Bright	
 
 Audio Bus	ID	Name			Wwise Object Path	Notes
-	985987111	Motion Factory Bus			\Default Work Unit\Motion Factory Bus	
+	431572087	Master Plugins			\Plugins\Master Plugins	
+	985987111	Motion Factory Bus			\Plugins\Motion Factory Bus	
 	3803692087	Master Audio Bus			\Default Work Unit\Master Audio Bus	
 	3991942870	Music			\Default Work Unit\Master Audio Bus\Music	
 	4209325213	GeometryBus			\Default Work Unit\Master Audio Bus\GeometryBus	
@@ -33,8 +34,8 @@ Audio Bus	ID	Name			Wwise Object Path	Notes
 Auxiliary Bus	ID	Name			Wwise Object Path	Notes
 	117523933	SmallVerb			\Default Work Unit\Master Audio Bus\SmallVerb	
 	1572913279	RoomVerb			\Default Work Unit\Master Audio Bus\RoomVerb	
-	1692308750	ReflectAux			\Default Work Unit\Master Audio Bus\ReflectAux	
-	2297584640	Motion_Aux			\Default Work Unit\Motion Factory Bus\Motion_Aux	
+	1692308750	ReflectAux			\Plugins\Master Plugins\ReflectAux	
+	2297584640	Motion_Aux			\Plugins\Motion Factory Bus\Motion_Aux	
 	2757439665	LargeVerb			\Default Work Unit\Master Audio Bus\LargeVerb	
 
 Effect plug-ins	ID	Name	Type				Notes

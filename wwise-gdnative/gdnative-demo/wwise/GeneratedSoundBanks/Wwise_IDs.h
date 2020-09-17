@@ -23,10 +23,11 @@ namespace AK
         static const AkUniqueID MUSIC_2D = 1939884427U;
         static const AkUniqueID MUSIC_LONG_ATT = 1272633243U;
         static const AkUniqueID PLAY_CHIMES_WITH_MARKER = 3900723121U;
-        static const AkUniqueID SNYTH_ONE_TEST = 2787445937U;
+        static const AkUniqueID REFLECT = 243379636U;
         static const AkUniqueID SOUNDSEED_GRAIN = 3404211905U;
         static const AkUniqueID SOUNDSEED_IMPACT = 480515238U;
         static const AkUniqueID SOUNDSEED_WIND = 623594218U;
+        static const AkUniqueID SYNTH_ONE_TEST = 2343727715U;
     } // namespace EVENTS
 
     namespace STATES
@@ -88,6 +89,7 @@ namespace AK
     namespace BANKS
     {
         static const AkUniqueID INIT = 1355168291U;
+        static const AkUniqueID PLUGINS = 2651853335U;
         static const AkUniqueID TESTBANK = 3291379323U;
     } // namespace BANKS
 
@@ -95,6 +97,7 @@ namespace AK
     {
         static const AkUniqueID GEOMETRYBUS = 4209325213U;
         static const AkUniqueID MASTER_AUDIO_BUS = 3803692087U;
+        static const AkUniqueID MASTER_PLUGINS = 431572087U;
         static const AkUniqueID MOTION_FACTORY_BUS = 985987111U;
         static const AkUniqueID MUSIC = 3991942870U;
     } // namespace BUSSES

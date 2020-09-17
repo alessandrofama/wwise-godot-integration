@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WwiseDocument Type="WorkUnit" ID="{45F59F79-DD77-478C-8337-3F8F3FFF3B84}" SchemaVersion="97">
+<WwiseDocument Type="WorkUnit" ID="{45F59F79-DD77-478C-8337-3F8F3FFF3B84}" SchemaVersion="97" RootDocumentID="{83EE534B-1425-4AD4-83C0-76F689EA61F5}">
 	<AudioObjects>
-		<WorkUnit Name="Factory Motion" ID="{45F59F79-DD77-478C-8337-3F8F3FFF3B84}" PersistMode="Standalone">
+		<WorkUnit Name="Factory Motion" ID="{45F59F79-DD77-478C-8337-3F8F3FFF3B84}" OwnerID="{83EE534B-1425-4AD4-83C0-76F689EA61F5}" PersistMode="Nested">
 			<PropertyList>
 				<Property Name="Inclusion" Type="bool">
 					<ValueList>
@@ -17,7 +17,7 @@
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B5D06FC6-20AC-4570-BC56-F30998705AA9}"/>
 						</Reference>
 						<Reference Name="OutputBus">
-							<ObjectRef Name="Motion Factory Bus" ID="{2AF9B9C6-6EF1-46E9-B5F2-E30C9E602C74}" WorkUnitID="{3FE3D261-2E4D-4287-95DD-8B4DF14D5A58}"/>
+							<ObjectRef Name="Motion Factory Bus" ID="{2AF9B9C6-6EF1-46E9-B5F2-E30C9E602C74}" WorkUnitID="{83A9630F-2FD3-439B-B636-DF89EE6A5A59}"/>
 						</Reference>
 					</ReferenceList>
 					<ChildrenList>
