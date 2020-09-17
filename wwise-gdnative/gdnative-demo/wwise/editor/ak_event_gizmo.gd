@@ -1,6 +1,6 @@
 extends EditorSpatialGizmoPlugin
 
-const AkEventNode = preload("res://wwise/nodes/ak_event.gd")
+const AkEventNode = preload("res://wwise/runtime/nodes/ak_event.gd")
 
 func _init():
 	create_icon_material("ak_event_icon", 

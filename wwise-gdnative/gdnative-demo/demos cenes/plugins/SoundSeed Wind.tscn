@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://wwise/runtime/nodes/ak_event.gd" type="Script" id=1]
+[ext_resource path="res://wwise/runtime/nodes/ak_bank.gd" type="Script" id=2]
+[ext_resource path="res://wwise/runtime/nodes/ak_listener.gd" type="Script" id=3]
+
+
+[node name="Spatial" type="Spatial"]
+
+[node name="AkBank" type="Spatial" parent="."]
+script = ExtResource( 2 )
+bank = 1355168291
+load_on = 1
+
+[node name="AkBank2" type="Spatial" parent="."]
+script = ExtResource( 2 )
+bank = 2651853335
+load_on = 1
+
+[node name="AkEvent" type="Spatial" parent="."]
+script = ExtResource( 1 )
+event = 623594218
+trigger_on = 3
+
+[node name="AkListener" type="Spatial" parent="."]
+script = ExtResource( 3 )

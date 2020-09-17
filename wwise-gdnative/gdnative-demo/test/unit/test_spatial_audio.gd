@@ -13,8 +13,7 @@ class TestSpatialAudio:
 		mesh_instance.set_mesh(mesh)
 
 	func test_assert_set_geometry():
-		var ak_geometry:AkGeometry
-		ak_geometry = AkGeometry.new()
+		var ak_geometry = preload("res://wwise/runtime/nodes/ak_geometry.gd").new()
 		ak_geometry.name = "AkGeometry"
 		mesh_instance.add_child(ak_geometry)
 		#warning-ignore:return_value_discarded
@@ -23,8 +22,7 @@ class TestSpatialAudio:
 		Wwise.remove_geometry(ak_geometry)
 	
 	func test_assert_remove_geometry():
-		var ak_geometry:AkGeometry
-		ak_geometry = AkGeometry.new()
+		var ak_geometry = preload("res://wwise/runtime/nodes/ak_geometry.gd").new()
 		ak_geometry.name = "AkGeometry"
 		mesh_instance.add_child(ak_geometry)
 		ak_geometry.set_owner(mesh_instance)

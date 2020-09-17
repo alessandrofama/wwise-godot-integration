@@ -1,7 +1,8 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://meshes/multiple-mesh.fbx" type="PackedScene" id=1]
-[ext_resource path="res://wwise/nodes/ak_geometry.gd" type="Script" id=2]
+[ext_resource path="res://wwise/runtime/nodes/ak_geometry.gd" type="Script" id=2]
+
 
 [node name="multiple-mesh" instance=ExtResource( 1 )]
 
