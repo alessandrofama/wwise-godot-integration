@@ -427,7 +427,7 @@ bool Wwise::set2DPosition(const Object* gameObject, const Transform2D transform2
 
 	Vector2 origin = transform2D.get_origin();
 
-	Vector3 position = Vector3(origin.x * 0.1f, -origin.y * 0.1f, zDepth);
+	Vector3 position = Vector3(-origin.x * 0.1f, -origin.y * 0.1f, zDepth);
 	Vector3 forward = Vector3(transform2D.elements[1].x, 0, transform2D.elements[1].y).normalized();
 	Vector3 up = Vector3(0, 1, 0);
 
