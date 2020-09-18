@@ -5,28 +5,26 @@ class EVENTS:
 	}
 
 class STATES:
-	pass
+	enum _enum {
+	}
 
 class SWITCHES:
-	pass
+	enum _enum {
+	}
 
 class GAME_PARAMETERS:
-
 	enum _enum {
 	}
 
 class TRIGGERS:
-
 	enum _enum {
 	}
 
 class BANKS:
-
 	enum _enum {
 	}
 
 class BUSSES:
-
 	enum _enum {
 	}
 
@@ -35,6 +33,5 @@ class AUX_BUSSES:
 	}
 
 class AUDIO_DEVICES:
-
 	enum _enum {
 	}
