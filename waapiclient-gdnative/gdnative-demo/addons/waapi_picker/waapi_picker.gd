@@ -353,7 +353,7 @@ func _notification(notification):
 	if notification == NOTIFICATION_DRAG_END:
 		if selectedItem:
 			if selectedItem.get_meta("Type") == "Event":
-				var akEvent:AkEvent = preload("res://wwise/nodes/ak_event.gd").new()
+				var akEvent = preload("res://wwise/runtime/nodes/ak_event.gd").new()
 				akEvent.name = selectedItem.get_text(0)
 				akEvent.event = selectedItem.get_meta("ShortId") 
 				var root = get_editor_interface().get_edited_scene_root()
