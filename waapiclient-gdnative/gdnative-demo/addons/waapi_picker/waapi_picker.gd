@@ -343,11 +343,12 @@ func forward_spatial_gui_input(camera, event):
 		if not intersection.empty():
 			worldPosition = intersection.position
 		else:
-			var root = get_editor_interface().get_edited_scene_root().get_global_transform().origin
-			from = camera.project_ray_origin(event.position)
-			end = from + camera.project_ray_normal(event.position) * root.distance_to(camera.global_transform.origin)
-			worldPosition = end
-	return false
+			if get_editor_interface().get_edited_scene_root():
+				var root = get_editor_interface().get_edited_scene_root().get_global_transform().origin
+				from = camera.project_ray_origin(event.position)
+				end = from + camera.project_ray_normal(event.position) * root.distance_to(camera.global_transform.origin)
+				worldPosition = end
+		return false
 
 func _notification(notification):
 	if notification == NOTIFICATION_DRAG_END:
