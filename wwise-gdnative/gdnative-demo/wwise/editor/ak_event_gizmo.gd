@@ -4,7 +4,7 @@ const AkEventNode = preload("res://wwise/runtime/nodes/ak_event.gd")
 
 func _init():
 	create_icon_material("ak_event_icon", 
-	preload("res://wwise/editor/WwiseAudioSpeaker.png") as Texture, true)
+	ResourceLoader.load("res://wwise/editor/WwiseAudioSpeaker.png") as Texture, true)
 
 func has_gizmo(spatial):
 	return spatial is AkEventNode
