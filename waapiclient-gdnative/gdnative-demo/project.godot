@@ -17,7 +17,7 @@ _global_script_classes=[ {
 "base": "Spatial",
 "class": "AkEvent",
 "language": "GDScript",
-"path": "res://wwise/nodes/ak_event.gd"
+"path": "res://wwise/runtime/nodes/ak_event.gd"
 } ]
 _global_script_class_icons={
 "AK": "",
