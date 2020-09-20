@@ -12,18 +12,18 @@ var projectObjectsTree = null
 var searchText = null
 var isShowingViewport = true
 
-var projectIcon			= preload("res://addons/waapi_picker/icons/wwise_project.png")
-var folderIcon			= preload("res://addons/waapi_picker/icons/folder.png")
-var eventIcon			= preload("res://addons/waapi_picker/icons/event.png")
-var switchGroupIcon 	= preload("res://addons/waapi_picker/icons/switchgroup.png")
-var switchIcon 			= preload("res://addons/waapi_picker/icons/switch.png")
-var stateGroupIcon 		= preload("res://addons/waapi_picker/icons/stategroup.png")
-var stateIcon 			= preload("res://addons/waapi_picker/icons/state.png")
-var soundBankIcon 		= preload("res://addons/waapi_picker/icons/soundbank.png")
-var busIcon				= preload("res://addons/waapi_picker/icons/bus.png")
-var auxBusIcon 			= preload("res://addons/waapi_picker/icons/auxbus.png")
-var acousticTextureIcon	= preload("res://addons/waapi_picker/icons/acoustictexture.png")
-var workUnitIcon 		= preload("res://addons/waapi_picker/icons/workunit.png")
+var projectIcon			= ResourceLoader.load("res://addons/waapi_picker/icons/wwise_project.png")
+var folderIcon			= ResourceLoader.load("res://addons/waapi_picker/icons/folder.png")
+var eventIcon			= ResourceLoader.load("res://addons/waapi_picker/icons/event.png")
+var switchGroupIcon 	= ResourceLoader.load("res://addons/waapi_picker/icons/switchgroup.png")
+var switchIcon 			= ResourceLoader.load("res://addons/waapi_picker/icons/switch.png")
+var stateGroupIcon 		= ResourceLoader.load("res://addons/waapi_picker/icons/stategroup.png")
+var stateIcon 			= ResourceLoader.load("res://addons/waapi_picker/icons/state.png")
+var soundBankIcon 		= ResourceLoader.load("res://addons/waapi_picker/icons/soundbank.png")
+var busIcon				= ResourceLoader.load("res://addons/waapi_picker/icons/bus.png")
+var auxBusIcon 			= ResourceLoader.load("res://addons/waapi_picker/icons/auxbus.png")
+var acousticTextureIcon	= ResourceLoader.load("res://addons/waapi_picker/icons/acoustictexture.png")
+var workUnitIcon 		= ResourceLoader.load("res://addons/waapi_picker/icons/workunit.png")
 
 var selectedItem = null
 var worldPosition:Vector3
