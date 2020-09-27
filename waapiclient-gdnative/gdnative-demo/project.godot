@@ -32,7 +32,7 @@ config/icon="res://icon.png"
 
 [autoload]
 
-Waapi="*res://wwise/bin/waapi-gdnative-release.gdns"
+Waapi="*res://wwise/bin/waapi-gdnative-debug.gdns"
 
 [editor_plugins]
 
