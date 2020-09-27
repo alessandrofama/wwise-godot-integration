@@ -20,9 +20,18 @@ var ak_environment_data
 export(bool) var is_spatial:bool = false
 
 func _enter_tree():
-	register_game_object(self, self.get_name())
+	if Engine.is_editor_hint():
+		return
+	else:
+		register_game_object(self, self.get_name())
 	
 func _ready() -> void:
+	if Engine.is_editor_hint():
+		self.set_process(false)
+		return
+	else:
+		self.set_process(true)
+		
 	if use_callback:
 		connect_signals(callback_receiver, callback_type)
 	# If is_environment_aware is checked, Wwise.set_game_obj_aux_send_values will
