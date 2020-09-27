@@ -18,10 +18,16 @@ _global_script_classes=[ {
 "class": "AkEvent",
 "language": "GDScript",
 "path": "res://wwise/runtime/nodes/ak_event.gd"
+}, {
+"base": "Reference",
+"class": "AkUtils",
+"language": "GDScript",
+"path": "res://wwise/runtime/helpers/ak_utils.gd"
 } ]
 _global_script_class_icons={
 "AK": "",
-"AkEvent": ""
+"AkEvent": "",
+"AkUtils": ""
 }
 
 [application]
