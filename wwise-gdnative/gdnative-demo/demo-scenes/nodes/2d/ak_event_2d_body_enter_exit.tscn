@@ -1,10 +1,9 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://demos cenes/nodes/2d/bank_initialisation_2d.tscn" type="PackedScene" id=1]
+[ext_resource path="res://demo-scenes/nodes/2d/bank_initialisation_2d.tscn" type="PackedScene" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
 [ext_resource path="res://wwise/runtime/nodes/ak_event_2d.gd" type="Script" id=3]
 [ext_resource path="res://wwise/runtime/nodes/ak_listener_2d.gd" type="Script" id=4]
-
 
 [sub_resource type="RectangleShape2D" id=1]
 

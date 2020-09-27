@@ -19,10 +19,10 @@ func _ready() -> void:
 	if use_callback:
 		connect_signals(callback_receiver, callback_type)
 				
-func handle_game_event(gameEvent:int) -> void:
-	if trigger_on == gameEvent:
+func handle_game_event(game_event:int) -> void:
+	if trigger_on == game_event:
 		post_event()
-	if stop_on == gameEvent:
+	if stop_on == game_event:
 		stop_event()
 		
 func post_event() -> void:

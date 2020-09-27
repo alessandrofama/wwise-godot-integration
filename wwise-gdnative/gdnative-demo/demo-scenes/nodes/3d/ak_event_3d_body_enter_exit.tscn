@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://demos cenes/nodes/3d/Banks - Initialisation 3D.tscn" type="PackedScene" id=1]
+[ext_resource path="res://demo-scenes/nodes/3d/Banks - Initialisation 3D.tscn" type="PackedScene" id=1]
 [ext_resource path="res://wwise/runtime/nodes/ak_event.gd" type="Script" id=2]
 [ext_resource path="res://wwise/runtime/nodes/ak_listener.gd" type="Script" id=3]
 

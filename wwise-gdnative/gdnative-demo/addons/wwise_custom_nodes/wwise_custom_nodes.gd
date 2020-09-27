@@ -10,8 +10,8 @@ func _enter_tree():
 	add_custom_type("AkEvent", "Spatial", preload("res://wwise/runtime/nodes/ak_event.gd"), ResourceLoader.load("res://addons/wwise_custom_nodes/wwise_node.png"))
 	add_custom_type("AkBank", "Spatial", preload("res://wwise/runtime/nodes/ak_bank.gd"), ResourceLoader.load("res://addons/wwise_custom_nodes/wwise_node.png"))
 	add_custom_type("AkListener", "Spatial", preload("res://wwise/runtime/nodes/ak_listener.gd"), ResourceLoader.load("res://addons/wwise_custom_nodes/wwise_node.png"))
-	add_custom_type("AkState", "Spatial", preload("res://wwise/runtime/nodes/ak_state.gd"), ResourceLoader.load("res://addons/wwise_custom_nodes/wwise_node.png"))
-	add_custom_type("AkSwitch", "Spatial", preload("res://wwise/runtime/nodes/ak_switch.gd"), ResourceLoader.load("res://addons/wwise_custom_nodes/wwise_node.png"))
+	add_custom_type("AkState", "Node", preload("res://wwise/runtime/nodes/ak_state.gd"), ResourceLoader.load("res://addons/wwise_custom_nodes/wwise_node.png"))
+	add_custom_type("AkSwitch", "Node", preload("res://wwise/runtime/nodes/ak_switch.gd"), ResourceLoader.load("res://addons/wwise_custom_nodes/wwise_node.png"))
 	add_custom_type("AkEnvironment", "Area", preload("res://wwise/runtime/nodes/ak_environment.gd"), ResourceLoader.load("res://addons/wwise_custom_nodes/wwise_node.png"))
 	add_spatial_gizmo_plugin(ak_event_gizmo)
 	
@@ -25,8 +25,6 @@ func _enter_tree():
 	add_custom_type("AkEvent2D", "Node2D", preload("res://wwise/runtime/nodes/ak_event_2d.gd"), ResourceLoader.load("res://addons/wwise_custom_nodes/wwise_node.png"))
 	add_custom_type("AkBank2D", "Node2D", preload("res://wwise/runtime/nodes/ak_bank_2d.gd"), ResourceLoader.load("res://addons/wwise_custom_nodes/wwise_node.png"))
 	add_custom_type("AkListener2D", "Node2D", preload("res://wwise/runtime/nodes/ak_listener_2d.gd"), ResourceLoader.load("res://addons/wwise_custom_nodes/wwise_node.png"))
-	add_custom_type("AkState2D", "Node2D", preload("res://wwise/runtime/nodes/ak_state_2d.gd"), ResourceLoader.load("res://addons/wwise_custom_nodes/wwise_node.png"))
-	add_custom_type("AkSwitch2D", "Node2D", preload("res://wwise/runtime/nodes/ak_switch_2d.gd"), ResourceLoader.load("res://addons/wwise_custom_nodes/wwise_node.png"))
 	
 	# Visual Script Nodes
 	VisualScriptEditor.add_custom_node("AkLoadBank", "Wwise", preload("res://wwise/runtime/visual nodes/ak_load_bank_vs.gd"))
@@ -63,8 +61,6 @@ func _exit_tree():
 	remove_custom_type("AkEvent2D")
 	remove_custom_type("AkBank2D")
 	remove_custom_type("AkListener2D")
-	remove_custom_type("AkState2D")
-	remove_custom_type("AkSwitch2D")
 	
 	# Visual Script nodes
 	VisualScriptEditor.remove_custom_node("AkLoadBank", "Wwise")
