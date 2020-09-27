@@ -354,9 +354,13 @@ func _notification(notification):
 	if notification == NOTIFICATION_DRAG_END:
 		if selectedItem:
 			if selectedItem.get_meta("Type") == "Event":
-				var akEvent = preload("res://wwise/runtime/nodes/ak_event.gd").new()
+				var akEvent = load("res://wwise/runtime/nodes/ak_event.gd").new()
 				akEvent.name = selectedItem.get_text(0)
-				akEvent.event = selectedItem.get_meta("ShortId") 
+				akEvent.event = selectedItem.get_meta("ShortId")
+				akEvent.trigger_on = AkUtils.GameEvent.READY
+				if get_editor_interface().get_edited_scene_root() == null:
+					print("No root node found. Please add one before trying to add an Event to the tree")
+					return
 				var root = get_editor_interface().get_edited_scene_root()
 				root.add_child(akEvent)
 				akEvent.owner = root
