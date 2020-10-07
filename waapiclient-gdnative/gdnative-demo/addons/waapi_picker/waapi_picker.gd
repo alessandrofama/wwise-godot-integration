@@ -239,6 +239,9 @@ func _create_projectObjectsTree(textFilter):
 							if textFilter.empty() or textFilter in object.name:
 								item = projectObjectsTree.create_item(switchGroup)
 								item.set_icon(0, switchIcon)
+								item.set_meta("Type", "Switch")
+								item.set_meta("SwitchGroup", switchGroup.get_text(0))
+								item.set_meta("SwitchValue", object.name)
 								numSwitches += 1
 							break
 						switchGroup = switchGroup.get_next()
@@ -254,6 +257,9 @@ func _create_projectObjectsTree(textFilter):
 							if textFilter.empty() or textFilter in object.name:
 								item = projectObjectsTree.create_item(stateGroup)
 								item.set_icon(0, stateIcon)
+								item.set_meta("Type", "State")
+								item.set_meta("StateGroup", stateGroup.get_text(0))
+								item.set_meta("StateValue", object.name)
 								numStates += 1
 							break
 						stateGroup = stateGroup.get_next()
@@ -293,6 +299,8 @@ func _create_projectObjectsTree(textFilter):
 					if textFilter.empty() or textFilter in object.name:
 						item = projectObjectsTree.create_item(workUnit)
 						item.set_icon(0, soundBankIcon)
+						item.set_meta("Type", object.type)
+						item.set_meta("ShortId", object.shortId)
 						numSoundBanks += 1
 					break	
 				workUnit = workUnit.get_next()
@@ -344,28 +352,65 @@ func forward_spatial_gui_input(camera, event):
 			worldPosition = intersection.position
 		else:
 			if get_editor_interface().get_edited_scene_root():
-				var root = get_editor_interface().get_edited_scene_root().get_global_transform().origin
-				from = camera.project_ray_origin(event.position)
-				end = from + camera.project_ray_normal(event.position) * root.distance_to(camera.global_transform.origin)
-				worldPosition = end
+				if get_editor_interface().get_edited_scene_root().has_method("get_global_transform"):
+					var root = get_editor_interface().get_edited_scene_root().get_global_transform().origin
+					from = camera.project_ray_origin(event.position)
+					end = from + camera.project_ray_normal(event.position) * root.distance_to(camera.global_transform.origin)
+					worldPosition = end
 		return false
 
 func _notification(notification):
 	if notification == NOTIFICATION_DRAG_END:
 		if selectedItem:
-			if selectedItem.get_meta("Type") == "Event":
-				var akEvent = load("res://wwise/runtime/nodes/ak_event.gd").new()
-				akEvent.name = selectedItem.get_text(0)
-				akEvent.event = selectedItem.get_meta("ShortId")
-				akEvent.trigger_on = AkUtils.GameEvent.READY
-				if get_editor_interface().get_edited_scene_root() == null:
-					print("No root node found. Please add one before trying to add an Event to the tree")
-					return
-				var root = get_editor_interface().get_edited_scene_root()
-				root.add_child(akEvent)
-				akEvent.owner = root
-				akEvent.global_transform.origin = worldPosition
-				selectedItem = null
+			if selectedItem.get_meta_list().size() > 1:
+				if selectedItem.get_meta("Type") == "Event":
+					var akEvent = load("res://wwise/runtime/nodes/ak_event.gd").new()
+					akEvent.name = selectedItem.get_text(0)
+					akEvent.event = selectedItem.get_meta("ShortId")
+					akEvent.trigger_on = AkUtils.GameEvent.NONE
+					if get_editor_interface().get_edited_scene_root() == null:
+						print("No root node found. Please add one before trying to add an Event to the tree")
+						return
+					var root = get_editor_interface().get_edited_scene_root()
+					root.add_child(akEvent)
+					akEvent.owner = root
+					akEvent.global_transform.origin = worldPosition
+					selectedItem = null
+				elif selectedItem.get_meta("Type") == "Switch":
+					var akSwitch = load("res://wwise/runtime/nodes/ak_switch.gd").new()
+					akSwitch.name = selectedItem.get_text(0)
+					akSwitch.switch_group = selectedItem.get_meta("SwitchGroup")
+					akSwitch.switch_value = selectedItem.get_meta("SwitchValue")
+					if get_editor_interface().get_edited_scene_root() == null:
+						print("No root node found. Please add one before trying to add a Switch node to the tree")
+						return
+					var root = get_editor_interface().get_edited_scene_root()
+					root.add_child(akSwitch)
+					akSwitch.owner = root
+					selectedItem = null
+				elif selectedItem.get_meta("Type") == "State":
+					var akState = load("res://wwise/runtime/nodes/ak_state.gd").new()
+					akState.name = selectedItem.get_text(0)
+					akState.state_group = selectedItem.get_meta("StateGroup")
+					akState.state_value = selectedItem.get_meta("StateValue")
+					if get_editor_interface().get_edited_scene_root() == null:
+						print("No root node found. Please add one before trying to add a State node to the tree")
+						return
+					var root = get_editor_interface().get_edited_scene_root()
+					root.add_child(akState)
+					akState.owner = root
+					selectedItem = null
+				elif selectedItem.get_meta("Type") == "SoundBank":
+					var akBank = load("res://wwise/runtime/nodes/ak_bank.gd").new()
+					akBank.name = selectedItem.get_text(0)
+					akBank.bank = selectedItem.get_meta("ShortId")
+					if get_editor_interface().get_edited_scene_root() == null:
+						print("No root node found. Please add one before trying to add a Bank node to the tree")
+						return
+					var root = get_editor_interface().get_edited_scene_root()
+					root.add_child(akBank)
+					akBank.owner = root
+					selectedItem = null
 
 func _on_cellSelected():
 	selectedItem = projectObjectsTree.get_selected()
