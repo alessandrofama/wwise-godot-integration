@@ -3,8 +3,8 @@
     <div v-if="!installing && !installed && !installationFailed">
       <div class="form-group">
         <div>
-        <label style="font-size: large;">Platform Selection</label>
-        <br>
+          <label style="font-size: large;">Platform Selection</label>
+          <br />
           <div class="custom-control custom-checkbox custom-control-inline">
             <input
               name="platform"
@@ -392,21 +392,14 @@ export default {
       var wwiseAddonsPath = path.join(addonsPath, "wwise_custom_nodes");
       var wwiseIdsConverterPath = path.join(addonsPath, "wwise_ids_converter");
       var wwiseBuildExportPath = path.join(addonsPath, "wwise_build_export");
+      var waapiPickerAddonPath = path.join(addonsPath, "waapi_picker");
       var overrideFilePath = path.join(this.godotProjectPath, "override.cfg");
 
       this.removeDirectory(wwisePath);
       this.removeDirectory(wwiseAddonsPath);
       this.removeDirectory(wwiseIdsConverterPath);
       this.removeDirectory(wwiseBuildExportPath);
-
-      this.removeStringFromFile(
-        `WwiseSettings="res://wwise/wwise_settings.gd"`,
-        this.godotProjectFilePath
-      );
-      this.removeStringFromFile(
-        `Wwise="*res://wwise/bin/wwise-gdnative-debug.gdns"`,
-        this.godotProjectFilePath
-      );
+      this.removeDirectory(waapiPickerAddonPath);
 
       fs.unlinkSync(overrideFilePath);
 
@@ -414,13 +407,6 @@ export default {
 
       this.installed = true;
       this.installing = false;
-    },
-    removeStringFromFile(string, file) {
-      var data = fs.readFileSync(file, "utf-8");
-      var stringToRemove = string;
-
-      var newValue = data.replace(stringToRemove, "");
-      fs.writeFileSync(file, newValue, "utf-8");
     },
     openProjectInExplorer() {
       var openExplorer = require("open-file-explorer");
