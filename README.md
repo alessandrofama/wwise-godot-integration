@@ -14,8 +14,8 @@ Welcome! This repository provides an integration of [Audiokinetic's Wwise audio 
 * Wwise and Waapi testbed projects.
 * Wwise profiler connection enabled in debug builds of the GDNative wrapper.
 * Stream manager uses the default blocking I/O implementation and it can be extended to use custom I/O devices.
-* Custom Godot nodes: AkEvent, AkBank, AkListener, AkState, AkSwitch, AkEnvironment, AkGeometry, AkRoom, AkPortal, AkEarlyReflections.
-* Custom Godot Visual Script nodes: AkLoadBank, AkUnloadBank, AkPostEvent, AkSet3DPosition, AkSetState, AkSetSwitch, AkGetRTPCValue, AkSetRTPCValue.
+* Custom Godot nodes: AkEvent, AkEvent2D, AkBank, AkListener, AkListener2D, AkState, AkSwitch, AkEnvironment, AkGeometry, AkRoom, AkPortal, AkEarlyReflections.
+* Custom Godot Visual Script nodes: AkLoadBank, AkUnloadBank, AkPostEvent, AkPostEvent2D, AkSet3DPosition, AkSet2DPosition, AkSetState, AkSetSwitch, AkGetRTPCValue, AkSetRTPCValue.
 * Custom Godot signals that can be mapped to event callbacks: end of event, audio marker, music sync beat etc.
 * Wwise IDs converter from C++ to GDScript code in the Godot editor as addon.
 * Waapi picker that allows querying and searching the Wwise project and generating soundbanks from Godot's editor.
