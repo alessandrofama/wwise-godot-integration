@@ -5,7 +5,10 @@
 
 Welcome! This repository provides an integration of [Audiokinetic's Wwise audio middleware](https://www.audiokinetic.com/products/wwise/) into the [Godot game engine](https://godotengine.org). At the moment, Wwise version 2019.2.1.7250 is supported.
 
+
 ## Features
+
+[<img src="https://i.imgur.com/PrMMagV.png" width="50%">](https://www.youtube.com/watch?v=Y4boAPaK6BE) 
 
 * Wwise wrapper libraries that can be used in games and apps for Windows, macOS, Linux, iOS and Android. These are provided as [GDNative modules](https://docs.godotengine.org/en/stable/tutorials/plugins/gdnative/index.html).
 * Integration app to ease the process of integrating Wwise into Godot projects.
