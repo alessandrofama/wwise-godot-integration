@@ -12,21 +12,44 @@ var projectObjectsTree = null
 var searchText = null
 var isShowingViewport = true
 
-var projectIcon			= ResourceLoader.load("res://addons/waapi_picker/icons/wwise_project.png")
-var folderIcon			= ResourceLoader.load("res://addons/waapi_picker/icons/folder.png")
-var eventIcon			= ResourceLoader.load("res://addons/waapi_picker/icons/event.png")
-var switchGroupIcon 	= ResourceLoader.load("res://addons/waapi_picker/icons/switchgroup.png")
-var switchIcon 			= ResourceLoader.load("res://addons/waapi_picker/icons/switch.png")
-var stateGroupIcon 		= ResourceLoader.load("res://addons/waapi_picker/icons/stategroup.png")
-var stateIcon 			= ResourceLoader.load("res://addons/waapi_picker/icons/state.png")
-var soundBankIcon 		= ResourceLoader.load("res://addons/waapi_picker/icons/soundbank.png")
-var busIcon				= ResourceLoader.load("res://addons/waapi_picker/icons/bus.png")
-var auxBusIcon 			= ResourceLoader.load("res://addons/waapi_picker/icons/auxbus.png")
-var acousticTextureIcon	= ResourceLoader.load("res://addons/waapi_picker/icons/acoustictexture.png")
-var workUnitIcon 		= ResourceLoader.load("res://addons/waapi_picker/icons/workunit.png")
+var projectIcon			:ImageTexture
+var folderIcon			:ImageTexture
+var eventIcon			:ImageTexture
+var switchGroupIcon 	:ImageTexture
+var switchIcon 			:ImageTexture
+var stateGroupIcon 		:ImageTexture
+var stateIcon 			:ImageTexture
+var soundBankIcon 		:ImageTexture
+var busIcon				:ImageTexture
+var auxBusIcon 			:ImageTexture
+var acousticTextureIcon	:ImageTexture
+var workUnitIcon 		:ImageTexture
 
 var selectedItem = null
 var worldPosition:Vector3
+
+func create_icon(path: String) -> ImageTexture:
+	var waapi_image = Image.new()
+	var err = waapi_image.load(path)
+	if err != OK:
+		push_error("Failed load custom nodes icon")
+	var waapi_icon = ImageTexture.new()
+	waapi_icon.create_from_image(waapi_image, 0)
+	return waapi_icon
+
+func _init():
+	projectIcon			= create_icon("res://addons/waapi_picker/icons/wwise_project.png")
+	folderIcon			= create_icon("res://addons/waapi_picker/icons/folder.png")
+	eventIcon			= create_icon("res://addons/waapi_picker/icons/event.png")
+	switchGroupIcon 	= create_icon("res://addons/waapi_picker/icons/switchgroup.png")
+	switchIcon 			= create_icon("res://addons/waapi_picker/icons/switch.png")
+	stateGroupIcon 		= create_icon("res://addons/waapi_picker/icons/stategroup.png")
+	stateIcon 			= create_icon("res://addons/waapi_picker/icons/state.png")
+	soundBankIcon 		= create_icon("res://addons/waapi_picker/icons/soundbank.png")
+	busIcon				= create_icon("res://addons/waapi_picker/icons/bus.png")
+	auxBusIcon 			= create_icon("res://addons/waapi_picker/icons/auxbus.png")
+	acousticTextureIcon	= create_icon("res://addons/waapi_picker/icons/acoustictexture.png")
+	workUnitIcon 		= create_icon("res://addons/waapi_picker/icons/workunit.png")	
 
 func _enter_tree():
 	waapiPickerControl = preload("res://addons/waapi_picker/waapi_picker.tscn").instance()
