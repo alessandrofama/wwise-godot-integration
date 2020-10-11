@@ -6,24 +6,32 @@ const AkEventGizmo = preload("res://wwise/editor/ak_event_gizmo.gd")
 var ak_event_gizmo = AkEventGizmo.new()
 
 func _enter_tree():
+	var node_image = Image.new()
+	var err = node_image.load("res://addons/wwise_custom_nodes/icon/wwise_node.png")
+	if err != OK:
+		push_error("Failed load custom nodes icon")
+		return
+	var node_icon = ImageTexture.new()
+	node_icon.create_from_image(node_image, 0)
+
 	# 3D Nodes
-	add_custom_type("AkEvent", "Spatial", preload("res://wwise/runtime/nodes/ak_event.gd"), ResourceLoader.load("res://addons/wwise_custom_nodes/wwise_node.png"))
-	add_custom_type("AkBank", "Node", preload("res://wwise/runtime/nodes/ak_bank.gd"), ResourceLoader.load("res://addons/wwise_custom_nodes/wwise_node.png"))
-	add_custom_type("AkListener", "Spatial", preload("res://wwise/runtime/nodes/ak_listener.gd"), ResourceLoader.load("res://addons/wwise_custom_nodes/wwise_node.png"))
-	add_custom_type("AkState", "Node", preload("res://wwise/runtime/nodes/ak_state.gd"), ResourceLoader.load("res://addons/wwise_custom_nodes/wwise_node.png"))
-	add_custom_type("AkSwitch", "Node", preload("res://wwise/runtime/nodes/ak_switch.gd"), ResourceLoader.load("res://addons/wwise_custom_nodes/wwise_node.png"))
-	add_custom_type("AkEnvironment", "Area", preload("res://wwise/runtime/nodes/ak_environment.gd"), ResourceLoader.load("res://addons/wwise_custom_nodes/wwise_node.png"))
+	add_custom_type("AkEvent", "Spatial", preload("res://wwise/runtime/nodes/ak_event.gd"), node_icon)
+	add_custom_type("AkBank", "Node", preload("res://wwise/runtime/nodes/ak_bank.gd"), node_icon)
+	add_custom_type("AkListener", "Spatial", preload("res://wwise/runtime/nodes/ak_listener.gd"), node_icon)
+	add_custom_type("AkState", "Node", preload("res://wwise/runtime/nodes/ak_state.gd"), node_icon)
+	add_custom_type("AkSwitch", "Node", preload("res://wwise/runtime/nodes/ak_switch.gd"), node_icon)
+	add_custom_type("AkEnvironment", "Area", preload("res://wwise/runtime/nodes/ak_environment.gd"), node_icon)
 	add_spatial_gizmo_plugin(ak_event_gizmo)
 	
 	# Spatial Audio Nodes
-	add_custom_type("AkGeometry", "Spatial", preload("res://wwise/runtime/nodes/ak_geometry.gd"), ResourceLoader.load("res://addons/wwise_custom_nodes/wwise_node.png"))
-	add_custom_type("AkRoom", "Area", preload("res://wwise/runtime/nodes/ak_room.gd"), ResourceLoader.load("res://addons/wwise_custom_nodes/wwise_node.png"))
-	add_custom_type("AkPortal", "Area", preload("res://wwise/runtime/nodes/ak_portal.gd"), ResourceLoader.load("res://addons/wwise_custom_nodes/wwise_node.png"))
-	add_custom_type("AkEarlyReflections", "Node", preload("res://wwise/runtime/nodes/ak_early_reflections.gd"), ResourceLoader.load("res://addons/wwise_custom_nodes/wwise_node.png"))
+	add_custom_type("AkGeometry", "Spatial", preload("res://wwise/runtime/nodes/ak_geometry.gd"), node_icon)
+	add_custom_type("AkRoom", "Area", preload("res://wwise/runtime/nodes/ak_room.gd"), node_icon)
+	add_custom_type("AkPortal", "Area", preload("res://wwise/runtime/nodes/ak_portal.gd"), node_icon)
+	add_custom_type("AkEarlyReflections", "Node", preload("res://wwise/runtime/nodes/ak_early_reflections.gd"), node_icon)
 	
 	# 2D Nodes
-	add_custom_type("AkEvent2D", "Node2D", preload("res://wwise/runtime/nodes/ak_event_2d.gd"), ResourceLoader.load("res://addons/wwise_custom_nodes/wwise_node.png"))
-	add_custom_type("AkListener2D", "Node2D", preload("res://wwise/runtime/nodes/ak_listener_2d.gd"), ResourceLoader.load("res://addons/wwise_custom_nodes/wwise_node.png"))
+	add_custom_type("AkEvent2D", "Node2D", preload("res://wwise/runtime/nodes/ak_event_2d.gd"), node_icon)
+	add_custom_type("AkListener2D", "Node2D", preload("res://wwise/runtime/nodes/ak_listener_2d.gd"), node_icon)
 	
 	# Visual Script Nodes
 	VisualScriptEditor.add_custom_node("AkLoadBank", "Wwise", preload("res://wwise/runtime/visual nodes/ak_load_bank_vs.gd"))
@@ -38,7 +46,7 @@ func _enter_tree():
 	VisualScriptEditor.add_custom_node("AkSetRTPCValue", "Wwise", preload("res://wwise/runtime/visual nodes/ak_set_rtpc_value_vs.gd"))
 
 	# Resources
-	add_custom_type("AkAcousticTexture", "Resource", preload("res://wwise/runtime/nodes/ak_acoustic_texture.gd"), ResourceLoader.load("res://addons/wwise_custom_nodes/wwise_node.png"))
+	add_custom_type("AkAcousticTexture", "Resource", preload("res://wwise/runtime/nodes/ak_acoustic_texture.gd"), node_icon)
 			
 func _exit_tree():
 	# 3D Nodes
