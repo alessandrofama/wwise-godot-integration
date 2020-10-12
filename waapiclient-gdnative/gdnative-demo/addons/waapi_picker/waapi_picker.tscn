@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://addons/waapi_picker/icons/search.png" type="Texture" id=1]
+[ext_resource path="res://addons/waapi_picker/search.png" type="Texture" id=1]
 [ext_resource path="res://addons/waapi_picker/waapi_picker_drag.gd" type="Script" id=2]
 
 [node name="WwisePickerControl" type="Control"]
