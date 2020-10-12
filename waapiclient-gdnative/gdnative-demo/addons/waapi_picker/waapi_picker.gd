@@ -172,6 +172,8 @@ func _create_projectObjectsTree(textFilter):
 	virtualAcousticsTree.set_icon(0, folderIcon)
 	
 	# Set project root name
+	if jsonProjectDocument == null:
+		return
 	for object in jsonProjectDocument.result["return"]:
 		if object.type == "Project":
 			wwiseProjectRoot.set_text(0, object.name)
