@@ -71,7 +71,7 @@ env = DefaultEnvironment()
 
 # Define our options
 opts.Add(EnumVariable('target', "Compilation target", 'debug', ['d', 'debug', 'r', 'release']))
-opts.Add(EnumVariable('platform', "Compilation platform", '', ['', 'windows', 'x11', 'linux', 'osx', 'ios', 'android']))
+opts.Add(EnumVariable('platform', "Compilation platform", '', ['', 'windows', 'x11', 'linux', 'osx', 'ios']))
 opts.Add(EnumVariable('p', "Compilation target, alias for 'platform'", '', ['', 'windows', 'x11', 'linux', 'osx']))
 opts.Add(BoolVariable('use_llvm', "Use the LLVM / Clang compiler", 'no'))
 opts.Add(PathVariable('target_path', 'The path where the lib is installed.', 'gdnative-demo/wwise/bin/'))
@@ -80,9 +80,6 @@ opts.Add(PathVariable('wwise_sdk', 'The Wwise SDK path', '', PathVariable.PathAc
 opts.Add(ListVariable('plugins', 'List of plugins', '', ['reflect', 'motion', 'convolution', 'soundseed_grain', 'soundseed_air_impact']))
 opts.Add(EnumVariable('ios_arch', 'Target iOS architecture', 'arm64', ['armv7', 'arm64']))
 opts.Add('IPHONEPATH', 'Path to iPhone toolchain', '/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain')
-opts.Add(EnumVariable('android_arch', 'Target Android architecture', 'armv7', ['armv7','arm64v8','x86','x86_64']))
-opts.Add('android_api_level', 'Target Android API level','18' if ARGUMENTS.get("android_arch", 'armv7') in ['armv7', 'x86'] else '21')
-opts.Add('ANDROID_NDK_ROOT', 'Path to your Android NDK installation. By default, uses ANDROID_NDK_ROOT from your defined environment variables.', os.environ.get("ANDROID_NDK_ROOT", None))
 
 # Local dependency paths, adapt them to your setup
 godot_headers_path = "../godot-cpp/godot_headers/"
@@ -120,29 +117,6 @@ if env['platform'] == "ios":
         wwise_sdk_libs_path = env['wwise_sdk'] + "/iOS/Debug-iphoneos/lib/"
     else:
         wwise_sdk_libs_path = env['wwise_sdk'] + "/iOS/Release-iphoneos/lib/"   
-
-if env['platform'] == "android":
-    wwise_soundengine_sample_path = env['wwise_sdk'] + "/samples/SoundEngine/Android/"
-    wwise_soundengine_posix_path = env['wwise_sdk'] + "/samples/SoundEngine/POSIX/"
-    wwise_soundengine_zip_path = env['wwise_sdk'] + "/samples/SoundEngine/Android/libzip/lib/"
-    if env['target'] in ('debug', 'd'):
-        if env['android_arch'] == 'armv7':
-            wwise_sdk_libs_path = env['wwise_sdk'] + "/Android_armeabi-v7a/Debug/lib/"
-        elif env['android_arch'] == 'arm64v8':
-            wwise_sdk_libs_path = env['wwise_sdk'] + "/Android_arm64-v8a/Debug/lib/"
-        elif env['android_arch'] == 'x86':
-            wwise_sdk_libs_path = env['wwise_sdk'] + "/Android_x86/Debug/lib/"
-        elif env['android_arch'] == 'x86_64':
-            wwise_sdk_libs_path = env['wwise_sdk'] + "/Android_x86_64/Debug/lib/"
-    else:
-        if env['android_arch'] == 'armv7':
-            wwise_sdk_libs_path = env['wwise_sdk'] + "/Android_armeabi-v7a/Release/lib/"
-        elif env['android_arch'] == 'arm64v8':
-            wwise_sdk_libs_path = env['wwise_sdk'] + "/Android_arm64-v8a/Release/lib/"
-        elif env['android_arch'] == 'x86':
-            wwise_sdk_libs_path = env['wwise_sdk'] + "/Android_x86/Release/lib/"
-        elif env['android_arch'] == 'x86_64':
-            wwise_sdk_libs_path = env['wwise_sdk'] + "/Android_x86_64/Release/lib/"
 
 if env['platform'] == "linux":
     wwise_soundengine_sample_path = env['wwise_sdk'] + "/samples/SoundEngine/POSIX/"
@@ -265,82 +239,11 @@ elif env['platform'] == 'ios':
         env.Append(CCFLAGS=['-O3', '-g', '-std=c++14', '-arch', env['ios_arch'], '-isysroot', sdk_path])
         env.Append(LINKFLAGS=['-framework', 'CoreAudio', '-framework', 'AudioToolbox', '-arch', env['ios_arch'], 
                              '-isysroot', sdk_path, '-F' + sdk_path])
-
-elif env['platform'] == 'android':
-
-    env['target_path'] += 'android/'
-    if env['target'] in ('debug', 'd'):
-        env['target_path'] += 'debug/' + env['android_arch'] + "/"
-    elif env['target'] in ('release', 'r'):
-        env['target_path'] += 'release/' + env['android_arch'] + "/"
-
-    cpp_library += '.android'
-
-    if host_platform == 'windows':
-        env = env.Clone(tools=['mingw'])
-        env["SPAWN"] = mySpawn
-
-    # Verify NDK root
-    if not 'ANDROID_NDK_ROOT' in env:
-        raise ValueError("To build for Android, ANDROID_NDK_ROOT must be defined. Please set ANDROID_NDK_ROOT to the root folder of your Android NDK installation.")
-
-    # Validate API level
-    api_level = int(env['android_api_level'])
-    if env['android_arch'] in ['x86_64', 'arm64v8'] and api_level < 21:
-        print("WARN: 64-bit Android architectures require an API level of at least 21; setting android_api_level=21")
-        env['android_api_level'] = '21'
-        api_level = 21
-
-    # Setup toolchain
-    toolchain = env['ANDROID_NDK_ROOT'] + "/toolchains/llvm/prebuilt/"
-    if host_platform == "windows":
-        toolchain += "windows"
-        import platform as pltfm
-        if pltfm.machine().endswith("64"):
-            toolchain += "-x86_64"
-    elif host_platform == "linux":
-        toolchain += "linux-x86_64"
-    elif host_platform == "osx":
-        toolchain += "darwin-x86_64"
-    #env.PrependENVPath('PATH', toolchain + "/bin") # This does nothing half of the time, but we'll put it here anyways
-
-    # Get architecture info
-    arch_info_table = {
-        "armv7" : {
-            "march":"armv7-a", "target":"armv7a-linux-androideabi", "tool_path":"arm-linux-androideabi", "compiler_path":"armv7a-linux-androideabi",
-            "ccflags" : ['-mfpu=neon']
-            },
-        "arm64v8" : {
-            "march":"armv8-a", "target":"aarch64-linux-android", "tool_path":"aarch64-linux-android", "compiler_path":"aarch64-linux-android",
-            "ccflags" : []
-            },
-        "x86" : {
-            "march":"i686", "target":"i686-linux-android", "tool_path":"i686-linux-android", "compiler_path":"i686-linux-android",
-            "ccflags" : ['-mstackrealign']
-            },
-        "x86_64" : {"march":"x86-64", "target":"x86_64-linux-android", "tool_path":"x86_64-linux-android", "compiler_path":"x86_64-linux-android",
-            "ccflags" : []
-        }
-    }
-    arch_info = arch_info_table[env['android_arch']]
-
-    env['CC'] = toolchain + "/bin/clang"
-    env['CXX'] = toolchain + "/bin/clang++"
-    env['AR'] = toolchain + "/bin/" + arch_info['tool_path'] + "-ar"
-    #env['SHLINKFLAGS'] = ['-v']
-    env.Append(CXXFLAGS=['--target=' + arch_info['target'] + env['android_api_level'], '-march=' + arch_info['march'], '-fPIC'])#, '-fPIE', '-fno-addrsig', '-Oz'])
-    env.Append(CXXFLAGS=arch_info['ccflags'])
-
-    if env['target'] == 'debug':
-        env.Append(LINKFLAGS=['-Wl,-undefined,dynamic_lookup'])
-    elif env['target'] == 'release':
-        env.Append(CPPDEFINES=['AK_OPTIMIZED'])
-        env.Append(LINKFLAGS=['-Wl,-undefined,dynamic_lookup'])
     
 elif env['platform'] in ('x11', 'linux'):
 
-    env.Prepend(_LIBFLAGS="-Wl,--start-group ")  # the trailing space is required
-    env.Append(_LIBFLAGS=" -Wl,--end-group")     # the leading space is required
+    env.Prepend(_LIBFLAGS="-Wl,--start-group ")
+    env.Append(_LIBFLAGS=" -Wl,--end-group")
 
     wwise_plugins_library.append("AkOpusDecoder")
 
@@ -421,15 +324,6 @@ if env['platform'] == 'ios':
         cpp_library += '.' + 'arm64'
     elif env['ios_arch'] == 'armv7':
         cpp_library += '.' + 'armv7'
-elif env['platform'] == 'android':
-    if env['android_arch'] == 'armv7':
-        cpp_library += '.' + 'armv7'
-    elif env['android_arch'] == 'arm64v8':
-        cpp_library += '.' + 'armv64v8'
-    elif env['android_arch'] == 'x86':
-        cpp_library += '.' + 'x86'
-    elif env['android_arch'] == 'x86_64':
-        cpp_library += '.' + 'x86_64'
 else:
     cpp_library += '.' + str(bits)
 
@@ -447,9 +341,6 @@ sources.append(Glob(wwise_soundengine_sample_path + '*.cpp'))
 sources.append(Glob(wwise_soundengine_sample_common_path + '*.cpp'))
 
 # wwise specific configuration
-if env['platform'] == "android":
-    env.Append(CPPPATH=[wwise_soundengine_zip_path, wwise_soundengine_posix_path])
-    env.Append(LIBPATH=[toolchain + "/sysroot" + "/usr" + "/lib/" + arch_info["tool_path"] + "/" + env["android_api_level"] + "/"])
 env.Append(CPPPATH=[wwise_sdk_headers_path, wwise_soundengine_sample_path])
 env.Append(LIBPATH=[wwise_sdk_libs_path])
 env.Append(LIBS=[wwise_memorymanager_library, wwise_soundengine_library, wwise_streammanager_library, wwise_musicengine_library, wwise_plugins_library])
@@ -464,12 +355,8 @@ if env['platform'] == "windows":
     env.Append(LIBS=['advapi32', 'user32', 'ole32'])
 if env['platform'] == "windows" and 'motion' in env['plugins']:
     env.Append(LIBS=['XInput', 'Dinput8', 'Winmm', 'oleaut32'])
-if env['platform'] == "android":
-    env.Append(LINKFLAGS=['-android', '-OpenSLES',])
-    env.Append(LIBS=['z', 'zip'])
 if env["platform"] == "linux":
     env.Append(LIBS=[ 'pthread', 'dl'])
-    
 
 if env['platform'] == 'ios':
     library = env.StaticLibrary(target=env['target_path'] + env['target_name'] , source=sources)
