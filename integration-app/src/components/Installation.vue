@@ -297,7 +297,7 @@ export default {
       }
 
       function filterAsset(asset) {
-        return asset.name.indexOf("Integration") >= 0;
+        return asset.name.indexOf("Integration.zip") >= 0;
       }
 
       dlRelease(
