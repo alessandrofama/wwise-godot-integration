@@ -8,7 +8,7 @@ Welcome! This repository provides an integration of [Audiokinetic's Wwise audio 
 
 ## Features
 
-[<img src="https://i.imgur.com/PrMMagV.png" width="50%">](https://www.youtube.com/watch?v=Y4boAPaK6BE) 
+[<img src="https://i.imgur.com/PrMMagV.png" width="50%">](https://www.youtube.com/watch?v=rO42WLEnC18) 
 
 * Wwise wrapper libraries that can be used in games and apps for Windows, macOS, Linux, iOS and Android. These are provided as [GDNative modules](https://docs.godotengine.org/en/stable/tutorials/plugins/gdnative/index.html).
 * Integration app to ease the process of integrating Wwise into Godot projects.
