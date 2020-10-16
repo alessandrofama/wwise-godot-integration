@@ -46,6 +46,6 @@ Any contribution is welcome. Please send pull-requests with fixes or additions!
 
 ## License
 
-Wwise is an audio middleware that is free for non-commercial projects. Otherwise, you will need to pay for a license. Please visit https://www.audiokinetic.com/pricing/ for details.
+Wwise is an audio middleware that is free for non-commercial projects. A limited commercial license (Wwise Project may contain a maximum of 500 sound files/media assets) is also available for free. Otherwise, you will need to pay for a license. Please visit https://www.audiokinetic.com/pricing/ for details.
 
 The integration files, code and scripts in this repository are released under the [MIT license](https://github.com/alessandrofama/wwise-godot-integration/blob/master/LICENSE).
