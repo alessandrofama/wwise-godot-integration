@@ -2,6 +2,7 @@
 #define WWISE_UTILS_H
 
 #include "AK/SoundEngine/Common/AkTypes.h"
+#include "File.hpp"
 
 using namespace godot;
 
@@ -213,6 +214,7 @@ static inline bool findMatchingVertex(Vector3 vertex, Dictionary vertDict, int& 
 static bool copyDirectory(String from, String to)
 {
 	Directory* dir = Directory::_new();
+	File* file = File::_new();
 
 	if (!dir->dir_exists(to))
 	{
@@ -227,24 +229,34 @@ static bool copyDirectory(String from, String to)
 		{
 			if (dir->file_exists(fileName))
 			{
-				if (dir->current_is_dir())
+				if (!file->file_exists(to + "/" + fileName))
 				{
-					copyDirectory(from + "/" + fileName, to + "/" + fileName);
+					if (dir->current_is_dir())
+					{
+						copyDirectory(from + "/" + fileName, to + "/" + fileName);
+					}
+					else
+					{
+						dir->copy(from + "/" + fileName, to + "/" + fileName);
+					}
 				}
-				else
+				else if (file->get_md5(from + "/" + fileName) != file->get_md5(to + "/" + fileName))
 				{
 					dir->copy(from + "/" + fileName, to + "/" + fileName);
 				}
 			}
+
 			fileName = dir->get_next();
 		}
 
 		dir->free();
+		file->free();
 		return true;
 	}
 	else 
 	{
 		dir->free();
+		file->free();
 		return false;
 	}
 }
