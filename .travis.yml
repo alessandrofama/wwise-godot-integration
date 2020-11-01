@@ -131,7 +131,7 @@ install:
   - if [[ "$PLATARG" == "linux" ]]; then scons $LIB_ARGS_DEBUG && scons $LIB_ARGS_RELEASE && cd ../; fi
   - if [[ "$PLATARG" == "ios" ]]; then scons $LIB_ARGS_ARM64_DEBUG && scons $LIB_ARGS_ARMV7_DEBUG && scons $LIB_ARGS_ARM64_RELEASE && scons $LIB_ARGS_ARMV7_RELEASE && cd ../; fi
   - if [[ "$PLATARG" == "app-osx" ]]; then yarn install; fi
-  - if [[ "$PLATARG" == "app-win" ]]; then npm install; fi
+  - if [[ "$PLATARG" == "app-win" ]]; then npm install && npm run lint --fix; fi
 script:
   - if [[ "$PLATARG" == "windows" ]]; then ./compile_cl_wwise_debug.bat && ./compile_cl_wwise_release.bat && cd ../waapiclient-gdnative && ./compile_cl_waapi_debug.bat && ./compile_cl_waapi_release.bat && cd ../; fi
   - if [[ "$PLATARG" == "app-osx" ]]; then yarn electron:build; fi

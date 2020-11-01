@@ -3,7 +3,7 @@
     <div v-if="!installing && !installed && !installationFailed">
       <div class="form-group">
         <div>
-          <label style="font-size: large;">Platform Selection</label>
+          <label style="font-size: large">Platform Selection</label>
           <br />
           <div class="custom-control custom-checkbox custom-control-inline">
             <input
@@ -63,12 +63,12 @@
         </div>
       </div>
 
-      <form @submit.prevent="onSubmit" style="margin-top: 4%;">
+      <form @submit.prevent="onSubmit" style="margin-top: 4%">
         <div class="form-group">
-          <label for="godotProject" style="font-size: large;"
+          <label for="godotProject" style="font-size: large"
             >Select Godot's project file:</label
           >
-          <div class="custom-file" style="margin-top: 1%;">
+          <div class="custom-file" style="margin-top: 1%">
             <input
               type="file"
               class="custom-file-input"
@@ -83,7 +83,7 @@
           <span
             v-if="isIntegrationInstalled"
             class="form-text"
-            style="margin-top: 5%; font-size: large;"
+            style="margin-top: 5%; font-size: large"
           >
             The Wwise Godot Integration is already installed. Please update or
             uninstall the integration.
@@ -91,14 +91,14 @@
           <span
             v-else
             class="form-text"
-            style="margin-top: 5%; font-size: large;"
+            style="margin-top: 5%; font-size: large"
           >
             Installing the Wwise Godot integration will copy the required files
             to your Godot Project.
           </span>
           <span
             class="form-text"
-            style="margin-top: 4%; font-size: large; color: red;"
+            style="margin-top: 4%; font-size: large; color: red"
             >{{ errorHint }}</span
           >
         </div>
@@ -136,7 +136,7 @@
     </div>
     <div v-if="installed">
       <h3>{{ installHeader }} completed successfully</h3>
-      <p style="margin-top: 5%; font-size: large;">{{ installText }}</p>
+      <p style="margin-top: 5%; font-size: large">{{ installText }}</p>
       <div class="b-button-toolbar">
         <b-button-group>
           <button v-on:click="openProjectInExplorer" class="btn btn-primary">
@@ -150,7 +150,7 @@
     </div>
     <div v-if="installing">
       <h3>Installing...</h3>
-      <p style="margin-top: 5%;">{{ installText }}</p>
+      <p style="margin-top: 5%">{{ installText }}</p>
       <div class="progressing">
         <transition name="fadeInstall">
           <div v-show="installing">
@@ -166,7 +166,7 @@
     </div>
     <div v-if="installationFailed">
       <h3>{{ installHeader }} failed</h3>
-      <p style="margin-top: 5%;">{{ installText }}</p>
+      <p style="margin-top: 5%">{{ installText }}</p>
       <button v-on:click="onInit" class="btn btn-primary">
         <span>Start over</span>
       </button>
@@ -329,7 +329,6 @@ export default {
 
       function filterAsset(asset) {
         for (let i = 0; i < vm.platforms.length; i++) {
-          console.log(vm.platforms[i]);
           if (asset.name.indexOf(vm.platforms[i]) >= 0) {
             return true;
           }
