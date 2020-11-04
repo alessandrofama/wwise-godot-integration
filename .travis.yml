@@ -88,7 +88,7 @@ matrix:
       - name: Integration App Windows
         language: node_js
         node_js:
-          - lts/*
+          - node
         env: 
           - PLATARG=app-win
           - BUILD=app
