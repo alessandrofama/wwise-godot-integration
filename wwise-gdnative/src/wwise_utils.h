@@ -141,24 +141,24 @@ static const char* WwiseCallbackToSignal(AkCallbackType callbackType)
 {
 	switch (callbackType)
 	{
-	case AK_EndOfEvent:					return "end_of_event";
-	case AK_EndOfDynamicSequenceItem:	return "end_if_dynamic_sequence_item";
-	case AK_Marker:						return "audio_marker";
-	case AK_Duration:					return "audio_duration";
-	case AK_SpeakerVolumeMatrix:		return "speaker_volume_matrix";
-	case AK_Starvation:					return "audio_starvation";
-	case AK_MusicPlaylistSelect:		return "music_playlist_select";
-	case AK_MusicPlayStarted:			return "music_play_started";
-	case AK_MusicSyncBeat:				return "music_sync_beat";
-	case AK_MusicSyncBar:				return "music_sync_bar";
-	case AK_MusicSyncEntry:				return "music_sync_entry";
-	case AK_MusicSyncExit:				return "music_sync_exit";
-	case AK_MusicSyncGrid:				return "music_sync_grid";
-	case AK_MusicSyncUserCue:			return "music_sync_user_cue";
-	case AK_MusicSyncPoint:				return "music_sync_point";
-	case AK_MusicSyncAll:				return "music_sync_all";
-	case AK_MIDIEvent:					return "midi_event";
-	case AK_CallbackBits:				return "callback_bits";
+	case AK_EndOfEvent:						return "end_of_event";
+	case AK_EndOfDynamicSequenceItem:		return "end_if_dynamic_sequence_item";
+	case AK_Marker:							return "audio_marker";
+	case AK_Duration:						return "audio_duration";
+	case AK_SpeakerVolumeMatrix:			return "speaker_volume_matrix";
+	case AK_Starvation:						return "audio_starvation";
+	case AK_MusicPlaylistSelect:			return "music_playlist_select";
+	case AK_MusicPlayStarted:				return "music_play_started";
+	case AK_MusicSyncBeat:					return "music_sync_beat";
+	case AK_MusicSyncBar:					return "music_sync_bar";
+	case AK_MusicSyncEntry:					return "music_sync_entry";
+	case AK_MusicSyncExit:					return "music_sync_exit";
+	case AK_MusicSyncGrid:					return "music_sync_grid";
+	case AK_MusicSyncUserCue:				return "music_sync_user_cue";
+	case AK_MusicSyncPoint:					return "music_sync_point";
+	case AK_MusicSyncAll:					return "music_sync_all";
+	case AK_MIDIEvent:						return "midi_event";
+	case AK_CallbackBits:					return "callback_bits";
 	case AK_EnableGetSourcePlayPosition:	return "enable_get_source_play_position";
 	case AK_EnableGetMusicPlayPosition:		return "enable_get_music_play_position";
 	case AK_EnableGetSourceStreamBuffering:	return "enable_get_source_stream_buffering";
@@ -198,7 +198,7 @@ static inline void GetAkVector(const Transform& t, AkVector& outVector, const Ve
 	}
 }
 
-static inline bool findMatchingVertex(Vector3 vertex, Dictionary vertDict, int& outIdx)
+static inline bool FindMatchingVertex(Vector3 vertex, Dictionary vertDict, int& outIdx)
 {
 	if (vertDict.has(vertex))
 	{
@@ -211,7 +211,7 @@ static inline bool findMatchingVertex(Vector3 vertex, Dictionary vertDict, int& 
 	}
 }
 
-static bool copyDirectory(String from, String to)
+static bool CopyDirectory(String from, String to)
 {
 	Directory* dir = Directory::_new();
 	File* file = File::_new();
@@ -233,7 +233,7 @@ static bool copyDirectory(String from, String to)
 				{
 					if (dir->current_is_dir())
 					{
-						copyDirectory(from + "/" + fileName, to + "/" + fileName);
+						CopyDirectory(from + "/" + fileName, to + "/" + fileName);
 					}
 					else
 					{

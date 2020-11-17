@@ -226,7 +226,7 @@ void Wwise::_init()
 		MAP_PATH_STANDALONE(basePath);
 
 #if defined(AK_WIN) || defined(AK_MAC_OS_X) || defined(AK_LINUX)
-		bool copyBanksResult = copyDirectory(banksPath + platformBanksSuffix, OS::get_singleton()->get_user_data_dir() + "/wwise/GeneratedSoundBanks" + platformBanksSuffix);
+		bool copyBanksResult = CopyDirectory(banksPath + platformBanksSuffix, OS::get_singleton()->get_user_data_dir() + "/wwise/GeneratedSoundBanks" + platformBanksSuffix);
 
 		if (!copyBanksResult)
 		{
@@ -794,7 +794,7 @@ bool Wwise::setGeometry(const Array vertices, const Array triangles, const Resou
 	{
 		int vertIdx = 0;
 		
-		if (!findMatchingVertex(vertices[v], vertDict, vertIdx))
+		if (!FindMatchingVertex(vertices[v], vertDict, vertIdx))
 		{
 			vertIdx = uniqueVerts.size();
 			uniqueVerts.append(vertices[v]);
