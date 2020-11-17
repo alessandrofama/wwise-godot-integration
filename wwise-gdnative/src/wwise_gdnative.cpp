@@ -34,43 +34,6 @@ int Wwise::signalCallbackDataMaxSize = 4096;
 
 CAkLock g_localOutputLock;
 
-namespace AK
-{
-	void* __cdecl AllocHook(size_t in_size)
-	{
-		Godot::print("AK::AllocHook called with size: " + String::num_int64(in_size));
-		AKASSERT(api);
-		return api->godot_alloc(static_cast<int>(in_size));
-	}
-
-	void __cdecl FreeHook(void* in_ptr)
-	{
-		Godot::print("AK::FreeHook called");
-		AKASSERT(api);
-		api->godot_free(in_ptr);
-	}
-
-#if defined(_WIN32)
-	void* __cdecl VirtualAllocHook(
-		void* in_pMemAddress,
-		size_t in_size,
-		DWORD in_dwAllocationType,
-		DWORD in_dwProtect
-	)
-	{
-		return VirtualAlloc(in_pMemAddress, in_size, in_dwAllocationType, in_dwProtect);
-	}
-	void __cdecl VirtualFreeHook(
-		void* in_pMemAddress,
-		size_t in_size,
-		DWORD in_dwFreeType
-	)
-	{
-		VirtualFree(in_pMemAddress, in_size, in_dwFreeType);
-	}
-#endif
-}
-
 #if defined(AK_ENABLE_ASSERTS)
 void WwiseAssertHook(const char* in_pszExpression, const char* in_pszFileName, int in_lineNumber)
 {
