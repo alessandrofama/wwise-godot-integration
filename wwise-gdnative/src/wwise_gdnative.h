@@ -26,6 +26,7 @@
 #include <AkDefaultIOHookBlocking.h>
 
 #include "wwise_utils.h"
+#include <resonance_utils.h>
 
 #ifndef AK_OPTIMIZED
 #include <AK/Comm/AkCommunication.h>
