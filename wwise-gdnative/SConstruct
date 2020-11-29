@@ -77,7 +77,7 @@ opts.Add(BoolVariable('use_llvm', "Use the LLVM / Clang compiler", 'no'))
 opts.Add(PathVariable('target_path', 'The path where the lib is installed.', 'gdnative-demo/wwise/bin/', PathVariable.PathIsDirCreate))
 opts.Add(PathVariable('target_name', 'The library name.', 'WwiseGDNative', PathVariable.PathAccept))
 opts.Add(PathVariable('wwise_sdk', 'The Wwise SDK path', '', PathVariable.PathAccept))
-opts.Add(ListVariable('plugins', 'List of plugins', '', ['reflect', 'motion', 'convolution', 'soundseed_grain', 'soundseed_air_impact']))
+opts.Add(ListVariable('plugins', 'List of plugins', '', ['reflect', 'motion', 'convolution', 'soundseed_grain', 'soundseed_air_impact', 'resonanceaudio']))
 opts.Add(EnumVariable('ios_arch', 'Target iOS architecture', 'arm64', ['armv7', 'arm64']))
 opts.Add('IPHONEPATH', 'Path to iPhone toolchain', '/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain')
 
@@ -150,6 +150,9 @@ if 'soundseed_grain' in env['plugins']:
 if 'soundseed_air_impact' in env['plugins']:
     wwise_plugins_library.append(['AkSoundSeedWindSource', 'AkSoundSeedImpactFX', 'AkSoundSeedWooshSource'])
 
+if 'resonanceaudio' in env['plugins']:
+    wwise_plugins_library.append('ResonanceAudioFX')
+
 print("Wwise SDK headers path: " + wwise_sdk_headers_path)
 print("Wwise SDK libs path: " + wwise_sdk_libs_path)
 
@@ -203,6 +206,8 @@ if env['platform'] == "osx":
         env.Append(CPPDEFINES=['AK_SOUNDSEED_GRAIN'])
     if 'soundseed_air_impact' in env['plugins']:
         env.Append(CPPDEFINES=['AK_SOUNDSEED_AIR_IMPACT'])
+    if 'resonanceaudio' in env['plugins']:
+        env.Append(CPPDEFINES=['RESONANCE_AUDIO'])
 
 elif env['platform'] == 'ios':
 
@@ -273,6 +278,8 @@ elif env['platform'] in ('x11', 'linux'):
         env.Append(CPPDEFINES=['AK_SOUNDSEED_GRAIN'])
     if 'soundseed_air_impact' in env['plugins']:
         env.Append(CPPDEFINES=['AK_SOUNDSEED_AIR_IMPACT'])
+    if 'resonanceaudio' in env['plugins']:
+        env.Append(CPPDEFINES=['RESONANCE_AUDIO'])
 
 elif env['platform'] == "windows":
     env['target_path'] += 'win64/'
@@ -313,6 +320,8 @@ elif env['platform'] == "windows":
         env.Append(CPPDEFINES=['AK_SOUNDSEED_GRAIN'])
     if 'soundseed_air_impact' in env['plugins']:
         env.Append(CPPDEFINES=['AK_SOUNDSEED_AIR_IMPACT'])
+    if 'resonanceaudio' in env['plugins']:
+        env.Append(CPPDEFINES=['RESONANCE_AUDIO'])
 
 if env['target'] in ('debug', 'd'):
     cpp_library += '.debug'
