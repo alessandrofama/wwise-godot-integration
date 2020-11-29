@@ -121,6 +121,10 @@ namespace godot
 		bool suspend(bool renderAnyway);
 		bool wakeupFromSuspend();
 
+		// Resonance Audio
+		void updateAudioRoom(const Spatial* room, bool enabled);
+		bool isListenerInsideRoom(const Spatial* room, const Spatial* listener);
+
 	private:
 		const String GODOT_WINDOWS_SETTING_POSTFIX = ".Windows";
 		const String GODOT_MAC_OSX_SETTING_POSTFIX = ".OSX";
@@ -151,6 +155,12 @@ namespace godot
 
 		ProjectSettings* projectSettings;
 		CAkDefaultIOHookBlocking lowLevelIO;
+
+		// Resonance Audio
+		Array enabledRooms;
+		AABB bounds = AABB(Vector3(0,0,0), Vector3(0,0,0));
+		const AkUInt32 resonanceCompanyId = (uint32_t) 272;
+		const AkUInt32 roomEffectsPluginId = (uint32_t) 200;
 	};
 }
 

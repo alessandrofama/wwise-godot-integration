@@ -126,6 +126,8 @@ void Wwise::_register_methods()
 	register_method("remove_output", &Wwise::removeOutput);
 	register_method("suspend", &Wwise::suspend);
 	register_method("wakeup_from_suspend", &Wwise::wakeupFromSuspend);
+	register_method("update_audio_room", &Wwise::updateAudioRoom);
+	register_method("is_listener_inside_room", &Wwise::isListenerInsideRoom);
 
 	REGISTER_GODOT_SIGNAL(AK_EndOfEvent);
 	REGISTER_GODOT_SIGNAL(AK_EndOfDynamicSequenceItem);
@@ -968,6 +970,54 @@ bool Wwise::suspend(bool renderAnyway)
 bool Wwise::wakeupFromSuspend()
 {
 	return ERROR_CHECK(AK::SoundEngine::WakeupFromSuspend(), "Failed to wake up SoundEngine from suspend");
+}
+
+void Wwise::updateAudioRoom(const Spatial *room, bool enabled)
+{
+	if (enabled)
+	{
+		if (!enabledRooms.has(room))
+		{
+			enabledRooms.append(room);
+		}
+	}
+	else
+	{
+		int idx = enabledRooms.find(room);
+		if (idx != -1)
+		{
+			enabledRooms.remove(idx);
+		}
+	}
+
+	if (enabledRooms.size() > 0)
+	{
+		Spatial* currentRoom = enabledRooms[enabledRooms.size() - 1];
+		RoomProperties roomProperties;	getRoomProperties(currentRoom, roomProperties);
+		AkUniqueID roomEffectsBusId = static_cast<AkUniqueID>(currentRoom->get("room_effects_bus"));
+		ERROR_CHECK(AK::SoundEngine::SendPluginCustomGameData(roomEffectsBusId, AK_INVALID_GAME_OBJECT, AkPluginType::AkPluginTypeMixer,
+												  resonanceCompanyId, roomEffectsPluginId, &roomProperties, sizeof(RoomProperties)), "Sending Resonance Audio plugin data to Wwise failed.");
+	}
+	else
+	{
+		AkUniqueID roomEffectsBusId = static_cast<AkUniqueID>(room->get("room_effects_bus"));
+		ERROR_CHECK(AK::SoundEngine::SendPluginCustomGameData(roomEffectsBusId, AK_INVALID_GAME_OBJECT, AkPluginType::AkPluginTypeMixer,
+												  resonanceCompanyId, roomEffectsPluginId, nullptr, 0U), "Sending Resonance Audio plugin data to Wwise failed.");
+	}
+}
+
+bool Wwise::isListenerInsideRoom(const Spatial* room, const Spatial* listener)
+{
+	if (!listener)
+	{
+		return false;
+	}
+
+	Vector3 relativePosition = listener->get_global_transform().origin - room->get_global_transform().origin;
+	Quat rotationInverse = Quat(room->get_global_transform().basis.orthonormalized()).inverse();
+	scaleVector(room->get_scale(), static_cast<Vector3>(room->get("size")), bounds.size);		
+
+	return hasPoint(bounds, relativePosition, rotationInverse);
 }
 
 void Wwise::eventCallback(AkCallbackType callbackType, AkCallbackInfo* callbackInfo)
