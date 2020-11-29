@@ -994,13 +994,13 @@ void Wwise::updateAudioRoom(const Spatial *room, bool enabled)
 	{
 		Spatial* currentRoom = enabledRooms[enabledRooms.size() - 1];
 		RoomProperties roomProperties;	getRoomProperties(currentRoom, roomProperties);
-		AkUniqueID roomEffectsBusId = static_cast<AkUniqueID>(currentRoom->get("room_effects_bus"));
+		AkUniqueID roomEffectsBusId = (unsigned int)currentRoom->get("room_effects_bus");
 		ERROR_CHECK(AK::SoundEngine::SendPluginCustomGameData(roomEffectsBusId, AK_INVALID_GAME_OBJECT, AkPluginType::AkPluginTypeMixer,
 												  resonanceCompanyId, roomEffectsPluginId, &roomProperties, sizeof(RoomProperties)), "Sending Resonance Audio plugin data to Wwise failed.");
 	}
 	else
 	{
-		AkUniqueID roomEffectsBusId = static_cast<AkUniqueID>(room->get("room_effects_bus"));
+		AkUniqueID roomEffectsBusId = (unsigned int)room->get("room_effects_bus");
 		ERROR_CHECK(AK::SoundEngine::SendPluginCustomGameData(roomEffectsBusId, AK_INVALID_GAME_OBJECT, AkPluginType::AkPluginTypeMixer,
 												  resonanceCompanyId, roomEffectsPluginId, nullptr, 0U), "Sending Resonance Audio plugin data to Wwise failed.");
 	}
