@@ -25,6 +25,10 @@
 #include <AK/Plugin/AkSoundSeedWooshSourceFactory.h>
 #endif
 
+#if defined(RESONANCE_AUDIO)
+#include <AK/Plugin/ResonanceAudioFXFactory.h>
+#endif
+
 using namespace godot;
 
 CAkLock Wwise::signalDataLock;
