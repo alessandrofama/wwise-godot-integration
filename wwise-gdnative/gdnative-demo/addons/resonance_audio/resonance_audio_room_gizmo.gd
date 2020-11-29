@@ -6,7 +6,7 @@ var verts = PoolVector3Array()
 var indices = PoolIntArray()
 
 func _init():
-	create_material("main", Color(0.7, 0.3, 0, 0.07))
+	create_material("main", Color(0.7, 0.7, 0, 0.5))
 
 func redraw(gizmo):
 	gizmo.clear()
@@ -54,7 +54,7 @@ func get_mesh(spatial:ResonanceAudioRoom):
 	arrays[Mesh.ARRAY_INDEX] = indices
 
 	var mesh = ArrayMesh.new()
-	mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
+	mesh.add_surface_from_arrays(Mesh.PRIMITIVE_LINE_LOOP, arrays)
 	return mesh
 	
 func add_indices(a, b, c, d):
