@@ -31,6 +31,8 @@ func _add_common_user_settings():
 				TYPE_STRING, PROPERTY_HINT_DIR, "res://wwise/GeneratedSoundBanks")
 	_add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "startup_language", String("English(US)"), TYPE_STRING, 
 				PROPERTY_HINT_NONE, "")
+	_add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "load_init_bank_at_startup", 0, TYPE_BOOL, 
+				PROPERTY_HINT_NONE, "")
 	_add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "callback_manager_buffer_size", 4096, TYPE_INT, 
 				PROPERTY_HINT_NONE, "")
 	_add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "engine_logging", 0, TYPE_BOOL, 

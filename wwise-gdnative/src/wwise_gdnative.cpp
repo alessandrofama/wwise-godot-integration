@@ -225,6 +225,14 @@ void Wwise::_init()
 					"Failed to set ErrorLevel_All");
 	}
 #endif
+
+	bool loadInitBank = getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + "load_init_bank_at_startup");
+
+	if (loadInitBank)
+	{
+		AkUInt32 initBankID = AK::SoundEngine::GetIDFromString("Init");
+		loadBankID(initBankID);
+	}
 }
 
 void Wwise::_process(const float delta)
