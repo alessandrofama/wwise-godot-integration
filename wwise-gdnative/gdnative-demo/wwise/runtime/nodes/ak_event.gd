@@ -1,23 +1,10 @@
 extends "res://wwise/runtime/helpers/ak_event_handler.gd"
 
-export(AK.EVENTS._enum) var event:int
-export(AkUtils.GameEvent) var trigger_on:int = AkUtils.GameEvent.NONE
-export(AkUtils.GameEvent) var stop_on:int = AkUtils.GameEvent.NONE
-export(int) var stop_fade_time:int = 0
-export(AkUtils.AkCurveInterpolation) var stop_interpolation_curve:int = AkUtils.AkCurveInterpolation.LINEAR
-var playing_id:int
-
-export(bool) var use_callback:bool = false
-export(AkUtils.AkCallbackType) var callback_type = AkUtils.AkCallbackType.AK_EndOfEvent
-export(NodePath) var callback_receiver:NodePath
-
-export(bool) var is_environment_aware:bool = false;
 var listener:Spatial
 var ray:RayCast
 var colliding_objects:Array = []
 var ak_environment_data
-
-export(bool) var is_spatial:bool = false
+var playing_id:int
 
 func _enter_tree():
 	if Engine.is_editor_hint():
@@ -33,7 +20,10 @@ func _ready() -> void:
 		self.set_process(true)
 		
 	if use_callback:
-		connect_signals(callback_receiver, callback_type)
+			for flag in AkUtils.AkCallbackType.values().size():
+				if (callback_flag & AkUtils.AkCallbackType.values()[flag] > 0):
+					connect_signals(AkUtils.AkCallbackType.values()[flag])
+		
 	# If is_environment_aware is checked, Wwise.set_game_obj_aux_send_values will
 	# be called. Each Event will instantiate the AkGameObjeckEnvironmentData class,
 	# this instance holds an Array with currently active environments for this
@@ -56,7 +46,7 @@ func post_event() -> void:
 	if not use_callback:
 		playing_id = Wwise.post_event_id(event, self)
 	else:
-		playing_id = Wwise.post_event_id_callback(event, callback_type, self)
+		playing_id = Wwise.post_event_id_callback(event, callback_flag, self)
 	
 func stop_event() -> void:
 	Wwise.stop_event(playing_id, stop_fade_time, stop_interpolation_curve)
