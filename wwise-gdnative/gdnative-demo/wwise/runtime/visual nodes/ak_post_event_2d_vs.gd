@@ -1,7 +1,7 @@
 tool
 extends VisualScriptCustomNode
 
-export(AK.EVENTS._enum) var event:int
+export(AK.EVENTS._enum) var event:int = AK.EVENTS._enum.values()[0]
 
 func _get_caption():
 	return "Ak Post Event 2D"

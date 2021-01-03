@@ -2,7 +2,7 @@ extends Node2D
 
 var signal_prefix:String = "_on_"
 
-export(AK.EVENTS._enum) var event:int
+export(AK.EVENTS._enum) var event:int = AK.EVENTS._enum.values()[0]
 export(AkUtils.GameEvent) var trigger_on:int = AkUtils.GameEvent.NONE
 export(AkUtils.GameEvent) var stop_on:int = AkUtils.GameEvent.NONE
 export(int) var stop_fade_time:int = 0
