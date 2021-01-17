@@ -185,9 +185,6 @@ include $(PREBUILT_STATIC_LIBRARY)
 include $(CLEAR_VARS)
 LOCAL_MODULE := WwiseGDNative.android.$(CONFIGURATION).$(APP_ABI)
 LOCAL_MODULE_FILENAME := libWwiseGDNative.$(CONFIGURATION).$(APP_ABI)
-FILE_LIST_CORE := $(wildcard $(LOCAL_PATH)/../godot-cpp/src/core/*.cpp)
-FILE_LIST_GEN := $(wildcard $(LOCAL_PATH)/../godot-cpp/src/gen/*.cpp)
-FILE_LIST_10 := $(wildcard $(LOCAL_PATH)/../godot-cpp/src/*.cpp)
 
 LOCAL_C_INCLUDES := \
 $(LOCAL_PATH)/../godot-cpp/godot_headers \
@@ -197,15 +194,11 @@ $(LOCAL_PATH)/../godot-cpp/include/gen \
 src
 
 LOCAL_SRC_FILES := src/wwise_gdnative.cpp src/gdlibrary.cpp $(WWISESDK)/samples/SoundEngine/Android/AkDefaultIOHookBlocking.cpp $(WWISESDK)/samples/SoundEngine/Android/AkFileHelpers.cpp $(WWISESDK)/samples/SoundEngine/Common/AkFileLocationBase.cpp $(WWISESDK)/samples/SoundEngine/Common/AkFilePackage.cpp $(WWISESDK)/samples/SoundEngine/Common/AkFilePackageLUT.cpp
-LOCAL_SRC_FILES += \
-$(FILE_LIST_CORE:$(LOCAL_PATH)/%=%) \
-$(FILE_LIST_GEN:$(LOCAL_PATH)/%=%) \
-$(FILE_LIST_10:$(LOCAL_PATH)/%=%) \
 
 ifeq ($(PM5_CONFIG),debug_android_armeabi-v7a)
   LOCAL_C_INCLUDES += $(WWISESDK)/samples/SoundEngine/Android/libzip/lib $(LOCAL_PATH)/. $(WWISESDK)/samples/SoundEngine/Common $(WWISESDK)/samples/SoundEngine/Android $(WWISESDK)/include 
   LOCAL_CPP_FEATURES := exceptions
-  LOCAL_STATIC_LIBRARIES := CommunicationCentral AkAudioInputSource AkCompressorFX AkDelayFX AkExpanderFX AkFlangerFX AkGainFX AkGuitarDistortionFX AkHarmonizerFX AkMatrixReverbFX AkMeterFX AkOpusDecoder AkParametricEQFX AkPeakLimiterFX AkPitchShifterFX AkRecorderFX AkRoomVerbFX AkSilenceSource AkSineSource AkStereoDelayFX AkSynthOneSource AkTimeStretchFX AkToneSource AkTremoloFX zip AkVorbisDecoder AkMusicEngine AkSpatialAudio AkStreamMgr AkMemoryMgr AkSoundEngine
+  LOCAL_STATIC_LIBRARIES := godot-prebuilt CommunicationCentral AkAudioInputSource AkCompressorFX AkDelayFX AkExpanderFX AkFlangerFX AkGainFX AkGuitarDistortionFX AkHarmonizerFX AkMatrixReverbFX AkMeterFX AkOpusDecoder AkParametricEQFX AkPeakLimiterFX AkPitchShifterFX AkRecorderFX AkRoomVerbFX AkSilenceSource AkSineSource AkStereoDelayFX AkSynthOneSource AkTimeStretchFX AkToneSource AkTremoloFX zip AkVorbisDecoder AkMusicEngine AkSpatialAudio AkStreamMgr AkMemoryMgr AkSoundEngine
   LOCAL_LDLIBS := $(addprefix -L, $(WWISESDK)/Android_$(ArchAbi)/$(Configuration)/lib $(WWISESDK)/Android_$(TARGET_ARCH_ABI)/Debug/lib $(WWISESDK)/Android_$(APP_ABI)/$(CONFIGURATION)/lib) $(addprefix -l, log OpenSLES android z)
   LOCAL_CFLAGS := -D_DEBUG -mfloat-abi=softfp -mfpu=neon -g -frtti 
   LOCAL_CPPFLAGS := -Wno-conversion-null -Wno-invalid-offsetof -Wno-deprecated-declarations -fno-exceptions -DLUA_USE_POSIX -std=c++14 
@@ -217,7 +210,7 @@ endif
 ifeq ($(PM5_CONFIG),debug_android_x86)
   LOCAL_C_INCLUDES += $(WWISESDK)/samples/SoundEngine/Android/libzip/lib $(LOCAL_PATH)/. $(WWISESDK)/samples/SoundEngine/Common $(WWISESDK)/samples/SoundEngine/Android $(WWISESDK)/include 
   LOCAL_CPP_FEATURES := exceptions
-  LOCAL_STATIC_LIBRARIES := CommunicationCentral AkAudioInputSource AkCompressorFX AkDelayFX AkExpanderFX AkFlangerFX AkGainFX AkGuitarDistortionFX AkHarmonizerFX AkMatrixReverbFX AkMeterFX AkOpusDecoder AkParametricEQFX AkPeakLimiterFX AkPitchShifterFX AkRecorderFX AkRoomVerbFX AkSilenceSource AkSineSource AkStereoDelayFX AkSynthOneSource AkTimeStretchFX AkToneSource AkTremoloFX zip AkVorbisDecoder AkMusicEngine AkSpatialAudio AkStreamMgr AkMemoryMgr AkSoundEngine
+  LOCAL_STATIC_LIBRARIES := godot-prebuilt CommunicationCentral AkAudioInputSource AkCompressorFX AkDelayFX AkExpanderFX AkFlangerFX AkGainFX AkGuitarDistortionFX AkHarmonizerFX AkMatrixReverbFX AkMeterFX AkOpusDecoder AkParametricEQFX AkPeakLimiterFX AkPitchShifterFX AkRecorderFX AkRoomVerbFX AkSilenceSource AkSineSource AkStereoDelayFX AkSynthOneSource AkTimeStretchFX AkToneSource AkTremoloFX zip AkVorbisDecoder AkMusicEngine AkSpatialAudio AkStreamMgr AkMemoryMgr AkSoundEngine
   LOCAL_LDLIBS := $(addprefix -L, $(WWISESDK)/Android_$(ArchAbi)/$(Configuration)/lib $(WWISESDK)/Android_$(TARGET_ARCH_ABI)/Debug/lib $(WWISESDK)/Android_$(APP_ABI)/$(CONFIGURATION)/lib) $(addprefix -l, log OpenSLES android z)
   LOCAL_CFLAGS := -D_DEBUG -g -frtti
   LOCAL_CPPFLAGS := -Wno-conversion-null -Wno-invalid-offsetof -Wno-deprecated-declarations -fno-exceptions -DLUA_USE_POSIX -std=c++14
@@ -229,7 +222,7 @@ endif
 ifeq ($(PM5_CONFIG),debug_android_arm64-v8a)
   LOCAL_C_INCLUDES += $(WWISESDK)/samples/SoundEngine/Android/libzip/lib $(LOCAL_PATH)/. $(WWISESDK)/samples/SoundEngine/Common $(WWISESDK)/samples/SoundEngine/Android $(WWISESDK)/include 
   LOCAL_CPP_FEATURES := exceptions
-  LOCAL_STATIC_LIBRARIES := CommunicationCentral AkAudioInputSource AkCompressorFX AkDelayFX AkExpanderFX AkFlangerFX AkGainFX AkGuitarDistortionFX AkHarmonizerFX AkMatrixReverbFX AkMeterFX AkOpusDecoder AkParametricEQFX AkPeakLimiterFX AkPitchShifterFX AkRecorderFX AkRoomVerbFX AkSilenceSource AkSineSource AkStereoDelayFX AkSynthOneSource AkTimeStretchFX AkToneSource AkTremoloFX zip AkVorbisDecoder AkMusicEngine AkSpatialAudio AkStreamMgr AkMemoryMgr AkSoundEngine
+  LOCAL_STATIC_LIBRARIES := godot-prebuilt CommunicationCentral AkAudioInputSource AkCompressorFX AkDelayFX AkExpanderFX AkFlangerFX AkGainFX AkGuitarDistortionFX AkHarmonizerFX AkMatrixReverbFX AkMeterFX AkOpusDecoder AkParametricEQFX AkPeakLimiterFX AkPitchShifterFX AkRecorderFX AkRoomVerbFX AkSilenceSource AkSineSource AkStereoDelayFX AkSynthOneSource AkTimeStretchFX AkToneSource AkTremoloFX zip AkVorbisDecoder AkMusicEngine AkSpatialAudio AkStreamMgr AkMemoryMgr AkSoundEngine
   LOCAL_LDLIBS := $(addprefix -L, $(WWISESDK)/Android_$(ArchAbi)/$(Configuration)/lib $(WWISESDK)/Android_$(TARGET_ARCH_ABI)/Debug/lib $(WWISESDK)/Android_$(APP_ABI)/$(CONFIGURATION)/lib) $(addprefix -l, log OpenSLES android z)
   LOCAL_CFLAGS := -D_DEBUG -g -frtti
   LOCAL_CPPFLAGS := -Wno-conversion-null -Wno-invalid-offsetof -Wno-deprecated-declarations -fno-exceptions -DLUA_USE_POSIX -std=c++14
@@ -241,7 +234,7 @@ endif
 ifeq ($(PM5_CONFIG),debug_android_x86_64)
   LOCAL_C_INCLUDES += $(WWISESDK)/samples/SoundEngine/Android/libzip/lib $(LOCAL_PATH)/. $(WWISESDK)/samples/SoundEngine/Common $(WWISESDK)/samples/SoundEngine/Android $(WWISESDK)/include 
   LOCAL_CPP_FEATURES := exceptions
-  LOCAL_STATIC_LIBRARIES := CommunicationCentral AkAudioInputSource AkCompressorFX AkDelayFX AkExpanderFX AkFlangerFX AkGainFX AkGuitarDistortionFX AkHarmonizerFX AkMatrixReverbFX AkMeterFX AkOpusDecoder AkParametricEQFX AkPeakLimiterFX AkPitchShifterFX AkRecorderFX AkRoomVerbFX AkSilenceSource AkSineSource AkStereoDelayFX AkSynthOneSource AkTimeStretchFX AkToneSource AkTremoloFX zip AkVorbisDecoder AkMusicEngine AkSpatialAudio AkStreamMgr AkMemoryMgr AkSoundEngine
+  LOCAL_STATIC_LIBRARIES := godot-prebuilt CommunicationCentral AkAudioInputSource AkCompressorFX AkDelayFX AkExpanderFX AkFlangerFX AkGainFX AkGuitarDistortionFX AkHarmonizerFX AkMatrixReverbFX AkMeterFX AkOpusDecoder AkParametricEQFX AkPeakLimiterFX AkPitchShifterFX AkRecorderFX AkRoomVerbFX AkSilenceSource AkSineSource AkStereoDelayFX AkSynthOneSource AkTimeStretchFX AkToneSource AkTremoloFX zip AkVorbisDecoder AkMusicEngine AkSpatialAudio AkStreamMgr AkMemoryMgr AkSoundEngine
   LOCAL_LDLIBS := $(addprefix -L, $(WWISESDK)/Android_$(ArchAbi)/$(Configuration)/lib $(WWISESDK)/Android_$(TARGET_ARCH_ABI)/Debug/lib $(WWISESDK)/Android_$(APP_ABI)/$(CONFIGURATION)/lib) $(addprefix -l, log OpenSLES android z)
   LOCAL_CFLAGS := -D_DEBUG -g -frtti
   LOCAL_CPPFLAGS := -Wno-conversion-null -Wno-invalid-offsetof -Wno-deprecated-declarations -fno-exceptions -DLUA_USE_POSIX -std=c++14
@@ -253,7 +246,7 @@ endif
 ifeq ($(PM5_CONFIG),release_android_armeabi-v7a)
   LOCAL_C_INCLUDES += $(WWISESDK)/samples/SoundEngine/Android/libzip/lib $(LOCAL_PATH)/. $(WWISESDK)/samples/SoundEngine/Common $(WWISESDK)/samples/SoundEngine/Android $(WWISESDK)/include 
   LOCAL_CPP_FEATURES := exceptions
-  LOCAL_STATIC_LIBRARIES := AkAudioInputSource AkCompressorFX AkDelayFX AkExpanderFX AkFlangerFX AkGainFX AkGuitarDistortionFX AkHarmonizerFX AkMatrixReverbFX AkMeterFX AkOpusDecoder AkParametricEQFX AkPeakLimiterFX AkPitchShifterFX AkRecorderFX AkRoomVerbFX AkSilenceSource AkSineSource AkStereoDelayFX AkSynthOneSource AkTimeStretchFX AkToneSource AkTremoloFX zip AkVorbisDecoder AkMusicEngine AkSpatialAudio AkStreamMgr AkMemoryMgr AkSoundEngine
+  LOCAL_STATIC_LIBRARIES := godot-prebuilt AkAudioInputSource AkCompressorFX AkDelayFX AkExpanderFX AkFlangerFX AkGainFX AkGuitarDistortionFX AkHarmonizerFX AkMatrixReverbFX AkMeterFX AkOpusDecoder AkParametricEQFX AkPeakLimiterFX AkPitchShifterFX AkRecorderFX AkRoomVerbFX AkSilenceSource AkSineSource AkStereoDelayFX AkSynthOneSource AkTimeStretchFX AkToneSource AkTremoloFX zip AkVorbisDecoder AkMusicEngine AkSpatialAudio AkStreamMgr AkMemoryMgr AkSoundEngine
   LOCAL_LDLIBS := $(addprefix -L, $(WWISESDK)/Android_$(ArchAbi)/$(Configuration)/lib $(WWISESDK)/Android_$(TARGET_ARCH_ABI)/Release/lib $(WWISESDK)/Android_$(APP_ABI)/$(CONFIGURATION)/lib) $(addprefix -l, log OpenSLES android z)
   LOCAL_CFLAGS := -DNDEBUG -DAK_OPTIMIZED -mfloat-abi=softfp -mfpu=neon -ffunction-sections -fdata-sections -O3 -frtti
   LOCAL_CPPFLAGS := -Wno-conversion-null -Wno-invalid-offsetof -Wno-deprecated-declarations -fno-exceptions -DLUA_USE_POSIX -std=c++14
@@ -264,7 +257,7 @@ endif
 ifeq ($(PM5_CONFIG),release_android_x86)
   LOCAL_C_INCLUDES += $(WWISESDK)/samples/SoundEngine/Android/libzip/lib $(LOCAL_PATH)/. $(WWISESDK)/samples/SoundEngine/Common $(WWISESDK)/samples/SoundEngine/Android $(WWISESDK)/include 
   LOCAL_CPP_FEATURES := exceptions
-  LOCAL_STATIC_LIBRARIES := AkAudioInputSource AkCompressorFX AkDelayFX AkExpanderFX AkFlangerFX AkGainFX AkGuitarDistortionFX AkHarmonizerFX AkMatrixReverbFX AkMeterFX AkOpusDecoder AkParametricEQFX AkPeakLimiterFX AkPitchShifterFX AkRecorderFX AkRoomVerbFX AkSilenceSource AkSineSource AkStereoDelayFX AkSynthOneSource AkTimeStretchFX AkToneSource AkTremoloFX zip AkVorbisDecoder AkMusicEngine AkSpatialAudio AkStreamMgr AkMemoryMgr AkSoundEngine
+  LOCAL_STATIC_LIBRARIES := godot-prebuilt AkAudioInputSource AkCompressorFX AkDelayFX AkExpanderFX AkFlangerFX AkGainFX AkGuitarDistortionFX AkHarmonizerFX AkMatrixReverbFX AkMeterFX AkOpusDecoder AkParametricEQFX AkPeakLimiterFX AkPitchShifterFX AkRecorderFX AkRoomVerbFX AkSilenceSource AkSineSource AkStereoDelayFX AkSynthOneSource AkTimeStretchFX AkToneSource AkTremoloFX zip AkVorbisDecoder AkMusicEngine AkSpatialAudio AkStreamMgr AkMemoryMgr AkSoundEngine
   LOCAL_LDLIBS := $(addprefix -L, $(WWISESDK)/Android_$(ArchAbi)/$(Configuration)/lib $(WWISESDK)/Android_$(TARGET_ARCH_ABI)/Release/lib $(WWISESDK)/Android_$(APP_ABI)/$(CONFIGURATION)/lib) $(addprefix -l, log OpenSLES android z)
   LOCAL_CFLAGS := -DNDEBUG -DAK_OPTIMIZED -ffunction-sections -fdata-sections -O3 -frtti
   LOCAL_CPPFLAGS := -Wno-conversion-null -Wno-invalid-offsetof -Wno-deprecated-declarations -fno-exceptions -DLUA_USE_POSIX -std=c++14
@@ -275,7 +268,7 @@ endif
 ifeq ($(PM5_CONFIG),release_android_arm64-v8a)
   LOCAL_C_INCLUDES += $(WWISESDK)/samples/SoundEngine/Android/libzip/lib $(LOCAL_PATH)/. $(WWISESDK)/samples/SoundEngine/Common $(WWISESDK)/samples/SoundEngine/Android $(WWISESDK)/include 
   LOCAL_CPP_FEATURES := exceptions
-  LOCAL_STATIC_LIBRARIES := AkAudioInputSource AkCompressorFX AkDelayFX AkExpanderFX AkFlangerFX AkGainFX AkGuitarDistortionFX AkHarmonizerFX AkMatrixReverbFX AkMeterFX AkOpusDecoder AkParametricEQFX AkPeakLimiterFX AkPitchShifterFX AkRecorderFX AkRoomVerbFX AkSilenceSource AkSineSource AkStereoDelayFX AkSynthOneSource AkTimeStretchFX AkToneSource AkTremoloFX zip AkVorbisDecoder AkMusicEngine AkSpatialAudio AkStreamMgr AkMemoryMgr AkSoundEngine
+  LOCAL_STATIC_LIBRARIES := godot-prebuilt AkAudioInputSource AkCompressorFX AkDelayFX AkExpanderFX AkFlangerFX AkGainFX AkGuitarDistortionFX AkHarmonizerFX AkMatrixReverbFX AkMeterFX AkOpusDecoder AkParametricEQFX AkPeakLimiterFX AkPitchShifterFX AkRecorderFX AkRoomVerbFX AkSilenceSource AkSineSource AkStereoDelayFX AkSynthOneSource AkTimeStretchFX AkToneSource AkTremoloFX zip AkVorbisDecoder AkMusicEngine AkSpatialAudio AkStreamMgr AkMemoryMgr AkSoundEngine
   LOCAL_LDLIBS := $(addprefix -L, $(WWISESDK)/Android_$(ArchAbi)/$(Configuration)/lib $(WWISESDK)/Android_$(TARGET_ARCH_ABI)/Release/lib $(WWISESDK)/Android_$(APP_ABI)/$(CONFIGURATION)/lib) $(addprefix -l, log OpenSLES android EGL GLESv1_CM z)
   LOCAL_CFLAGS := -DNDEBUG -DAK_OPTIMIZED -ffunction-sections -fdata-sections -O3 -frtti
   LOCAL_CPPFLAGS := -Wno-conversion-null -Wno-invalid-offsetof -Wno-deprecated-declarations -fno-exceptions -DLUA_USE_POSIX -std=c++14
@@ -286,7 +279,7 @@ endif
 ifeq ($(PM5_CONFIG),release_android_x86_64)
   LOCAL_C_INCLUDES += $(WWISESDK)/samples/SoundEngine/Android/libzip/lib $(LOCAL_PATH)/. $(WWISESDK)/samples/SoundEngine/Common $(WWISESDK)/samples/SoundEngine/Android $(WWISESDK)/include 
   LOCAL_CPP_FEATURES := exceptions
-  LOCAL_STATIC_LIBRARIES := AkAudioInputSource AkCompressorFX AkDelayFX AkExpanderFX AkFlangerFX AkGainFX AkGuitarDistortionFX AkHarmonizerFX AkMatrixReverbFX AkMeterFX AkOpusDecoder AkParametricEQFX AkPeakLimiterFX AkPitchShifterFX AkRecorderFX AkRoomVerbFX AkSilenceSource AkSineSource AkStereoDelayFX AkSynthOneSource AkTimeStretchFX AkToneSource AkTremoloFX zip AkVorbisDecoder AkMusicEngine AkSpatialAudio AkStreamMgr AkMemoryMgr AkSoundEngine
+  LOCAL_STATIC_LIBRARIES := godot-prebuilt AkAudioInputSource AkCompressorFX AkDelayFX AkExpanderFX AkFlangerFX AkGainFX AkGuitarDistortionFX AkHarmonizerFX AkMatrixReverbFX AkMeterFX AkOpusDecoder AkParametricEQFX AkPeakLimiterFX AkPitchShifterFX AkRecorderFX AkRoomVerbFX AkSilenceSource AkSineSource AkStereoDelayFX AkSynthOneSource AkTimeStretchFX AkToneSource AkTremoloFX zip AkVorbisDecoder AkMusicEngine AkSpatialAudio AkStreamMgr AkMemoryMgr AkSoundEngine
   LOCAL_LDLIBS := $(addprefix -L, $(WWISESDK)/Android_$(ArchAbi)/$(Configuration)/lib $(WWISESDK)/Android_$(TARGET_ARCH_ABI)/Release/lib $(WWISESDK)/Android_$(APP_ABI)/$(CONFIGURATION)/lib) $(addprefix -l, log OpenSLES android EGL GLESv1_CM z)
   LOCAL_CFLAGS := -DNDEBUG -DAK_OPTIMIZED -ffunction-sections -fdata-sections -O3 -frtti
   LOCAL_CPPFLAGS := -Wno-conversion-null -Wno-invalid-offsetof -Wno-deprecated-declarations -fno-exceptions -DLUA_USE_POSIX -std=c++14
