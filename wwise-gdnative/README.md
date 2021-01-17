@@ -89,7 +89,7 @@ The release target configurates are the following:
 Example command (replace PM5_CONFIG with your desired configuration):
 
 ```
-%ANDROID_NDK_ROOT%/ndk-build NDK_PROJECT_PATH=. APP_BUILD_SCRIPT=Android.mk PM5_CONFIG=debug_android_arm64-v8a NDK_LIBS_OUT=./gdnative-demo/wwise/bin/android/debug -j4
+%ANDROID_NDK_ROOT%/ndk-build NDK_PROJECT_PATH=. APP_BUILD_SCRIPT=Android.mk PM5_CONFIG=debug_android_arm64-v8a NDK_LIBS_OUT=./gdnative-demo/wwise/bin/android/debug WWISESDK=D:\Wwise2019.2.1.7250\SDK\ -j4
 ```
 
 Having whitespaces in your NDK, Wwise SDK or output libs paths will likely result in errors while running ndk-build.
