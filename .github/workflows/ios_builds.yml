@@ -1,0 +1,81 @@
+name: iOS Builds
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches:
+      - master
+env:
+  PROJECT_FOLDER: wwise-gdnative
+  TARGET_PATH: bin/
+  TARGET_NAME: WwiseGDNative
+jobs:
+  ios:
+    name: iOS
+    runs-on: "macos-latest"
+    if: "!contains(github.event.head_commit.message, '[ci-skip]')"  
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          lfs: false
+          submodules: recursive
+          token: ${{ github.token }}
+      - name: Set up Python 3.x
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+          architecture: 'x64'
+      - name: Configuring Python packages
+        run: |
+          python -c "import sys; print(sys.version)"
+          python -m pip install scons
+          python --version
+          scons --version
+      - name: Donwload private hosted Wwise SDK
+        uses: suisei-cn/actions-download-file@v1
+        with:
+          url: "https://www.dropbox.com/s/xqc8w37rszidfjh/wwise_sdk.zip?dl=1"
+          target: ./wwise_sdk
+      - name: Unzip SDK
+        run: |
+          cd ./wwise_sdk
+          7z x wwise_sdk.zip
+          cd ..
+      - name: Compilation
+        run: |
+          cd godot-cpp
+          scons platform=ios target=debug ios_arch=armv7 generate_bindings=true -j4
+          scons platform=ios target=release ios_arch=armv7 generate_bindings=true -j4
+          scons platform=ios target=debug ios_arch=arm64 generate_bindings=true -j4
+          scons platform=ios target=release ios_arch=arm64 generate_bindings=true -j4
+          cd ..
+          cd ${{env.PROJECT_FOLDER}}
+          scons platform=ios target=debug ios_arch=armv7 target_path=${{env.TARGET_PATH}} target_name=${{env.TARGET_NAME}} wwise_sdk=../wwise_sdk/ -j4
+          scons platform=ios target=release ios_arch=armv7 target_path=${{env.TARGET_PATH}} target_name=${{env.TARGET_NAME}} wwise_sdk=../wwise_sdk/ -j4
+          scons platform=ios target=debug ios_arch=arm64 target_path=${{env.TARGET_PATH}} target_name=${{env.TARGET_NAME}} wwise_sdk=../wwise_sdk/ -j4
+          scons platform=ios target=release ios_arch=arm64 target_path=${{env.TARGET_PATH}} target_name=${{env.TARGET_NAME}} wwise_sdk=../wwise_sdk/ -j4
+      - name: Upload Artifact
+        if: ${{ github.event_name == 'push' }}
+        uses: actions/upload-artifact@v1
+        with:
+          name: iOS
+          path: ${{env.PROJECT_FOLDER}}/bin
+      - name: Zip iOS libs
+        if: ${{ github.event_name == 'push' }}
+        run: |
+          cd wwise-gdnative
+          cd bin
+          zip -r ../../iOS.zip .
+      - name: Release
+        if: ${{ github.event_name == 'push' }}
+        uses: alessandrofama/action-release@master
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          files: "iOS.zip"
+          draft: true
+          prerelease: false
+          body: 'This is a pre-release'
+          name: "Draft Release"
+          tag: v1.1.0
+          commit: ${{ github.sha }}
