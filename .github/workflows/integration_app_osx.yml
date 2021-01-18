@@ -1,0 +1,41 @@
+name: Integration App macOS
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches:
+      - master
+jobs:
+  integration-app-osx:
+    name: Integration App macOS
+    runs-on: "macos-latest"
+    if: "!contains(github.event.head_commit.message, '[ci-skip]')"  
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: '14.5'
+    - name: Install 
+      run: |
+        cd integration-app
+        yarn  
+        yarn electron:build
+    - name: Upload Artifact
+      if: ${{ github.event_name == 'push' }}
+      uses: actions/upload-artifact@v1
+      with:
+        name: Wwise Godot Integration App.dmg
+        path: integration-app/dist_electron
+    - name: Release
+      if: ${{ github.event_name == 'push' }}
+      uses: alessandrofama/action-release@master
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        files: "integration-app/dist_electron/Wwise Godot Integration App.dmg"
+        draft: true
+        prerelease: false
+        body: 'This is a pre-release'
+        name: "Draft Release"
+        tag: v1.1.0
+        commit: ${{ github.sha }}
