@@ -1,5 +1,12 @@
 # Wwise Godot Integration
-[![Build Status](https://travis-ci.com/alessandrofama/wwise-godot-integration.svg?token=BfcnymVgT84X7d4hjzaJ&branch=master)](https://travis-ci.com/alessandrofama/wwise-godot-integration)
+![Windows Builds](https://github.com/alessandrofama/wwise-godot-integration/workflows/Windows%20Builds/badge.svg)
+![macOS Builds](https://github.com/alessandrofama/wwise-godot-integration/workflows/macOS%20Builds/badge.svg)
+![Linux Builds](https://github.com/alessandrofama/wwise-godot-integration/workflows/Linux%20Builds/badge.svg)
+![Android Builds](https://github.com/alessandrofama/wwise-godot-integration/workflows/Android%20Builds/badge.svg)
+![iOS Builds](https://github.com/alessandrofama/wwise-godot-integration/workflows/iOS%20Builds/badge.svg)
+![Integration App Windows](https://github.com/alessandrofama/wwise-godot-integration/workflows/Integration%20App%20Windows/badge.svg)
+![Integration App macOS](https://github.com/alessandrofama/wwise-godot-integration/workflows/Integration%20App%20macOS/badge.svg)
+
 [![Wwise logo](/wwise-logo.png)](https://www.audiokinetic.com/products/wwise/)
 [![Godot Engine logo](/godot-logo.png)](https://godotengine.org)
 
