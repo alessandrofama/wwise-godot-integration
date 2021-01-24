@@ -1,25 +1,23 @@
 extends Area
 
-export(AK.AUX_BUSSES._enum) var aux_bus:int
+export(AK.AUX_BUSSES._enum) var aux_bus:int = AK.AUX_BUSSES._enum.values()[0]
 
 export var env_priority = 0
 
-func _enter_tree():
+func _ready():
 	#warning-ignore:return_value_discarded
-	connect("body_entered", self, "_on_body_enter")
+	self.connect("area_entered", self, "_on_area_enter")
 	#warning-ignore:return_value_discarded
-	connect("body_exited", self, "_on_body_exit")
-	
-func _on_body_enter(body):
-	var children = body.get_children()
-	for child in children:
-		if child is preload("res://wwise/runtime/nodes/ak_event.gd"):
-			if child.is_environment_aware:
-				child.ak_environment_data.add_environment(self)
+	self.connect("area_exited", self, "_on_area_exit")
 
-func _on_body_exit(body):
-	var children = body.get_children()
-	for child in children:
-		if child is preload("res://wwise/runtime/nodes/ak_event.gd"):
-			if child.is_environment_aware:
-				child.ak_environment_data.remove_environment(self)
+func _on_area_enter(area):
+	var parent = area.get_parent()
+	if parent.get_class() == "AkEvent":
+		if parent.is_environment_aware:
+			parent.ak_environment_data.add_environment(self)
+
+func _on_area_exit(area):
+	var parent = area.get_parent()
+	if parent.get_class() == "AkEvent":
+		if parent.is_environment_aware:
+			parent.ak_environment_data.remove_environment(self)

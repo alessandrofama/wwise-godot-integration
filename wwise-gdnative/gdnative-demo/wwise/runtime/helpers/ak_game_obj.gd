@@ -81,7 +81,6 @@ func set_up_raycast(_event:Spatial) -> RayCast:
 func compute_occlusion(listener_transform:Transform, source_transform:Transform, colliding_objects:Array, ray:RayCast) -> float:
 	colliding_objects.clear()
 	var occlusion_value:float = 0.0
-
 	ray.set_cast_to(listener_transform.origin - source_transform.origin)
 	while ray.is_colliding():
 		var obj = ray.get_collider()
@@ -102,7 +101,7 @@ func set_obstruction_and_occlusion(_event:Spatial, listener:Spatial, colliding_o
 	if OS.get_ticks_msec() >= next_occlusion_update:
 		next_occlusion_update = OS.get_ticks_msec() + AkUtils.OCCLUSION_DETECTION_INTERVAL
 		var current_occlusion:float = compute_occlusion(listener.get_global_transform(), self.get_global_transform(), colliding_objects, ray)
-		Wwise.set_obj_obstruction_and_occlusion(_event.get_instance_id(), listener.get_instance_id(), 0, current_occlusion)
+		Wwise.set_obj_obstruction_and_occlusion(_event.get_instance_id(), listener.get_instance_id(), current_occlusion, current_occlusion)
 		
 func connect_signals(callback:int) -> void:
 		match(callback):

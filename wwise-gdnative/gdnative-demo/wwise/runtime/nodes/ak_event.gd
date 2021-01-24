@@ -6,7 +6,7 @@ var colliding_objects:Array = []
 var ak_environment_data
 var playing_id:int
 
-func _enter_tree():
+func _enter_tree() -> void:
 	if Engine.is_editor_hint():
 		return
 	else:
@@ -23,7 +23,7 @@ func _ready() -> void:
 			for flag in AkUtils.AkCallbackType.values().size():
 				if (callback_flag & AkUtils.AkCallbackType.values()[flag] > 0):
 					connect_signals(AkUtils.AkCallbackType.values()[flag])
-		
+	
 	# If is_environment_aware is checked, Wwise.set_game_obj_aux_send_values will
 	# be called. Each Event will instantiate the AkGameObjeckEnvironmentData class,
 	# this instance holds an Array with currently active environments for this
@@ -61,3 +61,5 @@ func _physics_process(_delta) -> void:
 		if listener and is_environment_aware:
 			set_obstruction_and_occlusion(self, listener, colliding_objects, ray, 0)
 
+func get_class() -> String:
+	return "AkEvent"

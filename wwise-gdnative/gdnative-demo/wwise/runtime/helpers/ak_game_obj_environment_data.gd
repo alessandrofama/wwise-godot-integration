@@ -8,12 +8,10 @@ var hasEnvironmentListChanged:bool = true
 func _init():
 	ak_aux_data = preload("res://wwise/runtime/helpers/ak_aux_data.gd").new()
 	
-func add_environment(env:Object) -> void:	
+func add_environment(env:Object) -> void:
 	if not env:
 		return
 	var index = active_environments.bsearch_custom(env, self, "compare_by_priority")
-	if index > 0:
-		return
 	active_environments.insert(index, env)
 	hasEnvironmentListChanged = true
 

@@ -1,6 +1,6 @@
 extends "res://wwise/runtime/helpers/ak_event_handler_2d.gd"
 
-var playingID:int
+var playing_id:int
 
 func _enter_tree() -> void:
 	register_game_object(self, self.get_name())
@@ -19,13 +19,12 @@ func handle_game_event(game_event:int) -> void:
 		
 func post_event() -> void:
 	if not use_callback:
-		playingID = Wwise.post_event_id(event, self)
+		playing_id = Wwise.post_event_id(event, self)
 	else:
-		playingID = Wwise.post_event_id_callback(event, callback_flag, self)
+		playing_id = Wwise.post_event_id_callback(event, callback_flag, self)
 	
 func stop_event() -> void:
-	Wwise.stop_event(playingID, stop_fade_time, interpolation_mode)
+	Wwise.stop_event(playing_id, stop_fade_time, interpolation_mode)
 	
 func _process(_delta) -> void:
 	Wwise.set_2d_position(self, get_global_transform(), self.z_index)
-	
