@@ -24,13 +24,12 @@ bank = 3291379323
 load_on = 1
 
 [node name="AkEvent" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12.8225, 0, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.98595, 0, 0 )
 script = ExtResource( 1 )
-group_tag = "Test"
 event = 3991942870
 trigger_on = 4
 stop_on = 5
-stop_fade_time = 500
+stop_fade_time = 2000
 
 [node name="Area" type="Area" parent="AkEvent" groups=[
 "Test",
@@ -39,16 +38,16 @@ stop_fade_time = 500
 [node name="CollisionShape" type="CollisionShape" parent="AkEvent/Area"]
 shape = SubResource( 1 )
 
-[node name="Area" type="Area" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 22.6306, 0, 0 )
+[node name="Area2" type="Area" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 21.1712, 0, 0 )
 
-[node name="CollisionShape" type="CollisionShape" parent="Area"]
+[node name="CollisionShape" type="CollisionShape" parent="Area2"]
 shape = SubResource( 2 )
 
 [node name="Camera" type="Camera" parent="."]
-transform = Transform( 1, 0, 0, 0, 0.894084, 0.4479, 0, -0.4479, 0.894084, 21.5328, 3.71821, 8.71377 )
+transform = Transform( 1, 0, 0, 0, 0.894084, 0.4479, 0, -0.4479, 0.894084, 10.3022, 3.71821, 8.71377 )
 
 [node name="AkListener" type="Spatial" parent="Camera"]
 script = ExtResource( 2 )
-[connection signal="area_entered" from="Area" to="AkEvent" method="_on_area_entered"]
-[connection signal="area_exited" from="Area" to="AkEvent" method="_on_area_exited"]
+[connection signal="area_entered" from="AkEvent/Area" to="AkEvent" method="_on_area_entered"]
+[connection signal="area_exited" from="AkEvent/Area" to="AkEvent" method="_on_area_exited"]

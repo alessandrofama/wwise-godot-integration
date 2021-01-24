@@ -1,7 +1,7 @@
 extends Node
 
-func _on_end_of_event(data):
+func _on_AkEvent_music_sync_beat(data):
 	print(data)
 
-func _on_music_sync_beat(data):
+func _on_AkEvent_music_sync_bar(data):
 	print(data)

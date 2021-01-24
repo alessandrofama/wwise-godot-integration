@@ -17,8 +17,11 @@ radius = 11.0952
 [node name="Bank Initialisation 2D" parent="." instance=ExtResource( 1 )]
 
 [node name="Music" type="Sprite" parent="."]
-position = Vector2( 221.925, 135.501 )
+position = Vector2( 119.425, 90.501 )
 texture = ExtResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="AkEvent2D" type="Node2D" parent="Music"]
 position = Vector2( 1, -1.16635 )
@@ -35,10 +38,6 @@ stop_fade_time = 200
 position = Vector2( 2, -1 )
 scale = Vector2( 3.28328, 3.24259 )
 shape = SubResource( 1 )
-__meta__ = {
-"_edit_group_": true,
-"_edit_lock_": true
-}
 
 [node name="Listener" type="Sprite" parent="."]
 position = Vector2( 525.431, 317.343 )
