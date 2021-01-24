@@ -45,11 +45,6 @@
 				</Sound>
 				<Sound Name="synth_one_test" ID="{8CAC6EDA-755C-4587-A8E9-B2E5B78F313F}" ShortID="219235558">
 					<PropertyList>
-						<Property Name="Inclusion" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
 						<Property Name="Pitch" Type="int32">
 							<ValueList>
 								<Value>1200</Value>
@@ -57,7 +52,7 @@
 						</Property>
 						<Property Name="Volume" Type="Real64">
 							<ValueList>
-								<Value>-11</Value>
+								<Value>-15</Value>
 							</ValueList>
 						</Property>
 					</PropertyList>
@@ -85,7 +80,11 @@
 													<Custom>
 														<ModulatorEnvelope Name="Modulator Envelope (Custom)" ID="{709BBE5B-B6E0-4A13-8FD8-637639F8828A}" ShortID="1056217185">
 															<PropertyList>
+																<Property Name="EnvelopeAttackCurve" Type="Real64" Value="21"/>
 																<Property Name="EnvelopeAttackTime" Type="Real64" Value="0.01"/>
+																<Property Name="EnvelopeDecayTime" Type="Real64" Value="0.816"/>
+																<Property Name="EnvelopeReleaseTime" Type="Real64" Value="0.9"/>
+																<Property Name="EnvelopeSustainLevel" Type="Real64" Value="20"/>
 															</PropertyList>
 														</ModulatorEnvelope>
 													</Custom>

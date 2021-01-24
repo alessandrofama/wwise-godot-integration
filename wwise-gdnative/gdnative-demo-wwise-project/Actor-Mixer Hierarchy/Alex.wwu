@@ -763,9 +763,6 @@
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{3FE3D261-2E4D-4287-95DD-8B4DF14D5A58}"/>
 										</Reference>
-										<Reference Name="ReflectionsAuxSend">
-											<ObjectRef Name="ReflectAux" ID="{4164D71D-5199-4DA6-AB89-1717F8ED494E}" WorkUnitID="{83A9630F-2FD3-439B-B636-DF89EE6A5A59}"/>
-										</Reference>
 									</ReferenceList>
 									<ChildrenList>
 										<AudioFileSource Name="Marker_Test_001" ID="{D2152F60-A21F-4A44-9BA8-96527199F5EB}">

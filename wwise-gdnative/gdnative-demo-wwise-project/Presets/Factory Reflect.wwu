@@ -14,11 +14,7 @@
 						<Property Name="ListenerRelativeRouting" Type="bool" Value="True"/>
 						<Property Name="UseGameAuxSends" Type="bool" Value="True"/>
 					</PropertyList>
-					<ReferenceList>
-						<Reference Name="Effect0" PluginName="Wwise Reflect" CompanyID="0" PluginID="171" PluginType="3">
-							<ObjectRef Name="Wwise_Reflect" ID="{37779A87-4754-4420-8175-3236FA46AA12}" WorkUnitID="{923039AD-F8B4-46D4-BDA7-CB5A6EE595E0}"/>
-						</Reference>
-					</ReferenceList>
+					<ReferenceList/>
 				</AuxBus>
 			</ChildrenList>
 		</WorkUnit>
