@@ -23,8 +23,8 @@ jobs:
           token: ${{ github.token }}
       - name: Configure dependencies
         run: |
-          sudo apt-get install build-essential pkg-config libx11-dev libxcursor-dev \
-            libxinerama-dev libgl1-mesa-dev libglu-dev libasound2-dev libpulse-dev libudev-dev libxi-dev libxrandr-dev yasm zip unzip p7zip-full p7zip-rar
+          sudo apt-get install build-essential pkg-config libx11-dev \
+            yasm zip unzip p7zip-full p7zip-rar
       - name: Set up Python 3.x
         uses: actions/setup-python@v2
         with:
