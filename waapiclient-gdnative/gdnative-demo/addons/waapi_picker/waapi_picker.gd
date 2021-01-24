@@ -24,6 +24,7 @@ var busIcon				:ImageTexture
 var auxBusIcon 			:ImageTexture
 var acousticTextureIcon	:ImageTexture
 var workUnitIcon 		:ImageTexture
+var searchIcon 			:ImageTexture
 
 var selectedItem = null
 var worldPosition:Vector3
@@ -50,7 +51,8 @@ func _init():
 	auxBusIcon 			= create_icon("res://addons/waapi_picker/icons/auxbus.png")
 	acousticTextureIcon	= create_icon("res://addons/waapi_picker/icons/acoustictexture.png")
 	workUnitIcon 		= create_icon("res://addons/waapi_picker/icons/workunit.png")	
-
+	searchIcon 			= create_icon("res://addons/waapi_picker/icons/search.png")	
+	
 func _enter_tree():
 	waapiPickerControl = preload("res://addons/waapi_picker/waapi_picker.tscn").instance()
 	var buttonResult = add_control_to_bottom_panel(waapiPickerControl,"Waapi Picker")
@@ -82,6 +84,7 @@ func _enter_tree():
 	searchText = waapiPickerControl.find_node("SearchText")
 	error = searchText.connect("text_changed", self, "_on_searchTextChanged")
 	assert(error == OK)
+	searchText.right_icon = searchIcon
 	
 	_on_refreshProjectButtonClick()
 	
