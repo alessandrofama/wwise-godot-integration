@@ -10,6 +10,7 @@
 #include <ProjectSettings.hpp>
 #include <Directory.hpp>
 #include <OS.hpp>
+#include <Resource.hpp>
 
 #include <AK/SoundEngine/Common/AkSoundEngine.h> 
 #include <AK/SoundEngine/Common/AkMemoryMgr.h>
