@@ -15,7 +15,6 @@ Game Parameter	ID	Name			Wwise Object Path	Notes
 	1873957695	Anechoic			\Factory Reflect Acoustic Textures\Textures\Anechoic	
 	1970351858	Fabric			\Factory Reflect Acoustic Textures\Textures\Fabric	
 	2058049674	Wood			\Factory Reflect Acoustic Textures\Textures\Wood	
-	2242381963	Enemies			\Alex\Enemies	
 	2412606308	Carpet			\Factory Reflect Acoustic Textures\Textures\Carpet	
 	2637588553	Tile			\Factory Reflect Acoustic Textures\Textures\Tile	
 	2928161104	Curtains			\Factory Reflect Acoustic Textures\Textures\Curtains	
@@ -25,8 +24,6 @@ Game Parameter	ID	Name			Wwise Object Path	Notes
 	4262522749	Wood_Bright			\Factory Reflect Acoustic Textures\Textures\Wood_Bright	
 
 Audio Bus	ID	Name			Wwise Object Path	Notes
-	431572087	Master Plugins			\Plugins\Master Plugins	
-	985987111	Motion Factory Bus			\Plugins\Motion Factory Bus	
 	3803692087	Master Audio Bus			\Default Work Unit\Master Audio Bus	
 	3991942870	Music			\Default Work Unit\Master Audio Bus\Music	
 	4209325213	GeometryBus			\Default Work Unit\Master Audio Bus\GeometryBus	
@@ -34,17 +31,13 @@ Audio Bus	ID	Name			Wwise Object Path	Notes
 Auxiliary Bus	ID	Name			Wwise Object Path	Notes
 	117523933	SmallVerb			\Default Work Unit\Master Audio Bus\SmallVerb	
 	1572913279	RoomVerb			\Default Work Unit\Master Audio Bus\RoomVerb	
-	1692308750	ReflectAux			\Plugins\Master Plugins\ReflectAux	
-	2297584640	Motion_Aux			\Plugins\Motion Factory Bus\Motion_Aux	
 	2757439665	LargeVerb			\Default Work Unit\Master Audio Bus\LargeVerb	
 
 Effect plug-ins	ID	Name	Type				Notes
+	117523933	SmallVerb	Wwise RoomVerb			
 	400762808	Wwise_Meter_(Custom)	Wwise Meter			
-	602546716	Room_Large	Wwise RoomVerb			
-	750892401	Wwise_Reflect_(Custom)	Wwise Reflect			
-	1125262053	Blue_Distant_Echoes	Wwise Stereo Delay			
-	2995775460	Room_Small	Wwise RoomVerb			
-	3900114836	Metal_Hangar	Wwise RoomVerb			
+	1572913279	RoomVerb	Wwise RoomVerb			
+	2757439665	LargeVerb	Wwise RoomVerb			
 
 Audio Devices	ID	Name	Type				Notes
 	2317455096	No_Output	No Output			
