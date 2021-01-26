@@ -50,6 +50,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="ConnectionText" type="Label" parent="ParentVBoxContainer/TopVBoxContainer/ButtonsHContainer"]
+margin_left = 249.0
+margin_top = 3.0
+margin_right = 249.0
+margin_bottom = 17.0
+
 [node name="SearchText" type="LineEdit" parent="ParentVBoxContainer/TopVBoxContainer"]
 margin_top = 24.0
 margin_right = 1015.0

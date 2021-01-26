@@ -29,6 +29,17 @@ var searchIcon 			:ImageTexture
 var selectedItem = null
 var worldPosition:Vector3
 
+var menu:PopupMenu
+var target_pos:Vector2
+enum PopupItems {
+	PlayStop,
+	StopAll
+}
+var playingItems = []
+
+var connectResult
+signal connectionChanged(result)
+
 func create_icon(path: String) -> ImageTexture:
 	var waapi_image = Image.new()
 	var err = waapi_image.load(path)
@@ -86,6 +97,13 @@ func _enter_tree():
 	assert(error == OK)
 	searchText.right_icon = searchIcon
 	
+	self.connect("connectionChanged", self, "_on_connectionChanged")
+	
+	connectResult = Waapi.connect_client("127.0.0.1", 8080)
+	emit_signal("connectionChanged", connectResult)
+	
+	setup_menu()
+	
 	_on_refreshProjectButtonClick()
 	
 func _on_resized_editorViewport():
@@ -109,8 +127,10 @@ func _on_visibility_changed_editorViewport():
 	parentWaapiContainer.set_size(Vector2(width, height))
 	
 func _on_refreshProjectButtonClick():
-	var connectResult = Waapi.connect_client("127.0.0.1", 8080)
-
+	if !Waapi.is_client_connected():
+		connectResult = Waapi.connect_client("127.0.0.1", 8080)
+		emit_signal("connectionChanged", connectResult)
+		
 	if connectResult:	
 		var args = {"from": {"ofType": ["Project", "SwitchGroup", "StateGroup", "Bus", "Switch", "State",
 										"AuxBus", "Event", "SoundBank", "AcousticTexture", "WorkUnit"]}}
@@ -123,11 +143,10 @@ func _on_refreshProjectButtonClick():
 			#print(jsonProjectDocument.result["return"])
 			_create_projectObjectsTree("")
 
-	if Waapi.is_client_connected():
-		Waapi.disconnect_client()
-
 func _on_exportSoundbanksButtonClick():
-	var connectResult = Waapi.connect_client("127.0.0.1", 8080)
+	if !Waapi.is_client_connected():
+		var connectResult = Waapi.connect_client("127.0.0.1", 8080)
+		emit_signal("connectionChanged", connectResult)
 
 	if connectResult:	
 		var args = {"command": "GenerateAllSoundbanksAllPlatformsAutoClose"}
@@ -142,9 +161,6 @@ func _on_exportSoundbanksButtonClick():
 		else:
 			printerr("Error when generated soundbanks with result: " + String(jsonDocument.result))
 		
-	if Waapi.is_client_connected():
-		Waapi.disconnect_client()
-
 func _create_projectObjectsTree(textFilter):
 	# Initialise tree
 	projectObjectsTree.clear()
@@ -317,6 +333,7 @@ func _create_projectObjectsTree(textFilter):
 						item.set_icon(0, eventIcon)
 						item.set_meta("Type", object.type)
 						item.set_meta("ShortId", object.shortId)
+						item.set_meta("Id", object.id)
 						numEvents += 1
 					break	
 				workUnit = workUnit.get_next()
@@ -363,6 +380,8 @@ func _on_searchTextChanged(textFilter):
 	_create_projectObjectsTree(textFilter)
 
 func _exit_tree():
+	if Waapi.is_client_connected():
+		Waapi.disconnect_client()
 	remove_control_from_bottom_panel(waapiPickerControl)
 	waapiPickerControl.queue_free()
 
@@ -439,6 +458,125 @@ func _notification(notification):
 					root.add_child(akBank)
 					akBank.owner = root
 					selectedItem = null
+					
+func setup_menu():
+	menu = PopupMenu.new()
+	menu.add_item("Play/Stop                    SPACE", PopupItems.PlayStop)
+	menu.add_item("Stop All", PopupItems.StopAll)
+	menu.connect("id_pressed", self, "menu_id_pressed")
+	waapiPickerControl.add_child(menu)
+	
+func popup_menu(position):
+	target_pos = position
+	menu.popup(Rect2(projectObjectsTree.get_global_mouse_position(),Vector2(1,1)))
+
+func _input(event):
+	if waapiPickerControl.visible:
+		if !is_instance_valid(selectedItem):
+			return
+		if !Waapi.is_client_connected():
+			connectResult = Waapi.connect_client("127.0.0.1", 8080)
+			emit_signal("connectionChanged", connectResult)
+		if event is InputEventMouseButton:
+			if event.button_index == BUTTON_RIGHT && event.pressed:
+				if selectedItem.has_meta("Type"):
+					if selectedItem.get_meta("Type") == "Event":
+						if Rect2(projectObjectsTree.rect_global_position, projectObjectsTree.rect_size).has_point(projectObjectsTree.get_global_mouse_position()):
+							popup_menu(waapiPickerControl.get_global_mouse_position())
+							return true
+		elif event is InputEventKey:
+			if event.pressed and event.scancode == KEY_SPACE:
+				if selectedItem.has_meta("Type"):
+					if selectedItem.get_meta("Type") == "Event":
+						if Rect2(projectObjectsTree.rect_global_position, projectObjectsTree.rect_size).has_point(projectObjectsTree.get_global_mouse_position()):
+							menu_id_pressed(PopupItems.PlayStop)
+			
+func menu_id_pressed(id):
+	if !is_instance_valid(selectedItem):
+		return
+	match(id):
+		# When the User presses the Play/Stop Popup Button or the Space Key:
+		PopupItems.PlayStop:
+			if selectedItem.has_meta("Id"):
+				var guid = selectedItem.get_meta("Id")
+				if Waapi.is_client_connected():
+					if !selectedItem.has_meta("Transport"):
+						var args = {"object": guid}
+						var dict = Waapi.client_call("ak.wwise.core.transport.create", JSON.print(args), JSON.print({}))
+						var jsonDocument = JSON.parse(dict["resultString"])
+						var callResult = dict["callResult"]
+						if callResult:
+							selectedItem.set_meta("Transport", jsonDocument.result["transport"])
+							
+							args = {"transport": jsonDocument.result["transport"]}
+							dict = Waapi.client_call("ak.wwise.core.transport.getState", JSON.print(args), JSON.print({}))
+							var result = JSON.parse(dict["resultString"])
+							if result.result["state"] != "playing":
+								args = {"action": "playStop", "transport": jsonDocument.result["transport"]}
+								Waapi.client_call("ak.wwise.core.transport.executeAction", JSON.print(args), JSON.print({}))
+								playingItems.append(selectedItem)
+								
+								var transportListDict = Waapi.client_call("ak.wwise.core.transport.getList", JSON.print({}), JSON.print({}))
+								var transportListResult = JSON.parse(transportListDict["resultString"])
+								
+								while transportListResult.result.list.size() > 0:
+									transportListDict = Waapi.client_call("ak.wwise.core.transport.getList", JSON.print({}), JSON.print({}))
+									transportListResult = JSON.parse(transportListDict["resultString"])
+									args = {"transport": jsonDocument.result["transport"]}
+									dict = Waapi.client_call("ak.wwise.core.transport.getState", JSON.print(args), JSON.print({}))
+									result = JSON.parse(dict["resultString"])
+									if !result.result.has("state"):
+										break
+									if result.result["state"] != "playing":
+										break
+									if !Waapi.is_client_connected():
+										break	
+									yield(get_tree(), "idle_frame")
+								# Handling One-Shots
+								if playingItems.size() > 0:
+									args = {"transport": jsonDocument.result["transport"]}
+									Waapi.client_call("ak.wwise.core.transport.destroy", JSON.print(args), JSON.print({}))
+									selectedItem.set_meta("Transport", null)
+									playingItems.remove(playingItems.size() - 1)
+						else:
+							printerr("Failed to create Transport for selected item.")
+					# If the selected item already has a Transport in its meta, it means
+					# that it is already playing. Stopping here, destroying the Transport
+					# and setting the Transport meta to null for the selected item
+					else:
+						var args = {"action": "playStop", "transport": selectedItem.get_meta("Transport")}
+						Waapi.client_call("ak.wwise.core.transport.executeAction", JSON.print(args), JSON.print({}))
+						
+						args = {"transport": selectedItem.get_meta("Transport")}
+						Waapi.client_call("ak.wwise.core.transport.destroy", JSON.print(args), JSON.print({}))
+						
+						selectedItem.set_meta("Transport", null)
+						if playingItems.size() > 0:
+							playingItems.remove(playingItems.size() - 1)
+		
+		# When the user presses the StopAll button:
+		# We first stop all the Transports, then loop and destroy every transport
+		# Then we loop through the playingItems array and remove every "Transport" meta
+		# Finally clear the array
+		PopupItems.StopAll:
+			if Waapi.is_client_connected():
+				var args = {"action": "stop"}
+				Waapi.client_call("ak.wwise.core.transport.executeAction", JSON.print(args), JSON.print({}))
+				
+				var dict = Waapi.client_call("ak.wwise.core.transport.getList", JSON.print({}), JSON.print({}))
+				var result = JSON.parse(dict["resultString"])
+				for item in result.result.list:
+					args = {"transport": item["transport"]}
+					Waapi.client_call("ak.wwise.core.transport.destroy", JSON.print(args), JSON.print({}))
+				for playingItem in playingItems:
+					playingItem.set_meta("Transport", null)
+				playingItems.clear()
 
 func _on_cellSelected():
 	selectedItem = projectObjectsTree.get_selected()
+	
+func _on_connectionChanged(result:bool):
+	var connectionLabel:Label = waapiPickerControl.find_node("ConnectionText")
+	connectionLabel.text = "•"
+	var color = Color.limegreen if result else Color.darkred
+	connectionLabel.add_color_override("font_color", color)
