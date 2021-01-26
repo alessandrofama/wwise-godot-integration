@@ -213,8 +213,8 @@ static inline bool FindMatchingVertex(Vector3 vertex, Dictionary vertDict, int& 
 
 static bool CopyDirectory(String from, String to)
 {
-	Directory* dir = Directory::_new();
-	File* file = File::_new();
+	Ref<Directory> dir = Directory::_new();
+	Ref<File> file = File::_new();
 
 	if (!dir->dir_exists(to))
 	{
@@ -249,16 +249,10 @@ static bool CopyDirectory(String from, String to)
 			fileName = dir->get_next();
 		}
 
-		dir->free();
-		file->free();
 		return true;
 	}
-	else 
-	{
-		dir->free();
-		file->free();
+
 		return false;
-	}
 }
 
 #endif
