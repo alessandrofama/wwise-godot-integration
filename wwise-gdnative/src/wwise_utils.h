@@ -105,7 +105,7 @@ static const char* WwiseErrorString(AKRESULT errcode)
 	case	AK_PluginMediaNotAvailable:		return "AK_PluginMediaNotAvailable";
 	case	AK_MustBeVirtualized:			return "AK_MustBeVirtualized";
 	case	AK_CommandTooLarge:				return "AK_CommandTooLarge";
-	case	AK_RejectedByFilter:			return "AK_RejectedByFilte";
+	case	AK_RejectedByFilter:			return "AK_RejectedByFilter";
 	case	AK_InvalidCustomPlatformName:	return "AK_InvalidCustomPlatformName";
 	case	AK_DLLCannotLoad:				return "AK_DLLCannotLoad";
 	case	AK_DLLPathNotFound:				return "AK_DLLPathNotFound";
