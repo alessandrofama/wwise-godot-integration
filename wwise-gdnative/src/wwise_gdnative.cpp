@@ -1272,7 +1272,7 @@ void Wwise::eventCallback(AkCallbackType callbackType, AkCallbackInfo* callbackI
 		pitchBend["byValueMsb"] = static_cast<unsigned char>(midiEventInfo->midiEvent.PitchBend.byValueMsb);
 
 		Dictionary programChange;
-		pitchBend["byProgramNum"] = static_cast<unsigned char>(midiEventInfo->midiEvent.ProgramChange.byProgramNum);
+		programChange["byProgramNum"] = static_cast<unsigned char>(midiEventInfo->midiEvent.ProgramChange.byProgramNum);
 
 		midiEvent["cc"] = cc;
 		midiEvent["chanAftertouch"] = chanAftertouch;
