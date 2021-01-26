@@ -11,21 +11,18 @@ const unsigned int AK_MAX_ENVIRONMENTS = 4;
 const int INVALID_ROOM_ID = -1;
 const AkGameObjectID OUTDOORS_ROOM_ID = (AkGameObjectID)-4;
 
-#ifdef __ANDROID__
-#define MAP_PATH(path) \
-    path = path.replace("res://", "");
-#define MAP_PATH_STANDALONE(path) \
-    path = path.replace("res://", "");
+
+
+#ifdef AK_ANDROID
+#define MAP_PATH(path) path = path.replace("res://", "");
 #elif defined(AK_WIN) || defined(AK_MAC_OS_X) || defined(AK_LINUX)
-#define MAP_PATH(path) \
-	path = path.replace("res://", "./");
-#define MAP_PATH_STANDALONE(path) \
-	path = path.replace("res://", OS::get_singleton()->get_user_data_dir() + "/");
+#define MAP_PATH(path)                                                                                                 \
+    if (OS::get_singleton()->has_feature("standalone"))                                                                \
+        path = path.replace("res://", OS::get_singleton()->get_user_data_dir() + "/");                                 \
+    else                                                                                                               \
+        path = path.replace("res://", "./");
 #else
-#define MAP_PATH(path) \
-    path = path.replace("res://", "./");
-#define MAP_PATH_STANDALONE(path) \
-    path = path.replace("res://", "./");
+#define MAP_PATH(path) path = path.replace("res://", "./");
 #endif
 
 enum SamplesPerFrame
