@@ -3,7 +3,7 @@
 using namespace godot;
 
 #if defined(AK_ENABLE_ASSERTS)
-void WaapiAssertHook(const char * in_pszExpression, const char * in_pszFileName, int in_lineNumber)
+void WaapiAssertHook(const char* in_pszExpression, const char* in_pszFileName, int in_lineNumber)
 {
 	String msg = "AKASSERT: " + String(in_pszExpression);
 	Godot::print_warning(msg, "WaapiAssertHook", String(in_pszFileName), in_lineNumber);
@@ -56,7 +56,6 @@ void Waapi::_register_methods()
 
 void Waapi::_init()
 {
-
 }
 
 void Waapi::_process(const float delta)
@@ -89,7 +88,8 @@ Dictionary Waapi::subscribe(const String uri, const String options)
 	uint64_t subscriptionId = 0;
 	Dictionary result;
 
-	bool callResult = client.Subscribe(uri.alloc_c_string(), options.alloc_c_string(), &WampEventCallback, subscriptionId, lastString, -1);
+	bool callResult = client.Subscribe(uri.alloc_c_string(), options.alloc_c_string(), &WampEventCallback,
+									   subscriptionId, lastString, -1);
 
 	result["subscriptionId"] = subscriptionId;
 	result["subscribeResult"] = callResult;
@@ -107,7 +107,8 @@ Dictionary Waapi::subscribeWithTimeout(const String uri, const String options, c
 	uint64_t subscriptionId = 0;
 	Dictionary result;
 
-	bool callResult = client.Subscribe(uri.alloc_c_string(), options.alloc_c_string(), &WampEventCallback, subscriptionId, lastString, timeoutMs);
+	bool callResult = client.Subscribe(uri.alloc_c_string(), options.alloc_c_string(), &WampEventCallback,
+									   subscriptionId, lastString, timeoutMs);
 
 	result["subscriptionId"] = subscriptionId;
 	result["subscribeResult"] = callResult;
@@ -167,7 +168,8 @@ Dictionary Waapi::clientCallWithTimeout(const String uri, const String args, con
 
 	Dictionary result;
 
-	bool callResult = client.Call(uri.alloc_c_string(), args.alloc_c_string(), options.alloc_c_string(), lastString, timeoutMs);
+	bool callResult =
+		client.Call(uri.alloc_c_string(), args.alloc_c_string(), options.alloc_c_string(), lastString, timeoutMs);
 
 	result["callResult"] = callResult;
 	result["resultString"] = String(lastString.c_str());

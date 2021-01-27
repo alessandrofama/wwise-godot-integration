@@ -14,38 +14,38 @@
 
 namespace godot
 {
-	class Waapi : public Node
-	{
-		GODOT_CLASS(Waapi, Node)
+class Waapi : public Node
+{
+	GODOT_CLASS(Waapi, Node)
 
-	public:
-		explicit Waapi() = default;
-		~Waapi();
+  public:
+	explicit Waapi() = default;
+	~Waapi();
 
-		static void _register_methods();
-		void _init();
-		void _process(const float delta);
+	static void _register_methods();
+	void _init();
+	void _process(const float delta);
 
-		bool connectClient(const String uri, const unsigned int port);
-		bool isClientConnected();
-		void disconnectClient();
+	bool connectClient(const String uri, const unsigned int port);
+	bool isClientConnected();
+	void disconnectClient();
 
-		Dictionary subscribe(const String uri, const String options);
-		Dictionary subscribeWithTimeout(const String uri, const String options, const int timeoutMs);
-		Dictionary unsubscribe(const uint64_t subscriptionId);
-		Dictionary unsubscribeWithTimeout(const uint64_t subscriptionId, const int timeoutMs);
+	Dictionary subscribe(const String uri, const String options);
+	Dictionary subscribeWithTimeout(const String uri, const String options, const int timeoutMs);
+	Dictionary unsubscribe(const uint64_t subscriptionId);
+	Dictionary unsubscribeWithTimeout(const uint64_t subscriptionId, const int timeoutMs);
 
-		Dictionary clientCall(const String uri, const String args, const String options);
-		Dictionary clientCallWithTimeout(const String uri, const String args, const String options, const int timeoutMs);
+	Dictionary clientCall(const String uri, const String args, const String options);
+	Dictionary clientCallWithTimeout(const String uri, const String args, const String options, const int timeoutMs);
 
-		String getLastString();
+	String getLastString();
 
-	private:
-		void processCallbacks();
+  private:
+	void processCallbacks();
 
-		AK::WwiseAuthoringAPI::Client client;
-		std::string lastString;
-	};
-}
+	AK::WwiseAuthoringAPI::Client client;
+	std::string lastString;
+};
+} // namespace godot
 
 #endif // of WAAPI_GDNATIVE_H
