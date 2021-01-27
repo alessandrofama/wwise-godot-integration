@@ -276,14 +276,14 @@ export default {
 
       if (!("autoload" in iniObj)) {
         iniObj.autoload = {};
+        iniObj.autoload.WwiseSettings = '"res://wwise/wwise_settings.gd"';
         iniObj.autoload.Wwise = '"*res://wwise/bin/wwise-gdnative-debug.gdns"';
         iniObj.autoload.Waapi = '"*res://wwise/bin/waapi-gdnative-debug.gdns"';
-        iniObj.autoload.WwiseSettings = '"res://wwise/wwise_settings.gd"';
       } else {
         if (!("Wwise" in iniObj.autoload)) {
+          iniObj.autoload.WwiseSettings = '"res://wwise/wwise_settings.gd"';
           iniObj.autoload.Wwise = '"*res://wwise/bin/wwise-gdnative-debug.gdns"';
           iniObj.autoload.Waapi = '"*res://wwise/bin/waapi-gdnative-debug.gdns"';
-          iniObj.autoload.WwiseSettings = '"res://wwise/wwise_settings.gd"';
         }
       }
 
