@@ -184,33 +184,14 @@ void Wwise::_init()
 #error "Platform not supported"
 #endif
 
-	String banksPathDesktop = basePath;
-
-	MAP_PATH(basePath);
-
-	if (OS::get_singleton()->has_feature("standalone"))
-	{
-#if defined(AK_WIN) || defined(AK_MAC_OS_X) || defined(AK_LINUX)
-		bool copyBanksResult = CopyDirectory(banksPathDesktop + platformBanksSuffix,
-											 OS::get_singleton()->get_user_data_dir() + "/wwise/GeneratedSoundBanks" +
-												 platformBanksSuffix);
-
-	if (!copyBanksResult)
-	{
-		ERROR_CHECK(AK_Fail, "Copying banks to user:// failed!");
-	}
-#endif
-	}
-
-	basePath += platformBanksSuffix;
+	basePath += platformBanksSuffix + "/";
 
 	bool setBasePathResult = setBasePath(basePath);
 	AKASSERT(setBasePathResult);
 
 	String startupLanguage = getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + "startup_language");
 
-	bool setCurrentLanguageResult = setCurrentLanguage(startupLanguage);
-	AKASSERT(setCurrentLanguageResult);
+	setCurrentLanguage(startupLanguage);
 
 	signalCallbackDataMaxSize = static_cast<unsigned int>(
 		getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + "callback_manager_buffer_size"));
@@ -261,26 +242,33 @@ bool Wwise::setBasePath(const String basePath)
 {
 	AKASSERT(!basePath.empty());
 
-	AkOSChar* basePathOsString = nullptr;
+	AKRESULT result = AK_Fail;
+	String resString = "res://";
 
-	const char* basePathChar = basePath.alloc_c_string();
-	CONVERT_CHAR_TO_OSCHAR(basePathChar, basePathOsString);
-	AKASSERT(basePathOsString);
+	if (!basePath.begins_with(resString))
+	{
+		return ERROR_CHECK(AK_PathNotFound, "Invalid path, does not begin with res://");
+	}
 
-	return ERROR_CHECK(lowLevelIO.SetBasePath(basePathOsString), basePath);
+	// Broken https://github.com/godotengine/godot/issues/37646
+
+	// Ref<Directory> directory = Directory::_new();
+
+	// if (!directory->dir_exists(basePath))
+	// {
+	// 	return ERROR_CHECK(AK_PathNotFound, "Invalid path, cannot find base dir path in project");
+	// }
+
+	lowLevelIO.SetBanksPath(basePath);
+
+	return true;
 }
 
-bool Wwise::setCurrentLanguage(const String language)
+void Wwise::setCurrentLanguage(const String language)
 {
 	AKASSERT(!language.empty());
 
-	AkOSChar* languageOsString = nullptr;
-
-	const char* languageChar = language.alloc_c_string();
-	CONVERT_CHAR_TO_OSCHAR(languageChar, languageOsString);
-	AKASSERT(languageOsString);
-
-	return ERROR_CHECK(AK::StreamMgr::SetCurrentLanguage(languageOsString), language);
+	lowLevelIO.SetLanguageFolder(language);
 }
 
 bool Wwise::loadBank(const String bankName)
@@ -1495,7 +1483,9 @@ bool Wwise::initialiseWwiseSystems()
 	deviceSettings.uMaxCachePinnedBytes = static_cast<unsigned int>(
 		getPlatformProjectSetting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "maximum_pinned_bytes_in_cache"));
 
-	if (!ERROR_CHECK(lowLevelIO.Init(deviceSettings), "Low level IO failed"))
+	deviceSettings.uSchedulerTypeFlags = AK_SCHEDULER_BLOCKING;
+
+	if (!ERROR_CHECK(lowLevelIO.Init(deviceSettings), "Initialising Low level IO failed"))
 	{
 		return false;
 	}
@@ -1673,11 +1663,6 @@ bool Wwise::initialiseWwiseSystems()
 
 	jobject activity = godot::android_api->godot_android_get_activity();
 	platformInitSettings.jActivity = activity;
-
-	if (!ERROR_CHECK(lowLevelIO.InitAndroidIO(javaVM, activity), "Initialising Android IO failed"))
-	{
-		return false;
-	}
 
 #elif defined(AK_LINUX)
 

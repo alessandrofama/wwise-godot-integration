@@ -193,7 +193,7 @@ $(LOCAL_PATH)/../godot-cpp/include/core \
 $(LOCAL_PATH)/../godot-cpp/include/gen \
 src
 
-LOCAL_SRC_FILES := src/wwise_gdnative.cpp src/gdlibrary.cpp $(WWISESDK)/samples/SoundEngine/Android/AkDefaultIOHookBlocking.cpp $(WWISESDK)/samples/SoundEngine/Android/AkFileHelpers.cpp $(WWISESDK)/samples/SoundEngine/Common/AkFileLocationBase.cpp $(WWISESDK)/samples/SoundEngine/Common/AkFilePackage.cpp $(WWISESDK)/samples/SoundEngine/Common/AkFilePackageLUT.cpp
+LOCAL_SRC_FILES := src/wwise_gdnative.cpp src/wwise_godot_io.cpp src/gdlibrary.cpp $(WWISESDK)/samples/SoundEngine/Android/AkFileHelpers.cpp $(WWISESDK)/samples/SoundEngine/Common/AkFileLocationBase.cpp $(WWISESDK)/samples/SoundEngine/Common/AkFilePackage.cpp $(WWISESDK)/samples/SoundEngine/Common/AkFilePackageLUT.cpp
 
 ifeq ($(PM5_CONFIG),debug_android_armeabi-v7a)
   LOCAL_C_INCLUDES += $(WWISESDK)/samples/SoundEngine/Android/libzip/lib $(LOCAL_PATH)/. $(WWISESDK)/samples/SoundEngine/Common $(WWISESDK)/samples/SoundEngine/Android $(WWISESDK)/include $(WWISESDK)/samples/SoundEngine/POSIX

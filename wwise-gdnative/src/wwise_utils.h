@@ -2,6 +2,7 @@
 #define WWISE_UTILS_H
 
 #include "AK/SoundEngine/Common/AkTypes.h"
+#include "AK/SoundEngine/Common/AkCallback.h"
 #include "File.hpp"
 
 using namespace godot;
@@ -10,18 +11,6 @@ const float INVALID_RTPC_VALUE = 1.0f;
 const unsigned int AK_MAX_ENVIRONMENTS = 4;
 const int INVALID_ROOM_ID = -1;
 const AkGameObjectID OUTDOORS_ROOM_ID = (AkGameObjectID)-4;
-
-#ifdef AK_ANDROID
-#define MAP_PATH(path) path = path.replace("res://", "");
-#elif defined(AK_WIN) || defined(AK_MAC_OS_X) || defined(AK_LINUX)
-#define MAP_PATH(path)                                                                                                 \
-	if (OS::get_singleton()->has_feature("standalone"))                                                                \
-		path = path.replace("res://", OS::get_singleton()->get_user_data_dir() + "/");                                 \
-	else                                                                                                               \
-		path = path.replace("res://", "./");
-#else
-#define MAP_PATH(path) path = path.replace("res://", "./");
-#endif
 
 enum SamplesPerFrame
 {
@@ -293,50 +282,6 @@ static inline bool FindMatchingVertex(Vector3 vertex, Dictionary vertDict, int& 
 	{
 		return false;
 	}
-}
-
-static bool CopyDirectory(String from, String to)
-{
-	Ref<Directory> dir = Directory::_new();
-	Ref<File> file = File::_new();
-
-	if (!dir->dir_exists(to))
-	{
-		dir->make_dir_recursive(to);
-	}
-
-	if (dir->open(from) == godot::Error::OK)
-	{
-		dir->list_dir_begin(true);
-		String fileName = dir->get_next();
-		while (fileName != "")
-		{
-			if (dir->file_exists(fileName))
-			{
-				if (!file->file_exists(to + "/" + fileName))
-				{
-					if (dir->current_is_dir())
-					{
-						CopyDirectory(from + "/" + fileName, to + "/" + fileName);
-					}
-					else
-					{
-						dir->copy(from + "/" + fileName, to + "/" + fileName);
-					}
-				}
-				else if (file->get_md5(from + "/" + fileName) != file->get_md5(to + "/" + fileName))
-				{
-					dir->copy(from + "/" + fileName, to + "/" + fileName);
-				}
-			}
-
-			fileName = dir->get_next();
-		}
-
-		return true;
-	}
-
-	return false;
 }
 
 #endif
