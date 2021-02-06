@@ -24,8 +24,7 @@
 #include <AK/SoundEngine/Common/AkQueryParameters.h>
 #include <AK/SpatialAudio/Common/AkSpatialAudio.h>
 #include <AK/SoundEngine/Common/AkVirtualAcoustics.h>
-#include <AkDefaultIOHookBlocking.h>
-
+#include "wwise_godot_io.h"
 #include "wwise_utils.h"
 
 #ifndef AK_OPTIMIZED
@@ -52,7 +51,7 @@ class Wwise : public Node
 	void _notification(int notification);
 
 	bool setBasePath(const String basePath);
-	bool setCurrentLanguage(const String language);
+	void setCurrentLanguage(const String language);
 	bool loadBank(const String bankName);
 	bool loadBankID(const unsigned int bankID);
 	bool loadBankAsync(const String bankName);
@@ -155,7 +154,7 @@ class Wwise : public Node
 	static int signalCallbackDataMaxSize;
 
 	ProjectSettings* projectSettings;
-	CAkDefaultIOHookBlocking lowLevelIO;
+	CAkFileIOHandlerGodot lowLevelIO;
 };
 } // namespace godot
 
