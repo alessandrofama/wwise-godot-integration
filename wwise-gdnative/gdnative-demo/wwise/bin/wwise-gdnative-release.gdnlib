@@ -13,8 +13,8 @@ Android.x86_64="res://wwise/bin/android/release/x86_64/libWwiseGDNative.Release.
 OSX.64="res://wwise/bin/osx/release/libWwiseGDNative.dylib"
 Windows.64="res://wwise/bin/win64/release/WwiseGDNative.dll"
 X11.64="res://wwise/bin/linux/release/libWwiseGDNative.so"
-iOS.armv7="res://wwise/bin/iOS/release/armv7/libWwiseGDNative.a"
-iOS.arm64="res://wwise/bin/iOS/release/arm64/libWwiseGDNative.a"
+iOS.armv7="res://wwise/bin/iOS/release/armv7/libWwiseGDNative.dylib"
+iOS.arm64="res://wwise/bin/iOS/release/arm64/libWwiseGDNative.dylib"
 
 [dependencies]
 

@@ -78,8 +78,9 @@ opts.Add(PathVariable('target_path', 'The path where the lib is installed.', 'gd
 opts.Add(PathVariable('target_name', 'The library name.', 'WwiseGDNative', PathVariable.PathAccept))
 opts.Add(PathVariable('wwise_sdk', 'The Wwise SDK path', '', PathVariable.PathAccept))
 opts.Add(ListVariable('plugins', 'List of plugins', '', ['reflect', 'motion', 'convolution', 'soundseed_grain', 'soundseed_air_impact']))
-opts.Add(EnumVariable('ios_arch', 'Target iOS architecture', 'arm64', ['armv7', 'arm64']))
+opts.Add(EnumVariable('ios_arch', 'Target iOS architecture', 'arm64', ['armv7', 'arm64', 'x86_64']))
 opts.Add('IPHONEPATH', 'Path to iPhone toolchain', '/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain')
+opts.Add(BoolVariable('ios_simulator', 'Target iOS Simulator', False))
 
 # Local dependency paths, adapt them to your setup
 godot_headers_path = "../godot-cpp/godot_headers/"
@@ -111,12 +112,19 @@ if env['platform'] == "osx":
     else:
         wwise_sdk_libs_path = env['wwise_sdk'] + "/Mac/Release/lib/"   
 
-if env['platform'] == "ios":
+if env['platform'] == "ios" and not env['ios_simulator']:
     wwise_soundengine_sample_path = env['wwise_sdk'] + "/samples/SoundEngine/POSIX/"
     if env['target'] in ('debug', 'd'):
         wwise_sdk_libs_path = env['wwise_sdk'] + "/iOS/Debug-iphoneos/lib/"
     else:
-        wwise_sdk_libs_path = env['wwise_sdk'] + "/iOS/Release-iphoneos/lib/"   
+        wwise_sdk_libs_path = env['wwise_sdk'] + "/iOS/Release-iphoneos/lib/"  
+
+if env['platform'] == "ios" and env['ios_simulator']:
+    wwise_soundengine_sample_path = env['wwise_sdk'] + "/samples/SoundEngine/POSIX/"
+    if env['target'] in ('debug', 'd'):
+        wwise_sdk_libs_path = env['wwise_sdk'] + "/iOS/Debug-iphonesimulator/lib/"
+    else:
+        wwise_sdk_libs_path = env['wwise_sdk'] + "/iOS/Release-iphonesimulator/lib/"
 
 if env['platform'] == "linux":
     wwise_soundengine_sample_path = env['wwise_sdk'] + "/samples/SoundEngine/POSIX/"
@@ -205,17 +213,21 @@ if env['platform'] == "osx":
         env.Append(CPPDEFINES=['AK_SOUNDSEED_AIR_IMPACT'])
 
 elif env['platform'] == 'ios':
+    if env['ios_simulator']:
+        env['target_path'] += 'iOS-simulator/'
+        sdk_name = 'iphonesimulator'
+        env.Append(CCFLAGS=['-mios-simulator-version-min=10.0'])
+    else:
+        env['target_path'] += 'iOS/'
+        sdk_name = 'iphoneos'
+        env.Append(CCFLAGS=['-miphoneos-version-min=10.0'])
 
-    env['target_path'] += 'iOS/'
     if env['target'] in ('debug', 'd'):
         env['target_path'] += 'debug/' + env['ios_arch'] + "/"
     elif env['target'] in ('release', 'r'):
         env['target_path'] += 'release/' + env['ios_arch'] + "/"
     
     cpp_library += '.ios'
-
-    sdk_name = 'iphoneos'
-    env.Append(CCFLAGS=['-miphoneos-version-min=10.0'])
 
     try:
         sdk_path = decode_utf8(subprocess.check_output(['xcrun', '--sdk', sdk_name, '--show-sdk-path']).strip())
@@ -232,13 +244,15 @@ elif env['platform'] == 'ios':
 
     if env['target'] == 'debug':
         env.Append(CCFLAGS=['-Og', '-g', '-std=c++14', '-arch', env['ios_arch'], '-isysroot', sdk_path])
-        env.Append(LINKFLAGS=['-framework', 'CoreAudio', '-framework', 'AudioToolbox', '-arch', env['ios_arch'], 
+        env.Append(LINKFLAGS=['-framework', 'CoreAudio', '-framework', 'AudioToolbox', '-Wl,-undefined,dynamic_lookup', '-arch', env['ios_arch'], 
                             '-isysroot', sdk_path, '-F' + sdk_path])
     elif env['target'] == 'release':
         env.Append(CPPDEFINES=['AK_OPTIMIZED'])
         env.Append(CCFLAGS=['-O3', '-g', '-std=c++14', '-arch', env['ios_arch'], '-isysroot', sdk_path])
-        env.Append(LINKFLAGS=['-framework', 'CoreAudio', '-framework', 'AudioToolbox', '-arch', env['ios_arch'], 
+        env.Append(LINKFLAGS=['-framework', 'CoreAudio', '-framework', 'AudioToolbox', '-Wl,-undefined,dynamic_lookup', '-arch', env['ios_arch'], 
                              '-isysroot', sdk_path, '-F' + sdk_path])
+
+    wwise_plugins_library.append("AkAACDecoder")
     
 elif env['platform'] in ('x11', 'linux'):
 
@@ -324,6 +338,11 @@ if env['platform'] == 'ios':
         cpp_library += '.' + 'arm64'
     elif env['ios_arch'] == 'armv7':
         cpp_library += '.' + 'armv7'
+    elif env['ios_arch'] == 'x86_64':
+        cpp_library += '.' + 'x86_64'
+
+    if env['ios_simulator']:
+        cpp_library += '.' + 'simulator'
 else:
     cpp_library += '.' + str(bits)
 
@@ -358,10 +377,7 @@ if env['platform'] == "windows" and 'motion' in env['plugins']:
 if env["platform"] == "linux":
     env.Append(LIBS=[ 'pthread', 'dl'])
 
-if env['platform'] == 'ios':
-    library = env.StaticLibrary(target=env['target_path'] + env['target_name'] , source=sources)
-else:
-    library = env.SharedLibrary(target=env['target_path'] + env['target_name'] , source=sources)
+library = env.SharedLibrary(target=env['target_path'] + env['target_name'] , source=sources)
 
 Default(library)
 
