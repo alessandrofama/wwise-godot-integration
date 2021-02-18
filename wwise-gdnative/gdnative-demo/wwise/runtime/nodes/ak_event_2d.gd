@@ -2,15 +2,15 @@ extends "res://wwise/runtime/helpers/ak_event_handler_2d.gd"
 
 var playing_id:int
 
-func _enter_tree() -> void:
+func _init() -> void:
 	register_game_object(self, self.get_name())
-	
-func _ready() -> void:
+
+func _enter_tree() -> void:
 	if use_callback:
-			for flag in AkUtils.AkCallbackType.values().size():
-				if (callback_flag & AkUtils.AkCallbackType.values()[flag] > 0):
-					connect_signals(AkUtils.AkCallbackType.values()[flag])
-				
+		for flag in AkUtils.AkCallbackType.values().size():
+			if (callback_flag & AkUtils.AkCallbackType.values()[flag] > 0):
+				connect_signals(AkUtils.AkCallbackType.values()[flag])
+	
 func handle_game_event(game_event:int) -> void:
 	if trigger_on == game_event:
 		post_event()

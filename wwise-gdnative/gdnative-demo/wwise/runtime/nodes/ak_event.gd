@@ -6,23 +6,21 @@ var colliding_objects:Array = []
 var ak_environment_data
 var playing_id:int
 
-func _enter_tree() -> void:
+func _init() -> void:
 	if Engine.is_editor_hint():
 		return
-	else:
-		register_game_object(self, self.get_name())
+	register_game_object(self, self.get_name())
 	
-func _ready() -> void:
+func _enter_tree() -> void:
 	if Engine.is_editor_hint():
 		self.set_process(false)
 		return
-	else:
-		self.set_process(true)
+	self.set_process(true)
 		
 	if use_callback:
-			for flag in AkUtils.AkCallbackType.values().size():
-				if (callback_flag & AkUtils.AkCallbackType.values()[flag] > 0):
-					connect_signals(AkUtils.AkCallbackType.values()[flag])
+		for flag in AkUtils.AkCallbackType.values().size():
+			if (callback_flag & AkUtils.AkCallbackType.values()[flag] > 0):
+				connect_signals(AkUtils.AkCallbackType.values()[flag])
 	
 	# If is_environment_aware is checked, Wwise.set_game_obj_aux_send_values will
 	# be called. Each Event will instantiate the AkGameObjeckEnvironmentData class,
