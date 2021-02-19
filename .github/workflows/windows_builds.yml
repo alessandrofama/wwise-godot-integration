@@ -14,7 +14,7 @@ env:
 jobs:
   windows:
     name: Windows
-    runs-on: "windows-latest"
+    runs-on: "windows-2016"
     if: "!contains(github.event.head_commit.message, '[ci-skip]')"  
     steps:
       - name: Checkout
@@ -34,7 +34,8 @@ jobs:
       - name: Setup platform
         uses: ilammy/msvc-dev-cmd@v1
         with:
-          arch: x64
+          arch: 'x64'
+          toolset: '14.16.27033'
       - name: Configuring Python packages
         run: |
           python -c "import sys; print(sys.version)"

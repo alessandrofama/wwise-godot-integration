@@ -67,7 +67,7 @@ else:
 opts = Variables([], ARGUMENTS)
 
 # Gets the standard flags CC, CCX, etc.
-env = DefaultEnvironment()
+env = Environment(ENV = os.environ)
 
 # Define our options
 opts.Add(EnumVariable('target', "Compilation target", 'debug', ['d', 'debug', 'r', 'release']))
@@ -92,6 +92,11 @@ bits = 64
 
 # Updates the environment with the option variables.
 opts.Update(env)
+
+if host_platform == 'windows':
+    if bits == 64:
+        env = Environment(TARGET_ARCH='amd64')
+    opts.Update(env)
 
 # Wwise dependency paths
 wwise_sdk_headers_path = env['wwise_sdk'] + "/include/"
@@ -300,9 +305,6 @@ elif env['platform'] == "windows":
     if 'motion' in env['plugins']:
         wwise_plugins_library.append(['AkMotionSink', 'AkMotionSourceSource'])
     
-    # This makes sure to keep the session environment variables on windows,
-    # that way you can run scons in a vs 2017 prompt and it will find all the required tools
-    env.Append(ENV=os.environ)
 
     env.Append(CPPDEFINES=['WIN32', '_WIN32', '_WINDOWS', '_CRT_SECURE_NO_WARNINGS', 'UNICODE'])
     env.Append(CCFLAGS=['-W3', '-GR'])
