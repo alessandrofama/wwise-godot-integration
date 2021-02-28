@@ -1,10 +1,10 @@
 name: Integration App Windows
 on:
   push:
-    branches: [master]
+    branches: [main]
   pull_request:
     branches:
-      - master
+      - main
 jobs:
   integration-app-windows:
     name: Integration App Windows

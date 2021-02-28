@@ -1,10 +1,10 @@
 name: Linux Builds
 on:
   push:
-    branches: [master]
+    branches: [main]
   pull_request:
     branches:
-      - master
+      - main
 env:
   PROJECT_FOLDER: wwise-gdnative
   TARGET_PATH: bin/

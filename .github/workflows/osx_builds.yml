@@ -1,10 +1,10 @@
 name: macOS Builds
 on:
   push:
-    branches: [master]
+    branches: [main]
   pull_request:
     branches:
-      - master
+      - main
 env:
   PROJECT_FOLDER: wwise-gdnative
   WAAPI_PROJECT_FOLDER: waapiclient-gdnative

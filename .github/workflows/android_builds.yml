@@ -1,10 +1,10 @@
 name: Android Builds
 on:
   push:
-    branches: [master]
+    branches: [main]
   pull_request:
     branches:
-      - master
+      - main
 env:
   PROJECT_FOLDER: wwise-gdnative
   TARGET_PATH_DEBUG_ARM64V8: bin/android/debug

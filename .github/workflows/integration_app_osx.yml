@@ -1,10 +1,10 @@
 name: Integration App macOS
 on:
   push:
-    branches: [master]
+    branches: [main]
   pull_request:
     branches:
-      - master
+      - main
 jobs:
   integration-app-osx:
     name: Integration App macOS
