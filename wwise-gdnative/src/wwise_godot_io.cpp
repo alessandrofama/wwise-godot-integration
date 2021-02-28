@@ -96,8 +96,8 @@ AKRESULT CAkIOHookBlockingGodot::Read(AkFileDesc& in_fileDesc, const AkIoHeurist
 	AKASSERT(out_pBuffer != nullptr && in_fileDesc.hFile != AkFileHandle(-1));
 
 	File* const file = reinterpret_cast<File*>(in_fileDesc.hFile);
-	int64_t const fileReadPosition = file->get_position();
-	int64_t const wantedFileReadPosition = io_transferInfo.uFilePosition;
+	const int64_t fileReadPosition = file->get_position();
+	const int64_t wantedFileReadPosition = io_transferInfo.uFilePosition;
 
 	if (fileReadPosition != wantedFileReadPosition)
 	{
@@ -109,7 +109,7 @@ AKRESULT CAkIOHookBlockingGodot::Read(AkFileDesc& in_fileDesc, const AkIoHeurist
 	const uint8_t* data = fileBuffer.read().ptr();
 	memcpy(out_pBuffer, data, size * sizeof(uint8_t));
 
-	size_t const bytesRead = size;
+	const size_t bytesRead = size;
 	AKASSERT(bytesRead == static_cast<size_t>(io_transferInfo.uRequestedSize));
 
 	return (bytesRead > 0) ? AK_Success : AK_Fail;
@@ -135,7 +135,7 @@ AKRESULT CAkIOHookBlockingGodot::Write(AkFileDesc& in_fileDesc, const AkIoHeuris
 
 	memcpy((void*)bytes.write().ptr(), in_pData, bytesLength * sizeof(uint8_t));
 	file->store_buffer(bytes);
-	size_t bytesWritten = file->get_len();
+	const size_t bytesWritten = file->get_len();
 
 	AKASSERT(bytesWritten == static_cast<size_t>(io_transferInfo.uRequestedSize));
 
