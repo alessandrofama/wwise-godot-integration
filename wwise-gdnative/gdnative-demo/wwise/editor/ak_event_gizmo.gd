@@ -21,6 +21,5 @@ func get_name():
 
 func redraw(gizmo):
 	gizmo.clear()
-	var spatial = gizmo.get_spatial_node()
 	var icon = get_material("ak_event_icon", gizmo)
 	gizmo.add_unscaled_billboard(icon, 0.05)
