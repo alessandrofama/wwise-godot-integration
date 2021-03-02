@@ -33,11 +33,11 @@ config/icon="res://icon.png"
 [autoload]
 
 WwiseSettings="res://wwise/wwise_settings.gd"
-Wwise="*res://wwise/bin/wwise-gdnative-debug.gdns"
+Wwise="*res://wwise/bin/wwise-gdnative.gdns"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "wwise_custom_nodes", "wwise_ids_converter" )
+enabled=PoolStringArray( "wwise_build_export", "wwise_custom_nodes", "wwise_ids_converter" )
 
 [input]
 

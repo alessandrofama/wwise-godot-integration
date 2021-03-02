@@ -277,12 +277,12 @@ export default {
       if (!("autoload" in iniObj)) {
         iniObj.autoload = {};
         iniObj.autoload.WwiseSettings = '"res://wwise/wwise_settings.gd"';
-        iniObj.autoload.Wwise = '"*res://wwise/bin/wwise-gdnative-debug.gdns"';
+        iniObj.autoload.Wwise = '"*res://wwise/bin/wwise-gdnative.gdns"';
         iniObj.autoload.Waapi = '"*res://wwise/bin/waapi-gdnative-debug.gdns"';
       } else {
         if (!("Wwise" in iniObj.autoload)) {
           iniObj.autoload.WwiseSettings = '"res://wwise/wwise_settings.gd"';
-          iniObj.autoload.Wwise = '"*res://wwise/bin/wwise-gdnative-debug.gdns"';
+          iniObj.autoload.Wwise = '"*res://wwise/bin/wwise-gdnative.gdns"';
           iniObj.autoload.Waapi = '"*res://wwise/bin/waapi-gdnative-debug.gdns"';
         }
       }
@@ -290,17 +290,17 @@ export default {
       if (!("editor_plugins" in iniObj)) {
         iniObj.editor_plugins = {};
         iniObj.editor_plugins.enabled =
-          'PoolStringArray( "wwise_custom_nodes", "wwise_ids_converter", "waapi_picker" )';
+          'PoolStringArray( "wwise_custom_nodes", "wwise_ids_converter", "waapi_picker", "wwise_build_export" )';
       } else {
         if (!("enabled" in iniObj.editor_plugins)) {
           iniObj.editor_plugins.enabled =
-            'PoolStringArray( "wwise_custom_nodes", "wwise_ids_converter", "waapi_picker" )';
+            'PoolStringArray( "wwise_custom_nodes", "wwise_ids_converter", "waapi_picker", "wwise_build_export" )';
         } else {
           if (!iniObj.editor_plugins.enabled.includes("wwise")) {
             console.log("wwise not present in enabled plugins");
             var toReplace = iniObj.editor_plugins.enabled.replace(
               "PoolStringArray(",
-              'PoolStringArray( "wwise_custom_nodes", "wwise_ids_converter", "waapi_picker", '
+              'PoolStringArray( "wwise_custom_nodes", "wwise_ids_converter", "waapi_picker", "wwise_build_export", '
             );
             iniObj.editor_plugins.enabled = toReplace;
           }
@@ -531,7 +531,9 @@ _global_script_class_icons={
       this.removeDirectory(wwiseBuildExportPath);
       this.removeDirectory(waapiPickerAddonPath);
 
-      fs.unlinkSync(overrideFilePath);
+      if (fs.existsSync(overrideFilePath)) {
+          fs.unlinkSync(overrideFilePath);
+    }
 
       this.updateProgressTextandBar("", 100);
 
