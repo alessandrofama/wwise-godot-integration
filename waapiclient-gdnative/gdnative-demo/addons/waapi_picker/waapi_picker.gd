@@ -386,7 +386,7 @@ func _exit_tree():
 	waapiPickerControl.queue_free()
 
 func handles(object):
-	return true
+	return object.get_class() == "Spatial"
 
 func forward_spatial_gui_input(camera, event):
 	if event is InputEventMouseMotion:
