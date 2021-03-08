@@ -31,11 +31,6 @@ jobs:
       - name: Set up dependencies
         run: |
           choco install 7zip -y
-      - name: Setup platform
-        uses: ilammy/msvc-dev-cmd@v1
-        with:
-          arch: 'x64'
-          toolset: '14.16.27033'
       - name: Configuring Python packages
         run: |
           python -c "import sys; print(sys.version)"
