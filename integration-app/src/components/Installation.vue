@@ -3,7 +3,7 @@
     <div v-if="!installing && !installed && !installationFailed">
       <div class="form-group">
         <div>
-          <label style="font-size: large;">Platform Selection</label>
+          <label style="font-size: large">Platform Selection</label>
           <br />
           <div class="custom-control custom-checkbox custom-control-inline">
             <input
@@ -63,12 +63,12 @@
         </div>
       </div>
 
-      <form @submit.prevent="onSubmit" style="margin-top: 4%;">
+      <form @submit.prevent="onSubmit" style="margin-top: 4%">
         <div class="form-group">
-          <label for="godotProject" style="font-size: large;"
+          <label for="godotProject" style="font-size: large"
             >Select Godot's project file:</label
           >
-          <div class="custom-file" style="margin-top: 1%;">
+          <div class="custom-file" style="margin-top: 1%">
             <input
               type="file"
               class="custom-file-input"
@@ -83,7 +83,7 @@
           <span
             v-if="isIntegrationInstalled"
             class="form-text"
-            style="margin-top: 5%; font-size: large;"
+            style="margin-top: 5%; font-size: large"
           >
             The Wwise Godot Integration is already installed. Please update or
             uninstall the integration.
@@ -91,14 +91,14 @@
           <span
             v-else
             class="form-text"
-            style="margin-top: 5%; font-size: large;"
+            style="margin-top: 5%; font-size: large"
           >
             Installing the Wwise Godot integration will copy the required files
             to your Godot Project.
           </span>
           <span
             class="form-text"
-            style="margin-top: 4%; font-size: large; color: red;"
+            style="margin-top: 4%; font-size: large; color: red"
             >{{ errorHint }}</span
           >
         </div>
@@ -136,7 +136,7 @@
     </div>
     <div v-if="installed">
       <h3>{{ installHeader }} completed successfully</h3>
-      <p style="margin-top: 5%; font-size: large;">{{ installText }}</p>
+      <p style="margin-top: 5%; font-size: large">{{ installText }}</p>
       <div class="b-button-toolbar">
         <b-button-group>
           <button v-on:click="openProjectInExplorer" class="btn btn-primary">
@@ -150,7 +150,7 @@
     </div>
     <div v-if="installing">
       <h3>Installing...</h3>
-      <p style="margin-top: 5%;">{{ installText }}</p>
+      <p style="margin-top: 5%">{{ installText }}</p>
       <div class="progressing">
         <transition name="fadeInstall">
           <div v-show="installing">
@@ -166,7 +166,7 @@
     </div>
     <div v-if="installationFailed">
       <h3>{{ installHeader }} failed</h3>
-      <p style="margin-top: 5%;">{{ installText }}</p>
+      <p style="margin-top: 5%">{{ installText }}</p>
       <button v-on:click="onInit" class="btn btn-primary">
         <span>Start over</span>
       </button>
@@ -241,6 +241,9 @@ export default {
       this.printProjectIni(this.godotProjectFilePath);
       this.getIntegrationFiles();
     },
+    getKeyByValue(object, value) {
+      return Object.keys(object).filter((key) => object[key] === value);
+    },
     previewFilePath(event) {
       let filePath = event.target.files[0].path;
       filePath = filePath.replace(/\\/g, "/");
@@ -267,7 +270,6 @@ export default {
       const fs = require("fs").promises;
       const multiini = require("multi-ini");
 
-      var globalMatchedText;
       var globalOutputText;
       var serializedIni;
       var output;
@@ -277,12 +279,12 @@ export default {
       if (!("autoload" in iniObj)) {
         iniObj.autoload = {};
         iniObj.autoload.WwiseSettings = '"res://wwise/wwise_settings.gd"';
-        iniObj.autoload.Wwise = '"*res://wwise/bin/wwise-gdnative.gdns"';
+        iniObj.autoload.Wwise = '"*res://wwise/bin/wwise-gdnative-debug.gdns"';
         iniObj.autoload.Waapi = '"*res://wwise/bin/waapi-gdnative-debug.gdns"';
       } else {
         if (!("Wwise" in iniObj.autoload)) {
           iniObj.autoload.WwiseSettings = '"res://wwise/wwise_settings.gd"';
-          iniObj.autoload.Wwise = '"*res://wwise/bin/wwise-gdnative.gdns"';
+          iniObj.autoload.Wwise = '"*res://wwise/bin/wwise-gdnative-debug.gdns"';
           iniObj.autoload.Waapi = '"*res://wwise/bin/waapi-gdnative-debug.gdns"';
         }
       }
@@ -297,7 +299,7 @@ export default {
             'PoolStringArray( "wwise_custom_nodes", "wwise_ids_converter", "waapi_picker", "wwise_build_export" )';
         } else {
           if (!iniObj.editor_plugins.enabled.includes("wwise")) {
-            console.log("wwise not present in enabled plugins");
+            // Wwise not present in enabled plugins
             var toReplace = iniObj.editor_plugins.enabled.replace(
               "PoolStringArray(",
               'PoolStringArray( "wwise_custom_nodes", "wwise_ids_converter", "waapi_picker", "wwise_build_export", '
@@ -306,6 +308,14 @@ export default {
           }
         }
       }
+
+  for (var item in iniObj) {
+     var arr = this.getKeyByValue(iniObj[item], "{")
+     if (arr.length > 0)
+     {
+       delete iniObj[item]
+     }
+  }
 
       var serializer = new multiini.Serializer({ keep_quotes: false });
       serializedIni = serializer.serialize(iniObj);
@@ -322,9 +332,7 @@ export default {
           txt.includes("_global_script_classes=[ {") &&
           !globalClassesAlreadyPresent
         ) {
-          const re = /(?=_global)[\S\s]*(?<=} ])/gm;
-          globalMatchedText = txt.match(re);
-          globalMatchedText[0] = globalMatchedText[0].replace(
+           globalOutputText = txt.replace(
             "_global_script_classes=[",
             `
 _global_script_classes=[ {
@@ -340,14 +348,12 @@ _global_script_classes=[ {
 },`
           );
 
-          globalOutputText = globalMatchedText[0];
+         
         } else if (
           txt.includes("_global_script_classes=[") &&
           !globalClassesAlreadyPresent
         ) {
-          const re = /(?=_global)[\S\s]*(?<=])/gm;
-          globalMatchedText = txt.match(re);
-          globalMatchedText[0] = globalMatchedText[0].replace(
+          globalOutputText = txt.replace(
             "_global_script_classes=[ ",
             `
 _global_script_classes=[ {
@@ -363,12 +369,11 @@ _global_script_classes=[ {
 }`
           );
 
-          globalOutputText = globalMatchedText[0];
         } else if (
           !txt.includes("_global_script_classes=[ {") &&
           !globalClassesAlreadyPresent
         ) {
-          globalOutputText = `
+          globalOutputText = txt + `
 _global_script_classes=[ {
 "base": "Reference",
 "class": "AK",
@@ -385,12 +390,10 @@ _global_script_class_icons={
 "AkUtils": ""
 } ]`;
         } else {
-          const re = /(?=_global)[\S\s]*(?<=} ])/gm;
-          globalMatchedText = txt.match(re);
-          globalOutputText = globalMatchedText[0];
+          globalOutputText = txt;
         }
         output = globalOutputText + "\n\n" + serializedIni;
-        fs.writeFile(godotFilePath, output);
+       fs.writeFile(godotFilePath, output);
       });
     },
     checkIntegrationAlreadyInstalled() {
@@ -532,8 +535,8 @@ _global_script_class_icons={
       this.removeDirectory(waapiPickerAddonPath);
 
       if (fs.existsSync(overrideFilePath)) {
-          fs.unlinkSync(overrideFilePath);
-    }
+        fs.unlinkSync(overrideFilePath);
+      }
 
       this.updateProgressTextandBar("", 100);
 
