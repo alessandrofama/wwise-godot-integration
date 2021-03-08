@@ -279,12 +279,12 @@ export default {
       if (!("autoload" in iniObj)) {
         iniObj.autoload = {};
         iniObj.autoload.WwiseSettings = '"res://wwise/wwise_settings.gd"';
-        iniObj.autoload.Wwise = '"*res://wwise/bin/wwise-gdnative-debug.gdns"';
+        iniObj.autoload.Wwise = '"*res://wwise/bin/wwise-gdnative.gdns"';
         iniObj.autoload.Waapi = '"*res://wwise/bin/waapi-gdnative-debug.gdns"';
       } else {
         if (!("Wwise" in iniObj.autoload)) {
           iniObj.autoload.WwiseSettings = '"res://wwise/wwise_settings.gd"';
-          iniObj.autoload.Wwise = '"*res://wwise/bin/wwise-gdnative-debug.gdns"';
+          iniObj.autoload.Wwise = '"*res://wwise/bin/wwise-gdnative.gdns"';
           iniObj.autoload.Waapi = '"*res://wwise/bin/waapi-gdnative-debug.gdns"';
         }
       }
@@ -316,7 +316,6 @@ export default {
        delete iniObj[item]
      }
   }
-
       var serializer = new multiini.Serializer({ keep_quotes: false });
       serializedIni = serializer.serialize(iniObj);
       serializedIni = serializedIni.replace('"Pool', "Pool");
