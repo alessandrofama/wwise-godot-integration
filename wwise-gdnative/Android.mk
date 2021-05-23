@@ -187,7 +187,7 @@ LOCAL_MODULE := WwiseGDNative.android.$(CONFIGURATION).$(APP_ABI)
 LOCAL_MODULE_FILENAME := libWwiseGDNative.$(CONFIGURATION).$(APP_ABI)
 
 LOCAL_C_INCLUDES := \
-$(LOCAL_PATH)/../godot-cpp/godot_headers \
+$(LOCAL_PATH)/../godot-cpp/godot-headers \
 $(LOCAL_PATH)/../godot-cpp/include \
 $(LOCAL_PATH)/../godot-cpp/include/core \
 $(LOCAL_PATH)/../godot-cpp/include/gen \
