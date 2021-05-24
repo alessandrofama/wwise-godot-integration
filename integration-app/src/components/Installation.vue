@@ -270,39 +270,24 @@ export default {
       const fs = require("fs").promises;
       const multiini = require("multi-ini");
 
-      var globalOutputText;
       var serializedIni;
       var output;
-      var globalClassesAlreadyPresent = false;
       var iniObj = multiini.read(godotFilePath, { keep_quotes: false });
-
-      if (!("autoload" in iniObj)) {
-        iniObj.autoload = {};
-        iniObj.autoload.WwiseSettings = '"res://wwise/wwise_settings.gd"';
-        iniObj.autoload.Wwise = '"*res://wwise/bin/wwise-gdnative.gdns"';
-        iniObj.autoload.Waapi = '"*res://wwise/bin/waapi-gdnative-debug.gdns"';
-      } else {
-        if (!("Wwise" in iniObj.autoload)) {
-          iniObj.autoload.WwiseSettings = '"res://wwise/wwise_settings.gd"';
-          iniObj.autoload.Wwise = '"*res://wwise/bin/wwise-gdnative.gdns"';
-          iniObj.autoload.Waapi = '"*res://wwise/bin/waapi-gdnative-debug.gdns"';
-        }
-      }
 
       if (!("editor_plugins" in iniObj)) {
         iniObj.editor_plugins = {};
         iniObj.editor_plugins.enabled =
-          'PoolStringArray( "wwise_custom_nodes", "wwise_ids_converter", "waapi_picker", "wwise_build_export" )';
+          'PoolStringArray( "res://addons/wwise_setup/plugin.cfg" )';
       } else {
         if (!("enabled" in iniObj.editor_plugins)) {
           iniObj.editor_plugins.enabled =
-            'PoolStringArray( "wwise_custom_nodes", "wwise_ids_converter", "waapi_picker", "wwise_build_export" )';
+            'PoolStringArray( "res://addons/wwise_setup/plugin.cfg" )';
         } else {
-          if (!iniObj.editor_plugins.enabled.includes("wwise")) {
+          if (!iniObj.editor_plugins.enabled.includes("res://addons/wwise_setup/plugin.cfg")) {
             // Wwise not present in enabled plugins
             var toReplace = iniObj.editor_plugins.enabled.replace(
               "PoolStringArray(",
-              'PoolStringArray( "wwise_custom_nodes", "wwise_ids_converter", "waapi_picker", "wwise_build_export", '
+              'PoolStringArray( "res://addons/wwise_setup/plugin.cfg", '
             );
             iniObj.editor_plugins.enabled = toReplace;
           }
@@ -321,77 +306,8 @@ export default {
       serializedIni = serializedIni.replace('"Pool', "Pool");
       serializedIni = serializedIni.replace(')"', ")");
 
-      fs.readFile(godotFilePath, "utf-8").then((txt) => {
-        if (txt.includes('class": "AK",')) {
-          globalClassesAlreadyPresent = true;
-        } else {
-          globalClassesAlreadyPresent = false;
-        }
-        if (
-          txt.includes("_global_script_classes=[ {") &&
-          !globalClassesAlreadyPresent
-        ) {
-           globalOutputText = txt.replace(
-            "_global_script_classes=[",
-            `
-_global_script_classes=[ {
-"base": "Reference",
-"class": "AK",
-"language": "GDScript",
-"path": "res://wwise/GeneratedSoundBanks/wwise_ids.gd"
-}, {
-"base": "Reference",
-"class": "AkUtils",
-"language": "GDScript",
-"path": "res://wwise/runtime/helpers/ak_utils.gd"
-},`
-          );
-
-         
-        } else if (
-          txt.includes("_global_script_classes=[") &&
-          !globalClassesAlreadyPresent
-        ) {
-          globalOutputText = txt.replace(
-            "_global_script_classes=[ ",
-            `
-_global_script_classes=[ {
-"base": "Reference",
-"class": "AK",
-"language": "GDScript",
-"path": "res://wwise/GeneratedSoundBanks/wwise_ids.gd"
-}, {
-"base": "Reference",
-"class": "AkUtils",
-"language": "GDScript",
-"path": "res://wwise/runtime/helpers/ak_utils.gd"
-}`
-          );
-
-        } else if (
-          !txt.includes("_global_script_classes=[ {") &&
-          !globalClassesAlreadyPresent
-        ) {
-          globalOutputText = txt + `
-_global_script_classes=[ {
-"base": "Reference",
-"class": "AK",
-"language": "GDScript",
-"path": "res://wwise/GeneratedSoundBanks/wwise_ids.gd"
-}, {
-"base": "Reference",
-"class": "AkUtils",
-"language": "GDScript",
-"path": "res://wwise/runtime/helpers/ak_utils.gd"
-} ]
-_global_script_class_icons={
-"AK": "",
-"AkUtils": ""
-} ]`;
-        } else {
-          globalOutputText = txt;
-        }
-        output = globalOutputText + "\n\n" + serializedIni;
+      fs.readFile(godotFilePath, "utf-8").then((txt) => { // eslint-disable-line no-unused-vars
+        output = serializedIni;
        fs.writeFile(godotFilePath, output);
       });
     },
@@ -525,6 +441,7 @@ _global_script_class_icons={
       var wwiseIdsConverterPath = path.join(addonsPath, "wwise_ids_converter");
       var wwiseBuildExportPath = path.join(addonsPath, "wwise_build_export");
       var waapiPickerAddonPath = path.join(addonsPath, "waapi_picker");
+      var wwiseSetupAddonPath = path.join(addonsPath, "wwise_setup");
       var overrideFilePath = path.join(this.godotProjectPath, "override.cfg");
 
       this.removeDirectory(wwisePath);
@@ -532,6 +449,7 @@ _global_script_class_icons={
       this.removeDirectory(wwiseIdsConverterPath);
       this.removeDirectory(wwiseBuildExportPath);
       this.removeDirectory(waapiPickerAddonPath);
+      this.removeDirectory(wwiseSetupAddonPath);
 
       if (fs.existsSync(overrideFilePath)) {
         fs.unlinkSync(overrideFilePath);
