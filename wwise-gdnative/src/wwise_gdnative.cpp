@@ -226,16 +226,23 @@ void Wwise::_process(const float delta)
 
 void Wwise::_notification(int notification)
 {
-#if defined(AK_ANDROID) || defined(AK_IOS)
+	bool suspendAtFocusLoss = getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + "suspend_at_focus_loss");
+
 	if (notification == NOTIFICATION_WM_FOCUS_OUT)
 	{
-		Wwise::suspend(false);
+		if (suspendAtFocusLoss)
+		{
+			Wwise::suspend(false);
+		}
 	}
+	
 	if (notification == NOTIFICATION_WM_FOCUS_IN)
 	{
-		Wwise::wakeupFromSuspend();
+		if (suspendAtFocusLoss)
+		{
+			Wwise::wakeupFromSuspend();
+		}
 	}
-#endif
 }
 
 bool Wwise::setBasePath(const String basePath)
