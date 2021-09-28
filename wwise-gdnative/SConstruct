@@ -145,7 +145,7 @@ wwise_musicengine_library = "AkMusicEngine"
 wwise_streammanager_library = "AkStreamMgr"
 wwise_communications_library = "CommunicationCentral"
 wwise_plugins_library = ["AkGainFX", "AkHarmonizerFX", "AkStereoDelayFX", "AkTimeStretchFX",
-                         "AkTremoloFX", "AkGuitarDistortionFX","AkVorbisDecoder", "AkMeterFX", 
+                         "AkTremoloFX", "AkGuitarDistortionFX","AkVorbisDecoder", "AkOpusDecoder", "AkMeterFX", 
                          "AkPitchShifterFX", "AkRoomVerbFX", "AkRoomVerbFX", "AkPeakLimiterFX", 
                          "AkExpanderFX", "AkCompressorFX", "AkMatrixReverbFX", "AkParametricEQFX", 
                          "AkDelayFX","AkSilenceSource", "AkToneSource", "AkFlangerFX", "AkSineSource",
