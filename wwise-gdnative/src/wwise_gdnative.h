@@ -70,6 +70,11 @@ class Wwise : public Node
 
 	bool set3DPosition(const Object* gameObject, const Transform transform);
 	bool set2DPosition(const Object* gameObject, const Transform2D transform2D, const float zDepth);
+	bool setMultiplePositions3D(const Object* gameObject, const Array positions, const unsigned int numPositions,
+								const int multiPositionType);
+	bool setMultiplePositions2D(const Object* gameObject, const Array positions, const Array zDepths,
+								const unsigned int numPositions, const int multiPositionType);
+	bool setGameObjectRadius(const Object* gameObject, const float outerRadius, const float innerRadius);
 
 	unsigned int postEvent(const String eventName, const Object* gameObject);
 	unsigned int postEventCallback(const String eventName, const unsigned int flags, const Object* gameObject);
@@ -118,6 +123,10 @@ class Wwise : public Node
 	bool setPortal(const Object* gameObject, const Transform transform, const Vector3 extent, const Object* frontRoom,
 				   const Object* backRoom, bool enabled, const String portalName);
 	bool removePortal(const Object* gameObject);
+	bool setPortalObstructionAndOcclusion(const Object* portal, const float obstructionValue,
+										  const float occlusionValue);
+	bool setGameObjectToPortalObstruction(const Object* gameObject, const Object* portal, const float obstructionValue);
+	bool setPortalToPortalObstruction(const Object* portal0, const Object* portal1, const float obstructionValue);
 	bool setGameObjectInRoom(const Object* gameObject, const Object* room);
 	bool removeGameObjectFromRoom(const Object* gameObject);
 	bool setEarlyReflectionsAuxSend(const Object* gameObject, const unsigned int auxBusID);

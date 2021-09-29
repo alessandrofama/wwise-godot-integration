@@ -86,6 +86,9 @@ void Wwise::_register_methods()
 	register_method("set_listeners", &Wwise::setListeners);
 	register_method("set_3d_position", &Wwise::set3DPosition);
 	register_method("set_2d_position", &Wwise::set2DPosition);
+	register_method("set_multiple_positions_3d", &Wwise::setMultiplePositions3D);
+	register_method("set_multiple_positions_2d", &Wwise::setMultiplePositions2D);
+	register_method("set_game_obj_radius", &Wwise::setGameObjectRadius);
 	register_method("post_event", &Wwise::postEvent);
 	register_method("post_event_callback", &Wwise::postEventCallback);
 	register_method("post_event_id", &Wwise::postEventID);
@@ -115,6 +118,9 @@ void Wwise::_register_methods()
 	register_method("remove_room", &Wwise::removeRoom);
 	register_method("set_portal", &Wwise::setPortal);
 	register_method("remove_portal", &Wwise::removePortal);
+	register_method("set_portal_obstruction_and_occlusion", &Wwise::setPortalObstructionAndOcclusion);
+	register_method("set_game_obj_to_portal_obstruction", &Wwise::setGameObjectToPortalObstruction);
+	register_method("set_portal_to_portal_obstruction", &Wwise::setPortalToPortalObstruction);
 	register_method("set_game_obj_in_room", &Wwise::setGameObjectInRoom);
 	register_method("remove_game_obj_from_room", &Wwise::removeGameObjectFromRoom);
 	register_method("set_early_reflections_aux_send", &Wwise::setEarlyReflectionsAuxSend);
@@ -426,6 +432,78 @@ bool Wwise::set2DPosition(const Object* gameObject, const Transform2D transform2
 	return ERROR_CHECK(
 		AK::SoundEngine::SetPosition(static_cast<AkGameObjectID>(gameObject->get_instance_id()), soundPos),
 		"Game object ID " + String::num_int64(gameObject->get_instance_id()));
+}
+
+bool Wwise::setMultiplePositions3D(const Object* gameObject, const Array positions, const unsigned int numPositions,
+								   const int multiPositionType)
+{
+	AKASSERT(gameObject);
+	AKASSERT(positions.size() > 0);
+	AKASSERT(positions.size() == numPositions);
+
+	auto akPositions = std::make_unique<AkSoundPosition[]>(numPositions);
+
+	for (size_t i = 0; i < positions.size(); i++)
+	{
+		Transform transform = positions[i];
+		AkVector position;
+		GetAkVector(transform, position, VectorType::POSITION);
+		AkVector forward;
+		GetAkVector(transform, forward, VectorType::FORWARD);
+		AkVector up;
+		GetAkVector(transform, up, VectorType::UP);
+
+		akPositions[i].Set(position, forward, up);
+	}
+
+	return ERROR_CHECK(
+		AK::SoundEngine::SetMultiplePositions(gameObject->get_instance_id(), akPositions.get(), numPositions,
+											  static_cast<AK::SoundEngine::MultiPositionType>(multiPositionType)),
+		"Failed to set multiple positions for GameObject with id: " + String::num_int64(gameObject->get_instance_id()));
+}
+
+bool Wwise::setMultiplePositions2D(const Object* gameObject, const Array positions, const Array zDepths,
+								   const unsigned int numPositions, const int multiPositionType)
+{
+	AKASSERT(gameObject);
+	AKASSERT(positions.size() > 0);
+	AKASSERT(positions.size() == numPositions);
+	AKASSERT(zDepths.size() == numPositions);
+
+	auto akPositions = std::make_unique<AkSoundPosition[]>(numPositions);
+
+	for (size_t i = 0; i < positions.size(); i++)
+	{
+		Transform2D transform2D = positions[i];
+
+		Vector2 origin = transform2D.get_origin();
+		Vector3 position = Vector3(-origin.x * 0.1f, -origin.y * 0.1f, zDepths[i]);
+		Vector3 forward = Vector3(transform2D.elements[1].x, 0, transform2D.elements[1].y).normalized();
+		Vector3 up = Vector3(0, 1, 0);
+
+		AkVector akPosition;
+		Vector3ToAkVector(position, akPosition);
+		AkVector akForward;
+		Vector3ToAkVector(forward, akForward);
+		AkVector akUp;
+		Vector3ToAkVector(up, akUp);
+
+		akPositions[i].Set(akPosition, akForward, akUp);
+	}
+
+	return ERROR_CHECK(
+		AK::SoundEngine::SetMultiplePositions(gameObject->get_instance_id(), akPositions.get(), numPositions,
+											  static_cast<AK::SoundEngine::MultiPositionType>(multiPositionType)),
+		"Failed to set multiple positions for GameObject with id: " + String::num_int64(gameObject->get_instance_id()));
+}
+
+bool Wwise::setGameObjectRadius(const Object* gameObject, const float outerRadius, const float innerRadius)
+{
+	AKASSERT(gameObject);
+
+	return ERROR_CHECK(AK::SpatialAudio::SetGameObjectRadius(gameObject->get_instance_id(), outerRadius, innerRadius),
+					   "Failed to Set GameObject radius for GameObject with id: " +
+						   String::num_int64(gameObject->get_instance_id()));
 }
 
 unsigned int Wwise::postEvent(const String eventName, const Object* gameObject)
@@ -890,9 +968,9 @@ bool Wwise::setGeometry(const Array vertices, const Array triangles, const Resou
 
 	geometry.EnableDiffraction = enableDiffraction;
 	geometry.EnableDiffractionOnBoundaryEdges = enableDiffractionOnBoundaryEdges;
-	geometry.RoomID =
-		associatedRoom ? static_cast<AkRoomID>(associatedRoom->get_instance_id()) : static_cast<AkRoomID>(INVALID_ROOM_ID);
-		// todo
+	geometry.RoomID = associatedRoom ? static_cast<AkRoomID>(associatedRoom->get_instance_id())
+									 : static_cast<AkRoomID>(INVALID_ROOM_ID);
+	// todo
 	geometry.EnableTriangles = enableTriangles;
 
 	return ERROR_CHECK(
@@ -988,8 +1066,41 @@ bool Wwise::setPortal(const Object* gameObject, const Transform transform, const
 bool Wwise::removePortal(const Object* gameObject)
 {
 	AKASSERT(gameObject);
+
 	return ERROR_CHECK(AK::SpatialAudio::RemovePortal(static_cast<AkPortalID>(gameObject->get_instance_id())),
 					   "Failed to remove Portal for Game Object: " + String::num_int64(gameObject->get_instance_id()));
+}
+
+bool Wwise::setPortalObstructionAndOcclusion(const Object* portal, const float obstructionValue,
+											 const float occlusionValue)
+{
+	AKASSERT(portal);
+
+	return ERROR_CHECK(AK::SpatialAudio::SetPortalObstructionAndOcclusion(
+						   static_cast<AkPortalID>(portal->get_instance_id()), obstructionValue, occlusionValue),
+					   "Failed to set Portal Obstruction and Occlusion for Portal with ID: " +
+						   String::num_int64(portal->get_instance_id()));
+}
+
+bool Wwise::setGameObjectToPortalObstruction(const Object* gameObject, const Object* portal,
+											 const float obstructionValue)
+{
+	AKASSERT(gameObject);
+	AKASSERT(portal);
+
+	return ERROR_CHECK(AK::SpatialAudio::SetGameObjectToPortalObstruction(gameObject->get_instance_id(),
+																		  portal->get_instance_id(), obstructionValue),
+					   "Failed to set GameObject to Portal Obstruction");
+}
+
+bool Wwise::setPortalToPortalObstruction(const Object* portal0, const Object* portal1, const float obstructionValue)
+{
+	AKASSERT(portal0);
+	AKASSERT(portal1);
+
+	return ERROR_CHECK(AK::SpatialAudio::SetPortalToPortalObstruction(portal0->get_instance_id(),
+																	  portal1->get_instance_id(), obstructionValue),
+					   "Failed to set Portal to Portal Obstruction");
 }
 
 bool Wwise::setGameObjectInRoom(const Object* gameObject, const Object* room)
