@@ -34,5 +34,3 @@ class TestBank:
 		
 		assert_true(Wwise.unload_bank_id(AK.BANKS.TESTBANK), "Unloading bank should be true")
 		assert_true(Wwise.unload_bank_id(AK.BANKS.INIT), "Unloading bank should be true")
-
-		

@@ -15,10 +15,10 @@ class TestRTPC:
 		Wwise.set_rtpc("Enemies", 3, node)
 		
 	func test_assert_set_rtpc_string():
-		assert_true(Wwise.set_rtpc("MusicVolume", -33, node), "Set RTPC should be true")
+		assert_true(Wwise.set_rtpc("MusicVolume", -33.0, node), "Set RTPC should be true")
 		
 	func test_assert_get_rtpc_string():
-		yield(yield_for(0.2), YIELD)
+		yield(yield_for(1), YIELD)
 		playing_id = Wwise.post_event_id(AK.EVENTS.MUSIC, node)
 		var desired_value: float = 3
 		assert_eq(Wwise.get_rtpc("Enemies", node), desired_value, "RTPC value should be: " + str(desired_value))
@@ -28,7 +28,7 @@ class TestRTPC:
 		assert_true(Wwise.set_rtpc_id(AK.GAME_PARAMETERS.MUSICVOLUME, -33, node), "Set RTPC ID should be true")
 		
 	func test_assert_get_rtpc_id():
-		yield(yield_for(0.2), YIELD)
+		yield(yield_for(1), YIELD)
 		playing_id = Wwise.post_event_id(AK.EVENTS.MUSIC, node)
 		var desired_value: float = 3
 		assert_eq(Wwise.get_rtpc_id(AK.GAME_PARAMETERS.ENEMIES, node), desired_value, "RTPC value should be: " + str(desired_value))
