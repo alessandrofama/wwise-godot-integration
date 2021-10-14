@@ -1,7 +1,6 @@
 name: Integration App Windows
 on:
   push:
-    branches: [main]
   pull_request:
     branches:
       - main
