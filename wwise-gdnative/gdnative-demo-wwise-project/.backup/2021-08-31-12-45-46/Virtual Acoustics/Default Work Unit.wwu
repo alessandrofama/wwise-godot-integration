@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{7050ACE9-2328-4036-ACCB-2F25AB88F71E}" SchemaVersion="97">
+	<VirtualAcoustics>
+		<WorkUnit Name="Default Work Unit" ID="{7050ACE9-2328-4036-ACCB-2F25AB88F71E}" PersistMode="Standalone">
+			<ChildrenList>
+				<AcousticTexture Name="TestTexture" ID="{7F712F05-A70E-4944-8E12-8A05B9CD354E}">
+					<PropertyList>
+						<Property Name="AbsorptionHigh" Type="Real32" Value="33"/>
+						<Property Name="AbsorptionLow" Type="Real32" Value="34"/>
+						<Property Name="AbsorptionMidHigh" Type="Real32" Value="68"/>
+						<Property Name="AbsorptionMidLow" Type="Real32" Value="42"/>
+						<Property Name="AbsorptionOffset" Type="Real32" Value="3"/>
+						<Property Name="Color" Type="int16" Value="10"/>
+						<Property Name="OverrideColor" Type="bool" Value="True"/>
+					</PropertyList>
+				</AcousticTexture>
+			</ChildrenList>
+		</WorkUnit>
+	</VirtualAcoustics>
+</WwiseDocument>

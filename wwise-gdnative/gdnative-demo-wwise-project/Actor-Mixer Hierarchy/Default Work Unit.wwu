@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WwiseDocument Type="WorkUnit" ID="{726C048B-AC31-42C0-BD57-7D02515BEE4E}" SchemaVersion="97">
+<WwiseDocument Type="WorkUnit" ID="{726C048B-AC31-42C0-BD57-7D02515BEE4E}" SchemaVersion="103">
 	<AudioObjects>
 		<WorkUnit Name="Default Work Unit" ID="{726C048B-AC31-42C0-BD57-7D02515BEE4E}" PersistMode="Standalone">
 			<ChildrenList>
@@ -21,6 +21,7 @@
 							</MediaIDList>
 						</AudioFileSource>
 					</ChildrenList>
+					<ObjectLists/>
 					<ActiveSourceList>
 						<ActiveSource Name="chimes_with_marker" ID="{2ED1F56F-E397-4643-959D-08A8A53B651A}" Platform="Linked"/>
 					</ActiveSourceList>
@@ -39,6 +40,7 @@
 							<Language>SFX</Language>
 						</ExternalSource>
 					</ChildrenList>
+					<ObjectLists/>
 					<ActiveSourceList>
 						<ActiveSource Name="External_Source" ID="{E47F9E3F-F99F-4DFB-9355-43F511CBE722}" Platform="Linked"/>
 					</ActiveSourceList>
@@ -114,6 +116,7 @@
 							<Language>SFX</Language>
 						</SourcePlugin>
 					</ChildrenList>
+					<ObjectLists/>
 					<ActiveSourceList>
 						<ActiveSource Name="Wwise Synth One" ID="{8C0BD023-AB35-4504-8A54-8DF89BA78CA8}" Platform="Linked"/>
 					</ActiveSourceList>
