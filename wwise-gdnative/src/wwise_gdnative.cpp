@@ -25,6 +25,14 @@
 #include <AK/Plugin/AkSoundSeedWooshSourceFactory.h>
 #endif
 
+#if defined(AK_IMPACTER)
+#include <AK/Plugin/AkImpacterSourceFactory.h>
+#endif
+
+#if defined(AK_MASTERING_SUITE)
+#include <AK/Plugin/MasteringSuiteFXFactory.h>
+#endif
+
 using namespace godot;
 
 CAkLock Wwise::signalDataLock;
