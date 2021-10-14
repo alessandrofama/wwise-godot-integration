@@ -285,10 +285,10 @@ elif env['platform'] in ('x11', 'linux'):
     cpp_library += '.linux'
 
     if env['target'] in ('debug', 'd'):
-        env.Append(CCFLAGS=['-Wall', '-g3', '-Og'])
+        env.Append(CCFLAGS=['-g3', '-Og', '-fpermissive'])
         env.Append(CXXFLAGS=['-std=c++17', '-D__cdecl=""'])
     else:
-        env.Append(CCFLAGS=['-g', '-O3'])
+        env.Append(CCFLAGS=['-g', '-O3', '-fpermissive'])
         env.Append(CXXFLAGS=['-std=c++17', '-D__cdecl=""'])
         env.Append(CPPDEFINES=['AK_OPTIMIZED'])
 

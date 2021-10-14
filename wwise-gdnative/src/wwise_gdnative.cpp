@@ -263,12 +263,12 @@ bool Wwise::setBasePath(const String basePath)
 {
 	AKASSERT(!basePath.empty());
 
-	AKRESULT result = AK_Fail;
+	AKRESULT result = AK_PathNotFound;
 	String resString = "res://";
 
 	if (!basePath.begins_with(resString))
 	{
-		return ERROR_CHECK(AK_PathNotFound, "Invalid path, does not begin with res://");
+		return ERROR_CHECK(result, "Invalid path, does not begin with res://");
 	}
 
 	// Broken https://github.com/godotengine/godot/issues/37646
@@ -442,7 +442,7 @@ bool Wwise::set2DPosition(const Object* gameObject, const Transform2D transform2
 		"Game object ID " + String::num_int64(gameObject->get_instance_id()));
 }
 
-bool Wwise::setMultiplePositions3D(const Object* gameObject, const Array positions, const unsigned int numPositions,
+bool Wwise::setMultiplePositions3D(const Object* gameObject, const Array positions, const int numPositions,
 								   const int multiPositionType)
 {
 	AKASSERT(gameObject);
@@ -471,7 +471,7 @@ bool Wwise::setMultiplePositions3D(const Object* gameObject, const Array positio
 }
 
 bool Wwise::setMultiplePositions2D(const Object* gameObject, const Array positions, const Array zDepths,
-								   const unsigned int numPositions, const int multiPositionType)
+								   const int numPositions, const int multiPositionType)
 {
 	AKASSERT(gameObject);
 	AKASSERT(positions.size() > 0);
@@ -480,7 +480,7 @@ bool Wwise::setMultiplePositions2D(const Object* gameObject, const Array positio
 
 	auto akPositions = std::make_unique<AkSoundPosition[]>(numPositions);
 
-	for (size_t i = 0; i < positions.size(); i++)
+	for (int i = 0; i < positions.size(); i++)
 	{
 		Transform2D transform2D = positions[i];
 

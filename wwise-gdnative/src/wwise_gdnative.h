@@ -70,10 +70,10 @@ class Wwise : public Node
 
 	bool set3DPosition(const Object* gameObject, const Transform transform);
 	bool set2DPosition(const Object* gameObject, const Transform2D transform2D, const float zDepth);
-	bool setMultiplePositions3D(const Object* gameObject, const Array positions, const unsigned int numPositions,
+	bool setMultiplePositions3D(const Object* gameObject, const Array positions, const int numPositions,
 								const int multiPositionType);
 	bool setMultiplePositions2D(const Object* gameObject, const Array positions, const Array zDepths,
-								const unsigned int numPositions, const int multiPositionType);
+								const int numPositions, const int multiPositionType);
 	bool setGameObjectRadius(const Object* gameObject, const float outerRadius, const float innerRadius);
 
 	unsigned int postEvent(const String eventName, const Object* gameObject);
