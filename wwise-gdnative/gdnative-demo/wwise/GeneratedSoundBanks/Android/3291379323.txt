@@ -33,40 +33,43 @@ Custom State	ID	Name	State Group	Owner		Notes
 Game Parameter	ID	Name			Wwise Object Path	Notes
 	2242381963	Enemies			\Alex\Enemies	
 
+Modulator Envelope	ID	Name			Wwise Object Path	Notes
+	1056217185	Modulator Envelope (Custom)				
+
 Trigger	ID	Name			Wwise Object Path	Notes
 	1927797142	MusicTrigger			\Alex\MusicTrigger	
 
-Effect plug-ins	ID	Name	Type				Notes
-	2545004126	Wwise_Reflect	Wwise Reflect			
+Source plug-ins	ID	Name	Type		Wwise Object Path	Notes
+	936738730	Wwise Synth One	Wwise Synth One		\Actor-Mixer Hierarchy\Default Work Unit\synth_one_test\Wwise Synth One	
 
 External Source	ID	Name			Wwise Object Path	Notes
 	618371124	External_Source			\Default Work Unit\external_source_obj\External_Source	
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
-	102632397	otto_footsteps_grass_2	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\otto_footsteps_grass_2_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Grass\otto_footsteps_grass_2		57664
-	126934278	otto_footsteps_wood_2	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\otto_footsteps_wood_2_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Wood\otto_footsteps_wood_2		55576
-	222333393	otto_footsteps_wood_3	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\otto_footsteps_wood_3_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Wood\otto_footsteps_wood_3		44766
-	224267691	otto_footsteps_grass_4	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\otto_footsteps_grass_4_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Grass\otto_footsteps_grass_4		65732
-	258193767	Marker_Test_001	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\Marker_Test_001_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\GeometryDemo\GeometryDemo\Marker_Test_001		938254
-	266509003	otto_footsteps_gravel_4	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\otto_footsteps_gravel_4_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Gravel\otto_footsteps_gravel_4		50128
-	330814601	otto_footsteps_water_2	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\otto_footsteps_water_2_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Water\otto_footsteps_water_2		115012
-	368631978	otto_footsteps_grass_3	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\otto_footsteps_grass_3_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Grass\otto_footsteps_grass_3		69184
-	401793486	bar_music_SEQ1_109	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\bar_music_SEQ1_109_3D1D1BA5.wem		\Interactive Music Hierarchy\Alex\Music_Test_2D\Combat Music\bar_music_SEQ1_109		216812
-	408411585	RevCrash AllOver	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\RevCrash AllOver_D79FB2B7.wem		\Interactive Music Hierarchy\Alex\Stingers\RevCrash AllOver\RevCrash AllOver		650056
-	433024557	otto_footsteps_wood_1	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\otto_footsteps_wood_1_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Wood\otto_footsteps_wood_1		47096
-	453536678	otto_footsteps_gravel_5	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\otto_footsteps_gravel_5_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Gravel\otto_footsteps_gravel_5		108864
-	484615795	piano-100	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\piano-100_9728D936.wmid		\Interactive Music Hierarchy\Alex\piano-100\piano-100		16992
-	575939703	otto_footsteps_gravel_3	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\otto_footsteps_gravel_3_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Gravel\otto_footsteps_gravel_3		112032
-	584072642	bar_music_BEAT_109	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\bar_music_beat_109_3D1D1BA5.wem		\Interactive Music Hierarchy\Alex\Music_Test_2D\Combat Music\bar_music_BEAT_109		363691
-	638431784	bar_music_SEQ2_109	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\bar_music_SEQ2_109_3D1D1BA5.wem		\Interactive Music Hierarchy\Alex\Music_Test_2D\Combat Music\bar_music_SEQ2_109		446026
-	701113954	otto_footsteps_wood_6	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\otto_footsteps_wood_6_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Wood\otto_footsteps_wood_6		43500
-	709201403	otto_footsteps_gravel_2	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\otto_footsteps_gravel_2_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Gravel\otto_footsteps_gravel_2		101588
-	710015741	otto_footsteps_water_1	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\otto_footsteps_water_1_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Water\otto_footsteps_water_1		105512
-	742368316	otto_footsteps_gravel_1	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\otto_footsteps_gravel_1_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Gravel\otto_footsteps_gravel_1		92152
-	761338767	otto_footsteps_water_3	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\otto_footsteps_water_3_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Water\otto_footsteps_water_3		98276
-	804869470	chimes_with_marker	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\chimes_with_marker_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\chimes_with_marker		264744
-	871561785	otto_footsteps_wood_4	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\otto_footsteps_wood_4_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Wood\otto_footsteps_wood_4		44414
-	974008506	otto_footsteps_grass_1	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\otto_footsteps_grass_1_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Grass\otto_footsteps_grass_1		56756
-	1010036921	otto_footsteps_water_4	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\otto_footsteps_water_4_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Water\otto_footsteps_water_4		115908
-	1025442465	otto_footsteps_wood_5	D:\GitProjects\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\otto_footsteps_wood_5_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Wood\otto_footsteps_wood_5		37560
+	102632397	otto_footsteps_grass_2	Y:\Desktop\backup\realworkdir\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\otto_footsteps_grass_2_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Grass\otto_footsteps_grass_2		57664
+	126934278	otto_footsteps_wood_2	Y:\Desktop\backup\realworkdir\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\otto_footsteps_wood_2_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Wood\otto_footsteps_wood_2		55576
+	222333393	otto_footsteps_wood_3	Y:\Desktop\backup\realworkdir\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\otto_footsteps_wood_3_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Wood\otto_footsteps_wood_3		44766
+	224267691	otto_footsteps_grass_4	Y:\Desktop\backup\realworkdir\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\otto_footsteps_grass_4_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Grass\otto_footsteps_grass_4		65732
+	258193767	Marker_Test_001	Y:\Desktop\backup\realworkdir\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\Marker_Test_001_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\GeometryDemo\GeometryDemo\Marker_Test_001		938254
+	266509003	otto_footsteps_gravel_4	Y:\Desktop\backup\realworkdir\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\otto_footsteps_gravel_4_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Gravel\otto_footsteps_gravel_4		50128
+	330814601	otto_footsteps_water_2	Y:\Desktop\backup\realworkdir\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\otto_footsteps_water_2_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Water\otto_footsteps_water_2		115012
+	368631978	otto_footsteps_grass_3	Y:\Desktop\backup\realworkdir\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\otto_footsteps_grass_3_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Grass\otto_footsteps_grass_3		69184
+	401793486	bar_music_SEQ1_109	Y:\Desktop\backup\realworkdir\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\bar_music_SEQ1_109_3D1D1BA5.wem		\Interactive Music Hierarchy\Alex\Music_Test_1\Combat Music\bar_music_SEQ1_109		216812
+	408411585	RevCrash AllOver	Y:\Desktop\backup\realworkdir\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\RevCrash AllOver_D79FB2B7.wem		\Interactive Music Hierarchy\Alex\Stingers\RevCrash AllOver\RevCrash AllOver		650056
+	433024557	otto_footsteps_wood_1	Y:\Desktop\backup\realworkdir\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\otto_footsteps_wood_1_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Wood\otto_footsteps_wood_1		47096
+	453536678	otto_footsteps_gravel_5	Y:\Desktop\backup\realworkdir\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\otto_footsteps_gravel_5_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Gravel\otto_footsteps_gravel_5		108864
+	484615795	piano-100	Y:\Desktop\backup\realworkdir\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\piano-100_9728D936.wmid		\Interactive Music Hierarchy\Alex\piano-100\piano-100		16992
+	575939703	otto_footsteps_gravel_3	Y:\Desktop\backup\realworkdir\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\otto_footsteps_gravel_3_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Gravel\otto_footsteps_gravel_3		112032
+	584072642	bar_music_BEAT_109	Y:\Desktop\backup\realworkdir\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\bar_music_beat_109_3D1D1BA5.wem		\Interactive Music Hierarchy\Alex\Music_Test_1\Combat Music\bar_music_BEAT_109		363691
+	638431784	bar_music_SEQ2_109	Y:\Desktop\backup\realworkdir\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\bar_music_SEQ2_109_3D1D1BA5.wem		\Interactive Music Hierarchy\Alex\Music_Test_1\Combat Music\bar_music_SEQ2_109		446026
+	701113954	otto_footsteps_wood_6	Y:\Desktop\backup\realworkdir\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\otto_footsteps_wood_6_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Wood\otto_footsteps_wood_6		43500
+	709201403	otto_footsteps_gravel_2	Y:\Desktop\backup\realworkdir\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\otto_footsteps_gravel_2_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Gravel\otto_footsteps_gravel_2		101588
+	710015741	otto_footsteps_water_1	Y:\Desktop\backup\realworkdir\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\otto_footsteps_water_1_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Water\otto_footsteps_water_1		105512
+	742368316	otto_footsteps_gravel_1	Y:\Desktop\backup\realworkdir\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\otto_footsteps_gravel_1_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Gravel\otto_footsteps_gravel_1		92152
+	761338767	otto_footsteps_water_3	Y:\Desktop\backup\realworkdir\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\otto_footsteps_water_3_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Water\otto_footsteps_water_3		98276
+	804869470	chimes_with_marker	Y:\Desktop\backup\realworkdir\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\chimes_with_marker_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\chimes_with_marker		264744
+	871561785	otto_footsteps_wood_4	Y:\Desktop\backup\realworkdir\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\otto_footsteps_wood_4_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Wood\otto_footsteps_wood_4		44414
+	974008506	otto_footsteps_grass_1	Y:\Desktop\backup\realworkdir\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\otto_footsteps_grass_1_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Grass\otto_footsteps_grass_1		56756
+	1010036921	otto_footsteps_water_4	Y:\Desktop\backup\realworkdir\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\otto_footsteps_water_4_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Water\otto_footsteps_water_4		115908
+	1025442465	otto_footsteps_wood_5	Y:\Desktop\backup\realworkdir\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Android\SFX\otto_footsteps_wood_5_10C4C929.wem		\Actor-Mixer Hierarchy\Alex\Footsteps\Wood\otto_footsteps_wood_5		37560
 

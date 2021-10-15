@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PluginInfo Project="gdnative-demo-wwise-project" Platform="Mac" BasePlatform="Mac">
 	<Plugins>
-		<Plugin Name="Wwise RoomVerb" ID="7733251" DLL="AkRoomVerb"/>
-		<Plugin Name="Wwise Meter" ID="8454147" DLL="AkSoundEngineDLL"/>
-		<Plugin Name="Wwise Synth One" ID="9699330" DLL="AkSynthOne"/>
-		<Plugin Name="System" ID="11403271" DLL="DefaultSink"/>
-		<Plugin Name="No Output" ID="11862023" DLL="DefaultSink"/>
+		<Plugin Name="Wwise RoomVerb" ID="7733251" DLL="AkRoomVerb" StaticLib="AkRoomVerbFX"/>
+		<Plugin Name="Wwise Meter" ID="8454147" DLL="AkSoundEngineDLL" StaticLib="AkMeterFX"/>
+		<Plugin Name="Wwise Synth One" ID="9699330" DLL="AkSynthOne" StaticLib="AkSynthOneSource"/>
+		<Plugin Name="System" ID="11403271"/>
+		<Plugin Name="No Output" ID="11862023"/>
 	</Plugins>
 </PluginInfo>
