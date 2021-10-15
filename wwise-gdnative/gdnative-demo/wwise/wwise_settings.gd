@@ -135,8 +135,7 @@ func _add_ios_advanced_settings():
 				TYPE_INT, PROPERTY_HINT_ENUM, "Default, Voice Chat, Game Chat, Video Recording, Measurement, Movie Playback, Video Chat")
 	
 func _add_windows_advanced_settings():
-	_add_setting(WWISE_WINDOWS_ADVANCED_SETTINGS_PATH + "global_focus", 1,
-				TYPE_BOOL, PROPERTY_HINT_NONE, "")
+	pass
 
 func _add_android_advanced_settings():
 	_add_setting(WWISE_ANDROID_ADVANCED_SETTINGS_PATH + "audio_API", 3,

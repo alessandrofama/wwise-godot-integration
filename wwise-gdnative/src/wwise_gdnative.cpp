@@ -1769,8 +1769,9 @@ bool Wwise::initialiseWwiseSystems()
 
 	// Platform-specific settings
 #ifdef AK_WIN
-	platformInitSettings.bGlobalFocus =
-		static_cast<bool>(getPlatformProjectSetting("wwise/windows_advanced_settings/global_focus"));
+	int64_t handle = OS::get_singleton()->get_native_handle(OS::HandleType::WINDOW_HANDLE);
+	HWND hwnd = reinterpret_cast<HWND>(handle);
+	platformInitSettings.hWnd = hwnd;
 
 #elif defined(AK_MAC_OS_X)
 
