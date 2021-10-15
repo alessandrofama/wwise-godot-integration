@@ -451,7 +451,7 @@ bool Wwise::setMultiplePositions3D(const Object* gameObject, const Array positio
 
 	auto akPositions = std::make_unique<AkSoundPosition[]>(numPositions);
 
-	for (size_t i = 0; i < positions.size(); i++)
+	for (int i = 0; i < positions.size(); i++)
 	{
 		Transform transform = positions[i];
 		AkVector position;
