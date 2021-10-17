@@ -105,6 +105,8 @@ The integration supports all factory plugins and the following premium plugins:
 | Convolution | convolution | All
 | SoundSeed Air + SoundSeed Impact | soundseed_air_impact | All
 | SoundSeed Grain | soundseed_grain | All
+| Impacter | impacter | All
+| Mastering Suite | mastering_suite | All
 
 Add the plugins separated by comma as a compilation parameter to Scons (example):
 

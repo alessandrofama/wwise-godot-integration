@@ -10,7 +10,7 @@
 [![Wwise logo](/wwise-logo.png)](https://www.audiokinetic.com/products/wwise/)
 [![Godot Engine logo](/godot-logo.png)](https://godotengine.org)
 
-Welcome! This repository provides an integration of [Audiokinetic's Wwise audio middleware](https://www.audiokinetic.com/products/wwise/) into the [Godot game engine](https://godotengine.org). At the moment, Wwise version 2019.2.1.7250 is supported.
+Welcome! This repository provides an integration of [Audiokinetic's Wwise audio middleware](https://www.audiokinetic.com/products/wwise/) into the [Godot game engine](https://godotengine.org). At the moment, Wwise version 2021.1.4.7707 is supported. Older versions can be downloaded in the releases section of the repository.
 
 
 ## Features
@@ -37,7 +37,7 @@ Welcome! This repository provides an integration of [Audiokinetic's Wwise audio 
 
 If you are a game developer that would like to integrate Wwise into your Godot project, go to the [releases](https://github.com/alessandrofama/wwise-godot-integration/releases) page to download the integration app and files and read the [getting started](https://github.com/alessandrofama/wwise-godot-integration/wiki/Getting-Started) guide. Don't forget to also check out the [tutorials](https://github.com/alessandrofama/wwise-godot-integration/wiki/Tutorials) on the wiki.
 
-If you would like to modify the code of the GDNative wrappers or build them yourself, go to the [Wwise GDNative](https://github.com/alessandrofama/wwise-godot-integration/tree/master/wwise-gdnative) or [Waapi GDNative](https://github.com/alessandrofama/wwise-godot-integration/tree/master/waapi-gdnative) pages for build instructions.
+If you would like to modify the code of the GDNative wrappers or build them yourself, go to the [Wwise GDNative](https://github.com/alessandrofama/wwise-godot-integration/tree/main/wwise-gdnative) or [Waapi GDNative](https://github.com/alessandrofama/wwise-godot-integration/tree/main/waapiclient-gdnative) pages for build instructions.
 
 ## Documentation
 
