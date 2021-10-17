@@ -1,7 +1,6 @@
 name: iOS Builds
 on:
   push:
-    branches: [main]
   pull_request:
     branches:
       - main
@@ -32,15 +31,21 @@ jobs:
           python -m pip install scons
           python --version
           scons --version
-      - name: Donwload private hosted Wwise SDK
+      - name: Download Wwise headers and samples
         uses: suisei-cn/actions-download-file@v1
         with:
-          url: "https://www.dropbox.com/s/xqc8w37rszidfjh/wwise_sdk.zip?dl=1"
+          url: "https://www.dropbox.com/s/5p2kbwl13e6hdwn/wwise_sdk_2021.1.4_base.zip?dl=1"
+          target: ./wwise_sdk
+      - name: Download Wwise libs
+        uses: suisei-cn/actions-download-file@v1
+        with:
+          url: "https://www.dropbox.com/s/w86u1dgerq1bg30/wwise_sdk_2021.1.4_ios.zip?dl=1"
           target: ./wwise_sdk
       - name: Unzip SDK
         run: |
           cd ./wwise_sdk
-          7z x wwise_sdk.zip
+          7z x wwise_sdk_2021.1.4_base.zip
+          7z x wwise_sdk_2021.1.4_ios.zip
           cd ..
       - name: Compilation
         run: |

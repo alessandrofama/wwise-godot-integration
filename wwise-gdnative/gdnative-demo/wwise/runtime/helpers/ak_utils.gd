@@ -96,3 +96,9 @@ enum GameEvent{
 	
 const OCCLUSION_DETECTION_INTERVAL = 200
 const OCCLUSION_ADDEND = 0.25
+
+enum MultiPositionType {
+	SingleSource = 0,
+	MultiSources = 1,
+	MultiDirections = 2
+}

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{28C842C3-0781-426A-A7CA-73215CAD7F88}" SchemaVersion="97">
+	<Effects>
+		<WorkUnit Name="Default Work Unit" ID="{28C842C3-0781-426A-A7CA-73215CAD7F88}" PersistMode="Standalone">
+			<ChildrenList>
+				<Effect Name="LargeVerb" ID="{C789CB8F-3FAC-4E7C-8E1C-87120ABDA734}" PluginName="Wwise RoomVerb" CompanyID="0" PluginID="118" PluginType="3">
+					<PropertyList>
+						<Property Name="DecayTime" Type="Real32" Value="4.9"/>
+						<Property Name="RoomSize" Type="Real32" Value="32"/>
+					</PropertyList>
+				</Effect>
+				<Effect Name="SmallVerb" ID="{23A811C8-9D83-4E12-B50A-2014C9F0349E}" PluginName="Wwise RoomVerb" CompanyID="0" PluginID="118" PluginType="3">
+					<PropertyList>
+						<Property Name="ERPattern" Type="int32" Value="22"/>
+					</PropertyList>
+				</Effect>
+				<Effect Name="RoomVerb" ID="{4458FE95-AC1C-4DC8-9089-578B05DD4E52}" PluginName="Wwise RoomVerb" CompanyID="0" PluginID="118" PluginType="3">
+					<PropertyList>
+						<Property Name="DecayTime" Type="Real32" Value="0.6"/>
+						<Property Name="Density" Type="Real32" Value="71"/>
+						<Property Name="Diffusion" Type="Real32" Value="76"/>
+						<Property Name="ERPattern" Type="int32" Value="26"/>
+						<Property Name="HFDamping" Type="Real32" Value="4.4"/>
+						<Property Name="PreDelay" Type="Real32" Value="12"/>
+						<Property Name="RoomSize" Type="Real32" Value="-14"/>
+					</PropertyList>
+				</Effect>
+			</ChildrenList>
+		</WorkUnit>
+	</Effects>
+</WwiseDocument>

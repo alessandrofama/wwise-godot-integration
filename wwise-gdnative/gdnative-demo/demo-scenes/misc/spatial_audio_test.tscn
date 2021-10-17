@@ -14,28 +14,26 @@ subdivide_width = 2
 subdivide_height = 2
 subdivide_depth = 2
 
-[sub_resource type="CubeMesh" id=3]
+[sub_resource type="BoxShape" id=3]
 
-[sub_resource type="BoxShape" id=4]
-
-[sub_resource type="CubeMesh" id=5]
+[sub_resource type="CubeMesh" id=4]
 size = Vector3( 50, 0.1, 50 )
 
-[sub_resource type="SpatialMaterial" id=6]
+[sub_resource type="SpatialMaterial" id=5]
 albedo_color = Color( 0.215686, 0.215686, 0.215686, 1 )
 
-[sub_resource type="BoxShape" id=7]
+[sub_resource type="BoxShape" id=6]
 extents = Vector3( 24.8333, 1, 24.0086 )
 
-[sub_resource type="CubeMesh" id=8]
+[sub_resource type="CubeMesh" id=7]
 
-[sub_resource type="BoxShape" id=9]
-extents = Vector3( 1, 1.70051, 1 )
+[sub_resource type="BoxShape" id=8]
 
-[sub_resource type="CubeMesh" id=10]
+[sub_resource type="CubeMesh" id=9]
 
-[sub_resource type="SpatialMaterial" id=11]
-albedo_color = Color( 0.356863, 0.52549, 0.847059, 1 )
+[sub_resource type="BoxShape" id=10]
+
+[sub_resource type="PrismMesh" id=11]
 
 [node name="Spatial" type="Spatial"]
 
@@ -55,7 +53,7 @@ mesh = SubResource( 2 )
 material/0 = null
 
 [node name="AkGeometry" type="Spatial" parent="Wall 2"]
-transform = Transform( 1, 0, -2.38419e-07, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+transform = Transform( 1, 0, -4.76837e-07, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 script = ExtResource( 3 )
 is_static = false
 enable_diffraction = true
@@ -64,30 +62,20 @@ enable_diffraction = true
 script = ExtResource( 5 )
 
 [node name="StaticBody" type="StaticBody" parent="."]
-transform = Transform( 0.0359591, -0.00197894, 0.999351, -0.000544223, 0.999998, 0.0019998, -0.999353, -0.00061578, 0.0359579, 1.3048, 2.34649, -23.1851 )
-
-[node name="AkEvent" type="Spatial" parent="StaticBody"]
-script = ExtResource( 4 )
-event = 2626652388
-trigger_on = 3
-is_spatial = true
-
-[node name="MeshInstance" type="MeshInstance" parent="StaticBody/AkEvent"]
-mesh = SubResource( 3 )
-material/0 = null
+transform = Transform( 3.59591, -0.00197894, 99.9351, -0.0544223, 0.999998, 0.19998, -99.9353, -0.000615781, 3.59579, 1.3048, 2.34649, -23.1851 )
 
 [node name="CollisionShape" type="CollisionShape" parent="StaticBody"]
-shape = SubResource( 4 )
+shape = SubResource( 3 )
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
-transform = Transform( 2.04655, 0, 0, 0, 1, 0, 0, 0, 3.19958, 11.2495, -0.0407944, -23.4982 )
-mesh = SubResource( 5 )
-material/0 = SubResource( 6 )
+transform = Transform( 100, 0, 0, 0, 1, 0, 0, 0, 100, 10.8564, -0.0407934, -23.5759 )
+mesh = SubResource( 4 )
+material/0 = SubResource( 5 )
 
 [node name="StaticBody" type="StaticBody" parent="MeshInstance"]
 
 [node name="CollisionShape" type="CollisionShape" parent="MeshInstance/StaticBody"]
-shape = SubResource( 7 )
+shape = SubResource( 6 )
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 transform = Transform( 1, 0, 0, 0, 0.983448, 0.181189, 0, -0.181189, 0.983448, 0, 0, 0 )
@@ -98,33 +86,59 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 47.9897, 2.96997, -29.0196 )
 walk_speed = 20
 sprint_speed = 30
 
-[node name="MeshInstance2" type="MeshInstance" parent="."]
-transform = Transform( 5.328, 0, 0, 0, 4.004, 0, 0, 0, 10.547, 0, 4.05962, -23.2721 )
-mesh = SubResource( 8 )
+[node name="MeshInstance3" type="MeshInstance" parent="."]
+transform = Transform( 0.0359591, -0.00197894, 0.99935, -0.000544224, 0.999995, 0.0019998, -0.999348, -0.000615777, 0.0359578, -45.1634, 6.32952, -24.5898 )
+mesh = SubResource( 7 )
 material/0 = null
 
-[node name="AkGeometry" type="Spatial" parent="MeshInstance2"]
-script = ExtResource( 3 )
-is_static = false
-enable_diffraction = true
-enable_diffraction_on_boundary_edges = true
-room = NodePath("../AkRoom")
+[node name="StaticBody" type="StaticBody" parent="MeshInstance3"]
+transform = Transform( 1, -5.82077e-11, 3.72529e-09, 5.82077e-11, 1, -2.58296e-10, 0, 1.83718e-10, 1, 0, 0, 0 )
 
-[node name="AkRoom" type="Area" parent="MeshInstance2"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.533288, -0.84939, 0 )
-script = ExtResource( 6 )
-aux_bus_id = 1572913279
+[node name="CollisionShape" type="CollisionShape" parent="MeshInstance3/StaticBody"]
+transform = Transform( 1, 5.82077e-11, 0, 0, 1, -2.54659e-11, -3.72529e-09, -2.83762e-10, 1, 0, 0, 0 )
+shape = SubResource( 8 )
 
-[node name="CollisionShape" type="CollisionShape" parent="MeshInstance2/AkRoom"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.527158, 0.0721196, 0 )
-shape = SubResource( 9 )
+[node name="AkEvent" type="Spatial" parent="MeshInstance3/StaticBody/CollisionShape"]
+transform = Transform( 1, -1.16415e-10, 2.6077e-08, 0, 1, -5.98448e-10, -3.72529e-09, -1.81899e-11, 1, 5.72205e-06, -2.38419e-07, 1.10509 )
+script = ExtResource( 4 )
+event = 2626652388
+trigger_on = 3
+is_spatial = true
+
+[node name="MeshInstance2" type="MeshInstance" parent="."]
+transform = Transform( -4.37114e-07, 0, 18.1954, 0, 5, 0, -10, 0, -7.95345e-07, -43.0449, 5.20746, -24.1432 )
+mesh = SubResource( 9 )
+material/0 = null
 
 [node name="AkPortal" type="Area" parent="MeshInstance2"]
-transform = Transform( -3.40667e-07, 0, 1.553, 0, 4.606, 0, -2.091, 0, -2.53016e-07, 0.855972, 0, 0 )
+transform = Transform( 2, 0, 1.09424e-14, 0, 3.418, 0, -3.55271e-14, 0, 0.616, -0.0233917, -0.18497, 0.959975 )
 script = ExtResource( 1 )
-back_room = NodePath("../AkRoom")
+back_room = NodePath("../AkRoomTest")
 
-[node name="MeshInstance" type="MeshInstance" parent="MeshInstance2/AkPortal"]
-transform = Transform( 0.087, 0, 0, 0, 0.205, 0, 0, 0, 0.05, 0, 0, 0.0826502 )
-mesh = SubResource( 10 )
-material/0 = SubResource( 11 )
+[node name="AkRoomTest" type="Area" parent="MeshInstance2"]
+script = ExtResource( 6 )
+aux_bus_id = 2757439665
+transmission_loss = 0.5
+associated_geometry = NodePath("../AkGeometry")
+
+[node name="CollisionShape" type="CollisionShape" parent="MeshInstance2/AkRoomTest"]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0 )
+shape = SubResource( 10 )
+
+[node name="AkGeometry" type="Spatial" parent="MeshInstance2"]
+transform = Transform( 1, 0, 7.10543e-15, 0, 1, 0, -3.55271e-15, 0, 1, 0, 0.0773422, 0 )
+script = ExtResource( 3 )
+enable_diffraction = true
+enable_diffraction_on_boundary_edges = true
+transmission_loss_value = 0.6
+use_simplified_mesh = true
+
+[node name="Spatial" type="Spatial" parent="."]
+
+[node name="MeshInstance4" type="MeshInstance" parent="."]
+transform = Transform( 4, 0, 0, 0, 4, 0, 0, 0, 4, -27.6915, 13.8297, 6.02668 )
+mesh = SubResource( 11 )
+material/0 = null
+
+[node name="AkGeometry" type="Spatial" parent="MeshInstance4"]
+script = ExtResource( 3 )

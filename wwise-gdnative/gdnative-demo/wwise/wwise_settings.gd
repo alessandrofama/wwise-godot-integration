@@ -67,8 +67,10 @@ func _add_common_user_settings():
 	
 	_add_setting(WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "max_sound_propagation_depth",	
 				8.0, TYPE_REAL, PROPERTY_HINT_RANGE, "0.0,8.0")
-	_add_setting(WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "diffraction_flags",
-				11, TYPE_INT, PROPERTY_HINT_FLAGS, "Use Built In Param, Use Obstruction, [Unused], Calc Emitter Virtual Position")
+	_add_setting(WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "use_obstruction",
+				true, TYPE_BOOL, PROPERTY_HINT_NONE, "")
+	_add_setting(WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "calc_emitter_virtual_position",
+				true, TYPE_BOOL, PROPERTY_HINT_NONE, "")
 	_add_setting(WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "movement_threshold",
 				1.0, TYPE_REAL, PROPERTY_HINT_NONE, "")
 	_add_setting(WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "number_of_primary_rays",
@@ -79,9 +81,7 @@ func _add_common_user_settings():
 				10000.0, TYPE_REAL, PROPERTY_HINT_NONE, "")
 	_add_setting(WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "enable_diffraction_on_reflections",
 				true, TYPE_BOOL, PROPERTY_HINT_NONE, "")
-	_add_setting(WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "enable_direct_path_diffraction",
-				true, TYPE_BOOL, PROPERTY_HINT_NONE, "")
-	_add_setting(WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "enable_transmission",
+	_add_setting(WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "enable_geometric_diffraction_and_transmission",
 				true, TYPE_BOOL, PROPERTY_HINT_NONE, "")
 				
 func _add_common_advanced_settings():
@@ -105,11 +105,6 @@ func _add_common_advanced_settings():
 				0, TYPE_BOOL, PROPERTY_HINT_NONE, "")
 	_add_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "debug_out_of_range_limit", 
 				16, TYPE_REAL, PROPERTY_HINT_NONE, "")
-
-	_add_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "spatial_audio/diffraction_shadow_attenuation_factor", 
-				2.0, TYPE_REAL, PROPERTY_HINT_RANGE, "1.0,3.0")
-	_add_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "spatial_audio/diffraction_shadow_degrees", 
-				30.0, TYPE_REAL, PROPERTY_HINT_RANGE, "0.1,180.0")
 
 # TODO: the following three settings are not yet implemented
 	_add_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "render_during_focus_loss", 
@@ -140,10 +135,7 @@ func _add_ios_advanced_settings():
 				TYPE_INT, PROPERTY_HINT_ENUM, "Default, Voice Chat, Game Chat, Video Recording, Measurement, Movie Playback, Video Chat")
 	
 func _add_windows_advanced_settings():
-	_add_setting(WWISE_WINDOWS_ADVANCED_SETTINGS_PATH + "audio_API", 7,
-				TYPE_INT, PROPERTY_HINT_FLAGS, "Wasapi, X Audio 2, Direct Sound")
-	_add_setting(WWISE_WINDOWS_ADVANCED_SETTINGS_PATH + "global_focus", 1,
-				TYPE_BOOL, PROPERTY_HINT_NONE, "")
+	pass
 
 func _add_android_advanced_settings():
 	_add_setting(WWISE_ANDROID_ADVANCED_SETTINGS_PATH + "audio_API", 3,

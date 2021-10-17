@@ -78,6 +78,7 @@ namespace AK
         static const AkUniqueID GEOMETRYBUS = 4209325213U;
         static const AkUniqueID MASTER_AUDIO_BUS = 3803692087U;
         static const AkUniqueID MUSIC = 3991942870U;
+        static const AkUniqueID OBJECTBUS = 25206862U;
     } // namespace BUSSES
 
     namespace AUX_BUSSES

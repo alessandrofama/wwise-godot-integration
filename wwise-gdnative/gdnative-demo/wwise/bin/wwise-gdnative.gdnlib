@@ -15,6 +15,7 @@ Windows.64="res://wwise/bin/win64/debug/WwiseGDNative.dll"
 X11.64="res://wwise/bin/linux/debug/libWwiseGDNative.so"
 iOS.armv7="res://wwise/bin/iOS/debug/armv7/libWwiseGDNative.dylib"
 iOS.arm64="res://wwise/bin/iOS/debug/arm64/libWwiseGDNative.dylib"
+Android.armeabi-v7a="res://wwise/bin/android/debug/armeabi-v7a/libWwiseGDNative.Debug.armeabi-v7a.so"
 
 [dependencies]
 
@@ -26,3 +27,4 @@ Windows.64=[  ]
 X11.64=[  ]
 iOS.armv7=[  ]
 iOS.arm64=[  ]
+Android.armeabi-v7a=[  ]

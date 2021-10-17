@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WwiseDocument Type="WorkUnit" ID="{98DDA886-670A-4C78-AFE6-6103B9F6107B}" SchemaVersion="97">
+<WwiseDocument Type="WorkUnit" ID="{98DDA886-670A-4C78-AFE6-6103B9F6107B}" SchemaVersion="103">
 	<Events>
 		<WorkUnit Name="Plugins" ID="{98DDA886-670A-4C78-AFE6-6103B9F6107B}" PersistMode="Standalone">
 			<ChildrenList>

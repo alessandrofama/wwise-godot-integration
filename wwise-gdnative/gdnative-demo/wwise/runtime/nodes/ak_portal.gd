@@ -12,7 +12,7 @@ func _ready() -> void:
 		front_room_node = get_node(front_room)
 	if not back_room.is_empty():
 		back_room_node = get_node(back_room)
-	extent = self.get_scale()
+	extent = self.get_global_transform().basis.get_scale()
 	set_portal()
 
 func set_enabled(value: bool) -> void:

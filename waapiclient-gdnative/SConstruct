@@ -52,9 +52,9 @@ wwise_sdk_libs_path = ""
 
 if env['platform'] == "windows":
     if env['target'] in ('debug', 'd'):
-        wwise_sdk_libs_path = env['wwise_sdk'] + "/x64_vc150/Debug/lib/"
+        wwise_sdk_libs_path = env['wwise_sdk'] + "/x64_vc160/Debug/lib/"
     else:
-        wwise_sdk_libs_path = env['wwise_sdk'] + "/x64_vc150/Release/lib/"
+        wwise_sdk_libs_path = env['wwise_sdk'] + "/x64_vc160/Release/lib/"
 
 if env['platform'] == "osx":
     if env['target'] in ('debug', 'd'):

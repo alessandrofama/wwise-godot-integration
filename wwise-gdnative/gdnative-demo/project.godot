@@ -37,7 +37,7 @@ Wwise="*res://wwise/bin/wwise-gdnative.gdns"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "wwise_build_export", "wwise_custom_nodes", "wwise_ids_converter" )
+enabled=PoolStringArray( "res://addons/gut/plugin.cfg", "res://addons/wwise_build_export/plugin.cfg", "res://addons/wwise_custom_nodes/plugin.cfg", "res://addons/wwise_ids_converter/plugin.cfg" )
 
 [input]
 
@@ -66,6 +66,11 @@ move_sprint={
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777237,"unicode":0,"echo":false,"script":null)
  ]
 }
+move_jump={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":32,"unicode":0,"echo":false,"script":null)
+ ]
+}
 
 [rendering]
 
@@ -75,3 +80,4 @@ environment/default_environment="res://default_env.tres"
 
 common_user_settings/engine_logging=true
 common_user_settings/main_output/audio_device_shareset="System"
+common_user_settings/suspend_at_focus_loss=false

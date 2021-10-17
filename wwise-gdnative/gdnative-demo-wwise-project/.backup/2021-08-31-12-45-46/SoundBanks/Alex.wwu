@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{4964761E-150C-4C22-9B0C-069A0C0461B9}" SchemaVersion="97">
+	<SoundBanks>
+		<WorkUnit Name="Alex" ID="{4964761E-150C-4C22-9B0C-069A0C0461B9}" PersistMode="Standalone">
+			<ChildrenList>
+				<SoundBank Name="TestBank" ID="{0BF8853A-CC28-40DA-883A-F292AB79E5F8}">
+					<ObjectInclusionList>
+						<ObjectRef Name="Play_chimes_with_marker" ID="{4A7E8665-943D-4648-87C7-C34952306870}" WorkUnitID="{D11203C4-705A-4B94-A640-C4B762608D58}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Alex Tests" ID="{A7F31287-7301-4738-8650-19044FD81678}" WorkUnitID="{A7F31287-7301-4738-8650-19044FD81678}" Origin="Manual" Filter="7"/>
+					</ObjectInclusionList>
+					<ObjectExclusionList/>
+					<GameSyncExclusionList/>
+				</SoundBank>
+			</ChildrenList>
+		</WorkUnit>
+	</SoundBanks>
+</WwiseDocument>

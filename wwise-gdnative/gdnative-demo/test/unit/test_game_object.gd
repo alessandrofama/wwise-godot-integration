@@ -2,9 +2,7 @@ extends "res://addons/gut/test.gd"
 
 class TestGameObject:
 	extends "res://addons/gut/test.gd"
-	
 
-	
 	func before_all():
 		Wwise.load_bank_id(AK.BANKS.INIT)
 		Wwise.load_bank_id(AK.BANKS.TESTBANK)

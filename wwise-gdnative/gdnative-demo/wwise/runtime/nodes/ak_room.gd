@@ -1,9 +1,21 @@
 extends Area
 
 export(AK.AUX_BUSSES._enum) var aux_bus_id:int
+export(float) var reverb_level:float = 1.0
+export(float) var transmission_loss:float = 1.0
+export(NodePath) var associated_geometry:NodePath
+var geometry_id:int
 
 func _enter_tree() -> void:
-	Wwise.set_room(self, aux_bus_id, self.get_name())
+	if not associated_geometry.is_empty():
+		var geometry_node = get_node(associated_geometry)
+		geometry_id = geometry_node.get_instance_id()
+	else:
+		geometry_id = 0
+		
+	var normalized_transform = global_transform.orthonormalized()
+	
+	Wwise.set_room(self, aux_bus_id, reverb_level, transmission_loss, normalized_transform.basis.z, normalized_transform.basis.y, geometry_id, self.get_name())
 	#warning-ignore:return_value_discarded
 	connect("body_entered", self, "_on_body_enter")
 	#warning-ignore:return_value_discarded

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WwiseDocument Type="WorkUnit" ID="{3FE3D261-2E4D-4287-95DD-8B4DF14D5A58}" SchemaVersion="97">
+<WwiseDocument Type="WorkUnit" ID="{3FE3D261-2E4D-4287-95DD-8B4DF14D5A58}" SchemaVersion="103">
 	<Busses>
 		<WorkUnit Name="Default Work Unit" ID="{3FE3D261-2E4D-4287-95DD-8B4DF14D5A58}" PersistMode="Standalone">
 			<ChildrenList>
@@ -28,6 +28,7 @@
 									</Custom>
 								</Reference>
 							</ReferenceList>
+							<ObjectLists/>
 						</Bus>
 						<AuxBus Name="RoomVerb" ID="{0B64A62D-08BD-43A2-A001-E90F1BEF7830}">
 							<PropertyList>
@@ -89,6 +90,7 @@
 									<ObjectRef Name="RoomVerb" ID="{4458FE95-AC1C-4DC8-9089-578B05DD4E52}" WorkUnitID="{28C842C3-0781-426A-A7CA-73215CAD7F88}"/>
 								</Reference>
 							</ReferenceList>
+							<ObjectLists/>
 						</AuxBus>
 						<AuxBus Name="LargeVerb" ID="{F26814F7-4848-4A08-B6A2-E758C2514829}">
 							<PropertyList>
@@ -100,6 +102,7 @@
 									<ObjectRef Name="LargeVerb" ID="{C789CB8F-3FAC-4E7C-8E1C-87120ABDA734}" WorkUnitID="{28C842C3-0781-426A-A7CA-73215CAD7F88}"/>
 								</Reference>
 							</ReferenceList>
+							<ObjectLists/>
 						</AuxBus>
 						<AuxBus Name="SmallVerb" ID="{37A27B08-0572-42F5-BE2B-9B20252B6E7D}">
 							<ReferenceList>
@@ -107,6 +110,7 @@
 									<ObjectRef Name="SmallVerb" ID="{23A811C8-9D83-4E12-B50A-2014C9F0349E}" WorkUnitID="{28C842C3-0781-426A-A7CA-73215CAD7F88}"/>
 								</Reference>
 							</ReferenceList>
+							<ObjectLists/>
 						</AuxBus>
 						<Bus Name="GeometryBus" ID="{470320BB-61B8-42A6-BB8A-A0C68EFAD7C9}">
 							<PropertyList>
@@ -130,8 +134,20 @@
 									<ObjectRef Name="Emitter_Geometry_Attenuation" ID="{898E4108-B8B7-4A00-8B9A-AFDD412549DE}" WorkUnitID="{1E68136D-4E9A-4ADA-96E5-29DC22AF7034}"/>
 								</Reference>
 							</ReferenceList>
+							<ObjectLists/>
+						</Bus>
+						<Bus Name="ObjectBus" ID="{55A3DDAD-81DB-4E01-8A2E-D13526629BA2}">
+							<PropertyList>
+								<Property Name="BusChannelConfig" Type="int32">
+									<ValueList>
+										<Value>768</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ObjectLists/>
 						</Bus>
 					</ChildrenList>
+					<ObjectLists/>
 				</Bus>
 			</ChildrenList>
 		</WorkUnit>

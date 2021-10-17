@@ -20,9 +20,17 @@
 #endif
 
 #if defined(AK_SOUNDSEED_AIR_IMPACT)
-#include <AK/Plugin/AkSoundSeedWindSourceFactory.h>
 #include <AK/Plugin/AkSoundSeedImpactFXFactory.h>
+#include <AK/Plugin/AkSoundSeedWindSourceFactory.h>
 #include <AK/Plugin/AkSoundSeedWooshSourceFactory.h>
+#endif
+
+#if defined(AK_IMPACTER)
+#include <AK/Plugin/AkImpacterSourceFactory.h>
+#endif
+
+#if defined(AK_MASTERING_SUITE)
+#include <AK/Plugin/MasteringSuiteFXFactory.h>
 #endif
 
 using namespace godot;
@@ -86,6 +94,9 @@ void Wwise::_register_methods()
 	register_method("set_listeners", &Wwise::setListeners);
 	register_method("set_3d_position", &Wwise::set3DPosition);
 	register_method("set_2d_position", &Wwise::set2DPosition);
+	register_method("set_multiple_positions_3d", &Wwise::setMultiplePositions3D);
+	register_method("set_multiple_positions_2d", &Wwise::setMultiplePositions2D);
+	register_method("set_game_obj_radius", &Wwise::setGameObjectRadius);
 	register_method("post_event", &Wwise::postEvent);
 	register_method("post_event_callback", &Wwise::postEventCallback);
 	register_method("post_event_id", &Wwise::postEventID);
@@ -115,6 +126,9 @@ void Wwise::_register_methods()
 	register_method("remove_room", &Wwise::removeRoom);
 	register_method("set_portal", &Wwise::setPortal);
 	register_method("remove_portal", &Wwise::removePortal);
+	register_method("set_portal_obstruction_and_occlusion", &Wwise::setPortalObstructionAndOcclusion);
+	register_method("set_game_obj_to_portal_obstruction", &Wwise::setGameObjectToPortalObstruction);
+	register_method("set_portal_to_portal_obstruction", &Wwise::setPortalToPortalObstruction);
 	register_method("set_game_obj_in_room", &Wwise::setGameObjectInRoom);
 	register_method("remove_game_obj_from_room", &Wwise::removeGameObjectFromRoom);
 	register_method("set_early_reflections_aux_send", &Wwise::setEarlyReflectionsAuxSend);
@@ -235,7 +249,7 @@ void Wwise::_notification(int notification)
 			Wwise::suspend(false);
 		}
 	}
-	
+
 	if (notification == NOTIFICATION_WM_FOCUS_IN)
 	{
 		if (suspendAtFocusLoss)
@@ -249,12 +263,12 @@ bool Wwise::setBasePath(const String basePath)
 {
 	AKASSERT(!basePath.empty());
 
-	AKRESULT result = AK_Fail;
+	AKRESULT result = AK_PathNotFound;
 	String resString = "res://";
 
 	if (!basePath.begins_with(resString))
 	{
-		return ERROR_CHECK(AK_PathNotFound, "Invalid path, does not begin with res://");
+		return ERROR_CHECK(result, "Invalid path, does not begin with res://");
 	}
 
 	// Broken https://github.com/godotengine/godot/issues/37646
@@ -426,6 +440,78 @@ bool Wwise::set2DPosition(const Object* gameObject, const Transform2D transform2
 	return ERROR_CHECK(
 		AK::SoundEngine::SetPosition(static_cast<AkGameObjectID>(gameObject->get_instance_id()), soundPos),
 		"Game object ID " + String::num_int64(gameObject->get_instance_id()));
+}
+
+bool Wwise::setMultiplePositions3D(const Object* gameObject, const Array positions, const int numPositions,
+								   const int multiPositionType)
+{
+	AKASSERT(gameObject);
+	AKASSERT(positions.size() > 0);
+	AKASSERT(positions.size() == numPositions);
+
+	auto akPositions = std::make_unique<AkSoundPosition[]>(numPositions);
+
+	for (int i = 0; i < positions.size(); i++)
+	{
+		Transform transform = positions[i];
+		AkVector position;
+		GetAkVector(transform, position, VectorType::POSITION);
+		AkVector forward;
+		GetAkVector(transform, forward, VectorType::FORWARD);
+		AkVector up;
+		GetAkVector(transform, up, VectorType::UP);
+
+		akPositions[i].Set(position, forward, up);
+	}
+
+	return ERROR_CHECK(
+		AK::SoundEngine::SetMultiplePositions(gameObject->get_instance_id(), akPositions.get(), numPositions,
+											  static_cast<AK::SoundEngine::MultiPositionType>(multiPositionType)),
+		"Failed to set multiple positions for GameObject with id: " + String::num_int64(gameObject->get_instance_id()));
+}
+
+bool Wwise::setMultiplePositions2D(const Object* gameObject, const Array positions, const Array zDepths,
+								   const int numPositions, const int multiPositionType)
+{
+	AKASSERT(gameObject);
+	AKASSERT(positions.size() > 0);
+	AKASSERT(positions.size() == numPositions);
+	AKASSERT(zDepths.size() == numPositions);
+
+	auto akPositions = std::make_unique<AkSoundPosition[]>(numPositions);
+
+	for (int i = 0; i < positions.size(); i++)
+	{
+		Transform2D transform2D = positions[i];
+
+		Vector2 origin = transform2D.get_origin();
+		Vector3 position = Vector3(-origin.x * 0.1f, -origin.y * 0.1f, zDepths[i]);
+		Vector3 forward = Vector3(transform2D.elements[1].x, 0, transform2D.elements[1].y).normalized();
+		Vector3 up = Vector3(0, 1, 0);
+
+		AkVector akPosition;
+		Vector3ToAkVector(position, akPosition);
+		AkVector akForward;
+		Vector3ToAkVector(forward, akForward);
+		AkVector akUp;
+		Vector3ToAkVector(up, akUp);
+
+		akPositions[i].Set(akPosition, akForward, akUp);
+	}
+
+	return ERROR_CHECK(
+		AK::SoundEngine::SetMultiplePositions(gameObject->get_instance_id(), akPositions.get(), numPositions,
+											  static_cast<AK::SoundEngine::MultiPositionType>(multiPositionType)),
+		"Failed to set multiple positions for GameObject with id: " + String::num_int64(gameObject->get_instance_id()));
+}
+
+bool Wwise::setGameObjectRadius(const Object* gameObject, const float outerRadius, const float innerRadius)
+{
+	AKASSERT(gameObject);
+
+	return ERROR_CHECK(AK::SpatialAudio::SetGameObjectRadius(gameObject->get_instance_id(), outerRadius, innerRadius),
+					   "Failed to Set GameObject radius for GameObject with id: " +
+						   String::num_int64(gameObject->get_instance_id()));
 }
 
 unsigned int Wwise::postEvent(const String eventName, const Object* gameObject)
@@ -785,8 +871,8 @@ bool Wwise::setObjectObstructionAndOcclusion(const unsigned int gameObjectID, co
 }
 
 bool Wwise::setGeometry(const Array vertices, const Array triangles, const Resource* acousticTexture,
-						const float occlusionValue, const Object* gameObject, bool enableDiffraction,
-						bool enableDiffractionOnBoundaryEdges, const Object* associatedRoom)
+						const float transmissionLossValue, const Object* gameObject, bool enableDiffraction,
+						bool enableDiffractionOnBoundaryEdges, const Object* associatedRoom, bool enableTriangles)
 {
 	AKASSERT(!vertices.empty());
 	AKASSERT(!triangles.empty());
@@ -842,20 +928,20 @@ bool Wwise::setGeometry(const Array vertices, const Array triangles, const Resou
 
 		geometry.NumSurfaces = 1;
 
-		AkAcousticTexture akAcousticTexture;
+		// AkAcousticTexture akAcousticTexture;
 		String acousticTextureName = acousticTexture->get("name");
-		akAcousticTexture.ID = AK::SoundEngine::GetIDFromString(acousticTextureName.alloc_c_string());
+		// akAcousticTexture.ID = AK::SoundEngine::GetIDFromString(acousticTextureName.alloc_c_string());
 
-		// Not possible to get the acoustic texture values through AK::SoundEngine, maybe looking at WAAPI
-		akAcousticTexture.fAbsorptionHigh = static_cast<float>(acousticTexture->get("absorption_high"));
-		akAcousticTexture.fAbsorptionLow = static_cast<float>(acousticTexture->get("absorption_low"));
-		akAcousticTexture.fAbsorptionMidHigh = static_cast<float>(acousticTexture->get("absorption_mid_high"));
-		akAcousticTexture.fAbsorptionMidLow = static_cast<float>(acousticTexture->get("absorption_mid_low"));
-		akAcousticTexture.fAbsorptionOffset = static_cast<float>(acousticTexture->get("absorption_offset"));
-		akAcousticTexture.fScattering = static_cast<float>(acousticTexture->get("scattering"));
+		// // Not possible to get the acoustic texture values through AK::SoundEngine, maybe looking at WAAPI
+		// akAcousticTexture.fAbsorptionHigh = static_cast<float>(acousticTexture->get("absorption_high"));
+		// akAcousticTexture.fAbsorptionLow = static_cast<float>(acousticTexture->get("absorption_low"));
+		// akAcousticTexture.fAbsorptionMidHigh = static_cast<float>(acousticTexture->get("absorption_mid_high"));
+		// akAcousticTexture.fAbsorptionMidLow = static_cast<float>(acousticTexture->get("absorption_mid_low"));
+		// akAcousticTexture.fAbsorptionOffset = static_cast<float>(acousticTexture->get("absorption_offset"));
+		// akAcousticTexture.fScattering = static_cast<float>(acousticTexture->get("scattering"));
 
-		akSurfaces[0].textureID = akAcousticTexture.ID;
-		akSurfaces[0].occlusion = occlusionValue;
+		akSurfaces[0].textureID = AK::SoundEngine::GetIDFromString(acousticTextureName.alloc_c_string());
+		akSurfaces[0].transmissionLoss = transmissionLossValue;
 		akSurfaces[0].strName = acousticTextureName.alloc_c_string();
 
 		geometry.Surfaces = akSurfaces;
@@ -890,7 +976,10 @@ bool Wwise::setGeometry(const Array vertices, const Array triangles, const Resou
 
 	geometry.EnableDiffraction = enableDiffraction;
 	geometry.EnableDiffractionOnBoundaryEdges = enableDiffractionOnBoundaryEdges;
-	geometry.RoomID = associatedRoom ? static_cast<AkRoomID>(associatedRoom->get_instance_id()) : AkRoomID();
+	geometry.RoomID = associatedRoom ? static_cast<AkRoomID>(associatedRoom->get_instance_id())
+									 : static_cast<AkRoomID>(INVALID_ROOM_ID);
+	// todo
+	geometry.EnableTriangles = enableTriangles;
 
 	return ERROR_CHECK(
 		AK::SpatialAudio::SetGeometry(static_cast<AkGeometrySetID>(gameObject->get_instance_id()), geometry),
@@ -913,13 +1002,27 @@ bool Wwise::registerSpatialListener(const Object* gameObject)
 					   "Failed to register Spatial Audio Listener");
 }
 
-bool Wwise::setRoom(const Object* gameObject, const unsigned int akAuxBusID, const String gameObjectName)
+bool Wwise::setRoom(const Object* gameObject, const unsigned int akAuxBusID, const float reverbLevel,
+					const float transmissionLoss, const Vector3 frontVector, const Vector3 upVector,
+					const int associatedGeometry, const String gameObjectName)
 {
 	AKASSERT(gameObject);
 
 	AkRoomParams roomParams;
 	roomParams.ReverbAuxBus = akAuxBusID;
+	roomParams.ReverbLevel = reverbLevel;
+	roomParams.TransmissionLoss = transmissionLoss;
 	roomParams.strName = gameObjectName.alloc_c_string();
+
+	AkVector front;
+	Vector3ToAkVector(frontVector, front);
+	AkVector up;
+	Vector3ToAkVector(upVector, up);
+
+	roomParams.Front = front;
+	roomParams.Up = up;
+	roomParams.GeometryID = static_cast<AkGeometrySetID>(associatedGeometry);
+
 	return ERROR_CHECK(AK::SpatialAudio::SetRoom(static_cast<AkRoomID>(gameObject->get_instance_id()), roomParams),
 					   "Failed to set Room for Game Object: " + String::num_int64(gameObject->get_instance_id()));
 }
@@ -945,18 +1048,21 @@ bool Wwise::setPortal(const Object* gameObject, const Transform transform, const
 	AkTransform akTransform;
 	akTransform.Set(position, forward, up);
 
-	AkVector akExtent;
-	Vector3ToAkVector(extent, akExtent);
-
 	AkRoomID roomID;
 
 	AkPortalParams portalParams;
+	AkExtent portalExtent;
+
+	portalExtent.halfWidth = extent.x * 0.25f;
+	portalExtent.halfHeight = extent.y * 0.25f;
+	portalExtent.halfDepth = extent.z * 0.25f;
+
 	portalParams.Transform = akTransform;
-	portalParams.Extent = akExtent;
+	portalParams.Extent = portalExtent;
 	portalParams.FrontRoom =
-		frontRoom ? static_cast<AkRoomID>(frontRoom->get_instance_id()) : static_cast<AkRoomID>(INVALID_ROOM_ID);
+		frontRoom ? static_cast<AkRoomID>(frontRoom->get_instance_id()) : AK::SpatialAudio::kOutdoorRoomID;
 	portalParams.BackRoom =
-		backRoom ? static_cast<AkRoomID>(backRoom->get_instance_id()) : static_cast<AkRoomID>(INVALID_ROOM_ID);
+		backRoom ? static_cast<AkRoomID>(backRoom->get_instance_id()) : AK::SpatialAudio::kOutdoorRoomID;
 	portalParams.bEnabled = enabled;
 	portalParams.strName = portalName.alloc_c_string();
 
@@ -968,8 +1074,41 @@ bool Wwise::setPortal(const Object* gameObject, const Transform transform, const
 bool Wwise::removePortal(const Object* gameObject)
 {
 	AKASSERT(gameObject);
+
 	return ERROR_CHECK(AK::SpatialAudio::RemovePortal(static_cast<AkPortalID>(gameObject->get_instance_id())),
 					   "Failed to remove Portal for Game Object: " + String::num_int64(gameObject->get_instance_id()));
+}
+
+bool Wwise::setPortalObstructionAndOcclusion(const Object* portal, const float obstructionValue,
+											 const float occlusionValue)
+{
+	AKASSERT(portal);
+
+	return ERROR_CHECK(AK::SpatialAudio::SetPortalObstructionAndOcclusion(
+						   static_cast<AkPortalID>(portal->get_instance_id()), obstructionValue, occlusionValue),
+					   "Failed to set Portal Obstruction and Occlusion for Portal with ID: " +
+						   String::num_int64(portal->get_instance_id()));
+}
+
+bool Wwise::setGameObjectToPortalObstruction(const Object* gameObject, const Object* portal,
+											 const float obstructionValue)
+{
+	AKASSERT(gameObject);
+	AKASSERT(portal);
+
+	return ERROR_CHECK(AK::SpatialAudio::SetGameObjectToPortalObstruction(gameObject->get_instance_id(),
+																		  portal->get_instance_id(), obstructionValue),
+					   "Failed to set GameObject to Portal Obstruction");
+}
+
+bool Wwise::setPortalToPortalObstruction(const Object* portal0, const Object* portal1, const float obstructionValue)
+{
+	AKASSERT(portal0);
+	AKASSERT(portal1);
+
+	return ERROR_CHECK(AK::SpatialAudio::SetPortalToPortalObstruction(portal0->get_instance_id(),
+																	  portal1->get_instance_id(), obstructionValue),
+					   "Failed to set Portal to Portal Obstruction");
 }
 
 bool Wwise::setGameObjectInRoom(const Object* gameObject, const Object* room)
@@ -1630,11 +1769,10 @@ bool Wwise::initialiseWwiseSystems()
 
 	// Platform-specific settings
 #ifdef AK_WIN
-	platformInitSettings.bGlobalFocus =
-		static_cast<bool>(getPlatformProjectSetting("wwise/windows_advanced_settings/global_focus"));
+	int64_t handle = OS::get_singleton()->get_native_handle(OS::HandleType::WINDOW_HANDLE);
+	HWND hwnd = reinterpret_cast<HWND>(handle);
+	platformInitSettings.hWnd = hwnd;
 
-	platformInitSettings.eAudioAPI = static_cast<AkAudioAPI>(
-		static_cast<unsigned int>(getPlatformProjectSetting("wwise/windows_advanced_settings/audio_API")));
 #elif defined(AK_MAC_OS_X)
 
 #elif defined(AK_IOS)
@@ -1701,14 +1839,11 @@ bool Wwise::initialiseWwiseSystems()
 	spatialSettings.uMaxSoundPropagationDepth = static_cast<unsigned int>(getPlatformProjectSetting(
 		WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "max_sound_propagation_depth"));
 
-	spatialSettings.uDiffractionFlags = static_cast<unsigned int>(
-		getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "diffraction_flags"));
+	spatialSettings.bUseObstruction = static_cast<bool>(
+		getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "use_obstruction"));
 
-	spatialSettings.fDiffractionShadowAttenFactor = static_cast<float>(getPlatformProjectSetting(
-		WWISE_COMMON_ADVANCED_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "diffraction_shadow_attenuation_factor"));
-
-	spatialSettings.fDiffractionShadowDegrees = static_cast<float>(getPlatformProjectSetting(
-		WWISE_COMMON_ADVANCED_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "diffraction_shadow_degrees"));
+	spatialSettings.bCalcEmitterVirtualPosition = static_cast<bool>(getPlatformProjectSetting(
+		WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "calc_emitter_virtual_position"));
 
 	spatialSettings.fMovementThreshold = static_cast<float>(
 		getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "movement_threshold"));
@@ -1725,11 +1860,8 @@ bool Wwise::initialiseWwiseSystems()
 	spatialSettings.bEnableDiffractionOnReflection = static_cast<bool>(getPlatformProjectSetting(
 		WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "enable_diffraction_on_reflections"));
 
-	spatialSettings.bEnableDirectPathDiffraction = static_cast<bool>(getPlatformProjectSetting(
-		WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "enable_direct_path_diffraction"));
-
-	spatialSettings.bEnableTransmission = static_cast<bool>(
-		getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "enable_transmission"));
+	spatialSettings.bEnableGeometricDiffractionAndTransmission = static_cast<bool>(getPlatformProjectSetting(
+		WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "enable_geometric_diffraction_and_transmission"));
 
 	if (!ERROR_CHECK(AK::SpatialAudio::Init(spatialSettings), "Spatial Audio initialisation failed"))
 	{

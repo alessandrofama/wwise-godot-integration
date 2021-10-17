@@ -1,29 +1,30 @@
 #ifndef WWISE_GDNATIVE_H
 #define WWISE_GDNATIVE_H
 
+#include <Directory.hpp>
 #include <Godot.hpp>
 #include <GodotGlobal.hpp>
-#include <Node.hpp>
-#include <Object.hpp>
-#include <Spatial.hpp>
 #include <Mutex.hpp>
-#include <ProjectSettings.hpp>
-#include <Directory.hpp>
+#include <Node.hpp>
 #include <OS.hpp>
+#include <Object.hpp>
+#include <ProjectSettings.hpp>
 #include <Resource.hpp>
+#include <Spatial.hpp>
 
-#include <AK/SoundEngine/Common/AkSoundEngine.h>
+#include <AK/MusicEngine/Common/AkMusicEngine.h>
 #include <AK/SoundEngine/Common/AkMemoryMgr.h>
 #include <AK/SoundEngine/Common/AkModule.h>
-#include <AK/SoundEngine/Common/IAkStreamMgr.h>
-#include <AK/Tools/Common/AkPlatformFuncs.h>
-#include <AK/Tools/Common/AkLock.h>
-#include <AK/Tools/Common/AkAutoLock.h>
-#include <AK/Tools/Common/AkMonitorError.h>
-#include <AK/MusicEngine/Common/AkMusicEngine.h>
 #include <AK/SoundEngine/Common/AkQueryParameters.h>
-#include <AK/SpatialAudio/Common/AkSpatialAudio.h>
+#include <AK/SoundEngine/Common/AkSoundEngine.h>
 #include <AK/SoundEngine/Common/AkVirtualAcoustics.h>
+#include <AK/SoundEngine/Common/IAkStreamMgr.h>
+#include <AK/SpatialAudio/Common/AkSpatialAudio.h>
+#include <AK/Tools/Common/AkAutoLock.h>
+#include <AK/Tools/Common/AkLock.h>
+#include <AK/Tools/Common/AkMonitorError.h>
+#include <AK/Tools/Common/AkPlatformFuncs.h>
+
 #include "wwise_godot_io.h"
 #include "wwise_utils.h"
 
@@ -69,6 +70,11 @@ class Wwise : public Node
 
 	bool set3DPosition(const Object* gameObject, const Transform transform);
 	bool set2DPosition(const Object* gameObject, const Transform2D transform2D, const float zDepth);
+	bool setMultiplePositions3D(const Object* gameObject, const Array positions, const int numPositions,
+								const int multiPositionType);
+	bool setMultiplePositions2D(const Object* gameObject, const Array positions, const Array zDepths,
+								const int numPositions, const int multiPositionType);
+	bool setGameObjectRadius(const Object* gameObject, const float outerRadius, const float innerRadius);
 
 	unsigned int postEvent(const String eventName, const Object* gameObject);
 	unsigned int postEventCallback(const String eventName, const unsigned int flags, const Object* gameObject);
@@ -106,15 +112,21 @@ class Wwise : public Node
 										  float fCalculatedObs, float fCalculatedOcc);
 
 	bool setGeometry(const Array vertices, const Array triangles, const Resource* acousticTexture,
-					 const float occlusionValue, const Object* gameObject, bool enableDiffraction,
-					 bool enableDiffractionOnBoundaryEdges, const Object* associatedRoom);
+					 const float tranmissionLossValue, const Object* gameObject, bool enableDiffraction,
+					 bool enableDiffractionOnBoundaryEdges, const Object* associatedRoom, bool enableTriangles);
 	bool removeGeometry(const Object* gameObject);
 	bool registerSpatialListener(const Object* gameObject);
-	bool setRoom(const Object* gameObject, const unsigned int akAuxBusID, const String gameObjectName);
+	bool setRoom(const Object* gameObject, const unsigned int akAuxBusID, const float reverbLevel,
+				 const float transmissionLoss, const Vector3 frontVector, const Vector3 upVector,
+				 const int associatedGeometry, const String gameObjectName);
 	bool removeRoom(const Object* gameObject);
 	bool setPortal(const Object* gameObject, const Transform transform, const Vector3 extent, const Object* frontRoom,
 				   const Object* backRoom, bool enabled, const String portalName);
 	bool removePortal(const Object* gameObject);
+	bool setPortalObstructionAndOcclusion(const Object* portal, const float obstructionValue,
+										  const float occlusionValue);
+	bool setGameObjectToPortalObstruction(const Object* gameObject, const Object* portal, const float obstructionValue);
+	bool setPortalToPortalObstruction(const Object* portal0, const Object* portal1, const float obstructionValue);
 	bool setGameObjectInRoom(const Object* gameObject, const Object* room);
 	bool removeGameObjectFromRoom(const Object* gameObject);
 	bool setEarlyReflectionsAuxSend(const Object* gameObject, const unsigned int auxBusID);
