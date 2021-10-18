@@ -3,7 +3,24 @@
     <div v-if="!installing && !installed && !installationFailed">
       <div class="form-group">
         <div>
-          <label style="font-size: large">Platform Selection</label>
+          <label style="font-size: large">Wwise Integration Version</label>
+          <br />
+          <select
+            class="form-control"
+            id="exampleFormControlSelect1"
+            v-model="selectedRelease"
+          >
+            <option
+              v-for="release in releases"
+              :key="release.name"
+              :value="release"
+            >
+              {{ release.name }}
+            </option>
+          </select>
+          <label style="font-size: large; margin-top: 4%"
+            >Platform Selection</label
+          >
           <br />
           <div class="custom-control custom-checkbox custom-control-inline">
             <input
@@ -179,6 +196,7 @@ import { mapActions } from "vuex";
 import fs from "fs";
 import path from "path";
 import { remote } from "electron";
+import { Octokit } from "octokit";
 
 export default {
   data() {
@@ -201,6 +219,8 @@ export default {
         "wwise_gdnative/wwise/bin"
       ),
       platforms: [],
+      releases: [],
+      selectedRelease: null,
     };
   },
 
@@ -215,7 +235,24 @@ export default {
       return this.$store.getters.isIntegrationInstalled;
     },
   },
+  mounted: function () {
+    const octokit = new Octokit({});
 
+    var vm = this;
+
+    octokit.rest.repos
+      .listReleases({
+        owner: "alessandrofama",
+        repo: "wwise-godot-integration",
+      })
+      .then(function (releases) {
+        vm.releases = releases.data;
+        vm.selectedRelease = releases.data[0];
+      })
+      .catch(function (err) {
+        vm.displayFailureMessage(err);
+      });
+  },
   methods: {
     ...mapActions([
       "setGodotProjectPath",
@@ -283,7 +320,11 @@ export default {
           iniObj.editor_plugins.enabled =
             'PoolStringArray( "res://addons/wwise_setup/plugin.cfg" )';
         } else {
-          if (!iniObj.editor_plugins.enabled.includes("res://addons/wwise_setup/plugin.cfg")) {
+          if (
+            !iniObj.editor_plugins.enabled.includes(
+              "res://addons/wwise_setup/plugin.cfg"
+            )
+          ) {
             // Wwise not present in enabled plugins
             var toReplace = iniObj.editor_plugins.enabled.replace(
               "PoolStringArray(",
@@ -294,21 +335,21 @@ export default {
         }
       }
 
-  for (var item in iniObj) {
-     var arr = this.getKeyByValue(iniObj[item], "{")
-     if (arr.length > 0)
-     {
-       delete iniObj[item]
-     }
-  }
+      for (var item in iniObj) {
+        var arr = this.getKeyByValue(iniObj[item], "{");
+        if (arr.length > 0) {
+          delete iniObj[item];
+        }
+      }
       var serializer = new multiini.Serializer({ keep_quotes: false });
       serializedIni = serializer.serialize(iniObj);
       serializedIni = serializedIni.replace('"Pool', "Pool");
       serializedIni = serializedIni.replace(')"', ")");
 
-      fs.readFile(godotFilePath, "utf-8").then((txt) => { // eslint-disable-line no-unused-vars
+      fs.readFile(godotFilePath, "utf-8").then(() => {
+        // eslint-disable-line no-unused-vars
         output = serializedIni;
-       fs.writeFile(godotFilePath, output);
+        fs.writeFile(godotFilePath, output);
       });
     },
     checkIntegrationAlreadyInstalled() {
@@ -328,99 +369,122 @@ export default {
       }
     },
     getIntegrationFiles() {
-      var dlRelease = require("download-github-release");
-
-      var vm = this;
+      const Downloader = require("nodejs-file-downloader");
 
       this.updateProgressTextandBar(
         "Getting integration files from repository",
         20
       );
 
-      if (!fs.existsSync(this.gitDownloadDestionationPath)) {
-        fs.mkdirSync(this.gitDownloadDestionationPath);
-      }
+      var integrationPackage = this.selectedRelease.assets.find(function (
+        data
+      ) {
+        return data.name === "Integration.zip";
+      });
 
-      function filterRelease(release) {
-        return release.prerelease === false;
-      }
-
-      function filterAsset(asset) {
-        return asset.name.indexOf("Integration.zip") >= 0;
-      }
-
-      dlRelease(
-        "alessandrofama",
-        "wwise-godot-integration",
-        this.gitDownloadDestionationPath,
-        filterRelease,
-        filterAsset,
-        false,
-        false
-      )
-        .then(function () {
-          vm.getBinaries();
-        })
-        .catch(function (err) {
-          vm.displayFailureMessage(err);
+      var vm = this;
+      (async () => {
+        const downloader = new Downloader({
+          url: integrationPackage.browser_download_url,
+          directory: vm.gitDownloadDestionationPath,
         });
+        try {
+          await downloader.download();
+          vm.updateProgressTextandBar(
+            "Getting integration files from repository",
+            40
+          );
+          vm.getBinaries();
+        } catch (error) {
+          vm.displayFailureMessage(error);
+        }
+      })();
     },
     getBinaries() {
-      var dlRelease = require("download-github-release");
-
+      const Downloader = require("nodejs-file-downloader");
       var vm = this;
+      vm.updateProgressTextandBar("Getting binaries from repository", 60);
 
-      this.updateProgressTextandBar("Getting binaries from repository", 40);
+      var platformSelection = [];
 
-      function filterRelease(release) {
-        return release.prerelease === false;
+      for (var i = 0; i < vm.platforms.length; i++) {
+        this.selectedRelease.assets.find(function (data) {
+          if (data.name === vm.platforms[i] + ".zip") {
+            platformSelection.push(data.browser_download_url);
+          }
+        });
       }
 
-      function filterAsset(asset) {
-        for (let i = 0; i < vm.platforms.length; i++) {
-          if (asset.name.indexOf(vm.platforms[i]) >= 0) {
-            return true;
+      (async () => {
+        for (var j = 0; j < platformSelection.length; j++) {
+          const downloader = new Downloader({
+            url: platformSelection[j],
+            directory: vm.binariesDestionationPath,
+          });
+          try {
+            await downloader.download();
+          } catch (error) {
+            vm.displayFailureMessage(error);
           }
         }
-      }
-
-      dlRelease(
-        "alessandrofama",
-        "wwise-godot-integration",
-        this.binariesDestionationPath,
-        filterRelease,
-        filterAsset,
-        false,
-        false
-      )
-        .then(function () {
-          vm.copyIntegrationFilesToProject();
-        })
-        .catch(function (err) {
-          vm.displayFailureMessage(err);
-        });
+      })().then(function () {
+        vm.copyIntegrationFilesToProject();
+      });
     },
     copyIntegrationFilesToProject() {
-      var copydir = require("copy-dir");
+      const unzipper = require("unzipper");
 
       var vm = this;
 
-      this.updateProgressTextandBar(
-        "Copying integration files to Godot project",
-        60
-      );
+      var files = fs.readdirSync(this.gitDownloadDestionationPath);
 
-      try {
-        copydir.sync(this.gitDownloadDestionationPath, this.godotProjectPath, {
-          utimes: true,
-          mode: true,
-          cover: true,
-        });
-      } catch (err) {
-        vm.displayFailureMessage(err);
-        return;
+      for (var i = 0; i < files.length; i++) {
+        var file = files[i];
+        var filePath = path.join(this.gitDownloadDestionationPath, file);
+
+        if (file === "Integration.zip") {
+          var readStream = fs.createReadStream(filePath);
+          readStream.on("error", function (err) {
+            vm.displayFailureMessage(err);
+          });
+          readStream
+            .pipe(unzipper.Extract({ path: vm.godotProjectPath }))
+            .on("close", () => {
+              var binaries = fs.readdirSync(this.binariesDestionationPath);
+
+              var numExtractedBinaries = 0;
+
+              for (var j = 0; j < binaries.length; j++) {
+                var binary = binaries[j];
+                var binaryPath = path.join(
+                  this.binariesDestionationPath,
+                  binary
+                );
+
+                var stat2 = fs.lstatSync(binaryPath);
+                if (stat2.isFile()) {
+                  readStream = fs.createReadStream(binaryPath);
+                  readStream.on("error", function (err) {
+                    vm.displayFailureMessage(err);
+                  });
+
+                  readStream
+                    .pipe(
+                      unzipper.Extract({
+                        path: path.join(vm.godotProjectPath, "wwise/bin"),
+                      })
+                    )
+                    .on("close", () => {
+                      numExtractedBinaries++;
+                      if (numExtractedBinaries == binaries.length - 1) {
+                        vm.finishInstallation();
+                      }
+                    });
+                }
+              }
+            });
+        }
       }
-      vm.finishInstallation();
     },
     finishInstallation() {
       this.updateProgressTextandBar(
