@@ -35,10 +35,7 @@
 
 using namespace godot;
 
-CAkLock Wwise::signalDataLock;
-std::unique_ptr<Array> Wwise::signalDataArray = nullptr;
-std::unique_ptr<Array> Wwise::signalBankDataArray = nullptr;
-int Wwise::signalCallbackDataMaxSize = 4096;
+CAkLock Wwise::callbackDataLock;
 
 CAkLock g_localOutputLock;
 
@@ -66,14 +63,8 @@ Wwise::~Wwise()
 {
 	shutdownWwiseSystems();
 
-	signalDataArray = nullptr;
-	signalBankDataArray = nullptr;
-
 	Godot::print("Wwise has shut down");
 }
-
-#define REGISTER_GODOT_SIGNAL(callbackType)                                                                            \
-	register_signal<Wwise>(WwiseCallbackToSignal(callbackType), "data", GODOT_VARIANT_TYPE_DICTIONARY);
 
 void Wwise::_register_methods()
 {
@@ -137,36 +128,10 @@ void Wwise::_register_methods()
 	register_method("remove_output", &Wwise::removeOutput);
 	register_method("suspend", &Wwise::suspend);
 	register_method("wakeup_from_suspend", &Wwise::wakeupFromSuspend);
-
-	REGISTER_GODOT_SIGNAL(AK_EndOfEvent);
-	REGISTER_GODOT_SIGNAL(AK_EndOfDynamicSequenceItem);
-	REGISTER_GODOT_SIGNAL(AK_Marker);
-	REGISTER_GODOT_SIGNAL(AK_Duration);
-	REGISTER_GODOT_SIGNAL(AK_SpeakerVolumeMatrix);
-	REGISTER_GODOT_SIGNAL(AK_Starvation);
-	REGISTER_GODOT_SIGNAL(AK_MusicPlaylistSelect);
-	REGISTER_GODOT_SIGNAL(AK_MusicPlayStarted);
-	REGISTER_GODOT_SIGNAL(AK_MusicSyncBeat);
-	REGISTER_GODOT_SIGNAL(AK_MusicSyncBar);
-	REGISTER_GODOT_SIGNAL(AK_MusicSyncEntry);
-	REGISTER_GODOT_SIGNAL(AK_MusicSyncExit);
-	REGISTER_GODOT_SIGNAL(AK_MusicSyncGrid);
-	REGISTER_GODOT_SIGNAL(AK_MusicSyncUserCue);
-	REGISTER_GODOT_SIGNAL(AK_MusicSyncPoint);
-	REGISTER_GODOT_SIGNAL(AK_MusicSyncAll);
-	REGISTER_GODOT_SIGNAL(AK_MIDIEvent);
-	REGISTER_GODOT_SIGNAL(AK_CallbackBits);
-	REGISTER_GODOT_SIGNAL(AK_EnableGetSourcePlayPosition);
-	REGISTER_GODOT_SIGNAL(AK_EnableGetMusicPlayPosition);
-	REGISTER_GODOT_SIGNAL(AK_EnableGetSourceStreamBuffering);
-	register_signal<Wwise>("bank_callback", "data", GODOT_VARIANT_TYPE_DICTIONARY);
 }
 
 void Wwise::_init()
 {
-	signalDataArray = std::make_unique<Array>();
-	signalBankDataArray = std::make_unique<Array>();
-
 	projectSettings = ProjectSettings::get_singleton();
 	AKASSERT(projectSettings);
 
@@ -207,9 +172,6 @@ void Wwise::_init()
 
 	setCurrentLanguage(startupLanguage);
 
-	signalCallbackDataMaxSize = static_cast<unsigned int>(
-		getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + "callback_manager_buffer_size"));
-
 #if !defined(AK_OPTIMIZED)
 	const bool engineLogging =
 		static_cast<bool>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + "engine_logging"));
@@ -233,8 +195,6 @@ void Wwise::_init()
 
 void Wwise::_process(const float delta)
 {
-	emitSignals();
-	emitBankSignals();
 	ERROR_CHECK(AK::SoundEngine::RenderAudio(), "");
 }
 
@@ -305,19 +265,23 @@ bool Wwise::loadBankID(const unsigned int bankID)
 	return ERROR_CHECK(AK::SoundEngine::LoadBank(bankID), "ID " + String::num_int64(bankID));
 }
 
-bool Wwise::loadBankAsync(const String bankName)
+bool Wwise::loadBankAsync(const String bankName, const Object* cookie)
 {
-	AkBankID bankID = 0;
 	AKASSERT(!bankName.empty());
+	AKASSERT(cookie);
+
+	AkBankID bankID = 0;
 
 	return ERROR_CHECK(
-		AK::SoundEngine::LoadBank(bankName.alloc_c_string(), (AkBankCallbackFunc)bankCallback, nullptr, bankID),
+		AK::SoundEngine::LoadBank(bankName.alloc_c_string(), (AkBankCallbackFunc)bankCallback, (void*)cookie, bankID),
 		"ID " + String::num_int64(bankID));
 }
 
-bool Wwise::loadBankAsyncID(const unsigned int bankID)
+bool Wwise::loadBankAsyncID(const unsigned int bankID, const Object* cookie)
 {
-	return ERROR_CHECK(AK::SoundEngine::LoadBank(bankID, (AkBankCallbackFunc)bankCallback, nullptr),
+	AKASSERT(cookie);
+
+	return ERROR_CHECK(AK::SoundEngine::LoadBank(bankID, (AkBankCallbackFunc)bankCallback, (void*)cookie),
 					   "ID " + String::num_int64(bankID));
 }
 
@@ -333,18 +297,21 @@ bool Wwise::unloadBankID(const unsigned int bankID)
 	return ERROR_CHECK(AK::SoundEngine::UnloadBank(bankID, NULL), "ID " + String::num_int64(bankID) + " failed");
 }
 
-bool Wwise::unloadBankAsync(const String bankName)
+bool Wwise::unloadBankAsync(const String bankName, const Object* cookie)
 {
 	AKASSERT(!bankName.empty());
+	AKASSERT(cookie);
 
 	return ERROR_CHECK(
-		AK::SoundEngine::UnloadBank(bankName.alloc_c_string(), NULL, (AkBankCallbackFunc)bankCallback, nullptr),
+		AK::SoundEngine::UnloadBank(bankName.alloc_c_string(), NULL, (AkBankCallbackFunc)bankCallback, (void*)cookie),
 		"Loading bank: " + bankName + " failed");
 }
 
-bool Wwise::unloadBankAsyncID(const unsigned int bankID)
+bool Wwise::unloadBankAsyncID(const unsigned int bankID, const Object* cookie)
 {
-	return ERROR_CHECK(AK::SoundEngine::UnloadBank(bankID, NULL, (AkBankCallbackFunc)bankCallback, nullptr),
+	AKASSERT(cookie);
+
+	return ERROR_CHECK(AK::SoundEngine::UnloadBank(bankID, NULL, (AkBankCallbackFunc)bankCallback, (void*)cookie),
 					   "ID " + String::num_int64(bankID) + " failed");
 }
 
@@ -530,13 +497,16 @@ unsigned int Wwise::postEvent(const String eventName, const Object* gameObject)
 	return static_cast<unsigned int>(playingID);
 }
 
-unsigned int Wwise::postEventCallback(const String eventName, const unsigned int flags, const Object* gameObject)
+unsigned int Wwise::postEventCallback(const String eventName, const unsigned int flags, const Object* gameObject,
+									  const Object* cookie)
 {
 	AKASSERT(!eventName.empty());
 	AKASSERT(gameObject);
+	AKASSERT(cookie);
 
-	AkPlayingID playingID = AK::SoundEngine::PostEvent(
-		eventName.alloc_c_string(), static_cast<AkGameObjectID>(gameObject->get_instance_id()), flags, eventCallback);
+	AkPlayingID playingID = AK::SoundEngine::PostEvent(eventName.alloc_c_string(),
+													   static_cast<AkGameObjectID>(gameObject->get_instance_id()),
+													   flags, eventCallback, (void*)cookie);
 
 	if (playingID == AK_INVALID_PLAYING_ID)
 	{
@@ -561,12 +531,14 @@ unsigned int Wwise::postEventID(const unsigned int eventID, const Object* gameOb
 	return static_cast<unsigned int>(playingID);
 }
 
-unsigned int Wwise::postEventIDCallback(const unsigned int eventID, const unsigned int flags, const Object* gameObject)
+unsigned int Wwise::postEventIDCallback(const unsigned int eventID, const unsigned int flags, const Object* gameObject,
+										const Object* cookie)
 {
 	AKASSERT(gameObject);
+	AKASSERT(cookie);
 
 	AkPlayingID playingID = AK::SoundEngine::PostEvent(
-		eventID, static_cast<AkGameObjectID>(gameObject->get_instance_id()), flags, eventCallback);
+		eventID, static_cast<AkGameObjectID>(gameObject->get_instance_id()), flags, eventCallback, (void*)cookie);
 
 	if (playingID == AK_INVALID_PLAYING_ID)
 	{
@@ -1174,108 +1146,118 @@ bool Wwise::wakeupFromSuspend()
 
 void Wwise::eventCallback(AkCallbackType callbackType, AkCallbackInfo* callbackInfo)
 {
-	AkAutoLock<CAkLock> ScopedLock(signalDataLock);
+	AkAutoLock<CAkLock> ScopedLock(callbackDataLock);
 
-	Dictionary signalData;
-	signalData["callbackType"] = static_cast<unsigned int>(callbackType);
+	FuncRef* cookie = static_cast<FuncRef*>(callbackInfo->pCookie);
+
+	if (!cookie)
+	{
+		ERROR_CHECK(AK_Fail, "The Event Callback cookie is not valid.");
+		return;
+	}
+
+	Array args;
+	Dictionary callbackData;
+	callbackData["callbackType"] = static_cast<unsigned int>(callbackType);
 
 	switch (callbackType)
 	{
 	case AK_EndOfEvent:
 	{
 		AkEventCallbackInfo* eventInfo = static_cast<AkEventCallbackInfo*>(callbackInfo);
-		signalData["eventID"] = static_cast<unsigned int>(eventInfo->eventID);
-		signalData["gameObjID"] = static_cast<unsigned int>(eventInfo->gameObjID);
-		signalData["playingID"] = static_cast<unsigned int>(eventInfo->playingID);
+		callbackData["eventID"] = static_cast<unsigned int>(eventInfo->eventID);
+		callbackData["gameObjID"] = static_cast<unsigned int>(eventInfo->gameObjID);
+		callbackData["playingID"] = static_cast<unsigned int>(eventInfo->playingID);
 		break;
 	}
 	case AK_EndOfDynamicSequenceItem:
 	{
 		AkDynamicSequenceItemCallbackInfo* dynamicSequenceItemInfo =
 			static_cast<AkDynamicSequenceItemCallbackInfo*>(callbackInfo);
-		signalData["audioNodeID"] = static_cast<unsigned int>(dynamicSequenceItemInfo->audioNodeID);
-		signalData["gameObjID"] = static_cast<unsigned int>(dynamicSequenceItemInfo->gameObjID);
-		signalData["playingID"] = static_cast<unsigned int>(dynamicSequenceItemInfo->playingID);
+		callbackData["audioNodeID"] = static_cast<unsigned int>(dynamicSequenceItemInfo->audioNodeID);
+		callbackData["gameObjID"] = static_cast<unsigned int>(dynamicSequenceItemInfo->gameObjID);
+		callbackData["playingID"] = static_cast<unsigned int>(dynamicSequenceItemInfo->playingID);
 		break;
 	}
 	case AK_Marker:
 	{
 		AkMarkerCallbackInfo* markerInfo = static_cast<AkMarkerCallbackInfo*>(callbackInfo);
-		signalData["uIdentifier"] = static_cast<unsigned int>(markerInfo->uIdentifier);
-		signalData["uPosition"] = static_cast<unsigned int>(markerInfo->uPosition);
-		signalData["strLabel"] = String(markerInfo->strLabel);
+		callbackData["uIdentifier"] = static_cast<unsigned int>(markerInfo->uIdentifier);
+		callbackData["uPosition"] = static_cast<unsigned int>(markerInfo->uPosition);
+		callbackData["strLabel"] = String(markerInfo->strLabel);
 		break;
 	}
 	case AK_Duration:
 	{
 		AkDurationCallbackInfo* durationInfo = static_cast<AkDurationCallbackInfo*>(callbackInfo);
-		signalData["audioNodeID"] = static_cast<unsigned int>(durationInfo->audioNodeID);
-		signalData["bStreaming"] = durationInfo->bStreaming;
-		signalData["eventID"] = static_cast<unsigned int>(durationInfo->eventID);
-		signalData["fDuration"] = static_cast<float>(durationInfo->fDuration);
-		signalData["fEstimatedDuration"] = static_cast<float>(durationInfo->fEstimatedDuration);
-		signalData["gameObjID"] = static_cast<unsigned int>(durationInfo->gameObjID);
-		signalData["mediaID"] = static_cast<unsigned int>(durationInfo->mediaID);
-		signalData["playingID"] = static_cast<unsigned int>(durationInfo->playingID);
+
+		callbackData["audioNodeID"] = static_cast<unsigned int>(durationInfo->audioNodeID);
+		callbackData["bStreaming"] = durationInfo->bStreaming;
+		callbackData["eventID"] = static_cast<unsigned int>(durationInfo->eventID);
+		callbackData["fDuration"] = static_cast<float>(durationInfo->fDuration);
+		callbackData["fEstimatedDuration"] = static_cast<float>(durationInfo->fEstimatedDuration);
+		callbackData["gameObjID"] = static_cast<unsigned int>(durationInfo->gameObjID);
+		callbackData["mediaID"] = static_cast<unsigned int>(durationInfo->mediaID);
+		callbackData["playingID"] = static_cast<unsigned int>(durationInfo->playingID);
 		break;
 	}
 	case AK_SpeakerVolumeMatrix:
 	{
 		AkSpeakerVolumeMatrixCallbackInfo* speakerVolumeMatrixInfo =
 			static_cast<AkSpeakerVolumeMatrixCallbackInfo*>(callbackInfo);
-		signalData["eventID"] = static_cast<unsigned int>(speakerVolumeMatrixInfo->eventID);
-		signalData["gameObjID"] = static_cast<unsigned int>(speakerVolumeMatrixInfo->gameObjID);
+		callbackData["eventID"] = static_cast<unsigned int>(speakerVolumeMatrixInfo->eventID);
+		callbackData["gameObjID"] = static_cast<unsigned int>(speakerVolumeMatrixInfo->gameObjID);
 
 		Dictionary inputConfig;
 		inputConfig["uNumChannels"] = static_cast<unsigned int>(speakerVolumeMatrixInfo->inputConfig.uNumChannels);
 		inputConfig["eConfigType"] = static_cast<unsigned int>(speakerVolumeMatrixInfo->inputConfig.eConfigType);
 		inputConfig["uChannelMask"] = static_cast<unsigned int>(speakerVolumeMatrixInfo->inputConfig.uChannelMask);
-		signalData["inputConfig"] = inputConfig;
+		callbackData["inputConfig"] = inputConfig;
 
 		Dictionary outputConfig;
 		outputConfig["uNumChannels"] = static_cast<unsigned int>(speakerVolumeMatrixInfo->outputConfig.uNumChannels);
 		outputConfig["eConfigType"] = static_cast<unsigned int>(speakerVolumeMatrixInfo->outputConfig.eConfigType);
 		outputConfig["uChannelMask"] = static_cast<unsigned int>(speakerVolumeMatrixInfo->outputConfig.uChannelMask);
-		signalData["outputConfig"] = outputConfig;
+		callbackData["outputConfig"] = outputConfig;
 
-		signalData["playingID"] = static_cast<unsigned int>(speakerVolumeMatrixInfo->playingID);
+		callbackData["playingID"] = static_cast<unsigned int>(speakerVolumeMatrixInfo->playingID);
 		break;
 	}
 	case AK_Starvation:
 	{
 		AkEventCallbackInfo* eventInfo = static_cast<AkEventCallbackInfo*>(callbackInfo);
-		signalData["eventID"] = static_cast<unsigned int>(eventInfo->eventID);
-		signalData["gameObjID"] = static_cast<unsigned int>(eventInfo->gameObjID);
-		signalData["playingID"] = static_cast<unsigned int>(eventInfo->playingID);
+		callbackData["eventID"] = static_cast<unsigned int>(eventInfo->eventID);
+		callbackData["gameObjID"] = static_cast<unsigned int>(eventInfo->gameObjID);
+		callbackData["playingID"] = static_cast<unsigned int>(eventInfo->playingID);
 		break;
 	}
 	case AK_MusicPlaylistSelect:
 	{
 		AkMusicPlaylistCallbackInfo* musicPlaylistInfo = static_cast<AkMusicPlaylistCallbackInfo*>(callbackInfo);
-		signalData["eventID"] = static_cast<unsigned int>(musicPlaylistInfo->eventID);
-		signalData["gameObjID"] = static_cast<unsigned int>(musicPlaylistInfo->gameObjID);
-		signalData["playingID"] = static_cast<unsigned int>(musicPlaylistInfo->playingID);
-		signalData["playlistID"] = static_cast<unsigned int>(musicPlaylistInfo->playlistID);
-		signalData["uNumPlaylistItems"] = static_cast<unsigned int>(musicPlaylistInfo->uNumPlaylistItems);
-		signalData["uPlaylistItemDone"] = static_cast<unsigned int>(musicPlaylistInfo->uPlaylistItemDone);
-		signalData["uPlaylistSelection"] = static_cast<unsigned int>(musicPlaylistInfo->uPlaylistSelection);
+		callbackData["eventID"] = static_cast<unsigned int>(musicPlaylistInfo->eventID);
+		callbackData["gameObjID"] = static_cast<unsigned int>(musicPlaylistInfo->gameObjID);
+		callbackData["playingID"] = static_cast<unsigned int>(musicPlaylistInfo->playingID);
+		callbackData["playlistID"] = static_cast<unsigned int>(musicPlaylistInfo->playlistID);
+		callbackData["uNumPlaylistItems"] = static_cast<unsigned int>(musicPlaylistInfo->uNumPlaylistItems);
+		callbackData["uPlaylistItemDone"] = static_cast<unsigned int>(musicPlaylistInfo->uPlaylistItemDone);
+		callbackData["uPlaylistSelection"] = static_cast<unsigned int>(musicPlaylistInfo->uPlaylistSelection);
 		break;
 	}
 	case AK_MusicPlayStarted:
 	{
 		AkEventCallbackInfo* eventInfo = static_cast<AkEventCallbackInfo*>(callbackInfo);
-		signalData["eventID"] = static_cast<unsigned int>(eventInfo->eventID);
-		signalData["gameObjID"] = static_cast<unsigned int>(eventInfo->gameObjID);
-		signalData["playingID"] = static_cast<unsigned int>(eventInfo->playingID);
+		callbackData["eventID"] = static_cast<unsigned int>(eventInfo->eventID);
+		callbackData["gameObjID"] = static_cast<unsigned int>(eventInfo->gameObjID);
+		callbackData["playingID"] = static_cast<unsigned int>(eventInfo->playingID);
 		break;
 	}
 	case AK_MusicSyncBeat:
 	{
 		AkMusicSyncCallbackInfo* musicSyncInfo = static_cast<AkMusicSyncCallbackInfo*>(callbackInfo);
-		signalData["gameObjID"] = static_cast<unsigned int>(musicSyncInfo->gameObjID);
-		signalData["musicSyncType"] = static_cast<unsigned int>(musicSyncInfo->musicSyncType);
-		signalData["playingID"] = static_cast<unsigned int>(musicSyncInfo->playingID);
-		signalData["pszUserCueName"] = String(musicSyncInfo->pszUserCueName);
+		callbackData["gameObjID"] = static_cast<unsigned int>(musicSyncInfo->gameObjID);
+		callbackData["musicSyncType"] = static_cast<unsigned int>(musicSyncInfo->musicSyncType);
+		callbackData["playingID"] = static_cast<unsigned int>(musicSyncInfo->playingID);
+		callbackData["pszUserCueName"] = String(musicSyncInfo->pszUserCueName);
 
 		Dictionary segmentInfo;
 		segmentInfo["fBarDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fBarDuration);
@@ -1287,16 +1269,16 @@ void Wwise::eventCallback(AkCallbackType callbackType, AkCallbackInfo* callbackI
 		segmentInfo["iPostExitDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iPostExitDuration);
 		segmentInfo["iPreEntryDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iPreEntryDuration);
 		segmentInfo["iRemainingLookAheadTime"] = static_cast<int>(musicSyncInfo->segmentInfo.iRemainingLookAheadTime);
-		signalData["segmentInfo"] = segmentInfo;
+		callbackData["segmentInfo"] = segmentInfo;
 		break;
 	}
 	case AK_MusicSyncBar:
 	{
 		AkMusicSyncCallbackInfo* musicSyncInfo = static_cast<AkMusicSyncCallbackInfo*>(callbackInfo);
-		signalData["gameObjID"] = static_cast<unsigned int>(musicSyncInfo->gameObjID);
-		signalData["musicSyncType"] = static_cast<unsigned int>(musicSyncInfo->musicSyncType);
-		signalData["playingID"] = static_cast<unsigned int>(musicSyncInfo->playingID);
-		signalData["pszUserCueName"] = String(musicSyncInfo->pszUserCueName);
+		callbackData["gameObjID"] = static_cast<unsigned int>(musicSyncInfo->gameObjID);
+		callbackData["musicSyncType"] = static_cast<unsigned int>(musicSyncInfo->musicSyncType);
+		callbackData["playingID"] = static_cast<unsigned int>(musicSyncInfo->playingID);
+		callbackData["pszUserCueName"] = String(musicSyncInfo->pszUserCueName);
 
 		Dictionary segmentInfo;
 		segmentInfo["fBarDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fBarDuration);
@@ -1308,16 +1290,16 @@ void Wwise::eventCallback(AkCallbackType callbackType, AkCallbackInfo* callbackI
 		segmentInfo["iPostExitDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iPostExitDuration);
 		segmentInfo["iPreEntryDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iPreEntryDuration);
 		segmentInfo["iRemainingLookAheadTime"] = static_cast<int>(musicSyncInfo->segmentInfo.iRemainingLookAheadTime);
-		signalData["segmentInfo"] = segmentInfo;
+		callbackData["segmentInfo"] = segmentInfo;
 		break;
 	}
 	case AK_MusicSyncEntry:
 	{
 		AkMusicSyncCallbackInfo* musicSyncInfo = static_cast<AkMusicSyncCallbackInfo*>(callbackInfo);
-		signalData["gameObjID"] = static_cast<unsigned int>(musicSyncInfo->gameObjID);
-		signalData["musicSyncType"] = static_cast<unsigned int>(musicSyncInfo->musicSyncType);
-		signalData["playingID"] = static_cast<unsigned int>(musicSyncInfo->playingID);
-		signalData["pszUserCueName"] = String(musicSyncInfo->pszUserCueName);
+		callbackData["gameObjID"] = static_cast<unsigned int>(musicSyncInfo->gameObjID);
+		callbackData["musicSyncType"] = static_cast<unsigned int>(musicSyncInfo->musicSyncType);
+		callbackData["playingID"] = static_cast<unsigned int>(musicSyncInfo->playingID);
+		callbackData["pszUserCueName"] = String(musicSyncInfo->pszUserCueName);
 
 		Dictionary segmentInfo;
 		segmentInfo["fBarDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fBarDuration);
@@ -1329,16 +1311,16 @@ void Wwise::eventCallback(AkCallbackType callbackType, AkCallbackInfo* callbackI
 		segmentInfo["iPostExitDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iPostExitDuration);
 		segmentInfo["iPreEntryDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iPreEntryDuration);
 		segmentInfo["iRemainingLookAheadTime"] = static_cast<int>(musicSyncInfo->segmentInfo.iRemainingLookAheadTime);
-		signalData["segmentInfo"] = segmentInfo;
+		callbackData["segmentInfo"] = segmentInfo;
 		break;
 	}
 	case AK_MusicSyncExit:
 	{
 		AkMusicSyncCallbackInfo* musicSyncInfo = static_cast<AkMusicSyncCallbackInfo*>(callbackInfo);
-		signalData["gameObjID"] = static_cast<unsigned int>(musicSyncInfo->gameObjID);
-		signalData["musicSyncType"] = static_cast<unsigned int>(musicSyncInfo->musicSyncType);
-		signalData["playingID"] = static_cast<unsigned int>(musicSyncInfo->playingID);
-		signalData["pszUserCueName"] = String(musicSyncInfo->pszUserCueName);
+		callbackData["gameObjID"] = static_cast<unsigned int>(musicSyncInfo->gameObjID);
+		callbackData["musicSyncType"] = static_cast<unsigned int>(musicSyncInfo->musicSyncType);
+		callbackData["playingID"] = static_cast<unsigned int>(musicSyncInfo->playingID);
+		callbackData["pszUserCueName"] = String(musicSyncInfo->pszUserCueName);
 
 		Dictionary segmentInfo;
 		segmentInfo["fBarDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fBarDuration);
@@ -1350,16 +1332,16 @@ void Wwise::eventCallback(AkCallbackType callbackType, AkCallbackInfo* callbackI
 		segmentInfo["iPostExitDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iPostExitDuration);
 		segmentInfo["iPreEntryDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iPreEntryDuration);
 		segmentInfo["iRemainingLookAheadTime"] = static_cast<int>(musicSyncInfo->segmentInfo.iRemainingLookAheadTime);
-		signalData["segmentInfo"] = segmentInfo;
+		callbackData["segmentInfo"] = segmentInfo;
 		break;
 	}
 	case AK_MusicSyncGrid:
 	{
 		AkMusicSyncCallbackInfo* musicSyncInfo = static_cast<AkMusicSyncCallbackInfo*>(callbackInfo);
-		signalData["gameObjID"] = static_cast<unsigned int>(musicSyncInfo->gameObjID);
-		signalData["musicSyncType"] = static_cast<unsigned int>(musicSyncInfo->musicSyncType);
-		signalData["playingID"] = static_cast<unsigned int>(musicSyncInfo->playingID);
-		signalData["pszUserCueName"] = String(musicSyncInfo->pszUserCueName);
+		callbackData["gameObjID"] = static_cast<unsigned int>(musicSyncInfo->gameObjID);
+		callbackData["musicSyncType"] = static_cast<unsigned int>(musicSyncInfo->musicSyncType);
+		callbackData["playingID"] = static_cast<unsigned int>(musicSyncInfo->playingID);
+		callbackData["pszUserCueName"] = String(musicSyncInfo->pszUserCueName);
 
 		Dictionary segmentInfo;
 		segmentInfo["fBarDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fBarDuration);
@@ -1371,16 +1353,16 @@ void Wwise::eventCallback(AkCallbackType callbackType, AkCallbackInfo* callbackI
 		segmentInfo["iPostExitDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iPostExitDuration);
 		segmentInfo["iPreEntryDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iPreEntryDuration);
 		segmentInfo["iRemainingLookAheadTime"] = static_cast<int>(musicSyncInfo->segmentInfo.iRemainingLookAheadTime);
-		signalData["segmentInfo"] = segmentInfo;
+		callbackData["segmentInfo"] = segmentInfo;
 		break;
 	}
 	case AK_MusicSyncUserCue:
 	{
 		AkMusicSyncCallbackInfo* musicSyncInfo = static_cast<AkMusicSyncCallbackInfo*>(callbackInfo);
-		signalData["gameObjID"] = static_cast<unsigned int>(musicSyncInfo->gameObjID);
-		signalData["musicSyncType"] = static_cast<unsigned int>(musicSyncInfo->musicSyncType);
-		signalData["playingID"] = static_cast<unsigned int>(musicSyncInfo->playingID);
-		signalData["pszUserCueName"] = String(musicSyncInfo->pszUserCueName);
+		callbackData["gameObjID"] = static_cast<unsigned int>(musicSyncInfo->gameObjID);
+		callbackData["musicSyncType"] = static_cast<unsigned int>(musicSyncInfo->musicSyncType);
+		callbackData["playingID"] = static_cast<unsigned int>(musicSyncInfo->playingID);
+		callbackData["pszUserCueName"] = String(musicSyncInfo->pszUserCueName);
 
 		Dictionary segmentInfo;
 		segmentInfo["fBarDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fBarDuration);
@@ -1392,16 +1374,16 @@ void Wwise::eventCallback(AkCallbackType callbackType, AkCallbackInfo* callbackI
 		segmentInfo["iPostExitDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iPostExitDuration);
 		segmentInfo["iPreEntryDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iPreEntryDuration);
 		segmentInfo["iRemainingLookAheadTime"] = static_cast<int>(musicSyncInfo->segmentInfo.iRemainingLookAheadTime);
-		signalData["segmentInfo"] = segmentInfo;
+		callbackData["segmentInfo"] = segmentInfo;
 		break;
 	}
 	case AK_MusicSyncPoint:
 	{
 		AkMusicSyncCallbackInfo* musicSyncInfo = static_cast<AkMusicSyncCallbackInfo*>(callbackInfo);
-		signalData["gameObjID"] = static_cast<unsigned int>(musicSyncInfo->gameObjID);
-		signalData["musicSyncType"] = static_cast<unsigned int>(musicSyncInfo->musicSyncType);
-		signalData["playingID"] = static_cast<unsigned int>(musicSyncInfo->playingID);
-		signalData["pszUserCueName"] = String(musicSyncInfo->pszUserCueName);
+		callbackData["gameObjID"] = static_cast<unsigned int>(musicSyncInfo->gameObjID);
+		callbackData["musicSyncType"] = static_cast<unsigned int>(musicSyncInfo->musicSyncType);
+		callbackData["playingID"] = static_cast<unsigned int>(musicSyncInfo->playingID);
+		callbackData["pszUserCueName"] = String(musicSyncInfo->pszUserCueName);
 
 		Dictionary segmentInfo;
 		segmentInfo["fBarDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fBarDuration);
@@ -1413,16 +1395,16 @@ void Wwise::eventCallback(AkCallbackType callbackType, AkCallbackInfo* callbackI
 		segmentInfo["iPostExitDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iPostExitDuration);
 		segmentInfo["iPreEntryDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iPreEntryDuration);
 		segmentInfo["iRemainingLookAheadTime"] = static_cast<int>(musicSyncInfo->segmentInfo.iRemainingLookAheadTime);
-		signalData["segmentInfo"] = segmentInfo;
+		callbackData["segmentInfo"] = segmentInfo;
 		break;
 	}
 	case AK_MusicSyncAll:
 	{
 		AkMusicSyncCallbackInfo* musicSyncInfo = static_cast<AkMusicSyncCallbackInfo*>(callbackInfo);
-		signalData["gameObjID"] = static_cast<unsigned int>(musicSyncInfo->gameObjID);
-		signalData["musicSyncType"] = static_cast<unsigned int>(musicSyncInfo->musicSyncType);
-		signalData["playingID"] = static_cast<unsigned int>(musicSyncInfo->playingID);
-		signalData["pszUserCueName"] = String(musicSyncInfo->pszUserCueName);
+		callbackData["gameObjID"] = static_cast<unsigned int>(musicSyncInfo->gameObjID);
+		callbackData["musicSyncType"] = static_cast<unsigned int>(musicSyncInfo->musicSyncType);
+		callbackData["playingID"] = static_cast<unsigned int>(musicSyncInfo->playingID);
+		callbackData["pszUserCueName"] = String(musicSyncInfo->pszUserCueName);
 
 		Dictionary segmentInfo;
 		segmentInfo["fBarDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fBarDuration);
@@ -1434,14 +1416,14 @@ void Wwise::eventCallback(AkCallbackType callbackType, AkCallbackInfo* callbackI
 		segmentInfo["iPostExitDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iPostExitDuration);
 		segmentInfo["iPreEntryDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iPreEntryDuration);
 		segmentInfo["iRemainingLookAheadTime"] = static_cast<int>(musicSyncInfo->segmentInfo.iRemainingLookAheadTime);
-		signalData["segmentInfo"] = segmentInfo;
+		callbackData["segmentInfo"] = segmentInfo;
 		break;
 	}
 	case AK_MIDIEvent:
 	{
 		AkMIDIEventCallbackInfo* midiEventInfo = static_cast<AkMIDIEventCallbackInfo*>(callbackInfo);
-		signalData["eventID"] = static_cast<unsigned int>(midiEventInfo->eventID);
-		signalData["gameObjID"] = static_cast<unsigned int>(midiEventInfo->gameObjID);
+		callbackData["eventID"] = static_cast<unsigned int>(midiEventInfo->eventID);
+		callbackData["gameObjID"] = static_cast<unsigned int>(midiEventInfo->gameObjID);
 
 		Dictionary midiEvent;
 		midiEvent["byType"] = static_cast<unsigned char>(midiEventInfo->midiEvent.byType);
@@ -1481,9 +1463,9 @@ void Wwise::eventCallback(AkCallbackType callbackType, AkCallbackInfo* callbackI
 		midiEvent["pitchBend"] = pitchBend;
 		midiEvent["programChange"] = programChange;
 
-		signalData["midiEvent"] = midiEvent;
+		callbackData["midiEvent"] = midiEvent;
 
-		signalData["playingID"] = static_cast<unsigned int>(midiEventInfo->playingID);
+		callbackData["playingID"] = static_cast<unsigned int>(midiEventInfo->playingID);
 		break;
 	}
 	case AK_CallbackBits:
@@ -1496,66 +1478,29 @@ void Wwise::eventCallback(AkCallbackType callbackType, AkCallbackInfo* callbackI
 		break;
 	}
 
-	if (signalDataArray->size() < signalCallbackDataMaxSize)
-	{
-		signalDataArray->append(signalData);
-	}
-	else
-	{
-		Godot::print_warning("Exceeded the signal callback data maximum size (callback manager)", __FUNCTION__,
-							 __FILE__, __LINE__);
-	}
+	args.push_back(callbackData);
+	cookie->call_func(args);
 }
 
-void Wwise::emitSignals()
+void Wwise::bankCallback(AkUInt32 bankID, const void* inMemoryBankPtr, AKRESULT loadResult, void* in_pCookie)
 {
-	AkAutoLock<CAkLock> ScopedLock(signalDataLock);
+	AkAutoLock<CAkLock> ScopedLock(callbackDataLock);
 
-	const int initialArraySize = signalDataArray->size();
+	FuncRef* cookie = static_cast<FuncRef*>(in_pCookie);
 
-	for (int signalIndex = 0; signalIndex < initialArraySize; ++signalIndex)
+	if (!cookie)
 	{
-		const Dictionary data = signalDataArray->pop_front();
-		const unsigned int callbackType = static_cast<unsigned int>(data["callbackType"]);
-
-		emit_signal(WwiseCallbackToSignal(static_cast<AkCallbackType>(callbackType)), data);
+		ERROR_CHECK(AK_Fail, "The Bank Callback cookie is not valid.");
+		return;
 	}
 
-	AKASSERT(signalDataArray->size() == 0);
-}
+	Array args;
+	Dictionary callbackData;
+	callbackData["bankID"] = static_cast<unsigned int>(bankID);
+	callbackData["result"] = static_cast<unsigned int>(loadResult);
 
-void Wwise::bankCallback(AkUInt32 bankID, const void* inMemoryBankPtr, AKRESULT loadResult, AkMemPoolId memPoolId)
-{
-	AkAutoLock<CAkLock> ScopedLock(signalDataLock);
-
-	Dictionary signalData;
-	signalData["bankID"] = static_cast<unsigned int>(bankID);
-	signalData["result"] = static_cast<unsigned int>(loadResult);
-
-	if (signalBankDataArray->size() < signalCallbackDataMaxSize)
-	{
-		signalBankDataArray->append(signalData);
-	}
-	else
-	{
-		Godot::print_warning("Exceeded the signal callback data maximum size (callback manager)", __FUNCTION__,
-							 __FILE__, __LINE__);
-	}
-}
-
-void Wwise::emitBankSignals()
-{
-	AkAutoLock<CAkLock> ScopedLock(signalDataLock);
-
-	const int initialArraySize = signalBankDataArray->size();
-
-	for (int signalIndex = 0; signalIndex < initialArraySize; ++signalIndex)
-	{
-		const Dictionary data = signalBankDataArray->pop_front();
-		emit_signal("bank_callback", data);
-	}
-
-	AKASSERT(signalBankDataArray->size() == 0);
+	args.push_back(callbackData);
+	cookie->call_func(args);
 }
 
 Variant Wwise::getPlatformProjectSetting(const String setting)

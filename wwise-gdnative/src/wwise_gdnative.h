@@ -2,9 +2,9 @@
 #define WWISE_GDNATIVE_H
 
 #include <Directory.hpp>
+#include <FuncRef.hpp>
 #include <Godot.hpp>
 #include <GodotGlobal.hpp>
-#include <Mutex.hpp>
 #include <Node.hpp>
 #include <OS.hpp>
 #include <Object.hpp>
@@ -55,12 +55,12 @@ class Wwise : public Node
 	void setCurrentLanguage(const String language);
 	bool loadBank(const String bankName);
 	bool loadBankID(const unsigned int bankID);
-	bool loadBankAsync(const String bankName);
-	bool loadBankAsyncID(const unsigned int bankID);
+	bool loadBankAsync(const String bankName, const Object* cookie);
+	bool loadBankAsyncID(const unsigned int bankID, const Object* cookie);
 	bool unloadBank(const String bankName);
 	bool unloadBankID(const unsigned int bankID);
-	bool unloadBankAsync(const String bankName);
-	bool unloadBankAsyncID(const unsigned int bankID);
+	bool unloadBankAsync(const String bankName, const Object* cookie);
+	bool unloadBankAsyncID(const unsigned int bankID, const Object* cookie);
 
 	bool registerListener(const Object* gameObject);
 	bool registerGameObject(const Object* gameObject, const String gameObjectName);
@@ -77,9 +77,11 @@ class Wwise : public Node
 	bool setGameObjectRadius(const Object* gameObject, const float outerRadius, const float innerRadius);
 
 	unsigned int postEvent(const String eventName, const Object* gameObject);
-	unsigned int postEventCallback(const String eventName, const unsigned int flags, const Object* gameObject);
+	unsigned int postEventCallback(const String eventName, const unsigned int flags, const Object* gameObject,
+								   const Object* cookie);
 	unsigned int postEventID(const unsigned int eventID, const Object* gameObject);
-	unsigned int postEventIDCallback(const unsigned int eventID, const unsigned int flags, const Object* gameObject);
+	unsigned int postEventIDCallback(const unsigned int eventID, const unsigned int flags, const Object* gameObject,
+									 const Object* cookie);
 	bool stopEvent(const int playingID, const int fadeTime, const int interpolation);
 
 	bool setSwitch(const String switchGroup, const String switchState, const Object* gameObject);
@@ -150,24 +152,19 @@ class Wwise : public Node
 	const String WWISE_COMMUNICATION_SETTINGS_PATH = "wwise/communication_settings/";
 
 	static void eventCallback(AkCallbackType callbackType, AkCallbackInfo* callbackInfo);
-	void emitSignals();
-
-	static void bankCallback(AkUInt32 bankID, const void* inMemoryBankPtr, AKRESULT loadResult, AkMemPoolId memPoolId);
-	void emitBankSignals();
+	static void bankCallback(AkUInt32 bankID, const void* inMemoryBankPtr, AKRESULT loadResult, void* in_pCookie);
 
 	Variant getPlatformProjectSetting(const String setting);
 
 	bool initialiseWwiseSystems();
 	bool shutdownWwiseSystems();
 
-	static CAkLock signalDataLock;
-	static std::unique_ptr<Array> signalDataArray;
-	static std::unique_ptr<Array> signalBankDataArray;
-	static int signalCallbackDataMaxSize;
+	static CAkLock callbackDataLock;
 
 	ProjectSettings* projectSettings;
 	CAkFileIOHandlerGodot lowLevelIO;
 };
+
 } // namespace godot
 
 #endif

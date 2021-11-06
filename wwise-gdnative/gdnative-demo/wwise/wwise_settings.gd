@@ -35,8 +35,6 @@ func _add_common_user_settings():
 				PROPERTY_HINT_NONE, "")
 	_add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "suspend_at_focus_loss", 1, TYPE_BOOL, 
 				PROPERTY_HINT_NONE, "")
-	_add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "callback_manager_buffer_size", 4096, TYPE_INT, 
-				PROPERTY_HINT_NONE, "")
 	_add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "engine_logging", 0, TYPE_BOOL, 
 				PROPERTY_HINT_NONE, "")
 	_add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "maximum_number_of_positioning_paths", 255, TYPE_INT, 
