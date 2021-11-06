@@ -5,6 +5,7 @@ var ray:RayCast
 var colliding_objects:Array = []
 var ak_environment_data
 var playing_id:int
+var cookie:FuncRef
 
 func _init() -> void:
 	if Engine.is_editor_hint():
@@ -18,9 +19,9 @@ func _enter_tree() -> void:
 	self.set_process(true)
 		
 	if use_callback:
-		for flag in AkUtils.AkCallbackType.values().size():
-			if (callback_flag & AkUtils.AkCallbackType.values()[flag] > 0):
-				connect_signals(AkUtils.AkCallbackType.values()[flag])
+		cookie = FuncRef.new()
+		cookie.set_function("callback_emitter")
+		cookie.set_instance(self)
 	
 	# If is_environment_aware is checked, Wwise.set_game_obj_aux_send_values will
 	# be called. Each Event will instantiate the AkGameObjeckEnvironmentData class,
@@ -44,7 +45,7 @@ func post_event() -> void:
 	if not use_callback:
 		playing_id = Wwise.post_event_id(event, self)
 	else:
-		playing_id = Wwise.post_event_id_callback(event, callback_flag, self)
+		playing_id = Wwise.post_event_id_callback(event, callback_flag, self, cookie)
 	
 func stop_event() -> void:
 	Wwise.stop_event(playing_id, stop_fade_time, stop_interpolation_curve)

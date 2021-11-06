@@ -18,10 +18,9 @@ script = ExtResource( 4 )
 event = 3991942870
 trigger_on = 3
 use_callback = true
-callback_flag = 776
+callback_flag = 256
 
 [node name="Callbacks" type="Node" parent="."]
 script = ExtResource( 2 )
-[connection signal="duration" from="AkEvent" to="Callbacks" method="_on_AkEvent_duration"]
-[connection signal="music_sync_bar" from="AkEvent" to="Callbacks" method="_on_AkEvent_music_sync_bar"]
+
 [connection signal="music_sync_beat" from="AkEvent" to="Callbacks" method="_on_AkEvent_music_sync_beat"]
