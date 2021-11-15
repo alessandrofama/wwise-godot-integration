@@ -432,6 +432,8 @@ export default {
       });
     },
     copyIntegrationFilesToProject() {
+      this.updateProgressTextandBar("Copying files to the project.", 80);
+
       const unzipper = require("unzipper");
 
       var vm = this;
@@ -451,9 +453,7 @@ export default {
             .pipe(unzipper.Extract({ path: vm.godotProjectPath }))
             .on("close", () => {
               var binaries = fs.readdirSync(this.binariesDestionationPath);
-
               var numExtractedBinaries = 0;
-
               for (var j = 0; j < binaries.length; j++) {
                 var binary = binaries[j];
                 var binaryPath = path.join(
@@ -461,26 +461,28 @@ export default {
                   binary
                 );
 
-                var stat2 = fs.lstatSync(binaryPath);
-                if (stat2.isFile()) {
-                  readStream = fs.createReadStream(binaryPath);
-                  readStream.on("error", function (err) {
-                    vm.displayFailureMessage(err);
-                  });
+                readStream = fs.createReadStream(binaryPath);
+                readStream.on("error", function (err) {
+                  vm.displayFailureMessage(err);
+                });
 
-                  readStream
-                    .pipe(
-                      unzipper.Extract({
-                        path: path.join(vm.godotProjectPath, "wwise/bin"),
-                      })
-                    )
-                    .on("close", () => {
-                      numExtractedBinaries++;
-                      if (numExtractedBinaries == binaries.length - 1) {
-                        vm.finishInstallation();
-                      }
-                    });
-                }
+                readStream
+                  .pipe(
+                    unzipper.Extract({
+                      path: path.join(vm.godotProjectPath, "wwise/bin"),
+                    })
+                  )
+                  .on("close", () => {
+                    numExtractedBinaries++;
+
+                    if (numExtractedBinaries == binaries.length - 1) {
+                      vm.finishInstallation();
+                    }
+
+                    if (binaries.length == 1 && numExtractedBinaries == 1) {
+                      vm.finishInstallation();
+                    }
+                  });
               }
             });
         }
