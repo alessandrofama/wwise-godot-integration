@@ -81,6 +81,8 @@ opts.Add(ListVariable('plugins', 'List of plugins', '', ['reflect', 'motion', 'c
 opts.Add(EnumVariable('ios_arch', 'Target iOS architecture', 'arm64', ['armv7', 'arm64', 'x86_64']))
 opts.Add('IPHONEPATH', 'Path to iPhone toolchain', '/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain')
 opts.Add(BoolVariable('ios_simulator', 'Target iOS Simulator', False))
+opts.Add(EnumVariable('macos_arch', 'macOS architecture',
+         'universal', ['universal', 'x86_64', 'arm64']))
 
 # Local dependency paths, adapt them to your setup
 godot_headers_path = "../godot-cpp/godot-headers/"
@@ -206,15 +208,24 @@ if env['platform'] == "osx":
 
     wwise_plugins_library.append("AkAACDecoder")
     
+    if env["macos_arch"] == "universal":
+        env.Append(LINKFLAGS=["-arch", "x86_64", "-arch", "arm64"])
+        env.Append(CCFLAGS=["-arch", "x86_64", "-arch", "arm64"])
+    else:
+        env.Append(LINKFLAGS=["-arch", env["macos_arch"]])
+        env.Append(CCFLAGS=["-arch", env["macos_arch"]])
+
     if env['target'] in ('debug', 'd'):
-        env.Append(CCFLAGS=['-g', '-O2', '-arch', 'x86_64'])
+        env.Append(CCFLAGS=['-g', '-O2'])
         env.Append(CXXFLAGS=['-std=c++17'])
-        env.Append(LINKFLAGS=['-arch', 'x86_64', '-framework', 'CoreAudio', '-Wl,-undefined,dynamic_lookup'])
+        env.Append(LINKFLAGS=['-framework',
+                   'CoreAudio', '-Wl,-undefined,dynamic_lookup'])
     else:
         env.Append(CPPDEFINES=['AK_OPTIMIZED'])
-        env.Append(CCFLAGS=['-g', '-O3', '-arch', 'x86_64'])
+        env.Append(CCFLAGS=['-g', '-O3'])
         env.Append(CXXFLAGS=['-std=c++17'])
-        env.Append(LINKFLAGS=['-arch', 'x86_64', '-framework', 'CoreAudio', '-Wl,-undefined,dynamic_lookup'])
+        env.Append(LINKFLAGS=['-framework',
+                   'CoreAudio', '-Wl,-undefined,dynamic_lookup'])
 
     if 'reflect' in env['plugins']:
         env.Append(CPPDEFINES=['AK_REFLECT'])
@@ -353,6 +364,11 @@ if env['platform'] == 'ios':
 
     if env['ios_simulator']:
         cpp_library += '.' + 'simulator'
+elif env["platform"] == "osx":
+    if env['macos_arch'] != 'universal':
+        cpp_library += '.' + env['macos_arch']
+    else:
+        cpp_library += '.' + str(bits)
 else:
     cpp_library += '.' + str(bits)
 
