@@ -37,6 +37,8 @@ Release
 scons target=release platform=osx wwise_sdk=/Applications/Audiokinetic/Wwise\ 2019.2.1.7250/SDK
 ```
 
+By default, this command creates an universal library that works on both the x86_64 and arm64 architectures. You can set the `macos_arch` parameter to `x86_64` or `arm64` if you want to use only one of these architectures.
+
 
 ### Linux 64-bit (Scons)
 

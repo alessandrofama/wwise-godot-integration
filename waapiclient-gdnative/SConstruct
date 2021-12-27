@@ -29,6 +29,8 @@ opts.Add(BoolVariable('use_llvm', "Use the LLVM / Clang compiler", 'no'))
 opts.Add(PathVariable('target_path', 'The path where the lib is installed.', 'gdnative-demo/wwise/bin/', PathVariable.PathIsDirCreate))
 opts.Add(PathVariable('target_name', 'The library name.', 'WaapiGDNative', PathVariable.PathAccept))
 opts.Add(PathVariable('wwise_sdk', 'The Wwise SDK path', '', PathVariable.PathAccept))
+opts.Add(EnumVariable('macos_arch', 'macOS architecture',
+         'universal', ['universal', 'x86_64', 'arm64']))
 
 # Local dependency paths, adapt them to your setup
 godot_headers_path = "../godot-cpp/godot-headers/"
@@ -94,18 +96,25 @@ if env['platform'] == "osx":
         env['target_path'] += 'release/'
 
     cpp_library += '.osx'
+
+    if env["macos_arch"] == "universal":
+        env.Append(LINKFLAGS=["-arch", "x86_64", "-arch", "arm64"])
+        env.Append(CCFLAGS=["-arch", "x86_64", "-arch", "arm64"])
+    else:
+        env.Append(LINKFLAGS=["-arch", env["macos_arch"]])
+        env.Append(CCFLAGS=["-arch", env["macos_arch"]])
     
     if env['target'] in ('debug', 'd'):
         env.Append(CPPDEFINES=['AK_ENABLE_ASSERTS'])
-        env.Append(CCFLAGS=['-g', '-O2', '-arch', 'x86_64'])
+        env.Append(CCFLAGS=['-g', '-O2'])
         env.Append(CXXFLAGS=['-std=c++17'])
-        env.Append(LINKFLAGS=['-arch', 'x86_64', '-framework', 'CoreAudio', '-Wl,-undefined,dynamic_lookup'])
+        env.Append(LINKFLAGS=['-framework', 'CoreAudio', '-Wl,-undefined,dynamic_lookup'])
     else:
         env.Append(CPPDEFINES=['AK_ENABLE_ASSERTS'])        
         env.Append(CPPDEFINES=['AK_OPTIMIZED'])
-        env.Append(CCFLAGS=['-g', '-O3', '-arch', 'x86_64'])
+        env.Append(CCFLAGS=['-g', '-O3'])
         env.Append(CXXFLAGS=['-std=c++17'])
-        env.Append(LINKFLAGS=['-arch', 'x86_64', '-framework', 'CoreAudio', '-Wl,-undefined,dynamic_lookup'])
+        env.Append(LINKFLAGS=['-framework', 'CoreAudio', '-Wl,-undefined,dynamic_lookup'])
 
 elif env['platform'] == "windows":
     env['target_path'] += 'win64/'
@@ -134,7 +143,14 @@ if env['target'] in ('debug', 'd'):
 else:
     cpp_library += '.release'
 
-cpp_library += '.' + str(bits)
+
+if env["platform"] == "osx":
+    if env['macos_arch'] != 'universal':
+        cpp_library += '.' + env['macos_arch']
+    else:
+        cpp_library += '.' + str(bits)
+else:
+    cpp_library += '.' + str(bits)
 
 # make sure our binding library is properly includes
 env.Append(CPPPATH=['.', godot_headers_path, cpp_bindings_path + 'include/', cpp_bindings_path + 'include/core/', cpp_bindings_path + 'include/gen/'])
