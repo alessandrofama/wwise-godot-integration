@@ -11,11 +11,11 @@ class TestPostEvent:
 		node.name = "Test"
 		Wwise.register_game_obj(node, node.get_name())
 		
-	func test_assert_post_event_string():
-		yield(yield_for(0.1), YIELD)
-		var desired_value = Wwise.post_event("Play_chimes_with_marker", node)
-		assert_true(desired_value > 0, "Playing ID should be greater than 0")
-		Wwise.stop_event(desired_value, 0, AkUtils.AkCurveInterpolation.LINEAR)
+#	func test_assert_post_event_string():
+#		yield(yield_for(0.1), YIELD)
+#		var desired_value = Wwise.post_event("Play_chimes_with_marker", node)
+#		assert_true(desired_value > 0, "Playing ID should be greater than 0")
+#		Wwise.stop_event(desired_value, 0, AkUtils.AkCurveInterpolation.LINEAR)
 		
 	func test_assert_post_event_id():
 		yield(yield_for(0.1), YIELD)
@@ -23,15 +23,15 @@ class TestPostEvent:
 		assert_true(desired_value > 0, "Playing ID should be greater than 0")
 		Wwise.stop_event(desired_value, 0, AkUtils.AkCurveInterpolation.LINEAR)
 
-	func test_asert_post_event_callback_string():
-		yield(yield_for(0.1), YIELD)
-		var desired_value = Wwise.post_event_callback("Play_chimes_with_marker", AkUtils.AkCallbackType.AK_Marker, node)
-		assert_true(desired_value > 0, "Playing ID should be greater than 0")
-		Wwise.stop_event(desired_value, 0, AkUtils.AkCurveInterpolation.LINEAR)
+#	func test_assert_post_event_callback_string():
+#		yield(yield_for(0.1), YIELD)
+#		var desired_value = Wwise.post_event_callback("Play_chimes_with_marker", AkUtils.AkCallbackType.AK_Marker, node)
+#		assert_true(desired_value > 0, "Playing ID should be greater than 0")
+#		Wwise.stop_event(desired_value, 0, AkUtils.AkCurveInterpolation.LINEAR)
 
 	func test_assert_post_event_callback_id():
 		yield(yield_for(0.1), YIELD)
-		var desired_value = Wwise.post_event_id_callback(AK.EVENTS.PLAY_CHIMES_WITH_MARKER, AkUtils.AkCallbackType.AK_Marker, node)
+		var desired_value = Wwise.post_event_id_callback(AK.EVENTS.PLAY_CHIMES_WITH_MARKER, AkUtils.AkCallbackType.AK_Marker, self, null)
 		assert_true(desired_value > 0, "Playing ID should be greater than 0")
 		Wwise.stop_event(desired_value, 0, AkUtils.AkCurveInterpolation.LINEAR)
 		
