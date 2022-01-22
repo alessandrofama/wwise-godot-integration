@@ -59,7 +59,7 @@ jobs:
           scons platform=windows bits=64 target=release generate_bindings=yes -j4
           cd ..
           cd ${{env.PROJECT_FOLDER}}
-          scons platform=windows target=debug target_path=../${{env.TARGET_PATH}} target_name=${{env.TARGET_NAME}} wwise_sdk=../wwise_sdk/
+          scons platform=windows target=debug target_path=../${{env.TARGET_PATH}} target_name=${{env.TARGET_NAME}} wwise_sdk=../wwise_sdk/ asserts=yes
           scons platform=windows target=release target_path=../${{env.TARGET_PATH}} target_name=${{env.TARGET_NAME}} wwise_sdk=../wwise_sdk/
           cd ..
           cd ${{env.WAAPI_PROJECT_FOLDER}}

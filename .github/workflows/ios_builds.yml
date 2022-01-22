@@ -56,9 +56,9 @@ jobs:
           scons platform=ios target=release ios_arch=arm64 generate_bindings=true -j4
           cd ..
           cd ${{env.PROJECT_FOLDER}}
-          scons platform=ios target=debug ios_arch=armv7 target_path=${{env.TARGET_PATH}} target_name=${{env.TARGET_NAME}} wwise_sdk=../wwise_sdk/ -j4
+          scons platform=ios target=debug ios_arch=armv7 target_path=${{env.TARGET_PATH}} target_name=${{env.TARGET_NAME}} wwise_sdk=../wwise_sdk/ asserts=yes -j4
           scons platform=ios target=release ios_arch=armv7 target_path=${{env.TARGET_PATH}} target_name=${{env.TARGET_NAME}} wwise_sdk=../wwise_sdk/ -j4
-          scons platform=ios target=debug ios_arch=arm64 target_path=${{env.TARGET_PATH}} target_name=${{env.TARGET_NAME}} wwise_sdk=../wwise_sdk/ -j4
+          scons platform=ios target=debug ios_arch=arm64 target_path=${{env.TARGET_PATH}} target_name=${{env.TARGET_NAME}} wwise_sdk=../wwise_sdk/ asserts=yes -j4
           scons platform=ios target=release ios_arch=arm64 target_path=${{env.TARGET_PATH}} target_name=${{env.TARGET_NAME}} wwise_sdk=../wwise_sdk/ -j4
       - name: Upload Artifact
         if: ${{ github.event_name == 'push' }}

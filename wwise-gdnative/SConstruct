@@ -83,6 +83,7 @@ opts.Add('IPHONEPATH', 'Path to iPhone toolchain', '/Applications/Xcode.app/Cont
 opts.Add(BoolVariable('ios_simulator', 'Target iOS Simulator', False))
 opts.Add(EnumVariable('macos_arch', 'macOS architecture',
          'universal', ['universal', 'x86_64', 'arm64']))
+opts.Add(BoolVariable('asserts', "Enable AKASSERT for debug builds", 'no'))
 
 # Local dependency paths, adapt them to your setup
 godot_headers_path = "../godot-cpp/godot-headers/"
@@ -220,6 +221,8 @@ if env['platform'] == "osx":
         env.Append(CXXFLAGS=['-std=c++17'])
         env.Append(LINKFLAGS=['-framework',
                    'CoreAudio', '-Wl,-undefined,dynamic_lookup'])
+        if env['asserts']:
+            env.Append(CPPDEFINES=['AK_ENABLE_ASSERTS'])
     else:
         env.Append(CPPDEFINES=['AK_OPTIMIZED'])
         env.Append(CCFLAGS=['-g', '-O3'])
@@ -270,6 +273,8 @@ elif env['platform'] == 'ios':
         env.Append(CCFLAGS=['-Og', '-g', '-std=c++17', '-arch', env['ios_arch'], '-isysroot', sdk_path])
         env.Append(LINKFLAGS=['-framework', 'CoreAudio', '-framework', 'AudioToolbox', '-Wl,-undefined,dynamic_lookup', '-arch', env['ios_arch'], 
                             '-isysroot', sdk_path, '-F' + sdk_path])
+        if env['asserts']:
+            env.Append(CPPDEFINES=['AK_ENABLE_ASSERTS'])
     elif env['target'] == 'release':
         env.Append(CPPDEFINES=['AK_OPTIMIZED'])
         env.Append(CCFLAGS=['-O3', '-g', '-std=c++17', '-arch', env['ios_arch'], '-isysroot', sdk_path])
@@ -298,6 +303,8 @@ elif env['platform'] in ('x11', 'linux'):
     if env['target'] in ('debug', 'd'):
         env.Append(CCFLAGS=['-g3', '-Og', '-fpermissive'])
         env.Append(CXXFLAGS=['-std=c++17', '-D__cdecl=""'])
+        if env['asserts']:
+            env.Append(CPPDEFINES=['AK_ENABLE_ASSERTS'])
     else:
         env.Append(CCFLAGS=['-g', '-O3', '-fpermissive'])
         env.Append(CXXFLAGS=['-std=c++17', '-D__cdecl=""'])
@@ -333,6 +340,8 @@ elif env['platform'] == "windows":
         env.Append(CPPDEFINES=['_DEBUG'])
         env.Append(CCFLAGS=['-EHsc', '-MDd', '-ZI'])
         env.Append(LINKFLAGS=['-DEBUG'])
+        if env['asserts']:
+            env.Append(CPPDEFINES=['AK_ENABLE_ASSERTS'])
     else:
         env.Append(CPPDEFINES=['AK_OPTIMIZED'])
         env.Append(CPPDEFINES=['NDEBUG'])

@@ -56,7 +56,7 @@ jobs:
           scons platform=osx target=release generate_bindings=yes -j $(sysctl -n hw.logicalcpu)
           cd ..
           cd ${{env.PROJECT_FOLDER}}
-          scons platform=osx target=debug target_path=../${{env.TARGET_PATH}} target_name=${{env.TARGET_NAME}} wwise_sdk=../wwise_sdk/ -j $(sysctl -n hw.logicalcpu)
+          scons platform=osx target=debug target_path=../${{env.TARGET_PATH}} target_name=${{env.TARGET_NAME}} wwise_sdk=../wwise_sdk/ asserts=yes -j $(sysctl -n hw.logicalcpu)
           scons platform=osx target=release target_path=../${{env.TARGET_PATH}} target_name=${{env.TARGET_NAME}} wwise_sdk=../wwise_sdk/ -j $(sysctl -n hw.logicalcpu)
           cd ..
           cd ${{env.WAAPI_PROJECT_FOLDER}}

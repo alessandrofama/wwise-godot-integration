@@ -58,7 +58,7 @@ jobs:
           scons platform=linux bits=64 target=release generate_bindings=yes -j4
           cd ..
           cd ${{env.PROJECT_FOLDER}}
-          scons platform=linux target=debug target_path=${{env.TARGET_PATH}} target_name=${{env.TARGET_NAME}} wwise_sdk=../wwise_sdk/ -j4
+          scons platform=linux target=debug target_path=${{env.TARGET_PATH}} target_name=${{env.TARGET_NAME}} wwise_sdk=../wwise_sdk/ asserts=yes -j4
           scons platform=linux target=release target_path=${{env.TARGET_PATH}} target_name=${{env.TARGET_NAME}} wwise_sdk=../wwise_sdk/ -j4
           ls -R 
           strip --strip-all ${{env.TARGET_PATH}}/linux/release/lib${{env.TARGET_NAME}}.so
