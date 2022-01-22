@@ -36,11 +36,12 @@ export(int, FLAGS,
 "ENABLE_GET_SOURCE_STREAM_BUFFERING"                       
 ) var callback_flag = 0
 
+signal end_of_event(data)
 signal end_of_dynamic_sequence_item(data)
-signal marker(data)
-signal duration(data)
+signal audio_marker(data)
+signal audio_duration(data)
 signal speaker_volume_matrix(data)
-signal starvation(data)
+signal audio_starvation(data)
 signal music_playlist_select(data)
 signal music_play_started(data)
 signal music_sync_beat(data)
