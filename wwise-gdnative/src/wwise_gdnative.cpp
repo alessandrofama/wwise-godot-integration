@@ -364,6 +364,9 @@ bool Wwise::unregisterGameObject(const Object* gameObject)
 
 bool Wwise::setListeners(const Object* emitter, const Object* listener)
 {
+	AKASSERT(emitter);
+	AKASSERT(listener);
+	
 	static const int kNumLstnrsForEm = 1;
 	static const AkGameObjectID aLstnrsForEmitter[kNumLstnrsForEm] = {
 		static_cast<AkGameObjectID>(listener->get_instance_id())};
