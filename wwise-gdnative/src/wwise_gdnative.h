@@ -163,6 +163,9 @@ class Wwise : public Node
 
 	ProjectSettings* projectSettings;
 	CAkFileIOHandlerGodot lowLevelIO;
+
+	bool suspendAtFocusLoss = false;
+	bool renderAnyway = false;
 };
 
 } // namespace godot

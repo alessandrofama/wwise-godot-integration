@@ -191,6 +191,9 @@ void Wwise::_init()
 		AkUInt32 initBankID = AK::SoundEngine::GetIDFromString("Init");
 		loadBankID(initBankID);
 	}
+
+	suspendAtFocusLoss = getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + "suspend_at_focus_loss");
+	renderAnyway = getPlatformProjectSetting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "render_during_focus_loss");
 }
 
 void Wwise::_process(const float delta)
@@ -200,21 +203,27 @@ void Wwise::_process(const float delta)
 
 void Wwise::_notification(int notification)
 {
-	bool suspendAtFocusLoss = getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + "suspend_at_focus_loss");
-
-	if (notification == NOTIFICATION_WM_FOCUS_OUT)
+	switch (notification)
 	{
-		if (suspendAtFocusLoss)
+		case NOTIFICATION_WM_FOCUS_OUT:
 		{
-			Wwise::suspend(false);
+			if (suspendAtFocusLoss)
+			{
+				Wwise::suspend(renderAnyway);
+			}
+			break;
 		}
-	}
-
-	if (notification == NOTIFICATION_WM_FOCUS_IN)
-	{
-		if (suspendAtFocusLoss)
+		case NOTIFICATION_WM_FOCUS_IN:
 		{
-			Wwise::wakeupFromSuspend();
+			if (suspendAtFocusLoss)
+			{
+				Wwise::wakeupFromSuspend();
+			}
+			break;
+		}
+		default:
+		{
+			break;
 		}
 	}
 }
