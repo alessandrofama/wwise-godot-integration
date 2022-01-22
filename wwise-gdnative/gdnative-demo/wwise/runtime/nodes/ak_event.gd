@@ -6,18 +6,15 @@ var colliding_objects:Array = []
 var ak_environment_data
 var playing_id:int
 var cookie:FuncRef
-
-func _init() -> void:
-	if Engine.is_editor_hint():
-		return
-	register_game_object(self, self.get_name())
 	
 func _enter_tree() -> void:
 	if Engine.is_editor_hint():
 		self.set_process(false)
 		return
 	self.set_process(true)
-		
+	
+	register_game_object(self, self.get_name())
+	
 	if use_callback:
 		cookie = FuncRef.new()
 		cookie.set_function("callback_emitter")

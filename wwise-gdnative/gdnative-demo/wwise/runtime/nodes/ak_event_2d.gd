@@ -2,9 +2,14 @@ extends "res://wwise/runtime/helpers/ak_event_handler_2d.gd"
 
 var playing_id:int
 
-func _init() -> void:
+func _enter_tree() -> void:
+	if Engine.is_editor_hint():
+		self.set_process(false)
+		return
+	self.set_process(true)
+	
 	register_game_object(self, self.get_name())
-
+	
 func _enter_tree() -> void:
 	if use_callback:
 		for flag in AkUtils.AkCallbackType.values().size():
