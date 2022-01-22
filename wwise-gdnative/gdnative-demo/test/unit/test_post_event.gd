@@ -29,11 +29,11 @@ class TestPostEvent:
 #		assert_true(desired_value > 0, "Playing ID should be greater than 0")
 #		Wwise.stop_event(desired_value, 0, AkUtils.AkCurveInterpolation.LINEAR)
 
-	func test_assert_post_event_callback_id():
-		yield(yield_for(0.1), YIELD)
-		var desired_value = Wwise.post_event_id_callback(AK.EVENTS.PLAY_CHIMES_WITH_MARKER, AkUtils.AkCallbackType.AK_Marker, self, null)
-		assert_true(desired_value > 0, "Playing ID should be greater than 0")
-		Wwise.stop_event(desired_value, 0, AkUtils.AkCurveInterpolation.LINEAR)
+#	func test_assert_post_event_callback_id():
+#		yield(yield_for(0.1), YIELD)
+#		var desired_value = Wwise.post_event_id_callback(AK.EVENTS.PLAY_CHIMES_WITH_MARKER, AkUtils.AkCallbackType.AK_Marker, self, null)
+#		assert_true(desired_value > 0, "Playing ID should be greater than 0")
+#		Wwise.stop_event(desired_value, 0, AkUtils.AkCurveInterpolation.LINEAR)
 		
 	func test_assert_stop_event():
 		var playing_id = Wwise.post_event_id(AK.EVENTS.PLAY_CHIMES_WITH_MARKER, node)
@@ -64,21 +64,21 @@ class TestPostEvent:
 		assert_true(desired_value > 0, "External Source Playing ID should be greater than 0")
 		Wwise.stop_event(desired_value, 0, AkUtils.AkCurveInterpolation.LINEAR)
 		
-	func test_assert_get_source_play_position():
-		var playing_id = Wwise.post_event_id_callback(AK.EVENTS.MUSIC, AkUtils.AkCallbackType.AK_EnableGetSourcePlayPosition, node)
-		yield(yield_for(0.1), YIELD)
-		var position = Wwise.get_source_play_position(playing_id, true)
-		yield(yield_for(0.1), YIELD)
-		assert_true(position > 0, "Get Source Play Position should be greater than 0")
-		Wwise.stop_event(playing_id, 0, AkUtils.AkCurveInterpolation.LINEAR)
+#	func test_assert_get_source_play_position():
+#		var playing_id = Wwise.post_event_id_callback(AK.EVENTS.MUSIC, AkUtils.AkCallbackType.AK_EnableGetSourcePlayPosition, self, null)
+#		yield(yield_for(0.1), YIELD)
+#		var position = Wwise.get_source_play_position(playing_id, true)
+#		yield(yield_for(0.1), YIELD)
+#		assert_true(position > 0, "Get Source Play Position should be greater than 0")
+#		Wwise.stop_event(playing_id, 0, AkUtils.AkCurveInterpolation.LINEAR)
 		
-	func test_assert_get_playing_segment_info():
-		var playing_id = Wwise.post_event_id_callback(AK.EVENTS.MUSIC, AkUtils.AkCallbackType.AK_EnableGetMusicPlayPosition, node)
-		yield(yield_for(0.1), YIELD)
-		var segment_info:Dictionary = Wwise.get_playing_segment_info(playing_id, true)
-		yield(yield_for(0.1), YIELD)
-		assert_true(segment_info.iCurrentPosition > 0, "Current Position of Segment Info should be greater than 0")
-		Wwise.stop_event(playing_id, 0, AkUtils.AkCurveInterpolation.LINEAR)
+#	func test_assert_get_playing_segment_info():
+#		var playing_id = Wwise.post_event_id_callback(AK.EVENTS.MUSIC, AkUtils.AkCallbackType.AK_EnableGetMusicPlayPosition, self, null)
+#		yield(yield_for(0.1), YIELD)
+#		var segment_info:Dictionary = Wwise.get_playing_segment_info(playing_id, true)
+#		yield(yield_for(0.1), YIELD)
+#		assert_true(segment_info.iCurrentPosition > 0, "Current Position of Segment Info should be greater than 0")
+#		Wwise.stop_event(playing_id, 0, AkUtils.AkCurveInterpolation.LINEAR)
 		
 	func after_all():
 		Wwise.unregister_game_obj(node)		
