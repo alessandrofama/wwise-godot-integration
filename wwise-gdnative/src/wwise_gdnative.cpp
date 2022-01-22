@@ -1674,6 +1674,7 @@ bool Wwise::initialiseWwiseSystems()
 		break;
 	case SamplesPerFrame::SAMPLES_2048:
 		initSettings.uNumSamplesPerFrame = 2048;
+		break;
 	default:
 		AKASSERT(false);
 		break;
