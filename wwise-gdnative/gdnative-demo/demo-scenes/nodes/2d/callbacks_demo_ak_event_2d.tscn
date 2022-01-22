@@ -17,10 +17,10 @@ texture = ExtResource( 2 )
 [node name="AkEvent2D" type="Node2D" parent="Music"]
 visible = false
 script = ExtResource( 3 )
-event = 1939884427
+event = 3900723121
 trigger_on = 3
 use_callback = true
-callback_flag = 1032
+callback_flag = 5
 
 [node name="Listener" type="Sprite" parent="."]
 position = Vector2( 578.559, 173.146 )
@@ -31,5 +31,6 @@ script = ExtResource( 4 )
 
 [node name="Node" type="Node" parent="."]
 script = ExtResource( 5 )
-[connection signal="duration" from="Music/AkEvent2D" to="Node" method="_on_AkEvent2D_duration"]
-[connection signal="music_sync_entry" from="Music/AkEvent2D" to="Node" method="_on_AkEvent2D_music_sync_entry"]
+
+[connection signal="audio_marker" from="Music/AkEvent2D" to="Node" method="_on_AkEvent2D_audio_marker"]
+[connection signal="end_of_event" from="Music/AkEvent2D" to="Node" method="_on_AkEvent2D_end_of_event"]
