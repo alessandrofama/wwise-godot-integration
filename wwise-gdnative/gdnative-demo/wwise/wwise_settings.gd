@@ -126,7 +126,7 @@ func _add_commnunication_settings():
 	
 func _add_ios_advanced_settings():
 	_add_setting(WWISE_IOS_ADVANCED_SETTINGS_PATH + "audio_session_category", 0,
-				TYPE_INT, PROPERTY_HINT_ENUM, "Ambient, Solo Ambient, Play And Record")
+				TYPE_INT, PROPERTY_HINT_ENUM, "Ambient, Solo Ambient, Play And Record, Playback")
 	_add_setting(WWISE_IOS_ADVANCED_SETTINGS_PATH + "audio_session_category_options", 13,
 				TYPE_INT, PROPERTY_HINT_FLAGS, "Mix with others, Duck others, Allow bluetooth, Default to speaker")
 	_add_setting(WWISE_IOS_ADVANCED_SETTINGS_PATH + "audio_session_mode", 0,

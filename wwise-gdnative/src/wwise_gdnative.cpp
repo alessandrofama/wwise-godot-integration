@@ -1743,7 +1743,7 @@ bool Wwise::initialiseWwiseSystems()
 		getPlatformProjectSetting("wwise/ios_advanced_settings/audio_session_category_options"));
 
 	platformInitSettings.audioSession.eCategoryOptions =
-		static_cast<AkAudioSessionCategoryOptions>(sessionCategoryEnum);
+		static_cast<AkAudioSessionCategoryOptions>(sessionCategoryFlags);
 
 	const unsigned int audioSessionModeEnum =
 		static_cast<unsigned int>(getPlatformProjectSetting("wwise/ios_advanced_settings/audio_session_mode"));
