@@ -20,15 +20,10 @@ jobs:
         run: sudo apt-get install zip unzip p7zip-full p7zip-rar
       - name: Wrapping up integration files
         run: |
-          cp waapiclient-gdnative/gdnative-demo/wwise/bin/waapi-gdnative-debug.gdnlib wwise-gdnative/gdnative-demo/wwise/bin
-          cp waapiclient-gdnative/gdnative-demo/wwise/bin/waapi-gdnative-debug.gdns wwise-gdnative/gdnative-demo/wwise/bin
-          cp waapiclient-gdnative/gdnative-demo/wwise/bin/waapi-gdnative-release.gdnlib wwise-gdnative/gdnative-demo/wwise/bin
-          cp waapiclient-gdnative/gdnative-demo/wwise/bin/waapi-gdnative-release.gdns wwise-gdnative/gdnative-demo/wwise/bin
-          cp -R waapiclient-gdnative/gdnative-demo/addons/waapi_picker wwise-gdnative/gdnative-demo/addons
           cd wwise-gdnative/gdnative-demo/
           rm -rf meshes scripts demo-scenes test addons/gut .import wwise/resources wwise/GeneratedSoundBanks/Android \
             wwise/GeneratedSoundBanks/iOS wwise/GeneratedSoundBanks/Linux wwise/GeneratedSoundBanks/Mac \
-            wwise/GeneratedSoundBanks/Windows wwise/bin/android wwise/bin/iOS wwise/bin/osx wwise/bin/win64
+            wwise/GeneratedSoundBanks/Windows addons/wwise/bin/android addons/wwise/bin/iOS addons/wwise/bin/osx addons/wwise/bin/win64
           mkdir wwise/GeneratedSoundBanks/Android wwise/GeneratedSoundBanks/iOS wwise/GeneratedSoundBanks/Linux \
             wwise/GeneratedSoundBanks/Mac wwise/GeneratedSoundBanks/Windows
           rm -f .gitignore .gutconfig.json default_env.tres project.godot export_presets.cfg icon.png icon.png.import \

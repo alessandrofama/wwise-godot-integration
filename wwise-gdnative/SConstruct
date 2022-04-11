@@ -74,7 +74,7 @@ opts.Add(EnumVariable('target', "Compilation target", 'debug', ['d', 'debug', 'r
 opts.Add(EnumVariable('platform', "Compilation platform", '', ['', 'windows', 'x11', 'linux', 'osx', 'ios']))
 opts.Add(EnumVariable('p', "Compilation target, alias for 'platform'", '', ['', 'windows', 'x11', 'linux', 'osx']))
 opts.Add(BoolVariable('use_llvm', "Use the LLVM / Clang compiler", 'no'))
-opts.Add(PathVariable('target_path', 'The path where the lib is installed.', 'gdnative-demo/wwise/bin/', PathVariable.PathIsDirCreate))
+opts.Add(PathVariable('target_path', 'The path where the lib is installed.', 'gdnative-demo/addons/wwise/bin/', PathVariable.PathIsDirCreate))
 opts.Add(PathVariable('target_name', 'The library name.', 'WwiseGDNative', PathVariable.PathAccept))
 opts.Add(PathVariable('wwise_sdk', 'The Wwise SDK path', '', PathVariable.PathAccept))
 opts.Add(ListVariable('plugins', 'List of plugins', '', ['reflect', 'motion', 'convolution', 'soundseed_grain', 'soundseed_air_impact', 'impacter', 'mastering_suite']))
