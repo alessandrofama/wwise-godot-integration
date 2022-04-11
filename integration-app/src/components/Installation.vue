@@ -275,7 +275,7 @@ export default {
 
       this.installing = true;
       this.installHeader = "Installation";
-      this.printProjectIni(this.godotProjectFilePath);
+      //this.printProjectIni(this.godotProjectFilePath);
       this.getIntegrationFiles();
     },
     getKeyByValue(object, value) {
@@ -303,64 +303,20 @@ export default {
       this.setGodotProjectPath(dirPath);
       this.checkIntegrationAlreadyInstalled();
     },
-    printProjectIni(godotFilePath) {
-      const fs = require("fs").promises;
-      const multiini = require("multi-ini");
-
-      var serializedIni;
-      var output;
-      var iniObj = multiini.read(godotFilePath, { keep_quotes: false });
-
-      if (!("editor_plugins" in iniObj)) {
-        iniObj.editor_plugins = {};
-        iniObj.editor_plugins.enabled =
-          'PoolStringArray( "res://addons/wwise_setup/plugin.cfg" )';
-      } else {
-        if (!("enabled" in iniObj.editor_plugins)) {
-          iniObj.editor_plugins.enabled =
-            'PoolStringArray( "res://addons/wwise_setup/plugin.cfg" )';
-        } else {
-          if (
-            !iniObj.editor_plugins.enabled.includes(
-              "res://addons/wwise_setup/plugin.cfg"
-            )
-          ) {
-            // Wwise not present in enabled plugins
-            var toReplace = iniObj.editor_plugins.enabled.replace(
-              "PoolStringArray(",
-              'PoolStringArray( "res://addons/wwise_setup/plugin.cfg", '
-            );
-            iniObj.editor_plugins.enabled = toReplace;
-          }
-        }
-      }
-
-      for (var item in iniObj) {
-        var arr = this.getKeyByValue(iniObj[item], "{");
-        if (arr.length > 0) {
-          delete iniObj[item];
-        }
-      }
-      var serializer = new multiini.Serializer({ keep_quotes: false });
-      serializedIni = serializer.serialize(iniObj);
-      serializedIni = serializedIni.replace('"Pool', "Pool");
-      serializedIni = serializedIni.replace(')"', ")");
-
-      fs.readFile(godotFilePath, "utf-8").then(() => {
-        // eslint-disable-line no-unused-vars
-        output = serializedIni;
-        fs.writeFile(godotFilePath, output);
-      });
-    },
+    
     checkIntegrationAlreadyInstalled() {
-      var wwisePath = path.join(this.godotProjectPath, "wwise");
+      var legacyWwisePath = path.join(this.godotProjectPath, "wwise");
+      var wwisePath = path.join(this.godotProjectPath, "addons/wwise");
       var addonsPath = path.join(this.godotProjectPath, "addons");
       var wwiseAddonsPath = path.join(addonsPath, "wwise");
       var wwiseIdsConverterPath = path.join(addonsPath, "wwise_ids_converter");
 
-      if (fs.existsSync(wwisePath)) {
+      if (fs.existsSync(legacyWwisePath)) {
         this.setIntegrationInstalled(true);
-      } else if (fs.existsSync(wwiseAddonsPath)) {
+      } else if (fs.existsSync(wwisePath)) {
+        this.setIntegrationInstalled(true);
+      }
+      else if (fs.existsSync(wwiseAddonsPath)) {
         this.setIntegrationInstalled(true);
       } else if (fs.existsSync(wwiseIdsConverterPath)) {
         this.setIntegrationInstalled(true);
@@ -469,7 +425,7 @@ export default {
                 readStream
                   .pipe(
                     unzipper.Extract({
-                      path: path.join(vm.godotProjectPath, "wwise/bin"),
+                      path: path.join(vm.godotProjectPath, "addons/wwise/bin"),
                     })
                   )
                   .on("close", () => {
@@ -501,25 +457,22 @@ export default {
     },
     uninstallIntegration() {
       this.installHeader = "Uninstalling the integration";
-      var wwisePath = path.join(this.godotProjectPath, "wwise");
+      var legacyWwisePath = path.join(this.godotProjectPath, "wwise");
+       var wwisePath = path.join(this.godotProjectPath, "addons/wwise");
       var addonsPath = path.join(this.godotProjectPath, "addons");
       var wwiseAddonsPath = path.join(addonsPath, "wwise_custom_nodes");
       var wwiseIdsConverterPath = path.join(addonsPath, "wwise_ids_converter");
       var wwiseBuildExportPath = path.join(addonsPath, "wwise_build_export");
       var waapiPickerAddonPath = path.join(addonsPath, "waapi_picker");
       var wwiseSetupAddonPath = path.join(addonsPath, "wwise_setup");
-      var overrideFilePath = path.join(this.godotProjectPath, "override.cfg");
 
+      this.removeDirectory(legacyWwisePath);
       this.removeDirectory(wwisePath);
       this.removeDirectory(wwiseAddonsPath);
       this.removeDirectory(wwiseIdsConverterPath);
       this.removeDirectory(wwiseBuildExportPath);
       this.removeDirectory(waapiPickerAddonPath);
       this.removeDirectory(wwiseSetupAddonPath);
-
-      if (fs.existsSync(overrideFilePath)) {
-        fs.unlinkSync(overrideFilePath);
-      }
 
       this.updateProgressTextandBar("", 100);
 
