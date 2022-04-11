@@ -1,0 +1,30 @@
+[general]
+
+singleton=false
+load_once=true
+symbol_prefix="wwise_"
+reloadable=true
+
+[entry]
+
+Android.armeabi-v7a="res://addons/wwise/bin/android/debug/armeabi-v7a/libWwiseGDNative.Debug.armeabi-v7a.so"
+Android.arm64-v8a="res://addons/wwise/bin/android/debug/arm64-v8a/libWwiseGDNative.Debug.arm64-v8a.so"
+Android.x86="res://addons/wwise/bin/android/debug/x86/libWwiseGDNative.Debug.x86.so"
+Android.x86_64="res://addons/wwise/bin/android/debug/x86_64/libWwiseGDNative.Debug.x86_64.so"
+OSX.64="res://addons/wwise/bin/osx/debug/libWwiseGDNative.dylib"
+Windows.64="res://addons/wwise/bin/win64/debug/WwiseGDNative.dll"
+X11.64="res://addons/wwise/bin/linux/debug/libWwiseGDNative.so"
+iOS.armv7="res://addons/wwise/bin/iOS/debug/armv7/libWwiseGDNative.dylib"
+iOS.arm64="res://addons/wwise/bin/iOS/debug/arm64/libWwiseGDNative.dylib"
+
+[dependencies]
+
+Android.armeabi-v7a=[  ]
+Android.arm64-v8a=[  ]
+Android.x86=[  ]
+Android.x86_64=[  ]
+OSX.64=[  ]
+Windows.64=[  ]
+X11.64=[  ]
+iOS.armv7=[  ]
+iOS.arm64=[  ]

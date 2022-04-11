@@ -1,0 +1,8 @@
+[gd_resource type="NativeScript" load_steps=2 format=2]
+
+[ext_resource path="res://addons/wwise/bin/wwise-gdnative.gdnlib" type="GDNativeLibrary" id=1]
+
+[resource]
+resource_name = "wwise-gdnative-debug"
+class_name = "Wwise"
+library = ExtResource( 1 )
