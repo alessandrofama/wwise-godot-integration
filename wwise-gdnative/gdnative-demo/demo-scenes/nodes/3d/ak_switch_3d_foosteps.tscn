@@ -2,9 +2,9 @@
 
 [ext_resource path="res://demo-scenes/nodes/3d/Banks - Initialisation 3D.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scripts/misc/sphere_mover.gd" type="Script" id=2]
-[ext_resource path="res://wwise/runtime/nodes/ak_event.gd" type="Script" id=3]
-[ext_resource path="res://wwise/runtime/nodes/ak_switch.gd" type="Script" id=4]
-[ext_resource path="res://wwise/runtime/nodes/ak_listener.gd" type="Script" id=5]
+[ext_resource path="res://addons/wwise/runtime/nodes/ak_event.gd" type="Script" id=3]
+[ext_resource path="res://addons/wwise/runtime/nodes/ak_switch.gd" type="Script" id=4]
+[ext_resource path="res://addons/wwise/runtime/nodes/ak_listener.gd" type="Script" id=5]
 
 [sub_resource type="SpatialMaterial" id=1]
 albedo_color = Color( 1, 0, 0, 1 )
@@ -105,9 +105,7 @@ trigger_on = 6
 [node name="CollisionShape" type="CollisionShape" parent="CSGBox4/Water Switch/Area4"]
 shape = SubResource( 2 )
 
-[node name="Player" type="RigidBody" parent="." groups=[
-"TestTag",
-]]
+[node name="Player" type="RigidBody" parent="." groups=["TestTag"]]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 1, -6 )
 contacts_reported = 1
 contact_monitor = true
@@ -134,6 +132,7 @@ event = 2385628198
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 transform = Transform( 1, 0, 0, 0, -0.866025, 0.5, 0, -0.5, -0.866025, -17, 7, 0 )
 light_color = Color( 0.894118, 0.823529, 0.243137, 1 )
+
 [connection signal="body_entered" from="CSGBox/Gravel Switch/Area" to="CSGBox/Gravel Switch" method="_on_body_entered"]
 [connection signal="body_entered" from="CSGBox2/Wood Switch/Area2" to="CSGBox2/Wood Switch" method="_on_body_entered"]
 [connection signal="body_entered" from="CSGBox3/Grass Switch/Area3" to="CSGBox3/Grass Switch" method="_on_body_entered"]

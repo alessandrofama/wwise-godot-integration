@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://wwise/runtime/nodes/ak_bank.gd" type="Script" id=1]
+[ext_resource path="res://addons/wwise/runtime/nodes/ak_bank.gd" type="Script" id=1]
 
 [node name="Banks" type="Spatial"]
 

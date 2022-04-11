@@ -3,7 +3,7 @@
 [ext_resource path="res://scripts/3d/callback_receiver_test.gd" type="Script" id=1]
 [ext_resource path="res://scripts/3d/listener_test.gd" type="Script" id=2]
 [ext_resource path="res://scripts/3d/bank_init_test.gd" type="Script" id=3]
-[ext_resource path="res://wwise/runtime/nodes/ak_event.gd" type="Script" id=4]
+[ext_resource path="res://addons/wwise/runtime/nodes/ak_event.gd" type="Script" id=4]
 
 [node name="Main" type="Spatial"]
 
@@ -29,5 +29,6 @@ script = ExtResource( 2 )
 
 [node name="Receive Callback" type="Node" parent="."]
 script = ExtResource( 1 )
+
 [connection signal="music_sync_bar" from="CSGBox/AkEvent" to="Receive Callback" method="_on_AkEvent_music_sync_bar"]
 [connection signal="music_sync_beat" from="CSGBox/AkEvent" to="Receive Callback" method="_on_AkEvent_music_sync_beat"]

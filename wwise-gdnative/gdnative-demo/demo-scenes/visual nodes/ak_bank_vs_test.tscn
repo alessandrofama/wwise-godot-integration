@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://scripts/visual scripts/ak_bank_vs_test.vs" type="Script" id=1]
-[ext_resource path="res://wwise/runtime/nodes/ak_listener.gd" type="Script" id=3]
+[ext_resource path="res://addons/wwise/runtime/nodes/ak_listener.gd" type="Script" id=3]
 
 [node name="Spatial" type="Spatial"]
 
