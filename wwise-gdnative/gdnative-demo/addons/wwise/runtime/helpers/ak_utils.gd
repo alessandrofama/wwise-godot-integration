@@ -102,3 +102,25 @@ enum MultiPositionType {
 	MultiSources = 1,
 	MultiDirections = 2
 }
+
+enum AkType {
+	EVENT,
+	BANK,
+	RTPC,
+	STATE_GROUP,
+	STATE,
+	SWITCH_GROUP,
+	SWITCH,
+	BUS,
+	AUX_BUS
+}
+
+static func create_icon(path: String) -> ImageTexture:
+	var image = Image.new()
+	var err = image.load(path)
+	if err != OK:
+		push_error("Failed load custom nodes icon")
+	var icon = ImageTexture.new()
+	icon.create_from_image(image, 0)
+	return icon
+

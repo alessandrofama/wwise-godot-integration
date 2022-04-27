@@ -4,6 +4,7 @@ extends EditorPlugin
 var custom_nodes_plugin:EditorPlugin
 var build_export_plugin:EditorExportPlugin 
 var waapi_picker:EditorPlugin
+var inspector_browser:EditorPlugin
 
 func _enter_tree():
 	add_autoload_singleton("WwiseSettings", "res://addons/wwise/editor/wwise_settings.gd")
@@ -25,6 +26,10 @@ func _enter_tree():
 			waapi_picker = load("res://addons/wwise/editor/waapi_picker/waapi_picker.gd").new()
 			get_editor_interface().get_base_control().add_child(waapi_picker)
 	
+	if Engine.is_editor_hint():
+		inspector_browser = load("res://addons/wwise/editor/inspector_browser/inspector_browser_editor_plugin.gd").new()
+		get_editor_interface().get_base_control().add_child(inspector_browser)
+	
 	add_export_plugin(build_export_plugin)
 	
 func _exit_tree():
@@ -42,6 +47,10 @@ func _exit_tree():
 			waapi_picker.queue_free()
 		else:
 			_on_waapi_exit()
+			
+	if Engine.is_editor_hint():
+		get_editor_interface().get_base_control().remove_child(inspector_browser)
+		inspector_browser.queue_free()
 
 func _on_waapi_exit():
 	remove_autoload_singleton("Waapi")
