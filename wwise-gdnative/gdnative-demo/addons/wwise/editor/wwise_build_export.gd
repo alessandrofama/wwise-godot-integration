@@ -32,8 +32,8 @@ class WwiseBuildExport:
 			
 	var changed_wwise_libs:Array = []
 	var changed_waapi_libs:Array = []
-	var wwise_lib:GDNativeLibrary = preload("res://addons/wwise/bin/wwise-gdnative.gdnlib")
-	var waapi_lib:GDNativeLibrary = preload("res://addons/wwise/bin/waapi-gdnative.gdnlib")
+	var wwise_lib:GDNativeLibrary = load("res://addons/wwise/bin/wwise-gdnative.gdnlib")
+	var waapi_lib:GDNativeLibrary = load("res://addons/wwise/bin/waapi-gdnative.gdnlib")
 	
 	func _export_begin(features, debug, path, flags):
 		if "Windows" in features:

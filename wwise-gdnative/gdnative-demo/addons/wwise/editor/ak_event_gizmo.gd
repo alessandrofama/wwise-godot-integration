@@ -1,6 +1,6 @@
 extends EditorSpatialGizmoPlugin
 
-const AkEventNode = preload("res://addons/wwise/runtime/nodes/ak_event.gd")
+var AkEventNode = load("res://addons/wwise/runtime/nodes/ak_event.gd")
 
 func _init():
 	var gizmo_image = Image.new()
