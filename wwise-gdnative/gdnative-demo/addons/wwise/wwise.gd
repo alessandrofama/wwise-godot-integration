@@ -2,7 +2,6 @@ tool
 extends EditorPlugin
 
 var custom_nodes_plugin:EditorPlugin
-var ids_converter_plugin:EditorPlugin
 var build_export_plugin:EditorExportPlugin 
 var waapi_picker:EditorPlugin
 
@@ -11,7 +10,6 @@ func _enter_tree():
 	add_autoload_singleton("Wwise", "res://addons/wwise/bin/wwise-gdnative.gdns")
 
 	custom_nodes_plugin = load("res://addons/wwise/editor/wwise_custom_nodes.gd").new()
-	ids_converter_plugin = load("res://addons/wwise/editor/wwise_ids_converter.gd").new()
 	build_export_plugin = load("res://addons/wwise/editor/wwise_build_export.gd").WwiseBuildExport.new()
 	
 	while get_editor_interface() == null:
@@ -20,7 +18,6 @@ func _enter_tree():
 		yield(get_tree(), "idle_frame")
 		
 	get_editor_interface().get_base_control().add_child(custom_nodes_plugin)
-	get_editor_interface().get_base_control().add_child(ids_converter_plugin)
 
 	if (OS.has_feature("Windows") || OS.has_feature("OSX")):
 		add_autoload_singleton("Waapi", "res://addons/wwise/bin/waapi-gdnative.gdns")
@@ -32,7 +29,6 @@ func _enter_tree():
 	
 func _exit_tree():
 	custom_nodes_plugin.queue_free()
-	ids_converter_plugin.queue_free()
 	
 	remove_export_plugin(build_export_plugin)
 	

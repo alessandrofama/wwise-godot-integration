@@ -1,37 +1,37 @@
 class_name AK
 
 class EVENTS:
-	enum _enum {
+	const _dict = {
 	}
 
 class STATES:
-	enum _enum {
+	const _dict = {
 	}
 
 class SWITCHES:
-	enum _enum {
+	const _dict = {
 	}
 
 class GAME_PARAMETERS:
-	enum _enum {
+	const _dict = {
 	}
 
 class TRIGGERS:
-	enum _enum {
+	const _dict = {
 	}
 
 class BANKS:
-	enum _enum {
+	const _dict = {
 	}
 
 class BUSSES:
-	enum _enum {
+	const _dict = {
 	}
 
 class AUX_BUSSES:
-	enum _enum {
+	const _dict = {
 	}
 
 class AUDIO_DEVICES:
-	enum _enum {
+	const _dict = {
 	}

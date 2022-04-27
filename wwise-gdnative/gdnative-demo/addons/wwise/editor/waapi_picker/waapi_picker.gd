@@ -6,6 +6,7 @@ var editorViewport = null
 var parentWaapiContainer = null
 var refreshProjectButton = null
 var exportSoundbanksButton = null
+var generateIdsButton = null
 
 var jsonProjectDocument = null
 var projectObjectsTree = null
@@ -40,6 +41,10 @@ var playingItems = []
 var connectResult
 signal connectionChanged(result)
 
+var fileDialog:FileDialog
+const WWISE_IDS_GD_FILE = "wwise_ids.gd"
+var final_text:String
+
 func create_icon(path: String) -> ImageTexture:
 	var waapi_image = Image.new()
 	var err = waapi_image.load(path)
@@ -65,7 +70,7 @@ func _init():
 	searchIcon 			= create_icon("res://addons/wwise/editor/waapi_picker/icons/search.png")	
 	
 func _enter_tree():
-	waapiPickerControl = preload("res://addons/wwise/editor/waapi_picker/waapi_picker.tscn").instance()
+	waapiPickerControl = load("res://addons/wwise/editor/waapi_picker/waapi_picker.tscn").instance()
 	var buttonResult = add_control_to_bottom_panel(waapiPickerControl,"Waapi Picker")
 	assert(buttonResult)
 	
@@ -87,6 +92,10 @@ func _enter_tree():
 	
 	exportSoundbanksButton = waapiPickerControl.find_node("ExportSoundbanksButton")
 	error = exportSoundbanksButton.connect("button_up", self, "_on_exportSoundbanksButtonClick")
+	assert(error == OK)
+	
+	generateIdsButton = waapiPickerControl.find_node("GenerateIdsButton")
+	error = generateIdsButton.connect("button_up", self, "_on_generateIdsButtonClick")
 	assert(error == OK)
 	
 	projectObjectsTree = waapiPickerControl.find_node("ProjectObjectsTree")
@@ -163,7 +172,7 @@ func _on_exportSoundbanksButtonClick():
 			print("Generated soundbanks OK")
 		else:
 			printerr("Error when generated soundbanks with result: " + String(jsonDocument.result))
-		
+	
 func _create_projectObjectsTree(textFilter):
 	# Initialise tree
 	projectObjectsTree.clear()
@@ -582,3 +591,167 @@ func _on_connectionChanged(result:bool):
 	connectionLabel.text = "•"
 	var color = Color.limegreen if result else Color.darkred
 	connectionLabel.add_color_override("font_color", color)
+
+func _on_generateIdsButtonClick():
+	fileDialog = FileDialog.new()
+	fileDialog.mode = FileDialog.MODE_SAVE_FILE
+	fileDialog.access = FileDialog.ACCESS_RESOURCES
+	fileDialog.filters = PoolStringArray(["*.gd ; GDScript Files"])
+
+	fileDialog.connect("file_selected", self, "_on_FileDialog_file_selected")
+	
+	var editor_interface = get_editor_interface()
+	var base_control = editor_interface.get_base_control()
+	base_control.add_child(fileDialog)
+	fileDialog.popup_centered_ratio()
+	
+func _on_FileDialog_file_selected(path):
+	var connectResult = false
+	if !Waapi.is_client_connected():
+		connectResult = Waapi.connect_client("127.0.0.1", 8080)
+	else:
+		connectResult = true
+	
+	if connectResult:
+		var args = {"from": {"ofType": ["Event", "StateGroup", "State", "SwitchGroup", "Switch", "GameParameter", "Trigger", "SoundBank", "Bus", "AuxBus", "AudioDevice", "ExternalSource"]}}
+		var options = {"return": ["name", "type", "shortId", "parent.name"]}
+		var dict = Waapi.client_call("ak.wwise.core.object.get", JSON.print(args), JSON.print(options))
+		var jsonDocument = JSON.parse(dict["resultString"])
+		
+		if jsonDocument.error == OK:
+			var arr = jsonDocument.result["return"]
+			generate_ids(arr)
+	else:
+		print("Failed to generate Wwise IDs. Wwise authoring isn't launched!")
+		if Waapi.is_client_connected():
+			Waapi.disconnect_client()
+		return
+
+	var wwiseIDsGDFile = File.new()
+	wwiseIDsGDFile.open(path, File.WRITE)
+	wwiseIDsGDFile.store_string(final_text)
+	wwiseIDsGDFile.close()
+	print("Generated IDs at {path}".format({"path": path}))
+	fileDialog.queue_free()
+	final_text = ""
+	
+	var filesystem = get_editor_interface().get_resource_filesystem()
+	filesystem.update_file(path)
+	
+	if Waapi.is_client_connected():
+		Waapi.disconnect_client()
+	
+func generate_ids(arr):
+	var event_arr:Array = []
+	var state_group_arr:Array = []
+	var state_arr:Array = []
+	var switch_group_arr:Array = []
+	var switch_arr:Array = []
+	var game_param_arr:Array = []
+	var trigger_arr:Array = []
+	var soundbank_arr:Array = []
+	var bus_arr:Array = []
+	var aux_bus_arr:Array = []
+	var audio_device_arr:Array = []
+	var external_src_arr:Array = []
+	
+	for i in arr.size():
+		match(arr[i].type):
+			"Event":
+				event_arr.push_back(arr[i])
+			"StateGroup":
+				state_group_arr.push_back(arr[i])
+			"State":
+				state_arr.push_back(arr[i])
+			"SwitchGroup":
+				switch_group_arr.push_back(arr[i])
+			"Switch":
+				switch_arr.push_back(arr[i])
+			"GameParameter":
+				game_param_arr.push_back(arr[i])
+			"Trigger":
+				trigger_arr.push_back(arr[i])
+			"SoundBank":
+				soundbank_arr.push_back(arr[i])
+			"Bus":
+				bus_arr.push_back(arr[i])
+			"AuxBus":
+				aux_bus_arr.push_back(arr[i])
+			"AudioDevice":
+				audio_device_arr.push_back(arr[i])
+			"ExternalSource":
+				external_src_arr.push_back(arr[i])
+	
+	soundbank_arr.push_front({"name": "Init", "shortId": 1355168291, "type": "SoundBank"})
+			
+	final_text = "class_name AK"
+	final_text += "\n\n"
+	
+	create_class(event_arr, "EVENTS")
+	create_state_switch_class(state_group_arr, state_arr, "STATES", "STATE")
+	create_state_switch_class(switch_group_arr, switch_arr, "SWITCHES", "SWITCH")	
+	create_class(game_param_arr, "GAME_PARAMETERS")
+	create_class(trigger_arr, "TRIGGERS")
+	create_class(soundbank_arr, "BANKS")
+	create_class(bus_arr, "BUSSES")
+	create_class(aux_bus_arr, "AUX_BUSSES")
+	create_class(audio_device_arr, "AUDIO_DEVICES")
+	create_class(external_src_arr, "EXTERNAL_SOURCES")
+		
+func create_class(arr:Array, type:String):
+	if arr.size() > 0:
+		final_text += "class {type}:".format({"type": type})
+		final_text += "\n\n"
+		
+		for i in arr.size():
+			final_text += "\tconst {str} = {id} \n".format({"str": arr[i].name.to_upper().replace(" ", "_"), "id":arr[i].shortId})
+			
+		final_text += "\n\tconst _dict = { \n"
+		
+		for i in arr.size():
+			if i < arr.size() - 1:
+				final_text += "\t \"{str}\": {strId},\n".format({"str": arr[i].name.to_upper().replace("_", " "), "strId":arr[i].name.to_upper().replace(" ", "_")})
+			else:
+				final_text += "\t \"{str}\": {strId}\n".format({"str": arr[i].name.to_upper().replace("_", " "), "strId":arr[i].name.to_upper().replace(" ", "_")})				
+		final_text += "\t} \n\n"
+	else:
+		create_empty_class(type)
+		
+func create_state_switch_class(parent_arr:Array, child_arr:Array, parent_type:String, child_type:String):
+	if parent_arr.size() > 0:
+		final_text += "class {type}:".format({"type": parent_type})
+		final_text += "\n\n"
+		for i in parent_arr.size():
+			final_text += "\tclass {parent_name}:".format({"parent_name": parent_arr[i].name.to_upper().replace(" ", "_")})
+			final_text += "\n"
+			final_text += "\t\tconst {str} = {id} \n\n".format({"str": "GROUP", "id":parent_arr[i].shortId})
+			final_text += "\t\tclass {type}:".format({"type": child_type})
+			final_text += "\n"
+			for j in child_arr.size():
+				if child_arr[j].get("parent.name") == parent_arr[i].name:
+					final_text += "\t\t\tconst {str} = {id} \n".format({"str": child_arr[j].name.to_upper().replace(" ", "_"), "id":child_arr[j].shortId})
+			final_text += "\n"
+			
+		final_text += "\tconst _dict = { \n"
+		
+		for i in parent_arr.size():
+			final_text += "\t\t\"{groupName}\": {\n\t\t\t\"GROUP\": {groupID},\n\t\t\t\"{type}\": {\n".format({"groupName": parent_arr[i].name.to_upper().replace(" ", "_"), "groupID":parent_arr[i].shortId, "type": child_type})
+			for j in child_arr.size():
+				if child_arr[j].get("parent.name") == parent_arr[i].name:
+					if j < child_arr.size() - 1:
+						final_text += "\t\t\t\t\"{childName}\": {childId},\n".format({"childName": child_arr[j].name.to_upper().replace(" ", "_"), "childId":child_arr[j].shortId})
+					else:
+						final_text += "\t\t\t\t\"{childName}\": {childId}\n".format({"childName": child_arr[j].name.to_upper().replace(" ", "_"), "childId":child_arr[j].shortId})						
+			final_text += "\t\t\t} \n"
+			if i < parent_arr.size() - 1:
+				final_text += "\t\t}, \n"
+			else:
+				final_text += "\t\t} \n"				
+		final_text += "\t} \n\n"
+	else:
+		create_empty_class(parent_type)
+
+func create_empty_class(type:String):
+	final_text += "class {type}:".format({"type": type})
+	final_text += "\n\n"
+	final_text += "\tconst _dict = {} \n\n"
