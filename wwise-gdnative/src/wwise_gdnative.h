@@ -32,9 +32,7 @@
 #include <AK/Comm/AkCommunication.h>
 #endif
 
-#if defined(AK_LINUX) || defined(AK_MAC_OS_X) || defined(AK_ANDROID) || defined(AK_IOS)
 #include <memory>
-#endif
 
 namespace godot
 {
