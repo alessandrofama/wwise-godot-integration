@@ -1,10 +1,13 @@
 extends Area
 
-export(AK.AUX_BUSSES._enum) var aux_bus_id:int
+export(Dictionary) var aux_bus:Dictionary = {"Name": "", "Id": 0}
 export(float) var reverb_level:float = 1.0
 export(float) var transmission_loss:float = 1.0
 export(NodePath) var associated_geometry:NodePath
 var geometry_id:int
+
+var ak_event = load("res://addons/wwise/runtime/nodes/ak_event.gd")
+var ak_listener = load("res://addons/wwise/runtime/nodes/ak_listener.gd")
 
 func _enter_tree() -> void:
 	if not associated_geometry.is_empty():
@@ -15,7 +18,7 @@ func _enter_tree() -> void:
 		
 	var normalized_transform = global_transform.orthonormalized()
 	
-	Wwise.set_room(self, aux_bus_id, reverb_level, transmission_loss, normalized_transform.basis.z, normalized_transform.basis.y, geometry_id, self.get_name())
+	Wwise.set_room(self, aux_bus.get("Id"), reverb_level, transmission_loss, normalized_transform.basis.z, normalized_transform.basis.y, geometry_id, self.get_name())
 	#warning-ignore:return_value_discarded
 	connect("body_entered", self, "_on_body_enter")
 	#warning-ignore:return_value_discarded
@@ -36,10 +39,10 @@ func _on_body_enter(body:Node) -> void:
 		for i in sub_children:
 			child_nodes.append(i)
 	for child in child_nodes:
-		if child is preload("res://addons/wwise/runtime/nodes/ak_event.gd"):
+		if child is ak_event:
 			if child.is_spatial:
 				add_game_obj_to_room(child, self)
-		if child is preload("res://addons/wwise/runtime/nodes/ak_listener.gd"):
+		if child is ak_listener:
 			add_game_obj_to_room(child, self)
 
 func _on_body_exit(body:Node) -> void:
@@ -49,10 +52,10 @@ func _on_body_exit(body:Node) -> void:
 		for i in sub_children:
 			child_nodes.append(i)
 	for child in child_nodes:
-		if child is preload("res://addons/wwise/runtime/nodes/ak_event.gd"):
+		if child is ak_event:
 			if child.is_spatial:
 				remove_game_obj_from_room(child)
-		if child is preload("res://addons/wwise/runtime/nodes/ak_listener.gd"):
+		if child is ak_listener:
 			remove_game_obj_from_room(child)
 
 func add_game_obj_to_room(game_obj:Object, room:Object) -> void:

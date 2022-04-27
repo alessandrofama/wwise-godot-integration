@@ -15,7 +15,10 @@ texture = ExtResource( 2 )
 
 [node name="AkEvent2D" type="Node2D" parent="Music"]
 script = ExtResource( 3 )
-event = 1939884427
+event = {
+"Id": 1939884427,
+"Name": "MUSIC 2D"
+}
 trigger_on = 3
 
 [node name="Listener" type="Sprite" parent="."]

@@ -8,6 +8,7 @@
 
 [node name="Trigger" type="Node" parent="."]
 script = ExtResource( 2 )
+event = 3991942870
 
 [node name="Init" type="Node" parent="."]
 script = ExtResource( 1 )

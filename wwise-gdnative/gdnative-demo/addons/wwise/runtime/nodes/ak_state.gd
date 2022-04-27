@@ -1,7 +1,7 @@
 extends Node
 
-export(String) var state_group:String
-export(String) var state_value:String
+export(Dictionary) var state_group:Dictionary = {"Name": "", "Id": 0}
+export(Dictionary) var state_value:Dictionary = {"Name": "", "Id": 0}
 export(AkUtils.GameEvent) var trigger_on:int = AkUtils.GameEvent.NONE
 export(String) var group_tag
 signal state_set(stage_group, state_value)
@@ -11,7 +11,7 @@ func handle_game_event(game_event:int) -> void:
 		set_state()
 
 func set_state() -> void:
-	if Wwise.set_state(state_group, state_value):
+	if Wwise.set_state_id(state_group.get("Id"), state_value.get("Id")):
 		emit_signal("state_set", state_group, state_value)
 
 func _enter_tree() -> void:

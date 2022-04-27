@@ -1,7 +1,7 @@
 extends Node
 
-export(AK.EVENTS._enum) var event = AK.EVENTS.EXTERNAL_SOURCE_EVENT
-export(AK.EXTERNAL_SOURCES._enum) var external_source = AK.EXTERNAL_SOURCES.EXTERNAL_SOURCE
+export(AK.EVENTS._dict) var event = AK.EVENTS.EXTERNAL_SOURCE_EVENT
+export(AK.EXTERNAL_SOURCES._dict) var external_source = AK.EXTERNAL_SOURCES.EXTERNAL_SOURCE
 export(String) var file_name = "ExternalSources/External_Source_Demo.wem"
 export(AkUtils.AkCodecID) var codec = AkUtils.AkCodecID.AKCODECID_PCM
 

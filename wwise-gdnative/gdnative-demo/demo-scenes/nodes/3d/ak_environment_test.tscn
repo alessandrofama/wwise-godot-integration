@@ -65,9 +65,12 @@ depth = 1.0
 material = SubResource( 1 )
 
 [node name="AkEvent" type="Spatial" parent="Room1"]
-transform = Transform( 0.00703776, -0.002064, 2.84899, -0.00171766, 1.73913, 0.00126419, -3.11525, -0.0030824, 0.00769327, 8.36484, -3.64805, 84.8976 )
+transform = Transform( 0.00703776, -0.002064, 2.84899, -0.00171766, 1.73913, 0.00126419, -3.11525, -0.0030824, 0.00769327, 59.3003, -3.64805, 84.8976 )
 script = ExtResource( 3 )
-event = 3991942870
+event = {
+"Id": 3991942870,
+"Name": "MUSIC"
+}
 trigger_on = 3
 is_environment_aware = true
 
@@ -82,7 +85,10 @@ transform = Transform( 226.811, 0, 0, 0, 95.1012, 0, 0, 0, 171.64, 26.5956, 5.10
 gravity_vec = Vector3( 0, 0, 0 )
 gravity = 0.0
 script = ExtResource( 1 )
-aux_bus = 2757439665
+aux_bus = {
+"Id": 2757439665,
+"Name": "LARGEVERB"
+}
 env_priority = 1
 
 [node name="CollisionShape" type="CollisionShape" parent="Room1/Largeverb"]
@@ -93,7 +99,10 @@ transform = Transform( 77.7151, 0, 0, 0, 31.2748, 0, 0, 0, 50.5109, 26.5956, 5.1
 gravity_vec = Vector3( 0, 0, 0 )
 gravity = 0.0
 script = ExtResource( 1 )
-aux_bus = 1572913279
+aux_bus = {
+"Id": 1572913279,
+"Name": "ROOMVERB"
+}
 
 [node name="CollisionShape" type="CollisionShape" parent="Room1/RoomVerb"]
 shape = SubResource( 4 )
@@ -109,12 +118,19 @@ sprint_speed = 30
 [node name="AkBank" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.7226, 0 )
 script = ExtResource( 2 )
+bank = {
+"Id": 1355168291,
+"Name": "INIT"
+}
 load_on = 1
 
 [node name="AkBank2" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.7226, 0 )
 script = ExtResource( 2 )
-bank = 3291379323
+bank = {
+"Id": 3291379323,
+"Name": "TESTBANK"
+}
 load_on = 1
 
 [node name="Floor" type="CSGBox" parent="."]

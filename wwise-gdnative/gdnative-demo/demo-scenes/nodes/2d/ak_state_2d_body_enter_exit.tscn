@@ -31,7 +31,10 @@ texture = ExtResource( 2 )
 
 [node name="AkEvent2D" type="Node2D" parent="RigidBody2D/CollisionShape2D/Music"]
 script = ExtResource( 3 )
-event = 1939884427
+event = {
+"Id": 1939884427,
+"Name": "MUSIC 2D"
+}
 trigger_on = 3
 stop_on = 2
 stop_fade_time = 200
@@ -61,7 +64,14 @@ script = ExtResource( 4 )
 
 [node name="AkState" type="Node" parent="."]
 script = ExtResource( 5 )
-state_group = "Musicstate"
-state_value = "Intense"
+state_group = {
+"Id": 1021618141,
+"Name": "MUSICSTATE"
+}
+state_value = {
+"Id": 4223512837,
+"Name": "INTENSE"
+}
 trigger_on = 6
+
 [connection signal="body_entered" from="RigidBody2D" to="AkState" method="_on_body_entered"]

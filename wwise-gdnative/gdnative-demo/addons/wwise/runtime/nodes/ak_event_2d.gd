@@ -24,9 +24,9 @@ func handle_game_event(game_event:int) -> void:
 		
 func post_event() -> void:
 	if not use_callback:
-		playing_id = Wwise.post_event_id(event, self)
+		playing_id = Wwise.post_event_id(event.get("Id"), self)
 	else:
-		playing_id = Wwise.post_event_id_callback(event, callback_flag, self, cookie)
+		playing_id = Wwise.post_event_id_callback(event.get("Id"), callback_flag, self, cookie)
 	
 func stop_event() -> void:
 	Wwise.stop_event(playing_id, stop_fade_time, interpolation_mode)

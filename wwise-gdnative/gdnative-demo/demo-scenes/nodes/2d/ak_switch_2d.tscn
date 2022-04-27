@@ -48,8 +48,14 @@ shape = SubResource( 1 )
 [node name="AkSwitch" type="Node" parent="ColorRect/Area2D"]
 script = ExtResource( 6 )
 ak_event = NodePath("../../../KinematicBody2D/Player/AkEvent2D")
-switch_group = "FootstepsSwitch"
-switch_value = "Grass"
+switch_group = {
+"Id": 3586861854,
+"Name": "FOOTSTEPSSWITCH"
+}
+switch_value = {
+"Id": 2185786256,
+"Name": "GRAVEL"
+}
 trigger_on = 6
 
 [node name="ColorRect2" type="ColorRect" parent="."]
@@ -79,8 +85,14 @@ shape = SubResource( 1 )
 [node name="AkSwitch" type="Node" parent="ColorRect2/Area2D"]
 script = ExtResource( 6 )
 ak_event = NodePath("../../../KinematicBody2D/Player/AkEvent2D")
-switch_group = "FootstepsSwitch"
-switch_value = "Water"
+switch_group = {
+"Id": 3586861854,
+"Name": "FOOTSTEPSSWITCH"
+}
+switch_value = {
+"Id": 4248645337,
+"Name": "GRASS"
+}
 trigger_on = 6
 
 [node name="ColorRect3" type="ColorRect" parent="."]
@@ -110,8 +122,14 @@ shape = SubResource( 1 )
 [node name="AkSwitch" type="Node" parent="ColorRect3/Area2D"]
 script = ExtResource( 6 )
 ak_event = NodePath("../../../KinematicBody2D/Player/AkEvent2D")
-switch_group = "FootstepsSwitch"
-switch_value = "Gravel"
+switch_group = {
+"Id": 3586861854,
+"Name": "FOOTSTEPSSWITCH"
+}
+switch_value = {
+"Id": 2058049674,
+"Name": "WOOD"
+}
 trigger_on = 6
 
 [node name="ColorRect4" type="ColorRect" parent="."]
@@ -141,8 +159,14 @@ shape = SubResource( 1 )
 [node name="AkSwitch" type="Node" parent="ColorRect4/Area2D"]
 script = ExtResource( 6 )
 ak_event = NodePath("../../../KinematicBody2D/Player/AkEvent2D")
-switch_group = "FootstepsSwitch"
-switch_value = "Wood"
+switch_group = {
+"Id": 3586861854,
+"Name": "FOOTSTEPSSWITCH"
+}
+switch_value = {
+"Id": 2654748154,
+"Name": "WATER"
+}
 trigger_on = 6
 
 [node name="KinematicBody2D" type="RigidBody2D" parent="."]
@@ -160,10 +184,14 @@ texture = ExtResource( 2 )
 
 [node name="AkEvent2D" type="Node2D" parent="KinematicBody2D/Player"]
 script = ExtResource( 3 )
-event = 2385628198
+event = {
+"Id": 2385628198,
+"Name": "FOOTSTEPS"
+}
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="KinematicBody2D"]
 shape = SubResource( 2 )
+
 [connection signal="body_entered" from="ColorRect/Area2D" to="ColorRect/Area2D/AkSwitch" method="_on_body_entered"]
 [connection signal="body_entered" from="ColorRect2/Area2D" to="ColorRect2/Area2D/AkSwitch" method="_on_body_entered"]
 [connection signal="body_entered" from="ColorRect3/Area2D" to="ColorRect3/Area2D/AkSwitch" method="_on_body_entered"]

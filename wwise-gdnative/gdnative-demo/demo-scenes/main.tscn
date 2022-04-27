@@ -31,9 +31,6 @@ rect_scale = Vector2( 2, 2 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="RTPCSlider" type="HSlider" parent="UICanvasLayer/HBoxContainer"]
 margin_right = 367.0

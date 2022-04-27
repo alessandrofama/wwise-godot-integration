@@ -6,10 +6,16 @@
 
 [node name="Init" type="Node" parent="."]
 script = ExtResource( 1 )
-bank = 1355168291
+bank = {
+"Id": 1355168291,
+"Name": "INIT"
+}
 load_on = 3
 
 [node name="Testbank" type="Node" parent="."]
 script = ExtResource( 1 )
-bank = 3291379323
+bank = {
+"Id": 3291379323,
+"Name": "TESTBANK"
+}
 load_on = 3

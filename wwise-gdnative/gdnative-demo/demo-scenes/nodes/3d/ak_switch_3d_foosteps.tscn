@@ -39,8 +39,14 @@ material = SubResource( 1 )
 transform = Transform( 3.01146, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 script = ExtResource( 4 )
 ak_event = NodePath("../../Player/AkEvent")
-switch_group = "FootstepsSwitch"
-switch_value = "Gravel"
+switch_group = {
+"Id": 3586861854,
+"Name": "FOOTSTEPSSWITCH"
+}
+switch_value = {
+"Id": 2185786256,
+"Name": "GRAVEL"
+}
 trigger_on = 6
 
 [node name="Area" type="Area" parent="CSGBox/Gravel Switch"]
@@ -58,8 +64,14 @@ material = SubResource( 3 )
 transform = Transform( 3.01146, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 script = ExtResource( 4 )
 ak_event = NodePath("../../Player/AkEvent")
-switch_group = "FootstepsSwitch"
-switch_value = "Wood"
+switch_group = {
+"Id": 3586861854,
+"Name": "FOOTSTEPSSWITCH"
+}
+switch_value = {
+"Id": 2058049674,
+"Name": "WOOD"
+}
 trigger_on = 6
 
 [node name="Area2" type="Area" parent="CSGBox2/Wood Switch"]
@@ -77,8 +89,14 @@ material = SubResource( 4 )
 transform = Transform( 3.01146, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 script = ExtResource( 4 )
 ak_event = NodePath("../../Player/AkEvent")
-switch_group = "FootstepsSwitch"
-switch_value = "Grass"
+switch_group = {
+"Id": 3586861854,
+"Name": "FOOTSTEPSSWITCH"
+}
+switch_value = {
+"Id": 4248645337,
+"Name": "GRASS"
+}
 trigger_on = 6
 
 [node name="Area3" type="Area" parent="CSGBox3/Grass Switch"]
@@ -96,8 +114,14 @@ material = SubResource( 5 )
 transform = Transform( 3.01146, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 script = ExtResource( 4 )
 ak_event = NodePath("../../Player/AkEvent")
-switch_group = "FootstepsSwitch"
-switch_value = "Water"
+switch_group = {
+"Id": 3586861854,
+"Name": "FOOTSTEPSSWITCH"
+}
+switch_value = {
+"Id": 2654748154,
+"Name": "WATER"
+}
 trigger_on = 6
 
 [node name="Area4" type="Area" parent="CSGBox4/Water Switch"]
@@ -127,7 +151,10 @@ script = ExtResource( 5 )
 
 [node name="AkEvent" type="Spatial" parent="Player"]
 script = ExtResource( 3 )
-event = 2385628198
+event = {
+"Id": 2385628198,
+"Name": "FOOTSTEPS"
+}
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 transform = Transform( 1, 0, 0, 0, -0.866025, 0.5, 0, -0.5, -0.866025, -17, 7, 0 )

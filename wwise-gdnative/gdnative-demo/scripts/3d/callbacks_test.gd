@@ -1,6 +1,5 @@
 extends Node
 
-export(AK.EVENTS._enum) var event = AK.EVENTS.MUSIC
 export(AkUtils.AkCallbackType) var callback_type = AkUtils.AkCallbackType.AK_MusicSyncBeat
 
 var cookie:FuncRef
@@ -13,7 +12,7 @@ func _ready():
 	cookie.set_instance(self) # instance in which the function should be called
 	cookie.set_function("beat_callback") # name of the function
 	
-	Wwise.post_event_id_callback(event, callback_type, self, cookie)
+	Wwise.post_event_id_callback(AK.EVENTS.MUSIC, callback_type, self, cookie)
 
 func beat_callback(data):
 	print(data)

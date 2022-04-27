@@ -27,7 +27,10 @@ __meta__ = {
 position = Vector2( 1, -1.16635 )
 z_index = -1
 script = ExtResource( 3 )
-event = 1939884427
+event = {
+"Id": 1939884427,
+"Name": "MUSIC 2D"
+}
 trigger_on = 4
 stop_on = 5
 stop_fade_time = 200
@@ -60,5 +63,6 @@ __meta__ = {
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2( 0.0604477, -0.0349731 )
 shape = SubResource( 3 )
+
 [connection signal="area_entered" from="Area2D" to="Music/AkEvent2D" method="_on_area_entered"]
 [connection signal="area_exited" from="Area2D" to="Music/AkEvent2D" method="_on_area_exited"]

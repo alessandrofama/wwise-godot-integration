@@ -30,7 +30,7 @@ func _enter_tree() -> void:
 		# This ray is used in set_obstruction_and_occlusion to check whether
 		# there are any objects between Event and Listener.
 		ray = set_up_raycast(self)
-		ak_environment_data = preload("res://addons/wwise/runtime/helpers/ak_game_obj_environment_data.gd").new()
+		ak_environment_data = load("res://addons/wwise/runtime/helpers/ak_game_obj_environment_data.gd").new()
 		
 func handle_game_event(game_event:int) -> void:
 	if trigger_on == game_event:
@@ -40,9 +40,9 @@ func handle_game_event(game_event:int) -> void:
 		
 func post_event() -> void:
 	if not use_callback:
-		playing_id = Wwise.post_event_id(event, self)
+		playing_id = Wwise.post_event_id(event.get("Id"), self)
 	else:
-		playing_id = Wwise.post_event_id_callback(event, callback_flag, self, cookie)
+		playing_id = Wwise.post_event_id_callback(event.get("Id"), callback_flag, self, cookie)
 	
 func stop_event() -> void:
 	Wwise.stop_event(playing_id, stop_fade_time, stop_interpolation_curve)

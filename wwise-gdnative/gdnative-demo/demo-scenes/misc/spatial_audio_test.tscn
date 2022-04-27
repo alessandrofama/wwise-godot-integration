@@ -102,7 +102,10 @@ shape = SubResource( 8 )
 [node name="AkEvent" type="Spatial" parent="MeshInstance3/StaticBody/CollisionShape"]
 transform = Transform( 1, -1.16415e-10, 2.6077e-08, 0, 1, -5.98448e-10, -3.72529e-09, -1.81899e-11, 1, 5.72205e-06, -2.38419e-07, 1.10509 )
 script = ExtResource( 4 )
-event = 2626652388
+event = {
+"Id": 2626652388,
+"Name": "GEOMETRYDEMO"
+}
 trigger_on = 3
 is_spatial = true
 
@@ -118,7 +121,10 @@ back_room = NodePath("../AkRoomTest")
 
 [node name="AkRoomTest" type="Area" parent="MeshInstance2"]
 script = ExtResource( 6 )
-aux_bus_id = 2757439665
+aux_bus = {
+"Id": 1572913279,
+"Name": "ROOMVERB"
+}
 transmission_loss = 0.5
 associated_geometry = NodePath("../AkGeometry")
 

@@ -1,8 +1,8 @@
 extends Node
 
 export(NodePath) var ak_event:NodePath
-export(String) var switch_group:String
-export(String) var switch_value:String
+export(Dictionary) var switch_group:Dictionary = {"Name": "", "Id": 0}
+export(Dictionary) var switch_value:Dictionary = {"Name": "", "Id": 0}
 export(AkUtils.GameEvent) var trigger_on:int = AkUtils.GameEvent.NONE
 export(String) var group_tag
 var event:Object = null
@@ -17,8 +17,8 @@ func set_switch() -> void:
 		push_error("AkEvent NodePath in AkSwitch is empty, id: " + String(self.get_instance_id()))
 		return
 	event = get_node(ak_event)
-	if Wwise.set_switch(switch_group, switch_value, event):
-		emit_signal("set_switch", event, switch_group, switch_value)
+	if Wwise.set_switch_id(switch_group.get("Id"), switch_value.get("Id"), event):
+		emit_signal("set_switch", event, switch_group.get("Id"), switch_value.get("Id"))
 
 func _enter_tree() -> void:
 	handle_game_event(AkUtils.GameEvent.TREE_ENTER);

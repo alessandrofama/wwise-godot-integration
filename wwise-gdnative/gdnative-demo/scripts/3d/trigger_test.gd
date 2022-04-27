@@ -1,8 +1,8 @@
 extends Node
 
-export(AK.EVENTS._enum) var event = AK.EVENTS.MUSIC
+export(AK.EVENTS._dict) var event
 
-export(AK.TRIGGERS._enum) var trigger = AK.TRIGGERS.MUSICTRIGGER
+export(AK.TRIGGERS._dict) var trigger = AK.TRIGGERS.MUSICTRIGGER
 
 func _ready():
 	var registerResult = Wwise.register_game_obj(self, "Trigger Test")

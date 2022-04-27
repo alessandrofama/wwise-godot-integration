@@ -71,10 +71,15 @@ transform = Transform( 1, 0, 2.38419e-07, 0, 1, 0, -2.38419e-07, 0, 1, 25.2166, 
 
 [node name="CollisionShape" type="CollisionShape" parent="Event"]
 shape = SubResource( 3 )
+disabled = true
 
 [node name="AkEvent" type="Spatial" parent="Event"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.90735e-06, 0, -4.18349 )
 script = ExtResource( 3 )
-event = 1272633243
+event = {
+"Id": 3991942870,
+"Name": "MUSIC"
+}
 trigger_on = 3
 is_environment_aware = true
 
@@ -98,11 +103,17 @@ shadow_bias = -0.01
 [node name="AkBank" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12.0763, 0 )
 script = ExtResource( 2 )
-bank = 1355168291
+bank = {
+"Id": 1355168291,
+"Name": "INIT"
+}
 load_on = 1
 
 [node name="AkBank2" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12.0763, 0 )
 script = ExtResource( 2 )
-bank = 3291379323
+bank = {
+"Id": 3291379323,
+"Name": "TESTBANK"
+}
 load_on = 1

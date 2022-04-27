@@ -17,7 +17,10 @@ texture = ExtResource( 2 )
 [node name="AkEvent2D" type="Node2D" parent="Music"]
 visible = false
 script = ExtResource( 3 )
-event = 3900723121
+event = {
+"Id": 3900723121,
+"Name": "PLAY CHIMES WITH MARKER"
+}
 trigger_on = 3
 use_callback = true
 callback_flag = 5

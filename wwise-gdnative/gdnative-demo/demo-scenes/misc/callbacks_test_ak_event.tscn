@@ -15,7 +15,10 @@ script = ExtResource( 3 )
 
 [node name="AkEvent" type="Spatial" parent="."]
 script = ExtResource( 4 )
-event = 3991942870
+event = {
+"Id": 3991942870,
+"Name": "MUSIC"
+}
 trigger_on = 3
 use_callback = true
 callback_flag = 256

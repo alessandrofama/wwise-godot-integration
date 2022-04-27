@@ -1,6 +1,6 @@
 extends Node
 
-export(AK.EVENTS._enum) var event = AK.EVENTS.MUSIC
+export(AK.EVENTS._dict) var event = AK.EVENTS.MUSIC
 export(AkUtils.AkCallbackType) var callback_type = AkUtils.AkCallbackType.AK_EnableGetMusicPlayPosition
 
 var playing_id

@@ -1,7 +1,7 @@
 extends Node
 
 export(String) var group_tag
-export(AK.BANKS._enum) var bank:int = AK.BANKS._enum.values()[0]
+export(Dictionary) var bank:Dictionary = {"Name": "", "Id": 0}
 export(AkUtils.GameEvent) var load_on:int = AkUtils.GameEvent.NONE
 export(AkUtils.GameEvent) var unload_on:int = AkUtils.GameEvent.NONE
 
@@ -12,10 +12,10 @@ func handle_game_event(game_event:int) -> void:
 		unload_bank()
 
 func load_bank() -> void:
-	Wwise.load_bank_id(bank)
+	Wwise.load_bank_id(bank.get("Id"))
 	
 func unload_bank() -> void:
-	Wwise.unload_bank_id(bank)
+	Wwise.unload_bank_id(bank.get("Id"))
 
 func _enter_tree() -> void:
 	handle_game_event(AkUtils.GameEvent.TREE_ENTER);

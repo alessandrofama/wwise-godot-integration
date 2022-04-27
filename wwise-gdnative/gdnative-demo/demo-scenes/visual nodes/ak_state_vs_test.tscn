@@ -4,7 +4,6 @@
 [ext_resource path="res://scripts/3d/bank_init_test.gd" type="Script" id=2]
 [ext_resource path="res://addons/wwise/runtime/nodes/ak_listener.gd" type="Script" id=3]
 
-
 [node name="Spatial" type="Spatial"]
 
 [node name="Banks" type="Node" parent="."]

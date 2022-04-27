@@ -1,6 +1,6 @@
 extends Area
 
-export(AK.AUX_BUSSES._enum) var aux_bus:int = AK.AUX_BUSSES._enum.values()[0]
+export(Dictionary) var aux_bus:Dictionary = {"Name": "", "Id": 0}
 
 export var env_priority = 0
 
