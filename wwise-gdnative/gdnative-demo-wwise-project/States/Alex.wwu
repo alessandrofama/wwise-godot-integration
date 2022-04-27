@@ -10,6 +10,13 @@
 						<State Name="Intense" ID="{FABD5E12-429E-4E49-9B0E-5627350076F0}"/>
 					</ChildrenList>
 				</StateGroup>
+				<StateGroup Name="ExampleState" ID="{37187904-0CC1-499F-834C-465293553A8E}">
+					<ChildrenList>
+						<State Name="None" ID="{B1F6AE1D-E528-4AB4-A7CF-AF7396FF60BF}"/>
+						<State Name="One" ID="{227EE326-892E-4567-BBC7-0F4F5364AE5E}"/>
+						<State Name="Two" ID="{D0EBCA9A-1F7D-423E-A7FF-408D9F25C350}"/>
+					</ChildrenList>
+				</StateGroup>
 			</ChildrenList>
 		</WorkUnit>
 	</States>
