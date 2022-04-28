@@ -27,8 +27,8 @@ func _init():
 			push_error("Encountered error %d when saving project settings." % error)
 
 func _add_common_user_settings():
-	_add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "base_path", String("res://addons/wwise/GeneratedSoundBanks"), 
-				TYPE_STRING, PROPERTY_HINT_DIR, "res://addons/wwise/GeneratedSoundBanks")
+	_add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "base_path", String("res://wwise/GeneratedSoundBanks"), 
+				TYPE_STRING, PROPERTY_HINT_DIR, "res://wwise/GeneratedSoundBanks")
 	_add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "startup_language", String("English(US)"), TYPE_STRING, 
 				PROPERTY_HINT_NONE, "")
 	_add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "load_init_bank_at_startup", 0, TYPE_BOOL, 
