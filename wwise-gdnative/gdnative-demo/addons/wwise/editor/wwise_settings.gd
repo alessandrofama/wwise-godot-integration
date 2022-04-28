@@ -43,7 +43,7 @@ func _add_common_user_settings():
 				PROPERTY_HINT_NONE, "")
 	_add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "samples_per_frame", 2, TYPE_INT, 
 				PROPERTY_HINT_ENUM, "256, 512, 1024, 2048")
-	_add_setting(WWISE_COMMON_USER_SETTINGS_MAIN_OUTPUT_PATH + "audio_device_shareset", "", TYPE_STRING, 
+	_add_setting(WWISE_COMMON_USER_SETTINGS_MAIN_OUTPUT_PATH + "audio_device_shareset", "System", TYPE_STRING, 
 				PROPERTY_HINT_NONE, "")
 	_add_setting(WWISE_COMMON_USER_SETTINGS_MAIN_OUTPUT_PATH + "device_id", 0, TYPE_INT, 
 				PROPERTY_HINT_NONE, "")
