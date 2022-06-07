@@ -79,16 +79,16 @@ class WwiseBuildExport:
 			add_ios_framework("StoreKit.framework")
 			if "arm64" in features:
 				if debug:
-					wwise_lib.config_file.set_value("entry", "IOS.arm64", LibPaths.IOS.Arm64.WWISE_DEBUG)
+					wwise_lib.config_file.set_value("entry", "iOS.arm64", LibPaths.IOS.Arm64.WWISE_DEBUG)
 				else:
-					wwise_lib.config_file.set_value("entry", "IOS.arm64", LibPaths.IOS.Arm64.WWISE_RELEASE)
-					changed_wwise_libs.append({"entry": "IOS.arm64", "path": LibPaths.IOS.Arm64.WWISE_DEBUG})
+					wwise_lib.config_file.set_value("entry", "iOS.arm64", LibPaths.IOS.Arm64.WWISE_RELEASE)
+					changed_wwise_libs.append({"entry": "iOS.arm64", "path": LibPaths.IOS.Arm64.WWISE_DEBUG})
 			if "armv7" in features:
 				if debug:
-					wwise_lib.config_file.set_value("entry", "IOS.armv7", LibPaths.IOS.Armv7.WWISE_DEBUG)	
+					wwise_lib.config_file.set_value("entry", "iOS.armv7", LibPaths.IOS.Armv7.WWISE_DEBUG)	
 				else:
-					wwise_lib.config_file.set_value("entry", "IOS.armv7", LibPaths.IOS.Armv7.WWISE_RELEASE)	
-					changed_wwise_libs.append({"entry": "IOS.armv7", "path": LibPaths.IOS.Armv7.WWISE_DEBUG})
+					wwise_lib.config_file.set_value("entry", "iOS.armv7", LibPaths.IOS.Armv7.WWISE_RELEASE)	
+					changed_wwise_libs.append({"entry": "iOS.armv7", "path": LibPaths.IOS.Armv7.WWISE_DEBUG})
 	
 	func _export_file(path, type, features):
 
