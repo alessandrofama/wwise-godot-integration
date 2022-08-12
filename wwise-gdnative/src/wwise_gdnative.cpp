@@ -1167,6 +1167,11 @@ void Wwise::eventCallback(AkCallbackType callbackType, AkCallbackInfo* callbackI
 		ERROR_CHECK(AK_Fail, "The Event Callback cookie is not valid.");
 		return;
 	}
+	else if (!cookie->is_valid())
+	{
+		ERROR_CHECK(AK_Fail, "The Event Callback cookie object no longer exists.");
+		return;
+	}
 
 	Array args;
 	Dictionary callbackData;
@@ -1503,6 +1508,11 @@ void Wwise::bankCallback(AkUInt32 bankID, const void* inMemoryBankPtr, AKRESULT 
 	if (!cookie)
 	{
 		ERROR_CHECK(AK_Fail, "The Bank Callback cookie is not valid.");
+		return;
+	}
+	else if (!cookie->is_valid())
+	{
+		ERROR_CHECK(AK_Fail, "The Bank Callback cookie object no longer exists.");
 		return;
 	}
 
