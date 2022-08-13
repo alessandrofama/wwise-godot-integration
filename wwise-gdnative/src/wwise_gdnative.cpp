@@ -1167,9 +1167,9 @@ void Wwise::eventCallback(AkCallbackType callbackType, AkCallbackInfo* callbackI
 		ERROR_CHECK(AK_Fail, "The Event Callback cookie is not valid.");
 		return;
 	}
-	else if (!cookie->is_valid())
+	else if (!godot_is_instance_valid(cookie->_owner))
 	{
-		ERROR_CHECK(AK_Fail, "The Event Callback cookie object no longer exists.");
+		Godot::print_warning("The Event Callback cookie object no longer exists.",  __FUNCTION__, __FILE__, __LINE__);
 		return;
 	}
 
@@ -1510,9 +1510,9 @@ void Wwise::bankCallback(AkUInt32 bankID, const void* inMemoryBankPtr, AKRESULT 
 		ERROR_CHECK(AK_Fail, "The Bank Callback cookie is not valid.");
 		return;
 	}
-	else if (!cookie->is_valid())
+	else if (!godot_is_instance_valid(cookie->_owner))
 	{
-		ERROR_CHECK(AK_Fail, "The Bank Callback cookie object no longer exists.");
+		Godot::print_warning("The Bank Callback cookie object no longer exists.",  __FUNCTION__, __FILE__, __LINE__);
 		return;
 	}
 
