@@ -1,10 +1,14 @@
 State Group	ID	Name			Wwise Object Path	Notes
 	1021618141	MusicState			\Alex\MusicState	
+	2727507960	ExampleState			\Alex\ExampleState	
 
 State	ID	Name	State Group			Notes
 	748895195	None	MusicState			
 	3753286132	Calm	MusicState			
 	4223512837	Intense	MusicState			
+	678209053	Two	ExampleState			
+	748895195	None	ExampleState			
+	1064933119	One	ExampleState			
 
 Game Parameter	ID	Name			Wwise Object Path	Notes
 	504532776	Brick			\Factory Reflect Acoustic Textures\Textures\Brick	

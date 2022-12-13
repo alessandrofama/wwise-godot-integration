@@ -80,6 +80,7 @@ void Wwise::_register_methods()
 	register_method("unload_bank_async", &Wwise::unloadBankAsync);
 	register_method("unload_bank_async_id", &Wwise::unloadBankAsyncID);
 	register_method("register_listener", &Wwise::registerListener);
+	register_method("set_random_seed", &Wwise::setRandomSeed);
 	register_method("register_game_obj", &Wwise::registerGameObject);
 	register_method("unregister_game_obj", &Wwise::unregisterGameObject);
 	register_method("set_listeners", &Wwise::setListeners);
@@ -341,7 +342,12 @@ bool Wwise::registerListener(const Object* gameObject)
 		return false;
 	}
 
-	return true;
+        return true;
+}
+
+void Wwise::setRandomSeed(const unsigned int seed)
+{
+	AK::SoundEngine::SetRandomSeed(seed);
 }
 
 bool Wwise::registerGameObject(const Object* gameObject, const String gameObjectName)

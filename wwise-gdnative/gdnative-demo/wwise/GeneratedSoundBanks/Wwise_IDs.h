@@ -20,11 +20,24 @@ namespace AK
         static const AkUniqueID MUSIC_2D = 1939884427U;
         static const AkUniqueID MUSIC_LONG_ATT = 1272633243U;
         static const AkUniqueID PLAY_CHIMES_WITH_MARKER = 3900723121U;
+        static const AkUniqueID RANDOM_SEED_TEST = 1357555555U;
         static const AkUniqueID SYNTH_ONE_TEST = 2343727715U;
     } // namespace EVENTS
 
     namespace STATES
     {
+        namespace EXAMPLESTATE
+        {
+            static const AkUniqueID GROUP = 2727507960U;
+
+            namespace STATE
+            {
+                static const AkUniqueID NONE = 748895195U;
+                static const AkUniqueID ONE = 1064933119U;
+                static const AkUniqueID TWO = 678209053U;
+            } // namespace STATE
+        } // namespace EXAMPLESTATE
+
         namespace MUSICSTATE
         {
             static const AkUniqueID GROUP = 1021618141U;

@@ -65,6 +65,7 @@ class Wwise : public Node
 	bool unregisterGameObject(const Object* gameObject);
 
 	bool setListeners(const Object* emitter, const Object* listener);
+	void setRandomSeed(const unsigned int seed);
 
 	bool set3DPosition(const Object* gameObject, const Transform transform);
 	bool set2DPosition(const Object* gameObject, const Transform2D transform2D, const float zDepth);
