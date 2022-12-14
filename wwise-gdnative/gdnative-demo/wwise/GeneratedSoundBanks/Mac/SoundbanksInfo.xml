@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SoundBanksInfo Platform="Mac" BasePlatform="Mac" SchemaVersion="12" SoundbankVersion="140">
 	<RootPaths>
-		<ProjectRoot>/Users/alessandrofama/Library/Application Support/Wwise2019/Bottles/Wwise2019x64/dosdevices/y:/Desktop/backup/realworkdir/wwise-godot-integration/wwise-gdnative/gdnative-demo-wwise-project/</ProjectRoot>
-		<SourceFilesRoot>/Users/alessandrofama/Library/Application Support/Wwise2019/Bottles/Wwise2019x64/dosdevices/y:/Desktop/backup/realworkdir/wwise-godot-integration/wwise-gdnative/gdnative-demo-wwise-project/.cache/Mac/</SourceFilesRoot>
-		<SoundBanksRoot>/Users/alessandrofama/Library/Application Support/Wwise2019/Bottles/Wwise2019x64/dosdevices/y:/Desktop/backup/realworkdir/wwise-godot-integration/wwise-gdnative/gdnative-demo/wwise/GeneratedSoundBanks/Mac/</SoundBanksRoot>
-		<ExternalSourcesInputFile>/Users/alessandrofama/Library/Application Support/Wwise2019/Bottles/Wwise2019x64/dosdevices/y:/Desktop/backup/realworkdir/wwise-godot-integration/wwise-gdnative/gdnative-demo-wwise-project/ExternalSources/mac.wsources</ExternalSourcesInputFile>
-		<ExternalSourcesOutputRoot>/Users/alessandrofama/Library/Application Support/Wwise2019/Bottles/Wwise2019x64/dosdevices/y:/Desktop/backup/realworkdir/wwise-godot-integration/wwise-gdnative/gdnative-demo/wwise/GeneratedSoundBanks/Mac</ExternalSourcesOutputRoot>
+		<ProjectRoot>I:\Personal\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\</ProjectRoot>
+		<SourceFilesRoot>I:\Personal\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\.cache\Mac\</SourceFilesRoot>
+		<SoundBanksRoot>I:\Personal\wwise-godot-integration\wwise-gdnative\gdnative-demo\wwise\GeneratedSoundBanks\Mac\</SoundBanksRoot>
+		<ExternalSourcesInputFile>Y:\Desktop\backup\realworkdir\wwise-godot-integration\wwise-gdnative\gdnative-demo-wwise-project\ExternalSources\mac.wsources</ExternalSourcesInputFile>
+		<ExternalSourcesOutputRoot>I:\Personal\wwise-godot-integration\wwise-gdnative\gdnative-demo\wwise\GeneratedSoundBanks\Mac</ExternalSourcesOutputRoot>
 	</RootPaths>
 	<DialogueEvents/>
 	<StreamedFiles/>
 	<MediaFilesNotInAnyBank/>
 	<SoundBanks>
-		<SoundBank Id="1355168291" Language="SFX" Hash="3300791440">
+		<SoundBank Id="1355168291" Language="SFX" Hash="2553549998">
 			<ObjectPath>Init</ObjectPath>
 			<ShortName>Init</ShortName>
 			<Path>1355168291.bnk</Path>
@@ -21,7 +21,7 @@
 				<AuxBus Id="2757439665" Name="LargeVerb" ObjectPath="\Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\LargeVerb"/>
 			</IncludedAuxBusses>
 		</SoundBank>
-		<SoundBank Id="3291379323" Language="SFX" Hash="895856633">
+		<SoundBank Id="3291379323" Language="SFX" Hash="2989928032">
 			<ObjectPath>\SoundBanks\Alex\TestBank</ObjectPath>
 			<ShortName>TestBank</ShortName>
 			<Path>3291379323.bnk</Path>
@@ -31,79 +31,79 @@
 					<IncludedMemoryFiles>
 						<File Id="102632397" Language="SFX">
 							<ShortName>otto_footsteps_grass_2.wav</ShortName>
-							<Path>SFX/otto_footsteps_grass_2_10C4C929.wem</Path>
+							<Path>SFX\otto_footsteps_grass_2_10C4C929.wem</Path>
 						</File>
 						<File Id="126934278" Language="SFX">
 							<ShortName>otto_footsteps_wood_2.wav</ShortName>
-							<Path>SFX/otto_footsteps_wood_2_10C4C929.wem</Path>
+							<Path>SFX\otto_footsteps_wood_2_10C4C929.wem</Path>
 						</File>
 						<File Id="222333393" Language="SFX">
 							<ShortName>otto_footsteps_wood_3.wav</ShortName>
-							<Path>SFX/otto_footsteps_wood_3_10C4C929.wem</Path>
+							<Path>SFX\otto_footsteps_wood_3_10C4C929.wem</Path>
 						</File>
 						<File Id="224267691" Language="SFX">
 							<ShortName>otto_footsteps_grass_4.wav</ShortName>
-							<Path>SFX/otto_footsteps_grass_4_10C4C929.wem</Path>
+							<Path>SFX\otto_footsteps_grass_4_10C4C929.wem</Path>
 						</File>
 						<File Id="266509003" Language="SFX">
 							<ShortName>otto_footsteps_gravel_4.wav</ShortName>
-							<Path>SFX/otto_footsteps_gravel_4_10C4C929.wem</Path>
+							<Path>SFX\otto_footsteps_gravel_4_10C4C929.wem</Path>
 						</File>
 						<File Id="330814601" Language="SFX">
 							<ShortName>otto_footsteps_water_2.wav</ShortName>
-							<Path>SFX/otto_footsteps_water_2_10C4C929.wem</Path>
+							<Path>SFX\otto_footsteps_water_2_10C4C929.wem</Path>
 						</File>
 						<File Id="368631978" Language="SFX">
 							<ShortName>otto_footsteps_grass_3.wav</ShortName>
-							<Path>SFX/otto_footsteps_grass_3_10C4C929.wem</Path>
+							<Path>SFX\otto_footsteps_grass_3_10C4C929.wem</Path>
 						</File>
 						<File Id="433024557" Language="SFX">
 							<ShortName>otto_footsteps_wood_1.wav</ShortName>
-							<Path>SFX/otto_footsteps_wood_1_10C4C929.wem</Path>
+							<Path>SFX\otto_footsteps_wood_1_10C4C929.wem</Path>
 						</File>
 						<File Id="453536678" Language="SFX">
 							<ShortName>otto_footsteps_gravel_5.wav</ShortName>
-							<Path>SFX/otto_footsteps_gravel_5_10C4C929.wem</Path>
+							<Path>SFX\otto_footsteps_gravel_5_10C4C929.wem</Path>
 						</File>
 						<File Id="575939703" Language="SFX">
 							<ShortName>otto_footsteps_gravel_3.wav</ShortName>
-							<Path>SFX/otto_footsteps_gravel_3_10C4C929.wem</Path>
+							<Path>SFX\otto_footsteps_gravel_3_10C4C929.wem</Path>
 						</File>
 						<File Id="701113954" Language="SFX">
 							<ShortName>otto_footsteps_wood_6.wav</ShortName>
-							<Path>SFX/otto_footsteps_wood_6_10C4C929.wem</Path>
+							<Path>SFX\otto_footsteps_wood_6_10C4C929.wem</Path>
 						</File>
 						<File Id="709201403" Language="SFX">
 							<ShortName>otto_footsteps_gravel_2.wav</ShortName>
-							<Path>SFX/otto_footsteps_gravel_2_10C4C929.wem</Path>
+							<Path>SFX\otto_footsteps_gravel_2_10C4C929.wem</Path>
 						</File>
 						<File Id="710015741" Language="SFX">
 							<ShortName>otto_footsteps_water_1.wav</ShortName>
-							<Path>SFX/otto_footsteps_water_1_10C4C929.wem</Path>
+							<Path>SFX\otto_footsteps_water_1_10C4C929.wem</Path>
 						</File>
 						<File Id="742368316" Language="SFX">
 							<ShortName>otto_footsteps_gravel_1.wav</ShortName>
-							<Path>SFX/otto_footsteps_gravel_1_10C4C929.wem</Path>
+							<Path>SFX\otto_footsteps_gravel_1_10C4C929.wem</Path>
 						</File>
 						<File Id="761338767" Language="SFX">
 							<ShortName>otto_footsteps_water_3.wav</ShortName>
-							<Path>SFX/otto_footsteps_water_3_10C4C929.wem</Path>
+							<Path>SFX\otto_footsteps_water_3_10C4C929.wem</Path>
 						</File>
 						<File Id="871561785" Language="SFX">
 							<ShortName>otto_footsteps_wood_4.wav</ShortName>
-							<Path>SFX/otto_footsteps_wood_4_10C4C929.wem</Path>
+							<Path>SFX\otto_footsteps_wood_4_10C4C929.wem</Path>
 						</File>
 						<File Id="974008506" Language="SFX">
 							<ShortName>otto_footsteps_grass_1.wav</ShortName>
-							<Path>SFX/otto_footsteps_grass_1_10C4C929.wem</Path>
+							<Path>SFX\otto_footsteps_grass_1_10C4C929.wem</Path>
 						</File>
 						<File Id="1010036921" Language="SFX">
 							<ShortName>otto_footsteps_water_4.wav</ShortName>
-							<Path>SFX/otto_footsteps_water_4_10C4C929.wem</Path>
+							<Path>SFX\otto_footsteps_water_4_10C4C929.wem</Path>
 						</File>
 						<File Id="1025442465" Language="SFX">
 							<ShortName>otto_footsteps_wood_5.wav</ShortName>
-							<Path>SFX/otto_footsteps_wood_5_10C4C929.wem</Path>
+							<Path>SFX\otto_footsteps_wood_5_10C4C929.wem</Path>
 						</File>
 					</IncludedMemoryFiles>
 					<DefaultSwitchValue>{F26D1B5E-6FBC-4841-A415-84A3D48C25E5}</DefaultSwitchValue>
@@ -149,7 +149,7 @@
 					<IncludedMemoryFiles>
 						<File Id="258193767" Language="SFX">
 							<ShortName>Marker_Test_001.wav</ShortName>
-							<Path>SFX/Marker_Test_001_10C4C929.wem</Path>
+							<Path>SFX\Marker_Test_001_10C4C929.wem</Path>
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
@@ -157,19 +157,19 @@
 					<IncludedMemoryFiles>
 						<File Id="401793486" Language="SFX">
 							<ShortName>bar_music_SEQ1_109.wav</ShortName>
-							<Path>SFX/bar_music_SEQ1_109_3D1D1BA5.wem</Path>
+							<Path>SFX\bar_music_SEQ1_109_3D1D1BA5.wem</Path>
 						</File>
 						<File Id="408411585" Language="SFX">
 							<ShortName>RevCrash AllOver.wav</ShortName>
-							<Path>SFX/RevCrash AllOver_D79FB2B7.wem</Path>
+							<Path>SFX\RevCrash AllOver_D79FB2B7.wem</Path>
 						</File>
 						<File Id="584072642" Language="SFX">
 							<ShortName>bar_music_beat_109.wav</ShortName>
-							<Path>SFX/bar_music_beat_109_3D1D1BA5.wem</Path>
+							<Path>SFX\bar_music_beat_109_3D1D1BA5.wem</Path>
 						</File>
 						<File Id="638431784" Language="SFX">
 							<ShortName>bar_music_SEQ2_109.wav</ShortName>
-							<Path>SFX/bar_music_SEQ2_109_3D1D1BA5.wem</Path>
+							<Path>SFX\bar_music_SEQ2_109_3D1D1BA5.wem</Path>
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
@@ -177,15 +177,15 @@
 					<IncludedMemoryFiles>
 						<File Id="401793486" Language="SFX">
 							<ShortName>bar_music_SEQ1_109.wav</ShortName>
-							<Path>SFX/bar_music_SEQ1_109_3D1D1BA5.wem</Path>
+							<Path>SFX\bar_music_SEQ1_109_3D1D1BA5.wem</Path>
 						</File>
 						<File Id="584072642" Language="SFX">
 							<ShortName>bar_music_beat_109.wav</ShortName>
-							<Path>SFX/bar_music_beat_109_3D1D1BA5.wem</Path>
+							<Path>SFX\bar_music_beat_109_3D1D1BA5.wem</Path>
 						</File>
 						<File Id="638431784" Language="SFX">
 							<ShortName>bar_music_SEQ2_109.wav</ShortName>
-							<Path>SFX/bar_music_SEQ2_109_3D1D1BA5.wem</Path>
+							<Path>SFX\bar_music_SEQ2_109_3D1D1BA5.wem</Path>
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
@@ -193,19 +193,19 @@
 					<IncludedMemoryFiles>
 						<File Id="401793486" Language="SFX">
 							<ShortName>bar_music_SEQ1_109.wav</ShortName>
-							<Path>SFX/bar_music_SEQ1_109_3D1D1BA5.wem</Path>
+							<Path>SFX\bar_music_SEQ1_109_3D1D1BA5.wem</Path>
 						</File>
 						<File Id="408411585" Language="SFX">
 							<ShortName>RevCrash AllOver.wav</ShortName>
-							<Path>SFX/RevCrash AllOver_D79FB2B7.wem</Path>
+							<Path>SFX\RevCrash AllOver_D79FB2B7.wem</Path>
 						</File>
 						<File Id="584072642" Language="SFX">
 							<ShortName>bar_music_beat_109.wav</ShortName>
-							<Path>SFX/bar_music_beat_109_3D1D1BA5.wem</Path>
+							<Path>SFX\bar_music_beat_109_3D1D1BA5.wem</Path>
 						</File>
 						<File Id="638431784" Language="SFX">
 							<ShortName>bar_music_SEQ2_109.wav</ShortName>
-							<Path>SFX/bar_music_SEQ2_109_3D1D1BA5.wem</Path>
+							<Path>SFX\bar_music_SEQ2_109_3D1D1BA5.wem</Path>
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
@@ -213,7 +213,31 @@
 					<IncludedMemoryFiles>
 						<File Id="804869470" Language="SFX">
 							<ShortName>chimes_with_marker.wav</ShortName>
-							<Path>SFX/chimes_with_marker_10C4C929.wem</Path>
+							<Path>SFX\chimes_with_marker_10C4C929.wem</Path>
+						</File>
+					</IncludedMemoryFiles>
+				</Event>
+				<Event Id="1357555555" Name="Random_Seed_Test" ObjectPath="\Events\Alex Tests\Random_Seed_Test">
+					<IncludedMemoryFiles>
+						<File Id="191503130" Language="SFX">
+							<ShortName>B3.mid</ShortName>
+							<Path>SFX\B3_6352A786.wmid</Path>
+						</File>
+						<File Id="230079480" Language="SFX">
+							<ShortName>C3.mid</ShortName>
+							<Path>SFX\C3_6352A786.wmid</Path>
+						</File>
+						<File Id="278207772" Language="SFX">
+							<ShortName>G3.mid</ShortName>
+							<Path>SFX\G3_6352A786.wmid</Path>
+						</File>
+						<File Id="561149109" Language="SFX">
+							<ShortName>A3.mid</ShortName>
+							<Path>SFX\A3_6352A786.wmid</Path>
+						</File>
+						<File Id="954729803" Language="SFX">
+							<ShortName>E3.mid</ShortName>
+							<Path>SFX\E3_6352A786.wmid</Path>
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
@@ -221,7 +245,7 @@
 					<IncludedMemoryFiles>
 						<File Id="484615795" Language="SFX">
 							<ShortName>piano-100.mid</ShortName>
-							<Path>SFX/piano-100_9728D936.wmid</Path>
+							<Path>SFX\piano-100_9728D936.wmid</Path>
 						</File>
 					</IncludedMemoryFiles>
 				</Event>
