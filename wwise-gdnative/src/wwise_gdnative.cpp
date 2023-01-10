@@ -1159,7 +1159,6 @@ void Wwise::eventCallback(AkCallbackType callbackType, AkCallbackInfo* callbackI
 	}
 	else if (!core_1_1_api->godot_is_instance_valid(cookie->_owner))
 	{
-		Godot::print_warning("The Event Callback cookie object no longer exists.",  __FUNCTION__, __FILE__, __LINE__);
 		return;
 	}
 
