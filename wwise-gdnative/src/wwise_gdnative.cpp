@@ -70,6 +70,7 @@ void Wwise::_register_methods()
 {
 	register_method("_process", &Wwise::_process);
 	register_method("_notification", &Wwise::_notification);
+	register_method("set_base_path", &Wwise::setBasePath);
 	register_method("set_current_language", &Wwise::setCurrentLanguage);
 	register_method("load_bank", &Wwise::loadBank);
 	register_method("load_bank_id", &Wwise::loadBankID);
@@ -232,23 +233,6 @@ void Wwise::_notification(int notification)
 bool Wwise::setBasePath(const String basePath)
 {
 	AKASSERT(!basePath.empty());
-
-	AKRESULT result = AK_PathNotFound;
-	String resString = "res://";
-
-	if (!basePath.begins_with(resString))
-	{
-		return ERROR_CHECK(result, "Invalid path, does not begin with res://");
-	}
-
-	// Broken https://github.com/godotengine/godot/issues/37646
-
-	// Ref<Directory> directory = Directory::_new();
-
-	// if (!directory->dir_exists(basePath))
-	// {
-	// 	return ERROR_CHECK(AK_PathNotFound, "Invalid path, cannot find base dir path in project");
-	// }
 
 	lowLevelIO.SetBanksPath(basePath);
 
