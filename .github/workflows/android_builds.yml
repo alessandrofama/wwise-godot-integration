@@ -59,7 +59,7 @@ jobs:
           cd ..
       - name: Compilation
         env:
-          ANDROID_NDK_ROOT: /usr/local/lib/android/sdk/ndk-bundle
+          ANDROID_NDK_ROOT: /usr/local/lib/android/sdk/ndk/23.2.8568313
         run: |
           cd godot-cpp
           scons platform=android android_arch=armv7 target=debug generate_bindings=yes -j4
