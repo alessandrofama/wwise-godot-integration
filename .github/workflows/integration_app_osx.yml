@@ -17,6 +17,7 @@ jobs:
         node-version: '14.5'
     - name: Install 
       run: |
+        export CSC_IDENTITY_AUTO_DISCOVERY=false
         cd integration-app
         yarn  
         yarn electron:build
