@@ -1,8 +1,0 @@
-#Wwise gitignore
-.cache/* 
-*.akd 
-*.validationcache 
-*.wem
-*.wsettings
-*.prof
-Originals/*.cache

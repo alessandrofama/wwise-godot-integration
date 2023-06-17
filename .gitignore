@@ -13,3 +13,9 @@ utils/iOS
 utils/linux
 utils/osx
 utils/win64
+
+
+
+# Godot-specific ignores
+.import/
+export.cfg

@@ -1,7 +1,0 @@
-[gd_scene load_steps=2 format=2]
-
-[ext_resource path="res://scripts/misc/load_bank_async_test.gd" type="Script" id=1]
-
-[node name="Spatial" type="Spatial"]
-pause_mode = 2
-script = ExtResource( 1 )

@@ -1,0 +1,7 @@
+[configuration]
+entry_symbol = "wwise_library_init"
+
+[libraries]
+windows.editor = "res://addons/wwise/native/lib/win64/debug/libwwise.windows.template_debug.dll"
+windows.debug = "res://addons/FMOD/native/lib/win64/debug/libwwise.windows.template_debug.dll"
+windows.release = "res://addons/FMOD/native/lib/win64/release/libwwise.windows.template_debug.dll"
