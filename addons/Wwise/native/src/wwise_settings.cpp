@@ -2,9 +2,7 @@
 
 using namespace godot;
 
-void WwiseSettings::_bind_methods()
-{
-}
+void WwiseSettings::_bind_methods() {}
 
 WwiseSettings::WwiseSettings()
 {
@@ -16,7 +14,7 @@ WwiseSettings::WwiseSettings()
 		if (error)
 		{
 			UtilityFunctions::push_error(
-				String("Encountered error {0} when saving Wwise Project Settings").format(Array::make(error)));
+					String("Encountered error {0} when saving Wwise Project Settings").format(Array::make(error)));
 		}
 		else
 		{
@@ -28,7 +26,7 @@ WwiseSettings::WwiseSettings()
 void WwiseSettings::add_wwise_settings()
 {
 	add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "base_path", String("res://wwise/GeneratedSoundBanks"),
-				Variant::Type::STRING, PROPERTY_HINT_DIR, "res://wwise/GeneratedSoundBanks");
+			Variant::Type::STRING, PROPERTY_HINT_DIR, "res://wwise/GeneratedSoundBanks");
 	add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "startup_language", String("English(US)"), Variant::Type::STRING);
 	add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "load_init_bank_at_startup", false, Variant::Type::BOOL);
 	add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "suspend_at_focus_loss", true, Variant::Type::BOOL);
@@ -36,48 +34,47 @@ void WwiseSettings::add_wwise_settings()
 	add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "maximum_number_of_positioning_paths", 255, Variant::Type::INT);
 	add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "command_queue_size", 262144, Variant::Type::INT);
 	add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "samples_per_frame", 2, Variant::Type::INT, PROPERTY_HINT_ENUM,
-				"256, 512, 1024, 2048");
+			"256, 512, 1024, 2048");
 	add_setting(WWISE_COMMON_USER_SETTINGS_MAIN_OUTPUT_PATH + "audio_device_shareset", "System", Variant::Type::STRING,
-				PROPERTY_HINT_NONE, "");
+			PROPERTY_HINT_NONE, "");
 	add_setting(WWISE_COMMON_USER_SETTINGS_MAIN_OUTPUT_PATH + "device_id", 0, Variant::Type::INT);
 	add_setting(WWISE_COMMON_USER_SETTINGS_MAIN_OUTPUT_PATH + "panning_rule", 0, Variant::Type::INT, PROPERTY_HINT_ENUM,
-				"Speakers, Headphones");
+			"Speakers, Headphones");
 	add_setting(WWISE_COMMON_USER_SETTINGS_MAIN_OUTPUT_PATH + "channel_config/channel_config_type", 0,
-				Variant::Type::INT, PROPERTY_HINT_ENUM, "Annonymous, Standard, Ambisonics");
+			Variant::Type::INT, PROPERTY_HINT_ENUM, "Annonymous, Standard, Ambisonics");
 	// todo(alex): this is not implemented:
-	add_setting(WWISE_COMMON_USER_SETTINGS_MAIN_OUTPUT_PATH + "channel_config/channel_mask", 0,
-				Variant::Type::INT, PROPERTY_HINT_ENUM, "NONE, Everything, SETUP_ALL_SPEAKERS");
+	add_setting(WWISE_COMMON_USER_SETTINGS_MAIN_OUTPUT_PATH + "channel_config/channel_mask", 0, Variant::Type::INT,
+			PROPERTY_HINT_ENUM, "NONE, Everything, SETUP_ALL_SPEAKERS");
 
-	add_setting(WWISE_COMMON_USER_SETTINGS_MAIN_OUTPUT_PATH + "channel_config/number_of_channels", 0,
-				Variant::Type::INT);
+	add_setting(
+			WWISE_COMMON_USER_SETTINGS_MAIN_OUTPUT_PATH + "channel_config/number_of_channels", 0, Variant::Type::INT);
 
 	add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "streaming_look_ahead_ratio", 1.0f, Variant::Type::FLOAT,
-				PROPERTY_HINT_RANGE, "0.0, 1.0");
+			PROPERTY_HINT_RANGE, "0.0, 1.0");
 	add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "sample_rate", 4, Variant::Type::INT, PROPERTY_HINT_ENUM,
-				"16000, 24000, 32000, 44100, 48000");
+			"16000, 24000, 32000, 44100, 48000");
 	add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "number_of_refills_in_voice", 1, Variant::Type::INT,
-				PROPERTY_HINT_ENUM, "2, 4");
+			PROPERTY_HINT_ENUM, "2, 4");
 
 	// Spatial Audio
 	add_setting(WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "max_sound_propagation_depth", 8.0f,
-				Variant::Type::FLOAT, PROPERTY_HINT_RANGE, "0.0,8.0");
-	add_setting(WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "calc_emitter_virtual_position", true,
-				Variant::Type::BOOL);
+			Variant::Type::FLOAT, PROPERTY_HINT_RANGE, "0.0,8.0");
+	add_setting(
+			WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "calc_emitter_virtual_position", true, Variant::Type::BOOL);
 	add_setting(WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "movement_threshold", 1.0f, Variant::Type::FLOAT,
-				PROPERTY_HINT_NONE, "");
+			PROPERTY_HINT_NONE, "");
 	add_setting(WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "number_of_primary_rays", 100, Variant::Type::INT,
-				PROPERTY_HINT_NONE, "");
+			PROPERTY_HINT_NONE, "");
 	add_setting(WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "max_reflection_order", 1.0f, Variant::Type::FLOAT,
-				PROPERTY_HINT_RANGE, "0.0,4.0");
+			PROPERTY_HINT_RANGE, "0.0,4.0");
 	add_setting(WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "max_path_length", 10000.0f, Variant::Type::FLOAT,
-				PROPERTY_HINT_NONE, "");
+			PROPERTY_HINT_NONE, "");
 	add_setting(WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "enable_geometric_diffraction_and_transmission", true,
-				Variant::Type::BOOL);
+			Variant::Type::BOOL);
 
-
-    // common advanced settings
+	// common advanced settings
 	add_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "IO_memory_size", 2097152, Variant::Type::INT, PROPERTY_HINT_NONE,
-				"");
+			"");
 	add_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "target_auto_stream_buffer_length_ms", 380, Variant::Type::INT);
 	add_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "use_stream_cache", false, Variant::Type::BOOL);
 	add_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "maximum_pinned_bytes_in_cache", 4294967295, Variant::Type::INT);
@@ -91,7 +88,7 @@ void WwiseSettings::add_wwise_settings()
 	// todo(alex): the following three settings are not yet implemented
 	add_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "render_during_focus_loss", false, Variant::Type::BOOL);
 	add_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "sound_bank_persistent_data_path", "", Variant::Type::STRING,
-				PROPERTY_HINT_DIR, "");
+			PROPERTY_HINT_DIR, "");
 	add_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "use_async_open", false, Variant::Type::BOOL);
 
 	// communication settings
@@ -103,24 +100,24 @@ void WwiseSettings::add_wwise_settings()
 
 	// ios advanced settings
 	add_setting(WWISE_IOS_ADVANCED_SETTINGS_PATH + "audio_session_category", 0, Variant::Type::INT, PROPERTY_HINT_ENUM,
-				"Ambient, Solo Ambient, Play And Record, Playback");
+			"Ambient, Solo Ambient, Play And Record, Playback");
 	add_setting(WWISE_IOS_ADVANCED_SETTINGS_PATH + "audio_session_category_options", 13, Variant::Type::INT,
-				PROPERTY_HINT_FLAGS, "Mix with others, Duck others, Allow bluetooth, Default to speaker");
+			PROPERTY_HINT_FLAGS, "Mix with others, Duck others, Allow bluetooth, Default to speaker");
 	add_setting(WWISE_IOS_ADVANCED_SETTINGS_PATH + "audio_session_mode", 0, Variant::Type::INT, PROPERTY_HINT_ENUM,
-				"Default, Voice Chat, Game Chat, Video Recording, Measurement, Movie Playback, Video Chat");
+			"Default, Voice Chat, Game Chat, Video Recording, Measurement, Movie Playback, Video Chat");
 
 	// android advanced settings
 	add_setting(WWISE_ANDROID_ADVANCED_SETTINGS_PATH + "audio_API", 3, Variant::Type::INT, PROPERTY_HINT_FLAGS,
-				"AAudio, OPENSL_ES");
+			"AAudio, OPENSL_ES");
 	add_setting(WWISE_ANDROID_ADVANCED_SETTINGS_PATH + "round_frame_size_to_hw_size", true, Variant::Type::BOOL);
 
 	// linux advanced settings
 	add_setting(WWISE_LINUX_ADVANCED_SETTINGS_PATH + "audio_API", 3, Variant::Type::INT, PROPERTY_HINT_FLAGS,
-				"PulseAudio, ALSA");
+			"PulseAudio, ALSA");
 }
 
 void WwiseSettings::add_setting(const String& name, const Variant& default_value, Variant::Type type, PropertyHint hint,
-								const String& hint_string, int usage)
+		const String& hint_string, int usage)
 {
 	Dictionary setting;
 	setting["name"] = name;

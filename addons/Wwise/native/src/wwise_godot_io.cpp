@@ -4,10 +4,7 @@
 
 using namespace godot;
 
-CAkIOHookBlockingGodot::~CAkIOHookBlockingGodot()
-{
-	Term();
-}
+CAkIOHookBlockingGodot::~CAkIOHookBlockingGodot() { Term(); }
 
 AKRESULT CAkIOHookBlockingGodot::Init(const AkDeviceSettings& in_deviceSettings)
 {
@@ -41,38 +38,37 @@ AKRESULT CAkIOHookBlockingGodot::Open(const String& filePath, AkOpenMode in_eOpe
 
 	switch (in_eOpenMode)
 	{
-	case AK_OpenModeRead:
-	{
-		openMode = FileAccess::ModeFlags::READ;
+		case AK_OpenModeRead:
+		{
+			openMode = FileAccess::ModeFlags::READ;
 
-		break;
-	}
-	case AK_OpenModeWrite:
-	{
-		openMode = FileAccess::ModeFlags::WRITE;
+			break;
+		}
+		case AK_OpenModeWrite:
+		{
+			openMode = FileAccess::ModeFlags::WRITE;
 
-		break;
-	}
-	case AK_OpenModeWriteOvrwr:
-	{
-		openMode = FileAccess::ModeFlags::WRITE_READ;
+			break;
+		}
+		case AK_OpenModeWriteOvrwr:
+		{
+			openMode = FileAccess::ModeFlags::WRITE_READ;
 
-		break;
-	}
-	case AK_OpenModeReadWrite:
-	{
-		openMode = FileAccess::ModeFlags::READ_WRITE;
+			break;
+		}
+		case AK_OpenModeReadWrite:
+		{
+			openMode = FileAccess::ModeFlags::READ_WRITE;
 
-		break;
-	}
-	default:
-	{
-		AKASSERT(!"Unknown open mode");
+			break;
+		}
+		default:
+		{
+			AKASSERT(!"Unknown open mode");
 
-		break;
+			break;
+		}
 	}
-	}
-
 
 	FileHandle* const file_handle = memnew(FileHandle);
 	Ref<FileAccess> file = FileAccess::open(filePath, openMode);
@@ -94,7 +90,7 @@ AKRESULT CAkIOHookBlockingGodot::Open(const String& filePath, AkOpenMode in_eOpe
 }
 
 AKRESULT CAkIOHookBlockingGodot::Read(AkFileDesc& in_fileDesc, const AkIoHeuristics& in_heuristics, void* out_pBuffer,
-									  AkIOTransferInfo& io_transferInfo)
+		AkIOTransferInfo& io_transferInfo)
 {
 	AKASSERT(out_pBuffer != nullptr && in_fileDesc.hFile != AkFileHandle(-1));
 
@@ -120,8 +116,8 @@ AKRESULT CAkIOHookBlockingGodot::Read(AkFileDesc& in_fileDesc, const AkIoHeurist
 	return (bytesRead > 0) ? AK_Success : AK_Fail;
 }
 
-AKRESULT CAkIOHookBlockingGodot::Write(AkFileDesc& in_fileDesc, const AkIoHeuristics& in_heuristics, void* in_pData,
-									   AkIOTransferInfo& io_transferInfo)
+AKRESULT CAkIOHookBlockingGodot::Write(
+		AkFileDesc& in_fileDesc, const AkIoHeuristics& in_heuristics, void* in_pData, AkIOTransferInfo& io_transferInfo)
 {
 	AKASSERT(in_pData != nullptr && in_fileDesc.hFile != AkFileHandle(-1));
 
@@ -167,14 +163,11 @@ AKRESULT CAkIOHookBlockingGodot::Close(AkFileDesc& in_fileDesc)
 	return result;
 }
 
-AkUInt32 CAkIOHookBlockingGodot::GetBlockSize(AkFileDesc& in_fileDesc)
-{
-	return 1;
-}
+AkUInt32 CAkIOHookBlockingGodot::GetBlockSize(AkFileDesc& in_fileDesc) { return 1; }
 
 void CAkIOHookBlockingGodot::GetDeviceDesc(AkDeviceDesc&
 #ifndef AK_OPTIMIZED
-											   out_deviceDesc
+				out_deviceDesc
 #endif
 )
 {
@@ -188,14 +181,9 @@ void CAkIOHookBlockingGodot::GetDeviceDesc(AkDeviceDesc&
 #endif
 }
 
-AkUInt32 CAkIOHookBlockingGodot::GetDeviceData()
-{
-	return 1;
-}
+AkUInt32 CAkIOHookBlockingGodot::GetDeviceData() { return 1; }
 
-CAkFileIOHandlerGodot::CAkFileIOHandlerGodot() : asyncOpen(false)
-{
-}
+CAkFileIOHandlerGodot::CAkFileIOHandlerGodot() : asyncOpen(false) {}
 
 AKRESULT CAkFileIOHandlerGodot::Init(const AkDeviceSettings& in_deviceSettings)
 {
@@ -222,7 +210,7 @@ void CAkFileIOHandlerGodot::Term()
 }
 
 AKRESULT CAkFileIOHandlerGodot::Open(const AkOSChar* in_pszFileName, AkOpenMode in_eOpenMode,
-									 AkFileSystemFlags* in_pFlags, bool& io_bSyncOpen, AkFileDesc& out_fileDesc)
+		AkFileSystemFlags* in_pFlags, bool& io_bSyncOpen, AkFileDesc& out_fileDesc)
 {
 	AKRESULT result = AK_Fail;
 
@@ -236,7 +224,7 @@ AKRESULT CAkFileIOHandlerGodot::Open(const AkOSChar* in_pszFileName, AkOpenMode 
 		if (in_pFlags && in_eOpenMode == AK_OpenModeRead)
 		{
 			if (in_pFlags->uCompanyID == AKCOMPANYID_AUDIOKINETIC && in_pFlags->uCodecID == AKCODECID_BANK &&
-				in_pFlags->bIsLanguageSpecific)
+					in_pFlags->bIsLanguageSpecific)
 			{
 				finalFilePath = finalFilePath + languageFolder + "/";
 			}
@@ -253,7 +241,7 @@ AKRESULT CAkFileIOHandlerGodot::Open(const AkOSChar* in_pszFileName, AkOpenMode 
 }
 
 AKRESULT CAkFileIOHandlerGodot::Open(AkFileID in_fileID, AkOpenMode in_eOpenMode, AkFileSystemFlags* in_pFlags,
-									 bool& io_bSyncOpen, AkFileDesc& out_fileDesc)
+		bool& io_bSyncOpen, AkFileDesc& out_fileDesc)
 {
 	AKRESULT result = AK_Fail;
 
@@ -266,7 +254,7 @@ AKRESULT CAkFileIOHandlerGodot::Open(AkFileID in_fileID, AkOpenMode in_eOpenMode
 		if (in_pFlags && in_eOpenMode == AK_OpenModeRead)
 		{
 			if (in_pFlags->uCompanyID == AKCOMPANYID_AUDIOKINETIC && in_pFlags->uCodecID == AKCODECID_BANK &&
-				in_pFlags->bIsLanguageSpecific)
+					in_pFlags->bIsLanguageSpecific)
 			{
 				finalFilePath = finalFilePath + languageFolder + "/";
 			}
@@ -284,12 +272,6 @@ AKRESULT CAkFileIOHandlerGodot::Open(AkFileID in_fileID, AkOpenMode in_eOpenMode
 	return result;
 }
 
-void CAkFileIOHandlerGodot::SetBanksPath(const String banksPath)
-{
-	this->banksPath = banksPath;
-}
+void CAkFileIOHandlerGodot::SetBanksPath(const String banksPath) { this->banksPath = banksPath; }
 
-void CAkFileIOHandlerGodot::SetLanguageFolder(const String languageFolder)
-{
-	this->languageFolder = languageFolder;
-}
+void CAkFileIOHandlerGodot::SetLanguageFolder(const String languageFolder) { this->languageFolder = languageFolder; }

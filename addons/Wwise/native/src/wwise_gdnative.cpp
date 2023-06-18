@@ -47,7 +47,7 @@ void WwiseAssertHook(const char* in_pszExpression, const char* in_pszFileName, i
 #endif
 
 void LocalOutput(AK::Monitor::ErrorCode in_eErrorCode, const AkOSChar* in_pszError,
-				 AK::Monitor::ErrorLevel in_eErrorLevel, AkPlayingID in_playingID, AkGameObjectID in_gameObjID)
+		AK::Monitor::ErrorLevel in_eErrorLevel, AkPlayingID in_playingID, AkGameObjectID in_gameObjID)
 {
 	AkAutoLock<CAkLock> autoLock(g_localOutputLock);
 
@@ -69,10 +69,7 @@ Wwise::~Wwise()
 	singleton = nullptr;
 }
 
-Wwise* Wwise::get_singleton()
-{
-	return singleton;
-}
+Wwise* Wwise::get_singleton() { return singleton; }
 
 void Wwise::_bind_methods()
 {
@@ -185,13 +182,13 @@ void Wwise::init()
 
 #if !defined(AK_OPTIMIZED)
 	const bool engineLogging =
-		static_cast<bool>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + "engine_logging"));
+			static_cast<bool>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + "engine_logging"));
 
 	if (engineLogging)
 	{
-		ERROR_CHECK(AK::Monitor::SetLocalOutput(AK::Monitor::ErrorLevel_All,
-												static_cast<AK::Monitor::LocalOutputFunc>(LocalOutput)),
-					"Failed to set ErrorLevel_All");
+		ERROR_CHECK(AK::Monitor::SetLocalOutput(
+							AK::Monitor::ErrorLevel_All, static_cast<AK::Monitor::LocalOutputFunc>(LocalOutput)),
+				"Failed to set ErrorLevel_All");
 	}
 #endif
 
@@ -207,10 +204,7 @@ void Wwise::init()
 	renderAnyway = getPlatformProjectSetting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "render_during_focus_loss");
 }
 
-void Wwise::process(double delta)
-{
-	ERROR_CHECK(AK::SoundEngine::RenderAudio(), "");
-}
+void Wwise::process(double delta) { ERROR_CHECK(AK::SoundEngine::RenderAudio(), ""); }
 
 void Wwise::shutdown()
 {
@@ -283,9 +277,9 @@ bool Wwise::loadBankAsync(const String bankName, const Object* cookie)
 
 	AkBankID bankID = 0;
 
-	return ERROR_CHECK(
-		AK::SoundEngine::LoadBank(bankName.utf8().get_data(), (AkBankCallbackFunc)bankCallback, (void*)cookie, bankID),
-		"ID " + String::num_int64(bankID));
+	return ERROR_CHECK(AK::SoundEngine::LoadBank(
+							   bankName.utf8().get_data(), (AkBankCallbackFunc)bankCallback, (void*)cookie, bankID),
+			"ID " + String::num_int64(bankID));
 }
 
 bool Wwise::loadBankAsyncID(const unsigned int bankID, const Object* cookie)
@@ -293,7 +287,7 @@ bool Wwise::loadBankAsyncID(const unsigned int bankID, const Object* cookie)
 	AKASSERT(cookie);
 
 	return ERROR_CHECK(AK::SoundEngine::LoadBank(bankID, (AkBankCallbackFunc)bankCallback, (void*)cookie),
-					   "ID " + String::num_int64(bankID));
+			"ID " + String::num_int64(bankID));
 }
 
 bool Wwise::unloadBank(const String bankName)
@@ -313,9 +307,9 @@ bool Wwise::unloadBankAsync(const String bankName, const Object* cookie)
 	AKASSERT(!bankName.is_empty());
 	AKASSERT(cookie);
 
-	return ERROR_CHECK(
-		AK::SoundEngine::UnloadBank(bankName.utf8().get_data(), NULL, (AkBankCallbackFunc)bankCallback, (void*)cookie),
-		"Loading bank: " + bankName + " failed");
+	return ERROR_CHECK(AK::SoundEngine::UnloadBank(
+							   bankName.utf8().get_data(), NULL, (AkBankCallbackFunc)bankCallback, (void*)cookie),
+			"Loading bank: " + bankName + " failed");
 }
 
 bool Wwise::unloadBankAsyncID(const unsigned int bankID, const Object* cookie)
@@ -323,7 +317,7 @@ bool Wwise::unloadBankAsyncID(const unsigned int bankID, const Object* cookie)
 	AKASSERT(cookie);
 
 	return ERROR_CHECK(AK::SoundEngine::UnloadBank(bankID, NULL, (AkBankCallbackFunc)bankCallback, (void*)cookie),
-					   "ID " + String::num_int64(bankID) + " failed");
+			"ID " + String::num_int64(bankID) + " failed");
 }
 
 bool Wwise::registerListener(const Object* gameObject)
@@ -332,8 +326,8 @@ bool Wwise::registerListener(const Object* gameObject)
 
 	const AkGameObjectID listener = static_cast<AkGameObjectID>(gameObject->get_instance_id());
 
-	if (!ERROR_CHECK(AK::SoundEngine::RegisterGameObj(listener, "Default Listener"),
-					 "ID " + String::num_int64(listener)))
+	if (!ERROR_CHECK(
+				AK::SoundEngine::RegisterGameObj(listener, "Default Listener"), "ID " + String::num_int64(listener)))
 	{
 		return false;
 	}
@@ -343,13 +337,10 @@ bool Wwise::registerListener(const Object* gameObject)
 		return false;
 	}
 
-        return true;
+	return true;
 }
 
-void Wwise::setRandomSeed(const unsigned int seed)
-{
-	AK::SoundEngine::SetRandomSeed(seed);
-}
+void Wwise::setRandomSeed(const unsigned int seed) { AK::SoundEngine::SetRandomSeed(seed); }
 
 bool Wwise::registerGameObject(const Object* gameObject, const String gameObjectName)
 {
@@ -357,8 +348,8 @@ bool Wwise::registerGameObject(const Object* gameObject, const String gameObject
 	AKASSERT(!gameObjectName.is_empty());
 
 	return ERROR_CHECK(AK::SoundEngine::RegisterGameObj(static_cast<AkGameObjectID>(gameObject->get_instance_id()),
-														gameObjectName.utf8().get_data()),
-					   gameObjectName);
+							   gameObjectName.utf8().get_data()),
+			gameObjectName);
 }
 
 bool Wwise::unregisterGameObject(const Object* gameObject)
@@ -366,20 +357,20 @@ bool Wwise::unregisterGameObject(const Object* gameObject)
 	AKASSERT(gameObject);
 
 	return ERROR_CHECK(AK::SoundEngine::UnregisterGameObj(static_cast<AkGameObjectID>(gameObject->get_instance_id())),
-					   "Failed to unregister Game Object: " + String::num_int64(gameObject->get_instance_id()));
+			"Failed to unregister Game Object: " + String::num_int64(gameObject->get_instance_id()));
 }
 
 bool Wwise::setListeners(const Object* emitter, const Object* listener)
 {
 	AKASSERT(emitter);
 	AKASSERT(listener);
-	
+
 	static const int kNumLstnrsForEm = 1;
-	static const AkGameObjectID aLstnrsForEmitter[kNumLstnrsForEm] = {
-		static_cast<AkGameObjectID>(listener->get_instance_id())};
-	return ERROR_CHECK(
-		AK::SoundEngine::SetListeners(static_cast<AkGameObjectID>(emitter->get_instance_id()), aLstnrsForEmitter, 1),
-		"Failed to associate Emitter with listener");
+	static const AkGameObjectID aLstnrsForEmitter[kNumLstnrsForEm] = { static_cast<AkGameObjectID>(
+			listener->get_instance_id()) };
+	return ERROR_CHECK(AK::SoundEngine::SetListeners(
+							   static_cast<AkGameObjectID>(emitter->get_instance_id()), aLstnrsForEmitter, 1),
+			"Failed to associate Emitter with listener");
 }
 
 bool Wwise::set3DPosition(const Object* gameObject, const Transform3D transform)
@@ -398,8 +389,8 @@ bool Wwise::set3DPosition(const Object* gameObject, const Transform3D transform)
 	soundPos.Set(position, forward, up);
 
 	return ERROR_CHECK(
-		AK::SoundEngine::SetPosition(static_cast<AkGameObjectID>(gameObject->get_instance_id()), soundPos),
-		"Game object ID " + String::num_int64(gameObject->get_instance_id()));
+			AK::SoundEngine::SetPosition(static_cast<AkGameObjectID>(gameObject->get_instance_id()), soundPos),
+			"Game object ID " + String::num_int64(gameObject->get_instance_id()));
 }
 
 bool Wwise::set2DPosition(const Object* gameObject, const Transform2D transform2D, const float zDepth)
@@ -425,12 +416,12 @@ bool Wwise::set2DPosition(const Object* gameObject, const Transform2D transform2
 	soundPos.Set(akPosition, akForward, akUp);
 
 	return ERROR_CHECK(
-		AK::SoundEngine::SetPosition(static_cast<AkGameObjectID>(gameObject->get_instance_id()), soundPos),
-		"Game object ID " + String::num_int64(gameObject->get_instance_id()));
+			AK::SoundEngine::SetPosition(static_cast<AkGameObjectID>(gameObject->get_instance_id()), soundPos),
+			"Game object ID " + String::num_int64(gameObject->get_instance_id()));
 }
 
-bool Wwise::setMultiplePositions3D(const Object* gameObject, const Array positions, const int numPositions,
-								   const int multiPositionType)
+bool Wwise::setMultiplePositions3D(
+		const Object* gameObject, const Array positions, const int numPositions, const int multiPositionType)
 {
 	AKASSERT(gameObject);
 	AKASSERT(positions.size() > 0);
@@ -451,14 +442,14 @@ bool Wwise::setMultiplePositions3D(const Object* gameObject, const Array positio
 		akPositions[i].Set(position, forward, up);
 	}
 
-	return ERROR_CHECK(
-		AK::SoundEngine::SetMultiplePositions(gameObject->get_instance_id(), akPositions.get(), numPositions,
-											  static_cast<AK::SoundEngine::MultiPositionType>(multiPositionType)),
-		"Failed to set multiple positions for GameObject with id: " + String::num_int64(gameObject->get_instance_id()));
+	return ERROR_CHECK(AK::SoundEngine::SetMultiplePositions(gameObject->get_instance_id(), akPositions.get(),
+							   numPositions, static_cast<AK::SoundEngine::MultiPositionType>(multiPositionType)),
+			"Failed to set multiple positions for GameObject with id: " +
+					String::num_int64(gameObject->get_instance_id()));
 }
 
 bool Wwise::setMultiplePositions2D(const Object* gameObject, const Array positions, const Array zDepths,
-								   const int numPositions, const int multiPositionType)
+		const int numPositions, const int multiPositionType)
 {
 	AKASSERT(gameObject);
 	AKASSERT(positions.size() > 0);
@@ -486,10 +477,10 @@ bool Wwise::setMultiplePositions2D(const Object* gameObject, const Array positio
 		akPositions[i].Set(akPosition, akForward, akUp);
 	}
 
-	return ERROR_CHECK(
-		AK::SoundEngine::SetMultiplePositions(gameObject->get_instance_id(), akPositions.get(), numPositions,
-											  static_cast<AK::SoundEngine::MultiPositionType>(multiPositionType)),
-		"Failed to set multiple positions for GameObject with id: " + String::num_int64(gameObject->get_instance_id()));
+	return ERROR_CHECK(AK::SoundEngine::SetMultiplePositions(gameObject->get_instance_id(), akPositions.get(),
+							   numPositions, static_cast<AK::SoundEngine::MultiPositionType>(multiPositionType)),
+			"Failed to set multiple positions for GameObject with id: " +
+					String::num_int64(gameObject->get_instance_id()));
 }
 
 bool Wwise::setGameObjectRadius(const Object* gameObject, const float outerRadius, const float innerRadius)
@@ -497,8 +488,8 @@ bool Wwise::setGameObjectRadius(const Object* gameObject, const float outerRadiu
 	AKASSERT(gameObject);
 
 	return ERROR_CHECK(AK::SpatialAudio::SetGameObjectRadius(gameObject->get_instance_id(), outerRadius, innerRadius),
-					   "Failed to Set GameObject radius for GameObject with id: " +
-						   String::num_int64(gameObject->get_instance_id()));
+			"Failed to Set GameObject radius for GameObject with id: " +
+					String::num_int64(gameObject->get_instance_id()));
 }
 
 unsigned int Wwise::postEvent(const String eventName, const Object* gameObject)
@@ -506,8 +497,8 @@ unsigned int Wwise::postEvent(const String eventName, const Object* gameObject)
 	AKASSERT(!eventName.is_empty());
 	AKASSERT(gameObject);
 
-	AkPlayingID playingID = AK::SoundEngine::PostEvent(eventName.utf8().get_data(),
-													   static_cast<AkGameObjectID>(gameObject->get_instance_id()));
+	AkPlayingID playingID = AK::SoundEngine::PostEvent(
+			eventName.utf8().get_data(), static_cast<AkGameObjectID>(gameObject->get_instance_id()));
 
 	if (playingID == AK_INVALID_PLAYING_ID)
 	{
@@ -517,16 +508,15 @@ unsigned int Wwise::postEvent(const String eventName, const Object* gameObject)
 	return static_cast<unsigned int>(playingID);
 }
 
-unsigned int Wwise::postEventCallback(const String eventName, const unsigned int flags, const Object* gameObject,
-									  const Object* cookie)
+unsigned int Wwise::postEventCallback(
+		const String eventName, const unsigned int flags, const Object* gameObject, const Object* cookie)
 {
 	AKASSERT(!eventName.is_empty());
 	AKASSERT(gameObject);
 	AKASSERT(cookie);
 
 	AkPlayingID playingID = AK::SoundEngine::PostEvent(eventName.utf8().get_data(),
-													   static_cast<AkGameObjectID>(gameObject->get_instance_id()),
-													   flags, eventCallback, (void*)cookie);
+			static_cast<AkGameObjectID>(gameObject->get_instance_id()), flags, eventCallback, (void*)cookie);
 
 	if (playingID == AK_INVALID_PLAYING_ID)
 	{
@@ -541,7 +531,7 @@ unsigned int Wwise::postEventID(const unsigned int eventID, const Object* gameOb
 	AKASSERT(gameObject);
 
 	AkPlayingID playingID =
-		AK::SoundEngine::PostEvent(eventID, static_cast<AkGameObjectID>(gameObject->get_instance_id()));
+			AK::SoundEngine::PostEvent(eventID, static_cast<AkGameObjectID>(gameObject->get_instance_id()));
 
 	if (playingID == AK_INVALID_PLAYING_ID)
 	{
@@ -551,14 +541,14 @@ unsigned int Wwise::postEventID(const unsigned int eventID, const Object* gameOb
 	return static_cast<unsigned int>(playingID);
 }
 
-unsigned int Wwise::postEventIDCallback(const unsigned int eventID, const unsigned int flags, const Object* gameObject,
-										const Object* cookie)
+unsigned int Wwise::postEventIDCallback(
+		const unsigned int eventID, const unsigned int flags, const Object* gameObject, const Object* cookie)
 {
 	AKASSERT(gameObject);
 	AKASSERT(cookie);
 
 	AkPlayingID playingID = AK::SoundEngine::PostEvent(
-		eventID, static_cast<AkGameObjectID>(gameObject->get_instance_id()), flags, eventCallback, (void*)cookie);
+			eventID, static_cast<AkGameObjectID>(gameObject->get_instance_id()), flags, eventCallback, (void*)cookie);
 
 	if (playingID == AK_INVALID_PLAYING_ID)
 	{
@@ -573,8 +563,8 @@ bool Wwise::stopEvent(const int playingID, const int fadeTime, const int interpo
 	AKASSERT(fadeTime >= 0);
 
 	AK::SoundEngine::ExecuteActionOnPlayingID(AK::SoundEngine::AkActionOnEventType::AkActionOnEventType_Stop,
-											  static_cast<AkPlayingID>(playingID), static_cast<AkTimeMs>(fadeTime),
-											  static_cast<AkCurveInterpolation>(interpolation));
+			static_cast<AkPlayingID>(playingID), static_cast<AkTimeMs>(fadeTime),
+			static_cast<AkCurveInterpolation>(interpolation));
 
 	return true;
 }
@@ -586,8 +576,8 @@ bool Wwise::setSwitch(const String switchGroup, const String switchState, const 
 	AKASSERT(gameObject);
 
 	return ERROR_CHECK(AK::SoundEngine::SetSwitch(switchGroup.utf8().get_data(), switchState.utf8().get_data(),
-												  static_cast<AkGameObjectID>(gameObject->get_instance_id())),
-					   "Switch " + switchGroup + " and state " + switchState);
+							   static_cast<AkGameObjectID>(gameObject->get_instance_id())),
+			"Switch " + switchGroup + " and state " + switchState);
 }
 
 bool Wwise::setSwitchID(const unsigned int switchGroupID, const unsigned int switchStateID, const Object* gameObject)
@@ -595,9 +585,9 @@ bool Wwise::setSwitchID(const unsigned int switchGroupID, const unsigned int swi
 	AKASSERT(gameObject);
 
 	return ERROR_CHECK(AK::SoundEngine::SetSwitch(switchGroupID, switchStateID,
-												  static_cast<AkGameObjectID>(gameObject->get_instance_id())),
-					   "Switch ID " + String::num_int64(switchGroupID) + " and switch state ID " +
-						   String::num_int64(switchStateID));
+							   static_cast<AkGameObjectID>(gameObject->get_instance_id())),
+			"Switch ID " + String::num_int64(switchGroupID) + " and switch state ID " +
+					String::num_int64(switchStateID));
 }
 
 bool Wwise::setState(const String stateGroup, const String stateValue)
@@ -606,14 +596,14 @@ bool Wwise::setState(const String stateGroup, const String stateValue)
 	AKASSERT(!stateValue.is_empty());
 
 	return ERROR_CHECK(AK::SoundEngine::SetState(stateGroup.utf8().get_data(), stateValue.utf8().get_data()),
-					   "Failed to set state " + stateGroup + " and value " + stateValue);
+			"Failed to set state " + stateGroup + " and value " + stateValue);
 }
 
 bool Wwise::setStateID(const unsigned int stateGroupID, const unsigned int stateValueID)
 {
 	return ERROR_CHECK(AK::SoundEngine::SetState(stateGroupID, stateValueID),
-					   "Failed to set state ID" + String::num_int64(stateGroupID) + " and value " +
-						   String::num_int64(stateValueID));
+			"Failed to set state ID" + String::num_int64(stateGroupID) + " and value " +
+					String::num_int64(stateValueID));
 }
 
 float Wwise::getRTPCValue(const String rtpcName, const Object* gameObject)
@@ -634,9 +624,9 @@ float Wwise::getRTPCValue(const String rtpcName, const Object* gameObject)
 		gameObjectID = AK_INVALID_GAME_OBJECT;
 	}
 
-	if (!ERROR_CHECK(AK::SoundEngine::Query::GetRTPCValue(rtpcName.utf8().get_data(), gameObjectID,
-														  static_cast<AkPlayingID>(0), value, type),
-					 rtpcName))
+	if (!ERROR_CHECK(AK::SoundEngine::Query::GetRTPCValue(
+							 rtpcName.utf8().get_data(), gameObjectID, static_cast<AkPlayingID>(0), value, type),
+				rtpcName))
 	{
 		return INVALID_RTPC_VALUE;
 	}
@@ -662,8 +652,8 @@ float Wwise::getRTPCValueID(const unsigned int rtpcID, const Object* gameObject)
 	}
 
 	if (!ERROR_CHECK(
-			AK::SoundEngine::Query::GetRTPCValue(rtpcID, gameObjectID, static_cast<AkPlayingID>(0), value, type),
-			String::num_int64(rtpcID)))
+				AK::SoundEngine::Query::GetRTPCValue(rtpcID, gameObjectID, static_cast<AkPlayingID>(0), value, type),
+				String::num_int64(rtpcID)))
 	{
 		return INVALID_RTPC_VALUE;
 	}
@@ -685,9 +675,9 @@ bool Wwise::setRTPCValue(const String rtpcName, const float rtpcValue, const Obj
 		gameObjectID = AK_INVALID_GAME_OBJECT;
 	}
 
-	return ERROR_CHECK(
-		AK::SoundEngine::SetRTPCValue(rtpcName.utf8().get_data(), static_cast<AkRtpcValue>(rtpcValue), gameObjectID),
-		rtpcName);
+	return ERROR_CHECK(AK::SoundEngine::SetRTPCValue(
+							   rtpcName.utf8().get_data(), static_cast<AkRtpcValue>(rtpcValue), gameObjectID),
+			rtpcName);
 }
 
 bool Wwise::setRTPCValueID(const unsigned int rtpcID, const float rtpcValue, const Object* gameObject)
@@ -704,7 +694,7 @@ bool Wwise::setRTPCValueID(const unsigned int rtpcID, const float rtpcValue, con
 	}
 
 	return ERROR_CHECK(AK::SoundEngine::SetRTPCValue(rtpcID, static_cast<AkRtpcValue>(rtpcValue), gameObjectID),
-					   String::num_int64(rtpcID));
+			String::num_int64(rtpcID));
 }
 
 bool Wwise::postTrigger(const String triggerName, const Object* gameObject)
@@ -713,8 +703,8 @@ bool Wwise::postTrigger(const String triggerName, const Object* gameObject)
 	AKASSERT(gameObject);
 
 	return ERROR_CHECK(AK::SoundEngine::PostTrigger(triggerName.utf8().get_data(),
-													static_cast<AkGameObjectID>(gameObject->get_instance_id())),
-					   "Failed to post trigger " + triggerName);
+							   static_cast<AkGameObjectID>(gameObject->get_instance_id())),
+			"Failed to post trigger " + triggerName);
 }
 
 bool Wwise::postTriggerID(const unsigned int triggerID, const Object* gameObject)
@@ -722,12 +712,12 @@ bool Wwise::postTriggerID(const unsigned int triggerID, const Object* gameObject
 	AKASSERT(gameObject);
 
 	return ERROR_CHECK(
-		AK::SoundEngine::PostTrigger(triggerID, static_cast<AkGameObjectID>(gameObject->get_instance_id())),
-		"Failed to post trigger ID " + String::num_int64(triggerID));
+			AK::SoundEngine::PostTrigger(triggerID, static_cast<AkGameObjectID>(gameObject->get_instance_id())),
+			"Failed to post trigger ID " + String::num_int64(triggerID));
 }
 
 unsigned int Wwise::postExternalSource(const String eventName, const Object* gameObject, const String sourceObjectName,
-									   const String fileName, const unsigned int idCodec)
+		const String fileName, const unsigned int idCodec)
 {
 	AKASSERT(!eventName.is_empty());
 	AKASSERT(gameObject);
@@ -745,8 +735,7 @@ unsigned int Wwise::postExternalSource(const String eventName, const Object* gam
 	source.idCodec = idCodec;
 
 	AkPlayingID playingID = AK::SoundEngine::PostEvent(eventName.utf8().get_data(),
-													   static_cast<AkGameObjectID>(gameObject->get_instance_id()), 0,
-													   nullptr, 0, 1, &source);
+			static_cast<AkGameObjectID>(gameObject->get_instance_id()), 0, nullptr, 0, 1, &source);
 
 	if (playingID == AK_INVALID_PLAYING_ID)
 	{
@@ -758,8 +747,7 @@ unsigned int Wwise::postExternalSource(const String eventName, const Object* gam
 }
 
 unsigned int Wwise::postExternalSourceID(const unsigned int eventID, const Object* gameObject,
-										 const unsigned int sourceObjectID, const String fileName,
-										 const unsigned int idCodec)
+		const unsigned int sourceObjectID, const String fileName, const unsigned int idCodec)
 {
 	AKASSERT(gameObject);
 	AKASSERT(!fileName.is_empty());
@@ -775,7 +763,7 @@ unsigned int Wwise::postExternalSourceID(const unsigned int eventID, const Objec
 	source.idCodec = idCodec;
 
 	AkPlayingID playingID = AK::SoundEngine::PostEvent(
-		eventID, static_cast<AkGameObjectID>(gameObject->get_instance_id()), 0, NULL, 0, 1, &source);
+			eventID, static_cast<AkGameObjectID>(gameObject->get_instance_id()), 0, NULL, 0, 1, &source);
 
 	if (playingID == AK_INVALID_PLAYING_ID)
 	{
@@ -790,7 +778,7 @@ int Wwise::getSourcePlayPosition(const unsigned int playingID, const bool extrap
 {
 	AkTimeMs position;
 	AKRESULT result =
-		AK::SoundEngine::GetSourcePlayPosition(static_cast<AkPlayingID>(playingID), &position, extrapolate);
+			AK::SoundEngine::GetSourcePlayPosition(static_cast<AkPlayingID>(playingID), &position, extrapolate);
 
 	if (result == AK_Fail)
 	{
@@ -805,7 +793,7 @@ Dictionary Wwise::getPlayingSegmentInfo(const unsigned int playingID, const bool
 {
 	AkSegmentInfo segmentInfo;
 	AKRESULT result =
-		AK::MusicEngine::GetPlayingSegmentInfo(static_cast<AkPlayingID>(playingID), segmentInfo, extrapolate);
+			AK::MusicEngine::GetPlayingSegmentInfo(static_cast<AkPlayingID>(playingID), segmentInfo, extrapolate);
 
 	if (result == AK_Fail)
 	{
@@ -826,17 +814,16 @@ Dictionary Wwise::getPlayingSegmentInfo(const unsigned int playingID, const bool
 	return segment;
 }
 
-bool Wwise::setGameObjectOutputBusVolume(const unsigned int gameObjectID, const unsigned int listenerID,
-										 float fControlValue)
+bool Wwise::setGameObjectOutputBusVolume(
+		const unsigned int gameObjectID, const unsigned int listenerID, float fControlValue)
 {
 	return ERROR_CHECK(AK::SoundEngine::SetGameObjectOutputBusVolume(static_cast<AkGameObjectID>(gameObjectID),
-																	 static_cast<AkGameObjectID>(listenerID),
-																	 fControlValue),
-					   "Could not set the Game Object Outpus Bus Volume");
+							   static_cast<AkGameObjectID>(listenerID), fControlValue),
+			"Could not set the Game Object Outpus Bus Volume");
 }
 
-bool Wwise::setGameObjectAuxSendValues(const unsigned int gameObjectID, const Array akAuxSendValues,
-									   const unsigned int sendValues)
+bool Wwise::setGameObjectAuxSendValues(
+		const unsigned int gameObjectID, const Array akAuxSendValues, const unsigned int sendValues)
 {
 	AkAuxSendValue environments[AK_MAX_ENVIRONMENTS];
 
@@ -848,23 +835,22 @@ bool Wwise::setGameObjectAuxSendValues(const unsigned int gameObjectID, const Ar
 		environments[i].listenerID = AK_INVALID_GAME_OBJECT;
 	}
 
-	return ERROR_CHECK(AK::SoundEngine::SetGameObjectAuxSendValues(static_cast<AkGameObjectID>(gameObjectID),
-																   environments, sendValues),
-					   "Could not set the Game Object Aux Send Values");
+	return ERROR_CHECK(AK::SoundEngine::SetGameObjectAuxSendValues(
+							   static_cast<AkGameObjectID>(gameObjectID), environments, sendValues),
+			"Could not set the Game Object Aux Send Values");
 }
 
-bool Wwise::setObjectObstructionAndOcclusion(const unsigned int gameObjectID, const unsigned int listenerID,
-											 float fCalculatedObs, float fCalculatedOcc)
+bool Wwise::setObjectObstructionAndOcclusion(
+		const unsigned int gameObjectID, const unsigned int listenerID, float fCalculatedObs, float fCalculatedOcc)
 {
 	return ERROR_CHECK(AK::SoundEngine::SetObjectObstructionAndOcclusion(static_cast<AkGameObjectID>(gameObjectID),
-																		 static_cast<AkGameObjectID>(listenerID),
-																		 fCalculatedObs, fCalculatedOcc),
-					   "Could not set Obstruction and Occlusion");
+							   static_cast<AkGameObjectID>(listenerID), fCalculatedObs, fCalculatedOcc),
+			"Could not set Obstruction and Occlusion");
 }
 
 bool Wwise::setGeometry(const Array vertices, const Array triangles, const Resource* acousticTexture,
-						const float transmissionLossValue, const Object* gameObject, bool enableDiffraction,
-						bool enableDiffractionOnBoundaryEdges, bool enableTriangles)
+		const float transmissionLossValue, const Object* gameObject, bool enableDiffraction,
+		bool enableDiffractionOnBoundaryEdges, bool enableTriangles)
 {
 	AKASSERT(!vertices.is_empty());
 	AKASSERT(!triangles.is_empty());
@@ -909,7 +895,8 @@ bool Wwise::setGeometry(const Array vertices, const Array triangles, const Resou
 
 	if ((numTriangles % 3) != 0)
 	{
-		UtilityFunctions::print("Wrong number of triangles on mesh {0}", String::num_int64(gameObject->get_instance_id()));
+		UtilityFunctions::print(
+				"Wrong number of triangles on mesh {0}", String::num_int64(gameObject->get_instance_id()));
 	}
 
 	auto akTriangles = std::make_unique<AkTriangle[]>(numTriangles);
@@ -957,7 +944,8 @@ bool Wwise::setGeometry(const Array vertices, const Array triangles, const Resou
 		}
 		else
 		{
-			UtilityFunctions::print("Skipped degenerate triangles on mesh {0}", String::num_int64(gameObject->get_instance_id()));
+			UtilityFunctions::print(
+					"Skipped degenerate triangles on mesh {0}", String::num_int64(gameObject->get_instance_id()));
 		}
 	}
 
@@ -972,8 +960,8 @@ bool Wwise::setGeometry(const Array vertices, const Array triangles, const Resou
 	geometry.EnableTriangles = enableTriangles;
 
 	return ERROR_CHECK(
-		AK::SpatialAudio::SetGeometry(static_cast<AkGeometrySetID>(gameObject->get_instance_id()), geometry),
-		"Failed to register geometry");
+			AK::SpatialAudio::SetGeometry(static_cast<AkGeometrySetID>(gameObject->get_instance_id()), geometry),
+			"Failed to register geometry");
 }
 
 bool Wwise::removeGeometry(const Object* gameObject)
@@ -981,26 +969,29 @@ bool Wwise::removeGeometry(const Object* gameObject)
 	AKASSERT(gameObject);
 
 	return ERROR_CHECK(AK::SpatialAudio::RemoveGeometry(static_cast<AkGeometrySetID>(gameObject->get_instance_id())),
-					   "Failed to remove geometry");
+			"Failed to remove geometry");
 }
 
-bool Wwise::setGeometryInstance(const Object* gameObject, const Transform3D transform,
-									   const Object* associatedGeometry, const Object* associatedRoom)
+bool Wwise::setGeometryInstance(const Object* gameObject, const Transform3D transform, const Object* associatedGeometry,
+		const Object* associatedRoom)
 {
 	AkGeometryInstanceParams params;
 	params.GeometrySetID = gameObject->get_instance_id();
 	// todo(alex);
 	//params.PositionAndOrientation;
 	params.RoomID = associatedRoom ? static_cast<AkRoomID>(associatedRoom->get_instance_id())
-									 : static_cast<AkRoomID>(INVALID_ROOM_ID);
+								   : static_cast<AkRoomID>(INVALID_ROOM_ID);
 	Vector3ToAkVector(transform.get_basis().get_scale(), params.Scale);
-	return ERROR_CHECK(AK::SpatialAudio::SetGeometryInstance(static_cast<AkGeometryInstanceID>(gameObject->get_instance_id()), params),
-					   "Failed to set Geometry Instance");
+	return ERROR_CHECK(AK::SpatialAudio::SetGeometryInstance(
+							   static_cast<AkGeometryInstanceID>(gameObject->get_instance_id()), params),
+			"Failed to set Geometry Instance");
 }
 
 bool Wwise::removeGeometryInstance(const Object* gameObject)
 {
-	return ERROR_CHECK(AK::SpatialAudio::RemoveGeometryInstance(static_cast<AkGeometryInstanceID>(gameObject->get_instance_id())), "Failed to remove Geometry Instance");
+	return ERROR_CHECK(
+			AK::SpatialAudio::RemoveGeometryInstance(static_cast<AkGeometryInstanceID>(gameObject->get_instance_id())),
+			"Failed to remove Geometry Instance");
 }
 
 bool Wwise::registerSpatialListener(const Object* gameObject)
@@ -1008,12 +999,12 @@ bool Wwise::registerSpatialListener(const Object* gameObject)
 	AKASSERT(gameObject);
 
 	return ERROR_CHECK(AK::SpatialAudio::RegisterListener(static_cast<AkGameObjectID>(gameObject->get_instance_id())),
-					   "Failed to register Spatial Audio Listener");
+			"Failed to register Spatial Audio Listener");
 }
 
 bool Wwise::setRoom(const Object* gameObject, const unsigned int akAuxBusID, const float reverbLevel,
-					const float transmissionLoss, const Vector3 frontVector, const Vector3 upVector, bool keepRegistered,
-					const int associatedGeometry)
+		const float transmissionLoss, const Vector3 frontVector, const Vector3 upVector, bool keepRegistered,
+		const int associatedGeometry)
 {
 	AKASSERT(gameObject);
 
@@ -1034,18 +1025,17 @@ bool Wwise::setRoom(const Object* gameObject, const unsigned int akAuxBusID, con
 	roomParams.GeometryInstanceID = static_cast<AkGeometrySetID>(associatedGeometry);
 
 	return ERROR_CHECK(AK::SpatialAudio::SetRoom(static_cast<AkRoomID>(gameObject->get_instance_id()), roomParams),
-					   "Failed to set Room for Game Object: " + String::num_int64(gameObject->get_instance_id()));
+			"Failed to set Room for Game Object: " + String::num_int64(gameObject->get_instance_id()));
 }
 
 bool Wwise::removeRoom(const Object* gameObject)
 {
 	return ERROR_CHECK(AK::SpatialAudio::RemoveRoom(static_cast<AkRoomID>(gameObject->get_instance_id())),
-					   "Failed to remove Room for Game Object: " + String::num_int64(gameObject->get_instance_id()));
+			"Failed to remove Room for Game Object: " + String::num_int64(gameObject->get_instance_id()));
 }
 
-bool Wwise::setPortal(const Object* gameObject, const Transform3D transform,
- const Vector3 extent,
-					  const Object* frontRoom, const Object* backRoom, bool enabled)
+bool Wwise::setPortal(const Object* gameObject, const Transform3D transform, const Vector3 extent,
+		const Object* frontRoom, const Object* backRoom, bool enabled)
 {
 	AKASSERT(gameObject);
 
@@ -1071,14 +1061,14 @@ bool Wwise::setPortal(const Object* gameObject, const Transform3D transform,
 	portalParams.Transform = akTransform;
 	portalParams.Extent = portalExtent;
 	portalParams.FrontRoom =
-		frontRoom ? static_cast<AkRoomID>(frontRoom->get_instance_id()) : AK::SpatialAudio::kOutdoorRoomID;
+			frontRoom ? static_cast<AkRoomID>(frontRoom->get_instance_id()) : AK::SpatialAudio::kOutdoorRoomID;
 	portalParams.BackRoom =
-		backRoom ? static_cast<AkRoomID>(backRoom->get_instance_id()) : AK::SpatialAudio::kOutdoorRoomID;
+			backRoom ? static_cast<AkRoomID>(backRoom->get_instance_id()) : AK::SpatialAudio::kOutdoorRoomID;
 	portalParams.bEnabled = enabled;
 
 	return ERROR_CHECK(
-		AK::SpatialAudio::SetPortal(static_cast<AkPortalID>(gameObject->get_instance_id()), portalParams),
-		"Failed to set Portal on GameObject: " + String::num_int64(gameObject->get_instance_id()));
+			AK::SpatialAudio::SetPortal(static_cast<AkPortalID>(gameObject->get_instance_id()), portalParams),
+			"Failed to set Portal on GameObject: " + String::num_int64(gameObject->get_instance_id()));
 }
 
 bool Wwise::removePortal(const Object* gameObject)
@@ -1086,29 +1076,29 @@ bool Wwise::removePortal(const Object* gameObject)
 	AKASSERT(gameObject);
 
 	return ERROR_CHECK(AK::SpatialAudio::RemovePortal(static_cast<AkPortalID>(gameObject->get_instance_id())),
-					   "Failed to remove Portal for Game Object: " + String::num_int64(gameObject->get_instance_id()));
+			"Failed to remove Portal for Game Object: " + String::num_int64(gameObject->get_instance_id()));
 }
 
-bool Wwise::setPortalObstructionAndOcclusion(const Object* portal, const float obstructionValue,
-											 const float occlusionValue)
+bool Wwise::setPortalObstructionAndOcclusion(
+		const Object* portal, const float obstructionValue, const float occlusionValue)
 {
 	AKASSERT(portal);
 
 	return ERROR_CHECK(AK::SpatialAudio::SetPortalObstructionAndOcclusion(
-						   static_cast<AkPortalID>(portal->get_instance_id()), obstructionValue, occlusionValue),
-					   "Failed to set Portal Obstruction and Occlusion for Portal with ID: " +
-						   String::num_int64(portal->get_instance_id()));
+							   static_cast<AkPortalID>(portal->get_instance_id()), obstructionValue, occlusionValue),
+			"Failed to set Portal Obstruction and Occlusion for Portal with ID: " +
+					String::num_int64(portal->get_instance_id()));
 }
 
-bool Wwise::setGameObjectToPortalObstruction(const Object* gameObject, const Object* portal,
-											 const float obstructionValue)
+bool Wwise::setGameObjectToPortalObstruction(
+		const Object* gameObject, const Object* portal, const float obstructionValue)
 {
 	AKASSERT(gameObject);
 	AKASSERT(portal);
 
-	return ERROR_CHECK(AK::SpatialAudio::SetGameObjectToPortalObstruction(gameObject->get_instance_id(),
-																		  portal->get_instance_id(), obstructionValue),
-					   "Failed to set GameObject to Portal Obstruction");
+	return ERROR_CHECK(AK::SpatialAudio::SetGameObjectToPortalObstruction(
+							   gameObject->get_instance_id(), portal->get_instance_id(), obstructionValue),
+			"Failed to set GameObject to Portal Obstruction");
 }
 
 bool Wwise::setPortalToPortalObstruction(const Object* portal0, const Object* portal1, const float obstructionValue)
@@ -1116,9 +1106,9 @@ bool Wwise::setPortalToPortalObstruction(const Object* portal0, const Object* po
 	AKASSERT(portal0);
 	AKASSERT(portal1);
 
-	return ERROR_CHECK(AK::SpatialAudio::SetPortalToPortalObstruction(portal0->get_instance_id(),
-																	  portal1->get_instance_id(), obstructionValue),
-					   "Failed to set Portal to Portal Obstruction");
+	return ERROR_CHECK(AK::SpatialAudio::SetPortalToPortalObstruction(
+							   portal0->get_instance_id(), portal1->get_instance_id(), obstructionValue),
+			"Failed to set Portal to Portal Obstruction");
 }
 
 bool Wwise::setGameObjectInRoom(const Object* gameObject, const Object* room)
@@ -1126,17 +1116,17 @@ bool Wwise::setGameObjectInRoom(const Object* gameObject, const Object* room)
 	AKASSERT(gameObject);
 	AKASSERT(room);
 	return ERROR_CHECK(AK::SpatialAudio::SetGameObjectInRoom(static_cast<AkGameObjectID>(gameObject->get_instance_id()),
-															 static_cast<AkRoomID>(room->get_instance_id())),
-					   "Failed to set Game Object in Room: " + String::num_int64(room->get_instance_id()));
+							   static_cast<AkRoomID>(room->get_instance_id())),
+			"Failed to set Game Object in Room: " + String::num_int64(room->get_instance_id()));
 }
 
 bool Wwise::removeGameObjectFromRoom(const Object* gameObject)
 {
 	AKASSERT(gameObject);
 
-	return ERROR_CHECK(AK::SpatialAudio::SetGameObjectInRoom(static_cast<AkGameObjectID>(gameObject->get_instance_id()),
-															 INVALID_ROOM_ID),
-					   "Failed to remove Game Object from Room: " + String::num_int64(gameObject->get_instance_id()));
+	return ERROR_CHECK(AK::SpatialAudio::SetGameObjectInRoom(
+							   static_cast<AkGameObjectID>(gameObject->get_instance_id()), INVALID_ROOM_ID),
+			"Failed to remove Game Object from Room: " + String::num_int64(gameObject->get_instance_id()));
 }
 
 bool Wwise::setEarlyReflectionsAuxSend(const Object* gameObject, const unsigned int auxBusID)
@@ -1144,18 +1134,18 @@ bool Wwise::setEarlyReflectionsAuxSend(const Object* gameObject, const unsigned 
 	AKASSERT(gameObject);
 
 	return ERROR_CHECK(
-		AK::SpatialAudio::SetEarlyReflectionsAuxSend(static_cast<AkGameObjectID>(gameObject->get_instance_id()),
-													 static_cast<AkAuxBusID>(auxBusID)),
-		"Failed to set Early Reflections Aux Send");
+			AK::SpatialAudio::SetEarlyReflectionsAuxSend(
+					static_cast<AkGameObjectID>(gameObject->get_instance_id()), static_cast<AkAuxBusID>(auxBusID)),
+			"Failed to set Early Reflections Aux Send");
 }
 
 bool Wwise::setEarlyReflectionsVolume(const Object* gameObject, const float volume)
 {
 	AKASSERT(gameObject);
 
-	return ERROR_CHECK(
-		AK::SpatialAudio::SetEarlyReflectionsVolume(static_cast<AkGameObjectID>(gameObject->get_instance_id()), volume),
-		"Failed to set Early Reflections volume");
+	return ERROR_CHECK(AK::SpatialAudio::SetEarlyReflectionsVolume(
+							   static_cast<AkGameObjectID>(gameObject->get_instance_id()), volume),
+			"Failed to set Early Reflections volume");
 }
 
 bool Wwise::addOutput(const String shareSet, const unsigned int outputID)
@@ -1163,13 +1153,13 @@ bool Wwise::addOutput(const String shareSet, const unsigned int outputID)
 	AkOutputSettings outputSettings(shareSet.utf8().get_data(), outputID);
 
 	return ERROR_CHECK(AK::SoundEngine::AddOutput(outputSettings),
-					   "Failed to add share set to output ID: " + String::num_int64(outputID));
+			"Failed to add share set to output ID: " + String::num_int64(outputID));
 }
 
 bool Wwise::removeOutput(const unsigned int outputID)
 {
-	return ERROR_CHECK(AK::SoundEngine::RemoveOutput(outputID),
-					   "Failed to remove output ID: " + String::num_int64(outputID));
+	return ERROR_CHECK(
+			AK::SoundEngine::RemoveOutput(outputID), "Failed to remove output ID: " + String::num_int64(outputID));
 }
 
 bool Wwise::suspend(bool renderAnyway)
@@ -1204,320 +1194,331 @@ void Wwise::eventCallback(AkCallbackType callbackType, AkCallbackInfo* callbackI
 
 	switch (callbackType)
 	{
-	case AK_EndOfEvent:
-	{
-		AkEventCallbackInfo* eventInfo = static_cast<AkEventCallbackInfo*>(callbackInfo);
-		callbackData["eventID"] = static_cast<unsigned int>(eventInfo->eventID);
-		callbackData["gameObjID"] = static_cast<unsigned int>(eventInfo->gameObjID);
-		callbackData["playingID"] = static_cast<unsigned int>(eventInfo->playingID);
-		break;
-	}
-	case AK_EndOfDynamicSequenceItem:
-	{
-		AkDynamicSequenceItemCallbackInfo* dynamicSequenceItemInfo =
-			static_cast<AkDynamicSequenceItemCallbackInfo*>(callbackInfo);
-		callbackData["audioNodeID"] = static_cast<unsigned int>(dynamicSequenceItemInfo->audioNodeID);
-		callbackData["gameObjID"] = static_cast<unsigned int>(dynamicSequenceItemInfo->gameObjID);
-		callbackData["playingID"] = static_cast<unsigned int>(dynamicSequenceItemInfo->playingID);
-		break;
-	}
-	case AK_Marker:
-	{
-		AkMarkerCallbackInfo* markerInfo = static_cast<AkMarkerCallbackInfo*>(callbackInfo);
-		callbackData["uIdentifier"] = static_cast<unsigned int>(markerInfo->uIdentifier);
-		callbackData["uPosition"] = static_cast<unsigned int>(markerInfo->uPosition);
-		callbackData["strLabel"] = String(markerInfo->strLabel);
-		break;
-	}
-	case AK_Duration:
-	{
-		AkDurationCallbackInfo* durationInfo = static_cast<AkDurationCallbackInfo*>(callbackInfo);
+		case AK_EndOfEvent:
+		{
+			AkEventCallbackInfo* eventInfo = static_cast<AkEventCallbackInfo*>(callbackInfo);
+			callbackData["eventID"] = static_cast<unsigned int>(eventInfo->eventID);
+			callbackData["gameObjID"] = static_cast<unsigned int>(eventInfo->gameObjID);
+			callbackData["playingID"] = static_cast<unsigned int>(eventInfo->playingID);
+			break;
+		}
+		case AK_EndOfDynamicSequenceItem:
+		{
+			AkDynamicSequenceItemCallbackInfo* dynamicSequenceItemInfo =
+					static_cast<AkDynamicSequenceItemCallbackInfo*>(callbackInfo);
+			callbackData["audioNodeID"] = static_cast<unsigned int>(dynamicSequenceItemInfo->audioNodeID);
+			callbackData["gameObjID"] = static_cast<unsigned int>(dynamicSequenceItemInfo->gameObjID);
+			callbackData["playingID"] = static_cast<unsigned int>(dynamicSequenceItemInfo->playingID);
+			break;
+		}
+		case AK_Marker:
+		{
+			AkMarkerCallbackInfo* markerInfo = static_cast<AkMarkerCallbackInfo*>(callbackInfo);
+			callbackData["uIdentifier"] = static_cast<unsigned int>(markerInfo->uIdentifier);
+			callbackData["uPosition"] = static_cast<unsigned int>(markerInfo->uPosition);
+			callbackData["strLabel"] = String(markerInfo->strLabel);
+			break;
+		}
+		case AK_Duration:
+		{
+			AkDurationCallbackInfo* durationInfo = static_cast<AkDurationCallbackInfo*>(callbackInfo);
 
-		callbackData["audioNodeID"] = static_cast<unsigned int>(durationInfo->audioNodeID);
-		callbackData["bStreaming"] = durationInfo->bStreaming;
-		callbackData["eventID"] = static_cast<unsigned int>(durationInfo->eventID);
-		callbackData["fDuration"] = static_cast<float>(durationInfo->fDuration);
-		callbackData["fEstimatedDuration"] = static_cast<float>(durationInfo->fEstimatedDuration);
-		callbackData["gameObjID"] = static_cast<unsigned int>(durationInfo->gameObjID);
-		callbackData["mediaID"] = static_cast<unsigned int>(durationInfo->mediaID);
-		callbackData["playingID"] = static_cast<unsigned int>(durationInfo->playingID);
-		break;
-	}
-	case AK_SpeakerVolumeMatrix:
-	{
-		AkSpeakerVolumeMatrixCallbackInfo* speakerVolumeMatrixInfo =
-			static_cast<AkSpeakerVolumeMatrixCallbackInfo*>(callbackInfo);
-		callbackData["eventID"] = static_cast<unsigned int>(speakerVolumeMatrixInfo->eventID);
-		callbackData["gameObjID"] = static_cast<unsigned int>(speakerVolumeMatrixInfo->gameObjID);
+			callbackData["audioNodeID"] = static_cast<unsigned int>(durationInfo->audioNodeID);
+			callbackData["bStreaming"] = durationInfo->bStreaming;
+			callbackData["eventID"] = static_cast<unsigned int>(durationInfo->eventID);
+			callbackData["fDuration"] = static_cast<float>(durationInfo->fDuration);
+			callbackData["fEstimatedDuration"] = static_cast<float>(durationInfo->fEstimatedDuration);
+			callbackData["gameObjID"] = static_cast<unsigned int>(durationInfo->gameObjID);
+			callbackData["mediaID"] = static_cast<unsigned int>(durationInfo->mediaID);
+			callbackData["playingID"] = static_cast<unsigned int>(durationInfo->playingID);
+			break;
+		}
+		case AK_SpeakerVolumeMatrix:
+		{
+			AkSpeakerVolumeMatrixCallbackInfo* speakerVolumeMatrixInfo =
+					static_cast<AkSpeakerVolumeMatrixCallbackInfo*>(callbackInfo);
+			callbackData["eventID"] = static_cast<unsigned int>(speakerVolumeMatrixInfo->eventID);
+			callbackData["gameObjID"] = static_cast<unsigned int>(speakerVolumeMatrixInfo->gameObjID);
 
-		Dictionary inputConfig;
-		inputConfig["uNumChannels"] = static_cast<unsigned int>(speakerVolumeMatrixInfo->inputConfig.uNumChannels);
-		inputConfig["eConfigType"] = static_cast<unsigned int>(speakerVolumeMatrixInfo->inputConfig.eConfigType);
-		inputConfig["uChannelMask"] = static_cast<unsigned int>(speakerVolumeMatrixInfo->inputConfig.uChannelMask);
-		callbackData["inputConfig"] = inputConfig;
+			Dictionary inputConfig;
+			inputConfig["uNumChannels"] = static_cast<unsigned int>(speakerVolumeMatrixInfo->inputConfig.uNumChannels);
+			inputConfig["eConfigType"] = static_cast<unsigned int>(speakerVolumeMatrixInfo->inputConfig.eConfigType);
+			inputConfig["uChannelMask"] = static_cast<unsigned int>(speakerVolumeMatrixInfo->inputConfig.uChannelMask);
+			callbackData["inputConfig"] = inputConfig;
 
-		Dictionary outputConfig;
-		outputConfig["uNumChannels"] = static_cast<unsigned int>(speakerVolumeMatrixInfo->outputConfig.uNumChannels);
-		outputConfig["eConfigType"] = static_cast<unsigned int>(speakerVolumeMatrixInfo->outputConfig.eConfigType);
-		outputConfig["uChannelMask"] = static_cast<unsigned int>(speakerVolumeMatrixInfo->outputConfig.uChannelMask);
-		callbackData["outputConfig"] = outputConfig;
+			Dictionary outputConfig;
+			outputConfig["uNumChannels"] =
+					static_cast<unsigned int>(speakerVolumeMatrixInfo->outputConfig.uNumChannels);
+			outputConfig["eConfigType"] = static_cast<unsigned int>(speakerVolumeMatrixInfo->outputConfig.eConfigType);
+			outputConfig["uChannelMask"] =
+					static_cast<unsigned int>(speakerVolumeMatrixInfo->outputConfig.uChannelMask);
+			callbackData["outputConfig"] = outputConfig;
 
-		callbackData["playingID"] = static_cast<unsigned int>(speakerVolumeMatrixInfo->playingID);
-		break;
-	}
-	case AK_Starvation:
-	{
-		AkEventCallbackInfo* eventInfo = static_cast<AkEventCallbackInfo*>(callbackInfo);
-		callbackData["eventID"] = static_cast<unsigned int>(eventInfo->eventID);
-		callbackData["gameObjID"] = static_cast<unsigned int>(eventInfo->gameObjID);
-		callbackData["playingID"] = static_cast<unsigned int>(eventInfo->playingID);
-		break;
-	}
-	case AK_MusicPlaylistSelect:
-	{
-		AkMusicPlaylistCallbackInfo* musicPlaylistInfo = static_cast<AkMusicPlaylistCallbackInfo*>(callbackInfo);
-		callbackData["eventID"] = static_cast<unsigned int>(musicPlaylistInfo->eventID);
-		callbackData["gameObjID"] = static_cast<unsigned int>(musicPlaylistInfo->gameObjID);
-		callbackData["playingID"] = static_cast<unsigned int>(musicPlaylistInfo->playingID);
-		callbackData["playlistID"] = static_cast<unsigned int>(musicPlaylistInfo->playlistID);
-		callbackData["uNumPlaylistItems"] = static_cast<unsigned int>(musicPlaylistInfo->uNumPlaylistItems);
-		callbackData["uPlaylistItemDone"] = static_cast<unsigned int>(musicPlaylistInfo->uPlaylistItemDone);
-		callbackData["uPlaylistSelection"] = static_cast<unsigned int>(musicPlaylistInfo->uPlaylistSelection);
-		break;
-	}
-	case AK_MusicPlayStarted:
-	{
-		AkEventCallbackInfo* eventInfo = static_cast<AkEventCallbackInfo*>(callbackInfo);
-		callbackData["eventID"] = static_cast<unsigned int>(eventInfo->eventID);
-		callbackData["gameObjID"] = static_cast<unsigned int>(eventInfo->gameObjID);
-		callbackData["playingID"] = static_cast<unsigned int>(eventInfo->playingID);
-		break;
-	}
-	case AK_MusicSyncBeat:
-	{
-		AkMusicSyncCallbackInfo* musicSyncInfo = static_cast<AkMusicSyncCallbackInfo*>(callbackInfo);
-		callbackData["gameObjID"] = static_cast<unsigned int>(musicSyncInfo->gameObjID);
-		callbackData["musicSyncType"] = static_cast<unsigned int>(musicSyncInfo->musicSyncType);
-		callbackData["playingID"] = static_cast<unsigned int>(musicSyncInfo->playingID);
-		callbackData["pszUserCueName"] = String(musicSyncInfo->pszUserCueName);
+			callbackData["playingID"] = static_cast<unsigned int>(speakerVolumeMatrixInfo->playingID);
+			break;
+		}
+		case AK_Starvation:
+		{
+			AkEventCallbackInfo* eventInfo = static_cast<AkEventCallbackInfo*>(callbackInfo);
+			callbackData["eventID"] = static_cast<unsigned int>(eventInfo->eventID);
+			callbackData["gameObjID"] = static_cast<unsigned int>(eventInfo->gameObjID);
+			callbackData["playingID"] = static_cast<unsigned int>(eventInfo->playingID);
+			break;
+		}
+		case AK_MusicPlaylistSelect:
+		{
+			AkMusicPlaylistCallbackInfo* musicPlaylistInfo = static_cast<AkMusicPlaylistCallbackInfo*>(callbackInfo);
+			callbackData["eventID"] = static_cast<unsigned int>(musicPlaylistInfo->eventID);
+			callbackData["gameObjID"] = static_cast<unsigned int>(musicPlaylistInfo->gameObjID);
+			callbackData["playingID"] = static_cast<unsigned int>(musicPlaylistInfo->playingID);
+			callbackData["playlistID"] = static_cast<unsigned int>(musicPlaylistInfo->playlistID);
+			callbackData["uNumPlaylistItems"] = static_cast<unsigned int>(musicPlaylistInfo->uNumPlaylistItems);
+			callbackData["uPlaylistItemDone"] = static_cast<unsigned int>(musicPlaylistInfo->uPlaylistItemDone);
+			callbackData["uPlaylistSelection"] = static_cast<unsigned int>(musicPlaylistInfo->uPlaylistSelection);
+			break;
+		}
+		case AK_MusicPlayStarted:
+		{
+			AkEventCallbackInfo* eventInfo = static_cast<AkEventCallbackInfo*>(callbackInfo);
+			callbackData["eventID"] = static_cast<unsigned int>(eventInfo->eventID);
+			callbackData["gameObjID"] = static_cast<unsigned int>(eventInfo->gameObjID);
+			callbackData["playingID"] = static_cast<unsigned int>(eventInfo->playingID);
+			break;
+		}
+		case AK_MusicSyncBeat:
+		{
+			AkMusicSyncCallbackInfo* musicSyncInfo = static_cast<AkMusicSyncCallbackInfo*>(callbackInfo);
+			callbackData["gameObjID"] = static_cast<unsigned int>(musicSyncInfo->gameObjID);
+			callbackData["musicSyncType"] = static_cast<unsigned int>(musicSyncInfo->musicSyncType);
+			callbackData["playingID"] = static_cast<unsigned int>(musicSyncInfo->playingID);
+			callbackData["pszUserCueName"] = String(musicSyncInfo->pszUserCueName);
 
-		Dictionary segmentInfo;
-		segmentInfo["fBarDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fBarDuration);
-		segmentInfo["fBeatDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fBeatDuration);
-		segmentInfo["fGridDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fGridDuration);
-		segmentInfo["fGridOffset"] = static_cast<float>(musicSyncInfo->segmentInfo.fGridOffset);
-		segmentInfo["iActiveDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iActiveDuration);
-		segmentInfo["iCurrentPosition"] = static_cast<int>(musicSyncInfo->segmentInfo.iCurrentPosition);
-		segmentInfo["iPostExitDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iPostExitDuration);
-		segmentInfo["iPreEntryDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iPreEntryDuration);
-		segmentInfo["iRemainingLookAheadTime"] = static_cast<int>(musicSyncInfo->segmentInfo.iRemainingLookAheadTime);
-		callbackData["segmentInfo"] = segmentInfo;
-		break;
-	}
-	case AK_MusicSyncBar:
-	{
-		AkMusicSyncCallbackInfo* musicSyncInfo = static_cast<AkMusicSyncCallbackInfo*>(callbackInfo);
-		callbackData["gameObjID"] = static_cast<unsigned int>(musicSyncInfo->gameObjID);
-		callbackData["musicSyncType"] = static_cast<unsigned int>(musicSyncInfo->musicSyncType);
-		callbackData["playingID"] = static_cast<unsigned int>(musicSyncInfo->playingID);
-		callbackData["pszUserCueName"] = String(musicSyncInfo->pszUserCueName);
+			Dictionary segmentInfo;
+			segmentInfo["fBarDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fBarDuration);
+			segmentInfo["fBeatDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fBeatDuration);
+			segmentInfo["fGridDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fGridDuration);
+			segmentInfo["fGridOffset"] = static_cast<float>(musicSyncInfo->segmentInfo.fGridOffset);
+			segmentInfo["iActiveDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iActiveDuration);
+			segmentInfo["iCurrentPosition"] = static_cast<int>(musicSyncInfo->segmentInfo.iCurrentPosition);
+			segmentInfo["iPostExitDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iPostExitDuration);
+			segmentInfo["iPreEntryDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iPreEntryDuration);
+			segmentInfo["iRemainingLookAheadTime"] =
+					static_cast<int>(musicSyncInfo->segmentInfo.iRemainingLookAheadTime);
+			callbackData["segmentInfo"] = segmentInfo;
+			break;
+		}
+		case AK_MusicSyncBar:
+		{
+			AkMusicSyncCallbackInfo* musicSyncInfo = static_cast<AkMusicSyncCallbackInfo*>(callbackInfo);
+			callbackData["gameObjID"] = static_cast<unsigned int>(musicSyncInfo->gameObjID);
+			callbackData["musicSyncType"] = static_cast<unsigned int>(musicSyncInfo->musicSyncType);
+			callbackData["playingID"] = static_cast<unsigned int>(musicSyncInfo->playingID);
+			callbackData["pszUserCueName"] = String(musicSyncInfo->pszUserCueName);
 
-		Dictionary segmentInfo;
-		segmentInfo["fBarDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fBarDuration);
-		segmentInfo["fBeatDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fBeatDuration);
-		segmentInfo["fGridDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fGridDuration);
-		segmentInfo["fGridOffset"] = static_cast<float>(musicSyncInfo->segmentInfo.fGridOffset);
-		segmentInfo["iActiveDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iActiveDuration);
-		segmentInfo["iCurrentPosition"] = static_cast<int>(musicSyncInfo->segmentInfo.iCurrentPosition);
-		segmentInfo["iPostExitDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iPostExitDuration);
-		segmentInfo["iPreEntryDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iPreEntryDuration);
-		segmentInfo["iRemainingLookAheadTime"] = static_cast<int>(musicSyncInfo->segmentInfo.iRemainingLookAheadTime);
-		callbackData["segmentInfo"] = segmentInfo;
-		break;
-	}
-	case AK_MusicSyncEntry:
-	{
-		AkMusicSyncCallbackInfo* musicSyncInfo = static_cast<AkMusicSyncCallbackInfo*>(callbackInfo);
-		callbackData["gameObjID"] = static_cast<unsigned int>(musicSyncInfo->gameObjID);
-		callbackData["musicSyncType"] = static_cast<unsigned int>(musicSyncInfo->musicSyncType);
-		callbackData["playingID"] = static_cast<unsigned int>(musicSyncInfo->playingID);
-		callbackData["pszUserCueName"] = String(musicSyncInfo->pszUserCueName);
+			Dictionary segmentInfo;
+			segmentInfo["fBarDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fBarDuration);
+			segmentInfo["fBeatDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fBeatDuration);
+			segmentInfo["fGridDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fGridDuration);
+			segmentInfo["fGridOffset"] = static_cast<float>(musicSyncInfo->segmentInfo.fGridOffset);
+			segmentInfo["iActiveDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iActiveDuration);
+			segmentInfo["iCurrentPosition"] = static_cast<int>(musicSyncInfo->segmentInfo.iCurrentPosition);
+			segmentInfo["iPostExitDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iPostExitDuration);
+			segmentInfo["iPreEntryDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iPreEntryDuration);
+			segmentInfo["iRemainingLookAheadTime"] =
+					static_cast<int>(musicSyncInfo->segmentInfo.iRemainingLookAheadTime);
+			callbackData["segmentInfo"] = segmentInfo;
+			break;
+		}
+		case AK_MusicSyncEntry:
+		{
+			AkMusicSyncCallbackInfo* musicSyncInfo = static_cast<AkMusicSyncCallbackInfo*>(callbackInfo);
+			callbackData["gameObjID"] = static_cast<unsigned int>(musicSyncInfo->gameObjID);
+			callbackData["musicSyncType"] = static_cast<unsigned int>(musicSyncInfo->musicSyncType);
+			callbackData["playingID"] = static_cast<unsigned int>(musicSyncInfo->playingID);
+			callbackData["pszUserCueName"] = String(musicSyncInfo->pszUserCueName);
 
-		Dictionary segmentInfo;
-		segmentInfo["fBarDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fBarDuration);
-		segmentInfo["fBeatDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fBeatDuration);
-		segmentInfo["fGridDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fGridDuration);
-		segmentInfo["fGridOffset"] = static_cast<float>(musicSyncInfo->segmentInfo.fGridOffset);
-		segmentInfo["iActiveDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iActiveDuration);
-		segmentInfo["iCurrentPosition"] = static_cast<int>(musicSyncInfo->segmentInfo.iCurrentPosition);
-		segmentInfo["iPostExitDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iPostExitDuration);
-		segmentInfo["iPreEntryDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iPreEntryDuration);
-		segmentInfo["iRemainingLookAheadTime"] = static_cast<int>(musicSyncInfo->segmentInfo.iRemainingLookAheadTime);
-		callbackData["segmentInfo"] = segmentInfo;
-		break;
-	}
-	case AK_MusicSyncExit:
-	{
-		AkMusicSyncCallbackInfo* musicSyncInfo = static_cast<AkMusicSyncCallbackInfo*>(callbackInfo);
-		callbackData["gameObjID"] = static_cast<unsigned int>(musicSyncInfo->gameObjID);
-		callbackData["musicSyncType"] = static_cast<unsigned int>(musicSyncInfo->musicSyncType);
-		callbackData["playingID"] = static_cast<unsigned int>(musicSyncInfo->playingID);
-		callbackData["pszUserCueName"] = String(musicSyncInfo->pszUserCueName);
+			Dictionary segmentInfo;
+			segmentInfo["fBarDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fBarDuration);
+			segmentInfo["fBeatDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fBeatDuration);
+			segmentInfo["fGridDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fGridDuration);
+			segmentInfo["fGridOffset"] = static_cast<float>(musicSyncInfo->segmentInfo.fGridOffset);
+			segmentInfo["iActiveDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iActiveDuration);
+			segmentInfo["iCurrentPosition"] = static_cast<int>(musicSyncInfo->segmentInfo.iCurrentPosition);
+			segmentInfo["iPostExitDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iPostExitDuration);
+			segmentInfo["iPreEntryDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iPreEntryDuration);
+			segmentInfo["iRemainingLookAheadTime"] =
+					static_cast<int>(musicSyncInfo->segmentInfo.iRemainingLookAheadTime);
+			callbackData["segmentInfo"] = segmentInfo;
+			break;
+		}
+		case AK_MusicSyncExit:
+		{
+			AkMusicSyncCallbackInfo* musicSyncInfo = static_cast<AkMusicSyncCallbackInfo*>(callbackInfo);
+			callbackData["gameObjID"] = static_cast<unsigned int>(musicSyncInfo->gameObjID);
+			callbackData["musicSyncType"] = static_cast<unsigned int>(musicSyncInfo->musicSyncType);
+			callbackData["playingID"] = static_cast<unsigned int>(musicSyncInfo->playingID);
+			callbackData["pszUserCueName"] = String(musicSyncInfo->pszUserCueName);
 
-		Dictionary segmentInfo;
-		segmentInfo["fBarDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fBarDuration);
-		segmentInfo["fBeatDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fBeatDuration);
-		segmentInfo["fGridDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fGridDuration);
-		segmentInfo["fGridOffset"] = static_cast<float>(musicSyncInfo->segmentInfo.fGridOffset);
-		segmentInfo["iActiveDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iActiveDuration);
-		segmentInfo["iCurrentPosition"] = static_cast<int>(musicSyncInfo->segmentInfo.iCurrentPosition);
-		segmentInfo["iPostExitDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iPostExitDuration);
-		segmentInfo["iPreEntryDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iPreEntryDuration);
-		segmentInfo["iRemainingLookAheadTime"] = static_cast<int>(musicSyncInfo->segmentInfo.iRemainingLookAheadTime);
-		callbackData["segmentInfo"] = segmentInfo;
-		break;
-	}
-	case AK_MusicSyncGrid:
-	{
-		AkMusicSyncCallbackInfo* musicSyncInfo = static_cast<AkMusicSyncCallbackInfo*>(callbackInfo);
-		callbackData["gameObjID"] = static_cast<unsigned int>(musicSyncInfo->gameObjID);
-		callbackData["musicSyncType"] = static_cast<unsigned int>(musicSyncInfo->musicSyncType);
-		callbackData["playingID"] = static_cast<unsigned int>(musicSyncInfo->playingID);
-		callbackData["pszUserCueName"] = String(musicSyncInfo->pszUserCueName);
+			Dictionary segmentInfo;
+			segmentInfo["fBarDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fBarDuration);
+			segmentInfo["fBeatDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fBeatDuration);
+			segmentInfo["fGridDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fGridDuration);
+			segmentInfo["fGridOffset"] = static_cast<float>(musicSyncInfo->segmentInfo.fGridOffset);
+			segmentInfo["iActiveDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iActiveDuration);
+			segmentInfo["iCurrentPosition"] = static_cast<int>(musicSyncInfo->segmentInfo.iCurrentPosition);
+			segmentInfo["iPostExitDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iPostExitDuration);
+			segmentInfo["iPreEntryDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iPreEntryDuration);
+			segmentInfo["iRemainingLookAheadTime"] =
+					static_cast<int>(musicSyncInfo->segmentInfo.iRemainingLookAheadTime);
+			callbackData["segmentInfo"] = segmentInfo;
+			break;
+		}
+		case AK_MusicSyncGrid:
+		{
+			AkMusicSyncCallbackInfo* musicSyncInfo = static_cast<AkMusicSyncCallbackInfo*>(callbackInfo);
+			callbackData["gameObjID"] = static_cast<unsigned int>(musicSyncInfo->gameObjID);
+			callbackData["musicSyncType"] = static_cast<unsigned int>(musicSyncInfo->musicSyncType);
+			callbackData["playingID"] = static_cast<unsigned int>(musicSyncInfo->playingID);
+			callbackData["pszUserCueName"] = String(musicSyncInfo->pszUserCueName);
 
-		Dictionary segmentInfo;
-		segmentInfo["fBarDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fBarDuration);
-		segmentInfo["fBeatDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fBeatDuration);
-		segmentInfo["fGridDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fGridDuration);
-		segmentInfo["fGridOffset"] = static_cast<float>(musicSyncInfo->segmentInfo.fGridOffset);
-		segmentInfo["iActiveDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iActiveDuration);
-		segmentInfo["iCurrentPosition"] = static_cast<int>(musicSyncInfo->segmentInfo.iCurrentPosition);
-		segmentInfo["iPostExitDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iPostExitDuration);
-		segmentInfo["iPreEntryDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iPreEntryDuration);
-		segmentInfo["iRemainingLookAheadTime"] = static_cast<int>(musicSyncInfo->segmentInfo.iRemainingLookAheadTime);
-		callbackData["segmentInfo"] = segmentInfo;
-		break;
-	}
-	case AK_MusicSyncUserCue:
-	{
-		AkMusicSyncCallbackInfo* musicSyncInfo = static_cast<AkMusicSyncCallbackInfo*>(callbackInfo);
-		callbackData["gameObjID"] = static_cast<unsigned int>(musicSyncInfo->gameObjID);
-		callbackData["musicSyncType"] = static_cast<unsigned int>(musicSyncInfo->musicSyncType);
-		callbackData["playingID"] = static_cast<unsigned int>(musicSyncInfo->playingID);
-		callbackData["pszUserCueName"] = String(musicSyncInfo->pszUserCueName);
+			Dictionary segmentInfo;
+			segmentInfo["fBarDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fBarDuration);
+			segmentInfo["fBeatDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fBeatDuration);
+			segmentInfo["fGridDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fGridDuration);
+			segmentInfo["fGridOffset"] = static_cast<float>(musicSyncInfo->segmentInfo.fGridOffset);
+			segmentInfo["iActiveDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iActiveDuration);
+			segmentInfo["iCurrentPosition"] = static_cast<int>(musicSyncInfo->segmentInfo.iCurrentPosition);
+			segmentInfo["iPostExitDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iPostExitDuration);
+			segmentInfo["iPreEntryDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iPreEntryDuration);
+			segmentInfo["iRemainingLookAheadTime"] =
+					static_cast<int>(musicSyncInfo->segmentInfo.iRemainingLookAheadTime);
+			callbackData["segmentInfo"] = segmentInfo;
+			break;
+		}
+		case AK_MusicSyncUserCue:
+		{
+			AkMusicSyncCallbackInfo* musicSyncInfo = static_cast<AkMusicSyncCallbackInfo*>(callbackInfo);
+			callbackData["gameObjID"] = static_cast<unsigned int>(musicSyncInfo->gameObjID);
+			callbackData["musicSyncType"] = static_cast<unsigned int>(musicSyncInfo->musicSyncType);
+			callbackData["playingID"] = static_cast<unsigned int>(musicSyncInfo->playingID);
+			callbackData["pszUserCueName"] = String(musicSyncInfo->pszUserCueName);
 
-		Dictionary segmentInfo;
-		segmentInfo["fBarDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fBarDuration);
-		segmentInfo["fBeatDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fBeatDuration);
-		segmentInfo["fGridDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fGridDuration);
-		segmentInfo["fGridOffset"] = static_cast<float>(musicSyncInfo->segmentInfo.fGridOffset);
-		segmentInfo["iActiveDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iActiveDuration);
-		segmentInfo["iCurrentPosition"] = static_cast<int>(musicSyncInfo->segmentInfo.iCurrentPosition);
-		segmentInfo["iPostExitDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iPostExitDuration);
-		segmentInfo["iPreEntryDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iPreEntryDuration);
-		segmentInfo["iRemainingLookAheadTime"] = static_cast<int>(musicSyncInfo->segmentInfo.iRemainingLookAheadTime);
-		callbackData["segmentInfo"] = segmentInfo;
-		break;
-	}
-	case AK_MusicSyncPoint:
-	{
-		AkMusicSyncCallbackInfo* musicSyncInfo = static_cast<AkMusicSyncCallbackInfo*>(callbackInfo);
-		callbackData["gameObjID"] = static_cast<unsigned int>(musicSyncInfo->gameObjID);
-		callbackData["musicSyncType"] = static_cast<unsigned int>(musicSyncInfo->musicSyncType);
-		callbackData["playingID"] = static_cast<unsigned int>(musicSyncInfo->playingID);
-		callbackData["pszUserCueName"] = String(musicSyncInfo->pszUserCueName);
+			Dictionary segmentInfo;
+			segmentInfo["fBarDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fBarDuration);
+			segmentInfo["fBeatDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fBeatDuration);
+			segmentInfo["fGridDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fGridDuration);
+			segmentInfo["fGridOffset"] = static_cast<float>(musicSyncInfo->segmentInfo.fGridOffset);
+			segmentInfo["iActiveDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iActiveDuration);
+			segmentInfo["iCurrentPosition"] = static_cast<int>(musicSyncInfo->segmentInfo.iCurrentPosition);
+			segmentInfo["iPostExitDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iPostExitDuration);
+			segmentInfo["iPreEntryDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iPreEntryDuration);
+			segmentInfo["iRemainingLookAheadTime"] =
+					static_cast<int>(musicSyncInfo->segmentInfo.iRemainingLookAheadTime);
+			callbackData["segmentInfo"] = segmentInfo;
+			break;
+		}
+		case AK_MusicSyncPoint:
+		{
+			AkMusicSyncCallbackInfo* musicSyncInfo = static_cast<AkMusicSyncCallbackInfo*>(callbackInfo);
+			callbackData["gameObjID"] = static_cast<unsigned int>(musicSyncInfo->gameObjID);
+			callbackData["musicSyncType"] = static_cast<unsigned int>(musicSyncInfo->musicSyncType);
+			callbackData["playingID"] = static_cast<unsigned int>(musicSyncInfo->playingID);
+			callbackData["pszUserCueName"] = String(musicSyncInfo->pszUserCueName);
 
-		Dictionary segmentInfo;
-		segmentInfo["fBarDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fBarDuration);
-		segmentInfo["fBeatDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fBeatDuration);
-		segmentInfo["fGridDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fGridDuration);
-		segmentInfo["fGridOffset"] = static_cast<float>(musicSyncInfo->segmentInfo.fGridOffset);
-		segmentInfo["iActiveDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iActiveDuration);
-		segmentInfo["iCurrentPosition"] = static_cast<int>(musicSyncInfo->segmentInfo.iCurrentPosition);
-		segmentInfo["iPostExitDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iPostExitDuration);
-		segmentInfo["iPreEntryDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iPreEntryDuration);
-		segmentInfo["iRemainingLookAheadTime"] = static_cast<int>(musicSyncInfo->segmentInfo.iRemainingLookAheadTime);
-		callbackData["segmentInfo"] = segmentInfo;
-		break;
-	}
-	case AK_MusicSyncAll:
-	{
-		AkMusicSyncCallbackInfo* musicSyncInfo = static_cast<AkMusicSyncCallbackInfo*>(callbackInfo);
-		callbackData["gameObjID"] = static_cast<unsigned int>(musicSyncInfo->gameObjID);
-		callbackData["musicSyncType"] = static_cast<unsigned int>(musicSyncInfo->musicSyncType);
-		callbackData["playingID"] = static_cast<unsigned int>(musicSyncInfo->playingID);
-		callbackData["pszUserCueName"] = String(musicSyncInfo->pszUserCueName);
+			Dictionary segmentInfo;
+			segmentInfo["fBarDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fBarDuration);
+			segmentInfo["fBeatDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fBeatDuration);
+			segmentInfo["fGridDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fGridDuration);
+			segmentInfo["fGridOffset"] = static_cast<float>(musicSyncInfo->segmentInfo.fGridOffset);
+			segmentInfo["iActiveDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iActiveDuration);
+			segmentInfo["iCurrentPosition"] = static_cast<int>(musicSyncInfo->segmentInfo.iCurrentPosition);
+			segmentInfo["iPostExitDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iPostExitDuration);
+			segmentInfo["iPreEntryDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iPreEntryDuration);
+			segmentInfo["iRemainingLookAheadTime"] =
+					static_cast<int>(musicSyncInfo->segmentInfo.iRemainingLookAheadTime);
+			callbackData["segmentInfo"] = segmentInfo;
+			break;
+		}
+		case AK_MusicSyncAll:
+		{
+			AkMusicSyncCallbackInfo* musicSyncInfo = static_cast<AkMusicSyncCallbackInfo*>(callbackInfo);
+			callbackData["gameObjID"] = static_cast<unsigned int>(musicSyncInfo->gameObjID);
+			callbackData["musicSyncType"] = static_cast<unsigned int>(musicSyncInfo->musicSyncType);
+			callbackData["playingID"] = static_cast<unsigned int>(musicSyncInfo->playingID);
+			callbackData["pszUserCueName"] = String(musicSyncInfo->pszUserCueName);
 
-		Dictionary segmentInfo;
-		segmentInfo["fBarDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fBarDuration);
-		segmentInfo["fBeatDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fBeatDuration);
-		segmentInfo["fGridDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fGridDuration);
-		segmentInfo["fGridOffset"] = static_cast<float>(musicSyncInfo->segmentInfo.fGridOffset);
-		segmentInfo["iActiveDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iActiveDuration);
-		segmentInfo["iCurrentPosition"] = static_cast<int>(musicSyncInfo->segmentInfo.iCurrentPosition);
-		segmentInfo["iPostExitDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iPostExitDuration);
-		segmentInfo["iPreEntryDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iPreEntryDuration);
-		segmentInfo["iRemainingLookAheadTime"] = static_cast<int>(musicSyncInfo->segmentInfo.iRemainingLookAheadTime);
-		callbackData["segmentInfo"] = segmentInfo;
-		break;
-	}
-	case AK_MIDIEvent:
-	{
-		AkMIDIEventCallbackInfo* midiEventInfo = static_cast<AkMIDIEventCallbackInfo*>(callbackInfo);
-		callbackData["eventID"] = static_cast<unsigned int>(midiEventInfo->eventID);
-		callbackData["gameObjID"] = static_cast<unsigned int>(midiEventInfo->gameObjID);
+			Dictionary segmentInfo;
+			segmentInfo["fBarDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fBarDuration);
+			segmentInfo["fBeatDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fBeatDuration);
+			segmentInfo["fGridDuration"] = static_cast<float>(musicSyncInfo->segmentInfo.fGridDuration);
+			segmentInfo["fGridOffset"] = static_cast<float>(musicSyncInfo->segmentInfo.fGridOffset);
+			segmentInfo["iActiveDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iActiveDuration);
+			segmentInfo["iCurrentPosition"] = static_cast<int>(musicSyncInfo->segmentInfo.iCurrentPosition);
+			segmentInfo["iPostExitDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iPostExitDuration);
+			segmentInfo["iPreEntryDuration"] = static_cast<int>(musicSyncInfo->segmentInfo.iPreEntryDuration);
+			segmentInfo["iRemainingLookAheadTime"] =
+					static_cast<int>(musicSyncInfo->segmentInfo.iRemainingLookAheadTime);
+			callbackData["segmentInfo"] = segmentInfo;
+			break;
+		}
+		case AK_MIDIEvent:
+		{
+			AkMIDIEventCallbackInfo* midiEventInfo = static_cast<AkMIDIEventCallbackInfo*>(callbackInfo);
+			callbackData["eventID"] = static_cast<unsigned int>(midiEventInfo->eventID);
+			callbackData["gameObjID"] = static_cast<unsigned int>(midiEventInfo->gameObjID);
 
-		Dictionary midiEvent;
-		midiEvent["byType"] = static_cast<unsigned char>(midiEventInfo->midiEvent.byType);
-		midiEvent["byChan"] = static_cast<unsigned char>(midiEventInfo->midiEvent.byChan);
+			Dictionary midiEvent;
+			midiEvent["byType"] = static_cast<unsigned char>(midiEventInfo->midiEvent.byType);
+			midiEvent["byChan"] = static_cast<unsigned char>(midiEventInfo->midiEvent.byChan);
 
-		Dictionary cc;
-		cc["byCc"] = static_cast<unsigned char>(midiEventInfo->midiEvent.Cc.byCc);
-		cc["byValue"] = static_cast<unsigned char>(midiEventInfo->midiEvent.Cc.byValue);
+			Dictionary cc;
+			cc["byCc"] = static_cast<unsigned char>(midiEventInfo->midiEvent.Cc.byCc);
+			cc["byValue"] = static_cast<unsigned char>(midiEventInfo->midiEvent.Cc.byValue);
 
-		Dictionary chanAftertouch;
-		chanAftertouch["byValue"] = static_cast<unsigned char>(midiEventInfo->midiEvent.ChanAftertouch.byValue);
+			Dictionary chanAftertouch;
+			chanAftertouch["byValue"] = static_cast<unsigned char>(midiEventInfo->midiEvent.ChanAftertouch.byValue);
 
-		Dictionary gen;
-		gen["byParam1"] = static_cast<unsigned char>(midiEventInfo->midiEvent.Gen.byParam1);
-		gen["byParam2"] = static_cast<unsigned char>(midiEventInfo->midiEvent.Gen.byParam2);
+			Dictionary gen;
+			gen["byParam1"] = static_cast<unsigned char>(midiEventInfo->midiEvent.Gen.byParam1);
+			gen["byParam2"] = static_cast<unsigned char>(midiEventInfo->midiEvent.Gen.byParam2);
 
-		Dictionary noteAftertouch;
-		noteAftertouch["byNote"] = static_cast<unsigned char>(midiEventInfo->midiEvent.NoteAftertouch.byNote);
-		noteAftertouch["byValue"] = static_cast<unsigned char>(midiEventInfo->midiEvent.NoteAftertouch.byValue);
+			Dictionary noteAftertouch;
+			noteAftertouch["byNote"] = static_cast<unsigned char>(midiEventInfo->midiEvent.NoteAftertouch.byNote);
+			noteAftertouch["byValue"] = static_cast<unsigned char>(midiEventInfo->midiEvent.NoteAftertouch.byValue);
 
-		Dictionary noteOnOff;
-		noteOnOff["byNote"] = static_cast<unsigned char>(midiEventInfo->midiEvent.NoteOnOff.byNote);
-		noteOnOff["byVelocity"] = static_cast<unsigned char>(midiEventInfo->midiEvent.NoteOnOff.byVelocity);
+			Dictionary noteOnOff;
+			noteOnOff["byNote"] = static_cast<unsigned char>(midiEventInfo->midiEvent.NoteOnOff.byNote);
+			noteOnOff["byVelocity"] = static_cast<unsigned char>(midiEventInfo->midiEvent.NoteOnOff.byVelocity);
 
-		Dictionary pitchBend;
-		pitchBend["byValueLsb"] = static_cast<unsigned char>(midiEventInfo->midiEvent.PitchBend.byValueLsb);
-		pitchBend["byValueMsb"] = static_cast<unsigned char>(midiEventInfo->midiEvent.PitchBend.byValueMsb);
+			Dictionary pitchBend;
+			pitchBend["byValueLsb"] = static_cast<unsigned char>(midiEventInfo->midiEvent.PitchBend.byValueLsb);
+			pitchBend["byValueMsb"] = static_cast<unsigned char>(midiEventInfo->midiEvent.PitchBend.byValueMsb);
 
-		Dictionary programChange;
-		programChange["byProgramNum"] = static_cast<unsigned char>(midiEventInfo->midiEvent.ProgramChange.byProgramNum);
+			Dictionary programChange;
+			programChange["byProgramNum"] =
+					static_cast<unsigned char>(midiEventInfo->midiEvent.ProgramChange.byProgramNum);
 
-		midiEvent["cc"] = cc;
-		midiEvent["chanAftertouch"] = chanAftertouch;
-		midiEvent["gen"] = gen;
-		midiEvent["noteAftertouch"] = noteAftertouch;
-		midiEvent["noteOnOff"] = noteOnOff;
-		midiEvent["pitchBend"] = pitchBend;
-		midiEvent["programChange"] = programChange;
+			midiEvent["cc"] = cc;
+			midiEvent["chanAftertouch"] = chanAftertouch;
+			midiEvent["gen"] = gen;
+			midiEvent["noteAftertouch"] = noteAftertouch;
+			midiEvent["noteOnOff"] = noteOnOff;
+			midiEvent["pitchBend"] = pitchBend;
+			midiEvent["programChange"] = programChange;
 
-		callbackData["midiEvent"] = midiEvent;
+			callbackData["midiEvent"] = midiEvent;
 
-		callbackData["playingID"] = static_cast<unsigned int>(midiEventInfo->playingID);
-		break;
-	}
-	case AK_CallbackBits:
-	case AK_EnableGetSourcePlayPosition:
-	case AK_EnableGetMusicPlayPosition:
-	case AK_EnableGetSourceStreamBuffering:
-		break;
-	default:
-		AKASSERT(false);
-		break;
+			callbackData["playingID"] = static_cast<unsigned int>(midiEventInfo->playingID);
+			break;
+		}
+		case AK_CallbackBits:
+		case AK_EnableGetSourcePlayPosition:
+		case AK_EnableGetMusicPlayPosition:
+		case AK_EnableGetSourceStreamBuffering:
+			break;
+		default:
+			AKASSERT(false);
+			break;
 	}
 
 	args.push_back(callbackData);
@@ -1537,8 +1538,8 @@ void Wwise::bankCallback(AkUInt32 bankID, const void* inMemoryBankPtr, AKRESULT 
 	}
 	else if (!cookie->is_valid())
 	{
-		UtilityFunctions::push_warning("The Bank Callback cookie object no longer exists.", __FUNCTION__, __FILE__,
-									   itos( __LINE__));
+		UtilityFunctions::push_warning(
+				"The Bank Callback cookie object no longer exists.", __FUNCTION__, __FILE__, itos(__LINE__));
 		return;
 	}
 
@@ -1611,16 +1612,16 @@ bool Wwise::initialiseWwiseSystems()
 	AK::StreamMgr::GetDefaultDeviceSettings(deviceSettings);
 
 	deviceSettings.bUseStreamCache =
-		static_cast<bool>(getPlatformProjectSetting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "use_stream_cache"));
+			static_cast<bool>(getPlatformProjectSetting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "use_stream_cache"));
 
 	deviceSettings.fTargetAutoStmBufferLength = static_cast<float>(
-		getPlatformProjectSetting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "target_auto_stream_buffer_length_ms"));
+			getPlatformProjectSetting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "target_auto_stream_buffer_length_ms"));
 
-	deviceSettings.uIOMemorySize =
-		static_cast<unsigned int>(getPlatformProjectSetting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "IO_memory_size"));
+	deviceSettings.uIOMemorySize = static_cast<unsigned int>(
+			getPlatformProjectSetting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "IO_memory_size"));
 
 	deviceSettings.uMaxCachePinnedBytes = static_cast<unsigned int>(
-		getPlatformProjectSetting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "maximum_pinned_bytes_in_cache"));
+			getPlatformProjectSetting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "maximum_pinned_bytes_in_cache"));
 
 	deviceSettings.uSchedulerTypeFlags = AK_SCHEDULER_BLOCKING;
 
@@ -1637,24 +1638,24 @@ bool Wwise::initialiseWwiseSystems()
 #endif
 
 	initSettings.bDebugOutOfRangeCheckEnabled = static_cast<bool>(
-		getPlatformProjectSetting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "debug_out_of_range_check_enabled"));
+			getPlatformProjectSetting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "debug_out_of_range_check_enabled"));
 
 	initSettings.bEnableGameSyncPreparation = static_cast<bool>(
-		getPlatformProjectSetting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "enable_game_sync_preparation"));
+			getPlatformProjectSetting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "enable_game_sync_preparation"));
 
-	initSettings.fDebugOutOfRangeLimit =
-		static_cast<float>(getPlatformProjectSetting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "debug_out_of_range_limit"));
+	initSettings.fDebugOutOfRangeLimit = static_cast<float>(
+			getPlatformProjectSetting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "debug_out_of_range_limit"));
 
 	String audioDeviceShareSet =
-		getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + "main_output/audio_device_shareset");
+			getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + "main_output/audio_device_shareset");
 	initSettings.settingsMainOutput.audioDeviceShareset =
-		AK::SoundEngine::GetIDFromString(audioDeviceShareSet.utf8().get_data());
+			AK::SoundEngine::GetIDFromString(audioDeviceShareSet.utf8().get_data());
 
-	const unsigned int channelConfigType = static_cast<unsigned int>(
-		getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + "main_output/channel_config/channel_config_type"));
+	const unsigned int channelConfigType = static_cast<unsigned int>(getPlatformProjectSetting(
+			WWISE_COMMON_USER_SETTINGS_PATH + "main_output/channel_config/channel_config_type"));
 
-	const unsigned int numChannels = static_cast<unsigned int>(
-		getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + "main_output/channel_config/number_of_channels"));
+	const unsigned int numChannels = static_cast<unsigned int>(getPlatformProjectSetting(
+			WWISE_COMMON_USER_SETTINGS_PATH + "main_output/channel_config/number_of_channels"));
 
 	if (channelConfigType == AK_ChannelConfigType_Anonymous)
 	{
@@ -1673,47 +1674,47 @@ bool Wwise::initialiseWwiseSystems()
 		AKASSERT(false);
 	}
 
-	initSettings.settingsMainOutput.idDevice =
-		static_cast<unsigned int>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + "main_output/device_id"));
+	initSettings.settingsMainOutput.idDevice = static_cast<unsigned int>(
+			getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + "main_output/device_id"));
 
 	initSettings.settingsMainOutput.ePanningRule = static_cast<AkPanningRule>(static_cast<unsigned int>(
-		getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + "main_output/panning_rule")));
+			getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + "main_output/panning_rule")));
 
-	initSettings.uCommandQueueSize =
-		static_cast<unsigned int>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + "command_queue_size"));
+	initSettings.uCommandQueueSize = static_cast<unsigned int>(
+			getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + "command_queue_size"));
 
 	initSettings.uContinuousPlaybackLookAhead = static_cast<unsigned int>(
-		getPlatformProjectSetting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "continuous_playback_look_ahead"));
+			getPlatformProjectSetting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "continuous_playback_look_ahead"));
 
 	initSettings.uMaxHardwareTimeoutMs = static_cast<unsigned int>(
-		getPlatformProjectSetting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "maximum_hardware_timeout_ms"));
+			getPlatformProjectSetting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "maximum_hardware_timeout_ms"));
 
 	initSettings.uMaxNumPaths = static_cast<unsigned int>(
-		getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + "maximum_number_of_positioning_paths"));
+			getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + "maximum_number_of_positioning_paths"));
 
 	initSettings.uMonitorQueuePoolSize = static_cast<unsigned int>(
-		getPlatformProjectSetting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "monitor_queue_pool_size"));
+			getPlatformProjectSetting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "monitor_queue_pool_size"));
 
 	const unsigned int numSamplesPerFrameEnum =
-		static_cast<unsigned int>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + "samples_per_frame"));
+			static_cast<unsigned int>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + "samples_per_frame"));
 
 	switch (numSamplesPerFrameEnum)
 	{
-	case SamplesPerFrame::SAMPLES_256:
-		initSettings.uNumSamplesPerFrame = 256;
-		break;
-	case SamplesPerFrame::SAMPLES_512:
-		initSettings.uNumSamplesPerFrame = 512;
-		break;
-	case SamplesPerFrame::SAMPLES_1024:
-		initSettings.uNumSamplesPerFrame = 1024;
-		break;
-	case SamplesPerFrame::SAMPLES_2048:
-		initSettings.uNumSamplesPerFrame = 2048;
-		break;
-	default:
-		AKASSERT(false);
-		break;
+		case SamplesPerFrame::SAMPLES_256:
+			initSettings.uNumSamplesPerFrame = 256;
+			break;
+		case SamplesPerFrame::SAMPLES_512:
+			initSettings.uNumSamplesPerFrame = 512;
+			break;
+		case SamplesPerFrame::SAMPLES_1024:
+			initSettings.uNumSamplesPerFrame = 1024;
+			break;
+		case SamplesPerFrame::SAMPLES_2048:
+			initSettings.uNumSamplesPerFrame = 2048;
+			break;
+		default:
+			AKASSERT(false);
+			break;
 	}
 
 	initSettings.eFloorPlane = AkFloorPlane_Default; // todo(alex): check this;
@@ -1723,47 +1724,47 @@ bool Wwise::initialiseWwiseSystems()
 
 	// Common platform settings
 	const unsigned int numRefillsInVoiceEnum = static_cast<unsigned int>(
-		getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + "number_of_refills_in_voice"));
+			getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + "number_of_refills_in_voice"));
 
 	switch (numRefillsInVoiceEnum)
 	{
-	case NumRefillsInVoice::REFILLS_2:
-		platformInitSettings.uNumRefillsInVoice = 2;
-		break;
-	case NumRefillsInVoice::REFILLS_4:
-		platformInitSettings.uNumRefillsInVoice = 4;
-		break;
-	default:
-		AKASSERT(false);
-		break;
+		case NumRefillsInVoice::REFILLS_2:
+			platformInitSettings.uNumRefillsInVoice = 2;
+			break;
+		case NumRefillsInVoice::REFILLS_4:
+			platformInitSettings.uNumRefillsInVoice = 4;
+			break;
+		default:
+			AKASSERT(false);
+			break;
 	}
 
 	const unsigned int sampleRateEnum =
-		static_cast<unsigned int>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + "sample_rate"));
+			static_cast<unsigned int>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + "sample_rate"));
 
 	switch (sampleRateEnum)
 	{
-	case SampleRate::RATE_16000:
-		platformInitSettings.uSampleRate = 16000;
-		break;
-	case SampleRate::RATE_24000:
-		platformInitSettings.uSampleRate = 24000;
-		break;
-	case SampleRate::RATE_32000:
-		platformInitSettings.uSampleRate = 32000;
-		break;
-	case SampleRate::RATE_44100:
-		platformInitSettings.uSampleRate = 44100;
-		break;
-	case SampleRate::RATE_48000:
-		platformInitSettings.uSampleRate = 48000;
-		break;
-	default:
-		AKASSERT(false);
-		break;
+		case SampleRate::RATE_16000:
+			platformInitSettings.uSampleRate = 16000;
+			break;
+		case SampleRate::RATE_24000:
+			platformInitSettings.uSampleRate = 24000;
+			break;
+		case SampleRate::RATE_32000:
+			platformInitSettings.uSampleRate = 32000;
+			break;
+		case SampleRate::RATE_44100:
+			platformInitSettings.uSampleRate = 44100;
+			break;
+		case SampleRate::RATE_48000:
+			platformInitSettings.uSampleRate = 48000;
+			break;
+		default:
+			AKASSERT(false);
+			break;
 	}
 
-	// Platform-specific settings
+		// Platform-specific settings
 #ifdef AK_WIN
 	int64_t handle = DisplayServer::get_singleton()->window_get_native_handle(DisplayServer::HandleType::WINDOW_HANDLE);
 	HWND hwnd = reinterpret_cast<HWND>(handle);
@@ -1773,28 +1774,28 @@ bool Wwise::initialiseWwiseSystems()
 
 #elif defined(AK_IOS)
 	const unsigned int sessionCategoryEnum =
-		static_cast<unsigned int>(getPlatformProjectSetting("wwise/ios_advanced_settings/audio_session_category"));
+			static_cast<unsigned int>(getPlatformProjectSetting("wwise/ios_advanced_settings/audio_session_category"));
 
 	platformInitSettings.audioSession.eCategory = static_cast<AkAudioSessionCategory>(sessionCategoryEnum);
 
 	const unsigned int sessionCategoryFlags = static_cast<unsigned int>(
-		getPlatformProjectSetting("wwise/ios_advanced_settings/audio_session_category_options"));
+			getPlatformProjectSetting("wwise/ios_advanced_settings/audio_session_category_options"));
 
 	platformInitSettings.audioSession.eCategoryOptions =
-		static_cast<AkAudioSessionCategoryOptions>(sessionCategoryFlags);
+			static_cast<AkAudioSessionCategoryOptions>(sessionCategoryFlags);
 
 	const unsigned int audioSessionModeEnum =
-		static_cast<unsigned int>(getPlatformProjectSetting("wwise/ios_advanced_settings/audio_session_mode"));
+			static_cast<unsigned int>(getPlatformProjectSetting("wwise/ios_advanced_settings/audio_session_mode"));
 
 	platformInitSettings.audioSession.eMode = static_cast<AkAudioSessionMode>(audioSessionModeEnum);
 
 #elif defined(AK_ANDROID)
 
 	platformInitSettings.eAudioAPI = static_cast<AkAudioAPIAndroid>(
-		static_cast<unsigned int>(getPlatformProjectSetting("wwise/android_advanced_settings/audio_API")));
+			static_cast<unsigned int>(getPlatformProjectSetting("wwise/android_advanced_settings/audio_API")));
 
 	platformInitSettings.bRoundFrameSizeToHWSize =
-		static_cast<bool>(getPlatformProjectSetting("wwise/android_advanced_settings/round_frame_size_to_hw_size"));
+			static_cast<bool>(getPlatformProjectSetting("wwise/android_advanced_settings/round_frame_size_to_hw_size"));
 
 	JNIEnv* env = godot::android_api->godot_android_get_env();
 
@@ -1808,7 +1809,7 @@ bool Wwise::initialiseWwiseSystems()
 #elif defined(AK_LINUX)
 
 	platformInitSettings.eAudioAPI = static_cast<AkAudioAPILinux>(
-		static_cast<unsigned int>(getPlatformProjectSetting("wwise/linux_advanced_settings/audio_API")));
+			static_cast<unsigned int>(getPlatformProjectSetting("wwise/linux_advanced_settings/audio_API")));
 
 #else
 #error "Platform not supported"
@@ -1822,8 +1823,8 @@ bool Wwise::initialiseWwiseSystems()
 	AkMusicSettings musicInitSettings;
 	AK::MusicEngine::GetDefaultInitSettings(musicInitSettings);
 
-	musicInitSettings.fStreamingLookAheadRatio =
-		static_cast<float>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + "streaming_look_ahead_ratio"));
+	musicInitSettings.fStreamingLookAheadRatio = static_cast<float>(
+			getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + "streaming_look_ahead_ratio"));
 
 	if (!ERROR_CHECK(AK::MusicEngine::Init(&musicInitSettings), "Music engine initialisation failed"))
 	{
@@ -1833,25 +1834,26 @@ bool Wwise::initialiseWwiseSystems()
 	AkSpatialAudioInitSettings spatialSettings;
 
 	spatialSettings.uMaxSoundPropagationDepth = static_cast<unsigned int>(getPlatformProjectSetting(
-		WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "max_sound_propagation_depth"));
+			WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "max_sound_propagation_depth"));
 
 	spatialSettings.bCalcEmitterVirtualPosition = static_cast<bool>(getPlatformProjectSetting(
-		WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "calc_emitter_virtual_position"));
+			WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "calc_emitter_virtual_position"));
 
-	spatialSettings.fMovementThreshold = static_cast<float>(
-		getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "movement_threshold"));
+	spatialSettings.fMovementThreshold = static_cast<float>(getPlatformProjectSetting(
+			WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "movement_threshold"));
 
 	spatialSettings.uNumberOfPrimaryRays = static_cast<unsigned int>(getPlatformProjectSetting(
-		WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "number_of_primary_rays"));
+			WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "number_of_primary_rays"));
 
-	spatialSettings.uMaxReflectionOrder = static_cast<unsigned int>(
-		getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "max_reflection_order"));
+	spatialSettings.uMaxReflectionOrder = static_cast<unsigned int>(getPlatformProjectSetting(
+			WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "max_reflection_order"));
 
 	spatialSettings.fMaxPathLength = static_cast<float>(
-		getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "max_path_length"));
+			getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "max_path_length"));
 
-	spatialSettings.bEnableGeometricDiffractionAndTransmission = static_cast<bool>(getPlatformProjectSetting(
-		WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "enable_geometric_diffraction_and_transmission"));
+	spatialSettings.bEnableGeometricDiffractionAndTransmission =
+			static_cast<bool>(getPlatformProjectSetting(WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH +
+					"enable_geometric_diffraction_and_transmission"));
 
 	if (!ERROR_CHECK(AK::SpatialAudio::Init(spatialSettings), "Spatial Audio initialisation failed"))
 	{
@@ -1863,20 +1865,20 @@ bool Wwise::initialiseWwiseSystems()
 	AK::Comm::GetDefaultInitSettings(commSettings);
 
 	commSettings.bInitSystemLib =
-		static_cast<bool>(getPlatformProjectSetting(WWISE_COMMUNICATION_SETTINGS_PATH + "initialize_system_comms"));
+			static_cast<bool>(getPlatformProjectSetting(WWISE_COMMUNICATION_SETTINGS_PATH + "initialize_system_comms"));
 
 	// note(alex): Default value: 24024
 	commSettings.ports.uCommand =
-		static_cast<unsigned int>(getPlatformProjectSetting(WWISE_COMMUNICATION_SETTINGS_PATH + "command_port"));
+			static_cast<unsigned int>(getPlatformProjectSetting(WWISE_COMMUNICATION_SETTINGS_PATH + "command_port"));
 
 	commSettings.ports.uDiscoveryBroadcast = static_cast<unsigned int>(
-		getPlatformProjectSetting(WWISE_COMMUNICATION_SETTINGS_PATH + "discovery_broadcast_port"));
+			getPlatformProjectSetting(WWISE_COMMUNICATION_SETTINGS_PATH + "discovery_broadcast_port"));
 
 	// todo(alex): remove notification_port from settings
 
 	String networkName = getPlatformProjectSetting(WWISE_COMMUNICATION_SETTINGS_PATH + "network_name");
-	AKPLATFORM::SafeStrCpy(commSettings.szAppNetworkName, networkName.utf8().get_data(),
-						   AK_COMM_SETTINGS_MAX_STRING_SIZE);
+	AKPLATFORM::SafeStrCpy(
+			commSettings.szAppNetworkName, networkName.utf8().get_data(), AK_COMM_SETTINGS_MAX_STRING_SIZE);
 
 	ERROR_CHECK(AK::Comm::Init(commSettings), "Comm initialisation failed");
 #endif
