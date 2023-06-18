@@ -4,6 +4,8 @@
 #include "AK/SoundEngine/Common/AkCallback.h"
 #include "AK/SoundEngine/Common/AkTypes.h"
 #include "godot_cpp/classes/file_access.hpp"
+#include "godot_cpp/classes/engine.hpp"
+
 
 using namespace godot;
 
@@ -187,6 +189,13 @@ static bool CheckError(const AKRESULT result, const String message, const char* 
 }
 
 #define ERROR_CHECK(result, message) CheckError(result, message, __FUNCTION__, __FILE__, __LINE__)
+
+
+#define RETURN_IF_EDITOR																							   \
+	if (Engine::get_singleton()->is_editor_hint())                                                                     \
+	{                                                                                                                  \
+		return;                                                                                                        \
+	}
 
 enum class VectorType
 {

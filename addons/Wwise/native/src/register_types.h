@@ -7,9 +7,13 @@
 #include <godot_cpp/core/defs.hpp>
 #include <godot_cpp/godot.hpp>
 
+#include "ak_utils.h"
+#include "scene/ak_bank.h"
+#include "scene/ak_listener.h"
+#include "scene/ak_state.h"
+#include "scene/ak_switch.h"
 #include "wwise_gdnative.h"
 #include "wwise_settings.h"
-
 
 using namespace godot;
 

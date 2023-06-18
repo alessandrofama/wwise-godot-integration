@@ -9,7 +9,7 @@ void register_wwise_types(ModuleInitializationLevel p_level)
 {
 	if (p_level == MODULE_INITIALIZATION_LEVEL_EDITOR)
 	{
-
+		ClassDB::register_class<AkUtils>();
 	}
 
 	if (p_level == MODULE_INITIALIZATION_LEVEL_SCENE)
@@ -22,6 +22,11 @@ void register_wwise_types(ModuleInitializationLevel p_level)
 		ClassDB::register_class<WwiseSettings>();
 		wwise_settings = memnew(WwiseSettings);
 
+		ClassDB::register_class<AkBank>();
+		ClassDB::register_class<AkListener2D>();
+		ClassDB::register_class<AkListener3D>();
+		ClassDB::register_class<AkState>();
+		ClassDB::register_class<AkSwitch>();
 	}
 }
 
@@ -40,8 +45,7 @@ extern "C"
 	// Initialization.
 
 	GDExtensionBool GDE_EXPORT wwise_library_init(const GDExtensionInterface* p_interface,
-												 const GDExtensionClassLibraryPtr p_library,
-												 GDExtensionInitialization* r_initialization)
+			const GDExtensionClassLibraryPtr p_library, GDExtensionInitialization* r_initialization)
 	{
 		godot::GDExtensionBinding::InitObject init_obj(p_interface, p_library, r_initialization);
 
