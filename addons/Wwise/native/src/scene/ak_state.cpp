@@ -56,7 +56,7 @@ void AkState::set_state()
 		unsigned int state_group_id = state_group.get("id", 0);
 		unsigned int state_value_id = state_value.get("id", 0);
 
-		if (soundengine->setStateID(state_group_id, state_value_id))
+		if (soundengine->set_state_id(state_group_id, state_value_id))
 		{
 			emit_signal("wwise_state_set", state_group, state_value);
 		}

@@ -69,7 +69,7 @@ void AkSwitch::set_switch()
 		// todo(alex): change this to proper AkEvent type when implemented
 		Node* event = get_node<Node>(ak_event);
 
-		if (soundengine->setSwitchID(switch_group_id, switch_value_id, event))
+		if (soundengine->set_switch_id(switch_group_id, switch_value_id, event))
 		{
 			emit_signal("wwise_switch_set", event, switch_group, switch_value);
 		}

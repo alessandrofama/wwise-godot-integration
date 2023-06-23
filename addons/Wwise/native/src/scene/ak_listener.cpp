@@ -12,7 +12,7 @@ void AkListener2D::_enter_tree()
 
 	if (soundengine)
 	{
-		soundengine->registerListener(this);
+		soundengine->register_listener(this);
 	}
 }
 
@@ -24,7 +24,7 @@ void AkListener2D::_process(double p_delta)
 
 	if (soundengine)
 	{
-		soundengine->set2DPosition(this, get_global_transform(), get_z_index());
+		soundengine->set_2d_position(this, get_global_transform(), get_z_index());
 	}
 }
 
@@ -44,11 +44,11 @@ void AkListener3D::_enter_tree()
 
 	if (soundengine)
 	{
-		soundengine->registerListener(this);
+		soundengine->register_listener(this);
 
 		if (is_spatial)
 		{
-			soundengine->registerSpatialListener(this);
+			soundengine->register_spatial_listener(this);
 		}
 	}
 }
@@ -61,7 +61,7 @@ void AkListener3D::_process(double p_delta)
 
 	if (soundengine)
 	{
-		soundengine->set3DPosition(this, get_global_transform());
+		soundengine->set_3d_position(this, get_global_transform());
 	}
 }
 

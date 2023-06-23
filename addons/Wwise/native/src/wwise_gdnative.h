@@ -1,17 +1,17 @@
 #ifndef WWISE_GDNATIVE_H
 #define WWISE_GDNATIVE_H
 
-#include <godot_cpp/godot.hpp>
 #include <godot_cpp/classes/dir_access.hpp>
-#include <godot_cpp/variant/callable.hpp>
+#include <godot_cpp/classes/display_server.hpp>
 #include <godot_cpp/classes/node.hpp>
 #include <godot_cpp/classes/node3d.hpp>
 #include <godot_cpp/classes/os.hpp>
-#include <godot_cpp/classes/display_server.hpp>
-#include <godot_cpp/core/object.hpp>
 #include <godot_cpp/classes/project_settings.hpp>
 #include <godot_cpp/classes/resource.hpp>
 #include <godot_cpp/core/class_db.hpp>
+#include <godot_cpp/core/object.hpp>
+#include <godot_cpp/godot.hpp>
+#include <godot_cpp/variant/callable.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
 
 #include <godot_cpp/variant/utility_functions.hpp>
@@ -38,7 +38,6 @@
 
 #include <memory>
 
-
 namespace godot
 {
 
@@ -46,12 +45,12 @@ class Wwise : public Object
 {
 	GDCLASS(Wwise, Object);
 
-	protected:
+protected:
 	static Wwise* singleton;
 	static void _bind_methods();
 	//void _notification(int notification);
 
-  public:
+public:
 	Wwise();
 	~Wwise();
 	static Wwise* get_singleton();
@@ -60,100 +59,100 @@ class Wwise : public Object
 	void process(double delta);
 	void shutdown();
 
-	bool setBasePath(const String basePath);
-	void setCurrentLanguage(const String language);
-	bool loadBank(const String bankName);
-	bool loadBankID(const unsigned int bankID);
-	bool loadBankAsync(const String bankName, const Object* cookie);
-	bool loadBankAsyncID(const unsigned int bankID, const Object* cookie);
-	bool unloadBank(const String bankName);
-	bool unloadBankID(const unsigned int bankID);
-	bool unloadBankAsync(const String bankName, const Object* cookie);
-	bool unloadBankAsyncID(const unsigned int bankID, const Object* cookie);
+	bool set_base_path(const String base_path);
+	void set_current_language(const String language);
+	bool load_bank(const String bank_name);
+	bool load_bank_id(const unsigned int bank_id);
+	bool load_bank_async(const String bank_name, const Object* cookie);
+	bool load_bank_async_id(const unsigned int bank_id, const Object* cookie);
+	bool unload_bank(const String bank_name);
+	bool unload_bank_id(const unsigned int bank_id);
+	bool unload_bank_async(const String bank_name, const Object* cookie);
+	bool unload_bank_async_id(const unsigned int bank_id, const Object* cookie);
 
-	bool registerListener(const Object* gameObject);
-	bool registerGameObject(const Object* gameObject, const String gameObjectName);
-	bool unregisterGameObject(const Object* gameObject);
+	bool register_listener(const Object* game_object);
+	bool register_game_object(const Object* game_object, const String game_object_name);
+	bool unregister_game_object(const Object* game_object);
 
-	bool setListeners(const Object* emitter, const Object* listener);
-	void setRandomSeed(const unsigned int seed);
+	bool set_listeners(const Object* emitter, const Object* listener);
+	void set_random_seed(const unsigned int seed);
 
-	bool set3DPosition(const Object* gameObject, const Transform3D transform);
-	bool set2DPosition(const Object* gameObject, const Transform2D transform2D, const float zDepth);
-	bool setMultiplePositions3D(const Object* gameObject, const Array positions, const int numPositions,
-								const int multiPositionType);
-	bool setMultiplePositions2D(const Object* gameObject, const Array positions, const Array zDepths,
-								const int numPositions, const int multiPositionType);
-	bool setGameObjectRadius(const Object* gameObject, const float outerRadius, const float innerRadius);
+	bool set_3d_position(const Object* game_object, const Transform3D transform_3d);
+	bool set_2d_position(const Object* game_object, const Transform2D transform_2d, const float z_depth);
+	bool set_multiple_positions_3d(
+			const Object* game_object, const Array positions, const int num_positions, const int multi_position_type);
+	bool set_multiple_positions_2d(const Object* game_object, const Array positions, const Array z_depths,
+			const int num_positions, const int multi_position_type);
+	bool set_game_object_radius(const Object* game_object, const float outer_radius, const float inner_radius);
 
-	unsigned int postEvent(const String eventName, const Object* gameObject);
-	unsigned int postEventCallback(const String eventName, const unsigned int flags, const Object* gameObject,
-								   const Object* cookie);
-	unsigned int postEventID(const unsigned int eventID, const Object* gameObject);
-	unsigned int postEventIDCallback(const unsigned int eventID, const unsigned int flags, const Object* gameObject,
-									 const Object* cookie);
-	bool stopEvent(const int playingID, const int fadeTime, const int interpolation);
+	unsigned int post_event(const String event_name, const Object* game_object);
+	unsigned int post_event_callback(
+			const String event_name, const unsigned int flags, const Object* game_object, const Object* cookie);
+	unsigned int post_event_id(const unsigned int event_id, const Object* game_object);
+	unsigned int post_event_id_callback(
+			const unsigned int event_id, const unsigned int flags, const Object* game_object, const Object* cookie);
+	bool stop_event(const int playing_id, const int fade_time, const int interpolation);
 
-	bool setSwitch(const String switchGroup, const String switchState, const Object* gameObject);
-	bool setSwitchID(const unsigned int switchGroupID, const unsigned int switchStateID, const Object* gameObject);
-	bool setState(const String stateGroup, const String stateValue);
-	bool setStateID(const unsigned int stateGroupID, const unsigned int stateValueID);
+	bool set_switch(const String switch_group, const String switch_value, const Object* game_object);
+	bool set_switch_id(
+			const unsigned int switch_group_id, const unsigned int switch_value_id, const Object* game_object);
+	bool set_state(const String state_group, const String state_value);
+	bool set_state_id(const unsigned int state_group_id, const unsigned int state_value_id);
 
-	float getRTPCValue(const String rtpcName, const Object* gameObject);
-	float getRTPCValueID(const unsigned int rtpcID, const Object* gameObject);
-	bool setRTPCValue(const String rtpcName, const float rtpcValue, const Object* gameObject);
-	bool setRTPCValueID(const unsigned int rtpcID, const float rtpcValue, const Object* gameObject);
+	float get_rtpc_value(const String rtpc_name, const Object* game_object);
+	float get_rtpc_value_id(const unsigned int rtpc_id, const Object* game_object);
+	bool set_rtpc_value(const String rtpc_name, const float rtpc_value, const Object* game_object);
+	bool set_rtpc_value_id(const unsigned int rtpc_id, const float rtpc_value, const Object* game_object);
 
-	bool postTrigger(const String triggerName, const Object* gameObject);
-	bool postTriggerID(const unsigned int triggerID, const Object* gameObject);
+	bool post_trigger(const String trigger_name, const Object* game_object);
+	bool post_trigger_id(const unsigned int trigger_id, const Object* game_object);
 
-	unsigned int postExternalSource(const String eventName, const Object* gameObject, const String sourceObjectName,
-									const String fileName, const unsigned int idCodec);
-	unsigned int postExternalSourceID(const unsigned int eventID, const Object* gameObject,
-									  const unsigned int sourceObjectID, const String fileName,
-									  const unsigned int idCodec);
+	unsigned int post_external_source(const String event_name, const Object* game_object,
+			const String source_object_name, const String filename, const unsigned int id_codec);
+	unsigned int post_external_source_id(const unsigned int event_id, const Object* game_object,
+			const unsigned int source_object_id, const String filename, const unsigned int id_codec);
 
-	int getSourcePlayPosition(const unsigned int playingID, const bool extrapolate);
-	Dictionary getPlayingSegmentInfo(const unsigned int playingID, const bool extrapolate);
+	int get_source_play_position(const unsigned int playing_id, const bool extrapolate);
+	Dictionary get_playing_segment_info(const unsigned int playing_id, const bool extrapolate);
 
-	bool setGameObjectOutputBusVolume(const unsigned int gameObjectID, const unsigned int listenerID,
-									  float fControlValue);
-	bool setGameObjectAuxSendValues(const unsigned int gameObjectID, const Array akAuxSendValues,
-									const unsigned int sendValues);
-	bool setObjectObstructionAndOcclusion(const unsigned int gameObjectID, const unsigned int listenerID,
-										  float fCalculatedObs, float fCalculatedOcc);
+	bool set_game_object_output_bus_volume(
+			const unsigned int game_object_id, const unsigned int listener_id, float f_control_value);
+	bool set_game_object_aux_send_values(
+			const unsigned int game_object_id, const Array ak_aux_send_values, const unsigned int send_values);
+	bool set_object_obstruction_and_occlusion(const unsigned int game_object_id, const unsigned int listener_id,
+			float f_calculated_obs, float f_calculated_occ);
 
-	bool setGeometry(const Array vertices, const Array triangles, const Resource* acousticTexture,
-					 const float tranmissionLossValue, const Object* gameObject, bool enableDiffraction,
-					 bool enableDiffractionOnBoundaryEdges, bool enableTriangles);
-	bool removeGeometry(const Object* gameObject);
-	bool setGeometryInstance(const Object* gameObject, const Transform3D transform, const Object* associatedGeometry,
-							 const Object* associatedRoom);
-	bool removeGeometryInstance(const Object* gameObject);
-	bool registerSpatialListener(const Object* gameObject);
-	bool setRoom(const Object* gameObject, const unsigned int akAuxBusID, const float reverbLevel,
-				 const float transmissionLoss, const Vector3 frontVector, const Vector3 upVector, bool keepRegistered,
-				 const int associatedGeometry);
-	bool removeRoom(const Object* gameObject);
-	bool setPortal(const Object* gameObject, const Transform3D transform, const Vector3 extent,
- const Object* frontRoom,
-				   const Object* backRoom, bool enabled);
-	bool removePortal(const Object* gameObject);
-	bool setPortalObstructionAndOcclusion(const Object* portal, const float obstructionValue,
-										  const float occlusionValue);
-	bool setGameObjectToPortalObstruction(const Object* gameObject, const Object* portal, const float obstructionValue);
-	bool setPortalToPortalObstruction(const Object* portal0, const Object* portal1, const float obstructionValue);
-	bool setGameObjectInRoom(const Object* gameObject, const Object* room);
-	bool removeGameObjectFromRoom(const Object* gameObject);
-	bool setEarlyReflectionsAuxSend(const Object* gameObject, const unsigned int auxBusID);
-	bool setEarlyReflectionsVolume(const Object* gameObject, const float volume);
+	bool set_geometry(const Array vertices, const Array triangles, const Resource* acoustic_texture,
+			const float transmission_loss_value, const Object* game_object, bool enable_diffraction,
+			bool enable_diffraction_on_boundary_edges, bool enable_triangles);
+	bool remove_geometry(const Object* game_object);
+	bool set_geometry_instance(const Object* game_object, const Transform3D transform,
+			const Object* associated_geometry, const Object* associated_room);
+	bool remove_geometry_instance(const Object* game_object);
+	bool register_spatial_listener(const Object* game_object);
+	bool set_room(const Object* game_object, const unsigned int ak_aux_bus_id, const float reverb_level,
+			const float transmission_loss, const Vector3 front_vector, const Vector3 up_vector, bool keep_registered,
+			const int associated_geometry);
+	bool remove_room(const Object* game_object);
+	bool set_portal(const Object* game_object, const Transform3D transform, const Vector3 extent,
+			const Object* front_room, const Object* back_room, bool enabled);
+	bool remove_portal(const Object* game_object);
+	bool set_portal_obstruction_and_occlusion(
+			const Object* portal, const float obstruction_value, const float occlusion_value);
+	bool set_game_object_to_portal_obstruction(
+			const Object* game_object, const Object* portal, const float obstruction_value);
+	bool set_portal_to_portal_obstruction(const Object* portal0, const Object* portal1, const float obstruction_value);
+	bool set_game_object_in_room(const Object* game_object, const Object* room);
+	bool remove_game_object_from_room(const Object* game_object);
+	bool set_early_reflections_aux_send(const Object* game_object, const unsigned int aux_bus_id);
+	bool set_early_reflections_volume(const Object* game_object, const float volume);
 
-	bool addOutput(const String shareSet, const unsigned int outputID);
-	bool removeOutput(const unsigned int outputID);
-	bool suspend(bool renderAnyway);
-	bool wakeupFromSuspend();
+	bool add_output(const String share_set, const unsigned int output_id);
+	bool remove_output(const unsigned int output_id);
+	bool suspend(bool render_anyway);
+	bool wakeup_from_suspend();
 
-  private:
+private:
 	String GODOT_WINDOWS_SETTING_POSTFIX = ".Windows";
 	String GODOT_MAC_OSX_SETTING_POSTFIX = ".OSX";
 	String GODOT_IOS_SETTING_POSTFIX = ".iOS";
@@ -165,23 +164,23 @@ class Wwise : public Object
 	String WWISE_SPATIAL_AUDIO_PATH = "spatial_audio/";
 	String WWISE_COMMUNICATION_SETTINGS_PATH = "wwise/communication_settings/";
 
-	static void eventCallback(AkCallbackType callbackType, AkCallbackInfo* callbackInfo);
-	static void bankCallback(AkUInt32 bankID, const void* inMemoryBankPtr, AKRESULT loadResult, void* in_pCookie);
+	static void event_callback(AkCallbackType callback_type, AkCallbackInfo* callback_info);
+	static void bank_callback(AkUInt32 bank_id, const void* in_memory_bank_ptr, AKRESULT load_result, void* in_pCookie);
 
-	Variant getPlatformProjectSetting(const String setting);
+	Variant get_platform_project_setting(const String setting);
 
-	bool initialiseWwiseSystems();
-	bool shutdownWwiseSystems();
+	bool initialize_wwise_systems();
+	bool shutdown_wwise_system();
 
-	static CAkLock callbackDataLock;
+	static CAkLock callback_data_lock;
 
-	ProjectSettings* projectSettings;
-	CAkFileIOHandlerGodot lowLevelIO;
+	ProjectSettings* project_settings;
+	CAkFileIOHandlerGodot low_level_io;
 
-	bool suspendAtFocusLoss = false;
-	bool renderAnyway = false;
+	bool suspend_at_focus_loss = false;
+	bool render_anyway = false;
 };
 
-}
+} //namespace godot
 
 #endif

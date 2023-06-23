@@ -1,26 +1,26 @@
 #ifndef WWISE_SETTINGS_H
 #define WWISE_SETTINGS_H
 
-#include <godot_cpp/classes/ref_counted.hpp>
-#include <godot_cpp/variant/string.hpp>
-#include <godot_cpp/variant/variant.hpp>
 #include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/classes/project_settings.hpp>
+#include <godot_cpp/classes/ref_counted.hpp>
+#include <godot_cpp/variant/string.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
+#include <godot_cpp/variant/variant.hpp>
 
-namespace godot 
+namespace godot
 {
 class WwiseSettings : public RefCounted
 {
 	GDCLASS(WwiseSettings, RefCounted);
 
-  protected:
+protected:
 	static void _bind_methods();
 
-  public:
+public:
 	WwiseSettings();
 
-  private:
+private:
 	String WWISE_COMMON_USER_SETTINGS_PATH = "wwise/common_user_settings/";
 	String WWISE_COMMON_USER_SETTINGS_MAIN_OUTPUT_PATH = "wwise/common_user_settings/main_output/";
 	String WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH = "wwise/common_user_settings/spatial_audio/";
@@ -31,11 +31,9 @@ class WwiseSettings : public RefCounted
 	String WWISE_ANDROID_ADVANCED_SETTINGS_PATH = "wwise/android_advanced_settings/";
 	String WWISE_LINUX_ADVANCED_SETTINGS_PATH = "wwise/linux_advanced_settings/";
 
-
 	void add_wwise_settings();
 	void add_setting(const String& name, const Variant& default_value, Variant::Type type,
-					 PropertyHint hint = PROPERTY_HINT_NONE, const String& hint_string = "",
-					 int usage = PROPERTY_USAGE_DEFAULT);
+			PropertyHint hint = PROPERTY_HINT_NONE, const String& hint_string = "", int usage = PROPERTY_USAGE_DEFAULT);
 };
 
 } // namespace godot

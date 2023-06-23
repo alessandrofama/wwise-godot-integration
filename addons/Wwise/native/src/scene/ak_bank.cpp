@@ -54,7 +54,7 @@ void AkBank::load_bank()
 	if (soundengine)
 	{
 		unsigned int id = bank.get("id", AK_INVALID_BANK_ID);
-		soundengine->loadBankID(id);
+		soundengine->load_bank_id(id);
 	}
 }
 
@@ -65,7 +65,7 @@ void AkBank::unload_bank()
 	if (soundengine)
 	{
 		unsigned int id = bank.get("id", AK_INVALID_BANK_ID);
-		soundengine->unloadBankID(id);
+		soundengine->unload_bank_id(id);
 	}
 }
 
