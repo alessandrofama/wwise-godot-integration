@@ -122,13 +122,13 @@ public:
 	bool set_object_obstruction_and_occlusion(const unsigned int game_object_id, const unsigned int listener_id,
 			float f_calculated_obs, float f_calculated_occ);
 
-	bool set_geometry(const Array vertices, const Array triangles, const Resource* acoustic_texture,
+	bool set_geometry(const Array vertices, const Array triangles, const Ref<Resource>& acoustic_texture,
 			const float transmission_loss_value, const Object* game_object, bool enable_diffraction,
 			bool enable_diffraction_on_boundary_edges, bool enable_triangles);
 	bool remove_geometry(const Object* game_object);
-	bool set_geometry_instance(const Object* game_object, const Transform3D transform,
-			const Object* associated_geometry, const Object* associated_room);
-	bool remove_geometry_instance(const Object* game_object);
+	bool set_geometry_instance(const Object* associated_geometry, const Transform3D& transform,
+			const Object* geometry_instance, const Object* associated_room);
+	bool remove_geometry_instance(const Object* geometry_instance);
 	bool register_spatial_listener(const Object* game_object);
 	bool set_room(const Object* game_object, const unsigned int ak_aux_bus_id, const float reverb_level,
 			const float transmission_loss, const Vector3 front_vector, const Vector3 up_vector, bool keep_registered,

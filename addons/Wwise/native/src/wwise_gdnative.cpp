@@ -853,7 +853,7 @@ bool Wwise::set_object_obstruction_and_occlusion(const unsigned int game_object_
 			"Could not set Obstruction and Occlusion");
 }
 
-bool Wwise::set_geometry(const Array vertices, const Array triangles, const Resource* acoustic_texture,
+bool Wwise::set_geometry(const Array vertices, const Array triangles, const Ref<Resource>& acoustic_texture,
 		const float transmission_loss_value, const Object* game_object, bool enable_diffraction,
 		bool enable_diffraction_on_boundary_edges, bool enable_triangles)
 {
@@ -861,7 +861,7 @@ bool Wwise::set_geometry(const Array vertices, const Array triangles, const Reso
 	AKASSERT(!triangles.is_empty());
 	AKASSERT(game_object);
 
-	AkGeometryParams geometry;
+	AkGeometryParams geometry{};
 
 	int vertex_count = vertices.size();
 	auto verts_remap = std::make_unique<int[]>(vertex_count);
@@ -888,8 +888,8 @@ bool Wwise::set_geometry(const Array vertices, const Array triangles, const Reso
 	for (int i = 0; i < vertex_count; i++)
 	{
 		Vector3 point = unique_verts[i];
-		AkVertex v;
-		v.X = -point.x; // Seems to be flipped in Wwise otherwise
+		AkVertex v{};
+		v.X = point.x;
 		v.Y = point.y;
 		v.Z = point.z;
 
@@ -906,40 +906,22 @@ bool Wwise::set_geometry(const Array vertices, const Array triangles, const Reso
 
 	auto ak_triangles = std::make_unique<AkTriangle[]>(num_triangles);
 
-	if (acoustic_texture)
-	{
-		AkAcousticSurface ak_surfaces[1];
+	AkAcousticSurface default_surface{};
+	AkAcousticSurface ak_surfaces[1] = { default_surface };
+	geometry.NumSurfaces = 1;
+	geometry.Surfaces = ak_surfaces;
 
-		geometry.NumSurfaces = 1;
-
-		// AkAcousticTexture akAcousticTexture;
-		String acousticTextureName = acoustic_texture->get("name");
-		// akAcousticTexture.ID = AK::SoundEngine::GetIDFromString(acousticTextureName.utf8().get_data());
-
-		// // Not possible to get the acoustic texture values through AK::SoundEngine, maybe looking at WAAPI
-		// akAcousticTexture.fAbsorptionHigh = static_cast<float>(acoustic_texture->get("absorption_high"));
-		// akAcousticTexture.fAbsorptionLow = static_cast<float>(acoustic_texture->get("absorption_low"));
-		// akAcousticTexture.fAbsorptionMidHigh = static_cast<float>(acoustic_texture->get("absorption_mid_high"));
-		// akAcousticTexture.fAbsorptionMidLow = static_cast<float>(acoustic_texture->get("absorption_mid_low"));
-		// akAcousticTexture.fAbsorptionOffset = static_cast<float>(acoustic_texture->get("absorption_offset"));
-		// akAcousticTexture.fScattering = static_cast<float>(acoustic_texture->get("scattering"));
-
-		ak_surfaces[0].textureID = AK::SoundEngine::GetIDFromString(acousticTextureName.utf8().get_data());
-		ak_surfaces[0].transmissionLoss = transmission_loss_value;
-		ak_surfaces[0].strName = acousticTextureName.utf8().get_data();
-
-		geometry.Surfaces = ak_surfaces;
-	}
+	// todo(alex): take care of AcousticTextures at a later stage
 
 	int triangleIdx = 0;
 
 	for (int i = 0; i < num_triangles; i++)
 	{
-		AkTriangle t;
+		AkTriangle t{};
 		t.point0 = verts_remap[static_cast<unsigned int>(triangles[3 * i + 0])];
 		t.point1 = verts_remap[static_cast<unsigned int>(triangles[3 * i + 1])];
 		t.point2 = verts_remap[static_cast<unsigned int>(triangles[3 * i + 2])];
-		t.surface = acoustic_texture ? 0 : AK_INVALID_SURFACE;
+		t.surface = acoustic_texture.is_valid() ? 0 : AK_INVALID_SURFACE;
 
 		ak_triangles[triangleIdx] = t;
 
@@ -958,10 +940,8 @@ bool Wwise::set_geometry(const Array vertices, const Array triangles, const Reso
 	geometry.NumVertices = vertex_count;
 	geometry.Triangles = ak_triangles.get();
 	geometry.NumTriangles = triangleIdx;
-
 	geometry.EnableDiffraction = enable_diffraction;
 	geometry.EnableDiffractionOnBoundaryEdges = enable_diffraction_on_boundary_edges;
-
 	geometry.EnableTriangles = enable_triangles;
 
 	return ERROR_CHECK(
@@ -977,25 +957,38 @@ bool Wwise::remove_geometry(const Object* game_object)
 			"Failed to remove geometry");
 }
 
-bool Wwise::set_geometry_instance(const Object* game_object, const Transform3D transform,
-		const Object* associated_geometry, const Object* associated_room)
+bool Wwise::set_geometry_instance(const Object* associated_geometry, const Transform3D& transform,
+		const Object* geometry_instance, const Object* associated_room)
 {
-	AkGeometryInstanceParams params;
-	params.GeometrySetID = game_object->get_instance_id();
-	// todo(alex);
-	//params.PositionAndOrientation;
+	AkGeometryInstanceParams params{};
+	params.GeometrySetID = associated_geometry->get_instance_id();
+
+	AkVector position{};
+	AkVector orientation_front{};
+	AkVector orientation_top{};
+	get_akvector(transform, position, VectorType::POSITION);
+	get_akvector(transform, orientation_front, VectorType::FORWARD);
+	get_akvector(transform, orientation_top, VectorType::UP);
+
+	AkWorldTransform position_and_orientation{};
+	position_and_orientation.SetPosition(AK::ConvertAkVectorToAkVector64(position));
+	position_and_orientation.SetOrientation(orientation_front, orientation_top);
+	params.PositionAndOrientation = position_and_orientation;
+
+	vector3_to_akvector(transform.get_basis().get_scale(), params.Scale);
+
 	params.RoomID = associated_room ? static_cast<AkRoomID>(associated_room->get_instance_id())
 									: static_cast<AkRoomID>(INVALID_ROOM_ID);
-	vector3_to_akvector(transform.get_basis().get_scale(), params.Scale);
+
 	return ERROR_CHECK(AK::SpatialAudio::SetGeometryInstance(
-							   static_cast<AkGeometryInstanceID>(game_object->get_instance_id()), params),
+							   static_cast<AkGeometryInstanceID>(geometry_instance->get_instance_id()), params),
 			"Failed to set Geometry Instance");
 }
 
-bool Wwise::remove_geometry_instance(const Object* game_object)
+bool Wwise::remove_geometry_instance(const Object* geometry_instance)
 {
-	return ERROR_CHECK(
-			AK::SpatialAudio::RemoveGeometryInstance(static_cast<AkGeometryInstanceID>(game_object->get_instance_id())),
+	return ERROR_CHECK(AK::SpatialAudio::RemoveGeometryInstance(
+							   static_cast<AkGeometryInstanceID>(geometry_instance->get_instance_id())),
 			"Failed to remove Geometry Instance");
 }
 
