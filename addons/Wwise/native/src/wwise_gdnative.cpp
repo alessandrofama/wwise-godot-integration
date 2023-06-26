@@ -1053,7 +1053,6 @@ bool Wwise::set_portal(const Object* game_object, const Transform3D transform, c
 	AkPortalParams portal_params;
 	AkExtent portal_extent;
 
-	portalExtent.halfWidth = extent.x * 0.25f;
 	portal_extent.halfWidth = extent.x * 0.25f;
 	portal_extent.halfHeight = extent.y * 0.25f;
 	portal_extent.halfDepth = extent.z * 0.25f;
