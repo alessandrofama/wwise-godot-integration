@@ -4,16 +4,20 @@ using namespace godot;
 
 static Wwise* wwise_module;
 static WwiseSettings* wwise_settings;
+static AkUtils* ak_utils;
 
 void register_wwise_types(ModuleInitializationLevel p_level)
 {
 	if (p_level == MODULE_INITIALIZATION_LEVEL_EDITOR)
 	{
-		ClassDB::register_class<AkUtils>();
 	}
 
 	if (p_level == MODULE_INITIALIZATION_LEVEL_SCENE)
 	{
+		ClassDB::register_class<AkUtils>();
+		ak_utils = memnew(AkUtils);
+		Engine::get_singleton()->register_singleton("AkUtils", AkUtils::get_singleton());
+
 		// Wwise module
 		ClassDB::register_class<Wwise>();
 		wwise_module = memnew(Wwise);
@@ -27,6 +31,12 @@ void register_wwise_types(ModuleInitializationLevel p_level)
 		ClassDB::register_class<AkListener3D>();
 		ClassDB::register_class<AkState>();
 		ClassDB::register_class<AkSwitch>();
+		ClassDB::register_class<AkEnvironmentData>();
+		ClassDB::register_class<AkEnvironment>();
+		ClassDB::register_class<AkEvent2D>();
+		ClassDB::register_class<AkEvent3D>();
+		ClassDB::register_class<AkPortal>();
+		ClassDB::register_class<AkGeometry>();
 	}
 }
 
@@ -35,8 +45,10 @@ void unregister_wwise_types(ModuleInitializationLevel p_level)
 	if (p_level == MODULE_INITIALIZATION_LEVEL_SCENE)
 	{
 		Engine::get_singleton()->unregister_singleton("Wwise");
+		Engine::get_singleton()->unregister_singleton("AkUtils");
 		memdelete(wwise_module);
 		memdelete(wwise_settings);
+		memdelete(ak_utils);
 	}
 }
 

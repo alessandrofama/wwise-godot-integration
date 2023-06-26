@@ -9,7 +9,12 @@
 
 #include "ak_utils.h"
 #include "scene/ak_bank.h"
+#include "scene/ak_environment.h"
+#include "scene/ak_environment_data.h"
+#include "scene/ak_event.h"
+#include "scene/ak_geometry.h"
 #include "scene/ak_listener.h"
+#include "scene/ak_portal.h"
 #include "scene/ak_state.h"
 #include "scene/ak_switch.h"
 #include "wwise_gdnative.h"
