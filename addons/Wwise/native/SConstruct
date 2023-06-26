@@ -1,421 +1,487 @@
 #!python
-import os, sys, subprocess
+import os, sys, subprocess, html
 
 if sys.version_info < (3,):
+
     def decode_utf8(x):
         return x
+
 else:
     import codecs
+
     def decode_utf8(x):
         return codecs.utf_8_decode(x)[0]
 
-# Workaround for MinGW. See:
-# http://www.scons.org/wiki/LongCmdLinesOnWin32
-if os.name == "nt":
-    import subprocess
 
-    def mySubProcess(cmdline,env):
-        #print "SPAWNED : " + cmdline
-        startupinfo = subprocess.STARTUPINFO()
-        startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
-        proc = subprocess.Popen(cmdline, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE, startupinfo=startupinfo, shell = False, env = env)
-        data, err = proc.communicate()
-        rv = proc.wait()
-        if rv:
-            print("=====")
-            print(err.decode("utf-8"))
-            print("=====")
-        return rv
-
-    def mySpawn(sh, escape, cmd, args, env):
-
-        newargs = ' '.join(args[1:])
-        cmdline = cmd + " " + newargs
-
-        rv=0
-        if len(cmdline) > 32000 and cmd.endswith("ar") :
-            cmdline = cmd + " " + args[1] + " " + args[2] + " "
-            for i in range(3,len(args)) :
-                rv = mySubProcess( cmdline + args[i], env )
-                if rv :
-                    break
-        else:
-            rv = mySubProcess( cmdline, env )
-
-        return rv
-
-def sys_exec(args):
-    proc = subprocess.Popen(args, stdout=subprocess.PIPE, text=True)
-    (out, err) = proc.communicate()
-    return out.rstrip("\r\n").lstrip()
-
-# Try to detect the host platform automatically.
-# This is used if no `platform` argument is passed
-if sys.platform.startswith('linux'):
-    host_platform = 'linux'
-elif sys.platform == 'darwin':
-    host_platform = 'osx'
-elif sys.platform == 'win32' or sys.platform == 'msys':
-    host_platform = 'windows'
-else:
-    raise ValueError(
-        'Could not detect platform automatically, please specify with '
-        'platform=<platform>'
-    )
-
+env = SConscript("godot-cpp/SConstruct")
 opts = Variables([], ARGUMENTS)
 
-# Gets the standard flags CC, CCX, etc.
-env = Environment(ENV = os.environ)
-
 # Define our options
-opts.Add(EnumVariable('target', "Compilation target", 'debug', ['d', 'debug', 'r', 'release']))
-opts.Add(EnumVariable('platform', "Compilation platform", '', ['', 'windows', 'x11', 'linux', 'osx', 'ios']))
-opts.Add(EnumVariable('p', "Compilation target, alias for 'platform'", '', ['', 'windows', 'x11', 'linux', 'osx']))
-opts.Add(BoolVariable('use_llvm', "Use the LLVM / Clang compiler", 'no'))
-opts.Add(PathVariable('target_path', 'The path where the lib is installed.', 'gdnative-demo/addons/wwise/bin/', PathVariable.PathIsDirCreate))
-opts.Add(PathVariable('target_name', 'The library name.', 'WwiseGDNative', PathVariable.PathAccept))
-opts.Add(PathVariable('wwise_sdk', 'The Wwise SDK path', '', PathVariable.PathAccept))
-opts.Add(ListVariable('plugins', 'List of plugins', '', ['reflect', 'motion', 'convolution', 'soundseed_grain', 'soundseed_air_impact', 'impacter', 'mastering_suite']))
-opts.Add(EnumVariable('ios_arch', 'Target iOS architecture', 'arm64', ['armv7', 'arm64', 'x86_64']))
-opts.Add('IPHONEPATH', 'Path to iPhone toolchain', '/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain')
-opts.Add(BoolVariable('ios_simulator', 'Target iOS Simulator', False))
-opts.Add(EnumVariable('macos_arch', 'macOS architecture',
-         'universal', ['universal', 'x86_64', 'arm64']))
-opts.Add(BoolVariable('asserts', "Enable AKASSERT for debug builds", 'no'))
-
-# Local dependency paths, adapt them to your setup
-godot_headers_path = "../godot-cpp/godot-headers/"
-cpp_bindings_path = "../godot-cpp/"
-cpp_library = "libgodot-cpp"
-
-# only support 64 at this time..
-bits = 64
-
-# Updates the environment with the option variables.
+opts.Add(
+    PathVariable(
+        "target_path",
+        "The path where the lib is installed.",
+        "lib",
+        PathVariable.PathIsDirCreate,
+    )
+)
+opts.Add(PathVariable("wwise_sdk", "The Wwise SDK path", "", PathVariable.PathAccept))
+opts.Add(
+    ListVariable(
+        "plugins",
+        "List of plugins",
+        "",
+        [
+            "reflect",
+            "motion",
+            "convolution",
+            "soundseed_grain",
+            "soundseed_air_impact",
+            "impacter",
+            "mastering_suite",
+        ],
+    )
+)
+opts.Add(EnumVariable("ios_arch", "Target iOS architecture", "arm64", ["arm64"]))
+opts.Add("ios_min_version", "Target minimum iphoneos/iphonesimulator version", "11.0")
+opts.Add(BoolVariable("ios_simulator", "Target iOS Simulator", False))
+opts.Add(
+    PathVariable(
+        "android_arch", "Android Arch (arm64)", "arm64", PathVariable.PathAccept
+    )
+)
+opts.Add(BoolVariable("asserts", "Enable AKASSERT for debug builds", "no"))
 opts.Update(env)
 
-if host_platform == 'windows':
-    if bits == 64:
-        env = Environment(TARGET_ARCH='amd64')
-    opts.Update(env)
+# Local dependency paths, adapt them to your setup
+godot_headers_path = "godot-cpp/gdextension/"
+cpp_bindings_path = "godot-cpp/"
 
 # Wwise dependency paths
-wwise_sdk_headers_path = env['wwise_sdk'] + "/include/"
+wwise_sdk_headers_path = env["wwise_sdk"] + "/include/"
 wwise_sdk_libs_path = ""
 wwise_soundengine_sample_path = ""
 
-if env['platform'] == "windows":
-    wwise_soundengine_sample_path = env['wwise_sdk'] + "/samples/SoundEngine/Win32/"
-    if env['target'] in ('debug', 'd'):
-        wwise_sdk_libs_path = env['wwise_sdk'] + "/x64_vc160/Debug/lib/"
+if env["platform"] == "windows":
+    wwise_soundengine_sample_path = env["wwise_sdk"] + "/samples/SoundEngine/Win32/"
+    if env["target"] in ("template_debug"):
+        wwise_sdk_libs_path = env["wwise_sdk"] + "/x64_vc160/Debug/lib/"
     else:
-        wwise_sdk_libs_path = env['wwise_sdk'] + "/x64_vc160/Release/lib/"
+        wwise_sdk_libs_path = env["wwise_sdk"] + "/x64_vc160/Release/lib/"
 
-if env['platform'] == "osx":
-    wwise_soundengine_sample_path = env['wwise_sdk'] + "/samples/SoundEngine/POSIX/"
-    if env['target'] in ('debug', 'd'):
-        wwise_sdk_libs_path = env['wwise_sdk'] + "/Mac/Debug/lib/"
+if env["platform"] == "macos":
+    wwise_soundengine_sample_path = env["wwise_sdk"] + "/samples/SoundEngine/POSIX/"
+    if env["target"] in ("template_debug"):
+        wwise_sdk_libs_path = env["wwise_sdk"] + "/Mac/Debug/lib/"
     else:
-        wwise_sdk_libs_path = env['wwise_sdk'] + "/Mac/Release/lib/"   
+        wwise_sdk_libs_path = env["wwise_sdk"] + "/Mac/Release/lib/"
 
-if env['platform'] == "ios" and not env['ios_simulator']:
-    wwise_soundengine_sample_path = env['wwise_sdk'] + "/samples/SoundEngine/POSIX/"
-    if env['target'] in ('debug', 'd'):
-        wwise_sdk_libs_path = env['wwise_sdk'] + "/iOS/Debug-iphoneos/lib/"
+if env["platform"] == "ios" and not env["ios_simulator"]:
+    wwise_soundengine_sample_path = env["wwise_sdk"] + "/samples/SoundEngine/POSIX/"
+    if env["target"] in ("template_debug"):
+        wwise_sdk_libs_path = env["wwise_sdk"] + "/iOS/Debug-iphoneos/lib/"
     else:
-        wwise_sdk_libs_path = env['wwise_sdk'] + "/iOS/Release-iphoneos/lib/"  
+        wwise_sdk_libs_path = env["wwise_sdk"] + "/iOS/Release-iphoneos/lib/"
 
-if env['platform'] == "ios" and env['ios_simulator']:
-    wwise_soundengine_sample_path = env['wwise_sdk'] + "/samples/SoundEngine/POSIX/"
-    if env['target'] in ('debug', 'd'):
-        wwise_sdk_libs_path = env['wwise_sdk'] + "/iOS/Debug-iphonesimulator/lib/"
+if env["platform"] == "ios" and env["ios_simulator"]:
+    wwise_soundengine_sample_path = env["wwise_sdk"] + "/samples/SoundEngine/POSIX/"
+    if env["target"] in ("template_debug"):
+        wwise_sdk_libs_path = env["wwise_sdk"] + "/iOS/Debug-iphonesimulator/lib/"
     else:
-        wwise_sdk_libs_path = env['wwise_sdk'] + "/iOS/Release-iphonesimulator/lib/"
+        wwise_sdk_libs_path = env["wwise_sdk"] + "/iOS/Release-iphonesimulator/lib/"
 
-if env['platform'] == "linux":
-    wwise_soundengine_sample_path = env['wwise_sdk'] + "/samples/SoundEngine/POSIX/"
-    if env['target'] in ('debug', 'd'):
-        wwise_sdk_libs_path = env['wwise_sdk'] + "/Linux_x64/Debug/lib/"
+if env["platform"] == "android":
+    wwise_soundengine_sample_path = env["wwise_sdk"] + "/samples/SoundEngine/Android/"
+    if env["target"] in ("template_debug"):
+        wwise_sdk_libs_path = env["wwise_sdk"] + "/Android_arm64-v8a/Debug/lib/"
     else:
-        wwise_sdk_libs_path = env['wwise_sdk'] + "/Linux_x64/Release/lib/"   
+        wwise_sdk_libs_path = env["wwise_sdk"] + "/Android_arm64-v8a/Release/lib/"
 
-wwise_soundengine_sample_common_path = env['wwise_sdk'] + "/samples/SoundEngine/Common/"
+if env["platform"] == "linux":
+    wwise_soundengine_sample_path = env["wwise_sdk"] + "/samples/SoundEngine/POSIX/"
+    if env["target"] in ("template_debug"):
+        wwise_sdk_libs_path = env["wwise_sdk"] + "/Linux_x64/Debug/lib/"
+    else:
+        wwise_sdk_libs_path = env["wwise_sdk"] + "/Linux_x64/Release/lib/"
+
+wwise_soundengine_sample_common_path = env["wwise_sdk"] + "/samples/SoundEngine/Common/"
+
+## Wwise libs
 wwise_memorymanager_library = "AkMemoryMgr"
 wwise_soundengine_library = "AkSoundEngine"
 wwise_musicengine_library = "AkMusicEngine"
 wwise_streammanager_library = "AkStreamMgr"
 wwise_communications_library = "CommunicationCentral"
-wwise_plugins_library = ["AkGainFX", "AkHarmonizerFX", "AkStereoDelayFX", "AkTimeStretchFX",
-                         "AkTremoloFX", "AkGuitarDistortionFX","AkVorbisDecoder", "AkOpusDecoder", "AkMeterFX", 
-                         "AkPitchShifterFX", "AkRoomVerbFX", "AkRoomVerbFX", "AkPeakLimiterFX", 
-                         "AkExpanderFX", "AkCompressorFX", "AkMatrixReverbFX", "AkParametricEQFX", 
-                         "AkDelayFX","AkSilenceSource", "AkToneSource", "AkFlangerFX", "AkSineSource",
-                         "AkRecorderFX", "AkAudioInputSource", "AkSynthOneSource", "AkSpatialAudio"]
+wwise_plugins_library = [
+    "AkGainFX",
+    "AkHarmonizerFX",
+    "AkStereoDelayFX",
+    "AkTimeStretchFX",
+    "AkTremoloFX",
+    "AkGuitarDistortionFX",
+    "AkVorbisDecoder",
+    "AkOpusDecoder",
+    "AkMeterFX",
+    "AkPitchShifterFX",
+    "AkRoomVerbFX",
+    "AkRoomVerbFX",
+    "AkPeakLimiterFX",
+    "AkExpanderFX",
+    "AkCompressorFX",
+    "AkMatrixReverbFX",
+    "AkParametricEQFX",
+    "AkDelayFX",
+    "AkSilenceSource",
+    "AkToneSource",
+    "AkFlangerFX",
+    "AkSineSource",
+    "AkRecorderFX",
+    "AkAudioInputSource",
+    "AkSynthOneSource",
+    "AkSpatialAudio",
+    "Ak3DAudioBedMixerFX",
+]
 
-if 'reflect' in env['plugins']:
-    wwise_plugins_library.append('AkReflectFX')
+## Plugins
+if "reflect" in env["plugins"]:
+    wwise_plugins_library.append("AkReflectFX")
+    env.Append(CPPDEFINES=["AK_REFLECT"])
 
-if 'convolution' in env['plugins']:
-    wwise_plugins_library.append('AkConvolutionReverbFX')
+if "convolution" in env["plugins"]:
+    wwise_plugins_library.append("AkConvolutionReverbFX")
+    env.Append(CPPDEFINES=["AK_CONVOLUTION"])
 
-if 'soundseed_grain' in env['plugins']:
-    wwise_plugins_library.append('AkSoundSeedGrainSource')
+if "soundseed_grain" in env["plugins"]:
+    wwise_plugins_library.append("AkSoundSeedGrainSource")
+    env.Append(CPPDEFINES=["AK_SOUNDSEED_GRAIN"])
 
-if 'soundseed_air_impact' in env['plugins']:
-    wwise_plugins_library.append(['AkSoundSeedWindSource', 'AkSoundSeedImpactFX', 'AkSoundSeedWooshSource'])
+if "soundseed_air_impact" in env["plugins"]:
+    wwise_plugins_library.append(
+        ["AkSoundSeedWindSource", "AkSoundSeedImpactFX", "AkSoundSeedWooshSource"]
+    )
+    env.Append(CPPDEFINES=["AK_SOUNDSEED_AIR_IMPACT"])
 
-if 'impacter' in env['plugins']:
-    wwise_plugins_library.append('AkImpacterSource')
-    env.Append(CPPDEFINES=['AK_IMPACTER'])
+if "impacter" in env["plugins"]:
+    wwise_plugins_library.append("AkImpacterSource")
+    env.Append(CPPDEFINES=["AK_IMPACTER"])
 
-if 'mastering_suite' in env['plugins']:
-    wwise_plugins_library.append('MasteringSuiteFX')
-    env.Append(CPPDEFINES=['AK_MASTERING_SUITE'])
+if "mastering_suite" in env["plugins"]:
+    wwise_plugins_library.append("MasteringSuiteFX")
+    env.Append(CPPDEFINES=["AK_MASTERING_SUITE"])
 
 print("Wwise SDK headers path: " + wwise_sdk_headers_path)
 print("Wwise SDK libs path: " + wwise_sdk_libs_path)
 
-# Process some arguments
-if env['use_llvm']:
-    env['CC'] = 'clang'
-    env['CXX'] = 'clang++'
-
-if env['p'] != '':
-    env['platform'] = env['p']
-
-if env['platform'] == '':
-    print("No valid target platform selected.")
-    quit();
-
-# For the reference:
-# - CCFLAGS are compilation flags shared between C and C++
-# - CFLAGS are for C-specific compilation flags
-# - CXXFLAGS are for C++-specific compilation flags
-# - CPPFLAGS are for pre-processor flags
-# - CPPDEFINES are for pre-processor defines
-# - LINKFLAGS are for linking flags
-
-# Check our platform specifics
-if env['platform'] == "osx":
-    env['target_path'] += 'osx/'
-    if env['target'] in ('debug', 'd'):
-        env['target_path'] += 'debug/'
+# Windows build settings
+if env["platform"] == "windows":
+    env["target_path"] += "/win64/"
+    if env["target"] in ("template_debug"):
+        env["target_path"] += "debug/"
+        env.Append(CPPDEFINES=["_DEBUG"])
+        env.Append(LINKFLAGS=["-DEBUG"])
+        if env["asserts"]:
+            env.Append(CPPDEFINES=["AK_ENABLE_ASSERTS"])
     else:
-        env['target_path'] += 'release/'
+        env["target_path"] += "release/"
+        env.Append(CPPDEFINES=["AK_OPTIMIZED"])
+        env.Append(CPPDEFINES=["NDEBUG"])
 
-    cpp_library += '.osx'
+    if "motion" in env["plugins"]:
+        wwise_plugins_library.append(["AkMotionSink", "AkMotionSourceSource"])
+        env.Append(CPPDEFINES=["AK_MOTION"])
 
-    wwise_plugins_library.append("AkAACDecoder")
-    
-    if env["macos_arch"] == "universal":
-        env.Append(LINKFLAGS=["-arch", "x86_64", "-arch", "arm64"])
-        env.Append(CCFLAGS=["-arch", "x86_64", "-arch", "arm64"])
+    env.Append(
+        CPPDEFINES=["WIN32", "_WIN32", "_WINDOWS", "_CRT_SECURE_NO_WARNINGS", "UNICODE"]
+    )
+
+# macOS build settings
+elif env["platform"] == "macos":
+    env["target_path"] += "/macos/"
+    if env["target"] in ("template_debug"):
+        env["target_path"] += "debug/"
+        if env["asserts"]:
+            env.Append(CPPDEFINES=["AK_ENABLE_ASSERTS"])
     else:
-        env.Append(LINKFLAGS=["-arch", env["macos_arch"]])
-        env.Append(CCFLAGS=["-arch", env["macos_arch"]])
+        env["target_path"] += "release/"
+        env.Append(CPPDEFINES=["AK_OPTIMIZED"])
 
-    if env['target'] in ('debug', 'd'):
-        env.Append(CCFLAGS=['-g', '-O2'])
-        env.Append(CXXFLAGS=['-std=c++17'])
-        env.Append(LINKFLAGS=['-framework',
-                   'CoreAudio', '-Wl,-undefined,dynamic_lookup'])
-        if env['asserts']:
-            env.Append(CPPDEFINES=['AK_ENABLE_ASSERTS'])
+    macos_install_name = "@rpath/libfmod.{}.{}.framework/libfmod.{}.{}".format(
+        env["platform"], env["target"], env["platform"], env["target"]
+    )
+
+    env.Append(
+        LINKFLAGS=[
+            "-framework",
+            "CoreAudio",
+            "-Wl,-undefined,dynamic_lookup",
+            "-Wl,-rpath,@loader_path",
+            "-Wl,-install_name,{}".format(macos_install_name),
+        ]
+    )
+
+    wwise_plugins_library.append("AkOpusDecoder")
+
+# linux build settings
+elif env["platform"] == "linux":
+    env["target_path"] += "/linux/"
+    if env["target"] in ("template_debug"):
+        env["target_path"] += "debug/"
+        if env["asserts"]:
+            env.Append(CPPDEFINES=["AK_ENABLE_ASSERTS"])
     else:
-        env.Append(CPPDEFINES=['AK_OPTIMIZED'])
-        env.Append(CCFLAGS=['-g', '-O3'])
-        env.Append(CXXFLAGS=['-std=c++17'])
-        env.Append(LINKFLAGS=['-framework',
-                   'CoreAudio', '-Wl,-undefined,dynamic_lookup'])
-
-    if 'reflect' in env['plugins']:
-        env.Append(CPPDEFINES=['AK_REFLECT'])
-    if 'convolution' in env['plugins']:
-        env.Append(CPPDEFINES=['AK_CONVOLUTION'])
-    if 'soundseed_grain' in env['plugins']:
-        env.Append(CPPDEFINES=['AK_SOUNDSEED_GRAIN'])
-    if 'soundseed_air_impact' in env['plugins']:
-        env.Append(CPPDEFINES=['AK_SOUNDSEED_AIR_IMPACT'])
-
-elif env['platform'] == 'ios':
-    if env['ios_simulator']:
-        env['target_path'] += 'iOS-simulator/'
-        sdk_name = 'iphonesimulator'
-        env.Append(CCFLAGS=['-mios-simulator-version-min=10.0'])
-    else:
-        env['target_path'] += 'iOS/'
-        sdk_name = 'iphoneos'
-        env.Append(CCFLAGS=['-miphoneos-version-min=10.0'])
-
-    if env['target'] in ('debug', 'd'):
-        env['target_path'] += 'debug/' + env['ios_arch'] + "/"
-    elif env['target'] in ('release', 'r'):
-        env['target_path'] += 'release/' + env['ios_arch'] + "/"
-    
-    cpp_library += '.ios'
-
-    try:
-        sdk_path = decode_utf8(subprocess.check_output(['xcrun', '--sdk', sdk_name, '--show-sdk-path']).strip())
-    except (subprocess.CalledProcessError, OSError):
-        raise ValueError("Failed to find SDK path while running xcrun --sdk {} --show-sdk-path.".format(sdk_name))
-
-    compiler_path = env['IPHONEPATH'] + '/usr/bin/'
-    env['ENV']['PATH'] = env['IPHONEPATH'] + "/Developer/usr/bin/:" + env['ENV']['PATH']
-
-    env['CC'] = compiler_path + 'clang'
-    env['CXX'] = compiler_path + 'clang++'
-    env['AR'] = compiler_path + 'ar'
-    env['RANLIB'] = compiler_path + 'ranlib'
-
-    if env['target'] == 'debug':
-        env.Append(CCFLAGS=['-Og', '-g', '-std=c++17', '-arch', env['ios_arch'], '-isysroot', sdk_path])
-        env.Append(LINKFLAGS=['-framework', 'CoreAudio', '-framework', 'AudioToolbox', '-Wl,-undefined,dynamic_lookup', '-arch', env['ios_arch'], 
-                            '-isysroot', sdk_path, '-F' + sdk_path])
-        if env['asserts']:
-            env.Append(CPPDEFINES=['AK_ENABLE_ASSERTS'])
-    elif env['target'] == 'release':
-        env.Append(CPPDEFINES=['AK_OPTIMIZED'])
-        env.Append(CCFLAGS=['-O3', '-g', '-std=c++17', '-arch', env['ios_arch'], '-isysroot', sdk_path])
-        env.Append(LINKFLAGS=['-framework', 'CoreAudio', '-framework', 'AudioToolbox', '-Wl,-undefined,dynamic_lookup', '-arch', env['ios_arch'], 
-                             '-isysroot', sdk_path, '-F' + sdk_path])
-
-    wwise_plugins_library.append("AkAACDecoder")
-    
-elif env['platform'] in ('x11', 'linux'):
+        env["target_path"] += "release/"
+        env.Append(CPPDEFINES=["AK_OPTIMIZED"])
 
     env.Prepend(_LIBFLAGS="-Wl,--start-group ")
     env.Append(_LIBFLAGS=" -Wl,--end-group")
 
     wwise_plugins_library.append("AkOpusDecoder")
 
-    env.Append(LIBPATH=['/lib/x86_64-linux-gnu'])
+    env.Append(CCFLAGS=["-fPIC", "-Wwrite-strings"])
+    env.Append(LINKFLAGS=["-Wl,-R,'$$ORIGIN'"])
 
-    env['target_path'] += 'linux/'
-    if env['target'] in ('debug', 'd'):
-        env['target_path'] += 'debug/'
+# ios build settings
+elif env["platform"] == "ios":
+    if env["ios_arch"] == "arm64":
+        env["target_path"] += "arm64/"
+
+    if env["target"] in ("template_debug"):
+        env["target_path"] += "debug/"
+        if env["asserts"]:
+            env.Append(CPPDEFINES=["AK_ENABLE_ASSERTS"])
     else:
-        env['target_path'] += 'release/'
+        env["target_path"] += "release/"
+        env.Append(CPPDEFINES=["AK_OPTIMIZED"])
 
-    cpp_library += '.linux'
-
-    if env['target'] in ('debug', 'd'):
-        env.Append(CCFLAGS=['-g3', '-Og', '-fpermissive'])
-        env.Append(CXXFLAGS=['-std=c++17', '-D__cdecl=""'])
-        if env['asserts']:
-            env.Append(CPPDEFINES=['AK_ENABLE_ASSERTS'])
+    if env["ios_arch"] == "x86_64":
+        sdk_name = "iphonesimulator"
+        env.Append(
+            CCFLAGS=["-mios-simulator-version-min={}".format(env["ios_min_version"])]
+        )
+        env.Append(
+            LINKFLAGS=["-mios-simulator-version-min={}".format(env["ios_min_version"])]
+        )
     else:
-        env.Append(CCFLAGS=['-g', '-O3', '-fpermissive'])
-        env.Append(CXXFLAGS=['-std=c++17', '-D__cdecl=""'])
-        env.Append(CPPDEFINES=['AK_OPTIMIZED'])
+        sdk_name = "iphoneos"
+        env.Append(CCFLAGS=["-miphoneos-version-min={}".format(env["ios_min_version"])])
+        env.Append(
+            LINKFLAGS=["-miphoneos-version-min={}".format(env["ios_min_version"])]
+        )
 
-    if 'reflect' in env['plugins']:
-        env.Append(CPPDEFINES=['AK_REFLECT'])
-    if 'convolution' in env['plugins']:
-        env.Append(CPPDEFINES=['AK_CONVOLUTION'])
-    if 'soundseed_grain' in env['plugins']:
-        env.Append(CPPDEFINES=['AK_SOUNDSEED_GRAIN'])
-    if 'soundseed_air_impact' in env['plugins']:
-        env.Append(CPPDEFINES=['AK_SOUNDSEED_AIR_IMPACT'])
+    try:
+        sdk_path = decode_utf8(
+            subprocess.check_output(
+                ["xcrun", "--sdk", sdk_name, "--show-sdk-path"]
+            ).strip()
+        )
+    except (subprocess.CalledProcessError, OSError):
+        raise ValueError(
+            "Failed to find SDK path while running xcrun --sdk {} --show-sdk-path.".format(
+                sdk_name
+            )
+        )
 
-elif env['platform'] == "windows":
-    env['target_path'] += 'win64/'
-    if env['target'] in ('debug', 'd'):
-        env['target_path'] += 'debug/'
+    env.Append(
+        CCFLAGS=[
+            "-arch",
+            env["ios_arch"],
+            "-isysroot",
+            sdk_path,
+        ]
+    )
+
+    ios_install_name = "@rpath/libwwise.{}.{}.framework/libwwise.{}.{}".format(
+        env["platform"], env["target"], env["platform"], env["target"]
+    )
+
+    env.Append(
+        LINKFLAGS=[
+            "-arch",
+            env["ios_arch"],
+            "-miphoneos-version-min=" + env["ios_min_version"],
+            "-framework",
+            "AudioToolbox",
+            "-framework",
+            "AVFoundation",
+            "-Wl,-undefined,dynamic_lookup",
+            "-Wl,-install_name,{}".format(ios_install_name),
+            "-isysroot",
+            sdk_path,
+            "-F" + sdk_path,
+        ]
+    )
+
+# android build settings
+elif env["platform"] == "android":
+    env["target_path"] += "/android/" + env["android_arch"] + "/"
+
+    if env["target"] in ("template_debug"):
+        env["target_path"] += "debug/"
+        if env["asserts"]:
+            env.Append(CPPDEFINES=["AK_ENABLE_ASSERTS"])
     else:
-        env['target_path'] += 'release/'
+        env["target_path"] += "release/"
+        env.Append(CPPDEFINES=["AK_OPTIMIZED"])
 
-    cpp_library += '.windows'
+    if "motion" in env["plugins"]:
+        wwise_plugins_library.append(["AkMotionSink", "AkMotionSourceSource"])
+        env.Append(CPPDEFINES=["AK_MOTION"])
 
-    if 'motion' in env['plugins']:
-        wwise_plugins_library.append(['AkMotionSink', 'AkMotionSourceSource'])
+    env.Append(CPPPATH=[wwise_soundengine_sample_path + "libzip/lib/"])
+    env.Append(CPPPATH=[env["wwise_sdk"] + "/samples/SoundEngine/POSIX/"])
 
-    env.Append(CPPDEFINES=['WIN32', '_WIN32', '_WINDOWS', '_CRT_SECURE_NO_WARNINGS', 'UNICODE'])
-    env.Append(CCFLAGS=['-W3', '-GR'])
-    #env.Append(CCFLAGS=['/GS', '/GL', '/Gy'])
+# godot-cpp settings
+env.Append(
+    CPPPATH=[
+        ".",
+        godot_headers_path,
+        cpp_bindings_path + "include/",
+        cpp_bindings_path + "include/core/",
+        cpp_bindings_path + "include/gen/",
+    ]
+)
+env.Append(LIBPATH=[cpp_bindings_path + "bin/"])
 
-    env.Append(CXXFLAGS=["/std:c++17"])
-    
-    if env['target'] in ('debug', 'd'):
-        env.Append(CPPDEFINES=['_DEBUG'])
-        env.Append(CCFLAGS=['-EHsc', '-MDd', '-ZI'])
-        env.Append(LINKFLAGS=['-DEBUG'])
-        if env['asserts']:
-            env.Append(CPPDEFINES=['AK_ENABLE_ASSERTS'])
-    else:
-        env.Append(CPPDEFINES=['AK_OPTIMIZED'])
-        env.Append(CPPDEFINES=['NDEBUG'])
-        env.Append(CCFLAGS=['-O2', '-EHsc', '-MD'])
-
-    if 'reflect' in env['plugins']:
-        env.Append(CPPDEFINES=['AK_REFLECT'])
-    if 'motion' in env['plugins']:
-        env.Append(CPPDEFINES=['AK_MOTION'])
-    if 'convolution' in env['plugins']:
-        env.Append(CPPDEFINES=['AK_CONVOLUTION'])
-    if 'soundseed_grain' in env['plugins']:
-        env.Append(CPPDEFINES=['AK_SOUNDSEED_GRAIN'])
-    if 'soundseed_air_impact' in env['plugins']:
-        env.Append(CPPDEFINES=['AK_SOUNDSEED_AIR_IMPACT'])
-
-if env['target'] in ('debug', 'd'):
-    cpp_library += '.debug'
-else:
-    cpp_library += '.release'
-
-if env['platform'] == 'ios':
-    if env['ios_arch'] == 'arm64':
-        cpp_library += '.' + 'arm64'
-    elif env['ios_arch'] == 'armv7':
-        cpp_library += '.' + 'armv7'
-    elif env['ios_arch'] == 'x86_64':
-        cpp_library += '.' + 'x86_64'
-
-    if env['ios_simulator']:
-        cpp_library += '.' + 'simulator'
-elif env["platform"] == "osx":
-    if env['macos_arch'] != 'universal':
-        cpp_library += '.' + env['macos_arch']
-    else:
-        cpp_library += '.' + str(bits)
-else:
-    cpp_library += '.' + str(bits)
-
-# make sure our binding library is properly includes
-env.Append(CPPPATH=['.', godot_headers_path, cpp_bindings_path + 'include/', cpp_bindings_path + 'include/core/', cpp_bindings_path + 'include/gen/'])
-env.Append(LIBPATH=[cpp_bindings_path + 'bin/'])
-env.Append(LIBS=[cpp_library])
-
-# tweak this if you want to use different folders, or more folders, to store your source code in.
-env.Append(CPPPATH=['src/'])
+env.Append(CPPPATH=["src/", "src/scene/"])
 
 sources = []
-sources.append(Glob('src/*.cpp')) 
-sources.append(Glob(wwise_soundengine_sample_path + '*.cpp'))
-sources.append(Glob(wwise_soundengine_sample_common_path + '*.cpp'))
+sources.append(Glob("src/*.cpp"))
+sources.append(Glob("src/scene/*.cpp"))
 
-# wwise specific configuration
+if env["platform"] == "windows" or env["platform"] == "macos":
+    env.Append(CPPPATH=["src/waapi/"])
+    sources.append(Glob("src/waapi/*.cpp"))
+    env.Append(LIBS=["AkAutobahn"])
+
+if env["platform"] != "windows":
+    sources.append(Glob(wwise_soundengine_sample_path + "*.cpp"))
+sources.append(Glob(wwise_soundengine_sample_common_path + "*.cpp"))
+
+# Wwise specific configuration
 env.Append(CPPPATH=[wwise_sdk_headers_path, wwise_soundengine_sample_path])
 env.Append(LIBPATH=[wwise_sdk_libs_path])
-env.Append(LIBS=[wwise_memorymanager_library, wwise_soundengine_library, wwise_streammanager_library, wwise_musicengine_library, wwise_plugins_library])
+env.Append(
+    LIBS=[
+        wwise_memorymanager_library,
+        wwise_soundengine_library,
+        wwise_streammanager_library,
+        wwise_musicengine_library,
+        wwise_plugins_library,
+    ]
+)
 
-if env['target'] in ('debug', 'd'):
+if env["target"] in ("template_debug"):
     env.Append(LIBS=[wwise_communications_library])
 
-    if env['platform'] == "windows":
-    	env.Append(LIBS=['msacm32', 'ws2_32'])
+    if env["platform"] == "windows":
+        env.Append(LIBS=["msacm32", "ws2_32"])
 
-if env['platform'] == "windows":
-    env.Append(LIBS=['advapi32', 'user32', 'ole32'])
-if env['platform'] == "windows" and 'motion' in env['plugins']:
-    env.Append(LIBS=['XInput', 'Dinput8', 'Winmm', 'oleaut32'])
+if env["platform"] == "windows":
+    env.Append(LIBS=["advapi32", "user32", "ole32"])
+if env["platform"] == "windows" and "motion" in env["plugins"]:
+    env.Append(LIBS=["XInput", "Dinput8", "Winmm", "oleaut32"])
+if env["platform"] == "android":
+    env.Append(LIBS=["zip"])
 if env["platform"] == "linux":
-    env.Append(LIBS=[ 'pthread', 'dl'])
+    env.Append(LIBS=["pthread", "dl"])
 
-library = env.SharedLibrary(target=env['target_path'] + env['target_name'] , source=sources)
+if env["platform"] == "windows":
+    library = env.SharedLibrary(
+        target=env["target_path"]
+        + "libwwise.{}.{}.dll".format(env["platform"], env["target"]),
+        source=sources,
+    )
+
+if env["platform"] == "macos":
+    library = env.SharedLibrary(
+        target=env["target_path"]
+        + "libwwise.{}.{}.framework/libwwise.{}.{}".format(
+            env["platform"], env["target"], env["platform"], env["target"]
+        ),
+        source=sources,
+    )
+
+if env["platform"] == "linux":
+    import shutil
+
+    library = env.SharedLibrary(
+        target=env["target_path"]
+        + "libwwise.{}.{}.so".format(env["platform"], env["target"]),
+        source=sources,
+    )
+
+if env["platform"] == "ios":
+    ios_lib_path = env[
+        "target_path"
+    ] + "libwwise.{}.{}.framework/libwwise.{}.{}".format(
+        env["platform"], env["target"], env["platform"], env["target"]
+    )
+
+    library = env.SharedLibrary(
+        target=ios_lib_path,
+        source=sources,
+    )
+
+    output_file = "Info.plist"
+    output_dir = env["target_path"] + "libwwise.{}.{}.framework".format(
+        env["platform"], env["target"]
+    )
+
+    env.Replace(LIB_NAME="libwwise.{}.{}".format(env["platform"], env["target"]))
+    env.Replace(MIN_IOS_VERSION=env["ios_min_version"])
+
+    def create_output_file(target, source, env):
+        # Create the output directory if it doesn't exist
+        if not os.path.exists(output_dir):
+            os.makedirs(output_dir)
+
+        lib_name = "libwwise.{}.{}".format(env["platform"], env["target"])
+
+        with open(os.path.join(output_dir, output_file), "w") as f:
+            xml_text = """<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+<key>CFBundleShortVersionString</key>
+<string>1.0</string>
+<key>CFBundleIdentifier</key>
+<string>com.gdextension.framework.{}</string>
+<key>CFBundleName</key>
+<string>{}</string>
+<key>CFBundleExecutable</key>
+<string>{}</string>
+<key>DTPlatformName</key>
+<string>iphoneos</string>
+<key>CFBundleInfoDictionaryVersion</key>
+<string>6.0</string>
+<key>CFBundleVersion</key>
+<string>1</string>
+<key>CFBundlePackageType</key>
+<string>FMWK</string>
+<key>MinimumOSVersion</key>
+<string>{}</string>
+</dict>
+</plist>""".format(
+                lib_name, lib_name, lib_name, env["ios_min_version"]
+            )
+
+            unescaped_text = html.unescape(xml_text)
+            f.write(unescaped_text)
+        return None
+
+    target = os.path.join(output_dir, output_file)
+    create_output_file_action = Action(target, create_output_file)
+    AddPostAction(library, create_output_file)
+
+if env["platform"] == "android":
+    library = env.SharedLibrary(
+        target=env["target_path"]
+        + "libwwise.{}.{}.{}.so".format(
+            env["platform"], env["target"], env["android_arch"]
+        ),
+        source=sources,
+    )
 
 Default(library)
 
-# Generates help for the -h scons option.
 Help(opts.GenerateHelpText(env))

@@ -1794,13 +1794,15 @@ bool Wwise::initialize_wwise_systems()
 	platform_init_settings.bRoundFrameSizeToHWSize = static_cast<bool>(
 			get_platform_project_setting("wwise/android_advanced_settings/round_frame_size_to_hw_size"));
 
-	JNIEnv* env = godot::android_api->godot_android_get_env();
-	JavaVM* java_vm;
-	env->GetJavaVM(&java_vm);
-	platform_init_settings.pJavaVM = java_vm;
+	// note(alex): currently, GDExtension does not provide access to the Java Native Interface environment (4.0 and 4.1)
 
-	jobject activity = godot::android_api->godot_android_get_activity();
-	platform_init_settings.jActivity = activity;
+	// JNIEnv* env = godot::android_api->godot_android_get_env();
+	// JavaVM* java_vm;
+	// env->GetJavaVM(&java_vm);
+	// platform_init_settings.pJavaVM = java_vm;
+
+	// jobject activity = godot::android_api->godot_android_get_activity();
+	// platform_init_settings.jActivity = activity;
 
 #elif defined(AK_LINUX)
 

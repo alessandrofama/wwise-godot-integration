@@ -77,7 +77,7 @@ void WwiseSettings::add_wwise_settings()
 			"");
 	add_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "target_auto_stream_buffer_length_ms", 380, Variant::Type::INT);
 	add_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "use_stream_cache", false, Variant::Type::BOOL);
-	add_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "maximum_pinned_bytes_in_cache", 4294967295, Variant::Type::INT);
+	add_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "maximum_pinned_bytes_in_cache", static_cast<uint64_t>(4294967295), Variant::Type::INT);
 	add_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "enable_game_sync_preparation", false, Variant::Type::BOOL);
 	add_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "continuous_playback_look_ahead", 1, Variant::Type::INT);
 	add_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "monitor_queue_pool_size", 65536, Variant::Type::INT);
