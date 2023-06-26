@@ -195,6 +195,68 @@ static bool check_error(
 		return;                                                                                                        \
 	}
 
+#define ADD_ALL_AK_EVENT_SIGNALS                                                                                       \
+	ADD_SIGNAL(MethodInfo(AkUtils::get_singleton()->event_callback_signals[AkUtils::AkCallbackType::AK_END_OF_EVENT],  \
+			PropertyInfo(Variant::DICTIONARY, "data")));                                                               \
+	ADD_SIGNAL(MethodInfo(AkUtils::get_singleton()                                                                     \
+								  ->event_callback_signals[AkUtils::AkCallbackType::AK_END_OF_DYNAMIC_SEQUENCE_ITEM],  \
+			PropertyInfo(Variant::DICTIONARY, "data")));                                                               \
+	ADD_SIGNAL(MethodInfo(AkUtils::get_singleton()->event_callback_signals[AkUtils::AkCallbackType::AK_MARKER],        \
+			PropertyInfo(Variant::DICTIONARY, "data")));                                                               \
+	ADD_SIGNAL(MethodInfo(AkUtils::get_singleton()->event_callback_signals[AkUtils::AkCallbackType::AK_DURATION],      \
+			PropertyInfo(Variant::DICTIONARY, "data")));                                                               \
+	ADD_SIGNAL(MethodInfo(                                                                                             \
+			AkUtils::get_singleton()->event_callback_signals[AkUtils::AkCallbackType::AK_SPEAKER_VOLUME_MATRIX],       \
+			PropertyInfo(Variant::DICTIONARY, "data")));                                                               \
+	ADD_SIGNAL(MethodInfo(AkUtils::get_singleton()->event_callback_signals[AkUtils::AkCallbackType::AK_STARVATION],    \
+			PropertyInfo(Variant::DICTIONARY, "data")));                                                               \
+	ADD_SIGNAL(MethodInfo(                                                                                             \
+			AkUtils::get_singleton()->event_callback_signals[AkUtils::AkCallbackType::AK_MUSIC_PLAYLIST_SELECT],       \
+			PropertyInfo(Variant::DICTIONARY, "data")));                                                               \
+	ADD_SIGNAL(MethodInfo(                                                                                             \
+			AkUtils::get_singleton()->event_callback_signals[AkUtils::AkCallbackType::AK_MUSIC_PLAY_STARTED],          \
+			PropertyInfo(Variant::DICTIONARY, "data")));                                                               \
+	ADD_SIGNAL(                                                                                                        \
+			MethodInfo(AkUtils::get_singleton()->event_callback_signals[AkUtils::AkCallbackType::AK_MUSIC_SYNC_BEAT],  \
+					PropertyInfo(Variant::DICTIONARY, "data")));                                                       \
+	ADD_SIGNAL(                                                                                                        \
+			MethodInfo(AkUtils::get_singleton()->event_callback_signals[AkUtils::AkCallbackType::AK_MUSIC_SYNC_BAR],   \
+					PropertyInfo(Variant::DICTIONARY, "data")));                                                       \
+	ADD_SIGNAL(                                                                                                        \
+			MethodInfo(AkUtils::get_singleton()->event_callback_signals[AkUtils::AkCallbackType::AK_MUSIC_SYNC_ENTRY], \
+					PropertyInfo(Variant::DICTIONARY, "data")));                                                       \
+	ADD_SIGNAL(                                                                                                        \
+			MethodInfo(AkUtils::get_singleton()->event_callback_signals[AkUtils::AkCallbackType::AK_MUSIC_SYNC_EXIT],  \
+					PropertyInfo(Variant::DICTIONARY, "data")));                                                       \
+	ADD_SIGNAL(                                                                                                        \
+			MethodInfo(AkUtils::get_singleton()->event_callback_signals[AkUtils::AkCallbackType::AK_MUSIC_SYNC_GRID],  \
+					PropertyInfo(Variant::DICTIONARY, "data")));                                                       \
+	ADD_SIGNAL(MethodInfo(                                                                                             \
+			AkUtils::get_singleton()->event_callback_signals[AkUtils::AkCallbackType::AK_MUSIC_SYNC_USER_CUE],         \
+			PropertyInfo(Variant::DICTIONARY, "data")));                                                               \
+	ADD_SIGNAL(                                                                                                        \
+			MethodInfo(AkUtils::get_singleton()->event_callback_signals[AkUtils::AkCallbackType::AK_MUSIC_SYNC_POINT], \
+					PropertyInfo(Variant::DICTIONARY, "data")));                                                       \
+	ADD_SIGNAL(                                                                                                        \
+			MethodInfo(AkUtils::get_singleton()->event_callback_signals[AkUtils::AkCallbackType::AK_MUSIC_SYNC_ALL],   \
+					PropertyInfo(Variant::DICTIONARY, "data")));                                                       \
+	ADD_SIGNAL(MethodInfo(AkUtils::get_singleton()->event_callback_signals[AkUtils::AkCallbackType::AK_MIDI_EVENT],    \
+			PropertyInfo(Variant::DICTIONARY, "data")));                                                               \
+	ADD_SIGNAL(MethodInfo(AkUtils::get_singleton()->event_callback_signals[AkUtils::AkCallbackType::AK_CALLBACK_BITS], \
+			PropertyInfo(Variant::DICTIONARY, "data")));                                                               \
+	ADD_SIGNAL(                                                                                                        \
+			MethodInfo(AkUtils::get_singleton()                                                                        \
+							   ->event_callback_signals[AkUtils::AkCallbackType::AK_ENABLE_GET_SOURCE_PLAY_POSITION],  \
+					PropertyInfo(Variant::DICTIONARY, "data")));                                                       \
+	ADD_SIGNAL(                                                                                                        \
+			MethodInfo(AkUtils::get_singleton()                                                                        \
+							   ->event_callback_signals[AkUtils::AkCallbackType::AK_ENABLE_GET_MUSIC_PLAY_POSITION],   \
+					PropertyInfo(Variant::DICTIONARY, "data")));                                                       \
+	ADD_SIGNAL(MethodInfo(                                                                                             \
+			AkUtils::get_singleton()                                                                                   \
+					->event_callback_signals[AkUtils::AkCallbackType::AK_ENABLE_GET_SOURCE_STREAM_BUFFERING],          \
+			PropertyInfo(Variant::DICTIONARY, "data")))
+
 enum class VectorType
 {
 	POSITION,

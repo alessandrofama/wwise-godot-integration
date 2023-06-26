@@ -90,7 +90,7 @@ public:
 			const String event_name, const unsigned int flags, const Object* game_object, const Object* cookie);
 	unsigned int post_event_id(const unsigned int event_id, const Object* game_object);
 	unsigned int post_event_id_callback(
-			const unsigned int event_id, const unsigned int flags, const Object* game_object, const Object* cookie);
+			const unsigned int event_id, const unsigned int flags, const Object* game_object, const Callable& cookie);
 	bool stop_event(const int playing_id, const int fade_time, const int interpolation);
 
 	bool set_switch(const String switch_group, const String switch_value, const Object* game_object);
@@ -118,7 +118,7 @@ public:
 	bool set_game_object_output_bus_volume(
 			const unsigned int game_object_id, const unsigned int listener_id, float f_control_value);
 	bool set_game_object_aux_send_values(
-			const unsigned int game_object_id, const Array ak_aux_send_values, const unsigned int send_values);
+			const Object* game_object, const Array ak_aux_send_values, const unsigned int send_values);
 	bool set_object_obstruction_and_occlusion(const unsigned int game_object_id, const unsigned int listener_id,
 			float f_calculated_obs, float f_calculated_occ);
 
