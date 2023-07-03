@@ -3,6 +3,7 @@
 using namespace godot;
 
 static Wwise* wwise_module;
+static Waapi* waapi_module;
 static WwiseSettings* wwise_settings;
 static AkUtils* ak_utils;
 
@@ -10,6 +11,9 @@ void register_wwise_types(ModuleInitializationLevel p_level)
 {
 	if (p_level == MODULE_INITIALIZATION_LEVEL_EDITOR)
 	{
+		ClassDB::register_class<Waapi>();
+		waapi_module = memnew(Waapi);
+		Engine::get_singleton()->register_singleton("Waapi", Waapi::get_singleton());
 	}
 
 	if (p_level == MODULE_INITIALIZATION_LEVEL_SCENE)
