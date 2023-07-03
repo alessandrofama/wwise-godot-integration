@@ -30,6 +30,7 @@ void register_wwise_types(ModuleInitializationLevel p_level)
 		ClassDB::register_class<WwiseSettings>();
 		wwise_settings = memnew(WwiseSettings);
 
+		ClassDB::register_class<CookieWrapper>();
 		ClassDB::register_class<AkBank>();
 		ClassDB::register_class<AkListener2D>();
 		ClassDB::register_class<AkListener3D>();

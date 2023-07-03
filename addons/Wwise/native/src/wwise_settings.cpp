@@ -35,6 +35,7 @@ void WwiseSettings::add_wwise_settings()
 	add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "command_queue_size", 262144, Variant::Type::INT);
 	add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "samples_per_frame", 2, Variant::Type::INT, PROPERTY_HINT_ENUM,
 			"256, 512, 1024, 2048");
+	add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "game_units_to_meters", 1.0f, Variant::Type::FLOAT);
 	add_setting(WWISE_COMMON_USER_SETTINGS_MAIN_OUTPUT_PATH + "audio_device_shareset", "System", Variant::Type::STRING,
 			PROPERTY_HINT_NONE, "");
 	add_setting(WWISE_COMMON_USER_SETTINGS_MAIN_OUTPUT_PATH + "device_id", 0, Variant::Type::INT);
@@ -42,7 +43,7 @@ void WwiseSettings::add_wwise_settings()
 			"Speakers, Headphones");
 	add_setting(WWISE_COMMON_USER_SETTINGS_MAIN_OUTPUT_PATH + "channel_config/channel_config_type", 0,
 			Variant::Type::INT, PROPERTY_HINT_ENUM, "Annonymous, Standard, Ambisonics");
-	// todo(alex): this is not implemented:
+	// note(alex): this is not implemented:
 	add_setting(WWISE_COMMON_USER_SETTINGS_MAIN_OUTPUT_PATH + "channel_config/channel_mask", 0, Variant::Type::INT,
 			PROPERTY_HINT_ENUM, "NONE, Everything, SETUP_ALL_SPEAKERS");
 
@@ -77,7 +78,8 @@ void WwiseSettings::add_wwise_settings()
 			"");
 	add_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "target_auto_stream_buffer_length_ms", 380, Variant::Type::INT);
 	add_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "use_stream_cache", false, Variant::Type::BOOL);
-	add_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "maximum_pinned_bytes_in_cache", static_cast<uint64_t>(4294967295), Variant::Type::INT);
+	add_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "maximum_pinned_bytes_in_cache",
+			static_cast<uint64_t>(4294967295), Variant::Type::INT);
 	add_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "enable_game_sync_preparation", false, Variant::Type::BOOL);
 	add_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "continuous_playback_look_ahead", 1, Variant::Type::INT);
 	add_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "monitor_queue_pool_size", 65536, Variant::Type::INT);
@@ -94,7 +96,6 @@ void WwiseSettings::add_wwise_settings()
 	// communication settings
 	add_setting(WWISE_COMMUNICATION_SETTINGS_PATH + "discovery_broadcast_port", 24024, Variant::Type::INT);
 	add_setting(WWISE_COMMUNICATION_SETTINGS_PATH + "command_port", 0, Variant::Type::INT);
-	add_setting(WWISE_COMMUNICATION_SETTINGS_PATH + "notification_port", 0, Variant::Type::INT);
 	add_setting(WWISE_COMMUNICATION_SETTINGS_PATH + "initialize_system_comms", true, Variant::Type::BOOL);
 	add_setting(WWISE_COMMUNICATION_SETTINGS_PATH + "network_name", "", Variant::Type::STRING);
 

@@ -74,68 +74,101 @@ Wwise* Wwise::get_singleton() { return singleton; }
 void Wwise::_bind_methods()
 {
 	ClassDB::bind_method(D_METHOD("init"), &Wwise::init);
-	ClassDB::bind_method(D_METHOD("process"), &Wwise::process);
+	ClassDB::bind_method(D_METHOD("render_audio"), &Wwise::render_audio);
 	ClassDB::bind_method(D_METHOD("shutdown"), &Wwise::shutdown);
-	ClassDB::bind_method(D_METHOD("set_base_path"), &Wwise::set_base_path);
-	ClassDB::bind_method(D_METHOD("set_current_language"), &Wwise::set_current_language);
-	ClassDB::bind_method(D_METHOD("load_bank"), &Wwise::load_bank);
-	ClassDB::bind_method(D_METHOD("load_bank_id"), &Wwise::load_bank_id);
-	ClassDB::bind_method(D_METHOD("load_bank_async"), &Wwise::load_bank_async);
-	ClassDB::bind_method(D_METHOD("load_bank_async_id"), &Wwise::load_bank_async_id);
-	ClassDB::bind_method(D_METHOD("unload_bank"), &Wwise::unload_bank);
-	ClassDB::bind_method(D_METHOD("unload_bank_id"), &Wwise::unload_bank_id);
-	ClassDB::bind_method(D_METHOD("unload_bank_async"), &Wwise::unload_bank_async);
-	ClassDB::bind_method(D_METHOD("unload_bank_async_id"), &Wwise::unload_bank_async_id);
-	ClassDB::bind_method(D_METHOD("register_listener"), &Wwise::register_listener);
-	ClassDB::bind_method(D_METHOD("set_random_seed"), &Wwise::set_random_seed);
-	ClassDB::bind_method(D_METHOD("register_game_obj"), &Wwise::register_game_object);
-	ClassDB::bind_method(D_METHOD("unregister_game_obj"), &Wwise::unregister_game_object);
-	ClassDB::bind_method(D_METHOD("set_listeners"), &Wwise::set_listeners);
-	ClassDB::bind_method(D_METHOD("set_3d_position"), &Wwise::set_3d_position);
-	ClassDB::bind_method(D_METHOD("set_2d_position"), &Wwise::set_2d_position);
-	ClassDB::bind_method(D_METHOD("set_multiple_positions_3d"), &Wwise::set_multiple_positions_3d);
-	ClassDB::bind_method(D_METHOD("set_multiple_positions_2d"), &Wwise::set_multiple_positions_2d);
-	ClassDB::bind_method(D_METHOD("set_game_obj_radius"), &Wwise::set_game_object_radius);
-	ClassDB::bind_method(D_METHOD("post_event"), &Wwise::post_event);
-	ClassDB::bind_method(D_METHOD("post_event_callback"), &Wwise::post_event_callback);
-	ClassDB::bind_method(D_METHOD("post_event_id"), &Wwise::post_event_id);
-	ClassDB::bind_method(D_METHOD("post_event_id_callback"), &Wwise::post_event_id_callback);
-	ClassDB::bind_method(D_METHOD("stop_event"), &Wwise::stop_event);
-	ClassDB::bind_method(D_METHOD("set_switch"), &Wwise::set_switch);
-	ClassDB::bind_method(D_METHOD("set_switch_id"), &Wwise::set_switch_id);
-	ClassDB::bind_method(D_METHOD("set_state"), &Wwise::set_state);
-	ClassDB::bind_method(D_METHOD("set_state_id"), &Wwise::set_state_id);
-	ClassDB::bind_method(D_METHOD("get_rtpc"), &Wwise::get_rtpc_value);
-	ClassDB::bind_method(D_METHOD("get_rtpc_id"), &Wwise::get_rtpc_value_id);
-	ClassDB::bind_method(D_METHOD("set_rtpc"), &Wwise::set_rtpc_value);
-	ClassDB::bind_method(D_METHOD("set_rtpc_id"), &Wwise::set_rtpc_value_id);
-	ClassDB::bind_method(D_METHOD("post_trigger"), &Wwise::post_trigger);
-	ClassDB::bind_method(D_METHOD("post_trigger_id"), &Wwise::post_trigger_id);
-	ClassDB::bind_method(D_METHOD("post_external_source"), &Wwise::post_external_source);
-	ClassDB::bind_method(D_METHOD("post_external_source_id"), &Wwise::post_external_source_id);
-	ClassDB::bind_method(D_METHOD("get_source_play_position"), &Wwise::get_source_play_position);
-	ClassDB::bind_method(D_METHOD("get_playing_segment_info"), &Wwise::get_playing_segment_info);
-	ClassDB::bind_method(D_METHOD("set_game_obj_output_bus_volume"), &Wwise::set_game_object_output_bus_volume);
-	ClassDB::bind_method(D_METHOD("set_game_obj_aux_send_values"), &Wwise::set_game_object_aux_send_values);
-	ClassDB::bind_method(D_METHOD("set_obj_obstruction_and_occlusion"), &Wwise::set_object_obstruction_and_occlusion);
-	ClassDB::bind_method(D_METHOD("set_geometry"), &Wwise::set_geometry);
-	ClassDB::bind_method(D_METHOD("remove_geometry"), &Wwise::remove_geometry);
-	ClassDB::bind_method(D_METHOD("register_spatial_listener"), &Wwise::register_spatial_listener);
-	ClassDB::bind_method(D_METHOD("set_room"), &Wwise::set_room);
-	ClassDB::bind_method(D_METHOD("remove_room"), &Wwise::remove_room);
-	ClassDB::bind_method(D_METHOD("set_portal"), &Wwise::set_portal);
-	ClassDB::bind_method(D_METHOD("remove_portal"), &Wwise::remove_portal);
+	ClassDB::bind_method(D_METHOD("set_base_path", "base_path"), &Wwise::set_base_path);
+	ClassDB::bind_method(D_METHOD("set_current_language", "language"), &Wwise::set_current_language);
+	ClassDB::bind_method(D_METHOD("load_bank", "bank_name"), &Wwise::load_bank);
+	ClassDB::bind_method(D_METHOD("load_bank_id", "bank_id"), &Wwise::load_bank_id);
+	ClassDB::bind_method(D_METHOD("load_bank_async", "bank_name", "cookie"), &Wwise::load_bank_async);
+	ClassDB::bind_method(D_METHOD("load_bank_async_id", "bank_id", "cookie"), &Wwise::load_bank_async_id);
+	ClassDB::bind_method(D_METHOD("unload_bank", "bank_name"), &Wwise::unload_bank);
+	ClassDB::bind_method(D_METHOD("unload_bank_id", "bank_id"), &Wwise::unload_bank_id);
+	ClassDB::bind_method(D_METHOD("unload_bank_async", "bank_name", "cookie"), &Wwise::unload_bank_async);
+	ClassDB::bind_method(D_METHOD("unload_bank_async_id", "bank_id", "cookie"), &Wwise::unload_bank_async_id);
+	ClassDB::bind_method(D_METHOD("register_listener", "game_object"), &Wwise::register_listener);
+	ClassDB::bind_method(D_METHOD("register_game_obj", "game_object", "name"), &Wwise::register_game_obj);
+	ClassDB::bind_method(D_METHOD("unregister_game_obj", "game_object"), &Wwise::unregister_game_obj);
+	ClassDB::bind_method(D_METHOD("set_listeners", "emtter", "listener"), &Wwise::set_listeners);
+	ClassDB::bind_method(D_METHOD("set_random_seed", "seed"), &Wwise::set_random_seed);
+	ClassDB::bind_method(D_METHOD("set_3d_position", "game_object", "transform_3d"), &Wwise::set_3d_position);
 	ClassDB::bind_method(
-			D_METHOD("set_portal_obstruction_and_occlusion"), &Wwise::set_portal_obstruction_and_occlusion);
-	ClassDB::bind_method(D_METHOD("set_game_obj_to_portal_obstruction"), &Wwise::set_game_object_to_portal_obstruction);
-	ClassDB::bind_method(D_METHOD("set_portal_to_portal_obstruction"), &Wwise::set_portal_to_portal_obstruction);
-	ClassDB::bind_method(D_METHOD("set_game_obj_in_room"), &Wwise::set_game_object_in_room);
-	ClassDB::bind_method(D_METHOD("remove_game_obj_from_room"), &Wwise::remove_game_object_from_room);
-	ClassDB::bind_method(D_METHOD("set_early_reflections_aux_send"), &Wwise::set_early_reflections_aux_send);
-	ClassDB::bind_method(D_METHOD("set_early_reflections_volume"), &Wwise::set_early_reflections_volume);
-	ClassDB::bind_method(D_METHOD("add_output"), &Wwise::add_output);
-	ClassDB::bind_method(D_METHOD("remove_output"), &Wwise::remove_output);
-	ClassDB::bind_method(D_METHOD("suspend"), &Wwise::suspend);
+			D_METHOD("set_2d_position", "game_object", "transform_2d", "z_depth"), &Wwise::set_2d_position);
+	ClassDB::bind_method(
+			D_METHOD("set_multiple_positions_3d", "game_object", "positions", "num_positions", "multi_position_type"),
+			&Wwise::set_multiple_positions_3d);
+	ClassDB::bind_method(D_METHOD("set_multiple_positions_2d", "game_object", "positions", "z_depths", "num_positions",
+								 "multi_position_type"),
+			&Wwise::set_multiple_positions_2d);
+	ClassDB::bind_method(D_METHOD("set_game_object_radius", "game_object", "outer_radius", "inner_radius"),
+			&Wwise::set_game_object_radius);
+	ClassDB::bind_method(D_METHOD("post_event", "event_name", "game_object"), &Wwise::post_event);
+	ClassDB::bind_method(D_METHOD("post_event_callback", "event_name", "flags", "game_object", "cookie"),
+			&Wwise::post_event_callback);
+	ClassDB::bind_method(D_METHOD("post_event_id", "event_id", "game_object"), &Wwise::post_event_id);
+	ClassDB::bind_method(D_METHOD("post_event_id_callback", "event_id", "flags", "game_object", "cookie"),
+			&Wwise::post_event_id_callback);
+	ClassDB::bind_method(D_METHOD("stop_event", "playing_id", "fade_time", "interpolation"), &Wwise::stop_event);
+	ClassDB::bind_method(D_METHOD("set_switch", "switch_group", "switch_value", "game_object"), &Wwise::set_switch);
+	ClassDB::bind_method(
+			D_METHOD("set_switch_id", "switch_group_id", "switch_value_id", "game_object"), &Wwise::set_switch_id);
+	ClassDB::bind_method(D_METHOD("set_state", "state_group", "state_value"), &Wwise::set_state);
+	ClassDB::bind_method(D_METHOD("set_state_id", "state_group_id", "state_value_id"), &Wwise::set_state_id);
+	ClassDB::bind_method(D_METHOD("get_rtpc_value", "name", "game_object"), &Wwise::get_rtpc_value);
+	ClassDB::bind_method(D_METHOD("get_rtpc_value_id", "id", "game_object"), &Wwise::get_rtpc_value_id);
+	ClassDB::bind_method(D_METHOD("set_rtpc_value", "name", "value", "game_object"), &Wwise::set_rtpc_value);
+	ClassDB::bind_method(D_METHOD("set_rtpc_value_id", "id", "value", "game_object"), &Wwise::set_rtpc_value_id);
+	ClassDB::bind_method(D_METHOD("post_trigger", "name", "game_object"), &Wwise::post_trigger);
+	ClassDB::bind_method(D_METHOD("post_trigger_id", "id", "game_object"), &Wwise::post_trigger_id);
+	ClassDB::bind_method(
+			D_METHOD("post_external_source", "event_name", "game_object", "source_object_name", "filename", "id_codec"),
+			&Wwise::post_external_source);
+	ClassDB::bind_method(
+			D_METHOD("post_external_source_id", "event_id", "game_object", "source_object_id", "filename", "id_codec"),
+			&Wwise::post_external_source_id);
+	ClassDB::bind_method(
+			D_METHOD("get_source_play_position", "playing_id", "extrapolate"), &Wwise::get_source_play_position);
+	ClassDB::bind_method(
+			D_METHOD("get_playing_segment_info", "playing_id", "extrapolate"), &Wwise::get_playing_segment_info);
+	ClassDB::bind_method(D_METHOD("set_game_object_output_bus_volume", "game_object", "listener", "f_control_value"),
+			&Wwise::set_game_object_output_bus_volume);
+	ClassDB::bind_method(
+			D_METHOD("set_game_object_aux_send_values", "game_object", "ak_aux_send_values", "num_send_values"),
+			&Wwise::set_game_object_aux_send_values);
+	ClassDB::bind_method(D_METHOD("set_object_obstruction_and_occlusion", "game_object", "listener", "calculated_obs",
+								 "calculated_occ"),
+			&Wwise::set_object_obstruction_and_occlusion);
+	ClassDB::bind_method(
+			D_METHOD("set_geometry", "vertices", "triangles", "acoustic_texture", "transission_loss_value",
+					"game_object", "enable_diffraction", "enable_diffraction_on_boundary_edges", "enable_triangles"),
+			&Wwise::set_geometry);
+	ClassDB::bind_method(D_METHOD("remove_geometry", "game_object"), &Wwise::remove_geometry);
+	ClassDB::bind_method(D_METHOD("register_spatial_listener", "game_object"), &Wwise::register_spatial_listener);
+	ClassDB::bind_method(D_METHOD("set_room", "game_object", "aux_bus_id", "reverb_level", "transmission_loss",
+								 "front_vector", "up_vector", "keep_registered", "associated_geometry"),
+			&Wwise::set_room);
+	ClassDB::bind_method(D_METHOD("remove_room", "game_object"), &Wwise::remove_room);
+	ClassDB::bind_method(
+			D_METHOD("set_portal", "game_object", "transform", "extent", "front_room", "back_room", "enabled"),
+			&Wwise::set_portal);
+	ClassDB::bind_method(D_METHOD("remove_portal", "game_object"), &Wwise::remove_portal);
+	ClassDB::bind_method(
+			D_METHOD("set_portal_obstruction_and_occlusion", "portal", "obstruction_value", "occlusion_value"),
+			&Wwise::set_portal_obstruction_and_occlusion);
+	ClassDB::bind_method(
+			D_METHOD("set_game_object_to_portal_obstruction", "game_object", "portal", "obstruction_value"),
+			&Wwise::set_game_object_to_portal_obstruction);
+	ClassDB::bind_method(D_METHOD("set_portal_to_portal_obstruction", "portal0", "portal1", "obstruction_value"),
+			&Wwise::set_portal_to_portal_obstruction);
+	ClassDB::bind_method(D_METHOD("set_game_object_in_room", "game_object", "room"), &Wwise::set_game_object_in_room);
+	ClassDB::bind_method(D_METHOD("remove_game_object_from_room", "game_object"), &Wwise::remove_game_object_from_room);
+	ClassDB::bind_method(D_METHOD("set_early_reflections_aux_send", "game_object", "aux_id"),
+			&Wwise::set_early_reflections_aux_send);
+	ClassDB::bind_method(
+			D_METHOD("set_early_reflections_volume", "game_object", "volume"), &Wwise::set_early_reflections_volume);
+	ClassDB::bind_method(D_METHOD("add_output", "share_set", "output_id"), &Wwise::add_output);
+	ClassDB::bind_method(D_METHOD("remove_output", "output_id"), &Wwise::remove_output);
+	ClassDB::bind_method(D_METHOD("suspend", "render_anyway"), &Wwise::suspend);
 	ClassDB::bind_method(D_METHOD("wakeup_from_suspend"), &Wwise::wakeup_from_suspend);
 }
 
@@ -206,7 +239,7 @@ void Wwise::init()
 	render_anyway = get_platform_project_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "render_during_focus_loss");
 }
 
-void Wwise::process(double delta) { ERROR_CHECK(AK::SoundEngine::RenderAudio(), ""); }
+void Wwise::render_audio() { ERROR_CHECK(AK::SoundEngine::RenderAudio(), ""); }
 
 void Wwise::shutdown()
 {
@@ -243,7 +276,7 @@ void Wwise::shutdown()
 //	}
 //}
 
-bool Wwise::set_base_path(const String base_path)
+bool Wwise::set_base_path(const String& base_path)
 {
 	AKASSERT(!base_path.is_empty());
 
@@ -252,14 +285,14 @@ bool Wwise::set_base_path(const String base_path)
 	return true;
 }
 
-void Wwise::set_current_language(const String language)
+void Wwise::set_current_language(const String& language)
 {
 	AKASSERT(!language.is_empty());
 
 	low_level_io.set_language_folder(language);
 }
 
-bool Wwise::load_bank(const String bank_name)
+bool Wwise::load_bank(const String& bank_name)
 {
 	AkBankID bank_id;
 	AKASSERT(!bank_name.is_empty());
@@ -272,7 +305,7 @@ bool Wwise::load_bank_id(const unsigned int bank_id)
 	return ERROR_CHECK(AK::SoundEngine::LoadBank(bank_id), "ID " + String::num_int64(bank_id));
 }
 
-bool Wwise::load_bank_async(const String bank_name, const Object* cookie)
+bool Wwise::load_bank_async(const String& bank_name, const CookieWrapper* cookie)
 {
 	AKASSERT(!bank_name.is_empty());
 	AKASSERT(cookie);
@@ -284,7 +317,7 @@ bool Wwise::load_bank_async(const String bank_name, const Object* cookie)
 			"ID " + String::num_int64(bank_id));
 }
 
-bool Wwise::load_bank_async_id(const unsigned int bank_id, const Object* cookie)
+bool Wwise::load_bank_async_id(const unsigned int bank_id, const CookieWrapper* cookie)
 {
 	AKASSERT(cookie);
 
@@ -292,7 +325,7 @@ bool Wwise::load_bank_async_id(const unsigned int bank_id, const Object* cookie)
 			"ID " + String::num_int64(bank_id));
 }
 
-bool Wwise::unload_bank(const String bank_name)
+bool Wwise::unload_bank(const String& bank_name)
 {
 	AKASSERT(!bank_name.is_empty());
 
@@ -304,7 +337,7 @@ bool Wwise::unload_bank_id(const unsigned int bank_id)
 	return ERROR_CHECK(AK::SoundEngine::UnloadBank(bank_id, NULL), "ID " + String::num_int64(bank_id) + " failed");
 }
 
-bool Wwise::unload_bank_async(const String bank_name, const Object* cookie)
+bool Wwise::unload_bank_async(const String& bank_name, const CookieWrapper* cookie)
 {
 	AKASSERT(!bank_name.is_empty());
 	AKASSERT(cookie);
@@ -314,7 +347,7 @@ bool Wwise::unload_bank_async(const String bank_name, const Object* cookie)
 			"Loading bank: " + bank_name + " failed");
 }
 
-bool Wwise::unload_bank_async_id(const unsigned int bank_id, const Object* cookie)
+bool Wwise::unload_bank_async_id(const unsigned int bank_id, const CookieWrapper* cookie)
 {
 	AKASSERT(cookie);
 
@@ -342,9 +375,7 @@ bool Wwise::register_listener(const Object* game_object)
 	return true;
 }
 
-void Wwise::set_random_seed(const unsigned int seed) { AK::SoundEngine::SetRandomSeed(seed); }
-
-bool Wwise::register_game_object(const Object* game_object, const String game_object_name)
+bool Wwise::register_game_obj(const Object* game_object, const String& game_object_name)
 {
 	AKASSERT(game_object);
 	AKASSERT(!game_object_name.is_empty());
@@ -354,7 +385,7 @@ bool Wwise::register_game_object(const Object* game_object, const String game_ob
 			game_object_name);
 }
 
-bool Wwise::unregister_game_object(const Object* game_object)
+bool Wwise::unregister_game_obj(const Object* game_object)
 {
 	AKASSERT(game_object);
 
@@ -375,55 +406,56 @@ bool Wwise::set_listeners(const Object* emitter, const Object* listener)
 			"Failed to associate Emitter with listener");
 }
 
-bool Wwise::set_3d_position(const Object* game_object, const Transform3D transform_3d)
+void Wwise::set_random_seed(const unsigned int seed) { AK::SoundEngine::SetRandomSeed(seed); }
+
+bool Wwise::set_3d_position(const Object* game_object, const Transform3D& transform_3d)
 {
 	AKASSERT(game_object);
 
-	AkSoundPosition sound_pos;
+	AkSoundPosition sound_pos{};
 
-	AkVector position;
+	AkVector position{};
 	get_akvector(transform_3d, position, VectorType::POSITION);
-	AkVector forward;
+	AkVector forward{};
 	get_akvector(transform_3d, forward, VectorType::FORWARD);
-	AkVector up;
+	AkVector up{};
 	get_akvector(transform_3d, up, VectorType::UP);
 
-	sound_pos.Set(position, forward, up);
+	sound_pos.Set(AK::ConvertAkVectorToAkVector64(position), forward, up);
 
 	return ERROR_CHECK(
 			AK::SoundEngine::SetPosition(static_cast<AkGameObjectID>(game_object->get_instance_id()), sound_pos),
 			"Game object ID " + String::num_int64(game_object->get_instance_id()));
 }
 
-bool Wwise::set_2d_position(const Object* game_object, const Transform2D transform_2d, const float z_depth)
+bool Wwise::set_2d_position(const Object* game_object, const Transform2D& transform_2d, const float z_depth)
 {
 	AKASSERT(game_object);
 
-	AkSoundPosition sound_pos;
+	AkSoundPosition sound_pos{};
 
 	Vector2 origin = transform_2d.get_origin();
 
-	// todo(alex): implement distance scaling for 2D positions and remove the hardcoded and random 0.1f
-	Vector3 position = Vector3(origin.x * 0.1f, origin.y * 0.1f, z_depth);
+	Vector3 position = Vector3(origin.x, origin.y, z_depth);
 	Vector3 forward = Vector3(transform_2d.columns[1].x, 0.0f, transform_2d.columns[1].y).normalized();
 	Vector3 up = Vector3(0, 1, 0);
 
-	AkVector ak_position;
+	AkVector ak_position{};
 	vector3_to_akvector(position, ak_position);
-	AkVector ak_forward;
+	AkVector ak_forward{};
 	vector3_to_akvector(forward, ak_forward);
-	AkVector ak_up;
+	AkVector ak_up{};
 	vector3_to_akvector(up, ak_up);
 
-	sound_pos.Set(ak_position, ak_forward, ak_up);
+	sound_pos.Set(AK::ConvertAkVectorToAkVector64(ak_position), ak_forward, ak_up);
 
 	return ERROR_CHECK(
 			AK::SoundEngine::SetPosition(static_cast<AkGameObjectID>(game_object->get_instance_id()), sound_pos),
 			"Game object ID " + String::num_int64(game_object->get_instance_id()));
 }
 
-bool Wwise::set_multiple_positions_3d(
-		const Object* game_object, const Array positions, const int num_positions, const int multi_position_type)
+bool Wwise::set_multiple_positions_3d(const Object* game_object, const TypedArray<Transform3D>& positions,
+		const int num_positions, const AkUtils::MultiPositionType multi_position_type)
 {
 	AKASSERT(game_object);
 	AKASSERT(positions.size() > 0);
@@ -434,14 +466,15 @@ bool Wwise::set_multiple_positions_3d(
 	for (int i = 0; i < positions.size(); i++)
 	{
 		Transform3D transform = positions[i];
-		AkVector position;
+
+		AkVector position{};
 		get_akvector(transform, position, VectorType::POSITION);
-		AkVector forward;
+		AkVector forward{};
 		get_akvector(transform, forward, VectorType::FORWARD);
-		AkVector up;
+		AkVector up{};
 		get_akvector(transform, up, VectorType::UP);
 
-		ak_positions[i].Set(position, forward, up);
+		ak_positions[i].Set(AK::ConvertAkVectorToAkVector64(position), forward, up);
 	}
 
 	return ERROR_CHECK(AK::SoundEngine::SetMultiplePositions(game_object->get_instance_id(), ak_positions.get(),
@@ -450,8 +483,9 @@ bool Wwise::set_multiple_positions_3d(
 					String::num_int64(game_object->get_instance_id()));
 }
 
-bool Wwise::set_multiple_positions_2d(const Object* game_object, const Array positions, const Array z_depths,
-		const int num_positions, const int multi_position_type)
+bool Wwise::set_multiple_positions_2d(const Object* game_object, const TypedArray<Transform2D>& positions,
+		const TypedArray<float>& z_depths, const int num_positions,
+		const AkUtils::MultiPositionType multi_position_type)
 {
 	AKASSERT(game_object);
 	AKASSERT(positions.size() > 0);
@@ -465,19 +499,19 @@ bool Wwise::set_multiple_positions_2d(const Object* game_object, const Array pos
 		Transform2D transform_2d = positions[i];
 
 		Vector2 origin = transform_2d.get_origin();
-		// todo(alex): what's up with these minus signs?
-		Vector3 position = Vector3(-origin.x * 0.1f, -origin.y * 0.1f, z_depths[i]);
+
+		Vector3 position = Vector3(origin.x, origin.y, z_depths[i]);
 		Vector3 forward = Vector3(transform_2d.columns[1].x, 0, transform_2d.columns[1].y).normalized();
 		Vector3 up = Vector3(0, 1, 0);
 
-		AkVector ak_position;
+		AkVector ak_position{};
 		vector3_to_akvector(position, ak_position);
-		AkVector ak_forward;
+		AkVector ak_forward{};
 		vector3_to_akvector(forward, ak_forward);
-		AkVector ak_up;
+		AkVector ak_up{};
 		vector3_to_akvector(up, ak_up);
 
-		ak_positions[i].Set(ak_position, ak_forward, ak_up);
+		ak_positions[i].Set(AK::ConvertAkVectorToAkVector64(ak_position), ak_forward, ak_up);
 	}
 
 	return ERROR_CHECK(AK::SoundEngine::SetMultiplePositions(game_object->get_instance_id(), ak_positions.get(),
@@ -496,7 +530,7 @@ bool Wwise::set_game_object_radius(const Object* game_object, const float outer_
 					String::num_int64(game_object->get_instance_id()));
 }
 
-unsigned int Wwise::post_event(const String event_name, const Object* game_object)
+unsigned int Wwise::post_event(const String& event_name, const Object* game_object)
 {
 	AKASSERT(!event_name.is_empty());
 	AKASSERT(game_object);
@@ -512,8 +546,8 @@ unsigned int Wwise::post_event(const String event_name, const Object* game_objec
 	return playing_id;
 }
 
-unsigned int Wwise::post_event_callback(
-		const String event_name, const unsigned int flags, const Object* game_object, const Object* cookie)
+unsigned int Wwise::post_event_callback(const String event_name, const AkUtils::AkCallbackType flags,
+		const Object* game_object, const CookieWrapper* cookie)
 {
 	AKASSERT(!event_name.is_empty());
 	AKASSERT(game_object);
@@ -545,15 +579,14 @@ unsigned int Wwise::post_event_id(const unsigned int event_id, const Object* gam
 	return playing_id;
 }
 
-unsigned int Wwise::post_event_id_callback(
-		const unsigned int event_id, const unsigned int flags, const Object* game_object, const Callable& cookie)
+unsigned int Wwise::post_event_id_callback(const unsigned int event_id, const AkUtils::AkCallbackType flags,
+		const Object* game_object, const CookieWrapper* cookie)
 {
 	AKASSERT(game_object);
-	AKASSERT(cookie.is_valid());
+	AKASSERT(cookie);
 
-	AkPlayingID playing_id =
-			AK::SoundEngine::PostEvent(event_id, static_cast<AkGameObjectID>(game_object->get_instance_id()), flags,
-					event_callback, (void*)cookie._native_ptr());
+	AkPlayingID playing_id = AK::SoundEngine::PostEvent(event_id,
+			static_cast<AkGameObjectID>(game_object->get_instance_id()), flags, event_callback, (void*)cookie);
 
 	if (playing_id == AK_INVALID_PLAYING_ID)
 	{
@@ -563,10 +596,9 @@ unsigned int Wwise::post_event_id_callback(
 	return playing_id;
 }
 
-bool Wwise::stop_event(const int playing_id, const int fade_time, const int interpolation)
+bool Wwise::stop_event(
+		const unsigned int playing_id, const unsigned int fade_time, const AkUtils::AkCurveInterpolation interpolation)
 {
-	AKASSERT(fade_time >= 0);
-
 	AK::SoundEngine::ExecuteActionOnPlayingID(AK::SoundEngine::AkActionOnEventType::AkActionOnEventType_Stop,
 			static_cast<AkPlayingID>(playing_id), static_cast<AkTimeMs>(fade_time),
 			static_cast<AkCurveInterpolation>(interpolation));
@@ -574,7 +606,7 @@ bool Wwise::stop_event(const int playing_id, const int fade_time, const int inte
 	return true;
 }
 
-bool Wwise::set_switch(const String switch_group, const String switch_value, const Object* game_object)
+bool Wwise::set_switch(const String& switch_group, const String& switch_value, const Object* game_object)
 {
 	AKASSERT(!switch_group.is_empty());
 	AKASSERT(!switch_value.is_empty());
@@ -596,7 +628,7 @@ bool Wwise::set_switch_id(
 					String::num_int64(switch_value_id));
 }
 
-bool Wwise::set_state(const String state_group, const String state_value)
+bool Wwise::set_state(const String& state_group, const String& state_value)
 {
 	AKASSERT(!state_group.is_empty());
 	AKASSERT(!state_value.is_empty());
@@ -612,7 +644,7 @@ bool Wwise::set_state_id(const unsigned int state_group_id, const unsigned int s
 					String::num_int64(state_value_id));
 }
 
-float Wwise::get_rtpc_value(const String rtpc_name, const Object* game_object)
+float Wwise::get_rtpc_value(const String& rtpc_name, const Object* game_object)
 {
 	AKASSERT(!rtpc_name.is_empty());
 	AkRtpcValue value;
@@ -667,18 +699,15 @@ float Wwise::get_rtpc_value_id(const unsigned int rtpc_id, const Object* game_ob
 	return static_cast<float>(value);
 }
 
-bool Wwise::set_rtpc_value(const String rtpc_name, const float rtpc_value, const Object* game_object)
+bool Wwise::set_rtpc_value(const String& rtpc_name, const float rtpc_value, const Object* game_object)
 {
 	AKASSERT(!rtpc_name.is_empty());
-	AkGameObjectID game_object_id = AK_INVALID_GAME_OBJECT;
+
+	AkGameObjectID game_object_id{ AK_INVALID_GAME_OBJECT };
 
 	if (game_object)
 	{
 		game_object_id = static_cast<AkGameObjectID>(game_object->get_instance_id());
-	}
-	else
-	{
-		game_object_id = AK_INVALID_GAME_OBJECT;
 	}
 
 	return ERROR_CHECK(AK::SoundEngine::SetRTPCValue(
@@ -688,22 +717,18 @@ bool Wwise::set_rtpc_value(const String rtpc_name, const float rtpc_value, const
 
 bool Wwise::set_rtpc_value_id(const unsigned int rtpc_id, const float rtpc_value, const Object* game_object)
 {
-	AkGameObjectID game_object_id = AK_INVALID_GAME_OBJECT;
+	AkGameObjectID game_object_id{ AK_INVALID_GAME_OBJECT };
 
 	if (game_object)
 	{
 		game_object_id = static_cast<AkGameObjectID>(game_object->get_instance_id());
-	}
-	else
-	{
-		game_object_id = AK_INVALID_GAME_OBJECT;
 	}
 
 	return ERROR_CHECK(AK::SoundEngine::SetRTPCValue(rtpc_id, static_cast<AkRtpcValue>(rtpc_value), game_object_id),
 			String::num_int64(rtpc_id));
 }
 
-bool Wwise::post_trigger(const String trigger_name, const Object* game_object)
+bool Wwise::post_trigger(const String& trigger_name, const Object* game_object)
 {
 	AKASSERT(!trigger_name.is_empty());
 	AKASSERT(game_object);
@@ -722,19 +747,18 @@ bool Wwise::post_trigger_id(const unsigned int trigger_id, const Object* game_ob
 			"Failed to post trigger ID " + String::num_int64(trigger_id));
 }
 
-unsigned int Wwise::post_external_source(const String event_name, const Object* game_object,
-		const String source_object_name, const String filename, const unsigned int id_codec)
+unsigned int Wwise::post_external_source(const String& event_name, const Object* game_object,
+		const String& source_object_name, const String& filename, const AkUtils::AkCodecID id_codec)
 {
 	AKASSERT(!event_name.is_empty());
 	AKASSERT(game_object);
 	AKASSERT(!source_object_name.is_empty());
 	AKASSERT(!filename.is_empty());
 
-	AkExternalSourceInfo source;
+	AkExternalSourceInfo source{};
 	source.iExternalSrcCookie = AK::SoundEngine::GetIDFromString(source_object_name.utf8().get_data());
 
 	AkOSChar* sz_file_os_string = nullptr;
-
 	CONVERT_CHAR_TO_OSCHAR(filename.utf8().get_data(), sz_file_os_string);
 
 	source.szFile = sz_file_os_string;
@@ -753,16 +777,15 @@ unsigned int Wwise::post_external_source(const String event_name, const Object* 
 }
 
 unsigned int Wwise::post_external_source_id(const unsigned int event_id, const Object* game_object,
-		const unsigned int source_object_id, const String filename, const unsigned int id_codec)
+		const unsigned int source_object_id, const String& filename, const AkUtils::AkCodecID id_codec)
 {
 	AKASSERT(game_object);
 	AKASSERT(!filename.is_empty());
 
-	AkExternalSourceInfo source;
+	AkExternalSourceInfo source{};
 	source.iExternalSrcCookie = source_object_id;
 
 	AkOSChar* sz_file_os_string = nullptr;
-
 	CONVERT_CHAR_TO_OSCHAR(filename.utf8().get_data(), sz_file_os_string);
 
 	source.szFile = sz_file_os_string;
@@ -782,7 +805,7 @@ unsigned int Wwise::post_external_source_id(const unsigned int event_id, const O
 
 int Wwise::get_source_play_position(const unsigned int playing_id, const bool extrapolate)
 {
-	AkTimeMs position;
+	AkTimeMs position{};
 	AKRESULT result =
 			AK::SoundEngine::GetSourcePlayPosition(static_cast<AkPlayingID>(playing_id), &position, extrapolate);
 
@@ -807,29 +830,29 @@ Dictionary Wwise::get_playing_segment_info(const unsigned int playing_id, const 
 	}
 
 	Dictionary segment;
-	segment["fBarDuration"] = static_cast<float>(segment_info.fBarDuration);
-	segment["fBeatDuration"] = static_cast<float>(segment_info.fBeatDuration);
-	segment["fGridDuration"] = static_cast<float>(segment_info.fGridDuration);
-	segment["fGridOffset"] = static_cast<float>(segment_info.fGridOffset);
-	segment["iActiveDuration"] = static_cast<int>(segment_info.iActiveDuration);
-	segment["iCurrentPosition"] = static_cast<int>(segment_info.iCurrentPosition);
-	segment["iPostExitDuration"] = static_cast<int>(segment_info.iPostExitDuration);
-	segment["iPreEntryDuration"] = static_cast<int>(segment_info.iPreEntryDuration);
-	segment["iRemainingLookAheadTime"] = static_cast<int>(segment_info.iRemainingLookAheadTime);
+	segment["fBarDuration"] = segment_info.fBarDuration;
+	segment["fBeatDuration"] = segment_info.fBeatDuration;
+	segment["fGridDuration"] = segment_info.fGridDuration;
+	segment["fGridOffset"] = segment_info.fGridOffset;
+	segment["iActiveDuration"] = segment_info.iActiveDuration;
+	segment["iCurrentPosition"] = segment_info.iCurrentPosition;
+	segment["iPostExitDuration"] = segment_info.iPostExitDuration;
+	segment["iPreEntryDuration"] = segment_info.iPreEntryDuration;
+	segment["iRemainingLookAheadTime"] = segment_info.iRemainingLookAheadTime;
 
 	return segment;
 }
 
-bool Wwise::set_game_object_output_bus_volume(
-		const unsigned int game_object_id, const unsigned int listener_id, float f_control_value)
+bool Wwise::set_game_object_output_bus_volume(const Object* game_object, const Object* listener, float f_control_value)
 {
-	return ERROR_CHECK(AK::SoundEngine::SetGameObjectOutputBusVolume(static_cast<AkGameObjectID>(game_object_id),
-							   static_cast<AkGameObjectID>(listener_id), f_control_value),
+	return ERROR_CHECK(
+			AK::SoundEngine::SetGameObjectOutputBusVolume(static_cast<AkGameObjectID>(game_object->get_instance_id()),
+					static_cast<AkGameObjectID>(listener->get_instance_id()), f_control_value),
 			"Could not set the Game Object Outpus Bus Volume");
 }
 
 bool Wwise::set_game_object_aux_send_values(
-		const Object* game_object, const Array ak_aux_send_values, const unsigned int send_values)
+		const Object* game_object, const Array ak_aux_send_values, const unsigned int num_send_values)
 {
 	std::vector<AkAuxSendValue> environments;
 
@@ -847,20 +870,22 @@ bool Wwise::set_game_object_aux_send_values(
 
 	return ERROR_CHECK(
 			AK::SoundEngine::SetGameObjectAuxSendValues(
-					static_cast<AkGameObjectID>(game_object->get_instance_id()), environments.data(), send_values),
+					static_cast<AkGameObjectID>(game_object->get_instance_id()), environments.data(), num_send_values),
 			"Could not set the Game Object Aux Send Values");
 }
 
-bool Wwise::set_object_obstruction_and_occlusion(const unsigned int game_object_id, const unsigned int listener_id,
-		float f_calculated_obs, float f_calculated_occ)
+bool Wwise::set_object_obstruction_and_occlusion(
+		const Object* game_object, const Object* listener, float f_calculated_obs, float f_calculated_occ)
 {
-	return ERROR_CHECK(AK::SoundEngine::SetObjectObstructionAndOcclusion(static_cast<AkGameObjectID>(game_object_id),
-							   static_cast<AkGameObjectID>(listener_id), f_calculated_obs, f_calculated_occ),
+	return ERROR_CHECK(
+			AK::SoundEngine::SetObjectObstructionAndOcclusion(
+					static_cast<AkGameObjectID>(game_object->get_instance_id()),
+					static_cast<AkGameObjectID>(listener->get_instance_id()), f_calculated_obs, f_calculated_occ),
 			"Could not set Obstruction and Occlusion");
 }
 
 bool Wwise::set_geometry(const Array vertices, const Array triangles, const Ref<Resource>& acoustic_texture,
-		const float transmission_loss_value, const Object* game_object, bool enable_diffraction,
+		float transmission_loss_value, const Object* game_object, bool enable_diffraction,
 		bool enable_diffraction_on_boundary_edges, bool enable_triangles)
 {
 	AKASSERT(!vertices.is_empty());
@@ -978,7 +1003,7 @@ bool Wwise::set_geometry_instance(const Object* associated_geometry, const Trans
 
 	AkWorldTransform position_and_orientation{};
 	position_and_orientation.SetPosition(AK::ConvertAkVectorToAkVector64(position));
-	position_and_orientation.SetOrientation(orientation_front, orientation_top);
+	position_and_orientation.SetOrientation(orientation_front * -1.0f, orientation_top);
 	params.PositionAndOrientation = position_and_orientation;
 
 	vector3_to_akvector(transform.get_basis().get_scale(), params.Scale);
@@ -1159,7 +1184,7 @@ bool Wwise::set_early_reflections_volume(const Object* game_object, const float 
 			"Failed to set Early Reflections volume");
 }
 
-bool Wwise::add_output(const String share_set, const unsigned int output_id)
+bool Wwise::add_output(const String& share_set, const unsigned int output_id)
 {
 	AkOutputSettings output_settings(share_set.utf8().get_data(), output_id);
 
@@ -1187,15 +1212,16 @@ void Wwise::event_callback(AkCallbackType callback_type, AkCallbackInfo* callbac
 {
 	AkAutoLock<CAkLock> scoped_lock(callback_data_lock);
 
-	Callable* cookie = static_cast<Callable*>(callback_info->pCookie);
+	const CookieWrapper* wrapper = static_cast<CookieWrapper*>(callback_info->pCookie);
 
-	if (!cookie)
+	if (!wrapper)
 	{
 		ERROR_CHECK(AK_Fail, "The Event Callback cookie is not valid.");
 		return;
 	}
-	else if (!cookie->is_valid())
+	else if (!wrapper->get_cookie().is_valid())
 	{
+		ERROR_CHECK(AK_Fail, "The Event Callback cookie is not valid.");
 		return;
 	}
 
@@ -1523,24 +1549,23 @@ void Wwise::event_callback(AkCallbackType callback_type, AkCallbackInfo* callbac
 	}
 
 	args.push_back(callback_data);
-	cookie->callv(args);
+	wrapper->get_cookie().callv(args);
 }
 
 void Wwise::bank_callback(AkUInt32 bank_id, const void* in_memory_bank_ptr, AKRESULT load_result, void* in_pCookie)
 {
 	AkAutoLock<CAkLock> scoped_lock(callback_data_lock);
 
-	Callable* cookie = static_cast<Callable*>(in_pCookie);
+	const CookieWrapper* wrapper = static_cast<CookieWrapper*>(in_pCookie);
 
-	if (!cookie)
+	if (!wrapper)
 	{
 		ERROR_CHECK(AK_Fail, "The Bank Callback cookie is not valid.");
 		return;
 	}
-	else if (!cookie->is_valid())
+	else if (!wrapper->get_cookie().is_valid())
 	{
-		UtilityFunctions::push_warning(
-				"The Bank Callback cookie object no longer exists.", __FUNCTION__, __FILE__, itos(__LINE__));
+		ERROR_CHECK(AK_Fail, "The Bank Callback cookie is not valid.");
 		return;
 	}
 
@@ -1550,10 +1575,10 @@ void Wwise::bank_callback(AkUInt32 bank_id, const void* in_memory_bank_ptr, AKRE
 	callback_data["result"] = load_result;
 
 	args.push_back(callback_data);
-	cookie->callv(args);
+	wrapper->get_cookie().callv(args);
 }
 
-Variant Wwise::get_platform_project_setting(const String setting)
+Variant Wwise::get_platform_project_setting(const String& setting)
 {
 	AKASSERT(project_settings);
 	AKASSERT(!setting.is_empty());
@@ -1631,7 +1656,7 @@ bool Wwise::initialize_wwise_systems()
 		return false;
 	}
 
-	AkInitSettings init_settings;
+	AkInitSettings init_settings{};
 	AK::SoundEngine::GetDefaultInitSettings(init_settings);
 
 #if defined(AK_ENABLE_ASSERTS)
@@ -1718,7 +1743,10 @@ bool Wwise::initialize_wwise_systems()
 			break;
 	}
 
-	init_settings.eFloorPlane = AkFloorPlane_Default; // todo(alex): check this;
+	init_settings.fGameUnitsToMeters =
+			static_cast<float>(get_platform_project_setting(WWISE_COMMON_USER_SETTINGS_PATH + "game_units_to_meters"));
+
+	init_settings.eFloorPlane = AkFloorPlane_Default;
 
 	AkPlatformInitSettings platform_init_settings;
 	AK::SoundEngine::GetDefaultPlatformInitSettings(platform_init_settings);
@@ -1864,26 +1892,24 @@ bool Wwise::initialize_wwise_systems()
 	}
 
 #ifndef AK_OPTIMIZED
-	AkCommSettings commSettings;
-	AK::Comm::GetDefaultInitSettings(commSettings);
+	AkCommSettings comm_settings{};
+	AK::Comm::GetDefaultInitSettings(comm_settings);
 
-	commSettings.bInitSystemLib = static_cast<bool>(
+	comm_settings.bInitSystemLib = static_cast<bool>(
 			get_platform_project_setting(WWISE_COMMUNICATION_SETTINGS_PATH + "initialize_system_comms"));
 
 	// note(alex): Default value: 24024
-	commSettings.ports.uCommand =
+	comm_settings.ports.uCommand =
 			static_cast<unsigned int>(get_platform_project_setting(WWISE_COMMUNICATION_SETTINGS_PATH + "command_port"));
 
-	commSettings.ports.uDiscoveryBroadcast = static_cast<unsigned int>(
+	comm_settings.ports.uDiscoveryBroadcast = static_cast<unsigned int>(
 			get_platform_project_setting(WWISE_COMMUNICATION_SETTINGS_PATH + "discovery_broadcast_port"));
 
-	// todo(alex): remove notification_port from settings
-
-	String networkName = get_platform_project_setting(WWISE_COMMUNICATION_SETTINGS_PATH + "network_name");
+	String network_name = get_platform_project_setting(WWISE_COMMUNICATION_SETTINGS_PATH + "network_name");
 	AKPLATFORM::SafeStrCpy(
-			commSettings.szAppNetworkName, networkName.utf8().get_data(), AK_COMM_SETTINGS_MAX_STRING_SIZE);
+			comm_settings.szAppNetworkName, network_name.utf8().get_data(), AK_COMM_SETTINGS_MAX_STRING_SIZE);
 
-	ERROR_CHECK(AK::Comm::Init(commSettings), "Comm initialisation failed");
+	ERROR_CHECK(AK::Comm::Init(comm_settings), "Comm initialisation failed");
 #endif
 
 	return true;

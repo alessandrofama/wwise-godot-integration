@@ -53,7 +53,7 @@ void AkEvent2D::_enter_tree()
 
 	if (soundengine)
 	{
-		soundengine->register_game_object(this, get_name());
+		soundengine->register_game_obj(this, get_name());
 	}
 
 	for (const auto& entry : AkUtils::get_singleton()->event_callback_signals)
@@ -108,7 +108,8 @@ void AkEvent2D::post_event()
 	{
 		if (callback_type)
 		{
-			playing_id = soundengine->post_event_id_callback(event.get("id", 0), callback_type, this, cookie);
+			playing_id = soundengine->post_event_id_callback(
+					event.get("id", 0), (AkUtils::AkCallbackType)callback_type, this, &cookie);
 		}
 		else
 		{
@@ -212,7 +213,7 @@ void AkEvent3D::_enter_tree()
 
 	if (soundengine)
 	{
-		soundengine->register_game_object(this, get_name());
+		soundengine->register_game_obj(this, get_name());
 	}
 
 	for (const auto& entry : AkUtils::get_singleton()->event_callback_signals)
@@ -289,7 +290,8 @@ void AkEvent3D::post_event()
 	{
 		if (callback_type)
 		{
-			playing_id = soundengine->post_event_id_callback(event.get("id", 0), callback_type, this, cookie);
+			playing_id = soundengine->post_event_id_callback(
+					event.get("id", 0), (AkUtils::AkCallbackType)callback_type, this, &cookie);
 		}
 		else
 		{

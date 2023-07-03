@@ -6,6 +6,31 @@
 
 namespace godot
 {
+
+class CookieWrapper : public Object
+{
+	GDCLASS(CookieWrapper, Object);
+
+protected:
+	static void _bind_methods()
+	{
+		ClassDB::bind_method(D_METHOD("set_cookie", "cookie"), &CookieWrapper::set_cookie);
+		ClassDB::bind_method(D_METHOD("get_cookie"), &CookieWrapper::get_cookie);
+
+		ADD_PROPERTY(PropertyInfo(Variant::CALLABLE, "cookie", PROPERTY_HINT_NONE), "set_cookie", "get_cookie");
+	}
+
+private:
+	Callable cookie{};
+
+public:
+	CookieWrapper(){};
+	CookieWrapper(const Callable& cookie) : cookie(cookie) {}
+
+	void set_cookie(const Callable& cookie) { this->cookie = cookie; }
+	Callable get_cookie() const { return cookie; }
+};
+
 class AkUtils : public RefCounted
 {
 	GDCLASS(AkUtils, RefCounted);
@@ -78,6 +103,41 @@ public:
 		AK_ENABLE_GET_SOURCE_STREAM_BUFFERING = 0x400000
 	};
 
+	enum MultiPositionType
+	{
+		TYPE_SINGLE_SOURCE = 0,
+		TYPE_MULTI_SOURCES = 1,
+		TYPE_MULTI_DIRECTIONS = 2
+	};
+
+	enum AkCodecID
+	{
+		AK_CODECID_BANK = 0,
+		AK_CODECID_PCM = 1,
+		AK_CODECID_ADPCM = 2,
+		AK_CODECID_XMA = 3,
+		AK_CODECID_VORBIS = 4,
+		AK_CODECID_WIIADPCM = 5,
+		AK_CODECID_PCMEX = 7,
+		AK_CODECID_EXTERNAL_SOURCE = 8,
+		AK_CODECID_XWMA = 9,
+		AK_CODECID_AAC = 10,
+		AK_CODECID_FILE_PACKAGE = 11,
+		AK_CODECID_ATRAC9 = 12,
+		AK_CODECID_VAG = 13,
+		AK_CODECID_PROFILERCAPTURE = 14,
+		AK_CODECID_ANALYSISFILE = 15,
+		AK_CODECID_MIDI = 16,
+		AK_CODECID_OPUSNX = 17,
+		AK_CODECID_CAF = 18,
+		AK_CODECID_AKOPUS = 19,
+		AK_CODECID_AKOPUS_WEM = 20,
+		AK_CODECID_MEMORYMGR_DUMP = 21,
+		AK_CODECID_SONY360 = 22,
+		AK_CODECID_BANK_EVENT = 30,
+		AK_CODECID_BANK_BUS = 31
+	};
+
 	std::unordered_map<AkCallbackType, StringName> event_callback_signals{
 		{ AK_END_OF_EVENT, "end_of_event" },
 		{ AK_END_OF_DYNAMIC_SEQUENCE_ITEM, "end_of_dynamic_sequence_item" },
@@ -113,5 +173,7 @@ VARIANT_ENUM_CAST(AkUtils::GameEvent);
 VARIANT_ENUM_CAST(AkUtils::AkType);
 VARIANT_ENUM_CAST(AkUtils::AkCurveInterpolation);
 VARIANT_ENUM_CAST(AkUtils::AkCallbackType);
+VARIANT_ENUM_CAST(AkUtils::MultiPositionType);
+VARIANT_ENUM_CAST(AkUtils::AkCodecID);
 
 #endif
