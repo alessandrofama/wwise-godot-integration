@@ -1007,26 +1007,30 @@ bool Wwise::register_spatial_listener(const Object* game_object)
 }
 
 bool Wwise::set_room(const Object* game_object, const unsigned int ak_aux_bus_id, const float reverb_level,
-		const float transmission_loss, const Vector3 front_vector, const Vector3 up_vector, bool keep_registered,
-		const int associated_geometry)
+		const float transmission_loss, const Vector3& front_vector, const Vector3& up_vector, bool keep_registered,
+		const Object* associated_geometry_instance)
 {
 	AKASSERT(game_object);
 
-	AkRoomParams room_params;
+	AkRoomParams room_params{};
 	room_params.ReverbAuxBus = ak_aux_bus_id;
 	room_params.ReverbLevel = reverb_level;
 	room_params.TransmissionLoss = transmission_loss;
 
-	AkVector front;
+	AkVector front{};
 	vector3_to_akvector(front_vector, front);
-	AkVector up;
+	AkVector up{};
 	vector3_to_akvector(up_vector, up);
 
 	room_params.Front = front;
 	room_params.Up = up;
 	room_params.RoomGameObj_KeepRegistered = keep_registered;
-	room_params.RoomGameObj_AuxSendLevelToSelf = 0.0f; // todo(alex): check this;
-	room_params.GeometryInstanceID = static_cast<AkGeometrySetID>(associated_geometry);
+	room_params.RoomGameObj_AuxSendLevelToSelf = 0.0f;
+
+	if (associated_geometry_instance)
+	{
+		room_params.GeometryInstanceID = static_cast<AkGeometrySetID>(associated_geometry_instance->get_instance_id());
+	}
 
 	return ERROR_CHECK(AK::SpatialAudio::SetRoom(static_cast<AkRoomID>(game_object->get_instance_id()), room_params),
 			"Failed to set Room for Game Object: " + String::num_int64(game_object->get_instance_id()));

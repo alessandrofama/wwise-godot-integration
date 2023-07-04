@@ -41,6 +41,8 @@ void register_wwise_types(ModuleInitializationLevel p_level)
 		ClassDB::register_class<AkEvent3D>();
 		ClassDB::register_class<AkPortal>();
 		ClassDB::register_class<AkGeometry>();
+		ClassDB::register_class<AkRoom>();
+		ClassDB::register_class<AkEarlyReflections>();
 	}
 }
 

@@ -131,8 +131,8 @@ public:
 	bool remove_geometry_instance(const Object* geometry_instance);
 	bool register_spatial_listener(const Object* game_object);
 	bool set_room(const Object* game_object, const unsigned int ak_aux_bus_id, const float reverb_level,
-			const float transmission_loss, const Vector3 front_vector, const Vector3 up_vector, bool keep_registered,
-			const int associated_geometry);
+			const float transmission_loss, const Vector3& front_vector, const Vector3& up_vector, bool keep_registered,
+			const Object* associated_geometry_instance);
 	bool remove_room(const Object* game_object);
 	bool set_portal(const Object* game_object, const Transform3D transform, const Vector3 extent,
 			const Object* front_room, const Object* back_room, bool enabled);
