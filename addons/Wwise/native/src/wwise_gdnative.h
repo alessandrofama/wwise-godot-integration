@@ -92,7 +92,7 @@ public:
 	unsigned int post_event_id(const unsigned int event_id, const Object* game_object);
 	unsigned int post_event_id_callback(const unsigned int event_id, const AkUtils::AkCallbackType flags,
 			const Object* game_object, const CookieWrapper* cookie);
-	bool stop_event(const unsigned int playing_id, const unsigned int fade_time,
+	void stop_event(const unsigned int playing_id, const unsigned int fade_time,
 			const AkUtils::AkCurveInterpolation interpolation);
 
 	bool set_switch(const String& switch_group, const String& switch_value, const Object* game_object);
@@ -135,7 +135,7 @@ public:
 			const float transmission_loss, const Vector3& front_vector, const Vector3& up_vector, bool keep_registered,
 			const Object* associated_geometry_instance);
 	bool remove_room(const Object* game_object);
-	bool set_portal(const Object* game_object, const Transform3D transform, const Vector3 extent,
+	bool set_portal(const Object* game_object, const Transform3D transform, const Vector3& extent,
 			const Object* front_room, const Object* back_room, bool enabled);
 	bool remove_portal(const Object* game_object);
 	bool set_portal_obstruction_and_occlusion(

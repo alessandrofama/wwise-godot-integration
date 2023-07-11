@@ -51,8 +51,8 @@ public:
 	AKRESULT Open(AkFileID in_file_id, AkOpenMode in_open_mode, AkFileSystemFlags* in_pflags, bool& io_bsync_open,
 			AkFileDesc& out_file_desc) override;
 
-	void set_banks_path(const String banks_path);
-	void set_language_folder(const String language_folder);
+	void set_banks_path(const String& banks_path);
+	void set_language_folder(const String& language_folder);
 
 private:
 	CAkIOHookBlockingGodot blocking_device;

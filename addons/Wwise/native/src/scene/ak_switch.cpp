@@ -15,7 +15,7 @@ void AkSwitch::_bind_methods()
 	ClassDB::bind_method(D_METHOD("set_trigger_on", "trigger_on"), &AkSwitch::set_trigger_on);
 	ClassDB::bind_method(D_METHOD("get_trigger_on"), &AkSwitch::get_trigger_on);
 
-	ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "ak_event", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "AkEvent"),
+	ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "ak_event", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "Node"),
 			"set_ak_event", "get_ak_event");
 	ADD_PROPERTY(PropertyInfo(Variant::DICTIONARY, "switch_group", PROPERTY_HINT_NONE), "set_switch_group",
 			"get_switch_group");
@@ -66,7 +66,6 @@ void AkSwitch::set_switch()
 		unsigned int switch_group_id = switch_group.get("id", 0);
 		unsigned int switch_value_id = switch_value.get("id", 0);
 
-		// todo(alex): change this to proper AkEvent type when implemented
 		Node* event = get_node<Node>(ak_event);
 
 		if (soundengine->set_switch_id(switch_group_id, switch_value_id, event))

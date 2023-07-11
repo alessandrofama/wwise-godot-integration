@@ -10,6 +10,8 @@ void AkRoom::_bind_methods()
 	ClassDB::bind_method(D_METHOD("get_aux_bus"), &AkRoom::get_aux_bus);
 	ClassDB::bind_method(D_METHOD("set_reverb_level", "reverb_level"), &AkRoom::set_reverb_level);
 	ClassDB::bind_method(D_METHOD("get_reverb_level"), &AkRoom::get_reverb_level);
+	ClassDB::bind_method(D_METHOD("set_transmission_loss", "transmission_loss"), &AkRoom::set_transmission_loss);
+	ClassDB::bind_method(D_METHOD("get_transmission_loss"), &AkRoom::get_transmission_loss);
 	ClassDB::bind_method(D_METHOD("set_associated_geometry", "associated_geometry"), &AkRoom::set_associated_geometry);
 	ClassDB::bind_method(D_METHOD("get_associated_geometry"), &AkRoom::get_associated_geometry);
 	ClassDB::bind_method(D_METHOD("set_keep_registered", "keep_registered"), &AkRoom::set_keep_registered);
@@ -18,6 +20,8 @@ void AkRoom::_bind_methods()
 	ADD_PROPERTY(PropertyInfo(Variant::DICTIONARY, "aux_bus", PROPERTY_HINT_NONE), "set_aux_bus", "get_aux_bus");
 	ADD_PROPERTY(
 			PropertyInfo(Variant::FLOAT, "reverb_level", PROPERTY_HINT_NONE), "set_reverb_level", "get_reverb_level");
+	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "transmission_loss", PROPERTY_HINT_NONE), "set_transmission_loss",
+			"get_transmission_loss");
 	ADD_PROPERTY(
 			PropertyInfo(Variant::NODE_PATH, "associated_geometry", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "AkGeometry"),
 			"set_associated_geometry", "get_associated_geometry");
@@ -111,6 +115,10 @@ Dictionary AkRoom::get_aux_bus() const { return aux_bus; }
 void AkRoom::set_reverb_level(float reverb_level) { this->reverb_level = reverb_level; }
 
 float AkRoom::get_reverb_level() const { return reverb_level; }
+
+void godot::AkRoom::set_transmission_loss(float transmission_loss) { this->transmission_loss = transmission_loss; }
+
+float godot::AkRoom::get_transmission_loss() const { return transmission_loss; }
 
 void AkRoom::set_associated_geometry(const NodePath& associated_geometry)
 {

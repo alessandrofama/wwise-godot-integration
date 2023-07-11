@@ -38,6 +38,9 @@ public:
 	void set_reverb_level(float reverb_level);
 	float get_reverb_level() const;
 
+	void set_transmission_loss(float transmission_loss);
+	float get_transmission_loss() const;
+
 	void set_associated_geometry(const NodePath& associated_geometry);
 	NodePath get_associated_geometry() const;
 

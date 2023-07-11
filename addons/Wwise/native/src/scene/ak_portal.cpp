@@ -19,6 +19,19 @@ void AkPortal::_bind_methods()
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "enabled", PROPERTY_HINT_NONE), "set_enabled", "get_enabled");
 }
 
+void AkPortal::_enter_tree()
+{
+	if (get_child_count() == 0)
+	{
+		collision_shape = memnew(CollisionShape3D);
+		box_shape = memnew(BoxShape3D);
+		collision_shape->set_name("Shape");
+		collision_shape->set_shape(box_shape);
+		add_child(collision_shape);
+		collision_shape->set_owner(get_tree()->get_edited_scene_root());
+	}
+}
+
 void AkPortal::_ready()
 {
 	RETURN_IF_EDITOR;
@@ -33,8 +46,17 @@ void AkPortal::_ready()
 		back_room_node = get_node<Node>(back_room);
 	}
 
-	extent = get_global_transform().get_basis().get_scale();
-	set_portal();
+	collision_shape = Object::cast_to<CollisionShape3D>(get_child(0));
+
+	if (collision_shape)
+	{
+		box_shape = (BoxShape3D*)collision_shape->get_shape().ptr();
+		if (box_shape)
+		{
+			extent = box_shape->get_size();
+			set_portal();
+		}
+	}
 }
 
 void AkPortal::set_portal() const
@@ -62,7 +84,13 @@ void AkPortal::set_enabled(bool enabled)
 	if (this->enabled != enabled)
 	{
 		this->enabled = enabled;
-		set_portal();
+
+		RETURN_IF_EDITOR;
+
+		if (is_inside_tree())
+		{
+			set_portal();
+		}
 	}
 }
 

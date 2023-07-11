@@ -2,7 +2,6 @@
 #define AK_ENVIRONMENT_DATA_H
 
 #include "ak_environment.h"
-#include "ak_utils.h"
 #include "wwise_gdnative.h"
 #include <algorithm>
 

@@ -15,7 +15,7 @@ void AkEarlyReflections::_bind_methods()
 	ADD_PROPERTY(PropertyInfo(Variant::DICTIONARY, "aux_bus", PROPERTY_HINT_NONE), "set_aux_bus", "get_aux_bus");
 	ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "game_object_path", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "Node"),
 			"set_game_object_path", "get_game_object_path");
-	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "aux_bus", PROPERTY_HINT_NONE), "set_aux_bus", "get_aux_bus");
+	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "volume", PROPERTY_HINT_NONE), "set_volume", "get_volume");
 }
 
 AkEarlyReflections::AkEarlyReflections()

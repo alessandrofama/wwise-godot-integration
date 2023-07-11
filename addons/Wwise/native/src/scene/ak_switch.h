@@ -1,7 +1,6 @@
 #ifndef AK_SWITCH_H
 #define AK_SWITCH_H
 
-#include "ak_utils.h"
 #include "wwise_gdnative.h"
 #include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/classes/node.hpp>

@@ -272,9 +272,9 @@ AKRESULT CAkFileIOHandlerGodot::Open(AkFileID in_file_id, AkOpenMode in_open_mod
 	return result;
 }
 
-void CAkFileIOHandlerGodot::set_banks_path(const String banks_path) { this->banks_path = banks_path; }
+void CAkFileIOHandlerGodot::set_banks_path(const String& banks_path) { this->banks_path = banks_path; }
 
-void CAkFileIOHandlerGodot::set_language_folder(const String language_folder)
+void CAkFileIOHandlerGodot::set_language_folder(const String& language_folder)
 {
 	this->language_folder = language_folder;
 }

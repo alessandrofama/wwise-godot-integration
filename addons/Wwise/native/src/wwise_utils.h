@@ -180,7 +180,9 @@ static bool check_error(
 {
 	if (result != AK_Success)
 	{
-		UtilityFunctions::push_error(String(wwise_error_string(result)) + " " + message, function, file, line);
+		String error_message =
+				"[" + String(wwise_error_string(result)) + "]: " + function + " in " + file + ":" + String::num(line);
+		UtilityFunctions::push_error(error_message);
 		return false;
 	}
 
@@ -266,10 +268,9 @@ enum class VectorType
 
 static inline void vector3_to_akvector(const Vector3& in_vector, AkVector& out_vector)
 {
-	//todo(alex): check
 	out_vector.X = in_vector.x;
 	out_vector.Y = in_vector.y;
-	out_vector.Z = in_vector.z;
+	out_vector.Z = in_vector.z * -1.0f;
 }
 
 static inline void get_akvector(const Transform3D& t, AkVector& out_vector, const VectorType& type)

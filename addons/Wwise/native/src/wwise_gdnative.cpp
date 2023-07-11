@@ -294,10 +294,11 @@ void Wwise::set_current_language(const String& language)
 
 bool Wwise::load_bank(const String& bank_name)
 {
-	AkBankID bank_id;
 	AKASSERT(!bank_name.is_empty());
 
-	return ERROR_CHECK(AK::SoundEngine::LoadBank(bank_name.utf8().get_data(), bank_id), bank_name);
+	AkUInt32 bank_id = AK::SoundEngine::GetIDFromString(bank_name.utf8().get_data());
+
+	return ERROR_CHECK(AK::SoundEngine::LoadBank(bank_id), bank_name);
 }
 
 bool Wwise::load_bank_id(const unsigned int bank_id)
@@ -310,10 +311,9 @@ bool Wwise::load_bank_async(const String& bank_name, const CookieWrapper* cookie
 	AKASSERT(!bank_name.is_empty());
 	AKASSERT(cookie);
 
-	AkBankID bank_id = 0;
+	AkUInt32 bank_id = AK::SoundEngine::GetIDFromString(bank_name.utf8().get_data());
 
-	return ERROR_CHECK(AK::SoundEngine::LoadBank(
-							   bank_name.utf8().get_data(), (AkBankCallbackFunc)bank_callback, (void*)cookie, bank_id),
+	return ERROR_CHECK(AK::SoundEngine::LoadBank(bank_id, (AkBankCallbackFunc)bank_callback, (void*)cookie),
 			"ID " + String::num_int64(bank_id));
 }
 
@@ -329,7 +329,9 @@ bool Wwise::unload_bank(const String& bank_name)
 {
 	AKASSERT(!bank_name.is_empty());
 
-	return ERROR_CHECK(AK::SoundEngine::UnloadBank(bank_name.utf8().get_data(), NULL), bank_name);
+	AkUInt32 bank_id = AK::SoundEngine::GetIDFromString(bank_name.utf8().get_data());
+
+	return ERROR_CHECK(AK::SoundEngine::UnloadBank(bank_id, NULL), bank_name);
 }
 
 bool Wwise::unload_bank_id(const unsigned int bank_id)
@@ -342,8 +344,9 @@ bool Wwise::unload_bank_async(const String& bank_name, const CookieWrapper* cook
 	AKASSERT(!bank_name.is_empty());
 	AKASSERT(cookie);
 
-	return ERROR_CHECK(AK::SoundEngine::UnloadBank(
-							   bank_name.utf8().get_data(), NULL, (AkBankCallbackFunc)bank_callback, (void*)cookie),
+	AkUInt32 bank_id = AK::SoundEngine::GetIDFromString(bank_name.utf8().get_data());
+
+	return ERROR_CHECK(AK::SoundEngine::UnloadBank(bank_id, NULL, (AkBankCallbackFunc)bank_callback, (void*)cookie),
 			"Loading bank: " + bank_name + " failed");
 }
 
@@ -596,14 +599,12 @@ unsigned int Wwise::post_event_id_callback(const unsigned int event_id, const Ak
 	return playing_id;
 }
 
-bool Wwise::stop_event(
+void Wwise::stop_event(
 		const unsigned int playing_id, const unsigned int fade_time, const AkUtils::AkCurveInterpolation interpolation)
 {
 	AK::SoundEngine::ExecuteActionOnPlayingID(AK::SoundEngine::AkActionOnEventType::AkActionOnEventType_Stop,
 			static_cast<AkPlayingID>(playing_id), static_cast<AkTimeMs>(fade_time),
 			static_cast<AkCurveInterpolation>(interpolation));
-
-	return true;
 }
 
 bool Wwise::set_switch(const String& switch_group, const String& switch_value, const Object* game_object)
@@ -1067,7 +1068,7 @@ bool Wwise::remove_room(const Object* game_object)
 			"Failed to remove Room for Game Object: " + String::num_int64(game_object->get_instance_id()));
 }
 
-bool Wwise::set_portal(const Object* game_object, const Transform3D transform, const Vector3 extent,
+bool Wwise::set_portal(const Object* game_object, const Transform3D transform, const Vector3& extent,
 		const Object* front_room, const Object* back_room, bool enabled)
 {
 	AKASSERT(game_object);
@@ -1079,8 +1080,8 @@ bool Wwise::set_portal(const Object* game_object, const Transform3D transform, c
 	AkVector up;
 	get_akvector(transform, up, VectorType::UP);
 
-	AkTransform ak_transform;
-	ak_transform.Set(position, forward, up);
+	AkWorldTransform ak_transform;
+	ak_transform.Set(AK::ConvertAkVectorToAkVector64(position), forward, up);
 
 	// todo(alex): not used?
 	AkRoomID room_id;
@@ -1088,9 +1089,9 @@ bool Wwise::set_portal(const Object* game_object, const Transform3D transform, c
 	AkPortalParams portal_params;
 	AkExtent portal_extent;
 
-	portal_extent.halfWidth = extent.x * 0.25f;
-	portal_extent.halfHeight = extent.y * 0.25f;
-	portal_extent.halfDepth = extent.z * 0.25f;
+	portal_extent.halfWidth = extent.x * 0.5f;
+	portal_extent.halfHeight = extent.y * 0.5f;
+	portal_extent.halfDepth = extent.z * 0.5f;
 
 	portal_params.Transform = ak_transform;
 	portal_params.Extent = portal_extent;

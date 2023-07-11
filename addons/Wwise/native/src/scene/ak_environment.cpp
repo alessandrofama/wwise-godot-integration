@@ -5,12 +5,12 @@ using namespace godot;
 
 void AkEnvironment::_bind_methods()
 {
+	ClassDB::bind_method(D_METHOD("_on_area_entered", "area"), &AkEnvironment::_on_area_entered);
+	ClassDB::bind_method(D_METHOD("_on_area_exited", "area"), &AkEnvironment::_on_area_exited);
 	ClassDB::bind_method(D_METHOD("set_aux_bus", "aux_bus"), &AkEnvironment::set_aux_bus);
 	ClassDB::bind_method(D_METHOD("get_aux_bus"), &AkEnvironment::get_aux_bus);
 	ClassDB::bind_method(D_METHOD("set_priority", "priority"), &AkEnvironment::set_priority);
 	ClassDB::bind_method(D_METHOD("get_priority"), &AkEnvironment::get_priority);
-	ClassDB::bind_method(D_METHOD("_on_area_entered", "area"), &AkEnvironment::_on_area_entered);
-	ClassDB::bind_method(D_METHOD("_on_area_exited", "area"), &AkEnvironment::_on_area_exited);
 
 	ADD_PROPERTY(PropertyInfo(Variant::DICTIONARY, "aux_bus", PROPERTY_HINT_NONE), "set_aux_bus", "get_aux_bus");
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "priority", PROPERTY_HINT_NONE), "set_priority", "get_priority");
@@ -24,6 +24,8 @@ AkEnvironment::AkEnvironment()
 
 void AkEnvironment::_enter_tree()
 {
+	RETURN_IF_EDITOR;
+
 	connect("area_entered", Callable(this, "_on_area_entered"));
 	connect("area_exited", Callable(this, "_on_area_exited"));
 }

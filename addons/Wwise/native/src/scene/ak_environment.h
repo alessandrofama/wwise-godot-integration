@@ -1,6 +1,7 @@
 #ifndef AK_ENVIRONMENT_H
 #define AK_ENVIRONMENT_H
 
+#include "wwise_gdnative.h"
 #include <godot_cpp/classes/area3d.hpp>
 
 namespace godot

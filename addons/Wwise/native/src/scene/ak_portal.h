@@ -3,6 +3,9 @@
 
 #include "wwise_gdnative.h"
 #include <godot_cpp/classes/area3d.hpp>
+#include <godot_cpp/classes/box_shape3d.hpp>
+#include <godot_cpp/classes/collision_shape3d.hpp>
+#include <godot_cpp/classes/scene_tree.hpp>
 
 namespace godot
 {
@@ -20,8 +23,11 @@ private:
 	bool enabled;
 	Node* front_room_node;
 	Node* back_room_node;
+	CollisionShape3D* collision_shape;
+	BoxShape3D* box_shape;
 
 public:
+	virtual void _enter_tree() override;
 	virtual void _ready() override;
 	void set_portal() const;
 
