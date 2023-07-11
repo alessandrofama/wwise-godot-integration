@@ -16,6 +16,11 @@ else:
 env = SConscript("godot-cpp/SConstruct")
 opts = Variables([], ARGUMENTS)
 
+scons_cache_path = os.environ.get("SCONS_CACHE")
+if scons_cache_path != None:
+    CacheDir(scons_cache_path)
+    print("SCons cache enabled... (path: '" + scons_cache_path + "')")
+
 # Define our options
 opts.Add(
     PathVariable(
@@ -242,6 +247,7 @@ elif env["platform"] == "linux":
 
 # ios build settings
 elif env["platform"] == "ios":
+    env["target_path"] += "/ios/"
     if env["ios_arch"] == "arm64":
         env["target_path"] += "arm64/"
 
