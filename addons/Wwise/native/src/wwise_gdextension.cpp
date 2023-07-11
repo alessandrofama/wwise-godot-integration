@@ -1,4 +1,4 @@
-#include "wwise_gdnative.h"
+#include "wwise_gdextension.h"
 
 #include <AK/Plugin/AllPluginsFactories.h>
 

@@ -1,7 +1,7 @@
 #ifndef AK_BANK_H
 #define AK_BANK_H
 
-#include "wwise_gdnative.h"
+#include "wwise_gdextension.h"
 #include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/classes/node.hpp>
 

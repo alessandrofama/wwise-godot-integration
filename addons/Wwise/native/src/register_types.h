@@ -20,7 +20,7 @@
 #include "scene/ak_state.h"
 #include "scene/ak_switch.h"
 #include "waapi/waapi_gdextension.h"
-#include "wwise_gdnative.h"
+#include "wwise_gdextension.h"
 #include "wwise_settings.h"
 
 using namespace godot;

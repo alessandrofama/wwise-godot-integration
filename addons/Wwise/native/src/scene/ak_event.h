@@ -2,7 +2,7 @@
 #define AK_EVENT_H
 
 #include "ak_environment_data.h"
-#include "wwise_gdnative.h"
+#include "wwise_gdextension.h"
 #include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/classes/node2d.hpp>
 

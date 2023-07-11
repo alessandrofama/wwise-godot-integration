@@ -2,7 +2,7 @@
 #define AK_ENVIRONMENT_DATA_H
 
 #include "ak_environment.h"
-#include "wwise_gdnative.h"
+#include "wwise_gdextension.h"
 #include <algorithm>
 
 namespace godot

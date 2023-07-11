@@ -1,7 +1,7 @@
 #ifndef AK_PORTAL_H
 #define AK_PORTAL_H
 
-#include "wwise_gdnative.h"
+#include "wwise_gdextension.h"
 #include <godot_cpp/classes/area3d.hpp>
 #include <godot_cpp/classes/box_shape3d.hpp>
 #include <godot_cpp/classes/collision_shape3d.hpp>

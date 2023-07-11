@@ -1,7 +1,7 @@
 #ifndef AK_GEOMETRY_H
 #define AK_GEOMETRY_H
 
-#include "wwise_gdnative.h"
+#include "wwise_gdextension.h"
 #include <godot_cpp/classes/area3d.hpp>
 #include <godot_cpp/classes/array_mesh.hpp>
 #include <godot_cpp/classes/mesh.hpp>

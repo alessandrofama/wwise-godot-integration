@@ -1,7 +1,7 @@
 #ifndef AK_EARLY_REFLECTIONS_H
 #define AK_EARLY_REFLECTIONS_H
 
-#include "wwise_gdnative.h"
+#include "wwise_gdextension.h"
 #include <godot_cpp/classes/node.hpp>
 
 namespace godot
