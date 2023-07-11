@@ -468,10 +468,10 @@ func _on_resized_editor_viewport():
 	if editor_viewport:
 		if waapi_picker_control:
 			if waapi_picker_control.get_parent():
-				var width = waapi_picker_control.get_parent().rect_size.x - 10
-				var height = waapi_picker_control.get_parent().rect_size.y - 80
-				parent_waapi_container.rect_size.x = width
-				parent_waapi_container.rect_size.y = height
+				var width = waapi_picker_control.get_parent().size.x - 10
+				var height = waapi_picker_control.get_parent().size.y - 80
+				parent_waapi_container.size.x = width
+				parent_waapi_container.size.y = height
 
 
 func _on_visibility_changed_editor_viewport():

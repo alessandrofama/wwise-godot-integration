@@ -2,10 +2,39 @@
 extends EditorPlugin
 
 var wwise_node_icon: Texture2D = load("res://addons/Wwise/editor/images/wwise_node.svg")
+var ak_event_gizmo = load("res://addons/wwise/editor/ak_event_gizmo.gd").new()
+var inspector_browser: EditorPlugin
+var waapi_picker: EditorPlugin
+var build_export_plugin: EditorExportPlugin
 
 
 func _enter_tree():
 	setup_custom_nodes_icons()
+	add_node_3d_gizmo_plugin(ak_event_gizmo)
+
+	inspector_browser = (
+		load("res://addons/wwise/editor/inspector_browser/inspector_browser_editor_plugin.gd").new()
+	)
+	get_editor_interface().get_base_control().add_child(inspector_browser)
+
+	waapi_picker = load("res://addons/Wwise/editor/waapi_picker/waapi_picker.gd").new()
+	get_editor_interface().get_base_control().add_child(waapi_picker)
+
+	build_export_plugin = load("res://addons/Wwise/editor/ak_build_export.gd").AkBuildExport.new()
+	add_export_plugin(build_export_plugin)
+
+
+func _exit_tree():
+	remove_node_3d_gizmo_plugin(ak_event_gizmo)
+
+	get_editor_interface().get_base_control().remove_child(inspector_browser)
+	inspector_browser.queue_free()
+
+	get_editor_interface().get_base_control().remove_child(waapi_picker)
+	waapi_picker.queue_free()
+
+	remove_export_plugin(build_export_plugin)
+	build_export_plugin.free()
 
 
 func setup_custom_nodes_icons():
