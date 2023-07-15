@@ -176,12 +176,12 @@ static const char* wwise_error_string(AKRESULT errcode)
 }
 
 static bool check_error(
-		const AKRESULT result, const String message, const char* function, const char* file, const int line)
+		const AKRESULT result, const char* function, const char* file, const int line, const String& message = "")
 {
 	if (result != AK_Success)
 	{
 		String error_message =
-				"[" + String(wwise_error_string(result)) + "]: " + function + " in " + file + ":" + String::num(line);
+				vformat("[%s]: %s in %s:%d. %s", wwise_error_string(result), function, file, line, message);
 		UtilityFunctions::push_error(error_message);
 		return false;
 	}
@@ -189,7 +189,8 @@ static bool check_error(
 	return true;
 }
 
-#define ERROR_CHECK(result, message) check_error(result, message, __FUNCTION__, __FILE__, __LINE__)
+#define ERROR_CHECK(result) check_error(result, __FUNCTION__, __FILE__, __LINE__)
+#define ERROR_CHECK_MSG(result, message) check_error(result, __FUNCTION__, __FILE__, __LINE__, message)
 
 #define RETURN_IF_EDITOR                                                                                               \
 	if (Engine::get_singleton()->is_editor_hint())                                                                     \

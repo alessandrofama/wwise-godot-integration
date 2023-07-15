@@ -87,7 +87,7 @@ public:
 	bool set_game_object_radius(const Object* game_object, const float outer_radius, const float inner_radius);
 
 	unsigned int post_event(const String& event_name, const Object* game_object);
-	unsigned int post_event_callback(const String event_name, const AkUtils::AkCallbackType flags,
+	unsigned int post_event_callback(const String& event_name, const AkUtils::AkCallbackType flags,
 			const Object* game_object, const CookieWrapper* cookie);
 	unsigned int post_event_id(const unsigned int event_id, const Object* game_object);
 	unsigned int post_event_id_callback(const unsigned int event_id, const AkUtils::AkCallbackType flags,
