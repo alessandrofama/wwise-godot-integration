@@ -9,12 +9,14 @@ static AkUtils* ak_utils;
 
 void register_wwise_types(ModuleInitializationLevel p_level)
 {
+#if !defined(AK_IOS) && !defined(AK_ANDROID) && !defined(AK_LINUX)
 	if (p_level == MODULE_INITIALIZATION_LEVEL_EDITOR)
 	{
 		ClassDB::register_class<Waapi>();
 		waapi_module = memnew(Waapi);
 		Engine::get_singleton()->register_singleton("Waapi", Waapi::get_singleton());
 	}
+#endif
 
 	if (p_level == MODULE_INITIALIZATION_LEVEL_SCENE)
 	{
@@ -57,6 +59,14 @@ void unregister_wwise_types(ModuleInitializationLevel p_level)
 		memdelete(wwise_settings);
 		memdelete(ak_utils);
 	}
+
+#if !defined(AK_IOS) && !defined(AK_ANDROID) && !defined(AK_LINUX)
+	if (p_level == MODULE_INITIALIZATION_LEVEL_EDITOR)
+	{
+		Engine::get_singleton()->unregister_singleton("Waapi");
+		memdelete(waapi_module);
+	}
+#endif
 }
 
 extern "C"
