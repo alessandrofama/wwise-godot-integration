@@ -4,6 +4,7 @@
 #include "wwise_gdextension.h"
 #include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/classes/node.hpp>
+#include <godot_cpp/classes/project_settings.hpp>
 
 namespace godot
 {
@@ -18,6 +19,7 @@ private:
 	Dictionary bank;
 	AkUtils::GameEvent load_on = AkUtils::GameEvent::GAMEEVENT_NONE;
 	AkUtils::GameEvent unload_on = AkUtils::GameEvent::GAMEEVENT_NONE;
+	bool use_soundbank_names{ true };
 
 public:
 	AkBank();

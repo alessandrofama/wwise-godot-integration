@@ -711,17 +711,11 @@ func create_class(arr: Array, type: String):
 		for i in arr.size():
 			if i < arr.size() - 1:
 				final_text += '\t "{str}": {strId},\n'.format(
-					{
-						"str": arr[i].name.to_upper().replace("_", " "),
-						"strId": arr[i].name.to_upper().replace(" ", "_")
-					}
+					{"str": arr[i].name, "strId": arr[i].name.to_upper().replace(" ", "_")}
 				)
 			else:
 				final_text += '\t "{str}": {strId}\n'.format(
-					{
-						"str": arr[i].name.to_upper().replace("_", " "),
-						"strId": arr[i].name.to_upper().replace(" ", "_")
-					}
+					{"str": arr[i].name, "strId": arr[i].name.to_upper().replace(" ", "_")}
 				)
 		final_text += "\t} \n\n"
 	else:
@@ -761,7 +755,7 @@ func create_state_switch_class(
 				'\t\t"{groupName}": {\n\t\t\t"GROUP": {groupID},\n\t\t\t"{type}": {\n'
 				. format(
 					{
-						"groupName": parent_arr[i].name.to_upper().replace(" ", "_"),
+						"groupName": parent_arr[i].name,
 						"groupID": parent_arr[i].shortId,
 						"type": child_type
 					}
@@ -771,17 +765,11 @@ func create_state_switch_class(
 				if child_arr[j].get("parent.name") == parent_arr[i].name:
 					if j < child_arr.size() - 1:
 						final_text += '\t\t\t\t"{childName}": {childId},\n'.format(
-							{
-								"childName": child_arr[j].name.to_upper().replace(" ", "_"),
-								"childId": child_arr[j].shortId
-							}
+							{"childName": child_arr[j].name, "childId": child_arr[j].shortId}
 						)
 					else:
 						final_text += '\t\t\t\t"{childName}": {childId}\n'.format(
-							{
-								"childName": child_arr[j].name.to_upper().replace(" ", "_"),
-								"childId": child_arr[j].shortId
-							}
+							{"childName": child_arr[j].name, "childId": child_arr[j].shortId}
 						)
 			final_text += "\t\t\t} \n"
 			if i < parent_arr.size() - 1:

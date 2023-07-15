@@ -27,7 +27,17 @@ AkBank::AkBank()
 	bank["id"] = 0;
 }
 
-void AkBank::_enter_tree() { handle_game_event(AkUtils::GameEvent::GAMEEVENT_ENTER_TREE); }
+void AkBank::_enter_tree()
+{
+	ProjectSettings* settings = ProjectSettings::get_singleton();
+
+	if (settings)
+	{
+		use_soundbank_names = settings->get_setting("wwise/common_user_settings/use_soundbank_names", true);
+	}
+
+	handle_game_event(AkUtils::GameEvent::GAMEEVENT_ENTER_TREE);
+}
 
 void AkBank::_ready() { handle_game_event(AkUtils::GameEvent::GAMEEVENT_READY); }
 
@@ -53,8 +63,16 @@ void AkBank::load_bank()
 
 	if (soundengine)
 	{
-		unsigned int id = bank.get("id", AK_INVALID_BANK_ID);
-		soundengine->load_bank_id(id);
+		if (use_soundbank_names)
+		{
+			String name = bank.get("name", "");
+			soundengine->load_bank(name);
+		}
+		else
+		{
+			unsigned int id = bank.get("id", AK_INVALID_BANK_ID);
+			soundengine->load_bank_id(id);
+		}
 	}
 }
 
@@ -64,8 +82,16 @@ void AkBank::unload_bank()
 
 	if (soundengine)
 	{
-		unsigned int id = bank.get("id", AK_INVALID_BANK_ID);
-		soundengine->unload_bank_id(id);
+		if (use_soundbank_names)
+		{
+			String name = bank.get("name", "");
+			soundengine->unload_bank(name);
+		}
+		else
+		{
+			unsigned int id = bank.get("id", AK_INVALID_BANK_ID);
+			soundengine->unload_bank_id(id);
+		}
 	}
 }
 

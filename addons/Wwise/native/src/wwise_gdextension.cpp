@@ -296,47 +296,39 @@ bool Wwise::load_bank(const String& bank_name)
 {
 	AKASSERT(!bank_name.is_empty());
 
-	AkUInt32 bank_id = AK::SoundEngine::GetIDFromString(bank_name.utf8().get_data());
-
-	return ERROR_CHECK(AK::SoundEngine::LoadBank(bank_id), bank_name);
+	AkBankID bank_id{};
+	return ERROR_CHECK(AK::SoundEngine::LoadBank(bank_name.utf8().get_data(), bank_id));
 }
 
-bool Wwise::load_bank_id(const unsigned int bank_id)
-{
-	return ERROR_CHECK(AK::SoundEngine::LoadBank(bank_id), "ID " + String::num_int64(bank_id));
-}
+bool Wwise::load_bank_id(const unsigned int bank_id) { return ERROR_CHECK(AK::SoundEngine::LoadBank(bank_id)); }
 
 bool Wwise::load_bank_async(const String& bank_name, const CookieWrapper* cookie)
 {
 	AKASSERT(!bank_name.is_empty());
 	AKASSERT(cookie);
 
-	AkUInt32 bank_id = AK::SoundEngine::GetIDFromString(bank_name.utf8().get_data());
-
-	return ERROR_CHECK(AK::SoundEngine::LoadBank(bank_id, (AkBankCallbackFunc)bank_callback, (void*)cookie),
-			"ID " + String::num_int64(bank_id));
+	AkBankID bank_id{};
+	return ERROR_CHECK(AK::SoundEngine::LoadBank(
+			bank_name.utf8().get_data(), (AkBankCallbackFunc)bank_callback, (void*)cookie, bank_id));
 }
 
 bool Wwise::load_bank_async_id(const unsigned int bank_id, const CookieWrapper* cookie)
 {
 	AKASSERT(cookie);
 
-	return ERROR_CHECK(AK::SoundEngine::LoadBank(bank_id, (AkBankCallbackFunc)bank_callback, (void*)cookie),
-			"ID " + String::num_int64(bank_id));
+	return ERROR_CHECK(AK::SoundEngine::LoadBank(bank_id, (AkBankCallbackFunc)bank_callback, (void*)cookie));
 }
 
 bool Wwise::unload_bank(const String& bank_name)
 {
 	AKASSERT(!bank_name.is_empty());
 
-	AkUInt32 bank_id = AK::SoundEngine::GetIDFromString(bank_name.utf8().get_data());
-
-	return ERROR_CHECK(AK::SoundEngine::UnloadBank(bank_id, NULL), bank_name);
+	return ERROR_CHECK(AK::SoundEngine::UnloadBank(bank_name.utf8().get_data(), NULL));
 }
 
 bool Wwise::unload_bank_id(const unsigned int bank_id)
 {
-	return ERROR_CHECK(AK::SoundEngine::UnloadBank(bank_id, NULL), "ID " + String::num_int64(bank_id) + " failed");
+	return ERROR_CHECK(AK::SoundEngine::UnloadBank(bank_id, NULL));
 }
 
 bool Wwise::unload_bank_async(const String& bank_name, const CookieWrapper* cookie)
@@ -344,18 +336,15 @@ bool Wwise::unload_bank_async(const String& bank_name, const CookieWrapper* cook
 	AKASSERT(!bank_name.is_empty());
 	AKASSERT(cookie);
 
-	AkUInt32 bank_id = AK::SoundEngine::GetIDFromString(bank_name.utf8().get_data());
-
-	return ERROR_CHECK(AK::SoundEngine::UnloadBank(bank_id, NULL, (AkBankCallbackFunc)bank_callback, (void*)cookie),
-			"Loading bank: " + bank_name + " failed");
+	return ERROR_CHECK(AK::SoundEngine::UnloadBank(
+			bank_name.utf8().get_data(), NULL, (AkBankCallbackFunc)bank_callback, (void*)cookie));
 }
 
 bool Wwise::unload_bank_async_id(const unsigned int bank_id, const CookieWrapper* cookie)
 {
 	AKASSERT(cookie);
 
-	return ERROR_CHECK(AK::SoundEngine::UnloadBank(bank_id, NULL, (AkBankCallbackFunc)bank_callback, (void*)cookie),
-			"ID " + String::num_int64(bank_id) + " failed");
+	return ERROR_CHECK(AK::SoundEngine::UnloadBank(bank_id, NULL, (AkBankCallbackFunc)bank_callback, (void*)cookie));
 }
 
 bool Wwise::register_listener(const Object* game_object)
