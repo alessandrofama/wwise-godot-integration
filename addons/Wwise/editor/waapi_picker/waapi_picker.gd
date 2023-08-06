@@ -42,26 +42,28 @@ var final_text: String
 
 var json: JSON = JSON.new()
 
+var waapi_client = null
+
 
 func _init():
-	icon_project = load("res://addons/wwise/editor/images/wwise_project.svg")
-	icon_folder = load("res://addons/wwise/editor/images/folder.svg")
-	icon_event = load("res://addons/wwise/editor/images/event.svg")
-	icon_switch_group = load("res://addons/wwise/editor/images/switchgroup.svg")
-	icon_switch = load("res://addons/wwise/editor/images/switch.svg")
-	icon_state_group = load("res://addons/wwise/editor/images/stategroup.svg")
-	icon_state = load("res://addons/wwise/editor/images/state.svg")
-	icon_soundbank = load("res://addons/wwise/editor/images/soundbank.svg")
-	icon_bus = load("res://addons/wwise/editor/images/bus.svg")
-	icon_aux_bus = load("res://addons/wwise/editor/images/auxbus.svg")
-	icon_acoustic_texture = load("res://addons/wwise/editor/images/acoustictexture.svg")
-	icon_work_unit = load("res://addons/wwise/editor/images/workunit.svg")
-	icon_search = load("res://addons/wwise/editor/images/search.svg")
+	icon_project = load("res://addons/Wwise/editor/images/wwise_project.svg")
+	icon_folder = load("res://addons/Wwise/editor/images/folder.svg")
+	icon_event = load("res://addons/Wwise/editor/images/event.svg")
+	icon_switch_group = load("res://addons/Wwise/editor/images/switchgroup.svg")
+	icon_switch = load("res://addons/Wwise/editor/images/switch.svg")
+	icon_state_group = load("res://addons/Wwise/editor/images/stategroup.svg")
+	icon_state = load("res://addons/Wwise/editor/images/state.svg")
+	icon_soundbank = load("res://addons/Wwise/editor/images/soundbank.svg")
+	icon_bus = load("res://addons/Wwise/editor/images/bus.svg")
+	icon_aux_bus = load("res://addons/Wwise/editor/images/auxbus.svg")
+	icon_acoustic_texture = load("res://addons/Wwise/editor/images/acoustictexture.svg")
+	icon_work_unit = load("res://addons/Wwise/editor/images/workunit.svg")
+	icon_search = load("res://addons/Wwise/editor/images/search.svg")
 
 
 func _enter_tree():
 	waapi_picker_control = (
-		load("res://addons/wwise/editor/waapi_picker/waapi_picker.tscn").instantiate()
+		load("res://addons/Wwise/editor/waapi_picker/waapi_picker.tscn").instantiate()
 	)
 	var button = add_control_to_bottom_panel(waapi_picker_control, "WAAPI Picker")
 	assert(button)
@@ -116,24 +118,29 @@ func _enter_tree():
 	search_text.right_icon = icon_search
 
 	self.connect("connection_changed", Callable(self, "_on_connection_changed"))
-
-	connect_result = Waapi.connect_client("127.0.0.1", 8080)
-	emit_signal("connection_changed", connect_result)
+	
+	waapi_client = Engine.get_singleton(&"Waapi")
+	
+	if waapi_client:
+		connect_result = waapi_client.connect_client("127.0.0.1", 8080)
+		emit_signal("connection_changed", connect_result)
 
 	_on_refresh_project_button_up()
 
 
 func _process(_delta):
-	if Waapi.is_client_connected():
-		Waapi.process_callbacks()
+	if waapi_client:
+		if waapi_client.is_client_connected():
+			waapi_client.process_callbacks()
 
 
 func _exit_tree():
-	if Waapi.is_client_connected():
-		Waapi.disconnect_client()
-	if is_instance_valid(waapi_picker_control):
-		remove_control_from_bottom_panel(waapi_picker_control)
-		waapi_picker_control.queue_free()
+	if waapi_client:
+		if waapi_client.is_client_connected():
+			waapi_client.disconnect_client()
+		if is_instance_valid(waapi_picker_control):
+			remove_control_from_bottom_panel(waapi_picker_control)
+			waapi_picker_control.queue_free()
 
 
 func _notification(notification):
@@ -493,8 +500,11 @@ func _on_visibility_changed_editor_viewport():
 
 
 func _on_refresh_project_button_up():
-	if !Waapi.is_client_connected():
-		connect_result = Waapi.connect_client("127.0.0.1", 8080)
+	if !waapi_client:
+		return
+		
+	if !waapi_client.is_client_connected():
+		connect_result = waapi_client.connect_client("127.0.0.1", 8080)
 		emit_signal("connection_changed", connect_result)
 
 	if connect_result:
@@ -519,7 +529,7 @@ func _on_refresh_project_button_up():
 		}
 		var options = {"return": ["id", "name", "type", "workunit", "path", "shortId"]}
 
-		var clientCallDict = Waapi.client_call(
+		var clientCallDict = waapi_client.client_call(
 			"ak.wwise.core.object.get", JSON.stringify(args), JSON.stringify(options)
 		)
 		json_project_document = json.parse(clientCallDict["result_string"])
@@ -530,15 +540,15 @@ func _on_refresh_project_button_up():
 
 
 func _on_export_soundbanks_button_up():
-	if !Waapi.is_client_connected():
-		var connect_result = Waapi.connect_client("127.0.0.1", 8080)
+	if !waapi_client.is_client_connected():
+		var connect_result = waapi_client.connect_client("127.0.0.1", 8080)
 		emit_signal("connection_changed", connect_result)
 
 	if connect_result:
 		var args = {"command": "GenerateAllSoundbanksAllPlatformsAutoClose"}
 		var options = {}
 
-		var dict = Waapi.client_call(
+		var dict = waapi_client.client_call(
 			"ak.wwise.ui.commands.execute", JSON.stringify(args), JSON.stringify(options)
 		)
 		var json_document = json.parse(dict["result_string"])
@@ -583,8 +593,8 @@ func _on_generate_ids_button_up():
 
 func _on_FileDialog_file_selected(path):
 	var connect_result = false
-	if !Waapi.is_client_connected():
-		connect_result = Waapi.connect_client("127.0.0.1", 8080)
+	if !waapi_client.is_client_connected():
+		connect_result = waapi_client.connect_client("127.0.0.1", 8080)
 	else:
 		connect_result = true
 
@@ -610,7 +620,7 @@ func _on_FileDialog_file_selected(path):
 			}
 		}
 		var options = {"return": ["name", "type", "shortId", "parent.name"]}
-		var dict = Waapi.client_call(
+		var dict = waapi_client.client_call(
 			"ak.wwise.core.object.get", JSON.stringify(args), JSON.stringify(options)
 		)
 		var json_document = json.parse(dict["result_string"])
@@ -620,8 +630,8 @@ func _on_FileDialog_file_selected(path):
 			generate_ids(arr)
 	else:
 		print("Failed to generate Wwise IDs. Wwise authoring isn't launched!")
-		if Waapi.is_client_connected():
-			Waapi.disconnect_client()
+		if waapi_client.is_client_connected():
+			waapi_client.disconnect_client()
 		return
 
 	var wwiseIDsGDFile: FileAccess = FileAccess.open(path, FileAccess.WRITE)
@@ -634,8 +644,8 @@ func _on_FileDialog_file_selected(path):
 	var filesystem = get_editor_interface().get_resource_filesystem()
 	filesystem.update_file(path)
 
-	if Waapi.is_client_connected():
-		Waapi.disconnect_client()
+	if waapi_client.is_client_connected():
+		waapi_client.disconnect_client()
 
 
 func generate_ids(arr):

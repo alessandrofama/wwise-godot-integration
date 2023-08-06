@@ -12,10 +12,8 @@ func _enter_tree():
 		)
 
 	if Engine.is_editor_hint() && !initialized:
-		if OS.has_feature("windows") || OS.has_feature("macos"):
-			editor_plugin = load("res://addons/Wwise/editor/ak_editor_plugin.gd").new()
-			get_editor_interface().get_base_control().add_child(editor_plugin)
-
+		editor_plugin = load("res://addons/Wwise/editor/ak_editor_plugin.gd").new()
+		get_editor_interface().get_base_control().add_child(editor_plugin)
 		initialized = true
 
 
@@ -23,6 +21,5 @@ func _exit_tree():
 	remove_autoload_singleton("WwiseRuntimeManager")
 
 	if Engine.is_editor_hint():
-		if OS.has_feature("windows") || OS.has_feature("macos"):
 			get_editor_interface().get_base_control().remove_child(editor_plugin)
 			editor_plugin.queue_free()

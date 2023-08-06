@@ -1,7 +1,7 @@
 extends EditorInspectorPlugin
 
 var inspector_browser_editor = load(
-	"res://addons/wwise/editor/inspector_browser/inspector_browser_editor.gd"
+	"res://addons/Wwise/editor/inspector_browser/inspector_browser_editor.gd"
 )
 
 
