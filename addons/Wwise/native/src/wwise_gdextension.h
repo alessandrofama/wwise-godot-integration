@@ -48,7 +48,6 @@ class Wwise : public Object
 protected:
 	static Wwise* singleton;
 	static void _bind_methods();
-	//void _notification(int notification);
 
 public:
 	Wwise();
@@ -177,9 +176,6 @@ private:
 
 	ProjectSettings* project_settings;
 	CAkFileIOHandlerGodot low_level_io;
-
-	bool suspend_at_focus_loss = false;
-	bool render_anyway = false;
 };
 
 } //namespace godot

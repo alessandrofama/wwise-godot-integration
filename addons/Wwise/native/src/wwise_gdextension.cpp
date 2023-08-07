@@ -234,9 +234,6 @@ void Wwise::init()
 		AkUInt32 initBankID = AK::SoundEngine::GetIDFromString("Init");
 		load_bank_id(initBankID);
 	}
-
-	suspend_at_focus_loss = get_platform_project_setting(WWISE_COMMON_USER_SETTINGS_PATH + "suspend_at_focus_loss");
-	render_anyway = get_platform_project_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "render_during_focus_loss");
 }
 
 void Wwise::render_audio() { ERROR_CHECK(AK::SoundEngine::RenderAudio()); }
@@ -248,33 +245,6 @@ void Wwise::shutdown()
 		UtilityFunctions::print("[Wwise] Shut down Wwise systems");
 	}
 }
-
-//void Wwise::_notification(int notification)
-//{
-//	switch (notification)
-//	{
-//	case NOTIFICATION_WM_WINDOW_FOCUS_OUT:
-//		{
-//			if (suspend_at_focus_loss)
-//			{
-//				Wwise::suspend(render_anyway);
-//			}
-//			break;
-//		}
-//		case NOTIFICATION_APPLICATION_FOCUS_IN:
-//		{
-//			if (suspend_at_focus_loss)
-//			{
-//				Wwise::wakeup_from_suspend();
-//			}
-//			break;
-//		}
-//		default:
-//		{
-//			break;
-//		}
-//	}
-//}
 
 bool Wwise::set_base_path(const String& base_path)
 {
