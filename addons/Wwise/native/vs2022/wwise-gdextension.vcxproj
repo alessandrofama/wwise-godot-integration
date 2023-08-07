@@ -47,7 +47,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -78,7 +78,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
     <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;</LibraryPath>
-    <TargetName>$(ProjectName)-release</TargetName>
+    <TargetName>libwwise.windows.template_release</TargetName>
+    <OutDir>$(SolutionDir)..\lib\win64\release</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -97,7 +98,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>TYPED_METHOD_BIND;_WINDLL;_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>TYPED_METHOD_BIND;_WINDLL;_WIN32;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UndefinePreprocessorDefinitions>AK_OPTIMIZED</UndefinePreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionPath)\..\..\src;%WWISESDK%\samples\SoundEngine\Common;%WWISESDK%\samples\SoundEngine\Win32;%WWISESDK%\include;..\godot-cpp\include\;..\godot-cpp\gen\include\;..\godot-cpp\gdextension\</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
@@ -106,7 +107,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <AdditionalLibraryDirectories>%WWISESDK%\x64_vc160\Debug\lib;..\godot-cpp\bin;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>CommunicationCentral.lib;msacm32.lib;ws2_32.lib;AkMusicEngine.lib;AkSoundEngine.lib;AkMemoryMgr.lib;AkStreamMgr.lib;AkVorbisDecoder.lib;AkMeterFX.lib;AkOpusDecoder.lib;AkCompressorFX.lib;AkDelayFX.lib;AkExpanderFX.lib;AkFlangerFX.lib;AkGainFX.lib;AkGuitarDistortionFX.lib;AkHarmonizerFX.lib;AkMatrixReverbFX.lib;AkParametricEQFX.lib;AKPeakLimiterFX.lib;AkPitchShifterFX.lib;AkRecorderFX.lib;AkStereoDelayFX.lib;AkToneSource.lib;AkTimeStretchFX.lib;AkTremoloFX.lib;AkSineSource.lib;AkRoomVerbFX.lib;AkSilenceSource.lib;AkAudioInputSource.lib;AkSynthOneSource.lib;AkSpatialAudio.lib;Ak3DAudioBedMixerFX.lib;libgodot-cpp.windows.template_debug.dev.x86_64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>msacm32.lib;ws2_32.lib;AkAutobahn.lib;AkMusicEngine.lib;AkSoundEngine.lib;AkMemoryMgr.lib;AkStreamMgr.lib;AkVorbisDecoder.lib;AkMeterFX.lib;AkOpusDecoder.lib;AkCompressorFX.lib;AkDelayFX.lib;AkExpanderFX.lib;AkFlangerFX.lib;AkGainFX.lib;AkGuitarDistortionFX.lib;AkHarmonizerFX.lib;AkMatrixReverbFX.lib;AkParametricEQFX.lib;AKPeakLimiterFX.lib;AkPitchShifterFX.lib;AkRecorderFX.lib;AkStereoDelayFX.lib;AkToneSource.lib;AkTimeStretchFX.lib;AkTremoloFX.lib;AkSineSource.lib;AkRoomVerbFX.lib;AkSilenceSource.lib;AkAudioInputSource.lib;AkSynthOneSource.lib;AkSpatialAudio.lib;Ak3DAudioBedMixerFX.lib;CommunicationCentral.lib;libgodot-cpp.windows.template_debug.dev.x86_64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ProjectReference>
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
@@ -135,15 +136,17 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>AK_OPTIMIZED;_WINDLL;_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>%WWISESDK%\samples\SoundEngine\Win32;%WWISESDK%\include;..\..\..\godot-cpp\include\;..\..\..\godot-cpp\include\core;..\..\..\godot-cpp\include\gen;..\..\..\godot-cpp\godot_headers</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>AK_OPTIMIZED;TYPED_METHOD_BIND;NOMINMAX;_WINDLL;_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionPath)\..\..\src;%WWISESDK%\samples\SoundEngine\Common;%WWISESDK%\samples\SoundEngine\Win32;%WWISESDK%\include;..\godot-cpp\include\;..\godot-cpp\gen\include\;..\godot-cpp\gdextension\</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>%WWISESDK%\x64_vc160\Release\lib;..\..\..\godot-cpp\bin;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>AkMusicEngine.lib;AkSoundEngine.lib;AkMemoryMgr.lib;AkStreamMgr.lib;AkVorbisDecoder.lib;AkMeterFX.lib;AkOpusDecoder.lib;AkCompressorFX.lib;AkDelayFX.lib;AkExpanderFX.lib;AkFlangerFX.lib;AkGainFX.lib;AkGuitarDistortionFX.lib;AkHarmonizerFX.lib;AkMatrixReverbFX.lib;AkParametricEQFX.lib;AKPeakLimiterFX.lib;AkPitchShifterFX.lib;AkRecorderFX.lib;AkStereoDelayFX.lib;AkToneSource.lib;AkTimeStretchFX.lib;AkTremoloFX.lib;AkSineSource.lib;AkRoomVerbFX.lib;AkSilenceSource.lib;AkAudioInputSource.lib;AkSynthOneSource.lib;libgodot-cpp.windows.release.64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%WWISESDK%\x64_vc160\release\lib;..\godot-cpp\bin;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>AkAutobahn.lib;AkMusicEngine.lib;AkSoundEngine.lib;AkMemoryMgr.lib;AkStreamMgr.lib;AkVorbisDecoder.lib;AkMeterFX.lib;AkOpusDecoder.lib;AkCompressorFX.lib;AkDelayFX.lib;AkExpanderFX.lib;AkFlangerFX.lib;AkGainFX.lib;AkGuitarDistortionFX.lib;AkHarmonizerFX.lib;AkMatrixReverbFX.lib;AkParametricEQFX.lib;AKPeakLimiterFX.lib;AkPitchShifterFX.lib;AkRecorderFX.lib;AkStereoDelayFX.lib;AkToneSource.lib;AkTimeStretchFX.lib;AkTremoloFX.lib;AkSineSource.lib;AkRoomVerbFX.lib;AkSilenceSource.lib;AkAudioInputSource.lib;AkSynthOneSource.lib;AkSpatialAudio.lib;Ak3DAudioBedMixerFX.lib;libgodot-cpp.windows.template_release.x86_64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ProjectReference>
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
@@ -156,28 +159,43 @@
     <ClCompile Include="$(WWISESDK)\samples\SoundEngine\Win32\AkDefaultIOHookBlocking.cpp" />
     <ClCompile Include="..\src\ak_utils.cpp" />
     <ClCompile Include="..\src\scene\ak_bank.cpp" />
+    <ClCompile Include="..\src\scene\ak_early_reflections.cpp" />
+    <ClCompile Include="..\src\scene\ak_environment.cpp" />
+    <ClCompile Include="..\src\scene\ak_event.cpp" />
+    <ClCompile Include="..\src\scene\ak_geometry.cpp" />
     <ClCompile Include="..\src\scene\ak_listener.cpp" />
+    <ClCompile Include="..\src\scene\ak_portal.cpp" />
+    <ClCompile Include="..\src\scene\ak_room.cpp" />
     <ClCompile Include="..\src\scene\ak_state.cpp" />
     <ClCompile Include="..\src\scene\ak_switch.cpp" />
+    <ClCompile Include="..\src\waapi\waapi_gdextension.cpp" />
+    <ClCompile Include="..\src\wwise_gdextension.cpp" />
     <ClCompile Include="..\src\wwise_godot_io.cpp" />
     <ClCompile Include="..\src\wwise_settings.cpp" />
-    <ClCompile Include="C:\Program Files (x86)\Audiokinetic\Wwise 2022.1.4.8202\SDK\samples\SoundEngine\Common\AkGeneratedSoundBanksResolver.cpp" />
+    <ClCompile Include="C:\Program Files (x86)\Audiokinetic\Wwise 2022.1.6.8263\SDK\samples\SoundEngine\Common\AkGeneratedSoundBanksResolver.cpp" />
     <ClInclude Include="$(WWISESDK)\samples\SoundEngine\Win32\stdafx.cpp" />
     <ClCompile Include="..\src\register_types.cpp" />
-    <ClCompile Include="..\src\wwise_gdnative.cpp" />
     <ClInclude Include="..\src\ak_utils.h" />
     <ClInclude Include="..\src\scene\ak_bank.h" />
+    <ClInclude Include="..\src\scene\ak_early_reflections.h" />
+    <ClInclude Include="..\src\scene\ak_environment.h" />
+    <ClInclude Include="..\src\scene\ak_environment_data.h" />
+    <ClInclude Include="..\src\scene\ak_event.h" />
+    <ClInclude Include="..\src\scene\ak_geometry.h" />
     <ClInclude Include="..\src\scene\ak_listener.h" />
+    <ClInclude Include="..\src\scene\ak_portal.h" />
+    <ClInclude Include="..\src\scene\ak_room.h" />
     <ClInclude Include="..\src\scene\ak_state.h" />
     <ClInclude Include="..\src\scene\ak_switch.h" />
+    <ClInclude Include="..\src\waapi\waapi_gdextension.h" />
+    <ClInclude Include="..\src\wwise_gdextension.h" />
     <ClInclude Include="..\src\wwise_settings.h" />
-    <ClInclude Include="C:\Program Files (x86)\Audiokinetic\Wwise 2022.1.4.8202\SDK\samples\SoundEngine\Common\AkGeneratedSoundBanksResolver.h" />
+    <ClInclude Include="C:\Program Files (x86)\Audiokinetic\Wwise 2022.1.6.8263\SDK\samples\SoundEngine\Common\AkGeneratedSoundBanksResolver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(WWISESDK)\samples\SoundEngine\Win32\AkDefaultIOHookBlocking.h" />
     <ClInclude Include="$(WWISESDK)\samples\SoundEngine\Win32\stdafx.h" />
     <ClInclude Include="..\src\register_types.h" />
-    <ClInclude Include="..\src\wwise_gdnative.h" />
     <ClInclude Include="..\src\wwise_godot_io.h" />
     <ClInclude Include="..\src\wwise_utils.h" />
   </ItemGroup>
