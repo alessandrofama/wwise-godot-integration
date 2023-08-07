@@ -264,8 +264,8 @@ jobs:
           rm -r ./.git
           rm -r ./.github
           rm -r ./addons/Wwise/tests
-          mkdir -p wwise wwise/GeneratedSoundBanks wwise/GeneratedSoundBanks/Windows wwise/GeneratedSoundBanks/Mac wwise/GeneratedSoundBanks/Linux wwise/GeneratedSoundBanks/iOS wwise/GeneratedSoundBanks/Android
-          cp addons/Wwise/tools/wwise_ids.template wwise/GeneratedSoundBanks/wwise_ids.gd
+          mkdir -p GeneratedSoundBanks
+          cp addons/Wwise/tools/wwise_ids.template GeneratedSoundBanks/wwise_ids.gd
           rm -r ./addons/Wwise/tools
 
       - name: Upload final artifact
