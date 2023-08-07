@@ -19,13 +19,13 @@ func _can_handle(object: Object) -> bool:
 
 
 func _parse_property(
-	object: Object,
+	object,
 	type,
-	name: String,
-	hint_type: PropertyHint,
-	hint_string: String,
-	usage_flags: PropertyUsageFlags,
-	wide: bool
+	name,
+	hint_type,
+	hint_string,
+	usage_flags,
+	wide
 ) -> bool:
 	if type == TYPE_DICTIONARY && name == "event":
 		add_property_editor(name, inspector_browser_editor.new(AkUtils.AKTYPE_EVENT))
