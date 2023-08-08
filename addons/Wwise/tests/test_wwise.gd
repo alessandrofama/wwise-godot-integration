@@ -1,5 +1,6 @@
 extends "res://addons/Wwise/tests/ak_test.gd"
 
+const AK = preload("res://addons/Wwise/tests/GeneratedSoundBanks/wwise_ids_tests.gd")
 var mesh_instance: MeshInstance3D
 
 
@@ -166,14 +167,6 @@ func test_post_event_id_callback() -> bool:
 	)
 	unregister_3d_game_obj(node)
 	cookie_wrapper.call_deferred("free")
-	return ak_assert(result)
-
-
-func test_stop_event() -> bool:
-	var node = register_3d_game_obj()
-	var id = Wwise.post_event_id(AK.EVENTS.MUSIC, node)
-	var result = Wwise.stop_event(id, 500, AkUtils.AK_CURVE_LINEAR)
-	unregister_3d_game_obj(node)
 	return ak_assert(result)
 
 

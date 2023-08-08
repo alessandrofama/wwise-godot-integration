@@ -260,6 +260,7 @@ jobs:
           rm ./README.md
           rm .gitattributes
           rm .gitmodules
+          rm project.godot
           rm -r ./.git
           rm -r ./.github
           rm -r ./addons/Wwise/tests
