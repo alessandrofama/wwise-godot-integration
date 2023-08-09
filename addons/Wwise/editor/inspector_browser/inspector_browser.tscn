@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=3 uid="uid://bmkdda4657oy2"]
+
+[ext_resource type="Script" path="res://addons/Wwise/editor/inspector_browser/inspector_browser_tree.gd" id="1_0c0hg"]
+
+[node name="ParentVBoxContainer" type="VBoxContainer"]
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="TopVBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="SearchText" type="LineEdit" parent="TopVBoxContainer"]
+layout_mode = 2
+placeholder_text = "Search Wwise project..."
+caret_blink = true
+
+[node name="ProjectObjectsTree" type="Tree" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+allow_reselect = true
+script = ExtResource("1_0c0hg")

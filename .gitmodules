@@ -1,3 +1,6 @@
-[submodule "godot-cpp"]
-	path = godot-cpp
-	url = https://github.com/GodotNativeTools/godot-cpp
+[submodule "addons/Wwise/native/godot-cpp"]
+	path = addons/Wwise/native/godot-cpp
+	url = https://github.com/godotengine/godot-cpp
+[submodule "addons/Wwise/tests/wwise-godot-demo-project"]
+	path = addons/Wwise/tests/wwise-godot-demo-project
+	url = https://github.com/alessandrofama/wwise-godot-demo-project.git
