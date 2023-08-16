@@ -9,14 +9,26 @@ static AkUtils* ak_utils;
 
 void register_wwise_types(ModuleInitializationLevel p_level)
 {
-#if !defined(AK_IOS) && !defined(AK_ANDROID) && !defined(AK_LINUX)
 	if (p_level == MODULE_INITIALIZATION_LEVEL_EDITOR)
 	{
+#if !defined(AK_IOS) && !defined(AK_ANDROID) && !defined(AK_LINUX)
 		ClassDB::register_class<Waapi>();
 		waapi_module = memnew(Waapi);
 		Engine::get_singleton()->register_singleton("Waapi", Waapi::get_singleton());
-	}
+
+		ClassDB::register_class<WaapiPicker>();
+		EditorPlugins::add_by_type<WaapiPicker>();
 #endif
+
+		ClassDB::register_class<AkInspectorWindow>();
+		ClassDB::register_class<AkInspectorTree>();
+		ClassDB::register_class<AkInspectorEditorInspectorPlugin>();
+		ClassDB::register_class<AkInspectorEditorProperty>();
+		ClassDB::register_class<AkEvent3DGizmoPlugin>();
+		ClassDB::register_class<AkEditorExportPlugin>();
+		ClassDB::register_class<WwiseEditorPlugin>();
+		EditorPlugins::add_by_type<WwiseEditorPlugin>();
+	}
 
 	if (p_level == MODULE_INITIALIZATION_LEVEL_SCENE)
 	{
@@ -60,23 +72,26 @@ void unregister_wwise_types(ModuleInitializationLevel p_level)
 		memdelete(ak_utils);
 	}
 
-#if !defined(AK_IOS) && !defined(AK_ANDROID) && !defined(AK_LINUX)
 	if (p_level == MODULE_INITIALIZATION_LEVEL_EDITOR)
 	{
+#if !defined(AK_IOS) && !defined(AK_ANDROID) && !defined(AK_LINUX)
 		Engine::get_singleton()->unregister_singleton("Waapi");
 		memdelete(waapi_module);
-	}
 #endif
+
+		EditorPlugins::remove_by_type<WaapiPicker>();
+		EditorPlugins::remove_by_type<WwiseEditorPlugin>();
+	}
 }
 
 extern "C"
 {
 	// Initialization.
 
-	GDExtensionBool GDE_EXPORT wwise_library_init(const GDExtensionInterface* p_interface,
-			const GDExtensionClassLibraryPtr p_library, GDExtensionInitialization* r_initialization)
+	GDExtensionBool GDE_EXPORT wwise_library_init(GDExtensionInterfaceGetProcAddress p_get_proc_address,
+			GDExtensionClassLibraryPtr p_library, GDExtensionInitialization* r_initialization)
 	{
-		godot::GDExtensionBinding::InitObject init_obj(p_interface, p_library, r_initialization);
+		godot::GDExtensionBinding::InitObject init_obj(p_get_proc_address, p_library, r_initialization);
 
 		init_obj.register_initializer(register_wwise_types);
 		init_obj.register_terminator(unregister_wwise_types);

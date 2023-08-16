@@ -8,6 +8,9 @@
 #include <godot_cpp/godot.hpp>
 
 #include "ak_utils.h"
+#include "editor/event_gizmo/ak_event_3d_gizmo_plugin.h"
+#include "editor/export_plugin/ak_editor_export_plugin.h"
+#include "editor/inspector_plugin/ak_inspector_plugin.h"
 #include "scene/ak_bank.h"
 #include "scene/ak_early_reflections.h"
 #include "scene/ak_environment.h"
@@ -20,8 +23,13 @@
 #include "scene/ak_state.h"
 #include "scene/ak_switch.h"
 #include "waapi/waapi_gdextension.h"
+#include "wwise_editor.h"
 #include "wwise_gdextension.h"
 #include "wwise_settings.h"
+
+#if !defined(AK_IOS) && !defined(AK_ANDROID) && !defined(AK_LINUX)
+#include "editor/waapi_picker/waapi_picker.h"
+#endif
 
 using namespace godot;
 

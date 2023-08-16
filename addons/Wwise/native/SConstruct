@@ -348,15 +348,19 @@ env.Append(
 )
 env.Append(LIBPATH=[cpp_bindings_path + "bin/"])
 
-env.Append(CPPPATH=["src/", "src/scene/"])
+env.Append(CPPPATH=["src/", "src/scene/", "src/editor/inspector_plugin/", "src/editor/event_gizmo/", "src/editor/export_plugin/"])
 
 sources = []
 sources.append(Glob("src/*.cpp"))
 sources.append(Glob("src/scene/*.cpp"))
+sources.append(Glob("src/editor/inspector_plugin/*.cpp"))
 
 if env["platform"] == "windows" or env["platform"] == "macos":
     env.Append(CPPPATH=["src/waapi/"])
+    env.Append(CPPPATH=["src/editor/waapi_picker/"])
     sources.append(Glob("src/waapi/*.cpp"))
+    sources.append(Glob("src/editor/waapi_picker/*.cpp"))
+
     env.Append(LIBS=["AkAutobahn"])
 
 if env["platform"] != "windows":
