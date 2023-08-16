@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Wwise Godot Integration Demo Project"
-config/features=PackedStringArray("4.0")
+config/features=PackedStringArray("4.1")
 run/max_fps=60
 
 [autoload]
