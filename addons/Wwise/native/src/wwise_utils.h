@@ -72,8 +72,8 @@ static const char* wwise_error_string(AKRESULT errcode)
 			return "AK_ChildAlreadyHasAParent";
 		case AK_InvalidLanguage:
 			return "AK_InvalidLanguage";
-		case AK_CannotAddItseflAsAChild:
-			return "AK_CannotAddItseflAsAChild";
+		case AK_CannotAddItselfAsAChild:
+			return "AK_CannotAddItselfAsAChild";
 		case AK_InvalidParameter:
 			return "AK_InvalidParameter";
 		case AK_ElementAlreadyInList:
