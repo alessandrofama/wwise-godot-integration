@@ -11,7 +11,7 @@ void register_wwise_types(ModuleInitializationLevel p_level)
 {
 	if (p_level == MODULE_INITIALIZATION_LEVEL_EDITOR)
 	{
-#if !defined(AK_IOS) && !defined(AK_ANDROID) && !defined(AK_LINUX)
+#if defined(AK_WIN) || defined(AK_MAC_OS_X)
 		ClassDB::register_class<Waapi>();
 		waapi_module = memnew(Waapi);
 		Engine::get_singleton()->register_singleton("Waapi", Waapi::get_singleton());
@@ -20,6 +20,7 @@ void register_wwise_types(ModuleInitializationLevel p_level)
 		EditorPlugins::add_by_type<WaapiPicker>();
 #endif
 
+#if defined(AK_WIN) || defined(AK_MAC_OS_X) || defined(AK_LINUX)
 		ClassDB::register_class<AkInspectorWindow>();
 		ClassDB::register_class<AkInspectorTree>();
 		ClassDB::register_class<AkInspectorEditorInspectorPlugin>();
@@ -28,6 +29,7 @@ void register_wwise_types(ModuleInitializationLevel p_level)
 		ClassDB::register_class<AkEditorExportPlugin>();
 		ClassDB::register_class<WwiseEditorPlugin>();
 		EditorPlugins::add_by_type<WwiseEditorPlugin>();
+#endif
 	}
 
 	if (p_level == MODULE_INITIALIZATION_LEVEL_SCENE)
@@ -74,13 +76,16 @@ void unregister_wwise_types(ModuleInitializationLevel p_level)
 
 	if (p_level == MODULE_INITIALIZATION_LEVEL_EDITOR)
 	{
-#if !defined(AK_IOS) && !defined(AK_ANDROID) && !defined(AK_LINUX)
+#if defined(AK_WIN) || defined(AK_MAC_OS_X)
 		Engine::get_singleton()->unregister_singleton("Waapi");
 		memdelete(waapi_module);
-#endif
 
 		EditorPlugins::remove_by_type<WaapiPicker>();
+#endif
+
+#if defined(AK_WIN) || defined(AK_MAC_OS_X) || defined(AK_LINUX)
 		EditorPlugins::remove_by_type<WwiseEditorPlugin>();
+#endif
 	}
 }
 

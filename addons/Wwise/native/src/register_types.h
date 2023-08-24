@@ -27,7 +27,7 @@
 #include "wwise_gdextension.h"
 #include "wwise_settings.h"
 
-#if !defined(AK_IOS) && !defined(AK_ANDROID) && !defined(AK_LINUX)
+#if defined(AK_WIN) || defined(AK_MAC_OS_X)
 #include "editor/waapi_picker/waapi_picker.h"
 #endif
 
