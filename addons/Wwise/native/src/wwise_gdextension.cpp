@@ -138,9 +138,8 @@ void Wwise::_bind_methods()
 	ClassDB::bind_method(D_METHOD("set_object_obstruction_and_occlusion", "game_object", "listener", "calculated_obs",
 								 "calculated_occ"),
 			&Wwise::set_object_obstruction_and_occlusion);
-	ClassDB::bind_method(
-			D_METHOD("set_geometry", "vertices", "triangles", "acoustic_texture", "transission_loss_value",
-					"game_object", "enable_diffraction", "enable_diffraction_on_boundary_edges", "enable_triangles"),
+	ClassDB::bind_method(D_METHOD("set_geometry", "vertices", "triangles", "acoustic_texture", "transission_loss_value",
+								 "game_object", "enable_diffraction", "enable_diffraction_on_boundary_edges"),
 			&Wwise::set_geometry);
 	ClassDB::bind_method(D_METHOD("remove_geometry", "game_object"), &Wwise::remove_geometry);
 	ClassDB::bind_method(D_METHOD("register_spatial_listener", "game_object"), &Wwise::register_spatial_listener);
@@ -830,7 +829,7 @@ bool Wwise::set_object_obstruction_and_occlusion(
 
 bool Wwise::set_geometry(const Array vertices, const Array triangles, const Ref<Resource>& acoustic_texture,
 		float transmission_loss_value, const Object* game_object, bool enable_diffraction,
-		bool enable_diffraction_on_boundary_edges, bool enable_triangles)
+		bool enable_diffraction_on_boundary_edges)
 {
 	AKASSERT(!vertices.is_empty());
 	AKASSERT(!triangles.is_empty());
@@ -917,7 +916,6 @@ bool Wwise::set_geometry(const Array vertices, const Array triangles, const Ref<
 	geometry.NumTriangles = triangleIdx;
 	geometry.EnableDiffraction = enable_diffraction;
 	geometry.EnableDiffractionOnBoundaryEdges = enable_diffraction_on_boundary_edges;
-	geometry.EnableTriangles = enable_triangles;
 
 	return ERROR_CHECK(
 			AK::SpatialAudio::SetGeometry(static_cast<AkGeometrySetID>(game_object->get_instance_id()), geometry));
@@ -1716,8 +1714,13 @@ bool Wwise::initialize_wwise_systems()
 	platform_init_settings.hWnd = hwnd;
 
 #elif defined(AK_MAC_OS_X)
+	platform_init_settings.eAudioAPI = static_cast<AkAudioAPIMac>(
+			static_cast<unsigned int>(get_platform_project_setting("wwise/macos_advanced_settings/audio_API")));
 
 #elif defined(AK_IOS)
+	platform_init_settings.eAudioAPI = static_cast<AkAudioAPIiOS>(
+			static_cast<unsigned int>(get_platform_project_setting("wwise/ios_advanced_settings/audio_API")));
+
 	const unsigned int session_category_enum = static_cast<unsigned int>(
 			get_platform_project_setting("wwise/ios_advanced_settings/audio_session_category"));
 
@@ -1803,7 +1806,10 @@ bool Wwise::initialize_wwise_systems()
 			static_cast<bool>(get_platform_project_setting(WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH +
 					"enable_geometric_diffraction_and_transmission"));
 
-	if (!ERROR_CHECK_MSG(AK::SpatialAudio::Init(spatialSettings), "Spatial Audio initialization failed-"))
+	spatialSettings.uMaxEmitterRoomAuxSends = static_cast<int>(get_platform_project_setting(
+			WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "max_emitter_room_aux_sends"));
+
+	if (!ERROR_CHECK_MSG(AK::SpatialAudio::Init(spatialSettings), "Spatial Audio initialization failed."))
 	{
 		return false;
 	}

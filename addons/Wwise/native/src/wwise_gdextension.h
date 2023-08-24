@@ -123,7 +123,7 @@ public:
 
 	bool set_geometry(const Array vertices, const Array triangles, const Ref<Resource>& acoustic_texture,
 			float transmission_loss_value, const Object* game_object, bool enable_diffraction,
-			bool enable_diffraction_on_boundary_edges, bool enable_triangles);
+			bool enable_diffraction_on_boundary_edges);
 	bool remove_geometry(const Object* game_object);
 	bool set_geometry_instance(const Object* associated_geometry, const Transform3D& transform,
 			const Object* geometry_instance, const Object* associated_room);
