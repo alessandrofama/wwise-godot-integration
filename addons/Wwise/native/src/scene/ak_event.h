@@ -5,6 +5,7 @@
 #include "wwise_gdextension.h"
 #include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/classes/node2d.hpp>
+#include <godot_cpp/classes/thread.hpp>
 
 namespace godot
 {

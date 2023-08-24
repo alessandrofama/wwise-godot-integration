@@ -127,8 +127,10 @@ void AkEvent2D::stop_event()
 		soundengine->stop_event(playing_id, stop_fade_time, interpolation_mode);
 	}
 }
+
 void AkEvent2D::callback_emitter(const Dictionary& data)
 {
+	Thread::set_thread_safety_checks_enabled(false);
 	int callback_type = data.get("callback_type", AkUtils::AkCallbackType::AK_END_OF_EVENT);
 	AkUtils::AkCallbackType type = (AkUtils::AkCallbackType)callback_type;
 	emit_signal(AkUtils::get_singleton()->event_callback_signals[type], data);
@@ -309,8 +311,10 @@ void AkEvent3D::stop_event()
 		soundengine->stop_event(playing_id, stop_fade_time, interpolation_mode);
 	}
 }
+
 void AkEvent3D::callback_emitter(const Dictionary& data)
 {
+	Thread::set_thread_safety_checks_enabled(false);
 	int callback_type = data.get("callback_type", AkUtils::AkCallbackType::AK_END_OF_EVENT);
 	AkUtils::AkCallbackType type = (AkUtils::AkCallbackType)callback_type;
 	emit_signal(AkUtils::get_singleton()->event_callback_signals[type], data);
