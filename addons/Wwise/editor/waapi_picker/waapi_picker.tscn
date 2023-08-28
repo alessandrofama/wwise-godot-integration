@@ -25,7 +25,7 @@ text = "Refresh Project"
 
 [node name="ExportSoundbanksButton" type="Button" parent="ParentVBoxContainer/TopVBoxContainer/ButtonsHContainer"]
 layout_mode = 2
-text = "Export Soundbanks"
+text = "Generate Soundbanks"
 
 [node name="GenerateIdsButton" type="Button" parent="ParentVBoxContainer/TopVBoxContainer/ButtonsHContainer"]
 layout_mode = 2
