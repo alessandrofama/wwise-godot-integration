@@ -135,7 +135,7 @@ void WaapiPicker::create_project_objects_tree()
 			{
 				if (path.contains(work_unit->get_text(0)))
 				{
-					if (text_filter.is_empty() || name.contains(text_filter))
+					if (text_filter.is_empty() || name.findn(text_filter) != -1)
 					{
 						item = tree->create_item(work_unit);
 						item->set_meta("short_id", short_id);
@@ -155,7 +155,7 @@ void WaapiPicker::create_project_objects_tree()
 			{
 				if (path.contains(work_unit->get_text(0)))
 				{
-					if (text_filter.is_empty() || name.contains(text_filter))
+					if (text_filter.is_empty() || name.findn(text_filter) != -1)
 					{
 						item = tree->create_item(work_unit);
 						item->set_meta("short_id", short_id);
@@ -175,7 +175,7 @@ void WaapiPicker::create_project_objects_tree()
 			{
 				if (path.contains(work_unit->get_text(0)))
 				{
-					if (text_filter.is_empty() || name.contains(text_filter))
+					if (text_filter.is_empty() || name.findn(text_filter) != -1)
 					{
 						item = tree->create_item(work_unit);
 						item->set_meta("short_id", short_id);
@@ -221,7 +221,7 @@ void WaapiPicker::create_project_objects_tree()
 					{
 						if (path.contains(switch_group->get_text(0)))
 						{
-							if (text_filter.is_empty() || name.contains(text_filter))
+							if (text_filter.is_empty() || name.findn(text_filter) != -1)
 							{
 								item = tree->create_item(switch_group);
 								item->set_icon(0, picker_data.icon_data.switch_);
@@ -254,7 +254,7 @@ void WaapiPicker::create_project_objects_tree()
 					{
 						if (path.contains(state_group->get_text(0)))
 						{
-							if (text_filter.is_empty() || name.contains(text_filter))
+							if (text_filter.is_empty() || name.findn(text_filter) != -1)
 							{
 								item = tree->create_item(state_group);
 								item->set_icon(0, picker_data.icon_data.state);
@@ -287,7 +287,7 @@ void WaapiPicker::create_project_objects_tree()
 					{
 						if (path.contains(bus->get_text(0)))
 						{
-							if (text_filter.is_empty() || name.contains(text_filter))
+							if (text_filter.is_empty() || name.findn(text_filter) != -1)
 							{
 								item = tree->create_item(bus);
 								item->set_icon(0, picker_data.icon_data.aux_bus);
@@ -310,7 +310,7 @@ void WaapiPicker::create_project_objects_tree()
 			{
 				if (path.contains(work_unit->get_text(0)))
 				{
-					if (text_filter.is_empty() || name.contains(text_filter))
+					if (text_filter.is_empty() || name.findn(text_filter) != -1)
 					{
 						item = tree->create_item(work_unit);
 						item->set_icon(0, picker_data.icon_data.event);
@@ -332,7 +332,7 @@ void WaapiPicker::create_project_objects_tree()
 			{
 				if (path.contains(work_unit->get_text(0)))
 				{
-					if (text_filter.is_empty() || name.contains(text_filter))
+					if (text_filter.is_empty() || name.findn(text_filter) != -1)
 					{
 						item = tree->create_item(work_unit);
 						item->set_icon(0, picker_data.icon_data.soundbank);
@@ -353,7 +353,7 @@ void WaapiPicker::create_project_objects_tree()
 			{
 				if (path.contains(work_unit->get_text(0)))
 				{
-					if (text_filter.is_empty() || name.contains(text_filter))
+					if (text_filter.is_empty() || name.findn(text_filter) != -1)
 					{
 						item = tree->create_item(work_unit);
 						item->set_icon(0, picker_data.icon_data.acoustic_texture);
