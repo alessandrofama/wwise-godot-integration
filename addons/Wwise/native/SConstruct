@@ -199,6 +199,8 @@ if env["platform"] == "windows":
         CPPDEFINES=["WIN32", "_WIN32", "_WINDOWS", "_CRT_SECURE_NO_WARNINGS", "UNICODE"]
     )
 
+    env.Append(LINKFLAGS=["/INCREMENTAL:NO"])
+
 # macOS build settings
 elif env["platform"] == "macos":
     env["target_path"] += "/macos/"
