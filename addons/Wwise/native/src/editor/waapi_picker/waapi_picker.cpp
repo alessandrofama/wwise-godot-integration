@@ -623,8 +623,6 @@ void WaapiPicker::_enter_tree()
 	error = picker_data.scene_data.generate_ids_button->connect(
 			"button_up", Callable(this, "_on_generate_ids_button_up"));
 	AKASSERT(error == Error::OK);
-	error = picker_data.scene_data.objects_tree->connect("cell_selected", Callable(this, "_on_cell_selected"));
-	AKASSERT(error == Error::OK);
 	error = picker_data.scene_data.search_text->connect("text_changed", Callable(this, "_on_search_text_changed"));
 	AKASSERT(error == Error::OK);
 	picker_data.scene_data.search_text->set_right_icon(picker_data.icon_data.search);
