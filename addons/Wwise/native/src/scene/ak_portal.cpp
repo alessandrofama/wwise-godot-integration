@@ -25,9 +25,12 @@ void AkPortal::_enter_tree()
 	{
 		collision_shape = memnew(CollisionShape3D);
 		box_shape = memnew(BoxShape3D);
+
 		collision_shape->set_name("Shape");
 		collision_shape->set_shape(box_shape);
+		box_shape->set_size(Vector3(0.9f, 2.0f, 0.3f));
 		add_child(collision_shape);
+
 		collision_shape->set_owner(get_tree()->get_edited_scene_root());
 	}
 }
