@@ -19,8 +19,7 @@
 #include <AK/Plugin/AkSoundSeedGrainSourceFactory.h>
 #endif
 
-#if defined(AK_SOUNDSEED_AIR_IMPACT)
-#include <AK/Plugin/AkSoundSeedImpactFXFactory.h>
+#if defined(AK_SOUNDSEED_AIR)
 #include <AK/Plugin/AkSoundSeedWindSourceFactory.h>
 #include <AK/Plugin/AkSoundSeedWooshSourceFactory.h>
 #endif

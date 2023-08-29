@@ -41,7 +41,7 @@ opts.Add(
             "motion",
             "convolution",
             "soundseed_grain",
-            "soundseed_air_impact",
+            "soundseed_air",
             "impacter",
             "mastering_suite",
         ],
@@ -160,11 +160,11 @@ if "soundseed_grain" in env["plugins"]:
     wwise_plugins_library.append("AkSoundSeedGrainSource")
     env.Append(CPPDEFINES=["AK_SOUNDSEED_GRAIN"])
 
-if "soundseed_air_impact" in env["plugins"]:
+if "soundseed_air" in env["plugins"]:
     wwise_plugins_library.append(
-        ["AkSoundSeedWindSource", "AkSoundSeedImpactFX", "AkSoundSeedWooshSource"]
+        ["AkSoundSeedWindSource", "AkSoundSeedWooshSource"]
     )
-    env.Append(CPPDEFINES=["AK_SOUNDSEED_AIR_IMPACT"])
+    env.Append(CPPDEFINES=["AK_SOUNDSEED_AIR"])
 
 if "impacter" in env["plugins"]:
     wwise_plugins_library.append("AkImpacterSource")
