@@ -122,7 +122,7 @@ void AkInspectorTree::initialize(const AkUtils::AkType item_type, const Dictiona
 	ak_type = item_type;
 	user_data = user_data_;
 
-	window = Object::cast_to<AkInspectorWindow>(get_parent()->get_parent());
+	window = Object::cast_to<AkInspectorEditor>(get_parent()->get_parent());
 	window->connect("size_changed", Callable(this, "_on_size_changed"));
 
 	search_text = window->search_text;
@@ -229,15 +229,19 @@ void AkInspectorTree::_on_text_changed(const String& text_filter) { populate_bro
 
 void AkInspectorTree::_on_size_changed() { window->root_vbox->set_size(window->get_size()); }
 
-void AkInspectorWindow::initialize()
+void AkInspectorEditor::initialize()
 {
 	set_name("Window");
 	set_title("Wwise Browser");
 	set_disable_3d(true);
+	set_exclusive(true);
 
 	root_vbox = memnew(VBoxContainer);
 	root_vbox->set_name("ParentVBoxContainer");
-	root_vbox->set_size(Size2(700, 1100));
+
+	double editor_scale = WwiseEditorScale::get_singleton()->get_editor_scale();
+	root_vbox->set_size(Size2(400, 600) * editor_scale);
+
 	root_vbox->set_v_size_flags(Control::SIZE_EXPAND_FILL);
 	root_vbox->set_h_size_flags(Control::SIZE_EXPAND_FILL);
 	add_child(root_vbox);
@@ -258,6 +262,8 @@ void AkInspectorWindow::initialize()
 	tree->set_v_size_flags(Control::SIZE_EXPAND_FILL);
 
 	root_vbox->add_child(tree);
+
+	set_ok_button_text("Close");
 }
 
 void AkInspectorEditorProperty::_bind_methods()
@@ -277,12 +283,11 @@ void AkInspectorEditorProperty::init(const AkUtils::AkType type, const Dictionar
 
 	property_control = memnew(Button);
 	property_control->set_clip_text(true);
-	window = memnew(AkInspectorWindow);
+	window = memnew(AkInspectorEditor);
 	window->initialize();
-	window->set_exclusive(true);
 	add_child(property_control);
 	window->connect("close_requested", Callable(this, "reset"));
-	window->connect("focus_exited", Callable(this, "reset"));
+	window->connect("confirmed", Callable(this, "reset"));
 
 	AkInspectorTree* tree = window->tree;
 	tree->initialize(type, user_data);
@@ -340,15 +345,21 @@ void AkInspectorEditorProperty::init(const AkUtils::AkType type, const Dictionar
 void AkInspectorEditorProperty::open_popup()
 {
 	add_child(window);
-	window->popup(Rect2i(
-			Vector2i(get_global_mouse_position().x - 900.0f, get_global_mouse_position().y - 200.0f), Vector2(1, 1)));
+
+	double editor_scale = WwiseEditorScale::get_singleton()->get_editor_scale();
+
+	Point2i popup_position{};
+	popup_position.x = get_global_mouse_position().x - (550.0f * editor_scale);
+	popup_position.y = get_global_mouse_position().y - (115.0f * editor_scale);
+
+	window->popup_on_parent(Rect2i(popup_position, Size2i(1, 1)));
 }
 
 void AkInspectorEditorProperty::close_popup()
 {
 	for (int i = 0; i < get_child_count(); i++)
 	{
-		if (get_child(i)->get_class() == "AkInspectorWindow")
+		if (get_child(i)->get_class() == "AkInspectorEditor")
 		{
 			window->hide();
 			remove_child(window);
@@ -429,7 +440,10 @@ void AkInspectorEditorProperty::_update_property()
 	}
 
 	close_popup();
+
 	get_edited_object()->notify_property_list_changed();
+	window->tree->populate_browser("");
+
 	updating = false;
 }
 
@@ -483,7 +497,7 @@ void AkInspectorEditorProperty::_on_item_selected()
 				Dictionary default_value;
 				default_value["name"] = "";
 				default_value["id"] = 0;
-				emit_changed("state_value", default_value);
+				emit_changed("switch_value", default_value);
 			}
 		}
 
@@ -499,7 +513,7 @@ bool AkInspectorEditorInspectorPlugin::_can_handle(Object* object) const
 			object->get_class() == "AkEarlyReflections");
 }
 
-bool godot::AkInspectorEditorInspectorPlugin::_parse_property(Object* object, Variant::Type type, const String& name,
+bool AkInspectorEditorInspectorPlugin::_parse_property(Object* object, Variant::Type type, const String& name,
 		PropertyHint hint_type, const String& hint_string, BitField<PropertyUsageFlags> usage_flags, bool wide)
 {
 	if (type == Variant::DICTIONARY)

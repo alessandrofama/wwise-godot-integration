@@ -21,14 +21,16 @@ void register_wwise_types(ModuleInitializationLevel p_level)
 #endif
 
 #if defined(AK_WIN) || defined(AK_MAC_OS_X) || defined(AK_LINUX)
-		ClassDB::register_class<AkInspectorWindow>();
+		ClassDB::register_class<AkInspectorEditor>();
 		ClassDB::register_class<AkInspectorTree>();
 		ClassDB::register_class<AkInspectorEditorInspectorPlugin>();
 		ClassDB::register_class<AkInspectorEditorProperty>();
 		ClassDB::register_class<AkEvent3DGizmoPlugin>();
 		ClassDB::register_class<AkEditorExportPlugin>();
 		ClassDB::register_class<WwiseEditorPlugin>();
+		ClassDB::register_class<WwiseEditorScale>();
 		EditorPlugins::add_by_type<WwiseEditorPlugin>();
+		EditorPlugins::add_by_type<WwiseEditorScale>();
 #endif
 	}
 
@@ -85,6 +87,7 @@ void unregister_wwise_types(ModuleInitializationLevel p_level)
 
 #if defined(AK_WIN) || defined(AK_MAC_OS_X) || defined(AK_LINUX)
 		EditorPlugins::remove_by_type<WwiseEditorPlugin>();
+		EditorPlugins::remove_by_type<WwiseEditorScale>();
 #endif
 	}
 }

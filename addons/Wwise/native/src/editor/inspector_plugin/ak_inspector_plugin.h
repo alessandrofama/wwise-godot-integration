@@ -2,6 +2,8 @@
 #define AK_INSPECTOR_PLUGIN_H
 
 #include "ak_utils.h"
+#include "wwise_editor_scale.h"
+#include <godot_cpp/classes/accept_dialog.hpp>
 #include <godot_cpp/classes/button.hpp>
 #include <godot_cpp/classes/editor_inspector_plugin.hpp>
 #include <godot_cpp/classes/editor_plugin.hpp>
@@ -12,13 +14,12 @@
 #include <godot_cpp/classes/script.hpp>
 #include <godot_cpp/classes/tree.hpp>
 #include <godot_cpp/classes/v_box_container.hpp>
-#include <godot_cpp/classes/window.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
 
 namespace godot
 {
 
-class AkInspectorWindow;
+class AkInspectorEditor;
 
 class AkInspectorTree : public Tree
 {
@@ -31,7 +32,7 @@ private:
 	TreeItem* root_item{};
 	AkUtils::AkType ak_type{ AkUtils::AkType::AKTYPE_EVENT };
 	Ref<Texture2D> icon{};
-	AkInspectorWindow* window{};
+	AkInspectorEditor* window{};
 
 	Dictionary get_wwise_ids(const AkUtils::AkType ak_type);
 
@@ -45,9 +46,9 @@ public:
 	void _on_size_changed();
 };
 
-class AkInspectorWindow : public Window
+class AkInspectorEditor : public AcceptDialog
 {
-	GDCLASS(AkInspectorWindow, Window);
+	GDCLASS(AkInspectorEditor, AcceptDialog);
 
 protected:
 	static void _bind_methods(){};
@@ -72,7 +73,7 @@ private:
 	Ref<Texture2D> icon{};
 	Dictionary current_value{};
 	bool updating{};
-	AkInspectorWindow* window{};
+	AkInspectorEditor* window{};
 	AkUtils::AkType ak_type{ AkUtils::AkType::AKTYPE_EVENT };
 	PopupMenu* event_popup{};
 	Dictionary user_data{};

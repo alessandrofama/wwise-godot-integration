@@ -352,12 +352,13 @@ env.Append(
 )
 env.Append(LIBPATH=[cpp_bindings_path + "bin/"])
 
-env.Append(CPPPATH=["src/", "src/scene/", "src/editor/inspector_plugin/", "src/editor/event_gizmo/", "src/editor/export_plugin/"])
+env.Append(CPPPATH=["src/", "src/scene/", "src/editor/", "src/editor/inspector_plugin/", "src/editor/event_gizmo/", "src/editor/export_plugin/"])
 
 sources = []
 sources.append(Glob("src/*.cpp"))
 sources.append(Glob("src/scene/*.cpp"))
 sources.append(Glob("src/editor/inspector_plugin/*.cpp"))
+sources.append(Glob("src/editor/wwise_editor_scale.cpp"))
 
 if env["platform"] == "windows" or env["platform"] == "macos":
     env.Append(CPPPATH=["src/waapi/"])
