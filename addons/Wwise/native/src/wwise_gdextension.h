@@ -8,12 +8,11 @@
 #include <godot_cpp/classes/os.hpp>
 #include <godot_cpp/classes/project_settings.hpp>
 #include <godot_cpp/classes/resource.hpp>
+#include <godot_cpp/core/binder_common.hpp>
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/core/object.hpp>
 #include <godot_cpp/godot.hpp>
 #include <godot_cpp/variant/callable.hpp>
-#include <godot_cpp/variant/utility_functions.hpp>
-
 #include <godot_cpp/variant/utility_functions.hpp>
 
 #include <AK/MusicEngine/Common/AkMusicEngine.h>
@@ -175,7 +174,7 @@ private:
 	static CAkLock callback_data_lock;
 
 	ProjectSettings* project_settings;
-	CAkFileIOHandlerGodot low_level_io;
+	AkFileIOHandlerGodot low_level_io;
 };
 
 } //namespace godot

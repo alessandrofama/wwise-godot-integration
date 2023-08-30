@@ -1567,9 +1567,7 @@ bool Wwise::initialize_wwise_systems()
 	device_settings.uMaxCachePinnedBytes = static_cast<unsigned int>(
 			get_platform_project_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "maximum_pinned_bytes_in_cache"));
 
-	device_settings.uSchedulerTypeFlags = AK_SCHEDULER_BLOCKING;
-
-	if (!ERROR_CHECK_MSG(low_level_io.Init(device_settings), "Initializing Low level IO failed."))
+	if (!ERROR_CHECK_MSG(low_level_io.init(device_settings), "Initializing Low level IO failed."))
 	{
 		return false;
 	}
@@ -1854,7 +1852,7 @@ bool Wwise::shutdown_wwise_system()
 
 	AK::SoundEngine::Term();
 
-	low_level_io.Term();
+	low_level_io.term();
 
 	if (AK::IAkStreamMgr::Get())
 	{
