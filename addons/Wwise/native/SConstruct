@@ -41,7 +41,7 @@ opts.Add(
             "motion",
             "convolution",
             "soundseed_grain",
-            "soundseed_air_impact",
+            "soundseed_air",
             "impacter",
             "mastering_suite",
         ],
@@ -160,11 +160,11 @@ if "soundseed_grain" in env["plugins"]:
     wwise_plugins_library.append("AkSoundSeedGrainSource")
     env.Append(CPPDEFINES=["AK_SOUNDSEED_GRAIN"])
 
-if "soundseed_air_impact" in env["plugins"]:
+if "soundseed_air" in env["plugins"]:
     wwise_plugins_library.append(
-        ["AkSoundSeedWindSource", "AkSoundSeedImpactFX", "AkSoundSeedWooshSource"]
+        ["AkSoundSeedWindSource", "AkSoundSeedWooshSource"]
     )
-    env.Append(CPPDEFINES=["AK_SOUNDSEED_AIR_IMPACT"])
+    env.Append(CPPDEFINES=["AK_SOUNDSEED_AIR"])
 
 if "impacter" in env["plugins"]:
     wwise_plugins_library.append("AkImpacterSource")
@@ -199,6 +199,8 @@ if env["platform"] == "windows":
         CPPDEFINES=["WIN32", "_WIN32", "_WINDOWS", "_CRT_SECURE_NO_WARNINGS", "UNICODE"]
     )
 
+    env.Append(LINKFLAGS=["/INCREMENTAL:NO"])
+
 # macOS build settings
 elif env["platform"] == "macos":
     env["target_path"] += "/macos/"
@@ -218,6 +220,8 @@ elif env["platform"] == "macos":
         LINKFLAGS=[
             "-framework",
             "CoreAudio",
+             "-framework",
+            "AVFoundation",
             "-Wl,-undefined,dynamic_lookup",
             "-Wl,-rpath,@loader_path",
             "-Wl,-install_name,{}".format(macos_install_name),
@@ -348,15 +352,20 @@ env.Append(
 )
 env.Append(LIBPATH=[cpp_bindings_path + "bin/"])
 
-env.Append(CPPPATH=["src/", "src/scene/"])
+env.Append(CPPPATH=["src/", "src/scene/", "src/editor/", "src/editor/inspector_plugin/", "src/editor/event_gizmo/", "src/editor/export_plugin/"])
 
 sources = []
 sources.append(Glob("src/*.cpp"))
 sources.append(Glob("src/scene/*.cpp"))
+sources.append(Glob("src/editor/inspector_plugin/*.cpp"))
+sources.append(Glob("src/editor/wwise_editor_scale.cpp"))
 
 if env["platform"] == "windows" or env["platform"] == "macos":
     env.Append(CPPPATH=["src/waapi/"])
+    env.Append(CPPPATH=["src/editor/waapi_picker/"])
     sources.append(Glob("src/waapi/*.cpp"))
+    sources.append(Glob("src/editor/waapi_picker/*.cpp"))
+
     env.Append(LIBS=["AkAutobahn"])
 
 if env["platform"] != "windows":

@@ -100,8 +100,8 @@
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>TYPED_METHOD_BIND;_WINDLL;_WIN32;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UndefinePreprocessorDefinitions>AK_OPTIMIZED</UndefinePreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionPath)\..\..\src;%WWISESDK%\samples\SoundEngine\Common;%WWISESDK%\samples\SoundEngine\Win32;%WWISESDK%\include;..\godot-cpp\include\;..\godot-cpp\gen\include\;..\godot-cpp\gdextension\</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionPath)\..\..\src;$(SolutionPath)\..\..\src\editor;%WWISESDK%\samples\SoundEngine\Common;%WWISESDK%\samples\SoundEngine\Win32;%WWISESDK%\include;..\godot-cpp\include\;..\godot-cpp\gen\include\;..\godot-cpp\gdextension\</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
@@ -137,7 +137,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>AK_OPTIMIZED;TYPED_METHOD_BIND;NOMINMAX;_WINDLL;_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionPath)\..\..\src;%WWISESDK%\samples\SoundEngine\Common;%WWISESDK%\samples\SoundEngine\Win32;%WWISESDK%\include;..\godot-cpp\include\;..\godot-cpp\gen\include\;..\godot-cpp\gdextension\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionPath)\..\..\src;$(SolutionPath)\..\..\src\editor;%WWISESDK%\samples\SoundEngine\Common;%WWISESDK%\samples\SoundEngine\Win32;%WWISESDK%\include;..\godot-cpp\include\;..\godot-cpp\gen\include\;..\godot-cpp\gdextension\</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
@@ -156,8 +156,10 @@
     <ClCompile Include="$(WWISESDK)\samples\SoundEngine\Common\AkFilePackage.cpp" />
     <ClCompile Include="$(WWISESDK)\samples\SoundEngine\Common\AkFilePackageLUT.cpp" />
     <ClCompile Include="$(WWISESDK)\samples\SoundEngine\Common\AkMultipleFileLocation.cpp" />
-    <ClCompile Include="$(WWISESDK)\samples\SoundEngine\Win32\AkDefaultIOHookBlocking.cpp" />
     <ClCompile Include="..\src\ak_utils.cpp" />
+    <ClCompile Include="..\src\editor\inspector_plugin\ak_inspector_plugin.cpp" />
+    <ClCompile Include="..\src\editor\waapi_picker\waapi_picker.cpp" />
+    <ClCompile Include="..\src\editor\wwise_editor_scale.cpp" />
     <ClCompile Include="..\src\scene\ak_bank.cpp" />
     <ClCompile Include="..\src\scene\ak_early_reflections.cpp" />
     <ClCompile Include="..\src\scene\ak_environment.cpp" />
@@ -172,10 +174,15 @@
     <ClCompile Include="..\src\wwise_gdextension.cpp" />
     <ClCompile Include="..\src\wwise_godot_io.cpp" />
     <ClCompile Include="..\src\wwise_settings.cpp" />
-    <ClCompile Include="C:\Program Files (x86)\Audiokinetic\Wwise 2022.1.6.8263\SDK\samples\SoundEngine\Common\AkGeneratedSoundBanksResolver.cpp" />
+    <ClCompile Include="$(WWISESDK)\samples\SoundEngine\Common\AkGeneratedSoundBanksResolver.cpp" />
     <ClInclude Include="$(WWISESDK)\samples\SoundEngine\Win32\stdafx.cpp" />
     <ClCompile Include="..\src\register_types.cpp" />
     <ClInclude Include="..\src\ak_utils.h" />
+    <ClInclude Include="..\src\editor\event_gizmo\ak_event_3d_gizmo_plugin.h" />
+    <ClInclude Include="..\src\editor\export_plugin\ak_editor_export_plugin.h" />
+    <ClInclude Include="..\src\editor\inspector_plugin\ak_inspector_plugin.h" />
+    <ClInclude Include="..\src\editor\waapi_picker\waapi_picker.h" />
+    <ClInclude Include="..\src\editor\wwise_editor_scale.h" />
     <ClInclude Include="..\src\scene\ak_bank.h" />
     <ClInclude Include="..\src\scene\ak_early_reflections.h" />
     <ClInclude Include="..\src\scene\ak_environment.h" />
@@ -190,10 +197,10 @@
     <ClInclude Include="..\src\waapi\waapi_gdextension.h" />
     <ClInclude Include="..\src\wwise_gdextension.h" />
     <ClInclude Include="..\src\wwise_settings.h" />
-    <ClInclude Include="C:\Program Files (x86)\Audiokinetic\Wwise 2022.1.6.8263\SDK\samples\SoundEngine\Common\AkGeneratedSoundBanksResolver.h" />
+    <ClInclude Include="$(WWISESDK)\samples\SoundEngine\Common\AkGeneratedSoundBanksResolver.h" />
+    <ClInclude Include="$(WWISESDK)\include\AK\SoundEngine\Common\AkStreamMgrModule.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="$(WWISESDK)\samples\SoundEngine\Win32\AkDefaultIOHookBlocking.h" />
     <ClInclude Include="$(WWISESDK)\samples\SoundEngine\Win32\stdafx.h" />
     <ClInclude Include="..\src\register_types.h" />
     <ClInclude Include="..\src\wwise_godot_io.h" />

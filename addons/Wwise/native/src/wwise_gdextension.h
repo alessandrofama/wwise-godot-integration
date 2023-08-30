@@ -8,12 +8,11 @@
 #include <godot_cpp/classes/os.hpp>
 #include <godot_cpp/classes/project_settings.hpp>
 #include <godot_cpp/classes/resource.hpp>
+#include <godot_cpp/core/binder_common.hpp>
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/core/object.hpp>
 #include <godot_cpp/godot.hpp>
 #include <godot_cpp/variant/callable.hpp>
-#include <godot_cpp/variant/utility_functions.hpp>
-
 #include <godot_cpp/variant/utility_functions.hpp>
 
 #include <AK/MusicEngine/Common/AkMusicEngine.h>
@@ -124,7 +123,7 @@ public:
 
 	bool set_geometry(const Array vertices, const Array triangles, const Ref<Resource>& acoustic_texture,
 			float transmission_loss_value, const Object* game_object, bool enable_diffraction,
-			bool enable_diffraction_on_boundary_edges, bool enable_triangles);
+			bool enable_diffraction_on_boundary_edges);
 	bool remove_geometry(const Object* game_object);
 	bool set_geometry_instance(const Object* associated_geometry, const Transform3D& transform,
 			const Object* geometry_instance, const Object* associated_room);
@@ -175,7 +174,7 @@ private:
 	static CAkLock callback_data_lock;
 
 	ProjectSettings* project_settings;
-	CAkFileIOHandlerGodot low_level_io;
+	AkFileIOHandlerGodot low_level_io;
 };
 
 } //namespace godot

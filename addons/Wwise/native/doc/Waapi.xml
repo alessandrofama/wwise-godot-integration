@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class name="Waapi" inherits="Node" version="4.1"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="../class.xsd">
+	<brief_description>
+	</brief_description>
+	<description>
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="client_call">
+			<return type="Dictionary" />
+			<param index="0" name="uri" type="String" />
+			<param index="1" name="args" type="String" />
+			<param index="2" name="options" type="String" />
+			<description>
+				Calls the Waapi client with a given [param uri], [param arguments] and [param
+				options]. Example of usage:
+				[gdscript]
+				var json: JSON = JSON.new()
+				var connectResult = Waapi.connect_client("127.0.0.1", 8080)
+
+				if connectResult:
+				    var args = {"from": {"ofType": ["Project", "Bus", "Switch", "State", "Event",
+				    "SoundBank"]}}
+				    var options = {"return": ["name", "type", "workunit", "path", "shortId"]}
+
+				    var dict = Waapi.client_call("ak.wwise.core.object.get", JSON.stringify(args),
+				    JSON.stringify(options))
+
+				    var json_document = json.parse(dict["result_string"])
+
+				    if json_document == OK:
+				        if json.data.has("return"):
+				            print(json.data["return"])
+
+				if Waapi.is_client_connected():
+				Waapi.disconnect_client()
+				[/gdscript]
+				Returns a Dictionary with keys [code]call_result[/code], [code]result_string[/code].
+			</description>
+		</method>
+		<method name="client_call_with_timeout">
+			<return type="Dictionary" />
+			<param index="0" name="uri" type="String" />
+			<param index="1" name="args" type="String" />
+			<param index="2" name="options" type="String" />
+			<param index="3" name="timeout_ms" type="int" />
+			<description>
+				Calls the Waapi client with a given [param uri], [param args] and [param options], specifying a timeout in
+				milliseconds.[br][br]
+				Returns a Dictionary with keys [code]call_result[/code], [code]result_string[/code].
+			</description>
+		</method>
+		<method name="connect_client">
+			<return type="bool" />
+			<param index="0" name="uri" type="String" />
+			<param index="1" name="port" type="int" />
+			<description>
+				Connects the Waapi client at the given [param uri] and [param port]. The Wwise
+				authoring application
+				should be open and available at the given location and port in order for this call
+				to succeed. Example:
+				[gdscript]
+				var connect_result = Waapi.connect_client("127.0.0.1", 8080)
+				if connect_result:
+				    # Do something...
+				[/gdscript]
+				Returns [code]true[/code] if the connection succeeded.
+			</description>
+		</method>
+		<method name="disconnect_client">
+			<return type="void" />
+			<description>
+				Disconnects the client.
+			</description>
+		</method>
+		<method name="get_last_string">
+			<return type="String" />
+			<description>
+				Gets the last string result from [method subscribe], [method unsubscribe] or [method client_call]. Useful for
+				debugging.[br][br]
+				Returns a [code]result[/code] String.
+			</description>
+		</method>
+		<method name="is_client_connected">
+			<return type="bool" />
+			<description>
+				Checks the connection status of the Waapi client.[br][br]
+				Returns [code]true[/code] if the client is connected, [code]false[/code] otherwise.
+			</description>
+		</method>
+		<method name="process_callbacks">
+			<return type="void" />
+			<description>
+			</description>
+		</method>
+		<method name="subscribe">
+			<return type="Dictionary" />
+			<param index="0" name="uri" type="String" />
+			<param index="1" name="options" type="String" />
+			<description>
+				Subscribes the Waapi client to changes to the Wwise project in the authoring
+				app. In order to get the data dictionary with keys [code]subscription_id[/code], [code]subscribe_result[/code]
+				and [code]result_string.[br]
+				The signal wamp_event should be connected in GDScripts, e.g.
+				[gdscript]
+				Waapi.connect("wamp_event", Callable(self, "_on_wamp_event"))
+				func _on_wamp_event(data):
+				    print(data)
+				[/gdscript]
+				Return a dictionary with keys [code]subscription_id[/code], [code]subscribe_result[/code]
+				and [code]result_string.
+			</description>
+		</method>
+		<method name="subscribe_with_timeout">
+			<return type="Dictionary" />
+			<param index="0" name="uri" type="String" />
+			<param index="1" name="options" type="String" />
+			<param index="2" name="timeout_ms" type="int" />
+			<description>
+				Subscribes the Waapi client to changes to the Wwise project in the authoring
+				app and returns after some timeout in milliseconds has passed. Works similarly to
+				[method subscribe] but with a timeout.[br][br]
+				Return a dictionary with keys [code]subscription_id[/code],
+				[code]subscribe_result[/code]
+				and [code]result_string.
+			</description>
+		</method>
+		<method name="unsubscribe">
+			<return type="Dictionary" />
+			<param index="0" name="subscription_id" type="int" />
+			<description>
+				Unsubscribes the Waapi client to changes to the Wwise project in the authoring app,
+				given a subscription ID.[br][br]
+				Returns a Dictionary with keys [code]unsubscribe_result[/code],
+				[code]result_string[/code].
+			</description>
+		</method>
+		<method name="unsubscribe_with_timeout">
+			<return type="Dictionary" />
+			<param index="0" name="subscription_id" type="int" />
+			<param index="1" name="timeout_ms" type="int" />
+			<description>
+				Unsubscribes the Waapi client to changes to the Wwise project in the authoring app
+				with a timeout in milliseconds. Works similarly to [method unsubscribe] but with a
+				timeout.[br][br]
+				Returns a Dictionary with keys [code]unsubscribe_result[/code],
+				[code]result_string[/code].
+			</description>
+		</method>
+	</methods>
+	<signals>
+		<signal name="wamp_event">
+			<param index="0" name="data" type="Dictionary" />
+			<description>
+			</description>
+		</signal>
+	</signals>
+</class>

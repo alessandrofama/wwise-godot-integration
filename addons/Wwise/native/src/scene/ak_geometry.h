@@ -26,7 +26,6 @@ private:
 	Ref<Resource> acoustic_texture{};
 	float transmission_loss_value{ 1.0f };
 	NodePath associated_room{};
-	bool enable_triangles{ true };
 
 	Area3D* room_node{};
 	AABB aabb{};
@@ -61,9 +60,6 @@ public:
 
 	void set_associated_room(const NodePath& associated_room);
 	NodePath get_associated_room() const;
-
-	void set_enable_triangles(bool enable_triangles);
-	bool get_enable_triangles() const;
 };
 } //namespace godot
 

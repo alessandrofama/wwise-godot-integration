@@ -25,8 +25,8 @@ WwiseSettings::WwiseSettings()
 
 void WwiseSettings::add_wwise_settings()
 {
-	add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "base_path", String("res://wwise/GeneratedSoundBanks"),
-			Variant::Type::STRING, PROPERTY_HINT_DIR, "res://wwise/GeneratedSoundBanks");
+	add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "base_path", String("res://GeneratedSoundBanks"),
+			Variant::Type::STRING, PROPERTY_HINT_DIR, "res://GeneratedSoundBanks");
 	add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "startup_language", String("English(US)"), Variant::Type::STRING);
 	add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "load_init_bank_at_startup", false, Variant::Type::BOOL);
 	add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "use_soundbank_names", true, Variant::Type::BOOL);
@@ -73,6 +73,7 @@ void WwiseSettings::add_wwise_settings()
 			PROPERTY_HINT_NONE, "");
 	add_setting(WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "enable_geometric_diffraction_and_transmission", true,
 			Variant::Type::BOOL);
+	add_setting(WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "max_emitter_room_aux_sends", 0, Variant::Type::INT);
 
 	// common advanced settings
 	add_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "IO_memory_size", 2097152, Variant::Type::INT, PROPERTY_HINT_NONE,
@@ -100,7 +101,13 @@ void WwiseSettings::add_wwise_settings()
 	add_setting(WWISE_COMMUNICATION_SETTINGS_PATH + "initialize_system_comms", true, Variant::Type::BOOL);
 	add_setting(WWISE_COMMUNICATION_SETTINGS_PATH + "network_name", "", Variant::Type::STRING);
 
+	// macOS advanced settings
+	add_setting(WWISE_MACOS_ADVANCED_SETTINGS_PATH + "audio_API", 3, Variant::Type::INT, PROPERTY_HINT_FLAGS,
+			"AVAudioEngine,AudioUnit");
+
 	// ios advanced settings
+	add_setting(WWISE_IOS_ADVANCED_SETTINGS_PATH + "audio_API", 3, Variant::Type::INT, PROPERTY_HINT_FLAGS,
+			"AVAudioEngine,AudioUnit");
 	add_setting(WWISE_IOS_ADVANCED_SETTINGS_PATH + "audio_session_category", 0, Variant::Type::INT, PROPERTY_HINT_ENUM,
 			"Ambient, Solo Ambient, Play And Record, Playback");
 	add_setting(WWISE_IOS_ADVANCED_SETTINGS_PATH + "audio_session_category_options", 13, Variant::Type::INT,

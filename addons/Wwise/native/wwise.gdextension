@@ -1,5 +1,6 @@
 [configuration]
 entry_symbol = "wwise_library_init"
+compatibility_minimum = 4.1
 
 [libraries]
 windows.editor = "res://addons/Wwise/native/lib/win64/debug/libwwise.windows.template_debug.dll"
@@ -7,7 +8,7 @@ windows.debug = "res://addons/Wise/native/lib/win64/debug/libwwise.windows.templ
 windows.release = "res://addons/wWwise/native/lib/win64/release/libwwise.windows.template_release.dll"
 macos.editor = "res://addons/Wwise/native/lib/macos/debug/libwwise.macos.template_debug.framework"
 macos.debug = "res://addons/Wwise/native/lib/macos/debug/libwwise.macos.template_debug.framework"
-macos.release = "res://addons/Wwise/native/lib/macos/debug/libwwise.macos.template_release.framework"
+macos.release = "res://addons/Wwise/native/lib/macos/release/libwwise.macos.template_release.framework"
 linux.editor = "res://addons/Wwise/native/lib/linux/debug/libwwise.linux.template_debug.so"
 linux.debug = "res://addons/Wwise/native/lib/linux/debug/libwwise.linux.template_debug.so"
 linux.release = "res://addons/Wwise/native/lib/linux/release/libwwise.linux.template_release.so"
@@ -15,3 +16,21 @@ ios.debug = "res://addons/Wwise/native/lib/ios/arm64/debug/libwwise.ios.template
 ios.release = "res://addons/Wwise/native/lib/ios/arm64/release/libwwise.ios.template_release.framework"
 android.debug.arm64 = "res://addons/Wwise/native/lib/android/arm64/debug/libwwise.android.template_debug.arm64.so"
 android.release.arm64 = "res://addons/Wwise/native/lib/android/arm64/release/libwwise.android.template_release.arm64.so"
+
+[icons]
+Wwise = "res://addons/Wwise/editor/images/wwise_node.svg"
+Waapi = "res://addons/Wwise/editor/images/wwise_node.svg"
+WwiseSettings = "res://addons/Wwise/editor/images/wwise_node.svg"
+AkListener2D = "res://addons/Wwise/editor/images/wwise_node.svg"
+AkListener3D = "res://addons/Wwise/editor/images/wwise_node.svg"
+AkEvent2D = "res://addons/Wwise/editor/images/wwise_node.svg"
+AkEvent3D = "res://addons/Wwise/editor/images/wwise_node.svg"
+AkState = "res://addons/Wwise/editor/images/wwise_node.svg"
+AkSwitch = "res://addons/Wwise/editor/images/wwise_node.svg"
+AkBank = "res://addons/Wwise/editor/images/wwise_node.svg"
+AkEnvironment = "res://addons/Wwise/editor/images/wwise_node.svg"
+AkEnvironmentData = "res://addons/Wwise/editor/images/wwise_node.svg"
+AkGeometry = "res://addons/Wwise/editor/images/wwise_node.svg"
+AkPortal = "res://addons/Wwise/editor/images/wwise_node.svg"
+AkRoom = "res://addons/Wwise/editor/images/wwise_node.svg"
+AkEarlyReflections = "res://addons/Wwise/editor/images/wwise_node.svg"

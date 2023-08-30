@@ -19,6 +19,21 @@
     <Filter Include="Source Files\waapi">
       <UniqueIdentifier>{bb432451-69cb-45b6-807a-0dbcfa162265}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\editor">
+      <UniqueIdentifier>{ed2f72de-cbe3-448c-963e-83ce0881df2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\editor\event_gizmo">
+      <UniqueIdentifier>{385e417b-4d47-4aa0-96a3-ad49e479c457}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\editor\export_plugin">
+      <UniqueIdentifier>{869fad9c-e760-4eaf-913a-4ea3c39b96ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\editor\inspector_plugin">
+      <UniqueIdentifier>{157eb0d6-8bd9-4ceb-94d2-be27dae03d37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\editor\waapi_picker">
+      <UniqueIdentifier>{46199684-6d2e-4d49-bc6c-605c237c5ae3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(WWISESDK)\samples\SoundEngine\Common\AkFilePackage.cpp">
@@ -28,9 +43,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="$(WWISESDK)\samples\SoundEngine\Common\AkMultipleFileLocation.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="$(WWISESDK)\samples\SoundEngine\Win32\AkDefaultIOHookBlocking.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\register_types.cpp">
@@ -81,34 +93,22 @@
     <ClCompile Include="..\src\waapi\waapi_gdextension.cpp">
       <Filter>Source Files\waapi</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Program Files (x86)\Audiokinetic\Wwise 2022.1.6.8263\SDK\samples\SoundEngine\Common\AkGeneratedSoundBanksResolver.cpp">
+    <ClCompile Include="..\src\editor\wwise_editor_scale.cpp">
+      <Filter>Source Files\editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\inspector_plugin\ak_inspector_plugin.cpp">
+      <Filter>Source Files\editor\inspector_plugin</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\waapi_picker\waapi_picker.cpp">
+      <Filter>Source Files\editor\waapi_picker</Filter>
+    </ClCompile>
+    <ClCompile Include="$(WWISESDK)\samples\SoundEngine\Common\AkGeneratedSoundBanksResolver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(WWISESDK)\samples\SoundEngine\Win32\stdafx.cpp">
       <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="$(WWISESDK)\samples\SoundEngine\Win32\AkDefaultIOHookBlocking.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="$(WWISESDK)\samples\SoundEngine\Win32\stdafx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\wwise_utils.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\register_types.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\wwise_godot_io.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\wwise_settings.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\ak_utils.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\scene\ak_bank.h">
       <Filter>Source Files\scene</Filter>
@@ -121,9 +121,6 @@
     </ClInclude>
     <ClInclude Include="..\src\scene\ak_switch.h">
       <Filter>Source Files\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\wwise_gdextension.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\scene\ak_early_reflections.h">
       <Filter>Source Files\scene</Filter>
@@ -149,8 +146,47 @@
     <ClInclude Include="..\src\waapi\waapi_gdextension.h">
       <Filter>Source Files\waapi</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Program Files (x86)\Audiokinetic\Wwise 2022.1.6.8263\SDK\samples\SoundEngine\Common\AkGeneratedSoundBanksResolver.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\src\editor\wwise_editor_scale.h">
+      <Filter>Source Files\editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\event_gizmo\ak_event_3d_gizmo_plugin.h">
+      <Filter>Source Files\editor\event_gizmo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\export_plugin\ak_editor_export_plugin.h">
+      <Filter>Source Files\editor\export_plugin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\inspector_plugin\ak_inspector_plugin.h">
+      <Filter>Source Files\editor\inspector_plugin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\waapi_picker\waapi_picker.h">
+      <Filter>Source Files\editor\waapi_picker</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ak_utils.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(WWISESDK)\samples\SoundEngine\Common\AkGeneratedSoundBanksResolver.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(WWISESDK)\include\AK\SoundEngine\Common\AkStreamMgrModule.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\register_types.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(WWISESDK)\samples\SoundEngine\Win32\stdafx.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\wwise_gdextension.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\wwise_godot_io.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\wwise_settings.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\wwise_utils.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
