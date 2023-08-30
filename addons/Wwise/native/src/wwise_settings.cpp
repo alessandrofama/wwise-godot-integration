@@ -25,8 +25,8 @@ WwiseSettings::WwiseSettings()
 
 void WwiseSettings::add_wwise_settings()
 {
-	add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "base_path", String("res://wwise/GeneratedSoundBanks"),
-			Variant::Type::STRING, PROPERTY_HINT_DIR, "res://wwise/GeneratedSoundBanks");
+	add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "base_path", String("res://GeneratedSoundBanks"),
+			Variant::Type::STRING, PROPERTY_HINT_DIR, "res://GeneratedSoundBanks");
 	add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "startup_language", String("English(US)"), Variant::Type::STRING);
 	add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "load_init_bank_at_startup", false, Variant::Type::BOOL);
 	add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "use_soundbank_names", true, Variant::Type::BOOL);
