@@ -70,9 +70,9 @@ wwise_soundengine_sample_path = ""
 if env["platform"] == "windows":
     wwise_soundengine_sample_path = env["wwise_sdk"] + "/samples/SoundEngine/Win32/"
     if env["target"] in ("template_debug"):
-        wwise_sdk_libs_path = env["wwise_sdk"] + "/x64_vc160/Debug/lib/"
+        wwise_sdk_libs_path = env["wwise_sdk"] + "/x64_vc160/Debug(StaticCRT)/lib/"
     else:
-        wwise_sdk_libs_path = env["wwise_sdk"] + "/x64_vc160/Release/lib/"
+        wwise_sdk_libs_path = env["wwise_sdk"] + "/x64_vc160/Release(StaticCRT)/lib/"
 
 if env["platform"] == "macos":
     wwise_soundengine_sample_path = env["wwise_sdk"] + "/samples/SoundEngine/POSIX/"
@@ -186,6 +186,7 @@ if env["platform"] == "windows":
         env.Append(LINKFLAGS=["-DEBUG"])
         if env["asserts"]:
             env.Append(CPPDEFINES=["AK_ENABLE_ASSERTS"])
+        env.Append(CCFLAGS=["/MTd"])
     else:
         env["target_path"] += "release/"
         env.Append(CPPDEFINES=["AK_OPTIMIZED"])
@@ -212,7 +213,7 @@ elif env["platform"] == "macos":
         env["target_path"] += "release/"
         env.Append(CPPDEFINES=["AK_OPTIMIZED"])
 
-    macos_install_name = "@rpath/libfmod.{}.{}.framework/libfmod.{}.{}".format(
+    macos_install_name = "@rpath/libwwise.{}.{}.framework/libwwise.{}.{}".format(
         env["platform"], env["target"], env["platform"], env["target"]
     )
 
