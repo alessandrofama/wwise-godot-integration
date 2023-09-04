@@ -1,0 +1,10 @@
+blank_issues_enabled: false
+
+contact_links:
+  - name: Wiki
+    url: https://github.com/alessandrofama/wwise-godot-integration/wiki
+    about: Kindly take a moment to review the wiki prior to reporting any bugs.
+    
+  - name: Discord
+    url: https://discord.com/invite/6tHrP3gaYf
+    about: You are welcome to join our Discord Server to share your experiences, provide feedback, and seek technical support.
