@@ -2,9 +2,6 @@ name: Build
 
 on:
   push:
-    branches:
-      - main
-      - dev
   pull_request:
     branches:
       - main
@@ -29,6 +26,7 @@ jobs:
             os: "windows-2019"
             sdk-platform: windows
             scons-platform: windows
+            release-flags: use_static_cpp=true
             artifact-name: windows
 
           - name: macOS
@@ -47,14 +45,16 @@ jobs:
             os: "macos-11"
             sdk-platform: ios
             scons-platform: ios
-            flags: arch=arm64 ios_min_version=11.0
+            debug-flags: arch=arm64 ios_min_version=11.0
+            release-flags: arch=arm64 ios_min_version=11.0
             artifact-name: ios
 
           - name: Android
             os: "ubuntu-20.04"
             sdk-platform: android
             scons-platform: android
-            flags: ANDROID_NDK_ROOT=$ANDROID_NDK_LATEST_HOME arch=arm64
+            debug-flags: ANDROID_NDK_ROOT=$ANDROID_NDK_LATEST_HOME arch=arm64
+            release-flags: ANDROID_NDK_ROOT=$ANDROID_NDK_LATEST_HOME arch=arm64
             artifact-name: android-lib
     steps:
       - name: Checkout code
@@ -192,7 +192,7 @@ jobs:
         run: |
           cd addons/Wwise/native
           mkdir -p godot-cpp/bin
-          scons platform=${{ matrix.scons-platform }} target=template_debug dev_build=yes asserts=true wwise_sdk=wwise_sdk -j6 ${{ matrix.flags }}
+          scons platform=${{ matrix.scons-platform }} target=template_debug dev_build=yes asserts=true wwise_sdk=wwise_sdk -j6 ${{ matrix.debug-flags }}
           cd ../../../
 
       - name: Compile Release library
@@ -202,7 +202,7 @@ jobs:
           SCONS_CACHE_LIMIT: 7168
         run: |
           cd addons/Wwise/native
-          scons platform=${{ matrix.scons-platform }} target=template_release wwise_sdk=wwise_sdk -j6 ${{ matrix.flags }}
+          scons platform=${{ matrix.scons-platform }} target=template_release wwise_sdk=wwise_sdk -j6 ${{ matrix.release-flags }}
           cd ../../../
 
       - name: Upload libs
