@@ -227,10 +227,20 @@ void Wwise::init()
 	bool load_init_bank_at_startup =
 			get_platform_project_setting(WWISE_COMMON_USER_SETTINGS_PATH + "load_init_bank_at_startup");
 
+	bool use_soundbank_names = get_platform_project_setting(WWISE_COMMON_USER_SETTINGS_PATH + "use_soundbank_names");
+
 	if (load_init_bank_at_startup)
 	{
-		AkUInt32 initBankID = AK::SoundEngine::GetIDFromString("Init");
-		load_bank_id(initBankID);
+		if (use_soundbank_names)
+		{
+			String init_bank_name = "Init";
+			load_bank(init_bank_name);
+		}
+		else
+		{
+			AkUInt32 initBankID = AK::SoundEngine::GetIDFromString("Init");
+			load_bank_id(initBankID);
+		}
 	}
 }
 
