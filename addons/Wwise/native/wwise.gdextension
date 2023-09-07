@@ -4,8 +4,8 @@ compatibility_minimum = 4.1
 
 [libraries]
 windows.editor = "res://addons/Wwise/native/lib/win64/debug/libwwise.windows.template_debug.dll"
-windows.debug = "res://addons/Wise/native/lib/win64/debug/libwwise.windows.template_debug.dll"
-windows.release = "res://addons/wWwise/native/lib/win64/release/libwwise.windows.template_release.dll"
+windows.debug = "res://addons/Wwise/native/lib/win64/debug/libwwise.windows.template_debug.dll"
+windows.release = "res://addons/Wwise/native/lib/win64/release/libwwise.windows.template_release.dll"
 macos.editor = "res://addons/Wwise/native/lib/macos/debug/libwwise.macos.template_debug.framework"
 macos.debug = "res://addons/Wwise/native/lib/macos/debug/libwwise.macos.template_debug.framework"
 macos.release = "res://addons/Wwise/native/lib/macos/release/libwwise.macos.template_release.framework"
