@@ -73,13 +73,13 @@
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
     <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;</LibraryPath>
     <TargetName>libwwise.windows.template_debug</TargetName>
-    <OutDir>$(SolutionDir)..\lib\win64\debug</OutDir>
+    <OutDir>$(SolutionDir)..\lib\win64\debug\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
     <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;</LibraryPath>
     <TargetName>libwwise.windows.template_release</TargetName>
-    <OutDir>$(SolutionDir)..\lib\win64\release</OutDir>
+    <OutDir>$(SolutionDir)..\lib\win64\release\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -103,10 +103,11 @@
       <AdditionalIncludeDirectories>$(SolutionPath)\..\..\src;$(SolutionPath)\..\..\src\editor;%WWISESDK%\samples\SoundEngine\Common;%WWISESDK%\samples\SoundEngine\Win32;%WWISESDK%\include;..\godot-cpp\include\;..\godot-cpp\gen\include\;..\godot-cpp\gdextension\</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>%WWISESDK%\x64_vc160\Debug\lib;..\godot-cpp\bin;</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%WWISESDK%\x64_vc160\Debug(StaticCRT)\lib;..\godot-cpp\bin</AdditionalLibraryDirectories>
       <AdditionalDependencies>msacm32.lib;ws2_32.lib;AkAutobahn.lib;AkMusicEngine.lib;AkSoundEngine.lib;AkMemoryMgr.lib;AkStreamMgr.lib;AkVorbisDecoder.lib;AkMeterFX.lib;AkOpusDecoder.lib;AkCompressorFX.lib;AkDelayFX.lib;AkExpanderFX.lib;AkFlangerFX.lib;AkGainFX.lib;AkGuitarDistortionFX.lib;AkHarmonizerFX.lib;AkMatrixReverbFX.lib;AkParametricEQFX.lib;AKPeakLimiterFX.lib;AkPitchShifterFX.lib;AkRecorderFX.lib;AkStereoDelayFX.lib;AkToneSource.lib;AkTimeStretchFX.lib;AkTremoloFX.lib;AkSineSource.lib;AkRoomVerbFX.lib;AkSilenceSource.lib;AkAudioInputSource.lib;AkSynthOneSource.lib;AkSpatialAudio.lib;Ak3DAudioBedMixerFX.lib;CommunicationCentral.lib;libgodot-cpp.windows.template_debug.dev.x86_64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ProjectReference>
@@ -140,12 +141,13 @@
       <AdditionalIncludeDirectories>$(SolutionPath)\..\..\src;$(SolutionPath)\..\..\src\editor;%WWISESDK%\samples\SoundEngine\Common;%WWISESDK%\samples\SoundEngine\Win32;%WWISESDK%\include;..\godot-cpp\include\;..\godot-cpp\gen\include\;..\godot-cpp\gdextension\</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>%WWISESDK%\x64_vc160\release\lib;..\godot-cpp\bin;</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%WWISESDK%\x64_vc160\Release(StaticCRT)\lib;..\godot-cpp\bin</AdditionalLibraryDirectories>
       <AdditionalDependencies>AkAutobahn.lib;AkMusicEngine.lib;AkSoundEngine.lib;AkMemoryMgr.lib;AkStreamMgr.lib;AkVorbisDecoder.lib;AkMeterFX.lib;AkOpusDecoder.lib;AkCompressorFX.lib;AkDelayFX.lib;AkExpanderFX.lib;AkFlangerFX.lib;AkGainFX.lib;AkGuitarDistortionFX.lib;AkHarmonizerFX.lib;AkMatrixReverbFX.lib;AkParametricEQFX.lib;AKPeakLimiterFX.lib;AkPitchShifterFX.lib;AkRecorderFX.lib;AkStereoDelayFX.lib;AkToneSource.lib;AkTimeStretchFX.lib;AkTremoloFX.lib;AkSineSource.lib;AkRoomVerbFX.lib;AkSilenceSource.lib;AkAudioInputSource.lib;AkSynthOneSource.lib;AkSpatialAudio.lib;Ak3DAudioBedMixerFX.lib;libgodot-cpp.windows.template_release.x86_64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ProjectReference>
