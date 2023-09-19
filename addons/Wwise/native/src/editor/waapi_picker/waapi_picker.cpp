@@ -64,7 +64,7 @@ void WaapiPicker::create_project_objects_tree()
 	for (int64_t i = 0; i < data_array.size(); i++)
 	{
 		Dictionary object = data_array[i];
-		if (object["type"] == "Project")
+		if (object["type"] == String("Project"))
 		{
 			root->set_text(0, object["name"]);
 			break;
@@ -75,7 +75,7 @@ void WaapiPicker::create_project_objects_tree()
 	{
 		Dictionary object = data_array[i];
 
-		if (object["type"] == "WorkUnit")
+		if (object["type"] == String("WorkUnit"))
 		{
 			TreeItem* item{};
 
@@ -839,17 +839,24 @@ void WaapiPicker::_on_file_dialog_file_selected(const String& path)
 		return;
 	}
 
-	Ref<FileAccess> wwise_ids_gd_file = FileAccess::open(path, FileAccess::WRITE);
-	wwise_ids_gd_file->store_string(final_text);
-	wwise_ids_gd_file->close();
+	bool file_exists = FileAccess::file_exists(path);
+
+	if (!file_exists)
+	{
+		Ref<FileAccess> wwise_ids_gd_file = FileAccess::open(path, FileAccess::WRITE);
+		wwise_ids_gd_file->close();
+		EditorFileSystem* filesystem = get_editor_interface()->get_resource_filesystem();
+		filesystem->update_file(path);
+	}
+
+	Ref<Script> script = ResourceLoader::get_singleton()->load(path, "Script", ResourceLoader::CACHE_MODE_REPLACE);
+	script->set_source_code(final_text);
+	ResourceSaver::get_singleton()->save(script, path);
 
 	UtilityFunctions::print("[Wwise] Generated IDs at " + path);
 
 	file_dialog->queue_free();
 	final_text = "";
-
-	EditorFileSystem* filesystem = get_editor_interface()->get_resource_filesystem();
-	filesystem->update_file(path);
 
 	if (Waapi::get_singleton()->is_client_connected())
 	{

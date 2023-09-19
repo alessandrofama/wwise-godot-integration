@@ -24,7 +24,9 @@ Dictionary AkInspectorTree::get_wwise_ids(const AkUtils::AkType ak_type)
 
 			if (!path.is_empty())
 			{
-				Ref<Script> script = ResourceLoader::get_singleton()->load(path);
+				Ref<Script> script = ResourceLoader::get_singleton()->load(
+						path, String(), ResourceLoader::CacheMode::CACHE_MODE_IGNORE);
+
 				Dictionary script_constants = script->get_script_constant_map();
 
 				String type_constant{};
@@ -345,6 +347,7 @@ void AkInspectorEditorProperty::init(const AkUtils::AkType type, const Dictionar
 void AkInspectorEditorProperty::open_popup()
 {
 	add_child(window);
+	window->tree->populate_browser("");
 
 	double editor_scale = WwiseEditorScale::get_singleton()->get_editor_scale();
 
@@ -442,7 +445,6 @@ void AkInspectorEditorProperty::_update_property()
 	close_popup();
 
 	get_edited_object()->notify_property_list_changed();
-	window->tree->populate_browser("");
 
 	updating = false;
 }

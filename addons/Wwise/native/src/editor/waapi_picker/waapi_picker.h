@@ -14,6 +14,7 @@
 #include <godot_cpp/classes/packed_scene.hpp>
 #include <godot_cpp/classes/project_settings.hpp>
 #include <godot_cpp/classes/resource_loader.hpp>
+#include <godot_cpp/classes/resource_saver.hpp>
 #include <godot_cpp/classes/script.hpp>
 #include <godot_cpp/classes/tree.hpp>
 #include <godot_cpp/classes/tree_item.hpp>
