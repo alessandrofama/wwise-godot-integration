@@ -29,6 +29,8 @@ private:
 	AkUtils::GameEvent trigger_on = AkUtils::GameEvent::GAMEEVENT_NONE;
 	AkUtils::GameEvent stop_on = AkUtils::GameEvent::GAMEEVENT_NONE;
 
+	void check_signal_connections();
+
 public:
 	AkEvent2D();
 	virtual void _enter_tree() override;
@@ -78,6 +80,8 @@ private:
 
 	AkUtils::GameEvent trigger_on = AkUtils::GameEvent::GAMEEVENT_NONE;
 	AkUtils::GameEvent stop_on = AkUtils::GameEvent::GAMEEVENT_NONE;
+
+	void check_signal_connections();
 
 public:
 	AkEnvironmentData* environment_data = nullptr;
