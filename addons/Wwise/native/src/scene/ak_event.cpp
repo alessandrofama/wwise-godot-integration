@@ -33,6 +33,22 @@ void AkEvent2D::_bind_methods()
 	ADD_ALL_AK_EVENT_SIGNALS;
 }
 
+void AkEvent2D::check_signal_connections()
+{
+	for (const auto& entry : AkUtils::get_singleton()->event_callback_signals)
+	{
+		AkUtils::AkCallbackType type = entry.first;
+		StringName signal = entry.second;
+
+		TypedArray<Dictionary> connections = get_signal_connection_list(signal);
+
+		if (!connections.is_empty())
+		{
+			callback_type |= type;
+		}
+	}
+}
+
 AkEvent2D::AkEvent2D()
 {
 	event["name"] = "";
@@ -54,19 +70,6 @@ void AkEvent2D::_enter_tree()
 	if (soundengine)
 	{
 		soundengine->register_game_obj(this, get_name());
-	}
-
-	for (const auto& entry : AkUtils::get_singleton()->event_callback_signals)
-	{
-		AkUtils::AkCallbackType type = entry.first;
-		StringName signal = entry.second;
-
-		TypedArray<Dictionary> connections = get_signal_connection_list(signal);
-
-		if (!connections.is_empty())
-		{
-			callback_type |= type;
-		}
 	}
 
 	handle_game_event(AkUtils::GameEvent::GAMEEVENT_ENTER_TREE);
@@ -106,6 +109,8 @@ void AkEvent2D::post_event()
 
 	if (soundengine)
 	{
+		check_signal_connections();
+
 		if (callback_type)
 		{
 			playing_id = soundengine->post_event_id_callback(
@@ -195,6 +200,22 @@ void AkEvent3D::_bind_methods()
 	ADD_ALL_AK_EVENT_SIGNALS;
 }
 
+void AkEvent3D::check_signal_connections()
+{
+	for (const auto& entry : AkUtils::get_singleton()->event_callback_signals)
+	{
+		AkUtils::AkCallbackType type = entry.first;
+		StringName signal = entry.second;
+
+		TypedArray<Dictionary> connections = get_signal_connection_list(signal);
+
+		if (!connections.is_empty())
+		{
+			callback_type |= type;
+		}
+	}
+}
+
 AkEvent3D::AkEvent3D()
 {
 	event["name"] = "";
@@ -216,19 +237,6 @@ void AkEvent3D::_enter_tree()
 	if (soundengine)
 	{
 		soundengine->register_game_obj(this, get_name());
-	}
-
-	for (const auto& entry : AkUtils::get_singleton()->event_callback_signals)
-	{
-		AkUtils::AkCallbackType type = entry.first;
-		StringName signal = entry.second;
-
-		TypedArray<Dictionary> connections = get_signal_connection_list(signal);
-
-		if (!connections.is_empty())
-		{
-			callback_type |= type;
-		}
 	}
 
 	if (is_environment_aware)
@@ -290,6 +298,8 @@ void AkEvent3D::post_event()
 
 	if (soundengine)
 	{
+		check_signal_connections();
+
 		if (callback_type)
 		{
 			playing_id = soundengine->post_event_id_callback(
