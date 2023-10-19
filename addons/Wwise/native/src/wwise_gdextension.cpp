@@ -404,7 +404,7 @@ bool Wwise::set_2d_position(const Object* game_object, const Transform2D& transf
 
 	Vector3 position = Vector3(origin.x, origin.y, z_depth);
 	Vector3 forward = Vector3(transform_2d.columns[1].x, 0.0f, transform_2d.columns[1].y).normalized();
-	Vector3 up = Vector3(0, 1, 0);
+	Vector3 up = Vector3(0, -1, 0);
 
 	AkVector ak_position{};
 	vector3_to_akvector(position, ak_position);
