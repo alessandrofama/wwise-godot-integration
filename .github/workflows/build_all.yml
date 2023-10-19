@@ -74,16 +74,16 @@ jobs:
           path: addons/Wwise/native/wwise_sdk
           key: ${{ matrix.sdk-platform }}-build-${{ env.cache-name }}-${{ env.WWISE_VERSION }}
 
-      - name: Load .scons_cache directory
-        id: cache-godot-extension
-        uses: actions/cache@v3
-        with:
-          path: ${{github.workspace}}/.scons_cache/
-          key: ${{matrix.sdk-platform}}-${{env.BASE_BRANCH}}-${{github.ref}}-${{github.sha}}
-          restore-keys: |
-            ${{matrix.sdk-platform}}-${{env.BASE_BRANCH}}-${{github.ref}}-${{github.sha}}
-            ${{matrix.sdk-platform}}-${{env.BASE_BRANCH}}-${{github.ref}}
-            ${{matrix.sdk-platform}}-${{env.BASE_BRANCH}}
+      # - name: Load .scons_cache directory
+      #   id: cache-godot-extension
+      #   uses: actions/cache@v3
+      #   with:
+      #     path: ${{github.workspace}}/.scons_cache/
+      #     key: ${{matrix.sdk-platform}}-${{env.BASE_BRANCH}}-${{github.ref}}-${{github.sha}}
+      #     restore-keys: |
+      #       ${{matrix.sdk-platform}}-${{env.BASE_BRANCH}}-${{github.ref}}-${{github.sha}}
+      #       ${{matrix.sdk-platform}}-${{env.BASE_BRANCH}}-${{github.ref}}
+      #       ${{matrix.sdk-platform}}-${{env.BASE_BRANCH}}
 
       - name: Set up Python 3.x
         uses: actions/setup-python@v4

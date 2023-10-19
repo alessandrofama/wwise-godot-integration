@@ -12,14 +12,8 @@ else:
     def decode_utf8(x):
         return codecs.utf_8_decode(x)[0]
 
-
 env = SConscript("godot-cpp/SConstruct")
 opts = Variables([], ARGUMENTS)
-
-scons_cache_path = os.environ.get("SCONS_CACHE")
-if scons_cache_path != None:
-    CacheDir(scons_cache_path)
-    print("SCons cache enabled... (path: '" + scons_cache_path + "')")
 
 # Define our options
 opts.Add(
