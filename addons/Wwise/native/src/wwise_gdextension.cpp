@@ -168,6 +168,7 @@ void Wwise::_bind_methods()
 	ClassDB::bind_method(D_METHOD("remove_output", "output_id"), &Wwise::remove_output);
 	ClassDB::bind_method(D_METHOD("suspend", "render_anyway"), &Wwise::suspend);
 	ClassDB::bind_method(D_METHOD("wakeup_from_suspend"), &Wwise::wakeup_from_suspend);
+	ClassDB::bind_method(D_METHOD("get_soundengine_state"), &Wwise::get_soundengine_state);
 }
 
 void Wwise::init()
@@ -184,6 +185,7 @@ void Wwise::init()
 	}
 	else
 	{
+		soundengine_state = AkUtils::AkSoundEngineState::AK_STATE_INITIALIZED;
 		UtilityFunctions::print("[Wwise] Initialized Wwise systems");
 	}
 
@@ -250,6 +252,7 @@ void Wwise::shutdown()
 {
 	if (shutdown_wwise_system())
 	{
+		soundengine_state = AkUtils::AkSoundEngineState::AK_STATE_SHUTDOWN;
 		UtilityFunctions::print("[Wwise] Shut down Wwise systems");
 	}
 }
@@ -1132,6 +1135,8 @@ bool Wwise::remove_output(const unsigned int output_id)
 bool Wwise::suspend(bool render_anyway) { return ERROR_CHECK(AK::SoundEngine::Suspend(render_anyway)); }
 
 bool Wwise::wakeup_from_suspend() { return ERROR_CHECK(AK::SoundEngine::WakeupFromSuspend()); }
+
+AkUtils::AkSoundEngineState Wwise::get_soundengine_state() { return soundengine_state; }
 
 void Wwise::event_callback(AkCallbackType callback_type, AkCallbackInfo* callback_info)
 {

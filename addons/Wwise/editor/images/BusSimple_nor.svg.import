@@ -2,18 +2,17 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dff0ayxsmdrft"
-path="res://.godot/imported/switchgroup.svg-bd0e5780c7f20c4aa2e3be6df9cad75a.ctex"
+uid="uid://bberivmnwa7b7"
+path="res://.godot/imported/BusSimple_nor.svg-2a7d7eb1bbea7edeae1f09d1fd0259dc.ctex"
 metadata={
-"editor_scale": 1.0,
 "has_editor_variant": true,
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/Wwise/editor/images/switchgroup.svg"
-dest_files=["res://.godot/imported/switchgroup.svg-bd0e5780c7f20c4aa2e3be6df9cad75a.ctex"]
+source_file="res://addons/Wwise/editor/images/BusSimple_nor.svg"
+dest_files=["res://.godot/imported/BusSimple_nor.svg-2a7d7eb1bbea7edeae1f09d1fd0259dc.ctex"]
 
 [params]
 

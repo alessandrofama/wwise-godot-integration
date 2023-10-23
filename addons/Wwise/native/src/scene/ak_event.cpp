@@ -33,6 +33,14 @@ void AkEvent2D::_bind_methods()
 	ADD_ALL_AK_EVENT_SIGNALS;
 }
 
+void AkEvent2D::_notification(int p_what)
+{
+	if (p_what == NOTIFICATION_PREDELETE)
+	{
+		memdelete(cookie);
+	}
+}
+
 void AkEvent2D::check_signal_connections()
 {
 	for (const auto& entry : AkUtils::get_singleton()->event_callback_signals)
@@ -53,6 +61,8 @@ AkEvent2D::AkEvent2D()
 {
 	event["name"] = "";
 	event["id"] = 0;
+
+	cookie = memnew(CookieWrapper(Callable(this, "callback_emitter")));
 }
 
 void AkEvent2D::_enter_tree()
@@ -114,7 +124,7 @@ void AkEvent2D::post_event()
 		if (callback_type)
 		{
 			playing_id = soundengine->post_event_id_callback(
-					event.get("id", 0), (AkUtils::AkCallbackType)callback_type, this, &cookie);
+					event.get("id", 0), (AkUtils::AkCallbackType)callback_type, this, cookie);
 		}
 		else
 		{
@@ -200,6 +210,14 @@ void AkEvent3D::_bind_methods()
 	ADD_ALL_AK_EVENT_SIGNALS;
 }
 
+void AkEvent3D::_notification(int p_what)
+{
+	if (p_what == NOTIFICATION_PREDELETE)
+	{
+		memdelete(cookie);
+	}
+}
+
 void AkEvent3D::check_signal_connections()
 {
 	for (const auto& entry : AkUtils::get_singleton()->event_callback_signals)
@@ -220,6 +238,8 @@ AkEvent3D::AkEvent3D()
 {
 	event["name"] = "";
 	event["id"] = 0;
+
+	cookie = memnew(CookieWrapper(Callable(this, "callback_emitter")));
 }
 
 void AkEvent3D::_enter_tree()
@@ -303,7 +323,7 @@ void AkEvent3D::post_event()
 		if (callback_type)
 		{
 			playing_id = soundengine->post_event_id_callback(
-					event.get("id", 0), (AkUtils::AkCallbackType)callback_type, this, &cookie);
+					event.get("id", 0), (AkUtils::AkCallbackType)callback_type, this, cookie);
 		}
 		else
 		{

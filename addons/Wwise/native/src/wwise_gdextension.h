@@ -150,6 +150,7 @@ public:
 	bool remove_output(const unsigned int output_id);
 	bool suspend(bool render_anyway);
 	bool wakeup_from_suspend();
+	AkUtils::AkSoundEngineState get_soundengine_state();
 
 private:
 	String GODOT_WINDOWS_SETTING_POSTFIX = ".Windows";
@@ -162,6 +163,8 @@ private:
 	String WWISE_COMMON_ADVANCED_SETTINGS_PATH = "wwise/common_advanced_settings/";
 	String WWISE_SPATIAL_AUDIO_PATH = "spatial_audio/";
 	String WWISE_COMMUNICATION_SETTINGS_PATH = "wwise/communication_settings/";
+
+	AkUtils::AkSoundEngineState soundengine_state{};
 
 	static void event_callback(AkCallbackType callback_type, AkCallbackInfo* callback_info);
 	static void bank_callback(AkUInt32 bank_id, const void* in_memory_bank_ptr, AKRESULT load_result, void* in_pCookie);

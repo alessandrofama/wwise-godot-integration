@@ -6,6 +6,7 @@ static Wwise* wwise_module;
 static Waapi* waapi_module;
 static WwiseSettings* wwise_settings;
 static AkUtils* ak_utils;
+static AkEditorUtils* ak_editor_utils;
 
 void register_wwise_types(ModuleInitializationLevel p_level)
 {
@@ -21,6 +22,9 @@ void register_wwise_types(ModuleInitializationLevel p_level)
 #endif
 
 #if defined(AK_WIN) || defined(AK_MAC_OS_X) || defined(AK_LINUX)
+		ClassDB::register_class<AkEditorUtils>();
+		ak_editor_utils = memnew(AkEditorUtils);
+		Engine::get_singleton()->register_singleton("AkEditorUtils", AkEditorUtils::get_singleton());
 		ClassDB::register_class<AkInspectorEditor>();
 		ClassDB::register_class<AkInspectorTree>();
 		ClassDB::register_class<AkInspectorEditorInspectorPlugin>();
@@ -69,25 +73,36 @@ void unregister_wwise_types(ModuleInitializationLevel p_level)
 {
 	if (p_level == MODULE_INITIALIZATION_LEVEL_SCENE)
 	{
-		Engine::get_singleton()->unregister_singleton("Wwise");
-		Engine::get_singleton()->unregister_singleton("AkUtils");
-		memdelete(wwise_module);
+		if (Engine::get_singleton()->has_singleton("Wwise"))
+		{
+			Engine::get_singleton()->unregister_singleton("Wwise");
+			memdelete(wwise_module);
+		}
+		if (Engine::get_singleton()->has_singleton("AkUtils"))
+		{
+			Engine::get_singleton()->unregister_singleton("AkUtils");
+			memdelete(ak_utils);
+		}
+
 		memdelete(wwise_settings);
-		memdelete(ak_utils);
 	}
 
 	if (p_level == MODULE_INITIALIZATION_LEVEL_EDITOR)
 	{
 #if defined(AK_WIN) || defined(AK_MAC_OS_X)
-		Engine::get_singleton()->unregister_singleton("Waapi");
-		memdelete(waapi_module);
-
-		EditorPlugins::remove_by_type<WaapiPicker>();
+		if (Engine::get_singleton()->has_singleton("Waapi"))
+		{
+			Engine::get_singleton()->unregister_singleton("Waapi");
+			memdelete(waapi_module);
+		}
 #endif
 
 #if defined(AK_WIN) || defined(AK_MAC_OS_X) || defined(AK_LINUX)
-		EditorPlugins::remove_by_type<WwiseEditorPlugin>();
-		EditorPlugins::remove_by_type<WwiseEditorScale>();
+		if (Engine::get_singleton()->has_singleton("AkEditorUtils"))
+		{
+			Engine::get_singleton()->unregister_singleton("AkEditorUtils");
+			memdelete(ak_editor_utils);
+		}
 #endif
 	}
 }
@@ -103,7 +118,7 @@ extern "C"
 
 		init_obj.register_initializer(register_wwise_types);
 		init_obj.register_terminator(unregister_wwise_types);
-		init_obj.set_minimum_library_initialization_level(MODULE_INITIALIZATION_LEVEL_EDITOR);
+		init_obj.set_minimum_library_initialization_level(MODULE_INITIALIZATION_LEVEL_SERVERS);
 
 		return init_obj.init();
 	}

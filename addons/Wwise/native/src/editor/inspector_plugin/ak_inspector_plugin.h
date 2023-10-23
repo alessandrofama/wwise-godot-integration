@@ -1,7 +1,7 @@
 #ifndef AK_INSPECTOR_PLUGIN_H
 #define AK_INSPECTOR_PLUGIN_H
 
-#include "ak_utils.h"
+#include "ak_editor_utils.h"
 #include "wwise_editor_scale.h"
 #include <godot_cpp/classes/accept_dialog.hpp>
 #include <godot_cpp/classes/button.hpp>
@@ -30,17 +30,17 @@ protected:
 
 private:
 	TreeItem* root_item{};
-	AkUtils::AkType ak_type{ AkUtils::AkType::AKTYPE_EVENT };
+	AkEditorUtils::AkType ak_type{ AkEditorUtils::AkType::AKTYPE_EVENT };
 	Ref<Texture2D> icon{};
 	AkInspectorEditor* window{};
 
-	Dictionary get_wwise_ids(const AkUtils::AkType ak_type);
+	Dictionary get_wwise_ids(const AkEditorUtils::AkType ak_type);
 
 public:
 	LineEdit* search_text{};
 	Dictionary user_data{};
 
-	void initialize(const AkUtils::AkType item_type, const Dictionary& user_data_ = Dictionary());
+	void initialize(const AkEditorUtils::AkType item_type, const Dictionary& user_data_ = Dictionary());
 	void populate_browser(const String& text_filter);
 	void _on_text_changed(const String& text_filter);
 	void _on_size_changed();
@@ -69,12 +69,45 @@ protected:
 	static void _bind_methods();
 
 private:
+	struct AkInspectorEditorPropertyInfo
+	{
+		const char* text;
+		const char* placeholder;
+	};
+
+	static constexpr AkInspectorEditorPropertyInfo get_ak_inspector_property_info(const AkEditorUtils::AkType type)
+	{
+		switch (type)
+		{
+			case AkEditorUtils::AkType::AKTYPE_EVENT:
+				return AkInspectorEditorPropertyInfo{ "Select Event...", "Search Events..." };
+			case AkEditorUtils::AkType::AKTYPE_BANK:
+				return AkInspectorEditorPropertyInfo{ "Select Bank...", "Search Banks..." };
+			case AkEditorUtils::AkType::AKTYPE_RTPC:
+				return AkInspectorEditorPropertyInfo{ "Select Game Parameter...", "Search Game Parameters..." };
+			case AkEditorUtils::AkType::AKTYPE_STATE_GROUP:
+				return AkInspectorEditorPropertyInfo{ "Select State Group...", "Search State Groups..." };
+			case AkEditorUtils::AkType::AKTYPE_STATE:
+				return AkInspectorEditorPropertyInfo{ "Select State...", "Search States..." };
+			case AkEditorUtils::AkType::AKTYPE_SWITCH_GROUP:
+				return AkInspectorEditorPropertyInfo{ "Select Switch Group...", "Search Switch Groups..." };
+			case AkEditorUtils::AkType::AKTYPE_SWITCH:
+				return AkInspectorEditorPropertyInfo{ "Select Switch...", "Search Switches..." };
+			case AkEditorUtils::AkType::AKTYPE_BUS:
+				return AkInspectorEditorPropertyInfo{ "Select Bus...", "Search Busses..." };
+			case AkEditorUtils::AkType::AKTYPE_AUX_BUS:
+				return AkInspectorEditorPropertyInfo{ "Select Aux Bus...", "Search Aux Busses..." };
+			default:
+				return AkInspectorEditorPropertyInfo{ "Default Select Label", "Default Search Label" };
+		}
+	}
+
 	Button* property_control{};
 	Ref<Texture2D> icon{};
 	Dictionary current_value{};
 	bool updating{};
 	AkInspectorEditor* window{};
-	AkUtils::AkType ak_type{ AkUtils::AkType::AKTYPE_EVENT };
+	AkEditorUtils::AkType ak_type{ AkEditorUtils::AkType::AKTYPE_EVENT };
 	PopupMenu* event_popup{};
 	Dictionary user_data{};
 
@@ -82,7 +115,7 @@ private:
 	void close_popup();
 
 public:
-	void init(const AkUtils::AkType type, const Dictionary& user_data_ = Dictionary());
+	void init(const AkEditorUtils::AkType type, const Dictionary& user_data_ = Dictionary());
 	virtual void _update_property() override;
 	void reset();
 	void _on_button_pressed();

@@ -354,6 +354,7 @@ sources.append(Glob("src/*.cpp"))
 sources.append(Glob("src/scene/*.cpp"))
 sources.append(Glob("src/editor/inspector_plugin/*.cpp"))
 sources.append(Glob("src/editor/wwise_editor_scale.cpp"))
+sources.append(Glob("src/editor/ak_editor_utils.cpp"))
 
 if env["platform"] == "windows" or env["platform"] == "macos":
     env.Append(CPPPATH=["src/waapi/"])

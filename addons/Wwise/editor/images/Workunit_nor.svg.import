@@ -2,18 +2,17 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d3x57gg1pn75g"
-path="res://.godot/imported/folder.svg-65132fdd84bb0df78fdc4b9e9b4dfc03.ctex"
+uid="uid://pc88x388tcsm"
+path="res://.godot/imported/Workunit_nor.svg-e25848aba6a8174e5430bbb0701de596.ctex"
 metadata={
-"editor_scale": 1.0,
 "has_editor_variant": true,
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/Wwise/editor/images/folder.svg"
-dest_files=["res://.godot/imported/folder.svg-65132fdd84bb0df78fdc4b9e9b4dfc03.ctex"]
+source_file="res://addons/Wwise/editor/images/Workunit_nor.svg"
+dest_files=["res://.godot/imported/Workunit_nor.svg-e25848aba6a8174e5430bbb0701de596.ctex"]
 
 [params]
 

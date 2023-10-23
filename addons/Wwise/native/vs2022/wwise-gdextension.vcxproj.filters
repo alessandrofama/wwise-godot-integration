@@ -105,6 +105,9 @@
     <ClCompile Include="$(WWISESDK)\samples\SoundEngine\Common\AkGeneratedSoundBanksResolver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\editor\ak_editor_utils.cpp">
+      <Filter>Source Files\editor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(WWISESDK)\samples\SoundEngine\Win32\stdafx.cpp">
@@ -187,6 +190,12 @@
     </ClInclude>
     <ClInclude Include="..\src\wwise_utils.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\wwise_editor.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\ak_editor_utils.h">
+      <Filter>Source Files\editor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

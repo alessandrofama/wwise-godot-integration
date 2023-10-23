@@ -16,6 +16,7 @@ class AkEvent2D : public Node2D
 
 protected:
 	static void _bind_methods();
+	void _notification(int p_what);
 
 private:
 	Dictionary event;
@@ -23,7 +24,7 @@ private:
 	unsigned int stop_fade_time{};
 	AkUtils::AkCurveInterpolation interpolation_mode = AkUtils::AkCurveInterpolation::AK_CURVE_LINEAR;
 	int callback_type{};
-	CookieWrapper cookie{ Callable(this, "callback_emitter") };
+	CookieWrapper* cookie{ nullptr };
 	bool is_editor{};
 
 	AkUtils::GameEvent trigger_on = AkUtils::GameEvent::GAMEEVENT_NONE;
@@ -67,6 +68,7 @@ class AkEvent3D : public Node3D
 
 protected:
 	static void _bind_methods();
+	void _notification(int p_what);
 
 private:
 	Dictionary event;
@@ -75,7 +77,7 @@ private:
 	AkUtils::AkCurveInterpolation interpolation_mode = AkUtils::AkCurveInterpolation::AK_CURVE_LINEAR;
 	bool is_environment_aware{};
 	int callback_type{};
-	CookieWrapper cookie{ Callable(this, "callback_emitter") };
+	CookieWrapper* cookie{ nullptr };
 	bool is_editor{};
 
 	AkUtils::GameEvent trigger_on = AkUtils::GameEvent::GAMEEVENT_NONE;

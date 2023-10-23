@@ -2,18 +2,17 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://de1p4bs5p1w04"
-path="res://.godot/imported/switch.svg-7a2d1b7ee349e44c79d3e5a8054a33a6.ctex"
+uid="uid://ca0gg6latn4r3"
+path="res://.godot/imported/StateGroup_nor.svg-08ec4b01a2266ce15e42db24ee690161.ctex"
 metadata={
-"editor_scale": 1.0,
 "has_editor_variant": true,
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/Wwise/editor/images/switch.svg"
-dest_files=["res://.godot/imported/switch.svg-7a2d1b7ee349e44c79d3e5a8054a33a6.ctex"]
+source_file="res://addons/Wwise/editor/images/StateGroup_nor.svg"
+dest_files=["res://.godot/imported/StateGroup_nor.svg-08ec4b01a2266ce15e42db24ee690161.ctex"]
 
 [params]
 

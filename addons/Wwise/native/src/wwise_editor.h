@@ -41,10 +41,10 @@ public:
 
 	virtual void _exit_tree() override
 	{
-		remove_autoload_singleton("WwiseRuntimeManager");
-		remove_node_3d_gizmo_plugin(gizmo_plugin);
-		remove_export_plugin(export_plugin);
 		remove_inspector_plugin(inspector_plugin);
+		remove_export_plugin(export_plugin);
+		remove_node_3d_gizmo_plugin(gizmo_plugin);
+		remove_autoload_singleton("WwiseRuntimeManager");
 	}
 };
 

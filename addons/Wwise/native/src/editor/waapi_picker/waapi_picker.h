@@ -1,6 +1,7 @@
 #ifndef WAAPI_PICKER_H
 #define WAAPI_PICKER_H
 
+#include "ak_editor_utils.h"
 #include "waapi/waapi_gdextension.h"
 #include <godot_cpp/classes/button.hpp>
 #include <godot_cpp/classes/control.hpp>
@@ -38,7 +39,6 @@ struct WaapiPickerIconData
 	Ref<Texture2D> aux_bus;
 	Ref<Texture2D> acoustic_texture;
 	Ref<Texture2D> work_unit;
-	Ref<Texture2D> search;
 };
 
 struct WaapiPickerSceneData

@@ -2,18 +2,17 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bt8lbvmk31aq0"
-path="res://.godot/imported/search.svg-8adb9d7e54af033508ce14116fc05767.ctex"
+uid="uid://c6320wx4uohhj"
+path="res://.godot/imported/Event_nor.svg-cca1b541d543badefe73ca9210414ad3.ctex"
 metadata={
-"editor_scale": 1.0,
 "has_editor_variant": true,
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/Wwise/editor/images/search.svg"
-dest_files=["res://.godot/imported/search.svg-8adb9d7e54af033508ce14116fc05767.ctex"]
+source_file="res://addons/Wwise/editor/images/Event_nor.svg"
+dest_files=["res://.godot/imported/Event_nor.svg-cca1b541d543badefe73ca9210414ad3.ctex"]
 
 [params]
 

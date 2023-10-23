@@ -57,31 +57,46 @@ AKRESULT AkIOHookGodot::open(const AkFileOpenData& in_file_open, AkFileDesc*& ou
 	}
 
 	bool use_names = in_file_open.fileID == AK_INVALID_FILE_ID;
-
-	String final_file_path = banks_path;
+	String final_file_path{ banks_path };
 	String filename_format{};
 
-	if (in_file_open.pFlags && in_file_open.eOpenMode == AK_OpenModeRead)
+	if (in_file_open.pFlags)
 	{
-		if (in_file_open.pFlags->uCompanyID == AKCOMPANYID_AUDIOKINETIC &&
-				in_file_open.pFlags->uCodecID == AKCODECID_BANK && in_file_open.pFlags->bIsLanguageSpecific)
+		if (in_file_open.eOpenMode == AK_OpenModeRead)
 		{
-			final_file_path = final_file_path + language_folder + "/";
-		}
+			if (in_file_open.pFlags->uCompanyID == AKCOMPANYID_AUDIOKINETIC)
+			{
+				if (in_file_open.pFlags->uCodecID == AKCODECID_BANK)
+				{
+					filename_format = ".bnk";
+				}
+				else
+				{
+					final_file_path += "Media/";
+					filename_format = ".wem";
+				}
 
-		filename_format = in_file_open.pFlags->uCodecID == AKCODECID_BANK ? ".bnk" : ".wem";
+				if (in_file_open.pFlags->bIsLanguageSpecific)
+				{
+					final_file_path += language_folder + "/";
+				}
+			}
+			else if (in_file_open.pFlags->uCompanyID == AKCOMPANYID_AUDIOKINETIC_EXTERNAL)
+			{
+				filename_format = ".wem";
+			}
+		}
 	}
 
 	if (use_names)
 	{
 		char* filename;
 		CONVERT_OSCHAR_TO_CHAR(in_file_open.pszFileName, filename);
-
-		final_file_path = final_file_path + filename;
+		final_file_path += filename;
 	}
 	else
 	{
-		final_file_path = final_file_path + String::num_int64(in_file_open.fileID) + filename_format;
+		final_file_path += String::num_int64(in_file_open.fileID) + filename_format;
 	}
 
 	FileHandle* const file_handle = memnew(FileHandle);
@@ -99,6 +114,7 @@ AKRESULT AkIOHookGodot::open(const AkFileOpenData& in_file_open, AkFileDesc*& ou
 	else
 	{
 		AkDelete(AkMemID_Streaming, out_p_file_desc);
+		memdelete(file_handle);
 		out_p_file_desc = nullptr;
 	}
 
@@ -122,7 +138,7 @@ void AkIOHookGodot::read(
 	}
 
 	PackedByteArray file_buffer = file->get_buffer(io_transfer_info.uRequestedSize);
-	int size = file_buffer.size();
+	int64_t size = file_buffer.size();
 	const uint8_t* data = file_buffer.ptr();
 	memcpy(io_transfer_info.pBuffer, data, size * sizeof(uint8_t));
 
@@ -248,6 +264,7 @@ AKRESULT AkIOHookGodot::Close(AkFileDesc* in_file_desc)
 		if (file->get_error() == Error::OK)
 		{
 			AkDelete(AkMemID_Streaming, in_file_desc);
+			memdelete(file_handle);
 			result = AK_Success;
 		}
 	}
