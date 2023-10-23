@@ -30,7 +30,6 @@ void WwiseSettings::add_wwise_settings()
 	add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "startup_language", String("English(US)"), Variant::Type::STRING);
 	add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "load_init_bank_at_startup", false, Variant::Type::BOOL);
 	add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "use_soundbank_names", true, Variant::Type::BOOL);
-	add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "suspend_at_focus_loss", true, Variant::Type::BOOL);
 	add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "engine_logging", false, Variant::Type::BOOL);
 	add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "maximum_number_of_positioning_paths", 255, Variant::Type::INT);
 	add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "command_queue_size", 262144, Variant::Type::INT);
@@ -88,12 +87,6 @@ void WwiseSettings::add_wwise_settings()
 	add_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "maximum_hardware_timeout_ms", 1000, Variant::Type::INT);
 	add_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "debug_out_of_range_check_enabled", false, Variant::Type::BOOL);
 	add_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "debug_out_of_range_limit", 16.0f, Variant::Type::FLOAT);
-
-	// todo(alex): the following three settings are not yet implemented
-	add_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "render_during_focus_loss", false, Variant::Type::BOOL);
-	add_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "sound_bank_persistent_data_path", "", Variant::Type::STRING,
-			PROPERTY_HINT_DIR, "");
-	add_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "use_async_open", false, Variant::Type::BOOL);
 
 	// communication settings
 	add_setting(WWISE_COMMUNICATION_SETTINGS_PATH + "discovery_broadcast_port", 24024, Variant::Type::INT);

@@ -18,14 +18,9 @@ protected:
 
 private:
 	const String ak_event_speaker_path = "res://addons/Wwise/editor/images/wwise_audio_speaker.svg";
+	Ref<Texture2D> texture;
 
 public:
-	AkEvent3DGizmoPlugin()
-	{
-		Ref<Texture2D> icon = ResourceLoader::get_singleton()->load(ak_event_speaker_path);
-		create_icon_material("ak_event_3d_icon_material", icon);
-	}
-
 	virtual bool _has_gizmo(Node3D* for_node_3d) const override
 	{
 		if (for_node_3d)
@@ -40,8 +35,20 @@ public:
 	{
 		gizmo->clear();
 
-		Ref<StandardMaterial3D> icon = get_material("ak_event_3d_icon_material", gizmo);
-		gizmo->add_unscaled_billboard(icon, 0.05);
+		if (!texture.is_valid())
+		{
+			texture = ResourceLoader::get_singleton()->load(ak_event_speaker_path);
+
+			if (!texture.is_valid())
+			{
+				return;
+			}
+
+			create_icon_material("ak_event_3d_icon_material", texture);
+		}
+
+		Ref<StandardMaterial3D> material = get_material("ak_event_3d_icon_material", gizmo);
+		gizmo->add_unscaled_billboard(material, 0.05);
 	}
 };
 

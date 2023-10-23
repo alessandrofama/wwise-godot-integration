@@ -159,6 +159,7 @@
     <ClCompile Include="$(WWISESDK)\samples\SoundEngine\Common\AkFilePackageLUT.cpp" />
     <ClCompile Include="$(WWISESDK)\samples\SoundEngine\Common\AkMultipleFileLocation.cpp" />
     <ClCompile Include="..\src\ak_utils.cpp" />
+    <ClCompile Include="..\src\editor\ak_editor_utils.cpp" />
     <ClCompile Include="..\src\editor\inspector_plugin\ak_inspector_plugin.cpp" />
     <ClCompile Include="..\src\editor\waapi_picker\waapi_picker.cpp" />
     <ClCompile Include="..\src\editor\wwise_editor_scale.cpp" />
@@ -184,6 +185,7 @@
     <ClInclude Include="..\src\editor\export_plugin\ak_editor_export_plugin.h" />
     <ClInclude Include="..\src\editor\inspector_plugin\ak_inspector_plugin.h" />
     <ClInclude Include="..\src\editor\waapi_picker\waapi_picker.h" />
+    <ClInclude Include="..\src\editor\ak_editor_utils.h" />
     <ClInclude Include="..\src\editor\wwise_editor_scale.h" />
     <ClInclude Include="..\src\scene\ak_bank.h" />
     <ClInclude Include="..\src\scene\ak_early_reflections.h" />
@@ -197,6 +199,7 @@
     <ClInclude Include="..\src\scene\ak_state.h" />
     <ClInclude Include="..\src\scene\ak_switch.h" />
     <ClInclude Include="..\src\waapi\waapi_gdextension.h" />
+    <ClInclude Include="..\src\wwise_editor.h" />
     <ClInclude Include="..\src\wwise_gdextension.h" />
     <ClInclude Include="..\src\wwise_settings.h" />
     <ClInclude Include="$(WWISESDK)\samples\SoundEngine\Common\AkGeneratedSoundBanksResolver.h" />

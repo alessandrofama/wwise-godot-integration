@@ -2,18 +2,17 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ctd43ksfu0g6r"
-path="res://.godot/imported/wwise_node.svg-86d286b159a6af24aa53b65e31c72e40.ctex"
+uid="uid://ip6ktdm4yldl"
+path="res://.godot/imported/Folder_nor.svg-bcc9eb4105339dfc40b4fabeac9d5ceb.ctex"
 metadata={
-"editor_scale": 1.0,
 "has_editor_variant": true,
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/Wwise/editor/images/wwise_node.svg"
-dest_files=["res://.godot/imported/wwise_node.svg-86d286b159a6af24aa53b65e31c72e40.ctex"]
+source_file="res://addons/Wwise/editor/images/Folder_nor.svg"
+dest_files=["res://.godot/imported/Folder_nor.svg-bcc9eb4105339dfc40b4fabeac9d5ceb.ctex"]
 
 [params]
 

@@ -565,27 +565,21 @@ void WaapiPicker::_enter_tree()
 {
 	json = memnew(JSON);
 
-	picker_data.icon_data.project =
-			ResourceLoader::get_singleton()->load("res://addons/Wwise/editor/images/wwise_project.svg");
-	picker_data.icon_data.folder = ResourceLoader::get_singleton()->load("res://addons/Wwise/editor/images/folder.svg");
-	picker_data.icon_data.event = ResourceLoader::get_singleton()->load("res://addons/Wwise/editor/images/event.svg");
-	picker_data.icon_data.switch_group =
-			ResourceLoader::get_singleton()->load("res://addons/Wwise/editor/images/switchgroup.svg");
-	picker_data.icon_data.switch_ =
-			ResourceLoader::get_singleton()->load("res://addons/Wwise/editor/images/switch.svg");
-	picker_data.icon_data.state_group =
-			ResourceLoader::get_singleton()->load("res://addons/Wwise/editor/images/stategroup.svg");
-	picker_data.icon_data.state = ResourceLoader::get_singleton()->load("res://addons/Wwise/editor/images/state.svg");
-	picker_data.icon_data.soundbank =
-			ResourceLoader::get_singleton()->load("res://addons/Wwise/editor/images/soundbank.svg");
-	picker_data.icon_data.bus = ResourceLoader::get_singleton()->load("res://addons/Wwise/editor/images/bus.svg");
-	picker_data.icon_data.aux_bus =
-			ResourceLoader::get_singleton()->load("res://addons/Wwise/editor/images/auxbus.svg");
-	picker_data.icon_data.acoustic_texture =
-			ResourceLoader::get_singleton()->load("res://addons/Wwise/editor/images/acoustictexture.svg");
-	picker_data.icon_data.work_unit =
-			ResourceLoader::get_singleton()->load("res://addons/Wwise/editor/images/workunit.svg");
-	picker_data.icon_data.search = ResourceLoader::get_singleton()->load("res://addons/Wwise/editor/images/search.svg");
+	AkEditorUtils* editor_utils = AkEditorUtils::get_singleton();
+	using IconType = AkEditorUtils::AkEditorIconType;
+
+	WaapiPickerIconData icon_data{ editor_utils->get_editor_icon(IconType::AK_ICON_PROJECT),
+		editor_utils->get_editor_icon(IconType::AK_ICON_FOLDER), editor_utils->get_editor_icon(IconType::AK_ICON_EVENT),
+		editor_utils->get_editor_icon(IconType::AK_ICON_SWITCHGROUP),
+		editor_utils->get_editor_icon(IconType::AK_ICON_SWITCH),
+		editor_utils->get_editor_icon(IconType::AK_ICON_STATEGROUP),
+		editor_utils->get_editor_icon(IconType::AK_ICON_STATE),
+		editor_utils->get_editor_icon(IconType::AK_ICON_SOUNDBANK),
+		editor_utils->get_editor_icon(IconType::AK_ICON_BUS), editor_utils->get_editor_icon(IconType::AK_ICON_AUXBUS),
+		editor_utils->get_editor_icon(IconType::AK_ICON_ACOUSTICTEXTURE),
+		editor_utils->get_editor_icon(IconType::AK_ICON_WORKUNIT) };
+
+	picker_data.icon_data = icon_data;
 
 	scene = ResourceLoader::get_singleton()->load("res://addons/Wwise/editor/waapi_picker/waapi_picker.tscn");
 	picker_data.scene_data.control = Object::cast_to<Control>(scene->instantiate(PackedScene::GEN_EDIT_STATE_INSTANCE));
@@ -625,7 +619,6 @@ void WaapiPicker::_enter_tree()
 	AKASSERT(error == Error::OK);
 	error = picker_data.scene_data.search_text->connect("text_changed", Callable(this, "_on_search_text_changed"));
 	AKASSERT(error == Error::OK);
-	picker_data.scene_data.search_text->set_right_icon(picker_data.icon_data.search);
 
 	Waapi::get_singleton()->connect_client("127.0.0.1", 8080);
 

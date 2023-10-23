@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 15 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
+    <g transform="matrix(1,0,0,1,-40,-85)">
+        <g transform="matrix(1,0,0,1,40,86.0003)">
+            <g id="ObjectIcons_Folder_nor">
+                <g id="Icons">
+                    <g transform="matrix(1,0,0,1,-40,-26.0003)">
+                        <g id="Base-Block" serif:id="Base Block">
+                            <path d="M55,27.1C55,25.941 54.059,25 52.9,25L42.1,25C40.941,25 40,25.941 40,27.1L40,37.9C40,39.059 40.941,40 42.1,40L52.9,40C54.059,40 55,39.059 55,37.9L55,27.1Z" style="fill-opacity:0;"/>
+                        </g>
+                    </g>
+                    <path d="M0,0L0,13L15,13L15,2L8,1.999L8,-0.001L0,0ZM7,3L7,1L1,1L1,12L14,12L14,3L7,3Z" style="fill:rgb(34,34,34);"/>
+                    <path d="M7,3L14,3L14,12L1,12L1,3L1,1L7,1L7,3ZM6,4L6,2L2,2L2,11L13,11L13,4L6,4Z" style="fill:rgb(200,200,200);"/>
+                    <path d="M6,4L13,4L13,11L2,11L2,4L2,2L6,2L6,4ZM5,5L5,3L3,3L3,10L12,10L12,5L5,5Z" style="fill:rgb(67,67,67);"/>
+                    <g transform="matrix(1,0,0,1,-60,-46.0003)">
+                        <path d="M65,51L72,51L72,56L63,56L63,51L63,49L65,49L65,51Z" style="fill:rgb(145,145,145);"/>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

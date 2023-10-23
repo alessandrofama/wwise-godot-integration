@@ -2,18 +2,17 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cyqb2v4ugn5t4"
-path="res://.godot/imported/soundbank.svg-bc648ad7ee626a8f7d773ed60f7284f7.ctex"
+uid="uid://di2p281eymr6"
+path="res://.godot/imported/SwitchGroup_nor.svg-4b8ec47f9b0f2d0ad35f4b4c39823197.ctex"
 metadata={
-"editor_scale": 1.0,
 "has_editor_variant": true,
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/Wwise/editor/images/soundbank.svg"
-dest_files=["res://.godot/imported/soundbank.svg-bc648ad7ee626a8f7d773ed60f7284f7.ctex"]
+source_file="res://addons/Wwise/editor/images/SwitchGroup_nor.svg"
+dest_files=["res://.godot/imported/SwitchGroup_nor.svg-4b8ec47f9b0f2d0ad35f4b4c39823197.ctex"]
 
 [params]
 

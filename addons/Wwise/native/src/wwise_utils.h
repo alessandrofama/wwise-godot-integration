@@ -1,10 +1,9 @@
 #ifndef WWISE_UTILS_H
 #define WWISE_UTILS_H
 
-#include "AK/SoundEngine/Common/AkCallback.h"
-#include "AK/SoundEngine/Common/AkTypes.h"
-#include "godot_cpp/classes/engine.hpp"
-#include "godot_cpp/classes/file_access.hpp"
+#include <AK/SoundEngine/Common/AkCallback.h>
+#include <AK/SoundEngine/Common/AkTypes.h>
+#include <godot_cpp/classes/engine.hpp>
 
 using namespace godot;
 

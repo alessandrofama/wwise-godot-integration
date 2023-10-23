@@ -2,7 +2,6 @@
 #define AK_UTILS_H
 
 #include <godot_cpp/classes/ref_counted.hpp>
-#include <godot_cpp/templates/hash_map.hpp>
 
 namespace godot
 {
@@ -31,9 +30,9 @@ public:
 	Callable get_cookie() const { return cookie; }
 };
 
-class AkUtils : public RefCounted
+class AkUtils : public Object
 {
-	GDCLASS(AkUtils, RefCounted);
+	GDCLASS(AkUtils, Object);
 
 protected:
 	static void _bind_methods();
@@ -42,25 +41,18 @@ private:
 	static AkUtils* singleton;
 
 public:
+	enum AkSoundEngineState
+	{
+		AK_STATE_SHUTDOWN,
+		AK_STATE_INITIALIZED,
+	};
+
 	enum GameEvent
 	{
 		GAMEEVENT_NONE,
 		GAMEEVENT_ENTER_TREE,
 		GAMEEVENT_READY,
 		GAMEEVENT_EXIT_TREE
-	};
-
-	enum AkType
-	{
-		AKTYPE_EVENT,
-		AKTYPE_BANK,
-		AKTYPE_RTPC,
-		AKTYPE_STATE_GROUP,
-		AKTYPE_STATE,
-		AKTYPE_SWITCH_GROUP,
-		AKTYPE_SWITCH,
-		AKTYPE_BUS,
-		AKTYPE_AUX_BUS
 	};
 
 	enum AkCurveInterpolation
@@ -169,8 +161,8 @@ public:
 };
 } //namespace godot
 
+VARIANT_ENUM_CAST(AkUtils::AkSoundEngineState);
 VARIANT_ENUM_CAST(AkUtils::GameEvent);
-VARIANT_ENUM_CAST(AkUtils::AkType);
 VARIANT_ENUM_CAST(AkUtils::AkCurveInterpolation);
 VARIANT_ENUM_CAST(AkUtils::AkCallbackType);
 VARIANT_ENUM_CAST(AkUtils::MultiPositionType);
