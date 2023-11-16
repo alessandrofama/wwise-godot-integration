@@ -12,8 +12,8 @@ on:
 
 env:
   BASE_BRANCH: ci
-  WWISE_VERSION: "2023.1.0-beta"
-  GODOT_ENGINE_VERSION: "4.1.2"
+  WWISE_VERSION: "2023.1.0"
+  GODOT_ENGINE_VERSION: "4.1.3"
   GODOT_ENGINE_STAGE: "stable"
   INTEGRATION_VERSION: "2.0.3"
 
@@ -109,82 +109,82 @@ jobs:
         uses: suisei-cn/actions-download-file@v1.4.0
         if: steps.cache-wwise-sdk.outputs.cache-hit != 'true'
         with:
-          url: "https://www.dropbox.com/scl/fi/osbj3muk10dp0kt9azlag/wwise_sdk_2023.1.0_beta_base.zip?rlkey=zrf83nacc680qvbrh93c7jpre&dl=1"
+          url: "https://www.dropbox.com/scl/fi/xlrcmxbmxsmy58tp33uiw/wwise_sdk_2023.1.0_base.zip?rlkey=30ut2n1g1bi5dp33y923epsbd&dl=1"
           target: ./addons/Wwise/native/wwise_sdk/
 
       - name: Download Wwise SDK (Windows)
         uses: suisei-cn/actions-download-file@v1.4.0
         if: runner.os == 'Windows' && steps.cache-wwise-sdk.outputs.cache-hit != 'true'
         with:
-          url: "https://www.dropbox.com/scl/fi/g7tqtnmtwm1ir32sfdt0q/wwise_sdk_2023.1.0_beta_win.zip?rlkey=nl38xonxw55rk0cyzomfzj0z7&dl=1"
+          url: "https://www.dropbox.com/scl/fi/kt51rpzdbvgzt6wsnclhe/wwise_sdk_2023.1.0_win.zip?rlkey=ossw4of3bxjat6fbempev6jbr&dl=1"
           target: ./addons/Wwise/native/wwise_sdk/
 
       - name: Download Wwise SDK (macOS)
         uses: suisei-cn/actions-download-file@v1.4.0
         if: runner.os == 'MacOS' && matrix.sdk-platform == 'mac' && steps.cache-wwise-sdk.outputs.cache-hit != 'true'
         with:
-          url: "https://www.dropbox.com/scl/fi/g23x4bv6471alp626gpyr/wwise_sdk_2023.1.0_beta_mac.zip?rlkey=6msjqa9uln4gnrme1g8m5dvc9&dl=1"
+          url: "https://www.dropbox.com/scl/fi/97zus2pl7btnua0s5dhw1/wwise_sdk_2023.1.0_mac.zip?rlkey=v4io943jvor5ovbw7x6n5p6gm&dl=1"
           target: ./addons/Wwise/native/wwise_sdk/
 
       - name: Download Wwise SDK (Linux)
         uses: suisei-cn/actions-download-file@v1.4.0
         if: runner.os == 'Linux' && matrix.sdk-platform == 'linux' && steps.cache-wwise-sdk.outputs.cache-hit != 'true'
         with:
-          url: "https://www.dropbox.com/scl/fi/dqjr5n0hfcq54xpmmyt82/wwise_sdk_2023.1.0_beta_linux_x64.zip?rlkey=s1yw1k993676e4kdx39xtxr3f&dl=1"
+          url: "https://www.dropbox.com/scl/fi/76dgnud1pg6bbctiruiy4/wwise_sdk_2023.1.0_linux.zip?rlkey=8oimalx8sj8klaze2hl35pbha&dl=1"
           target: ./addons/Wwise/native/wwise_sdk/
 
       - name: Download Wwise SDK (iOS)
         uses: suisei-cn/actions-download-file@v1.4.0
         if: runner.os == 'MacOS' && matrix.sdk-platform == 'ios' && steps.cache-wwise-sdk.outputs.cache-hit != 'true'
         with:
-          url: "https://www.dropbox.com/scl/fi/tmq0wfahgu6riifp0kj6q/wwise_sdk_2023.1.0_beta_ios.zip?rlkey=nx8ssb1fai0xgsdxapdo9by2r&dl=1"
+          url: "https://www.dropbox.com/scl/fi/p0jknjqz3ahw4myzq5y1g/wwise_sdk_2023.1.0_ios.zip?rlkey=ybyvp3bavmh6h2r6csftsmtep&dl=1"
           target: ./addons/Wwise/native/wwise_sdk/
 
       - name: Download Wwise SDK (Android)
         uses: suisei-cn/actions-download-file@v1.4.0
         if: runner.os == 'Linux' && matrix.sdk-platform == 'android' && steps.cache-wwise-sdk.outputs.cache-hit != 'true'
         with:
-          url: "https://www.dropbox.com/scl/fi/szpqfc3q46ejaskj7roap/wwise_sdk_2023.1.0_beta_android.zip?rlkey=ad5cp09mw4ga1frbii7hdkjs8&dl=1"
+          url: "https://www.dropbox.com/scl/fi/0armk45ync2ijvrq5epgq/wwise_sdk_2023.1.0_android.zip?rlkey=twmaw7gc39bytxgenuc8baqml&dl=1"
           target: ./addons/Wwise/native/wwise_sdk/
 
       - name: Unzip SDK (Windows)
         if: runner.os == 'Windows' && steps.cache-wwise-sdk.outputs.cache-hit != 'true'
         run: |
           cd ./addons/Wwise/native/wwise_sdk
-          7z x wwise_sdk_2023.1.0_beta_base.zip
-          7z x wwise_sdk_2023.1.0_beta_win.zip
+          7z x wwise_sdk_2023.1.0_base.zip
+          7z x wwise_sdk_2023.1.0_win.zip
           cd ../../../../
 
       - name: Unzip SDK (macOS)
         if: runner.os == 'MacOS' && matrix.sdk-platform == 'mac' && steps.cache-wwise-sdk.outputs.cache-hit != 'true'
         run: |
           cd ./addons/Wwise/native/wwise_sdk
-          7z x wwise_sdk_2023.1.0_beta_base.zip
-          7z x wwise_sdk_2023.1.0_beta_mac.zip
+          7z x wwise_sdk_2023.1.0_base.zip
+          7z x wwise_sdk_2023.1.0_mac.zip
           cd ../../../../
 
       - name: Unzip SDK (Linux)
         if: runner.os == 'Linux' && matrix.sdk-platform == 'linux' && steps.cache-wwise-sdk.outputs.cache-hit != 'true'
         run: |
           cd ./addons/Wwise/native/wwise_sdk
-          7z x wwise_sdk_2023.1.0_beta_base.zip
-          7z x wwise_sdk_2023.1.0_beta_linux_x64.zip
+          7z x wwise_sdk_2023.1.0_base.zip
+          7z x wwise_sdk_2023.1.0_linux.zip
           cd ../../../../
 
       - name: Unzip SDK (iOS)
         if: runner.os == 'MacOS' && matrix.sdk-platform == 'ios' && steps.cache-wwise-sdk.outputs.cache-hit != 'true'
         run: |
             cd ./addons/Wwise/native/wwise_sdk
-            7z x wwise_sdk_2023.1.0_beta_base.zip
-            7z x wwise_sdk_2023.1.0_beta_ios.zip
+            7z x wwise_sdk_2023.1.0_base.zip
+            7z x wwise_sdk_2023.1.0_ios.zip
             cd ../../../../
 
       - name: Unzip SDK (Android)
         if: runner.os == 'Linux' && matrix.sdk-platform == 'android' && steps.cache-wwise-sdk.outputs.cache-hit != 'true'
         run: |
               cd ./addons/Wwise/native/wwise_sdk
-              7z x wwise_sdk_2023.1.0_beta_base.zip
-              7z x wwise_sdk_2023.1.0_beta_android.zip
+              7z x wwise_sdk_2023.1.0_base.zip
+              7z x wwise_sdk_2023.1.0_android.zip
               cd ../../../../
 
       - name: Compile Debug library

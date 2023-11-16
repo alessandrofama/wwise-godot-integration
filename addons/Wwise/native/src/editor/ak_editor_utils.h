@@ -11,6 +11,7 @@ class AkEditorUtils : public Object
 {
 	GDCLASS(AkEditorUtils, Object);
 
+public:
 	enum AkType
 	{
 		AKTYPE_EVENT,
