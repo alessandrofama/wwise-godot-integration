@@ -205,7 +205,8 @@ void AkInspectorEditor::initialize()
 	root_vbox = memnew(VBoxContainer);
 	root_vbox->set_name("ParentVBoxContainer");
 
-	double editor_scale = WwiseEditorScale::get_singleton()->get_editor_scale();
+	EditorInterface* editor_interface = EditorInterface::get_singleton();
+	double editor_scale = editor_interface->get_editor_scale();
 	root_vbox->set_size(Size2(400, 600) * editor_scale);
 
 	root_vbox->set_v_size_flags(Control::SIZE_EXPAND_FILL);
@@ -272,7 +273,8 @@ void AkInspectorEditorProperty::open_popup()
 	add_child(window);
 	window->tree->populate_browser("");
 
-	double editor_scale = WwiseEditorScale::get_singleton()->get_editor_scale();
+	EditorInterface* editor_interface = EditorInterface::get_singleton();
+	double editor_scale = editor_interface->get_editor_scale();
 
 	Point2i popup_position{};
 	popup_position.x = get_global_mouse_position().x - (550.0f * editor_scale);

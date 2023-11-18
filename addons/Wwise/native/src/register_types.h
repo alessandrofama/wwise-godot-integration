@@ -12,7 +12,6 @@
 #include "editor/event_gizmo/ak_event_3d_gizmo_plugin.h"
 #include "editor/export_plugin/ak_editor_export_plugin.h"
 #include "editor/inspector_plugin/ak_inspector_plugin.h"
-#include "editor/wwise_editor_scale.h"
 #include "scene/ak_bank.h"
 #include "scene/ak_early_reflections.h"
 #include "scene/ak_environment.h"
