@@ -41,11 +41,6 @@ private:
 	static AkUtils* singleton;
 
 public:
-	enum AkSoundEngineState
-	{
-		AK_STATE_SHUTDOWN,
-		AK_STATE_INITIALIZED,
-	};
 
 	enum GameEvent
 	{
@@ -161,7 +156,6 @@ public:
 };
 } //namespace godot
 
-VARIANT_ENUM_CAST(AkUtils::AkSoundEngineState);
 VARIANT_ENUM_CAST(AkUtils::GameEvent);
 VARIANT_ENUM_CAST(AkUtils::AkCurveInterpolation);
 VARIANT_ENUM_CAST(AkUtils::AkCallbackType);
