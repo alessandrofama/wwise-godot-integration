@@ -104,6 +104,8 @@ public:
 				return AK_ICON_SWITCHGROUP;
 			case AKTYPE_SWITCH:
 				return AK_ICON_SWITCH;
+			case AKTYPE_BUS:
+				return AK_ICON_BUS;
 			case AKTYPE_AUX_BUS:
 				return AK_ICON_AUXBUS;
 			case AKTYPE_RTPC:
