@@ -638,13 +638,18 @@ void WaapiPicker::_process(double delta)
 
 void WaapiPicker::_exit_tree()
 {
-	if (Waapi::get_singleton()->is_client_connected())
+	Waapi* waapi = Waapi::get_singleton();
+
+	if (waapi)
 	{
-		Waapi::get_singleton()->disconnect_client();
-		if (picker_data.scene_data.control)
+		if (waapi->is_client_connected())
 		{
-			remove_control_from_bottom_panel(picker_data.scene_data.control);
-			memdelete(json);
+			waapi->disconnect_client();
+			if (picker_data.scene_data.control)
+			{
+				remove_control_from_bottom_panel(picker_data.scene_data.control);
+				memdelete(json);
+			}
 		}
 	}
 }
