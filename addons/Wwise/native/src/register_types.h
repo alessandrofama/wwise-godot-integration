@@ -10,6 +10,7 @@
 #include "ak_utils.h"
 #include "editor/ak_editor_utils.h"
 #include "editor/event_gizmo/ak_event_3d_gizmo_plugin.h"
+#include "editor/export_plugin/ak_android_export_plugin.h"
 #include "editor/export_plugin/ak_editor_export_plugin.h"
 #include "editor/inspector_plugin/ak_inspector_plugin.h"
 #include "scene/ak_bank.h"

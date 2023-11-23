@@ -36,6 +36,10 @@
 #include <AK/Comm/AkCommunication.h>
 #endif
 
+#if defined(AK_ANDROID)
+#include "android/wwise_jni.h"
+#endif
+
 #include <memory>
 
 namespace godot

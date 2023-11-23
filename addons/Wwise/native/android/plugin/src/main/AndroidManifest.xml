@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application>
+        <!--
+        Plugin metadata:
+
+        - In the `android:name` attribute, the `org.godotengine.plugin.v2` prefix
+        is required so Godot can recognize the project as a valid Godot
+        Android plugin. The plugin name following the prefix should match the value
+        of the plugin name returned by the plugin initializer.
+
+        - The `android:value` attribute should be the classpath to the plugin
+        initializer.
+        -->
+        <meta-data
+            android:name="org.godotengine.plugin.v2.${godotPluginName}"
+            android:value="${godotPluginPackageName}.GDExtensionAndroidPlugin"/>
+    </application>
+
+</manifest>
