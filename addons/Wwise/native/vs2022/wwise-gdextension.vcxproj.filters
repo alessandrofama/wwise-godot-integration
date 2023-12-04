@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
@@ -93,9 +93,6 @@
     <ClCompile Include="..\src\waapi\waapi_gdextension.cpp">
       <Filter>Source Files\waapi</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\editor\wwise_editor_scale.cpp">
-      <Filter>Source Files\editor</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\editor\inspector_plugin\ak_inspector_plugin.cpp">
       <Filter>Source Files\editor\inspector_plugin</Filter>
     </ClCompile>
@@ -149,9 +146,6 @@
     <ClInclude Include="..\src\waapi\waapi_gdextension.h">
       <Filter>Source Files\waapi</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\editor\wwise_editor_scale.h">
-      <Filter>Source Files\editor</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\editor\event_gizmo\ak_event_3d_gizmo_plugin.h">
       <Filter>Source Files\editor\event_gizmo</Filter>
     </ClInclude>
@@ -196,6 +190,9 @@
     </ClInclude>
     <ClInclude Include="..\src\editor\ak_editor_utils.h">
       <Filter>Source Files\editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\export_plugin\ak_android_export_plugin.h">
+      <Filter>Source Files\editor\export_plugin</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
