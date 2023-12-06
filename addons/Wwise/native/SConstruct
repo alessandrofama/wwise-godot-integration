@@ -44,11 +44,6 @@ opts.Add(
 opts.Add(EnumVariable("ios_arch", "Target iOS architecture", "arm64", ["arm64"]))
 opts.Add("ios_min_version", "Target minimum iphoneos/iphonesimulator version", "11.0")
 opts.Add(BoolVariable("ios_simulator", "Target iOS Simulator", False))
-opts.Add(
-    PathVariable(
-        "android_arch", "Android Arch (arm64)", "arm64", PathVariable.PathAccept
-    )
-)
 opts.Add(BoolVariable("asserts", "Enable AKASSERT for debug builds", "no"))
 opts.Update(env)
 
@@ -89,13 +84,6 @@ if env["platform"] == "ios" and env["ios_simulator"]:
     else:
         wwise_sdk_libs_path = env["wwise_sdk"] + "/iOS/Release-iphonesimulator/lib/"
 
-if env["platform"] == "android":
-    wwise_soundengine_sample_path = env["wwise_sdk"] + "/samples/SoundEngine/Android/"
-    if env["target"] in ("template_debug"):
-        wwise_sdk_libs_path = env["wwise_sdk"] + "/Android_arm64-v8a/Debug/lib/"
-    else:
-        wwise_sdk_libs_path = env["wwise_sdk"] + "/Android_arm64-v8a/Release/lib/"
-
 if env["platform"] == "linux":
     wwise_soundengine_sample_path = env["wwise_sdk"] + "/samples/SoundEngine/POSIX/"
     if env["target"] in ("template_debug"):
@@ -122,7 +110,6 @@ wwise_plugins_library = [
     "AkOpusDecoder",
     "AkMeterFX",
     "AkPitchShifterFX",
-    "AkRoomVerbFX",
     "AkRoomVerbFX",
     "AkPeakLimiterFX",
     "AkExpanderFX",
@@ -316,25 +303,6 @@ elif env["platform"] == "ios":
         ]
     )
 
-# android build settings
-elif env["platform"] == "android":
-    env["target_path"] += "/android/" + env["android_arch"] + "/"
-
-    if env["target"] in ("template_debug"):
-        env["target_path"] += "debug/"
-        if env["asserts"]:
-            env.Append(CPPDEFINES=["AK_ENABLE_ASSERTS"])
-    else:
-        env["target_path"] += "release/"
-        env.Append(CPPDEFINES=["AK_OPTIMIZED"])
-
-    if "motion" in env["plugins"]:
-        wwise_plugins_library.append(["AkMotionSink", "AkMotionSourceSource"])
-        env.Append(CPPDEFINES=["AK_MOTION"])
-
-    env.Append(CPPPATH=[wwise_soundengine_sample_path + "libzip/lib/"])
-    env.Append(CPPPATH=[env["wwise_sdk"] + "/samples/SoundEngine/POSIX/"])
-
 # godot-cpp settings
 env.Append(
     CPPPATH=[
@@ -353,7 +321,6 @@ sources = []
 sources.append(Glob("src/*.cpp"))
 sources.append(Glob("src/scene/*.cpp"))
 sources.append(Glob("src/editor/inspector_plugin/*.cpp"))
-sources.append(Glob("src/editor/wwise_editor_scale.cpp"))
 sources.append(Glob("src/editor/ak_editor_utils.cpp"))
 
 if env["platform"] == "windows" or env["platform"] == "macos":
@@ -391,8 +358,6 @@ if env["platform"] == "windows":
     env.Append(LIBS=["advapi32", "user32", "ole32"])
 if env["platform"] == "windows" and "motion" in env["plugins"]:
     env.Append(LIBS=["XInput", "Dinput8", "Winmm", "oleaut32"])
-if env["platform"] == "android":
-    env.Append(LIBS=["zip"])
 if env["platform"] == "linux":
     env.Append(LIBS=["pthread", "dl"])
 
@@ -483,15 +448,6 @@ if env["platform"] == "ios":
     target = os.path.join(output_dir, output_file)
     create_output_file_action = Action(target, create_output_file)
     AddPostAction(library, create_output_file)
-
-if env["platform"] == "android":
-    library = env.SharedLibrary(
-        target=env["target_path"]
-        + "libwwise.{}.{}.{}.so".format(
-            env["platform"], env["target"], env["android_arch"]
-        ),
-        source=sources,
-    )
 
 Default(library)
 

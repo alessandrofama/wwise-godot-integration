@@ -604,20 +604,23 @@ void WaapiPicker::_enter_tree()
 			Vector2(picker_data.scene_data.control->get_custom_minimum_size().x,
 					editor_viewport->get_visible_rect().get_size().y * 0.3f));
 
-	Error error = editor_viewport->connect("size_changed", Callable(this, "_on_resized_editor_viewport"));
+	Error error =
+			editor_viewport->connect("size_changed", callable_mp(this, &WaapiPicker::_on_resized_editor_viewport));
 	AKASSERT(error == Error::OK);
-	error = editor_viewport->connect("visibility_changed", Callable(this, "_on_visibility_changed_editor_viewport"));
+	error = editor_viewport->connect(
+			"visibility_changed", callable_mp(this, &WaapiPicker::_on_visibility_changed_editor_viewport));
 	AKASSERT(error == Error::OK);
 	error = picker_data.scene_data.refresh_project_button->connect(
-			"button_up", Callable(this, "_on_refresh_project_button_up"));
+			"button_up", callable_mp(this, &WaapiPicker::_on_refresh_project_button_up));
 	AKASSERT(error == Error::OK);
 	error = picker_data.scene_data.export_soundbanks_button->connect(
-			"button_up", Callable(this, "_on_export_soundbanks_button_up"));
+			"button_up", callable_mp(this, &WaapiPicker::_on_export_soundbanks_button_up));
 	AKASSERT(error == Error::OK);
 	error = picker_data.scene_data.generate_ids_button->connect(
-			"button_up", Callable(this, "_on_generate_ids_button_up"));
+			"button_up", callable_mp(this, &WaapiPicker::_on_generate_ids_button_up));
 	AKASSERT(error == Error::OK);
-	error = picker_data.scene_data.search_text->connect("text_changed", Callable(this, "_on_search_text_changed"));
+	error = picker_data.scene_data.search_text->connect(
+			"text_changed", callable_mp(this, &WaapiPicker::_on_search_text_changed));
 	AKASSERT(error == Error::OK);
 
 	Waapi::get_singleton()->connect_client("127.0.0.1", 8080);
@@ -635,13 +638,18 @@ void WaapiPicker::_process(double delta)
 
 void WaapiPicker::_exit_tree()
 {
-	if (Waapi::get_singleton()->is_client_connected())
+	Waapi* waapi = Waapi::get_singleton();
+
+	if (waapi)
 	{
-		Waapi::get_singleton()->disconnect_client();
-		if (picker_data.scene_data.control)
+		if (waapi->is_client_connected())
 		{
-			remove_control_from_bottom_panel(picker_data.scene_data.control);
-			memdelete(json);
+			waapi->disconnect_client();
+			if (picker_data.scene_data.control)
+			{
+				remove_control_from_bottom_panel(picker_data.scene_data.control);
+				memdelete(json);
+			}
 		}
 	}
 }
@@ -777,7 +785,7 @@ void WaapiPicker::_on_generate_ids_button_up()
 	PackedStringArray filters;
 	filters.append(file_type);
 	file_dialog->set_filters(filters);
-	file_dialog->connect("file_selected", Callable(this, "_on_file_dialog_file_selected"));
+	file_dialog->connect("file_selected", callable_mp(this, &WaapiPicker::_on_file_dialog_file_selected));
 
 	EditorInterface* editor_interface = get_editor_interface();
 	Control* base_control = editor_interface->get_base_control();

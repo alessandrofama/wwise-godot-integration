@@ -168,7 +168,7 @@ void Wwise::_bind_methods()
 	ClassDB::bind_method(D_METHOD("remove_output", "output_id"), &Wwise::remove_output);
 	ClassDB::bind_method(D_METHOD("suspend", "render_anyway"), &Wwise::suspend);
 	ClassDB::bind_method(D_METHOD("wakeup_from_suspend"), &Wwise::wakeup_from_suspend);
-	ClassDB::bind_method(D_METHOD("get_soundengine_state"), &Wwise::get_soundengine_state);
+	ClassDB::bind_method(D_METHOD("is_initialized"), &Wwise::is_initialized);
 }
 
 void Wwise::init()
@@ -185,7 +185,6 @@ void Wwise::init()
 	}
 	else
 	{
-		soundengine_state = AkUtils::AkSoundEngineState::AK_STATE_INITIALIZED;
 		UtilityFunctions::print("[Wwise] Initialized Wwise systems");
 	}
 
@@ -252,7 +251,6 @@ void Wwise::shutdown()
 {
 	if (shutdown_wwise_system())
 	{
-		soundengine_state = AkUtils::AkSoundEngineState::AK_STATE_SHUTDOWN;
 		UtilityFunctions::print("[Wwise] Shut down Wwise systems");
 	}
 }
@@ -1136,7 +1134,7 @@ bool Wwise::suspend(bool render_anyway) { return ERROR_CHECK(AK::SoundEngine::Su
 
 bool Wwise::wakeup_from_suspend() { return ERROR_CHECK(AK::SoundEngine::WakeupFromSuspend()); }
 
-AkUtils::AkSoundEngineState Wwise::get_soundengine_state() { return soundengine_state; }
+bool Wwise::is_initialized() { return AK::SoundEngine::IsInitialized(); }
 
 void Wwise::event_callback(AkCallbackType callback_type, AkCallbackInfo* callback_info)
 {
@@ -1759,15 +1757,10 @@ bool Wwise::initialize_wwise_systems()
 	platform_init_settings.bRoundFrameSizeToHWSize = static_cast<bool>(
 			get_platform_project_setting("wwise/android_advanced_settings/round_frame_size_to_hw_size"));
 
-	// note(alex): currently, GDExtension does not provide access to the Java Native Interface environment (4.0 and 4.1)
+	platform_init_settings.pJavaVM = JNISupport::getJavaVM();
+	platform_init_settings.jActivity = JNISupport::getActivity();
 
-	// JNIEnv* env = godot::android_api->godot_android_get_env();
-	// JavaVM* java_vm;
-	// env->GetJavaVM(&java_vm);
-	// platform_init_settings.pJavaVM = java_vm;
-
-	// jobject activity = godot::android_api->godot_android_get_activity();
-	// platform_init_settings.jActivity = activity;
+	platform_init_settings.bEnableLowLatency = true;
 
 #elif defined(AK_LINUX)
 

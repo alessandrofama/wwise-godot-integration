@@ -162,7 +162,6 @@
     <ClCompile Include="..\src\editor\ak_editor_utils.cpp" />
     <ClCompile Include="..\src\editor\inspector_plugin\ak_inspector_plugin.cpp" />
     <ClCompile Include="..\src\editor\waapi_picker\waapi_picker.cpp" />
-    <ClCompile Include="..\src\editor\wwise_editor_scale.cpp" />
     <ClCompile Include="..\src\scene\ak_bank.cpp" />
     <ClCompile Include="..\src\scene\ak_early_reflections.cpp" />
     <ClCompile Include="..\src\scene\ak_environment.cpp" />
@@ -182,11 +181,11 @@
     <ClCompile Include="..\src\register_types.cpp" />
     <ClInclude Include="..\src\ak_utils.h" />
     <ClInclude Include="..\src\editor\event_gizmo\ak_event_3d_gizmo_plugin.h" />
+    <ClInclude Include="..\src\editor\export_plugin\ak_android_export_plugin.h" />
     <ClInclude Include="..\src\editor\export_plugin\ak_editor_export_plugin.h" />
     <ClInclude Include="..\src\editor\inspector_plugin\ak_inspector_plugin.h" />
     <ClInclude Include="..\src\editor\waapi_picker\waapi_picker.h" />
     <ClInclude Include="..\src\editor\ak_editor_utils.h" />
-    <ClInclude Include="..\src\editor\wwise_editor_scale.h" />
     <ClInclude Include="..\src\scene\ak_bank.h" />
     <ClInclude Include="..\src\scene\ak_early_reflections.h" />
     <ClInclude Include="..\src\scene\ak_environment.h" />

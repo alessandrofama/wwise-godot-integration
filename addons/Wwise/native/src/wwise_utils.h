@@ -110,7 +110,7 @@ static const char* wwise_error_string(AKRESULT errcode)
 		case AK_FormatNotReady:
 			return "AK_FormatNotReady";
 		case AK_WrongBankVersion:
-			return "AK_WrongBankVersion	";
+			return "AK_WrongBankVersion";
 		case AK_FileNotFound:
 			return "AK_FileNotFound";
 		case AK_DeviceNotReady:
@@ -148,7 +148,7 @@ static const char* wwise_error_string(AKRESULT errcode)
 		case AK_DLLPathNotFound:
 			return "AK_DLLPathNotFound";
 		case AK_NoJavaVM:
-			return "AK_NoJavaVM	";
+			return "AK_NoJavaVM";
 		case AK_OpenSLError:
 			return "AK_OpenSLError";
 		case AK_PluginNotRegistered:
@@ -169,9 +169,35 @@ static const char* wwise_error_string(AKRESULT errcode)
 			return "AK_InvalidFloatValue";
 		case AK_FileFormatMismatch:
 			return "AK_FileFormatMismatch";
+		case AK_NoDistinctListener:
+			return "AK_NoDistinctListener";
+		case AK_ACP_Error:
+			return "AK_ACP_Error";
+		case AK_ResourceInUse:
+			return "AK_ResourceInUse";
+		case AK_InvalidBankType:
+			return "AK_InvalidBankType";
+		case AK_AlreadyInitialized:
+			return "AK_AlreadyInitialized";
+		case AK_NotInitialized:
+			return "AK_NotInitialized";
+		case AK_FilePermissionError:
+			return "AK_FilePermissionError";
+		case AK_UnknownFileError:
+			return "AK_UnknownFileError";
+		case AK_TooManyConcurrentOperations:
+			return "AK_TooManyConcurrentOperations";
+		case AK_InvalidFileSize:
+			return "AK_InvalidFileSize";
+		case AK_Deferred:
+			return "AK_Deferred";
+		case AK_FilePathTooLong:
+			return "AK_FilePathTooLong";
+		case AK_InvalidState:
+			return "AK_InvalidState";
 		default:
-			return "Unknown error";
-	};
+			return "Unknown Error";
+	}
 }
 
 static bool check_error(

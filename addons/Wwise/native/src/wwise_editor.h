@@ -3,6 +3,7 @@
 
 #include "editor/event_gizmo/ak_event_3d_gizmo_plugin.h"
 #include "editor/export_plugin/ak_editor_export_plugin.h"
+#include "editor/export_plugin/ak_android_export_plugin.h"
 #include "editor/inspector_plugin/ak_inspector_plugin.h"
 #include <godot_cpp/classes/editor_plugin.hpp>
 #include <godot_cpp/classes/project_settings.hpp>
@@ -19,6 +20,7 @@ protected:
 private:
 	Ref<AkEvent3DGizmoPlugin> gizmo_plugin;
 	Ref<AkEditorExportPlugin> export_plugin;
+	Ref<AkAndroidExportPlugin> android_export_plugin;
 	Ref<AkInspectorEditorInspectorPlugin> inspector_plugin;
 
 public:
@@ -35,6 +37,9 @@ public:
 		export_plugin.instantiate();
 		add_export_plugin(export_plugin);
 
+		android_export_plugin.instantiate();
+		add_export_plugin(android_export_plugin);
+
 		inspector_plugin.instantiate();
 		add_inspector_plugin(inspector_plugin);
 	}
@@ -43,6 +48,7 @@ public:
 	{
 		remove_inspector_plugin(inspector_plugin);
 		remove_export_plugin(export_plugin);
+		remove_export_plugin(android_export_plugin);
 		remove_node_3d_gizmo_plugin(gizmo_plugin);
 		remove_autoload_singleton("WwiseRuntimeManager");
 	}

@@ -1,8 +1,12 @@
 [configuration]
+
 entry_symbol = "wwise_library_init"
-compatibility_minimum = 4.1
+compatibility_minimum = "4.2"
+reloadable = false
+android_aar_plugin = true
 
 [libraries]
+
 windows.editor = "res://addons/Wwise/native/lib/win64/debug/libwwise.windows.template_debug.dll"
 windows.debug = "res://addons/Wwise/native/lib/win64/debug/libwwise.windows.template_debug.dll"
 windows.release = "res://addons/Wwise/native/lib/win64/release/libwwise.windows.template_release.dll"
@@ -14,10 +18,13 @@ linux.debug = "res://addons/Wwise/native/lib/linux/debug/libwwise.linux.template
 linux.release = "res://addons/Wwise/native/lib/linux/release/libwwise.linux.template_release.so"
 ios.debug = "res://addons/Wwise/native/lib/ios/arm64/debug/libwwise.ios.template_debug.framework"
 ios.release = "res://addons/Wwise/native/lib/ios/arm64/release/libwwise.ios.template_release.framework"
-android.debug.arm64 = "res://addons/Wwise/native/lib/android/arm64/debug/libwwise.android.template_debug.arm64.so"
-android.release.arm64 = "res://addons/Wwise/native/lib/android/arm64/release/libwwise.android.template_release.arm64.so"
+android.debug.arm64 = "res://addons/Wwise/native/lib/android/debug/arm64-v8a/libWwiseAndroidPlugin.so"
+android.release.arm64 = "res://addons/Wwise/native/lib/android/release/arm64-v8a/libWwiseAndroidPlugin.so"
+android.debug.arm32 = "res://addons/Wwise/native/lib/android/debug/armeabi-v7a/libWwiseAndroidPlugin.so"
+android.release.arm32 = "res://addons/Wwise/native/lib/android/release/armeabi-v7a/libWwiseAndroidPlugin.so"
 
 [icons]
+
 Wwise = "res://addons/Wwise/editor/images/Project_nor.svg"
 Waapi = "res://addons/Wwise/editor/images/Project_nor.svg"
 WwiseSettings = "res://addons/Wwise/editor/images/Project_nor.svg"

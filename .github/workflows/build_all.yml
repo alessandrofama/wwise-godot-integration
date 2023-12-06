@@ -56,14 +56,30 @@ jobs:
             os: "ubuntu-20.04"
             sdk-platform: android
             scons-platform: android
-            debug-flags: ANDROID_NDK_ROOT=$ANDROID_NDK_LATEST_HOME arch=arm64
-            release-flags: ANDROID_NDK_ROOT=$ANDROID_NDK_LATEST_HOME arch=arm64
+            debug-flags-arm64: ANDROID_NDK_ROOT=$ANDROID_NDK_LATEST_HOME arch=arm64
+            release-flags-arm64: ANDROID_NDK_ROOT=$ANDROID_NDK_LATEST_HOME arch=arm64
+            debug-flags-arm32: ANDROID_NDK_ROOT=$ANDROID_NDK_LATEST_HOME arch=arm32
+            release-flags-arm32: ANDROID_NDK_ROOT=$ANDROID_NDK_LATEST_HOME arch=arm32
             artifact-name: android-lib
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
           submodules: recursive
+
+      - name: Setup java
+        uses: actions/setup-java@v3
+        if: matrix.sdk-platform == 'android'
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Android dependencies
+        if: matrix.sdk-platform == 'android'
+        uses: nttld/setup-ndk@v1
+        with:
+          ndk-version: r23c
+          link-to-sdk: true
 
       - name: Wwise SDK cache
         id: cache-wwise-sdk
@@ -188,6 +204,7 @@ jobs:
               cd ../../../../
 
       - name: Compile Debug library
+        if: matrix.sdk-platform != 'android'
         shell: bash
         env:
           SCONS_CACHE: ${{github.workspace}}/.scons_cache/
@@ -199,6 +216,7 @@ jobs:
           cd ../../../
 
       - name: Compile Release library
+        if: matrix.sdk-platform != 'android'
         shell: bash
         env:
           SCONS_CACHE: ${{github.workspace}}/.scons_cache/
@@ -207,6 +225,22 @@ jobs:
           cd addons/Wwise/native
           scons platform=${{ matrix.scons-platform }} target=template_release wwise_sdk=wwise_sdk -j6 ${{ matrix.release-flags }}
           cd ../../../
+
+      - name: Compile Android libraries
+        if: matrix.sdk-platform == 'android'
+        shell: bash
+        run: |
+          cd addons/Wwise/native/wwise_sdk
+          WWISESDK=$(pwd)
+          cd ../godot-cpp
+          mkdir -p bin
+          scons platform=android target=template_debug dev_build=yes -j6 ${{ matrix.debug-flags-arm64 }}
+          scons platform=android target=template_debug dev_build=yes -j6 ${{ matrix.debug-flags-arm32 }}
+          scons platform=android target=template_release -j6 ${{ matrix.release-flags-arm64 }}
+          scons platform=android target=template_release -j6 ${{ matrix.release-flags-arm32 }}
+          cd ../android
+          chmod +x ./gradlew
+          ./gradlew assemble -PWWISE_SDK="$WWISESDK"
 
       - name: Upload libs
         uses: actions/upload-artifact@v3
@@ -258,6 +292,7 @@ jobs:
           rm -r ./addons/Wwise/native/godot-cpp
           rm -r ./addons/Wwise/native/src
           rm -r ./addons/Wwise/native/vs2022
+          rm -r ./addons/Wwise/native/android
           rm ./addons/Wwise/native/SConstruct
           rm ./LICENSE
           rm ./README.md

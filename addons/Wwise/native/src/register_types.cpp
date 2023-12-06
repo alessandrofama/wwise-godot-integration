@@ -31,10 +31,9 @@ void register_wwise_types(ModuleInitializationLevel p_level)
 		ClassDB::register_class<AkInspectorEditorProperty>();
 		ClassDB::register_class<AkEvent3DGizmoPlugin>();
 		ClassDB::register_class<AkEditorExportPlugin>();
+		ClassDB::register_class<AkAndroidExportPlugin>();
 		ClassDB::register_class<WwiseEditorPlugin>();
-		ClassDB::register_class<WwiseEditorScale>();
 		EditorPlugins::add_by_type<WwiseEditorPlugin>();
-		EditorPlugins::add_by_type<WwiseEditorScale>();
 #endif
 	}
 

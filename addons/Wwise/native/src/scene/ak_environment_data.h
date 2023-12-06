@@ -39,7 +39,8 @@ public:
 	{
 		if (env)
 		{
-			int64_t index = active_environments.bsearch_custom(env, Callable(this, "compare_by_priority"));
+			int64_t index =
+					active_environments.bsearch_custom(env, callable_mp(this, &AkEnvironmentData::compare_by_priority));
 			active_environments.insert(index, env);
 			have_environments_changed = true;
 		}

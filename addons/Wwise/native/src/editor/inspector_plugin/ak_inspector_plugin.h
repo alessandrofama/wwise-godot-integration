@@ -2,10 +2,10 @@
 #define AK_INSPECTOR_PLUGIN_H
 
 #include "ak_editor_utils.h"
-#include "wwise_editor_scale.h"
 #include <godot_cpp/classes/accept_dialog.hpp>
 #include <godot_cpp/classes/button.hpp>
 #include <godot_cpp/classes/editor_inspector_plugin.hpp>
+#include <godot_cpp/classes/editor_interface.hpp>
 #include <godot_cpp/classes/editor_plugin.hpp>
 #include <godot_cpp/classes/editor_property.hpp>
 #include <godot_cpp/classes/line_edit.hpp>
