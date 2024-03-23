@@ -75,6 +75,9 @@ public:
 	bool register_listener(const Object* game_object);
 	bool register_game_obj(const Object* game_object, const String& game_object_name);
 	bool unregister_game_obj(const Object* game_object);
+	
+	bool set_distance_probe(const Object* listener_game_object, const Object* probe_game_object);
+	bool reset_distance_probe(const Object* listener_game_object);
 
 	bool set_listeners(const Object* emitter, const Object* listener);
 	void set_random_seed(const unsigned int seed);

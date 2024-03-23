@@ -282,6 +282,26 @@
 				Note: There can be only one Spatial Audio listener registered at any given time.
 			</description>
 		</method>
+		<method name="set_distance_probe">
+			<return type="bool" />
+			<param index="0" name="listener_game_object" type="Object" />
+			<param index="1" name="probe_game_object" type="Object" />
+			<description>
+				Sets the given [param probe_game_object] to be a Distance Probe for the given
+				[param listener_game_object. This means attenuation will be calculated from the probe's
+				position, but panning and spatialization will be calculated from the listener.
+				Returns [code]true[/code] if the process succeeded. Note: Both the listener and object
+				must be registered before this will succeed.
+			</description>
+		</method>
+		<method name="reset_distance_probe">
+			<return type="bool" />
+			<param index="0" name="listener_game_object" type="Object" />
+			<description>
+				Clears the Distance Probe for the given [param listener_game_object] and reverts to using
+				the listener position for distance calculations.
+			</description>
+		</method>
 		<method name="remove_game_object_from_room">
 			<return type="bool" />
 			<param index="0" name="game_object" type="Object" />

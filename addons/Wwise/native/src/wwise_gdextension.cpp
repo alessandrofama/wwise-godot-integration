@@ -88,6 +88,8 @@ void Wwise::_bind_methods()
 	ClassDB::bind_method(D_METHOD("register_listener", "game_object"), &Wwise::register_listener);
 	ClassDB::bind_method(D_METHOD("register_game_obj", "game_object", "name"), &Wwise::register_game_obj);
 	ClassDB::bind_method(D_METHOD("unregister_game_obj", "game_object"), &Wwise::unregister_game_obj);
+	ClassDB::bind_method(D_METHOD("set_distance_probe", "listener_game_object", "probe_game_object"), &Wwise::set_distance_probe);
+	ClassDB::bind_method(D_METHOD("reset_distance_probe", "listener_game_object"), &Wwise::reset_distance_probe);
 	ClassDB::bind_method(D_METHOD("set_listeners", "emtter", "listener"), &Wwise::set_listeners);
 	ClassDB::bind_method(D_METHOD("set_random_seed", "seed"), &Wwise::set_random_seed);
 	ClassDB::bind_method(D_METHOD("set_3d_position", "game_object", "transform_3d"), &Wwise::set_3d_position);
@@ -360,6 +362,34 @@ bool Wwise::unregister_game_obj(const Object* game_object)
 	AKASSERT(game_object);
 
 	return ERROR_CHECK(AK::SoundEngine::UnregisterGameObj(static_cast<AkGameObjectID>(game_object->get_instance_id())));
+}
+
+bool Wwise::set_distance_probe(const Object* listener_game_object, const Object* probe_game_object)
+{
+	AKASSERT(listener_game_object);
+	AKASSERT(probe_game_object);
+	
+	const AkGameObjectID listener = static_cast<AkGameObjectID>(listener_game_object->get_instance_id());
+	const AkGameObjectID probe = static_cast<AkGameObjectID>(probe_game_object->get_instance_id());
+
+	if (!ERROR_CHECK(AK::SoundEngine::SetDistanceProbe(listener, probe)))
+	{
+		return false;
+	}
+
+	return true;
+}
+
+bool Wwise::reset_distance_probe(const Object* listener_game_object)
+{
+	AKASSERT(listener_game_object);
+	const AkGameObjectID listener = static_cast<AkGameObjectID>(listener_game_object->get_instance_id());
+	if (!ERROR_CHECK(AK::SoundEngine::SetDistanceProbe(listener, AK_INVALID_GAME_OBJECT)))
+	{
+		return false;
+	}
+	
+	return true;
 }
 
 bool Wwise::set_listeners(const Object* emitter, const Object* listener)
