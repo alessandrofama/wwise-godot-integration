@@ -94,6 +94,7 @@ void WwiseSettings::add_wwise_settings()
 	add_setting(WWISE_COMMUNICATION_SETTINGS_PATH + "command_port", 0, Variant::Type::INT);
 	add_setting(WWISE_COMMUNICATION_SETTINGS_PATH + "initialize_system_comms", true, Variant::Type::BOOL);
 	add_setting(WWISE_COMMUNICATION_SETTINGS_PATH + "network_name", "", Variant::Type::STRING);
+	add_setting(WWISE_COMMUNICATION_SETTINGS_PATH + "waapi_port", 8080, Variant::Type::INT);
 
 	// macOS advanced settings
 	add_setting(WWISE_MACOS_ADVANCED_SETTINGS_PATH + "audio_API", 3, Variant::Type::INT, PROPERTY_HINT_FLAGS,

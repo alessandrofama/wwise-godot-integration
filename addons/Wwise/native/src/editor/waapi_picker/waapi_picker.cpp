@@ -623,7 +623,8 @@ void WaapiPicker::_enter_tree()
 			"text_changed", callable_mp(this, &WaapiPicker::_on_search_text_changed));
 	AKASSERT(error == Error::OK);
 
-	Waapi::get_singleton()->connect_client("127.0.0.1", 8080);
+	auto port = ProjectSettings::get_singleton()->get_setting("wwise/communication_settings/waapi_port", 8080);
+	Waapi::get_singleton()->connect_client("127.0.0.1", port);
 
 	_on_refresh_project_button_up();
 }
@@ -699,7 +700,8 @@ void WaapiPicker::_on_refresh_project_button_up()
 	bool connect_result{};
 	if (!Waapi::get_singleton()->is_client_connected())
 	{
-		connect_result = Waapi::get_singleton()->connect_client("127.0.0.1", 8080);
+		auto port = ProjectSettings::get_singleton()->get_setting("wwise/communication_settings/waapi_port", 8080);
+		connect_result = Waapi::get_singleton()->connect_client("127.0.0.1", port);
 		emit_signal("connection_changed", connect_result);
 	}
 	else
@@ -741,7 +743,8 @@ void WaapiPicker::_on_export_soundbanks_button_up()
 	bool connect_result{};
 	if (!Waapi::get_singleton()->is_client_connected())
 	{
-		connect_result = Waapi::get_singleton()->connect_client("127.0.0.1", 8080);
+		auto port = ProjectSettings::get_singleton()->get_setting("wwise/communication_settings/waapi_port", 8080);
+		connect_result = Waapi::get_singleton()->connect_client("127.0.0.1", port);
 		emit_signal("connection_changed", connect_result);
 	}
 	else
@@ -798,7 +801,8 @@ void WaapiPicker::_on_file_dialog_file_selected(const String& path)
 	bool connect_result{};
 	if (!Waapi::get_singleton()->is_client_connected())
 	{
-		connect_result = Waapi::get_singleton()->connect_client("127.0.0.1", 8080);
+		auto port = ProjectSettings::get_singleton()->get_setting("wwise/communication_settings/waapi_port", 8080);
+		connect_result = Waapi::get_singleton()->connect_client("127.0.0.1", port);
 	}
 	else
 	{
