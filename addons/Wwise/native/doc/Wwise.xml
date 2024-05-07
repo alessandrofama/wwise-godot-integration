@@ -457,6 +457,8 @@
 			<description>
 				Sets the Output Bus Volume of the given [param game_object]. Calls
 				[code]AK::SoundEngine::SetGameObjectOutputBusVolume[/code].[br][br]
+				Set [param listener] to [code]null[/code] to set the Output Bus Volume for all
+				connected listeners.[br][br]
 				Returns [code]true[/code] if setting the Output Bus Volume succeeded.
 			</description>
 		</method>

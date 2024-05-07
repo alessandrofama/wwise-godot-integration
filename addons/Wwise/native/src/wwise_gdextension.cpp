@@ -833,9 +833,15 @@ Dictionary Wwise::get_playing_segment_info(const unsigned int playing_id, const 
 
 bool Wwise::set_game_object_output_bus_volume(const Object* game_object, const Object* listener, float f_control_value)
 {
-	return ERROR_CHECK(
-			AK::SoundEngine::SetGameObjectOutputBusVolume(static_cast<AkGameObjectID>(game_object->get_instance_id()),
-					static_cast<AkGameObjectID>(listener->get_instance_id()), f_control_value));
+	AkGameObjectID listener_obj_id{ AK_INVALID_GAME_OBJECT };
+
+	if (listener)
+	{
+		listener_obj_id = static_cast<AkGameObjectID>(listener->get_instance_id());
+	}
+
+	return ERROR_CHECK(AK::SoundEngine::SetGameObjectOutputBusVolume(
+			static_cast<AkGameObjectID>(game_object->get_instance_id()), listener_obj_id, f_control_value));
 }
 
 bool Wwise::set_game_object_aux_send_values(
