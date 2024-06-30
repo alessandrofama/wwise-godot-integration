@@ -473,10 +473,10 @@ void WaapiPicker::create_class(const Array& data, const String& type)
 			const String name = data[i].operator godot::Dictionary()["name"];
 			const String short_id = data[i].operator godot::Dictionary()["shortId"];
 
-			final_text += "\tconst " + name.to_upper().replace(" ", "_") + " = " + short_id + "\n";
+			final_text += "\tconst " + name.to_upper().replace(" ", "_") + ": int = " + short_id + "\n";
 		}
 
-		final_text += "\n\tconst _dict = {\n";
+		final_text += "\n\tconst _dict: Dictionary = {\n";
 
 		for (int i = 0; i < data.size(); ++i)
 		{
@@ -507,7 +507,7 @@ void WaapiPicker::create_state_switch_class(
 			const String short_id = parent_array[i].operator godot::Dictionary()["shortId"];
 
 			final_text += "\tclass " + name.to_upper().replace(" ", "_") + ":\n";
-			final_text += "\t\tconst GROUP = " + short_id + "\n\n";
+			final_text += "\t\tconst GROUP: int = " + short_id + "\n\n";
 
 			final_text += "\t\tclass " + child_type + ":\n";
 			for (int j = 0; j < child_array.size(); ++j)
@@ -517,13 +517,13 @@ void WaapiPicker::create_state_switch_class(
 					const String name = child_array[j].operator godot::Dictionary()["name"];
 					const String short_id = child_array[j].operator godot::Dictionary()["shortId"];
 
-					final_text += "\t\t\tconst " + name.to_upper().replace(" ", "_") + " = " + short_id + "\n";
+					final_text += "\t\t\tconst " + name.to_upper().replace(" ", "_") + ": int = " + short_id + "\n";
 				}
 			}
 			final_text += "\n";
 		}
 
-		final_text += "\tconst _dict = {\n";
+		final_text += "\tconst _dict: Dictionary = {\n";
 
 		for (int i = 0; i < parent_array.size(); ++i)
 		{
@@ -558,7 +558,7 @@ void WaapiPicker::create_state_switch_class(
 void WaapiPicker::create_empty_class(const String& type)
 {
 	final_text += "class " + type + ":\n\n";
-	final_text += "\tconst _dict = {}\n\n";
+	final_text += "\tconst _dict: Dictionary = {}\n\n";
 }
 
 void WaapiPicker::_enter_tree()
