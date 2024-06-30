@@ -33,7 +33,7 @@ jobs:
             artifact-name: windows
 
           - name: macOS
-            os: "macos-11"
+            os: "macos-13"
             sdk-platform: mac
             scons-platform: macos
             artifact-name: macos
@@ -45,7 +45,7 @@ jobs:
             artifact-name: linux
 
           - name: iOS
-            os: "macos-11"
+            os: "macos-13"
             sdk-platform: ios
             scons-platform: ios
             debug-flags: arch=arm64 ios_min_version=11.0
