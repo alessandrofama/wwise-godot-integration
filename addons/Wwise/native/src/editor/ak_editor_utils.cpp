@@ -24,21 +24,22 @@ Ref<Texture2D> AkEditorUtils::get_editor_icon(const AkType ak_type)
 
 Ref<Texture2D> AkEditorUtils::get_editor_icon(const AkEditorIconType icon_type)
 {
-	std::unordered_map<AkEditorIconType, Ref<Texture2D>>::iterator it = cached_icons.find(icon_type);
+	ERR_FAIL_COND_V_MSG(
+			icon_type >= AK_ICON_LENGTH, Ref<Texture2D>(), "[Wwise Editor] Tried to get invalid editor icon.");
 
-	if (it != cached_icons.end())
+	Ref<Texture2D> icon = cached_icons[icon_type];
+	if (icon.is_valid())
 	{
-		return it->second;
+		return icon;
 	}
 
 	const String icon_path = get_ak_editor_icon_path(icon_type);
-	Ref<Texture2D> icon = ResourceLoader::get_singleton()->load(icon_path);
-
+	icon = ResourceLoader::get_singleton()->load(icon_path);
+	
 	if (icon.is_valid())
 	{
-		it = cached_icons.emplace(icon_type, icon).first;
-		return it->second;
+		cached_icons[icon_type] = icon;
 	}
 
-	return Ref<Texture2D>();
+	return icon;
 }

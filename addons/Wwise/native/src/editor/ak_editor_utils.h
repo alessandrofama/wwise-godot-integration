@@ -13,7 +13,8 @@ public:
 		AKTYPE_SWITCH_GROUP,
 		AKTYPE_SWITCH,
 		AKTYPE_BUS,
-		AKTYPE_AUX_BUS
+		AKTYPE_AUX_BUS,
+		AKTYPE_ACOUSTIC_TEXTURE
 	};
 
 	enum AkEditorIconType
@@ -31,7 +32,8 @@ public:
 		AK_ICON_STATEGROUP,
 		AK_ICON_SWITCH,
 		AK_ICON_SWITCHGROUP,
-		AK_ICON_WORKUNIT
+		AK_ICON_WORKUNIT,
+		AK_ICON_LENGTH
 	};
 
 protected:
@@ -39,7 +41,7 @@ protected:
 
 private:
 	static AkEditorUtils* singleton;
-	std::unordered_map<AkEditorIconType, Ref<Texture2D>> cached_icons;
+	Ref<Texture2D> cached_icons[AK_ICON_LENGTH]{};
 
 public:
 	static constexpr const char* get_ak_editor_icon_path(const AkEditorIconType icon_type)
@@ -101,6 +103,8 @@ public:
 				return AK_ICON_AUXBUS;
 			case AKTYPE_RTPC:
 				return AK_ICON_GAMEPARAMETER;
+			case AKTYPE_ACOUSTIC_TEXTURE:
+				return AK_ICON_ACOUSTICTEXTURE;
 			default:
 				return AK_ICON_PROJECT;
 		}
