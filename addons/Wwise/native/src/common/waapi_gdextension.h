@@ -1,18 +1,3 @@
-#ifndef WAAPI_GDEXTENTION_H
-#define WAAPI_GDEXTENTION_H
-
-#include <AK/SoundEngine/Common/AkTypes.h>
-#include <godot_cpp/classes/node.hpp>
-
-#include <AK/Tools/Common/AkAutoLock.h>
-#include <AK/Tools/Common/AkLock.h>
-#include <AK/Tools/Common/AkPlatformFuncs.h>
-#include <AK/WwiseAuthoringAPI/AkAutobahn/Client.h>
-#include <AK/WwiseAuthoringAPI/AkAutobahn/JsonProvider.h>
-#include <godot_cpp/variant/utility_functions.hpp>
-
-namespace godot
-{
 class Waapi : public Node
 {
 	GDCLASS(Waapi, Node);
@@ -46,6 +31,3 @@ public:
 	AK::WwiseAuthoringAPI::Client client;
 	std::string last_string;
 };
-} // namespace godot
-
-#endif

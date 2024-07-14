@@ -1,13 +1,3 @@
-#ifndef __WWISE_GODOT_IO_H__
-#define __WWISE_GODOT_IO_H__
-
-#include <AK/SoundEngine/Common/AkStreamMgrModule.h>
-#include <AK/SoundEngine/Common/AkTypes.h>
-#include <AK/Tools/Common/AkObject.h>
-#include <godot_cpp/classes/file_access.hpp>
-
-namespace godot
-{
 class AkIOHookGodot : public AK::StreamMgr::IAkLowLevelIOHook
 {
 	struct FileHandle
@@ -66,7 +56,3 @@ public:
 	void set_banks_path(const String& banks_path);
 	void set_language_folder(const String& language_folder);
 };
-
-} //namespace godot
-
-#endif

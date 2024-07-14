@@ -1,35 +1,3 @@
-#ifndef AK_UTILS_H
-#define AK_UTILS_H
-
-#include <godot_cpp/classes/ref_counted.hpp>
-
-namespace godot
-{
-
-class CookieWrapper : public Object
-{
-	GDCLASS(CookieWrapper, Object);
-
-protected:
-	static void _bind_methods()
-	{
-		ClassDB::bind_method(D_METHOD("set_cookie", "cookie"), &CookieWrapper::set_cookie);
-		ClassDB::bind_method(D_METHOD("get_cookie"), &CookieWrapper::get_cookie);
-
-		ADD_PROPERTY(PropertyInfo(Variant::CALLABLE, "cookie", PROPERTY_HINT_NONE), "set_cookie", "get_cookie");
-	}
-
-private:
-	Callable cookie{};
-
-public:
-	CookieWrapper(){};
-	CookieWrapper(const Callable& cookie) : cookie(cookie) {}
-
-	void set_cookie(const Callable& cookie) { this->cookie = cookie; }
-	Callable get_cookie() const { return cookie; }
-};
-
 class AkUtils : public Object
 {
 	GDCLASS(AkUtils, Object);
@@ -154,12 +122,9 @@ public:
 	~AkUtils();
 	static AkUtils* get_singleton();
 };
-} //namespace godot
 
 VARIANT_ENUM_CAST(AkUtils::GameEvent);
 VARIANT_ENUM_CAST(AkUtils::AkCurveInterpolation);
 VARIANT_ENUM_CAST(AkUtils::AkCallbackType);
 VARIANT_ENUM_CAST(AkUtils::MultiPositionType);
 VARIANT_ENUM_CAST(AkUtils::AkCodecID);
-
-#endif

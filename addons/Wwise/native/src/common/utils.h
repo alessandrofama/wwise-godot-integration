@@ -1,12 +1,3 @@
-#ifndef WWISE_UTILS_H
-#define WWISE_UTILS_H
-
-#include <AK/SoundEngine/Common/AkCallback.h>
-#include <AK/SoundEngine/Common/AkTypes.h>
-#include <godot_cpp/classes/engine.hpp>
-
-using namespace godot;
-
 const float INVALID_RTPC_VALUE = 1.0f;
 const unsigned int AK_MAX_ENVIRONMENTS = 4;
 const int INVALID_ROOM_ID = -1;
@@ -329,5 +320,3 @@ static inline bool find_matching_vertex(Vector3 vertex, Dictionary vert_dict, in
 		return false;
 	}
 }
-
-#endif

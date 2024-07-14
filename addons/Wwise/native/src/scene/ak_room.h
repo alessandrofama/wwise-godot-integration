@@ -1,15 +1,3 @@
-#ifndef AK_ROOM_H
-#define AK_ROOM_H
-
-#include "ak_geometry.h"
-#include "wwise_gdextension.h"
-#include <godot_cpp/classes/area3d.hpp>
-#include <godot_cpp/classes/engine.hpp>
-#include <godot_cpp/variant/node_path.hpp>
-
-namespace godot
-{
-
 class AkRoom : public Area3D
 {
 	GDCLASS(AkRoom, Area3D);
@@ -47,7 +35,3 @@ public:
 	void set_keep_registered(bool keep_registered);
 	bool get_keep_registered() const;
 };
-
-} //namespace godot
-
-#endif

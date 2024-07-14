@@ -1,6 +1,7 @@
 #include "ak_event.h"
 
-using namespace godot;
+class AkEnvironment;
+class AkEnvironmentData;
 
 void AkEvent2D::_bind_methods()
 {
@@ -62,7 +63,7 @@ AkEvent2D::AkEvent2D()
 	event["name"] = "";
 	event["id"] = 0;
 
-	cookie = memnew(CookieWrapper(Callable(this, "callback_emitter")));
+	cookie = memnew(AkCookie(Callable(this, "callback_emitter")));
 }
 
 void AkEvent2D::_enter_tree()
@@ -239,7 +240,7 @@ AkEvent3D::AkEvent3D()
 	event["name"] = "";
 	event["id"] = 0;
 
-	cookie = memnew(CookieWrapper(Callable(this, "callback_emitter")));
+	cookie = memnew(AkCookie(Callable(this, "callback_emitter")));
 }
 
 void AkEvent3D::_enter_tree()

@@ -1,8 +1,6 @@
-#include "wwise_godot_io.h"
+#include "ak_io_hook.h"
 
 #define BLOCKING_DEVICE_NAME AKTEXT("Blocking Device")
-
-using namespace godot;
 
 AkFileDesc* AkIOHookGodot::create_descriptor(const AkFileDesc* in_p_copy)
 {

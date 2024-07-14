@@ -1,10 +1,8 @@
-#include "wwise_settings.h"
+#include "ak_settings.h"
 
-using namespace godot;
+void AkSettings::_bind_methods() {}
 
-void WwiseSettings::_bind_methods() {}
-
-WwiseSettings::WwiseSettings()
+AkSettings::AkSettings()
 {
 	add_wwise_settings();
 
@@ -14,7 +12,7 @@ WwiseSettings::WwiseSettings()
 		if (error)
 		{
 			UtilityFunctions::push_error(
-					String("Encountered error {0} when saving Wwise Project Settings").format(Array::make(error)));
+					String("[Wwise] Encountered error {0} when saving Wwise Project Settings").format(Array::make(error)));
 		}
 		else
 		{
@@ -23,7 +21,7 @@ WwiseSettings::WwiseSettings()
 	}
 }
 
-void WwiseSettings::add_wwise_settings()
+void AkSettings::add_wwise_settings()
 {
 	add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "base_path", String("res://GeneratedSoundBanks"),
 			Variant::Type::STRING, PROPERTY_HINT_DIR, "res://GeneratedSoundBanks");
@@ -120,7 +118,7 @@ void WwiseSettings::add_wwise_settings()
 			"PulseAudio, ALSA");
 }
 
-void WwiseSettings::add_setting(const String& name, const Variant& default_value, Variant::Type type, PropertyHint hint,
+void AkSettings::add_setting(const String& name, const Variant& default_value, Variant::Type type, PropertyHint hint,
 		const String& hint_string, int usage)
 {
 	Dictionary setting;

@@ -283,7 +283,7 @@ bool Wwise::load_bank(const String& bank_name)
 
 bool Wwise::load_bank_id(const unsigned int bank_id) { return ERROR_CHECK(AK::SoundEngine::LoadBank(bank_id)); }
 
-bool Wwise::load_bank_async(const String& bank_name, const CookieWrapper* cookie)
+bool Wwise::load_bank_async(const String& bank_name, const AkCookie* cookie)
 {
 	AKASSERT(!bank_name.is_empty());
 	AKASSERT(cookie);
@@ -293,7 +293,7 @@ bool Wwise::load_bank_async(const String& bank_name, const CookieWrapper* cookie
 			bank_name.utf8().get_data(), (AkBankCallbackFunc)bank_callback, (void*)cookie, bank_id));
 }
 
-bool Wwise::load_bank_async_id(const unsigned int bank_id, const CookieWrapper* cookie)
+bool Wwise::load_bank_async_id(const unsigned int bank_id, const AkCookie* cookie)
 {
 	AKASSERT(cookie);
 
@@ -312,7 +312,7 @@ bool Wwise::unload_bank_id(const unsigned int bank_id)
 	return ERROR_CHECK(AK::SoundEngine::UnloadBank(bank_id, NULL));
 }
 
-bool Wwise::unload_bank_async(const String& bank_name, const CookieWrapper* cookie)
+bool Wwise::unload_bank_async(const String& bank_name, const AkCookie* cookie)
 {
 	AKASSERT(!bank_name.is_empty());
 	AKASSERT(cookie);
@@ -321,7 +321,7 @@ bool Wwise::unload_bank_async(const String& bank_name, const CookieWrapper* cook
 			bank_name.utf8().get_data(), NULL, (AkBankCallbackFunc)bank_callback, (void*)cookie));
 }
 
-bool Wwise::unload_bank_async_id(const unsigned int bank_id, const CookieWrapper* cookie)
+bool Wwise::unload_bank_async_id(const unsigned int bank_id, const AkCookie* cookie)
 {
 	AKASSERT(cookie);
 
@@ -539,7 +539,7 @@ unsigned int Wwise::post_event(const String& event_name, const Object* game_obje
 }
 
 unsigned int Wwise::post_event_callback(const String& event_name, const AkUtils::AkCallbackType flags,
-		const Object* game_object, const CookieWrapper* cookie)
+		const Object* game_object, const AkCookie* cookie)
 {
 	AKASSERT(!event_name.is_empty());
 	AKASSERT(game_object);
@@ -576,7 +576,7 @@ unsigned int Wwise::post_event_id(const unsigned int event_id, const Object* gam
 }
 
 unsigned int Wwise::post_event_id_callback(const unsigned int event_id, const AkUtils::AkCallbackType flags,
-		const Object* game_object, const CookieWrapper* cookie)
+		const Object* game_object, const AkCookie* cookie)
 {
 	AKASSERT(game_object);
 	AKASSERT(cookie);
@@ -1176,7 +1176,7 @@ void Wwise::event_callback(AkCallbackType callback_type, AkCallbackInfo* callbac
 {
 	AkAutoLock<CAkLock> scoped_lock(callback_data_lock);
 
-	const CookieWrapper* wrapper = static_cast<CookieWrapper*>(callback_info->pCookie);
+	const AkCookie* wrapper = static_cast<AkCookie*>(callback_info->pCookie);
 
 	if (!wrapper)
 	{
@@ -1520,7 +1520,7 @@ void Wwise::bank_callback(AkUInt32 bank_id, const void* in_memory_bank_ptr, AKRE
 {
 	AkAutoLock<CAkLock> scoped_lock(callback_data_lock);
 
-	const CookieWrapper* wrapper = static_cast<CookieWrapper*>(in_pCookie);
+	const AkCookie* wrapper = static_cast<AkCookie*>(in_pCookie);
 
 	if (!wrapper)
 	{

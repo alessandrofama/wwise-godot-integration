@@ -1,13 +1,3 @@
-#ifndef AK_LISTENER_H
-#define AK_LISTENER_H
-
-#include "wwise_gdextension.h"
-#include <godot_cpp/classes/engine.hpp>
-#include <godot_cpp/classes/node2d.hpp>
-#include <godot_cpp/classes/node3d.hpp>
-
-namespace godot
-{
 class AkListener2D : public Node2D
 {
 	GDCLASS(AkListener2D, Node2D);
@@ -37,7 +27,3 @@ public:
 	void set_is_spatial(bool is_spatial);
 	bool get_is_spatial() const;
 };
-
-} // namespace godot
-
-#endif

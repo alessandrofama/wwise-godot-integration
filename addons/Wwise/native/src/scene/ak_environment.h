@@ -1,11 +1,3 @@
-#ifndef AK_ENVIRONMENT_H
-#define AK_ENVIRONMENT_H
-
-#include "wwise_gdextension.h"
-#include <godot_cpp/classes/area3d.hpp>
-
-namespace godot
-{
 class AkEnvironment : public Area3D
 {
 	GDCLASS(AkEnvironment, Area3D);
@@ -31,6 +23,3 @@ public:
 	void set_priority(int priority);
 	int get_priority() const;
 };
-} //namespace godot
-
-#endif

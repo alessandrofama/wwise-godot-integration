@@ -1,4 +1,4 @@
-#include "wwise_jni.h"
+#include "jni_support.h"
 
 #define LOG_TAG "WwiseGDExtension"
 #define ALOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)

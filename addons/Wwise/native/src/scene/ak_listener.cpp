@@ -1,7 +1,5 @@
 #include "ak_listener.h"
 
-using namespace godot;
-
 void AkListener2D::_bind_methods() {}
 
 void AkListener2D::_enter_tree()

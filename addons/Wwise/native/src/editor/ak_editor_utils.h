@@ -1,12 +1,3 @@
-#ifndef AK_EDITOR_UTILS_H
-#define AK_EDITOR_UTILS_H
-
-#include <godot_cpp/classes/resource_loader.hpp>
-#include <godot_cpp/classes/texture2d.hpp>
-
-namespace godot
-{
-
 class AkEditorUtils : public Object
 {
 	GDCLASS(AkEditorUtils, Object);
@@ -123,7 +114,3 @@ public:
 	Ref<Texture2D> get_editor_icon(const AkType ak_type);
 	Ref<Texture2D> get_editor_icon(const AkEditorIconType icon_type);
 };
-
-} //namespace godot
-
-#endif

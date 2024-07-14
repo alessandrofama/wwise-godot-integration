@@ -1,49 +1,3 @@
-#ifndef WWISE_GDNATIVE_H
-#define WWISE_GDNATIVE_H
-
-#include <godot_cpp/classes/dir_access.hpp>
-#include <godot_cpp/classes/display_server.hpp>
-#include <godot_cpp/classes/node.hpp>
-#include <godot_cpp/classes/node3d.hpp>
-#include <godot_cpp/classes/os.hpp>
-#include <godot_cpp/classes/project_settings.hpp>
-#include <godot_cpp/classes/resource.hpp>
-#include <godot_cpp/core/binder_common.hpp>
-#include <godot_cpp/core/class_db.hpp>
-#include <godot_cpp/core/object.hpp>
-#include <godot_cpp/godot.hpp>
-#include <godot_cpp/variant/callable.hpp>
-#include <godot_cpp/variant/utility_functions.hpp>
-
-#include <AK/MusicEngine/Common/AkMusicEngine.h>
-#include <AK/SoundEngine/Common/AkMemoryMgr.h>
-#include <AK/SoundEngine/Common/AkModule.h>
-#include <AK/SoundEngine/Common/AkQueryParameters.h>
-#include <AK/SoundEngine/Common/AkSoundEngine.h>
-#include <AK/SoundEngine/Common/AkVirtualAcoustics.h>
-#include <AK/SoundEngine/Common/IAkStreamMgr.h>
-#include <AK/SpatialAudio/Common/AkSpatialAudio.h>
-#include <AK/Tools/Common/AkAutoLock.h>
-#include <AK/Tools/Common/AkLock.h>
-#include <AK/Tools/Common/AkMonitorError.h>
-#include <AK/Tools/Common/AkPlatformFuncs.h>
-
-#include "ak_utils.h"
-#include "wwise_godot_io.h"
-#include "wwise_utils.h"
-
-#ifndef AK_OPTIMIZED
-#include <AK/Comm/AkCommunication.h>
-#endif
-
-#if defined(AK_ANDROID)
-#include "android/wwise_jni.h"
-#endif
-
-#include <memory>
-
-namespace godot
-{
 class Wwise : public Object
 {
 	GDCLASS(Wwise, Object);
@@ -65,12 +19,12 @@ public:
 	void set_current_language(const String& language);
 	bool load_bank(const String& bank_name);
 	bool load_bank_id(const unsigned int bank_id);
-	bool load_bank_async(const String& bank_name, const CookieWrapper* cookie);
-	bool load_bank_async_id(const unsigned int bank_id, const CookieWrapper* cookie);
+	bool load_bank_async(const String& bank_name, const AkCookie* cookie);
+	bool load_bank_async_id(const unsigned int bank_id, const AkCookie* cookie);
 	bool unload_bank(const String& bank_name);
 	bool unload_bank_id(const unsigned int bank_id);
-	bool unload_bank_async(const String& bank_name, const CookieWrapper* cookie);
-	bool unload_bank_async_id(const unsigned int bank_id, const CookieWrapper* cookie);
+	bool unload_bank_async(const String& bank_name, const AkCookie* cookie);
+	bool unload_bank_async_id(const unsigned int bank_id, const AkCookie* cookie);
 
 	bool register_listener(const Object* game_object);
 	bool register_game_obj(const Object* game_object, const String& game_object_name);
@@ -93,10 +47,10 @@ public:
 
 	unsigned int post_event(const String& event_name, const Object* game_object);
 	unsigned int post_event_callback(const String& event_name, const AkUtils::AkCallbackType flags,
-			const Object* game_object, const CookieWrapper* cookie);
+			const Object* game_object, const AkCookie* cookie);
 	unsigned int post_event_id(const unsigned int event_id, const Object* game_object);
 	unsigned int post_event_id_callback(const unsigned int event_id, const AkUtils::AkCallbackType flags,
-			const Object* game_object, const CookieWrapper* cookie);
+			const Object* game_object, const AkCookie* cookie);
 	void stop_event(const unsigned int playing_id, const unsigned int fade_time,
 			const AkUtils::AkCurveInterpolation interpolation);
 
@@ -184,7 +138,3 @@ private:
 	ProjectSettings* project_settings;
 	AkFileIOHandlerGodot low_level_io;
 };
-
-} //namespace godot
-
-#endif

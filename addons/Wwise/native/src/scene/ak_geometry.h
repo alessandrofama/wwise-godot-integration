@@ -1,16 +1,3 @@
-#ifndef AK_GEOMETRY_H
-#define AK_GEOMETRY_H
-
-#include "wwise_gdextension.h"
-#include <godot_cpp/classes/area3d.hpp>
-#include <godot_cpp/classes/array_mesh.hpp>
-#include <godot_cpp/classes/mesh.hpp>
-#include <godot_cpp/classes/mesh_data_tool.hpp>
-#include <godot_cpp/classes/mesh_instance3d.hpp>
-#include <godot_cpp/classes/node3d.hpp>
-
-namespace godot
-{
 class AkGeometry : public Node3D
 {
 	GDCLASS(AkGeometry, Node3D);
@@ -61,6 +48,3 @@ public:
 	void set_associated_room(const NodePath& associated_room);
 	NodePath get_associated_room() const;
 };
-} //namespace godot
-
-#endif

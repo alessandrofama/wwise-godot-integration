@@ -1,11 +1,3 @@
-#ifndef AK_EARLY_REFLECTIONS_H
-#define AK_EARLY_REFLECTIONS_H
-
-#include "wwise_gdextension.h"
-#include <godot_cpp/classes/node.hpp>
-
-namespace godot
-{
 class AkEarlyReflections : public Node
 {
 	GDCLASS(AkEarlyReflections, Node);
@@ -31,7 +23,3 @@ public:
 	void set_volume(float volume);
 	float get_volume() const;
 };
-
-} //namespace godot
-
-#endif

@@ -1,7 +1,6 @@
 #include "ak_environment.h"
-#include "ak_event.h"
 
-using namespace godot;
+class AkEvent3D;
 
 void AkEnvironment::_bind_methods()
 {

@@ -1,7 +1,5 @@
 #include "ak_editor_utils.h"
 
-using namespace godot;
-
 AkEditorUtils* AkEditorUtils::singleton = nullptr;
 
 AkEditorUtils::AkEditorUtils()
