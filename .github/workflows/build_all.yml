@@ -204,7 +204,7 @@ jobs:
               cd ../../../../
 
       - name: Compile Editor library
-        if: matrix.sdk-platform != 'android'
+        if: matrix.sdk-platform != 'android' && matrix.sdk-platform != 'ios'
         shell: bash
         env:
           SCONS_CACHE: ${{github.workspace}}/.scons_cache/
