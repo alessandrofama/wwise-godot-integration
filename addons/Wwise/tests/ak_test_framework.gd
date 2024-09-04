@@ -6,8 +6,8 @@ var banks_loaded = false
 
 
 func load_test_banks():
-	Wwise.load_bank_id(AK.BANKS.INIT)
-	Wwise.load_bank_id(AK.BANKS.TESTBANK)
+	Wwise.load_bank("Init")
+	Wwise.load_bank("TestBank")
 	banks_loaded = true
 
 
