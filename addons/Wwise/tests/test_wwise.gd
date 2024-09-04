@@ -2,6 +2,7 @@ extends "res://addons/Wwise/tests/ak_test.gd"
 
 const AK = preload("res://addons/Wwise/tests/GeneratedSoundBanks/wwise_ids_tests.gd")
 var mesh_instance: MeshInstance3D
+var cookie_wrapper = CookieWrapper.new()
 
 
 func before_all():
@@ -143,11 +144,9 @@ func test_post_event() -> bool:
 
 func test_post_event_callback() -> bool:
 	var node = register_3d_game_obj()
-	var cookie_wrapper = CookieWrapper.new()
 	cookie_wrapper.cookie = func(data): pass
 	var result = Wwise.post_event_callback("MUSIC", AkUtils.AK_DURATION, node, cookie_wrapper)
 	unregister_3d_game_obj(node)
-	cookie_wrapper.call_deferred("free")
 	return ak_assert(result)
 
 
@@ -160,13 +159,11 @@ func test_post_event_id() -> bool:
 
 func test_post_event_id_callback() -> bool:
 	var node = register_3d_game_obj()
-	var cookie_wrapper = CookieWrapper.new()
 	cookie_wrapper.cookie = func(data): pass
 	var result = Wwise.post_event_id_callback(
 		AK.EVENTS.MUSIC, AkUtils.AK_DURATION, node, cookie_wrapper
 	)
 	unregister_3d_game_obj(node)
-	cookie_wrapper.call_deferred("free")
 	return ak_assert(result)
 
 
@@ -199,7 +196,7 @@ func test_set_state_id() -> bool:
 func test_get_rtpc_value() -> bool:
 	var node = register_3d_game_obj()
 	Wwise.set_rtpc_value("Enemies", 3.0, node)
-	await get_tree().process_frame
+	await get_tree().create_timer(1).timeout
 	var value = Wwise.get_rtpc_value("Enemies", node)
 	unregister_3d_game_obj(node)
 	return ak_assert(value == 3.0)
