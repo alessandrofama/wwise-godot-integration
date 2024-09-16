@@ -106,7 +106,7 @@ bool AkGeometry::set_geometry(const MeshInstance3D* mesh_instance)
 
 	for (int i = 0; i < mdt->get_vertex_count(); ++i)
 	{
-		Vector3 vertex = to_global(mdt->get_vertex(i));
+		Vector3 vertex = mdt->get_vertex(i);
 		vertices.append(vertex);
 	}
 
@@ -133,7 +133,7 @@ bool AkGeometry::set_geometry(const MeshInstance3D* mesh_instance)
 	{
 		geometry_result = soundengine->set_geometry(vertices, triangles, acoustic_texture, transmission_loss_value,
 				this, enable_diffraction, enable_diffraction_on_boundary_edges);
-		instance_result = soundengine->set_geometry_instance(this, get_transform(), geometry_instance, room_node);
+		instance_result = soundengine->set_geometry_instance(this, get_global_transform(), geometry_instance, room_node);
 	}
 
 	vertices.clear();
