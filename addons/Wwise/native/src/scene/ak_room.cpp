@@ -80,6 +80,19 @@ void AkRoom::_on_area_entered(const Area3D* area)
 	{
 		if (parent->get_class() == "AkEvent3D" || parent->get_class() == "AkListener3D")
 		{
+            // If we have an AkListener3D or an AkEvent3D, keep track
+            // of the room it's entering.
+            AkListener3D* listener = static_cast<AkListener3D*>(parent);
+            AkEvent3D* event = static_cast<AkEvent3D*>(parent);
+            if (listener)
+            {
+                listener->set_room_id(static_cast<AkGameObjectID>(this->get_instance_id()));
+            }
+            else if (event)
+            {
+                event->set_room_id(static_cast<AkGameObjectID>(this->get_instance_id()));
+            }
+
 			Wwise* soundengine = Wwise::get_singleton();
 
 			if (soundengine)
@@ -98,9 +111,29 @@ void AkRoom::_on_area_exited(const Area3D* area)
 	{
 		if (parent->get_class() == "AkEvent3D" || parent->get_class() == "AkListener3D")
 		{
+            // Check if the AkListener3D or AkEvent3D is leaving the
+            // room they are in. If they are, it means they are leaving
+            // a room and going outside and we set their room ID
+            // to INVALID_ROOM_ID. If, however, they are exiting a
+            // different room than they are in, it means they are
+            // going to another room, and there is no need to make
+            // a call to remove_game_object_from_room().
+            bool leavingTheSameRoom = false;
+
+            AkListener3D* listener = static_cast<AkListener3D*>(parent);
+            AkEvent3D* event = static_cast<AkEvent3D*>(parent);
+            if (listener)
+            {
+                leavingTheSameRoom = listener->get_room_id() == static_cast<AkGameObjectID>(this->get_instance_id());
+            }
+            else if (event)
+            {
+                leavingTheSameRoom = event->get_room_id() == static_cast<AkGameObjectID>(this->get_instance_id());
+            }
+
 			Wwise* soundengine = Wwise::get_singleton();
 
-			if (soundengine)
+			if (soundengine && leavingTheSameRoom)
 			{
 				soundengine->remove_game_object_from_room(parent);
 			}
