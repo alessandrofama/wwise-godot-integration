@@ -194,7 +194,7 @@ void AkEvent3D::_bind_methods()
 			D_METHOD("set_is_environment_aware", "is_environment_aware"), &AkEvent3D::set_is_environment_aware);
 	ClassDB::bind_method(D_METHOD("get_is_environment_aware"), &AkEvent3D::get_is_environment_aware);
 	ClassDB::bind_method(D_METHOD("set_room_id", "room_id"), &AkEvent3D::set_room_id);
-    ClassDB::bind_method(D_METHOD("get_room_id"), &AkEvent3D::get_room_id);
+	ClassDB::bind_method(D_METHOD("get_room_id"), &AkEvent3D::get_room_id);
 
 	ADD_PROPERTY(PropertyInfo(Variant::DICTIONARY, "event", PROPERTY_HINT_NONE), "set_event", "get_event");
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "trigger_on", PROPERTY_HINT_ENUM, "None,Enter Tree,Ready,Exit Tree"),

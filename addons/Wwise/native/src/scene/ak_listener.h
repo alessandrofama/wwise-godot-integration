@@ -39,7 +39,7 @@ public:
 	bool get_is_spatial() const;
 
 	void set_room_id(int room_id);
-    int get_room_id() const;
+	int get_room_id() const;
 };
 
 } // namespace godot
