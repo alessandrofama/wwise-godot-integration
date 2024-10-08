@@ -2,6 +2,8 @@
 #define AK_ROOM_H
 
 #include "ak_geometry.h"
+#include "ak_listener.h"
+#include "ak_event.h"
 #include "wwise_gdextension.h"
 #include <godot_cpp/classes/area3d.hpp>
 #include <godot_cpp/classes/engine.hpp>
