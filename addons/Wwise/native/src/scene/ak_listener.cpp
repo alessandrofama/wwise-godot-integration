@@ -32,8 +32,11 @@ void AkListener3D::_bind_methods()
 {
 	ClassDB::bind_method(D_METHOD("set_is_spatial", "is_spatial"), &AkListener3D::set_is_spatial);
 	ClassDB::bind_method(D_METHOD("get_is_spatial"), &AkListener3D::get_is_spatial);
+	ClassDB::bind_method(D_METHOD("set_room_id", "room_id"), &AkListener3D::set_room_id);
+	ClassDB::bind_method(D_METHOD("get_room_id"), &AkListener3D::get_room_id);
 
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "is_spatial", PROPERTY_HINT_NONE), "set_is_spatial", "get_is_spatial");
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "room_id", PROPERTY_HINT_NONE), "set_room_id", "get_room_id");
 }
 
 void AkListener3D::_enter_tree()
@@ -68,3 +71,7 @@ void AkListener3D::_process(double p_delta)
 void AkListener3D::set_is_spatial(bool is_spatial) { this->is_spatial = is_spatial; }
 
 bool AkListener3D::get_is_spatial() const { return is_spatial; }
+
+void AkListener3D::set_room_id(int room_id) {this->room_id = room_id;}
+
+int AkListener3D::get_room_id() const {return room_id;}

@@ -85,6 +85,8 @@ private:
 
 	void check_signal_connections();
 
+	int room_id = INVALID_ROOM_ID;
+
 public:
 	AkEnvironmentData* environment_data = nullptr;
 
@@ -118,6 +120,9 @@ public:
 
 	void set_is_environment_aware(bool is_environment_aware);
 	bool get_is_environment_aware() const;
+
+	void set_room_id(int room_id);
+	int get_room_id() const;
 };
 
 } //namespace godot
