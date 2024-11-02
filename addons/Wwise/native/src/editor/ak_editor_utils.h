@@ -1,11 +1,11 @@
-#ifndef AK_EDITOR_UTILS_H
-#define AK_EDITOR_UTILS_H
+#pragma once
 
+#include <godot_cpp/classes/object.hpp>
 #include <godot_cpp/classes/resource_loader.hpp>
 #include <godot_cpp/classes/texture2d.hpp>
+#include <unordered_map>
 
-namespace godot
-{
+using namespace godot;
 
 class AkEditorUtils : public Object
 {
@@ -123,7 +123,3 @@ public:
 	Ref<Texture2D> get_editor_icon(const AkType ak_type);
 	Ref<Texture2D> get_editor_icon(const AkEditorIconType icon_type);
 };
-
-} //namespace godot
-
-#endif

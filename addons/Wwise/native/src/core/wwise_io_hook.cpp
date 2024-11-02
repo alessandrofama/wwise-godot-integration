@@ -1,10 +1,8 @@
-#include "wwise_godot_io.h"
+#include "wwise_io_hook.h"
 
 #define BLOCKING_DEVICE_NAME AKTEXT("Blocking Device")
 
-using namespace godot;
-
-AkFileDesc* AkIOHookGodot::create_descriptor(const AkFileDesc* in_p_copy)
+AkFileDesc* WwiseIOHook::create_descriptor(const AkFileDesc* in_p_copy)
 {
 	if (!in_p_copy)
 		return AkNew(AkMemID_Streaming, AkFileDescType());
@@ -12,7 +10,7 @@ AkFileDesc* AkIOHookGodot::create_descriptor(const AkFileDesc* in_p_copy)
 	return AkNew(AkMemID_Streaming, AkFileDescType(*(AkFileDescType*)in_p_copy));
 }
 
-AKRESULT AkIOHookGodot::open(const AkFileOpenData& in_file_open, AkFileDesc*& out_p_file_desc)
+AKRESULT WwiseIOHook::open(const AkFileOpenData& in_file_open, AkFileDesc*& out_p_file_desc)
 {
 	AKRESULT result = AK_UnknownFileError;
 
@@ -121,7 +119,7 @@ AKRESULT AkIOHookGodot::open(const AkFileOpenData& in_file_open, AkFileDesc*& ou
 	return result;
 }
 
-void AkIOHookGodot::read(
+void WwiseIOHook::read(
 		AkFileDesc& in_file_desc, const AkIoHeuristics& in_heuristics, AkAsyncIOTransferInfo& io_transfer_info)
 {
 	AKASSERT(io_transfer_info.pBuffer != nullptr && in_file_desc.hFile != AkFileHandle(-1));
@@ -154,7 +152,7 @@ void AkIOHookGodot::read(
 	io_transfer_info.pCallback(&io_transfer_info, AK_Fail);
 }
 
-void AkIOHookGodot::write(
+void WwiseIOHook::write(
 		AkFileDesc& in_file_desc, const AkIoHeuristics& in_heuristics, AkAsyncIOTransferInfo& io_transfer_info)
 {
 	AKASSERT(io_transfer_info.pBuffer != nullptr && in_file_desc.hFile != AkFileHandle(-1));
@@ -188,20 +186,20 @@ void AkIOHookGodot::write(
 	io_transfer_info.pCallback(&io_transfer_info, AK_Fail);
 }
 
-void AkIOHookGodot::cancel(
+void WwiseIOHook::cancel(
 		AkFileDesc& in_file_desc, AkAsyncIOTransferInfo& io_transfer_info, bool& io_bcancel_all_transfers_for_this_file)
 {
 	// not implemented
 }
 
-AkIOHookGodot::~AkIOHookGodot() { term(); }
+WwiseIOHook::~WwiseIOHook() { term(); }
 
-AKRESULT AkIOHookGodot::init(const AkDeviceSettings& in_device_settings)
+AKRESULT WwiseIOHook::init(const AkDeviceSettings& in_device_settings)
 {
 	return AK::StreamMgr::CreateDevice(in_device_settings, this, device_id);
 }
 
-void AkIOHookGodot::term()
+void WwiseIOHook::term()
 {
 	if (device_id != AK_INVALID_DEVICE_ID)
 	{
@@ -210,7 +208,7 @@ void AkIOHookGodot::term()
 	}
 }
 
-void AkIOHookGodot::BatchOpen(AkUInt32 in_u_num_files, AkAsyncFileOpenData** in_pp_items)
+void WwiseIOHook::BatchOpen(AkUInt32 in_u_num_files, AkAsyncFileOpenData** in_pp_items)
 {
 	for (int i = 0; i < (int)in_u_num_files; i++)
 	{
@@ -220,7 +218,7 @@ void AkIOHookGodot::BatchOpen(AkUInt32 in_u_num_files, AkAsyncFileOpenData** in_
 	}
 }
 
-void AkIOHookGodot::BatchRead(AkUInt32 in_u_num_transfers, BatchIoTransferItem* in_p_transfer_items)
+void WwiseIOHook::BatchRead(AkUInt32 in_u_num_transfers, BatchIoTransferItem* in_p_transfer_items)
 {
 	for (int i = 0; i < (int)in_u_num_transfers; ++i)
 	{
@@ -229,7 +227,7 @@ void AkIOHookGodot::BatchRead(AkUInt32 in_u_num_transfers, BatchIoTransferItem* 
 	}
 }
 
-void AkIOHookGodot::BatchWrite(AkUInt32 in_u_num_transfers, BatchIoTransferItem* in_p_transfer_items)
+void WwiseIOHook::BatchWrite(AkUInt32 in_u_num_transfers, BatchIoTransferItem* in_p_transfer_items)
 {
 	for (int i = 0; i < (int)in_u_num_transfers; ++i)
 	{
@@ -238,7 +236,7 @@ void AkIOHookGodot::BatchWrite(AkUInt32 in_u_num_transfers, BatchIoTransferItem*
 	}
 }
 
-void AkIOHookGodot::BatchCancel(AkUInt32 in_u_num_transfers, BatchIoTransferItem* in_p_transfer_items,
+void WwiseIOHook::BatchCancel(AkUInt32 in_u_num_transfers, BatchIoTransferItem* in_p_transfer_items,
 		bool** io_ppb_cancel_all_transfers_for_this_file)
 {
 	for (int i = 0; i < (int)in_u_num_transfers; ++i)
@@ -249,7 +247,7 @@ void AkIOHookGodot::BatchCancel(AkUInt32 in_u_num_transfers, BatchIoTransferItem
 	}
 }
 
-AKRESULT AkIOHookGodot::Close(AkFileDesc* in_file_desc)
+AKRESULT WwiseIOHook::Close(AkFileDesc* in_file_desc)
 {
 	AKRESULT result = AK_Fail;
 
@@ -271,9 +269,9 @@ AKRESULT AkIOHookGodot::Close(AkFileDesc* in_file_desc)
 	return result;
 }
 
-AkUInt32 AkIOHookGodot::GetBlockSize(AkFileDesc& in_file_desc) { return 1; }
+AkUInt32 WwiseIOHook::GetBlockSize(AkFileDesc& in_file_desc) { return 1; }
 
-void AkIOHookGodot::GetDeviceDesc(AkDeviceDesc&
+void WwiseIOHook::GetDeviceDesc(AkDeviceDesc&
 #ifndef AK_OPTIMIZED
 				out_device_desc
 #endif
@@ -288,9 +286,9 @@ void AkIOHookGodot::GetDeviceDesc(AkDeviceDesc&
 #endif
 }
 
-AkUInt32 AkIOHookGodot::GetDeviceData() { return 1; }
+AkUInt32 WwiseIOHook::GetDeviceData() { return 1; }
 
-AKRESULT AkFileIOHandlerGodot::init(const AkDeviceSettings& in_device_settings)
+AKRESULT WwiseFileIOHandler::init(const AkDeviceSettings& in_device_settings)
 {
 	if (!AK::StreamMgr::GetFileLocationResolver())
 	{
@@ -304,7 +302,7 @@ AKRESULT AkFileIOHandlerGodot::init(const AkDeviceSettings& in_device_settings)
 	return AK_Success;
 }
 
-void AkFileIOHandlerGodot::term()
+void WwiseFileIOHandler::term()
 {
 	if (AK::StreamMgr::GetFileLocationResolver() == this)
 	{
@@ -314,9 +312,9 @@ void AkFileIOHandlerGodot::term()
 	device.term();
 }
 
-void AkFileIOHandlerGodot::set_banks_path(const String& banks_path) { device.banks_path = banks_path; }
+void WwiseFileIOHandler::set_banks_path(const String& banks_path) { device.banks_path = banks_path; }
 
-void AkFileIOHandlerGodot::set_language_folder(const String& language_folder)
+void WwiseFileIOHandler::set_language_folder(const String& language_folder)
 {
 	device.language_folder = language_folder;
 }

@@ -1,13 +1,13 @@
-#ifndef AK_BANK_H
-#define AK_BANK_H
+#pragma once
 
-#include "wwise_gdextension.h"
-#include <godot_cpp/classes/engine.hpp>
+#include "core/wwise_settings.h"
+#include "core/ak_utils.h"
+#include "core/utils.h"
+#include "core/wwise_gdextension.h"
 #include <godot_cpp/classes/node.hpp>
-#include <godot_cpp/classes/project_settings.hpp>
 
-namespace godot
-{
+using namespace godot;
+
 class AkBank : public Node
 {
 	GDCLASS(AkBank, Node);
@@ -41,6 +41,3 @@ public:
 	void set_unload_on(AkUtils::GameEvent unload_on);
 	AkUtils::GameEvent get_unload_on() const;
 };
-} //namespace godot
-
-#endif // AK_BANK_H

@@ -1,7 +1,5 @@
 #include "ak_event.h"
 
-using namespace godot;
-
 void AkEvent2D::_bind_methods()
 {
 	ClassDB::bind_method(D_METHOD("handle_game_event", "game_event"), &AkEvent2D::handle_game_event);
@@ -62,7 +60,7 @@ AkEvent2D::AkEvent2D()
 	event["name"] = "";
 	event["id"] = 0;
 
-	cookie = memnew(CookieWrapper(Callable(this, "callback_emitter")));
+	cookie = memnew(WwiseCookie(Callable(this, "callback_emitter")));
 }
 
 void AkEvent2D::_enter_tree()
@@ -242,7 +240,7 @@ AkEvent3D::AkEvent3D()
 	event["name"] = "";
 	event["id"] = 0;
 
-	cookie = memnew(CookieWrapper(Callable(this, "callback_emitter")));
+	cookie = memnew(WwiseCookie(Callable(this, "callback_emitter")));
 }
 
 void AkEvent3D::_enter_tree()
@@ -383,6 +381,6 @@ void AkEvent3D::set_is_environment_aware(bool is_environment_aware)
 
 bool AkEvent3D::get_is_environment_aware() const { return is_environment_aware; }
 
-void AkEvent3D::set_room_id(int room_id) {this->room_id = room_id;}
+void AkEvent3D::set_room_id(int room_id) { this->room_id = room_id; }
 
-int AkEvent3D::get_room_id() const {return room_id;}
+int AkEvent3D::get_room_id() const { return room_id; }

@@ -1,12 +1,13 @@
-#ifndef AK_SWITCH_H
-#define AK_SWITCH_H
+#pragma once
 
-#include "wwise_gdextension.h"
-#include <godot_cpp/classes/engine.hpp>
+#include "core/ak_utils.h"
+#include "core/utils.h"
+#include "core/wwise_gdextension.h"
 #include <godot_cpp/classes/node.hpp>
+#include <godot_cpp/variant/dictionary.hpp>
 
-namespace godot
-{
+using namespace godot;
+
 class AkSwitch : public Node
 {
 	GDCLASS(AkSwitch, Node);
@@ -42,7 +43,3 @@ public:
 	void set_trigger_on(AkUtils::GameEvent trigger_on);
 	AkUtils::GameEvent get_trigger_on() const;
 };
-
-} // namespace godot
-
-#endif

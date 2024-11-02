@@ -16,66 +16,30 @@
     <Filter Include="Source Files\scene">
       <UniqueIdentifier>{88fd4841-ff86-48ad-8383-bbf2de2fc648}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\waapi">
-      <UniqueIdentifier>{bb432451-69cb-45b6-807a-0dbcfa162265}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\editor">
       <UniqueIdentifier>{ed2f72de-cbe3-448c-963e-83ce0881df2c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\editor\event_gizmo">
-      <UniqueIdentifier>{385e417b-4d47-4aa0-96a3-ad49e479c457}</UniqueIdentifier>
+    <Filter Include="Source Files\platform">
+      <UniqueIdentifier>{39865a72-380f-4c93-97e6-e4059087e215}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\editor\export_plugin">
-      <UniqueIdentifier>{869fad9c-e760-4eaf-913a-4ea3c39b96ad}</UniqueIdentifier>
+    <Filter Include="Source Files\platform\android">
+      <UniqueIdentifier>{ffad7b0f-7590-423b-8e22-c98a162f085d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\editor\inspector_plugin">
-      <UniqueIdentifier>{157eb0d6-8bd9-4ceb-94d2-be27dae03d37}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\editor\waapi_picker">
-      <UniqueIdentifier>{46199684-6d2e-4d49-bc6c-605c237c5ae3}</UniqueIdentifier>
+    <Filter Include="Source Files\core">
+      <UniqueIdentifier>{0a35a43b-bc36-4e83-a1e2-13cbbd6ec243}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="$(WWISESDK)\samples\SoundEngine\Common\AkFilePackage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="$(WWISESDK)\samples\SoundEngine\Common\AkFilePackageLUT.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="$(WWISESDK)\samples\SoundEngine\Common\AkMultipleFileLocation.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\register_types.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\wwise_godot_io.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\wwise_settings.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\ak_utils.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\scene\ak_bank.cpp">
       <Filter>Source Files\scene</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\scene\ak_listener.cpp">
-      <Filter>Source Files\scene</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\scene\ak_state.cpp">
-      <Filter>Source Files\scene</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\scene\ak_switch.cpp">
-      <Filter>Source Files\scene</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\wwise_gdextension.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\scene\ak_early_reflections.cpp">
       <Filter>Source Files\scene</Filter>
     </ClCompile>
     <ClCompile Include="..\src\scene\ak_environment.cpp">
+      <Filter>Source Files\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\scene\ak_environment_data.cpp">
       <Filter>Source Files\scene</Filter>
     </ClCompile>
     <ClCompile Include="..\src\scene\ak_event.cpp">
@@ -84,42 +48,81 @@
     <ClCompile Include="..\src\scene\ak_geometry.cpp">
       <Filter>Source Files\scene</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\scene\ak_listener.cpp">
+      <Filter>Source Files\scene</Filter>
+    </ClCompile>
     <ClCompile Include="..\src\scene\ak_portal.cpp">
       <Filter>Source Files\scene</Filter>
     </ClCompile>
     <ClCompile Include="..\src\scene\ak_room.cpp">
       <Filter>Source Files\scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\waapi\waapi_gdextension.cpp">
-      <Filter>Source Files\waapi</Filter>
+    <ClCompile Include="..\src\scene\ak_state.cpp">
+      <Filter>Source Files\scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\editor\inspector_plugin\ak_inspector_plugin.cpp">
-      <Filter>Source Files\editor\inspector_plugin</Filter>
+    <ClCompile Include="..\src\scene\ak_switch.cpp">
+      <Filter>Source Files\scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\editor\waapi_picker\waapi_picker.cpp">
-      <Filter>Source Files\editor\waapi_picker</Filter>
+    <ClCompile Include="..\src\editor\ak_android_export_plugin.cpp">
+      <Filter>Source Files\editor</Filter>
     </ClCompile>
-    <ClCompile Include="$(WWISESDK)\samples\SoundEngine\Common\AkGeneratedSoundBanksResolver.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\src\editor\ak_editor_export_plugin.cpp">
+      <Filter>Source Files\editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\ak_editor_plugin.cpp">
+      <Filter>Source Files\editor</Filter>
     </ClCompile>
     <ClCompile Include="..\src\editor\ak_editor_utils.cpp">
       <Filter>Source Files\editor</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\editor\ak_event_3d_gizmo_plugin.cpp">
+      <Filter>Source Files\editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\ak_inspector_plugin.cpp">
+      <Filter>Source Files\editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\ak_waapi_picker.cpp">
+      <Filter>Source Files\editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\platform\android\jni_support.cpp">
+      <Filter>Source Files\platform\android</Filter>
+    </ClCompile>
+    <ClCompile Include="$(WWISESDK)\samples\SoundEngine\Common\AkFilePackage.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="$(WWISESDK)\samples\SoundEngine\Common\AkFilePackageLUT.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="$(WWISESDK)\samples\SoundEngine\Common\AkGeneratedSoundBanksResolver.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="$(WWISESDK)\samples\SoundEngine\Common\AkMultipleFileLocation.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\wwise_gdextension_main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\ak_utils.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\waapi_gdextension.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\wwise_cookie.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\wwise_gdextension.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\wwise_io_hook.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\wwise_settings.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="$(WWISESDK)\samples\SoundEngine\Win32\stdafx.cpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\scene\ak_bank.h">
-      <Filter>Source Files\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\scene\ak_listener.h">
-      <Filter>Source Files\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\scene\ak_state.h">
-      <Filter>Source Files\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\scene\ak_switch.h">
       <Filter>Source Files\scene</Filter>
     </ClInclude>
     <ClInclude Include="..\src\scene\ak_early_reflections.h">
@@ -137,62 +140,77 @@
     <ClInclude Include="..\src\scene\ak_geometry.h">
       <Filter>Source Files\scene</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\scene\ak_listener.h">
+      <Filter>Source Files\scene</Filter>
+    </ClInclude>
     <ClInclude Include="..\src\scene\ak_portal.h">
       <Filter>Source Files\scene</Filter>
     </ClInclude>
     <ClInclude Include="..\src\scene\ak_room.h">
       <Filter>Source Files\scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\waapi\waapi_gdextension.h">
-      <Filter>Source Files\waapi</Filter>
+    <ClInclude Include="..\src\scene\ak_state.h">
+      <Filter>Source Files\scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\editor\event_gizmo\ak_event_3d_gizmo_plugin.h">
-      <Filter>Source Files\editor\event_gizmo</Filter>
+    <ClInclude Include="..\src\scene\ak_switch.h">
+      <Filter>Source Files\scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\editor\export_plugin\ak_editor_export_plugin.h">
-      <Filter>Source Files\editor\export_plugin</Filter>
+    <ClInclude Include="..\src\editor\ak_android_export_plugin.h">
+      <Filter>Source Files\editor</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\editor\inspector_plugin\ak_inspector_plugin.h">
-      <Filter>Source Files\editor\inspector_plugin</Filter>
+    <ClInclude Include="..\src\editor\ak_editor_export_plugin.h">
+      <Filter>Source Files\editor</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\editor\waapi_picker\waapi_picker.h">
-      <Filter>Source Files\editor\waapi_picker</Filter>
+    <ClInclude Include="..\src\editor\ak_editor_plugin.h">
+      <Filter>Source Files\editor</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\ak_utils.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="..\src\editor\ak_editor_utils.h">
+      <Filter>Source Files\editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\ak_event_3d_gizmo_plugin.h">
+      <Filter>Source Files\editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\ak_inspector_plugin.h">
+      <Filter>Source Files\editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\ak_waapi_picker.h">
+      <Filter>Source Files\editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\platform\android\jni_support.h">
+      <Filter>Source Files\platform\android</Filter>
     </ClInclude>
     <ClInclude Include="$(WWISESDK)\samples\SoundEngine\Common\AkGeneratedSoundBanksResolver.h">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\core</Filter>
     </ClInclude>
     <ClInclude Include="$(WWISESDK)\include\AK\SoundEngine\Common\AkStreamMgrModule.h">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\core</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\register_types.h">
+    <ClInclude Include="$(WWISESDK)\samples\SoundEngine\Win32\stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="$(WWISESDK)\samples\SoundEngine\Win32\stdafx.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\wwise_gdextension.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="..\src\core\ak_utils.h">
+      <Filter>Source Files\core</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\wwise_godot_io.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="..\src\core\utils.h">
+      <Filter>Source Files\core</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\wwise_settings.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="..\src\core\waapi_gdextension.h">
+      <Filter>Source Files\core</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\wwise_utils.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="..\src\core\wwise_cookie.h">
+      <Filter>Source Files\core</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\wwise_editor.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="..\src\core\wwise_gdextension.h">
+      <Filter>Source Files\core</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\editor\ak_editor_utils.h">
-      <Filter>Source Files\editor</Filter>
+    <ClInclude Include="..\src\core\wwise_io_hook.h">
+      <Filter>Source Files\core</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\editor\export_plugin\ak_android_export_plugin.h">
-      <Filter>Source Files\editor\export_plugin</Filter>
+    <ClInclude Include="..\src\core\wwise_settings.h">
+      <Filter>Source Files\core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

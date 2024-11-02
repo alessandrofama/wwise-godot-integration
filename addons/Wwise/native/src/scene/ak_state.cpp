@@ -1,7 +1,5 @@
 #include "ak_state.h"
 
-using namespace godot;
-
 void AkState::_bind_methods()
 {
 	ClassDB::bind_method(D_METHOD("handle_game_event", "game_event"), &AkState::handle_game_event);

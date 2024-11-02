@@ -1,23 +1,21 @@
-#include "waapi_picker.h"
+#include "ak_waapi_picker.h"
 
-using namespace godot;
-
-void WaapiPicker::_bind_methods()
+void AkWaapiPicker::_bind_methods()
 {
-	ClassDB::bind_method(D_METHOD("_on_resized_editor_viewport"), &WaapiPicker::_on_resized_editor_viewport);
+	ClassDB::bind_method(D_METHOD("_on_resized_editor_viewport"), &AkWaapiPicker::_on_resized_editor_viewport);
 	ClassDB::bind_method(
-			D_METHOD("_on_visibility_changed_editor_viewport"), &WaapiPicker::_on_visibility_changed_editor_viewport);
-	ClassDB::bind_method(D_METHOD("_on_refresh_project_button_up"), &WaapiPicker::_on_refresh_project_button_up);
-	ClassDB::bind_method(D_METHOD("_on_export_soundbanks_button_up"), &WaapiPicker::_on_export_soundbanks_button_up);
-	ClassDB::bind_method(D_METHOD("_on_generate_ids_button_up"), &WaapiPicker::_on_generate_ids_button_up);
+			D_METHOD("_on_visibility_changed_editor_viewport"), &AkWaapiPicker::_on_visibility_changed_editor_viewport);
+	ClassDB::bind_method(D_METHOD("_on_refresh_project_button_up"), &AkWaapiPicker::_on_refresh_project_button_up);
+	ClassDB::bind_method(D_METHOD("_on_export_soundbanks_button_up"), &AkWaapiPicker::_on_export_soundbanks_button_up);
+	ClassDB::bind_method(D_METHOD("_on_generate_ids_button_up"), &AkWaapiPicker::_on_generate_ids_button_up);
 	ClassDB::bind_method(
-			D_METHOD("_on_file_dialog_file_selected", "path"), &WaapiPicker::_on_file_dialog_file_selected);
-	ClassDB::bind_method(D_METHOD("_on_search_text_changed", "text_filter"), &WaapiPicker::_on_search_text_changed);
+			D_METHOD("_on_file_dialog_file_selected", "path"), &AkWaapiPicker::_on_file_dialog_file_selected);
+	ClassDB::bind_method(D_METHOD("_on_search_text_changed", "text_filter"), &AkWaapiPicker::_on_search_text_changed);
 
 	ADD_SIGNAL(MethodInfo("connection_changed", PropertyInfo(Variant::BOOL, "result")));
 }
 
-void WaapiPicker::create_project_objects_tree()
+void AkWaapiPicker::create_project_objects_tree()
 {
 	Tree* tree = picker_data.scene_data.objects_tree;
 
@@ -373,7 +371,7 @@ void WaapiPicker::create_project_objects_tree()
 	}
 }
 
-void WaapiPicker::generate_ids(const Array& data)
+void AkWaapiPicker::generate_ids(const Array& data)
 {
 	Array event_array;
 	Array state_group_array;
@@ -462,7 +460,7 @@ void WaapiPicker::generate_ids(const Array& data)
 	create_class(external_src_array, "EXTERNAL_SOURCES");
 }
 
-void WaapiPicker::create_class(const Array& data, const String& type)
+void AkWaapiPicker::create_class(const Array& data, const String& type)
 {
 	if (data.size() > 0)
 	{
@@ -494,7 +492,7 @@ void WaapiPicker::create_class(const Array& data, const String& type)
 	}
 }
 
-void WaapiPicker::create_state_switch_class(
+void AkWaapiPicker::create_state_switch_class(
 		const Array& parent_array, const Array& child_array, const String& parent_type, const String& child_type)
 {
 	if (parent_array.size() > 0)
@@ -555,13 +553,13 @@ void WaapiPicker::create_state_switch_class(
 	}
 }
 
-void WaapiPicker::create_empty_class(const String& type)
+void AkWaapiPicker::create_empty_class(const String& type)
 {
 	final_text += "class " + type + ":\n\n";
 	final_text += "\tconst _dict: Dictionary = {}\n\n";
 }
 
-void WaapiPicker::_enter_tree()
+void AkWaapiPicker::_enter_tree()
 {
 	json = memnew(JSON);
 
@@ -605,22 +603,22 @@ void WaapiPicker::_enter_tree()
 					editor_viewport->get_visible_rect().get_size().y * 0.3f));
 
 	Error error =
-			editor_viewport->connect("size_changed", callable_mp(this, &WaapiPicker::_on_resized_editor_viewport));
+			editor_viewport->connect("size_changed", callable_mp(this, &AkWaapiPicker::_on_resized_editor_viewport));
 	AKASSERT(error == Error::OK);
 	error = editor_viewport->connect(
-			"visibility_changed", callable_mp(this, &WaapiPicker::_on_visibility_changed_editor_viewport));
+			"visibility_changed", callable_mp(this, &AkWaapiPicker::_on_visibility_changed_editor_viewport));
 	AKASSERT(error == Error::OK);
 	error = picker_data.scene_data.refresh_project_button->connect(
-			"button_up", callable_mp(this, &WaapiPicker::_on_refresh_project_button_up));
+			"button_up", callable_mp(this, &AkWaapiPicker::_on_refresh_project_button_up));
 	AKASSERT(error == Error::OK);
 	error = picker_data.scene_data.export_soundbanks_button->connect(
-			"button_up", callable_mp(this, &WaapiPicker::_on_export_soundbanks_button_up));
+			"button_up", callable_mp(this, &AkWaapiPicker::_on_export_soundbanks_button_up));
 	AKASSERT(error == Error::OK);
 	error = picker_data.scene_data.generate_ids_button->connect(
-			"button_up", callable_mp(this, &WaapiPicker::_on_generate_ids_button_up));
+			"button_up", callable_mp(this, &AkWaapiPicker::_on_generate_ids_button_up));
 	AKASSERT(error == Error::OK);
 	error = picker_data.scene_data.search_text->connect(
-			"text_changed", callable_mp(this, &WaapiPicker::_on_search_text_changed));
+			"text_changed", callable_mp(this, &AkWaapiPicker::_on_search_text_changed));
 	AKASSERT(error == Error::OK);
 
 	auto port = ProjectSettings::get_singleton()->get_setting("wwise/communication_settings/waapi_port", 8080);
@@ -629,7 +627,7 @@ void WaapiPicker::_enter_tree()
 	_on_refresh_project_button_up();
 }
 
-void WaapiPicker::_process(double delta)
+void AkWaapiPicker::_process(double delta)
 {
 	if (Waapi::get_singleton()->is_client_connected())
 	{
@@ -637,7 +635,7 @@ void WaapiPicker::_process(double delta)
 	}
 }
 
-void WaapiPicker::_exit_tree()
+void AkWaapiPicker::_exit_tree()
 {
 	Waapi* waapi = Waapi::get_singleton();
 
@@ -655,7 +653,7 @@ void WaapiPicker::_exit_tree()
 	}
 }
 
-void WaapiPicker::_on_resized_editor_viewport()
+void AkWaapiPicker::_on_resized_editor_viewport()
 {
 	if (editor_viewport)
 	{
@@ -671,7 +669,7 @@ void WaapiPicker::_on_resized_editor_viewport()
 	}
 }
 
-void WaapiPicker::_on_visibility_changed_editor_viewport()
+void AkWaapiPicker::_on_visibility_changed_editor_viewport()
 {
 	if (editor_viewport)
 	{
@@ -695,7 +693,7 @@ void WaapiPicker::_on_visibility_changed_editor_viewport()
 	}
 }
 
-void WaapiPicker::_on_refresh_project_button_up()
+void AkWaapiPicker::_on_refresh_project_button_up()
 {
 	bool connect_result{};
 	if (!Waapi::get_singleton()->is_client_connected())
@@ -738,7 +736,7 @@ void WaapiPicker::_on_refresh_project_button_up()
 	}
 }
 
-void WaapiPicker::_on_export_soundbanks_button_up()
+void AkWaapiPicker::_on_export_soundbanks_button_up()
 {
 	bool connect_result{};
 	if (!Waapi::get_singleton()->is_client_connected())
@@ -778,7 +776,7 @@ void WaapiPicker::_on_export_soundbanks_button_up()
 	}
 }
 
-void WaapiPicker::_on_generate_ids_button_up()
+void AkWaapiPicker::_on_generate_ids_button_up()
 {
 	file_dialog = memnew(FileDialog);
 	file_dialog->set_file_mode(FileDialog::FILE_MODE_SAVE_FILE);
@@ -788,7 +786,7 @@ void WaapiPicker::_on_generate_ids_button_up()
 	PackedStringArray filters;
 	filters.append(file_type);
 	file_dialog->set_filters(filters);
-	file_dialog->connect("file_selected", callable_mp(this, &WaapiPicker::_on_file_dialog_file_selected));
+	file_dialog->connect("file_selected", callable_mp(this, &AkWaapiPicker::_on_file_dialog_file_selected));
 
 	EditorInterface* editor_interface = get_editor_interface();
 	Control* base_control = editor_interface->get_base_control();
@@ -796,7 +794,7 @@ void WaapiPicker::_on_generate_ids_button_up()
 	file_dialog->popup_centered_ratio();
 }
 
-void WaapiPicker::_on_file_dialog_file_selected(const String& path)
+void AkWaapiPicker::_on_file_dialog_file_selected(const String& path)
 {
 	bool connect_result{};
 	if (!Waapi::get_singleton()->is_client_connected())
@@ -869,7 +867,7 @@ void WaapiPicker::_on_file_dialog_file_selected(const String& path)
 	}
 }
 
-void WaapiPicker::_on_search_text_changed(const String& text_filter)
+void AkWaapiPicker::_on_search_text_changed(const String& text_filter)
 {
 	this->text_filter = text_filter;
 	_on_refresh_project_button_up();

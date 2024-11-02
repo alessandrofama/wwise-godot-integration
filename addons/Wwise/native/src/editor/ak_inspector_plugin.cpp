@@ -1,7 +1,5 @@
 #include "ak_inspector_plugin.h"
 
-using namespace godot;
-
 void AkInspectorTree::_bind_methods()
 {
 	ClassDB::bind_method(D_METHOD("_on_text_changed", "text_filter"), &AkInspectorTree::_on_text_changed);

@@ -1,6 +1,3 @@
-#ifndef WWISE_JNI_H
-#define WWISE_JNI_H
-
 #include <jni.h>
 #include <android/log.h>
 
@@ -15,5 +12,3 @@ public:
 	static JavaVM* getJavaVM();
 	static jobject getActivity();
 };
-
-#endif

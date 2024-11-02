@@ -1,7 +1,5 @@
 #include "waapi_gdextension.h"
 
-using namespace godot;
-
 Waapi* Waapi::singleton = nullptr;
 
 struct PendingCallback

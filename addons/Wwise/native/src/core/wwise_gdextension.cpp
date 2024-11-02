@@ -1,5 +1,9 @@
 #include "wwise_gdextension.h"
 
+#if defined(AK_ANDROID)
+#include "platform/android/jni_support.cpp"
+#endif
+
 #include <AK/Plugin/AllPluginsFactories.h>
 
 #if defined(AK_REFLECT)
@@ -88,7 +92,8 @@ void Wwise::_bind_methods()
 	ClassDB::bind_method(D_METHOD("register_listener", "game_object"), &Wwise::register_listener);
 	ClassDB::bind_method(D_METHOD("register_game_obj", "game_object", "name"), &Wwise::register_game_obj);
 	ClassDB::bind_method(D_METHOD("unregister_game_obj", "game_object"), &Wwise::unregister_game_obj);
-	ClassDB::bind_method(D_METHOD("set_distance_probe", "listener_game_object", "probe_game_object"), &Wwise::set_distance_probe);
+	ClassDB::bind_method(
+			D_METHOD("set_distance_probe", "listener_game_object", "probe_game_object"), &Wwise::set_distance_probe);
 	ClassDB::bind_method(D_METHOD("reset_distance_probe", "listener_game_object"), &Wwise::reset_distance_probe);
 	ClassDB::bind_method(D_METHOD("set_listeners", "emtter", "listener"), &Wwise::set_listeners);
 	ClassDB::bind_method(D_METHOD("set_random_seed", "seed"), &Wwise::set_random_seed);
@@ -283,7 +288,7 @@ bool Wwise::load_bank(const String& bank_name)
 
 bool Wwise::load_bank_id(const unsigned int bank_id) { return ERROR_CHECK(AK::SoundEngine::LoadBank(bank_id)); }
 
-bool Wwise::load_bank_async(const String& bank_name, const CookieWrapper* cookie)
+bool Wwise::load_bank_async(const String& bank_name, const WwiseCookie* cookie)
 {
 	AKASSERT(!bank_name.is_empty());
 	AKASSERT(cookie);
@@ -293,7 +298,7 @@ bool Wwise::load_bank_async(const String& bank_name, const CookieWrapper* cookie
 			bank_name.utf8().get_data(), (AkBankCallbackFunc)bank_callback, (void*)cookie, bank_id));
 }
 
-bool Wwise::load_bank_async_id(const unsigned int bank_id, const CookieWrapper* cookie)
+bool Wwise::load_bank_async_id(const unsigned int bank_id, const WwiseCookie* cookie)
 {
 	AKASSERT(cookie);
 
@@ -312,7 +317,7 @@ bool Wwise::unload_bank_id(const unsigned int bank_id)
 	return ERROR_CHECK(AK::SoundEngine::UnloadBank(bank_id, NULL));
 }
 
-bool Wwise::unload_bank_async(const String& bank_name, const CookieWrapper* cookie)
+bool Wwise::unload_bank_async(const String& bank_name, const WwiseCookie* cookie)
 {
 	AKASSERT(!bank_name.is_empty());
 	AKASSERT(cookie);
@@ -321,7 +326,7 @@ bool Wwise::unload_bank_async(const String& bank_name, const CookieWrapper* cook
 			bank_name.utf8().get_data(), NULL, (AkBankCallbackFunc)bank_callback, (void*)cookie));
 }
 
-bool Wwise::unload_bank_async_id(const unsigned int bank_id, const CookieWrapper* cookie)
+bool Wwise::unload_bank_async_id(const unsigned int bank_id, const WwiseCookie* cookie)
 {
 	AKASSERT(cookie);
 
@@ -368,7 +373,7 @@ bool Wwise::set_distance_probe(const Object* listener_game_object, const Object*
 {
 	AKASSERT(listener_game_object);
 	AKASSERT(probe_game_object);
-	
+
 	const AkGameObjectID listener = static_cast<AkGameObjectID>(listener_game_object->get_instance_id());
 	const AkGameObjectID probe = static_cast<AkGameObjectID>(probe_game_object->get_instance_id());
 
@@ -388,7 +393,7 @@ bool Wwise::reset_distance_probe(const Object* listener_game_object)
 	{
 		return false;
 	}
-	
+
 	return true;
 }
 
@@ -539,7 +544,7 @@ unsigned int Wwise::post_event(const String& event_name, const Object* game_obje
 }
 
 unsigned int Wwise::post_event_callback(const String& event_name, const AkUtils::AkCallbackType flags,
-		const Object* game_object, const CookieWrapper* cookie)
+		const Object* game_object, const WwiseCookie* cookie)
 {
 	AKASSERT(!event_name.is_empty());
 	AKASSERT(game_object);
@@ -576,7 +581,7 @@ unsigned int Wwise::post_event_id(const unsigned int event_id, const Object* gam
 }
 
 unsigned int Wwise::post_event_id_callback(const unsigned int event_id, const AkUtils::AkCallbackType flags,
-		const Object* game_object, const CookieWrapper* cookie)
+		const Object* game_object, const WwiseCookie* cookie)
 {
 	AKASSERT(game_object);
 	AKASSERT(cookie);
@@ -1176,7 +1181,7 @@ void Wwise::event_callback(AkCallbackType callback_type, AkCallbackInfo* callbac
 {
 	AkAutoLock<CAkLock> scoped_lock(callback_data_lock);
 
-	const CookieWrapper* wrapper = static_cast<CookieWrapper*>(callback_info->pCookie);
+	const WwiseCookie* wrapper = static_cast<WwiseCookie*>(callback_info->pCookie);
 
 	if (!wrapper)
 	{
@@ -1520,7 +1525,7 @@ void Wwise::bank_callback(AkUInt32 bank_id, const void* in_memory_bank_ptr, AKRE
 {
 	AkAutoLock<CAkLock> scoped_lock(callback_data_lock);
 
-	const CookieWrapper* wrapper = static_cast<CookieWrapper*>(in_pCookie);
+	const WwiseCookie* wrapper = static_cast<WwiseCookie*>(in_pCookie);
 
 	if (!wrapper)
 	{

@@ -1,7 +1,5 @@
 #include "ak_utils.h"
 
-using namespace godot;
-
 AkUtils* AkUtils::singleton = nullptr;
 
 void AkUtils::_bind_methods()

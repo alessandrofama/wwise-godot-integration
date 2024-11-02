@@ -1,16 +1,19 @@
-#ifndef AK_GEOMETRY_H
-#define AK_GEOMETRY_H
+#pragma once
 
-#include "wwise_gdextension.h"
+#include "core/utils.h"
+#include "core/wwise_gdextension.h"
 #include <godot_cpp/classes/area3d.hpp>
 #include <godot_cpp/classes/array_mesh.hpp>
-#include <godot_cpp/classes/mesh.hpp>
 #include <godot_cpp/classes/mesh_data_tool.hpp>
 #include <godot_cpp/classes/mesh_instance3d.hpp>
 #include <godot_cpp/classes/node3d.hpp>
+#include <godot_cpp/classes/ref_counted.hpp>
+#include <godot_cpp/classes/resource.hpp>
+#include <godot_cpp/variant/aabb.hpp>
+#include <godot_cpp/variant/node_path.hpp>
 
-namespace godot
-{
+using namespace godot;
+
 class AkGeometry : public Node3D
 {
 	GDCLASS(AkGeometry, Node3D);
@@ -55,12 +58,9 @@ public:
 	void set_acoustic_texture(const Ref<Resource>& acoustic_texture);
 	Ref<Resource> get_acoustic_texture() const;
 
-	void set_transmission_loss_value(float _ransmission_loss_value);
+	void set_transmission_loss_value(float transmission_loss_value);
 	float get_transmission_loss_value() const;
 
 	void set_associated_room(const NodePath& associated_room);
 	NodePath get_associated_room() const;
 };
-} //namespace godot
-
-#endif

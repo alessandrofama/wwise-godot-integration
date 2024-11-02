@@ -1,24 +1,18 @@
-#ifndef WWISE_SETTINGS_H
-#define WWISE_SETTINGS_H
+#pragma once
 
 #include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/classes/project_settings.hpp>
 #include <godot_cpp/classes/ref_counted.hpp>
-#include <godot_cpp/variant/string.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
-#include <godot_cpp/variant/variant.hpp>
 
-namespace godot
-{
+using namespace godot;
+
 class WwiseSettings : public RefCounted
 {
 	GDCLASS(WwiseSettings, RefCounted);
 
 protected:
 	static void _bind_methods();
-
-public:
-	WwiseSettings();
 
 private:
 	String WWISE_COMMON_USER_SETTINGS_PATH = "wwise/common_user_settings/";
@@ -35,8 +29,7 @@ private:
 	void add_wwise_settings();
 	void add_setting(const String& name, const Variant& default_value, Variant::Type type,
 			PropertyHint hint = PROPERTY_HINT_NONE, const String& hint_string = "", int usage = PROPERTY_USAGE_DEFAULT);
+
+public:
+	WwiseSettings();
 };
-
-} // namespace godot
-
-#endif // WWISE_SETTINGS_H
