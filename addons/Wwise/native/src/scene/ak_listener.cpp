@@ -1,7 +1,5 @@
 #include "ak_listener.h"
 
-using namespace godot;
-
 void AkListener2D::_bind_methods() {}
 
 void AkListener2D::_enter_tree()
@@ -72,6 +70,6 @@ void AkListener3D::set_is_spatial(bool is_spatial) { this->is_spatial = is_spati
 
 bool AkListener3D::get_is_spatial() const { return is_spatial; }
 
-void AkListener3D::set_room_id(int room_id) {this->room_id = room_id;}
+void AkListener3D::set_room_id(int room_id) { this->room_id = room_id; }
 
-int AkListener3D::get_room_id() const {return room_id;}
+int AkListener3D::get_room_id() const { return room_id; }

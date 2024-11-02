@@ -1,7 +1,5 @@
 #include "ak_bank.h"
 
-using namespace godot;
-
 void AkBank::_bind_methods()
 {
 	ClassDB::bind_method(D_METHOD("handle_game_event", "game_event"), &AkBank::handle_game_event);

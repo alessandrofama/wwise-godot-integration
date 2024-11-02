@@ -164,34 +164,17 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-conversion-null -Wno-deprecated-dec
 set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--start-group -Wl,--end-group")
 
 # Define source files
-file(GLOB WWISE_SOURCES
-        ${CMAKE_SOURCE_DIR}/../../src/*.cpp
-        ${CMAKE_SOURCE_DIR}/../../src/scene/*.cpp
-        ${CMAKE_SOURCE_DIR}/../../src/android/*.cpp
-        ${CMAKE_SOURCE_DIR}/../../src/editor/inspector_plugin/*.cpp
-        ${CMAKE_SOURCE_DIR}/../../src/editor/ak_editor_utils.cpp
-        )
+set(WWISE_SOURCES
+    ${CMAKE_SOURCE_DIR}/../../src/wwise_gdextension_main.cpp
+)
 
 file(GLOB WWISE_HEADERS
-        ${CMAKE_SOURCE_DIR}/../../src/*.h
-        ${CMAKE_SOURCE_DIR}/../../src/scene/*.h
-        ${CMAKE_SOURCE_DIR}/../../src/android/*.h
-        ${CMAKE_SOURCE_DIR}/../../src/editor/*.h
-        ${CMAKE_SOURCE_DIR}/../../src/editor/inspector_plugin/*.h
-        ${CMAKE_SOURCE_DIR}/../../src/editor/event_gizmo/*.h
-        ${CMAKE_SOURCE_DIR}/../../src/editor/export_plugin/*.h
         ${WWISE_SOUNDENGINE_SAMPLE_PATH}libzip/lib/*.h
         ${WWISE_SDK}/samples/SoundEngine/POSIX/*.h
         )
 
 list(APPEND WWISE_INCLUDE_DIRECTORIES
         "${CMAKE_SOURCE_DIR}/../../src/"
-        "${CMAKE_SOURCE_DIR}/../../src/scene/"
-        "${CMAKE_SOURCE_DIR}/../../src/android/"
-        "${CMAKE_SOURCE_DIR}/../../src/editor/"
-        "${CMAKE_SOURCE_DIR}/../../src/editor/inspector_plugin/"
-        "${CMAKE_SOURCE_DIR}/../../src/editor/event_gizmo/"
-        "${CMAKE_SOURCE_DIR}/../../src/editor/export_plugin/"
         "${WWISE_SOUNDENGINE_SAMPLE_PATH}libzip/lib/"
         "${WWISE_SDK}/samples/SoundEngine/POSIX/"
         )

@@ -1,13 +1,12 @@
-#ifndef AK_LISTENER_H
-#define AK_LISTENER_H
+#pragma once
 
-#include "wwise_gdextension.h"
-#include <godot_cpp/classes/engine.hpp>
+#include "core/utils.h"
+#include "core/wwise_gdextension.h"
 #include <godot_cpp/classes/node2d.hpp>
 #include <godot_cpp/classes/node3d.hpp>
 
-namespace godot
-{
+using namespace godot;
+
 class AkListener2D : public Node2D
 {
 	GDCLASS(AkListener2D, Node2D);
@@ -41,7 +40,3 @@ public:
 	void set_room_id(int room_id);
 	int get_room_id() const;
 };
-
-} // namespace godot
-
-#endif

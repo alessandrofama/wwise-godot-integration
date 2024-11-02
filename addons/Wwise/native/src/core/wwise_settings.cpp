@@ -1,7 +1,5 @@
 #include "wwise_settings.h"
 
-using namespace godot;
-
 void WwiseSettings::_bind_methods() {}
 
 WwiseSettings::WwiseSettings()
@@ -13,8 +11,8 @@ WwiseSettings::WwiseSettings()
 		Error error = ProjectSettings::get_singleton()->save();
 		if (error)
 		{
-			UtilityFunctions::push_error(
-					String("Encountered error {0} when saving Wwise Project Settings").format(Array::make(error)));
+			UtilityFunctions::push_error(String("[Wwise] Encountered error {0} when saving Wwise Project Settings")
+												 .format(Array::make(error)));
 		}
 		else
 		{

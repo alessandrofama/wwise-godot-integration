@@ -1,12 +1,47 @@
-#include "register_types.h"
+#include <algorithm>
+#include <memory>
 
-using namespace godot;
+#include "core/ak_utils.cpp"
+#include "core/wwise_cookie.cpp"
+#include "core/wwise_gdextension.cpp"
+#include "core/wwise_io_hook.cpp"
+#include "core/wwise_settings.cpp"
+#include "scene/ak_bank.cpp"
+#include "scene/ak_early_reflections.cpp"
+#include "scene/ak_environment.cpp"
+#include "scene/ak_environment_data.cpp"
+#include "scene/ak_event.cpp"
+#include "scene/ak_geometry.cpp"
+#include "scene/ak_listener.cpp"
+#include "scene/ak_portal.cpp"
+#include "scene/ak_room.cpp"
+#include "scene/ak_state.cpp"
+#include "scene/ak_switch.cpp"
+
+#if defined(TOOLS_ENABLED)
+#include "editor/ak_android_export_plugin.cpp"
+#include "editor/ak_editor_export_plugin.cpp"
+#include "editor/ak_editor_plugin.cpp"
+#include "editor/ak_editor_utils.cpp"
+#include "editor/ak_event_3d_gizmo_plugin.cpp"
+#include "editor/ak_inspector_plugin.cpp"
+#endif
+
+#if defined(AK_WIN) || defined(AK_MAC_OS_X)
+#include "core/waapi_gdextension.cpp"
+#if defined(TOOLS_ENABLED)
+#include "editor/ak_waapi_picker.cpp"
+#endif
+static Waapi* waapi_module;
+#endif
 
 static Wwise* wwise_module;
-static Waapi* waapi_module;
 static WwiseSettings* wwise_settings;
 static AkUtils* ak_utils;
+
+#if defined(TOOLS_ENABLED)
 static AkEditorUtils* ak_editor_utils;
+#endif
 
 void register_wwise_types(ModuleInitializationLevel p_level)
 {
@@ -16,12 +51,14 @@ void register_wwise_types(ModuleInitializationLevel p_level)
 		ClassDB::register_class<Waapi>();
 		waapi_module = memnew(Waapi);
 		Engine::get_singleton()->register_singleton("Waapi", Waapi::get_singleton());
-
-		ClassDB::register_class<WaapiPicker>();
-		EditorPlugins::add_by_type<WaapiPicker>();
+#if defined(TOOLS_ENABLED)
+		ClassDB::register_class<AkWaapiPicker>();
+		EditorPlugins::add_by_type<AkWaapiPicker>();
+#endif
 #endif
 
 #if defined(AK_WIN) || defined(AK_MAC_OS_X) || defined(AK_LINUX)
+#if defined(TOOLS_ENABLED)
 		ClassDB::register_class<AkEditorUtils>();
 		ak_editor_utils = memnew(AkEditorUtils);
 		Engine::get_singleton()->register_singleton("AkEditorUtils", AkEditorUtils::get_singleton());
@@ -32,8 +69,9 @@ void register_wwise_types(ModuleInitializationLevel p_level)
 		ClassDB::register_class<AkEvent3DGizmoPlugin>();
 		ClassDB::register_class<AkEditorExportPlugin>();
 		ClassDB::register_class<AkAndroidExportPlugin>();
-		ClassDB::register_class<WwiseEditorPlugin>();
-		EditorPlugins::add_by_type<WwiseEditorPlugin>();
+		ClassDB::register_class<AkEditorPlugin>();
+		EditorPlugins::add_by_type<AkEditorPlugin>();
+#endif
 #endif
 	}
 
@@ -43,7 +81,6 @@ void register_wwise_types(ModuleInitializationLevel p_level)
 		ak_utils = memnew(AkUtils);
 		Engine::get_singleton()->register_singleton("AkUtils", AkUtils::get_singleton());
 
-		// Wwise module
 		ClassDB::register_class<Wwise>();
 		wwise_module = memnew(Wwise);
 		Engine::get_singleton()->register_singleton("Wwise", Wwise::get_singleton());
@@ -51,7 +88,7 @@ void register_wwise_types(ModuleInitializationLevel p_level)
 		ClassDB::register_class<WwiseSettings>();
 		wwise_settings = memnew(WwiseSettings);
 
-		ClassDB::register_class<CookieWrapper>();
+		ClassDB::register_class<WwiseCookie>();
 		ClassDB::register_class<AkBank>();
 		ClassDB::register_class<AkListener2D>();
 		ClassDB::register_class<AkListener3D>();
@@ -97,11 +134,13 @@ void unregister_wwise_types(ModuleInitializationLevel p_level)
 #endif
 
 #if defined(AK_WIN) || defined(AK_MAC_OS_X) || defined(AK_LINUX)
+#if defined(TOOLS_ENABLED)
 		if (Engine::get_singleton()->has_singleton("AkEditorUtils"))
 		{
 			Engine::get_singleton()->unregister_singleton("AkEditorUtils");
 			memdelete(ak_editor_utils);
 		}
+#endif
 #endif
 	}
 }

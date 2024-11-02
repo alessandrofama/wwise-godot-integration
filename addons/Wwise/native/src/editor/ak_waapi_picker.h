@@ -1,10 +1,9 @@
-#ifndef WAAPI_PICKER_H
-#define WAAPI_PICKER_H
+#pragma once
 
-#include "ak_editor_utils.h"
-#include "waapi/waapi_gdextension.h"
+#include "core/waapi_gdextension.h"
+#include "editor/ak_editor_utils.h"
+#include <AK/Tools/Common/AkAssert.h>
 #include <godot_cpp/classes/button.hpp>
-#include <godot_cpp/classes/control.hpp>
 #include <godot_cpp/classes/editor_file_system.hpp>
 #include <godot_cpp/classes/editor_interface.hpp>
 #include <godot_cpp/classes/editor_plugin.hpp>
@@ -14,16 +13,15 @@
 #include <godot_cpp/classes/line_edit.hpp>
 #include <godot_cpp/classes/packed_scene.hpp>
 #include <godot_cpp/classes/project_settings.hpp>
-#include <godot_cpp/classes/resource_loader.hpp>
 #include <godot_cpp/classes/resource_saver.hpp>
 #include <godot_cpp/classes/script.hpp>
+#include <godot_cpp/classes/texture2d.hpp>
 #include <godot_cpp/classes/tree.hpp>
 #include <godot_cpp/classes/tree_item.hpp>
 #include <godot_cpp/classes/v_box_container.hpp>
-#include <godot_cpp/classes/viewport.hpp>
+#include <godot_cpp/variant/utility_functions.hpp>
 
-namespace godot
-{
+using namespace godot;
 
 struct WaapiPickerIconData
 {
@@ -58,9 +56,9 @@ struct WaapiPickerData
 	WaapiPickerSceneData scene_data;
 };
 
-class WaapiPicker : public EditorPlugin
+class AkWaapiPicker : public EditorPlugin
 {
-	GDCLASS(WaapiPicker, EditorPlugin);
+	GDCLASS(AkWaapiPicker, EditorPlugin);
 
 protected:
 	static void _bind_methods();
@@ -97,7 +95,3 @@ public:
 	void _on_file_dialog_file_selected(const String& path);
 	void _on_search_text_changed(const String& text_filter);
 };
-
-} //namespace godot
-
-#endif

@@ -1,34 +1,10 @@
-#ifndef AK_UTILS_H
-#define AK_UTILS_H
+#pragma once
 
-#include <godot_cpp/classes/ref_counted.hpp>
+#include <godot_cpp/classes/object.hpp>
+#include <unordered_map>
+#include <godot_cpp/core/class_db.hpp>
 
-namespace godot
-{
-
-class CookieWrapper : public Object
-{
-	GDCLASS(CookieWrapper, Object);
-
-protected:
-	static void _bind_methods()
-	{
-		ClassDB::bind_method(D_METHOD("set_cookie", "cookie"), &CookieWrapper::set_cookie);
-		ClassDB::bind_method(D_METHOD("get_cookie"), &CookieWrapper::get_cookie);
-
-		ADD_PROPERTY(PropertyInfo(Variant::CALLABLE, "cookie", PROPERTY_HINT_NONE), "set_cookie", "get_cookie");
-	}
-
-private:
-	Callable cookie{};
-
-public:
-	CookieWrapper(){};
-	CookieWrapper(const Callable& cookie) : cookie(cookie) {}
-
-	void set_cookie(const Callable& cookie) { this->cookie = cookie; }
-	Callable get_cookie() const { return cookie; }
-};
+using namespace godot;
 
 class AkUtils : public Object
 {
@@ -146,7 +122,7 @@ public:
 		{ AK_CALLBACK_BITS, "callback_bits" },
 		{ AK_ENABLE_GET_SOURCE_PLAY_POSITION, "enable_get_source_play_position" },
 		{ AK_ENABLE_GET_MUSIC_PLAY_POSITION, "enable_get_music_play_position" },
-		{ AK_ENABLE_GET_SOURCE_STREAM_BUFFERING, "enable_get_source_stream_buffering" },
+		{ AK_ENABLE_GET_SOURCE_STREAM_BUFFERING, "enable_get_source_stream_buffering" }
 	};
 
 public:
@@ -154,12 +130,9 @@ public:
 	~AkUtils();
 	static AkUtils* get_singleton();
 };
-} //namespace godot
 
 VARIANT_ENUM_CAST(AkUtils::GameEvent);
 VARIANT_ENUM_CAST(AkUtils::AkCurveInterpolation);
 VARIANT_ENUM_CAST(AkUtils::AkCallbackType);
 VARIANT_ENUM_CAST(AkUtils::MultiPositionType);
 VARIANT_ENUM_CAST(AkUtils::AkCodecID);
-
-#endif

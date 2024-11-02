@@ -1,9 +1,8 @@
-#ifndef WWISE_UTILS_H
-#define WWISE_UTILS_H
+#pragma once
 
-#include <AK/SoundEngine/Common/AkCallback.h>
-#include <AK/SoundEngine/Common/AkTypes.h>
+#include "AK/SoundEngine/Common/AkTypes.h"
 #include <godot_cpp/classes/engine.hpp>
+#include <godot_cpp/variant/utility_functions.hpp>
 
 using namespace godot;
 
@@ -329,5 +328,3 @@ static inline bool find_matching_vertex(Vector3 vertex, Dictionary vert_dict, in
 		return false;
 	}
 }
-
-#endif

@@ -1,7 +1,5 @@
 #include "ak_geometry.h"
 
-using namespace godot;
-
 void AkGeometry::_bind_methods()
 {
 	ClassDB::bind_method(D_METHOD("set_geometry", "mesh_instance"), &AkGeometry::set_geometry);
@@ -133,7 +131,8 @@ bool AkGeometry::set_geometry(const MeshInstance3D* mesh_instance)
 	{
 		geometry_result = soundengine->set_geometry(vertices, triangles, acoustic_texture, transmission_loss_value,
 				this, enable_diffraction, enable_diffraction_on_boundary_edges);
-		instance_result = soundengine->set_geometry_instance(this, get_global_transform(), geometry_instance, room_node);
+		instance_result =
+				soundengine->set_geometry_instance(this, get_global_transform(), geometry_instance, room_node);
 	}
 
 	vertices.clear();

@@ -100,10 +100,11 @@
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>TYPED_METHOD_BIND;_WINDLL;_WIN32;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UndefinePreprocessorDefinitions>AK_OPTIMIZED</UndefinePreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionPath)\..\..\src;$(SolutionPath)\..\..\src\editor;%WWISESDK%\samples\SoundEngine\Common;%WWISESDK%\samples\SoundEngine\Win32;%WWISESDK%\include;..\godot-cpp\include\;..\godot-cpp\gen\include\;..\godot-cpp\gdextension\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%WWISESDK%\samples\SoundEngine\Common;%WWISESDK%\samples\SoundEngine\Win32;%WWISESDK%\include;..\godot-cpp;..\godot-cpp\include;..\godot-cpp\gen\include\godot_cpp;..\godot-cpp\include\godot_cpp\core;..\godot-cpp\include\godot_cpp;..\godot-cpp\include\godot_cpp\variant;..\godot-cpp\include\godot_cpp\templates;..\godot-cpp\include\godot_cpp\classes;..\godot-cpp\gdextension;..\godot-cpp\gen;..\godot-cpp\gen\include;..\godot-cpp\gen\include\godot_cpp\classes;..\godot-cpp\gen\include\godot_cpp\variant;..\godot-cpp\gen\include\godot_cpp\core;$(SolutionPath)\..\..\src\editor;$(SolutionPath)\..\..\src;$(SolutionPath)\..\..\src\common;$(SolutionPath)\..\..\src\platform;$(SolutionPath)\..\..\src\scene</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -158,13 +159,26 @@
     <ClCompile Include="$(WWISESDK)\samples\SoundEngine\Common\AkFilePackage.cpp" />
     <ClCompile Include="$(WWISESDK)\samples\SoundEngine\Common\AkFilePackageLUT.cpp" />
     <ClCompile Include="$(WWISESDK)\samples\SoundEngine\Common\AkMultipleFileLocation.cpp" />
-    <ClCompile Include="..\src\ak_utils.cpp" />
+    <ClCompile Include="..\src\core\ak_utils.cpp" />
+    <ClCompile Include="..\src\core\waapi_gdextension.cpp" />
+    <ClCompile Include="..\src\core\wwise_cookie.cpp" />
+    <ClCompile Include="..\src\core\wwise_gdextension.cpp" />
+    <ClCompile Include="..\src\core\wwise_io_hook.cpp" />
+    <ClCompile Include="..\src\core\wwise_settings.cpp" />
+    <ClCompile Include="..\src\editor\ak_android_export_plugin.cpp" />
+    <ClCompile Include="..\src\editor\ak_editor_export_plugin.cpp" />
+    <ClCompile Include="..\src\editor\ak_editor_plugin.cpp" />
     <ClCompile Include="..\src\editor\ak_editor_utils.cpp" />
-    <ClCompile Include="..\src\editor\inspector_plugin\ak_inspector_plugin.cpp" />
-    <ClCompile Include="..\src\editor\waapi_picker\waapi_picker.cpp" />
+    <ClCompile Include="..\src\editor\ak_event_3d_gizmo_plugin.cpp" />
+    <ClCompile Include="..\src\editor\ak_inspector_plugin.cpp" />
+    <ClCompile Include="..\src\editor\ak_waapi_picker.cpp" />
+    <ClCompile Include="..\src\platform\android\jni_support.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\src\scene\ak_bank.cpp" />
     <ClCompile Include="..\src\scene\ak_early_reflections.cpp" />
     <ClCompile Include="..\src\scene\ak_environment.cpp" />
+    <ClCompile Include="..\src\scene\ak_environment_data.cpp" />
     <ClCompile Include="..\src\scene\ak_event.cpp" />
     <ClCompile Include="..\src\scene\ak_geometry.cpp" />
     <ClCompile Include="..\src\scene\ak_listener.cpp" />
@@ -172,20 +186,26 @@
     <ClCompile Include="..\src\scene\ak_room.cpp" />
     <ClCompile Include="..\src\scene\ak_state.cpp" />
     <ClCompile Include="..\src\scene\ak_switch.cpp" />
-    <ClCompile Include="..\src\waapi\waapi_gdextension.cpp" />
-    <ClCompile Include="..\src\wwise_gdextension.cpp" />
-    <ClCompile Include="..\src\wwise_godot_io.cpp" />
-    <ClCompile Include="..\src\wwise_settings.cpp" />
     <ClCompile Include="$(WWISESDK)\samples\SoundEngine\Common\AkGeneratedSoundBanksResolver.cpp" />
+    <ClCompile Include="..\src\wwise_gdextension_main.cpp" />
     <ClInclude Include="$(WWISESDK)\samples\SoundEngine\Win32\stdafx.cpp" />
-    <ClCompile Include="..\src\register_types.cpp" />
-    <ClInclude Include="..\src\ak_utils.h" />
-    <ClInclude Include="..\src\editor\event_gizmo\ak_event_3d_gizmo_plugin.h" />
-    <ClInclude Include="..\src\editor\export_plugin\ak_android_export_plugin.h" />
-    <ClInclude Include="..\src\editor\export_plugin\ak_editor_export_plugin.h" />
-    <ClInclude Include="..\src\editor\inspector_plugin\ak_inspector_plugin.h" />
-    <ClInclude Include="..\src\editor\waapi_picker\waapi_picker.h" />
+    <ClInclude Include="..\src\core\ak_utils.h" />
+    <ClInclude Include="..\src\core\utils.h" />
+    <ClInclude Include="..\src\core\waapi_gdextension.h" />
+    <ClInclude Include="..\src\core\wwise_cookie.h" />
+    <ClInclude Include="..\src\core\wwise_gdextension.h" />
+    <ClInclude Include="..\src\core\wwise_io_hook.h" />
+    <ClInclude Include="..\src\core\wwise_settings.h" />
+    <ClInclude Include="..\src\editor\ak_android_export_plugin.h" />
+    <ClInclude Include="..\src\editor\ak_editor_export_plugin.h" />
+    <ClInclude Include="..\src\editor\ak_editor_plugin.h" />
     <ClInclude Include="..\src\editor\ak_editor_utils.h" />
+    <ClInclude Include="..\src\editor\ak_event_3d_gizmo_plugin.h" />
+    <ClInclude Include="..\src\editor\ak_inspector_plugin.h" />
+    <ClInclude Include="..\src\editor\ak_waapi_picker.h" />
+    <ClInclude Include="..\src\platform\android\jni_support.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="..\src\scene\ak_bank.h" />
     <ClInclude Include="..\src\scene\ak_early_reflections.h" />
     <ClInclude Include="..\src\scene\ak_environment.h" />
@@ -197,18 +217,11 @@
     <ClInclude Include="..\src\scene\ak_room.h" />
     <ClInclude Include="..\src\scene\ak_state.h" />
     <ClInclude Include="..\src\scene\ak_switch.h" />
-    <ClInclude Include="..\src\waapi\waapi_gdextension.h" />
-    <ClInclude Include="..\src\wwise_editor.h" />
-    <ClInclude Include="..\src\wwise_gdextension.h" />
-    <ClInclude Include="..\src\wwise_settings.h" />
     <ClInclude Include="$(WWISESDK)\samples\SoundEngine\Common\AkGeneratedSoundBanksResolver.h" />
     <ClInclude Include="$(WWISESDK)\include\AK\SoundEngine\Common\AkStreamMgrModule.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(WWISESDK)\samples\SoundEngine\Win32\stdafx.h" />
-    <ClInclude Include="..\src\register_types.h" />
-    <ClInclude Include="..\src\wwise_godot_io.h" />
-    <ClInclude Include="..\src\wwise_utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

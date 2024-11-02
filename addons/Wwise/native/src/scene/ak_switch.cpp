@@ -1,7 +1,5 @@
 #include "ak_switch.h"
 
-using namespace godot;
-
 void AkSwitch::_bind_methods()
 {
 	ClassDB::bind_method(D_METHOD("handle_game_event", "game_event"), &AkSwitch::handle_game_event);

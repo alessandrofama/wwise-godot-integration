@@ -1,23 +1,18 @@
-#ifndef AK_INSPECTOR_PLUGIN_H
-#define AK_INSPECTOR_PLUGIN_H
+#pragma once
 
-#include "ak_editor_utils.h"
+#include "editor/ak_editor_utils.h"
 #include <godot_cpp/classes/accept_dialog.hpp>
 #include <godot_cpp/classes/button.hpp>
 #include <godot_cpp/classes/editor_inspector_plugin.hpp>
 #include <godot_cpp/classes/editor_interface.hpp>
-#include <godot_cpp/classes/editor_plugin.hpp>
 #include <godot_cpp/classes/editor_property.hpp>
 #include <godot_cpp/classes/line_edit.hpp>
 #include <godot_cpp/classes/project_settings.hpp>
-#include <godot_cpp/classes/resource_loader.hpp>
 #include <godot_cpp/classes/script.hpp>
 #include <godot_cpp/classes/tree.hpp>
 #include <godot_cpp/classes/v_box_container.hpp>
-#include <godot_cpp/variant/utility_functions.hpp>
 
-namespace godot
-{
+using namespace godot;
 
 class AkInspectorEditor;
 
@@ -134,7 +129,3 @@ public:
 	virtual bool _parse_property(Object* object, Variant::Type type, const String& name, PropertyHint hint_type,
 			const String& hint_string, BitField<PropertyUsageFlags> usage_flags, bool wide) override;
 };
-
-} //namespace godot
-
-#endif

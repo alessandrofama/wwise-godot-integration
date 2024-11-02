@@ -1,49 +1,34 @@
-#ifndef WWISE_GDNATIVE_H
-#define WWISE_GDNATIVE_H
+#pragma once
 
-#include <godot_cpp/classes/dir_access.hpp>
+#include "core/ak_utils.h"
+#include "core/utils.h"
+#include "core/wwise_cookie.h"
+#include "core/wwise_io_hook.h"
 #include <godot_cpp/classes/display_server.hpp>
-#include <godot_cpp/classes/node.hpp>
-#include <godot_cpp/classes/node3d.hpp>
-#include <godot_cpp/classes/os.hpp>
+#include <godot_cpp/classes/object.hpp>
 #include <godot_cpp/classes/project_settings.hpp>
+#include <godot_cpp/classes/ref_counted.hpp>
 #include <godot_cpp/classes/resource.hpp>
-#include <godot_cpp/core/binder_common.hpp>
-#include <godot_cpp/core/class_db.hpp>
-#include <godot_cpp/core/object.hpp>
-#include <godot_cpp/godot.hpp>
-#include <godot_cpp/variant/callable.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
-
 #include <AK/MusicEngine/Common/AkMusicEngine.h>
+#include <AK/SoundEngine/Common/AkCallback.h>
 #include <AK/SoundEngine/Common/AkMemoryMgr.h>
 #include <AK/SoundEngine/Common/AkModule.h>
 #include <AK/SoundEngine/Common/AkQueryParameters.h>
 #include <AK/SoundEngine/Common/AkSoundEngine.h>
+#include <AK/SoundEngine/Common/AkTypes.h>
 #include <AK/SoundEngine/Common/AkVirtualAcoustics.h>
-#include <AK/SoundEngine/Common/IAkStreamMgr.h>
 #include <AK/SpatialAudio/Common/AkSpatialAudio.h>
 #include <AK/Tools/Common/AkAutoLock.h>
-#include <AK/Tools/Common/AkLock.h>
 #include <AK/Tools/Common/AkMonitorError.h>
-#include <AK/Tools/Common/AkPlatformFuncs.h>
-
-#include "ak_utils.h"
-#include "wwise_godot_io.h"
-#include "wwise_utils.h"
+#include <AK/Tools/Common/AkObject.h>
 
 #ifndef AK_OPTIMIZED
 #include <AK/Comm/AkCommunication.h>
 #endif
 
-#if defined(AK_ANDROID)
-#include "android/wwise_jni.h"
-#endif
+using namespace godot;
 
-#include <memory>
-
-namespace godot
-{
 class Wwise : public Object
 {
 	GDCLASS(Wwise, Object);
@@ -51,6 +36,31 @@ class Wwise : public Object
 protected:
 	static Wwise* singleton;
 	static void _bind_methods();
+
+private:
+	String GODOT_WINDOWS_SETTING_POSTFIX = ".Windows";
+	String GODOT_MAC_OSX_SETTING_POSTFIX = ".OSX";
+	String GODOT_IOS_SETTING_POSTFIX = ".iOS";
+	String GODOT_ANDROID_SETTING_POSTFIX = ".Android";
+	String GODOT_LINUX_SETTING_POSTFIX = ".Linux";
+
+	String WWISE_COMMON_USER_SETTINGS_PATH = "wwise/common_user_settings/";
+	String WWISE_COMMON_ADVANCED_SETTINGS_PATH = "wwise/common_advanced_settings/";
+	String WWISE_SPATIAL_AUDIO_PATH = "spatial_audio/";
+	String WWISE_COMMUNICATION_SETTINGS_PATH = "wwise/communication_settings/";
+
+	static void event_callback(AkCallbackType callback_type, AkCallbackInfo* callback_info);
+	static void bank_callback(AkUInt32 bank_id, const void* in_memory_bank_ptr, AKRESULT load_result, void* in_pCookie);
+
+	Variant get_platform_project_setting(const String& setting);
+
+	bool initialize_wwise_systems();
+	bool shutdown_wwise_system();
+
+	static CAkLock callback_data_lock;
+
+	ProjectSettings* project_settings;
+	WwiseFileIOHandler low_level_io;
 
 public:
 	Wwise();
@@ -65,17 +75,17 @@ public:
 	void set_current_language(const String& language);
 	bool load_bank(const String& bank_name);
 	bool load_bank_id(const unsigned int bank_id);
-	bool load_bank_async(const String& bank_name, const CookieWrapper* cookie);
-	bool load_bank_async_id(const unsigned int bank_id, const CookieWrapper* cookie);
+	bool load_bank_async(const String& bank_name, const WwiseCookie* cookie);
+	bool load_bank_async_id(const unsigned int bank_id, const WwiseCookie* cookie);
 	bool unload_bank(const String& bank_name);
 	bool unload_bank_id(const unsigned int bank_id);
-	bool unload_bank_async(const String& bank_name, const CookieWrapper* cookie);
-	bool unload_bank_async_id(const unsigned int bank_id, const CookieWrapper* cookie);
+	bool unload_bank_async(const String& bank_name, const WwiseCookie* cookie);
+	bool unload_bank_async_id(const unsigned int bank_id, const WwiseCookie* cookie);
 
 	bool register_listener(const Object* game_object);
 	bool register_game_obj(const Object* game_object, const String& game_object_name);
 	bool unregister_game_obj(const Object* game_object);
-	
+
 	bool set_distance_probe(const Object* listener_game_object, const Object* probe_game_object);
 	bool reset_distance_probe(const Object* listener_game_object);
 
@@ -93,10 +103,10 @@ public:
 
 	unsigned int post_event(const String& event_name, const Object* game_object);
 	unsigned int post_event_callback(const String& event_name, const AkUtils::AkCallbackType flags,
-			const Object* game_object, const CookieWrapper* cookie);
+			const Object* game_object, const WwiseCookie* cookie);
 	unsigned int post_event_id(const unsigned int event_id, const Object* game_object);
 	unsigned int post_event_id_callback(const unsigned int event_id, const AkUtils::AkCallbackType flags,
-			const Object* game_object, const CookieWrapper* cookie);
+			const Object* game_object, const WwiseCookie* cookie);
 	void stop_event(const unsigned int playing_id, const unsigned int fade_time,
 			const AkUtils::AkCurveInterpolation interpolation);
 
@@ -158,33 +168,4 @@ public:
 	bool suspend(bool render_anyway);
 	bool wakeup_from_suspend();
 	bool is_initialized();
-
-private:
-	String GODOT_WINDOWS_SETTING_POSTFIX = ".Windows";
-	String GODOT_MAC_OSX_SETTING_POSTFIX = ".OSX";
-	String GODOT_IOS_SETTING_POSTFIX = ".iOS";
-	String GODOT_ANDROID_SETTING_POSTFIX = ".Android";
-	String GODOT_LINUX_SETTING_POSTFIX = ".Linux";
-
-	String WWISE_COMMON_USER_SETTINGS_PATH = "wwise/common_user_settings/";
-	String WWISE_COMMON_ADVANCED_SETTINGS_PATH = "wwise/common_advanced_settings/";
-	String WWISE_SPATIAL_AUDIO_PATH = "spatial_audio/";
-	String WWISE_COMMUNICATION_SETTINGS_PATH = "wwise/communication_settings/";
-
-	static void event_callback(AkCallbackType callback_type, AkCallbackInfo* callback_info);
-	static void bank_callback(AkUInt32 bank_id, const void* in_memory_bank_ptr, AKRESULT load_result, void* in_pCookie);
-
-	Variant get_platform_project_setting(const String& setting);
-
-	bool initialize_wwise_systems();
-	bool shutdown_wwise_system();
-
-	static CAkLock callback_data_lock;
-
-	ProjectSettings* project_settings;
-	AkFileIOHandlerGodot low_level_io;
 };
-
-} //namespace godot
-
-#endif

@@ -1,14 +1,17 @@
-#ifndef AK_PORTAL_H
-#define AK_PORTAL_H
+#pragma once
 
-#include "wwise_gdextension.h"
+#include "core/utils.h"
+#include "core/wwise_gdextension.h"
 #include <godot_cpp/classes/area3d.hpp>
 #include <godot_cpp/classes/box_shape3d.hpp>
 #include <godot_cpp/classes/collision_shape3d.hpp>
+#include <godot_cpp/classes/node.hpp>
 #include <godot_cpp/classes/scene_tree.hpp>
+#include <godot_cpp/variant/node_path.hpp>
+#include <godot_cpp/variant/vector3.hpp>
 
-namespace godot
-{
+using namespace godot;
+
 class AkPortal : public Area3D
 {
 	GDCLASS(AkPortal, Area3D);
@@ -40,6 +43,3 @@ public:
 	void set_enabled(bool enabled);
 	bool get_enabled() const;
 };
-} //namespace godot
-
-#endif

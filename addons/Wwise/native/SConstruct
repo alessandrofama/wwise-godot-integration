@@ -58,17 +58,24 @@ wwise_soundengine_sample_path = ""
 
 if env["platform"] == "windows":
     wwise_soundengine_sample_path = env["wwise_sdk"] + "/samples/SoundEngine/Win32/"
-    if env["target"] in ("template_debug"):
+    if env["target"] in ("editor", "template_debug"):
         wwise_sdk_libs_path = env["wwise_sdk"] + "/x64_vc160/Debug(StaticCRT)/lib/"
     else:
         wwise_sdk_libs_path = env["wwise_sdk"] + "/x64_vc160/Release(StaticCRT)/lib/"
 
 if env["platform"] == "macos":
     wwise_soundengine_sample_path = env["wwise_sdk"] + "/samples/SoundEngine/POSIX/"
-    if env["target"] in ("template_debug"):
+    if env["target"] in ("editor", "template_debug"):
         wwise_sdk_libs_path = env["wwise_sdk"] + "/Mac/Debug/lib/"
     else:
         wwise_sdk_libs_path = env["wwise_sdk"] + "/Mac/Release/lib/"
+
+if env["platform"] == "linux":
+    wwise_soundengine_sample_path = env["wwise_sdk"] + "/samples/SoundEngine/POSIX/"
+    if env["target"] in ("editor", "template_debug"):
+        wwise_sdk_libs_path = env["wwise_sdk"] + "/Linux_x64/Debug/lib/"
+    else:
+        wwise_sdk_libs_path = env["wwise_sdk"] + "/Linux_x64/Release/lib/"
 
 if env["platform"] == "ios" and not env["ios_simulator"]:
     wwise_soundengine_sample_path = env["wwise_sdk"] + "/samples/SoundEngine/POSIX/"
@@ -84,14 +91,8 @@ if env["platform"] == "ios" and env["ios_simulator"]:
     else:
         wwise_sdk_libs_path = env["wwise_sdk"] + "/iOS/Release-iphonesimulator/lib/"
 
-if env["platform"] == "linux":
-    wwise_soundengine_sample_path = env["wwise_sdk"] + "/samples/SoundEngine/POSIX/"
-    if env["target"] in ("template_debug"):
-        wwise_sdk_libs_path = env["wwise_sdk"] + "/Linux_x64/Debug/lib/"
-    else:
-        wwise_sdk_libs_path = env["wwise_sdk"] + "/Linux_x64/Release/lib/"
-
 wwise_soundengine_sample_common_path = env["wwise_sdk"] + "/samples/SoundEngine/Common/"
+wwise_soundengine_common_include_path = wwise_sdk_headers_path + "AK/SoundEngine/Common/"
 
 ## Wwise libs
 wwise_memorymanager_library = "AkMemoryMgr"
@@ -161,13 +162,17 @@ print("Wwise SDK libs path: " + wwise_sdk_libs_path)
 # Windows build settings
 if env["platform"] == "windows":
     env["target_path"] += "/win64/"
-    if env["target"] in ("template_debug"):
-        env["target_path"] += "debug/"
+    if env["target"] in ("editor", "template_debug"):
+        if env["target"] == "editor":
+            env["target_path"] += "editor/"
+        else:
+            env["target_path"] += "debug/"
+
         env.Append(CPPDEFINES=["_DEBUG"])
         env.Append(LINKFLAGS=["-DEBUG"])
+        env.Append(CCFLAGS=["/MTd"])
         if env["asserts"]:
             env.Append(CPPDEFINES=["AK_ENABLE_ASSERTS"])
-        env.Append(CCFLAGS=["/MTd"])
     else:
         env["target_path"] += "release/"
         env.Append(CPPDEFINES=["AK_OPTIMIZED"])
@@ -186,8 +191,12 @@ if env["platform"] == "windows":
 # macOS build settings
 elif env["platform"] == "macos":
     env["target_path"] += "/macos/"
-    if env["target"] in ("template_debug"):
-        env["target_path"] += "debug/"
+    if env["target"] in ("editor", "template_debug"):
+        if env["target"] == "editor":
+            env["target_path"] += "editor/"
+        else:
+            env["target_path"] += "debug/"
+            
         if env["asserts"]:
             env.Append(CPPDEFINES=["AK_ENABLE_ASSERTS"])
     else:
@@ -215,8 +224,12 @@ elif env["platform"] == "macos":
 # linux build settings
 elif env["platform"] == "linux":
     env["target_path"] += "/linux/"
-    if env["target"] in ("template_debug"):
-        env["target_path"] += "debug/"
+    if env["target"] in ("editor", "template_debug"):
+        if env["target"] == "editor":
+            env["target_path"] += "editor/"
+        else:
+            env["target_path"] += "debug/"
+
         if env["asserts"]:
             env.Append(CPPDEFINES=["AK_ENABLE_ASSERTS"])
     else:
@@ -315,28 +328,16 @@ env.Append(
 )
 env.Append(LIBPATH=[cpp_bindings_path + "bin/"])
 
-env.Append(CPPPATH=["src/", "src/scene/", "src/editor/", "src/editor/inspector_plugin/", "src/editor/event_gizmo/", "src/editor/export_plugin/"])
+env.Append(CPPPATH=["src/"])
 
 sources = []
-sources.append(Glob("src/*.cpp"))
-sources.append(Glob("src/scene/*.cpp"))
-sources.append(Glob("src/editor/inspector_plugin/*.cpp"))
-sources.append(Glob("src/editor/ak_editor_utils.cpp"))
+sources.append("src/wwise_gdextension_main.cpp")
 
 if env["platform"] == "windows" or env["platform"] == "macos":
-    env.Append(CPPPATH=["src/waapi/"])
-    env.Append(CPPPATH=["src/editor/waapi_picker/"])
-    sources.append(Glob("src/waapi/*.cpp"))
-    sources.append(Glob("src/editor/waapi_picker/*.cpp"))
-
     env.Append(LIBS=["AkAutobahn"])
 
-if env["platform"] != "windows":
-    sources.append(Glob(wwise_soundengine_sample_path + "*.cpp"))
-sources.append(Glob(wwise_soundengine_sample_common_path + "*.cpp"))
-
 # Wwise specific configuration
-env.Append(CPPPATH=[wwise_sdk_headers_path, wwise_soundengine_sample_path])
+env.Append(CPPPATH=[wwise_sdk_headers_path, wwise_soundengine_sample_path, wwise_soundengine_sample_common_path, wwise_soundengine_common_include_path])
 env.Append(LIBPATH=[wwise_sdk_libs_path])
 env.Append(
     LIBS=[
@@ -348,7 +349,7 @@ env.Append(
     ]
 )
 
-if env["target"] in ("template_debug"):
+if env["target"] in ("editor", "template_debug"):
     env.Append(LIBS=[wwise_communications_library])
 
     if env["platform"] == "windows":

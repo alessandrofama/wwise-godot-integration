@@ -1,14 +1,17 @@
-#ifndef AK_EVENT_H
-#define AK_EVENT_H
+#pragma once
 
-#include "ak_environment_data.h"
-#include "wwise_gdextension.h"
-#include <godot_cpp/classes/engine.hpp>
+#include "AK/SoundEngine/Common/AkTypes.h"
+#include "core/wwise_cookie.h"
+#include "core/ak_utils.h"
+#include "core/utils.h"
+#include "core/wwise_gdextension.h"
 #include <godot_cpp/classes/node2d.hpp>
+#include <godot_cpp/classes/node3d.hpp>
 #include <godot_cpp/classes/thread.hpp>
+#include <godot_cpp/variant/dictionary.hpp>
+#include "scene/ak_environment_data.h"
 
-namespace godot
-{
+using namespace godot;
 
 class AkEvent2D : public Node2D
 {
@@ -24,7 +27,7 @@ private:
 	unsigned int stop_fade_time{};
 	AkUtils::AkCurveInterpolation interpolation_mode = AkUtils::AkCurveInterpolation::AK_CURVE_LINEAR;
 	int callback_type{};
-	CookieWrapper* cookie{ nullptr };
+	WwiseCookie* cookie{ nullptr };
 	bool is_editor{};
 
 	AkUtils::GameEvent trigger_on = AkUtils::GameEvent::GAMEEVENT_NONE;
@@ -77,7 +80,7 @@ private:
 	AkUtils::AkCurveInterpolation interpolation_mode = AkUtils::AkCurveInterpolation::AK_CURVE_LINEAR;
 	bool is_environment_aware{};
 	int callback_type{};
-	CookieWrapper* cookie{ nullptr };
+	WwiseCookie* cookie{ nullptr };
 	bool is_editor{};
 
 	AkUtils::GameEvent trigger_on = AkUtils::GameEvent::GAMEEVENT_NONE;
@@ -124,7 +127,3 @@ public:
 	void set_room_id(int room_id);
 	int get_room_id() const;
 };
-
-} //namespace godot
-
-#endif

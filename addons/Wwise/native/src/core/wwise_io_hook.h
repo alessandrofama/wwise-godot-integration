@@ -1,14 +1,14 @@
-#ifndef __WWISE_GODOT_IO_H__
-#define __WWISE_GODOT_IO_H__
+#pragma once
 
-#include <AK/SoundEngine/Common/AkStreamMgrModule.h>
-#include <AK/SoundEngine/Common/AkTypes.h>
-#include <AK/Tools/Common/AkObject.h>
 #include <godot_cpp/classes/file_access.hpp>
+#include <godot_cpp/classes/ref_counted.hpp>
+#include <godot_cpp/variant/callable.hpp>
+#include <AK/SoundEngine/Common/AkStreamMgrModule.h>
+#include <AK/Tools/Common/AkObject.h>
 
-namespace godot
-{
-class AkIOHookGodot : public AK::StreamMgr::IAkLowLevelIOHook
+using namespace godot;
+
+class WwiseIOHook : public AK::StreamMgr::IAkLowLevelIOHook
 {
 	struct FileHandle
 	{
@@ -32,7 +32,7 @@ public:
 	String banks_path{};
 	String language_folder{};
 
-	~AkIOHookGodot() override;
+	~WwiseIOHook() override;
 
 	AKRESULT init(const AkDeviceSettings& in_device_settings);
 	void term();
@@ -48,17 +48,17 @@ public:
 	virtual AkUInt32 GetDeviceData() override;
 };
 
-class AkFileIOHandlerGodot : public AK::StreamMgr::IAkFileLocationResolver
+class WwiseFileIOHandler : public AK::StreamMgr::IAkFileLocationResolver
 {
 private:
-	AkIOHookGodot device{};
+	WwiseIOHook device{};
 
 public:
-	AkFileIOHandlerGodot() = default;
-	~AkFileIOHandlerGodot() override = default;
+	WwiseFileIOHandler() = default;
+	~WwiseFileIOHandler() override = default;
 
-	AkFileIOHandlerGodot(const AkFileIOHandlerGodot&) = delete;
-	AkFileIOHandlerGodot& operator=(const AkFileIOHandlerGodot&) = delete;
+	WwiseFileIOHandler(const WwiseFileIOHandler&) = delete;
+	WwiseFileIOHandler& operator=(const WwiseFileIOHandler&) = delete;
 
 	AKRESULT init(const AkDeviceSettings& in_device_settings);
 	void term();
@@ -66,7 +66,3 @@ public:
 	void set_banks_path(const String& banks_path);
 	void set_language_folder(const String& language_folder);
 };
-
-} //namespace godot
-
-#endif

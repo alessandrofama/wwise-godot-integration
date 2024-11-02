@@ -2,8 +2,7 @@ extends "res://addons/Wwise/tests/ak_test.gd"
 
 const AK = preload("res://addons/Wwise/tests/GeneratedSoundBanks/wwise_ids_tests.gd")
 var mesh_instance: MeshInstance3D
-var cookie_wrapper = CookieWrapper.new()
-
+var cookie_wrapper = WwiseCookie.new()
 
 func before_all():
 	mesh_instance = MeshInstance3D.new()

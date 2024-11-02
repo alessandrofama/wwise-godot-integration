@@ -1,7 +1,5 @@
 #include "ak_room.h"
 
-using namespace godot;
-
 void AkRoom::_bind_methods()
 {
 	ClassDB::bind_method(D_METHOD("_on_area_entered", "area"), &AkRoom::_on_area_entered);
@@ -86,11 +84,11 @@ void AkRoom::_on_area_entered(const Area3D* area)
 			AkEvent3D* event = static_cast<AkEvent3D*>(parent);
 			if (listener)
 			{
-			    listener->set_room_id(static_cast<AkGameObjectID>(this->get_instance_id()));
+				listener->set_room_id(static_cast<AkGameObjectID>(this->get_instance_id()));
 			}
 			else if (event)
 			{
-			    event->set_room_id(static_cast<AkGameObjectID>(this->get_instance_id()));
+				event->set_room_id(static_cast<AkGameObjectID>(this->get_instance_id()));
 			}
 
 			Wwise* soundengine = Wwise::get_singleton();
@@ -155,9 +153,9 @@ void AkRoom::set_reverb_level(float reverb_level) { this->reverb_level = reverb_
 
 float AkRoom::get_reverb_level() const { return reverb_level; }
 
-void godot::AkRoom::set_transmission_loss(float transmission_loss) { this->transmission_loss = transmission_loss; }
+void AkRoom::set_transmission_loss(float transmission_loss) { this->transmission_loss = transmission_loss; }
 
-float godot::AkRoom::get_transmission_loss() const { return transmission_loss; }
+float AkRoom::get_transmission_loss() const { return transmission_loss; }
 
 void AkRoom::set_associated_geometry(const NodePath& associated_geometry)
 {
