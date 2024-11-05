@@ -80,8 +80,8 @@ void AkRoom::_on_area_entered(const Area3D* area)
 		{
 			// If we have an AkListener3D or an AkEvent3D, keep track
 			// of the room it's entering.
-			AkListener3D* listener = static_cast<AkListener3D*>(parent);
-			AkEvent3D* event = static_cast<AkEvent3D*>(parent);
+			AkListener3D* listener = Object::cast_to<AkListener3D>(parent);
+			AkEvent3D* event = Object::cast_to<AkEvent3D>(parent);
 			if (listener)
 			{
 				listener->set_room_id(static_cast<AkGameObjectID>(this->get_instance_id()));
@@ -124,8 +124,8 @@ void AkRoom::_on_area_exited(const Area3D* area)
 			// to INVALID_ROOM_ID.
 			bool isGoingOutside = false;
 
-			AkListener3D* listener = static_cast<AkListener3D*>(parent);
-			AkEvent3D* event = static_cast<AkEvent3D*>(parent);
+			AkListener3D* listener = Object::cast_to<AkListener3D>(parent);
+			AkEvent3D* event = Object::cast_to<AkEvent3D>(parent);
 			if (listener)
 			{
 				isGoingOutside = listener->get_room_id() == static_cast<AkGameObjectID>(this->get_instance_id());
