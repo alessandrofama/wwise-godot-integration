@@ -28,7 +28,7 @@ protected:
 
 private:
 	bool is_spatial{};
-	int room_id = INVALID_ROOM_ID;
+	uint64_t room_id = INVALID_ROOM_ID;
 
 public:
 	virtual void _enter_tree() override;
@@ -37,6 +37,6 @@ public:
 	void set_is_spatial(bool is_spatial);
 	bool get_is_spatial() const;
 
-	void set_room_id(int room_id);
-	int get_room_id() const;
+	void set_room_id(uint64_t room_id);
+	uint64_t get_room_id() const;
 };

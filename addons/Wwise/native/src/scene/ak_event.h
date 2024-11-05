@@ -1,15 +1,15 @@
 #pragma once
 
 #include "AK/SoundEngine/Common/AkTypes.h"
-#include "core/wwise_cookie.h"
 #include "core/ak_utils.h"
 #include "core/utils.h"
+#include "core/wwise_cookie.h"
 #include "core/wwise_gdextension.h"
+#include "scene/ak_environment_data.h"
 #include <godot_cpp/classes/node2d.hpp>
 #include <godot_cpp/classes/node3d.hpp>
 #include <godot_cpp/classes/thread.hpp>
 #include <godot_cpp/variant/dictionary.hpp>
-#include "scene/ak_environment_data.h"
 
 using namespace godot;
 
@@ -88,7 +88,7 @@ private:
 
 	void check_signal_connections();
 
-	int room_id = INVALID_ROOM_ID;
+	uint64_t room_id = INVALID_ROOM_ID;
 
 public:
 	AkEnvironmentData* environment_data = nullptr;
@@ -124,6 +124,6 @@ public:
 	void set_is_environment_aware(bool is_environment_aware);
 	bool get_is_environment_aware() const;
 
-	void set_room_id(int room_id);
-	int get_room_id() const;
+	void set_room_id(uint64_t room_id);
+	uint64_t get_room_id() const;
 };

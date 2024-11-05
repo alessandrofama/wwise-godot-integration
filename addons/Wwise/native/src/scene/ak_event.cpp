@@ -381,6 +381,6 @@ void AkEvent3D::set_is_environment_aware(bool is_environment_aware)
 
 bool AkEvent3D::get_is_environment_aware() const { return is_environment_aware; }
 
-void AkEvent3D::set_room_id(int room_id) { this->room_id = room_id; }
+void AkEvent3D::set_room_id(uint64_t room_id) { this->room_id = room_id; }
 
-int AkEvent3D::get_room_id() const { return room_id; }
+uint64_t AkEvent3D::get_room_id() const { return room_id; }
