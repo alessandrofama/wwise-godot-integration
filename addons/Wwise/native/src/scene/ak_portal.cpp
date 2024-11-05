@@ -37,15 +37,8 @@ void AkPortal::_ready()
 {
 	RETURN_IF_EDITOR;
 
-	if (!front_room.is_empty())
-	{
-		front_room_node = get_node<Node>(front_room);
-	}
-
-	if (!back_room.is_empty())
-	{
-		back_room_node = get_node<Node>(back_room);
-	}
+	front_room_node = get_node_or_null(front_room);
+	back_room_node = get_node_or_null(back_room);
 
 	collision_shape = Object::cast_to<CollisionShape3D>(get_child(0));
 
