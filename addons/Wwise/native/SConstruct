@@ -439,7 +439,7 @@ if env["platform"] == "ios":
 <string>{}</string>
 </dict>
 </plist>""".format(
-                lib_name, lib_name, lib_name, env["ios_min_version"]
+                lib_name.replace("_", "-"), lib_name, lib_name, env["ios_min_version"]
             )
 
             unescaped_text = html.unescape(xml_text)
