@@ -443,6 +443,8 @@ void AkWaapiPicker::generate_ids(const Array& data)
 	init_soundbank["name"] = "Init";
 	init_soundbank["shortId"] = 1355168291;
 	init_soundbank["type"] = "SoundBank";
+	init_soundbank["id"] = "6A711760-1C66-2A0B-8E6C-BFD40C909700";
+
 	soundbank_array.insert(0, init_soundbank);
 
 	final_text = "class_name AK";
@@ -462,6 +464,14 @@ void AkWaapiPicker::generate_ids(const Array& data)
 
 void AkWaapiPicker::create_class(const Array& data, const String& type)
 {
+	if (type == "BANKS")
+	{
+			for (int i = 0; i < data.size(); ++i)
+		{
+		WwiseObjectReference::find_or_create_wwise_object<WwiseBankReference>(WwiseObjectType::AKTYPE_SOUNDBANK, data[i].operator godot::Dictionary()["name"], data[i].operator godot::Dictionary()["id"]);
+		}
+	}
+
 	if (data.size() > 0)
 	{
 		final_text += "class " + type + ":\n\n";
@@ -562,20 +572,19 @@ void AkWaapiPicker::create_empty_class(const String& type)
 void AkWaapiPicker::_enter_tree()
 {
 	json = memnew(JSON);
-
-	AkEditorUtils* editor_utils = AkEditorUtils::get_singleton();
 	using IconType = AkEditorUtils::AkEditorIconType;
 
-	WaapiPickerIconData icon_data{ editor_utils->get_editor_icon(IconType::AK_ICON_PROJECT),
-		editor_utils->get_editor_icon(IconType::AK_ICON_FOLDER), editor_utils->get_editor_icon(IconType::AK_ICON_EVENT),
-		editor_utils->get_editor_icon(IconType::AK_ICON_SWITCHGROUP),
-		editor_utils->get_editor_icon(IconType::AK_ICON_SWITCH),
-		editor_utils->get_editor_icon(IconType::AK_ICON_STATEGROUP),
-		editor_utils->get_editor_icon(IconType::AK_ICON_STATE),
-		editor_utils->get_editor_icon(IconType::AK_ICON_SOUNDBANK),
-		editor_utils->get_editor_icon(IconType::AK_ICON_BUS), editor_utils->get_editor_icon(IconType::AK_ICON_AUXBUS),
-		editor_utils->get_editor_icon(IconType::AK_ICON_ACOUSTICTEXTURE),
-		editor_utils->get_editor_icon(IconType::AK_ICON_WORKUNIT) };
+	WaapiPickerIconData icon_data{ AkEditorUtils::get_editor_icon(IconType::AK_ICON_PROJECT),
+		AkEditorUtils::get_editor_icon(IconType::AK_ICON_FOLDER),
+		AkEditorUtils::get_editor_icon(IconType::AK_ICON_EVENT),
+		AkEditorUtils::get_editor_icon(IconType::AK_ICON_SWITCHGROUP),
+		AkEditorUtils::get_editor_icon(IconType::AK_ICON_SWITCH),
+		AkEditorUtils::get_editor_icon(IconType::AK_ICON_STATEGROUP),
+		AkEditorUtils::get_editor_icon(IconType::AK_ICON_STATE),
+		AkEditorUtils::get_editor_icon(IconType::AK_ICON_SOUNDBANK),
+		AkEditorUtils::get_editor_icon(IconType::AK_ICON_BUS), AkEditorUtils::get_editor_icon(IconType::AK_ICON_AUXBUS),
+		AkEditorUtils::get_editor_icon(IconType::AK_ICON_ACOUSTICTEXTURE),
+		AkEditorUtils::get_editor_icon(IconType::AK_ICON_WORKUNIT) };
 
 	picker_data.icon_data = icon_data;
 
@@ -818,7 +827,7 @@ void AkWaapiPicker::_on_file_dialog_file_selected(const String& path)
 		args["from"] = of_type;
 
 		Dictionary options;
-		options["return"] = Array::make("name", "type", "shortId", "parent.name");
+		options["return"] = Array::make("name", "type", "shortId", "parent.name", "id");
 		Dictionary dict = Waapi::get_singleton()->client_call(
 				"ak.wwise.core.object.get", JSON::stringify(args), JSON::stringify(options));
 		Error error = json->parse(dict["result_string"]);

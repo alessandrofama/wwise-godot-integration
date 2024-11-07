@@ -106,9 +106,9 @@ wwise_soundengine_sample_path = ""
 if env["platform"] == "windows":
     wwise_soundengine_sample_path = env["wwise_sdk"] + "/samples/SoundEngine/Win32/"
     if env["target"] in ("editor", "template_debug"):
-        wwise_sdk_libs_path = env["wwise_sdk"] + "/x64_vc160/Debug(StaticCRT)/lib/"
+        wwise_sdk_libs_path = env["wwise_sdk"] + "/x64_vc170/Debug(StaticCRT)/lib/"
     else:
-        wwise_sdk_libs_path = env["wwise_sdk"] + "/x64_vc160/Release(StaticCRT)/lib/"
+        wwise_sdk_libs_path = env["wwise_sdk"] + "/x64_vc170/Release(StaticCRT)/lib/"
 
 if env["platform"] == "macos":
     wwise_soundengine_sample_path = env["wwise_sdk"] + "/samples/SoundEngine/POSIX/"
@@ -140,13 +140,14 @@ if env["platform"] == "ios" and env["ios_simulator"]:
 
 wwise_soundengine_sample_common_path = env["wwise_sdk"] + "/samples/SoundEngine/Common/"
 wwise_soundengine_common_include_path = wwise_sdk_headers_path + "AK/SoundEngine/Common/"
-
+wwise_soundengine_project_database_path = env["wwise_sdk"] + "/samples/WwiseProjectDatabase/"
 ## Wwise libs
 wwise_memorymanager_library = "AkMemoryMgr"
 wwise_soundengine_library = "AkSoundEngine"
 wwise_musicengine_library = "AkMusicEngine"
 wwise_streammanager_library = "AkStreamMgr"
 wwise_communications_library = "CommunicationCentral"
+wwise_project_database_library = "WwiseProjectDatabase"
 wwise_plugins_library = [
     "AkGainFX",
     "AkHarmonizerFX",
@@ -233,6 +234,8 @@ if env["platform"] == "windows":
     env.Append(
         CPPDEFINES=["WIN32", "_WIN32", "_WINDOWS", "_CRT_SECURE_NO_WARNINGS", "UNICODE"]
     )
+
+    env.Append(CCFLAGS=["/std:c++20"])
 
     env.Append(LINKFLAGS=["/INCREMENTAL:NO"])
 
@@ -405,6 +408,10 @@ if env["target"] in ("editor", "template_debug"):
     if env["platform"] == "windows":
         env.Append(LIBS=["msacm32", "ws2_32"])
 
+if env["target"] in ("editor"):
+    env.Append(CPPPATH=[wwise_soundengine_project_database_path, wwise_soundengine_project_database_path + "WwiseProjectDatabase", env["wwise_sdk"] + "/samples/3rdParty/subprojects/rapidjson/include", env["wwise_sdk"] + "/samples/3rdParty/subprojects/rapidjson/include/rapidjson"])
+    env.Append(LIBS=[wwise_project_database_library])
+
 if env["platform"] == "windows":
     env.Append(LIBS=["advapi32", "user32", "ole32"])
 if env["platform"] == "windows" and "motion" in env["plugins"]:
@@ -503,4 +510,3 @@ if env["platform"] == "ios":
 Default(library)
 
 Help(opts.GenerateHelpText(env))
-

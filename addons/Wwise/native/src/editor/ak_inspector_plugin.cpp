@@ -6,7 +6,7 @@ void AkInspectorTree::_bind_methods()
 	ClassDB::bind_method(D_METHOD("_on_size_changed"), &AkInspectorTree::_on_size_changed);
 }
 
-Dictionary AkInspectorTree::get_wwise_ids(const AkEditorUtils::AkType ak_type)
+Dictionary AkInspectorTree::get_wwise_ids(const WwiseObjectType ak_type)
 {
 	Dictionary result{};
 
@@ -31,42 +31,42 @@ Dictionary AkInspectorTree::get_wwise_ids(const AkEditorUtils::AkType ak_type)
 
 				switch (ak_type)
 				{
-					case AkEditorUtils::AkType::AKTYPE_EVENT:
+					case WwiseObjectType::AKTYPE_EVENT:
 					{
 						type_constant = "EVENTS";
 						break;
 					}
-					case AkEditorUtils::AkType::AKTYPE_BANK:
+					case WwiseObjectType::AKTYPE_SOUNDBANK:
 					{
 						type_constant = "BANKS";
 						break;
 					}
-					case AkEditorUtils::AkType::AKTYPE_RTPC:
+					case WwiseObjectType::AKTYPE_GAME_PARAMETER:
 					{
 						type_constant = "GAME_PARAMETERS";
 						break;
 					}
-					case AkEditorUtils::AkType::AKTYPE_STATE_GROUP:
+					case WwiseObjectType::AKTYPE_STATE_GROUP:
 					{
 						type_constant = "STATES";
 						break;
 					}
-					case AkEditorUtils::AkType::AKTYPE_STATE:
+					case WwiseObjectType::AKTYPE_STATE:
 					{
 						type_constant = "STATES";
 						break;
 					}
-					case AkEditorUtils::AkType::AKTYPE_SWITCH_GROUP:
+					case WwiseObjectType::AKTYPE_SWITCH_GROUP:
 					{
 						type_constant = "SWITCHES";
 						break;
 					}
-					case AkEditorUtils::AkType::AKTYPE_SWITCH:
+					case WwiseObjectType::AKTYPE_SWITCH:
 					{
 						type_constant = "SWITCHES";
 						break;
 					}
-					case AkEditorUtils::AkType::AKTYPE_AUX_BUS:
+					case WwiseObjectType::AKTYPE_AUX_BUS:
 					{
 						type_constant = "AUX_BUSSES";
 						break;
@@ -76,10 +76,9 @@ Dictionary AkInspectorTree::get_wwise_ids(const AkEditorUtils::AkType ak_type)
 				}
 
 				Ref<Script> type_script = script_constants.get(type_constant, "");
-				Dictionary type_constants = type_script->get_script_constant_map();
-				Dictionary _dict = type_constants.get("_dict", "");
+				Dictionary _dict = type_script->get("_dict");
 
-				if (ak_type == AkEditorUtils::AkType::AKTYPE_STATE)
+				if (ak_type == WwiseObjectType::AKTYPE_STATE)
 				{
 					if (!user_data.is_empty())
 					{
@@ -94,7 +93,7 @@ Dictionary AkInspectorTree::get_wwise_ids(const AkEditorUtils::AkType ak_type)
 						}
 					}
 				}
-				else if (ak_type == AkEditorUtils::AkType::AKTYPE_SWITCH)
+				else if (ak_type == WwiseObjectType::AKTYPE_SWITCH)
 				{
 					if (!user_data.is_empty())
 					{
@@ -117,7 +116,7 @@ Dictionary AkInspectorTree::get_wwise_ids(const AkEditorUtils::AkType ak_type)
 	return result;
 }
 
-void AkInspectorTree::initialize(const AkEditorUtils::AkType item_type, const Dictionary& user_data_)
+void AkInspectorTree::initialize(const WwiseObjectType item_type, const Dictionary& user_data_)
 {
 	ak_type = item_type;
 	user_data = user_data_;
@@ -150,32 +149,35 @@ void AkInspectorTree::populate_browser(const String& text_filter)
 	for (int64_t i = 0; i < dict.size(); i++)
 	{
 		String name = keys[i];
-		Variant id = values[i];
+		AkWwiseBaseType* reference  = Object::cast_to<AkWwiseBaseType>(values[i].operator Object*());
 
+		if (reference == nullptr)
+			continue;
+
+		uint32_t id = reference->get_id();
 		if (name.findn(text_filter) == -1 && !text_filter.is_empty())
 		{
 			continue;
 		}
 
 		TreeItem* item = create_item(root_item);
-		AkEditorUtils* editor_utils = AkEditorUtils::get_singleton();
 
 		Ref<Texture2D> icon;
 
-		if (ak_type == AkEditorUtils::AkType::AKTYPE_BANK)
+		if (ak_type == WwiseObjectType::AKTYPE_SOUNDBANK)
 		{
 			AkEditorUtils::AkEditorIconType icon_type = (name == "Init")
 					? AkEditorUtils::AkEditorIconType::AK_ICON_SOUNDBANK_INIT
 					: AkEditorUtils::AkEditorIconType::AK_ICON_SOUNDBANK;
-			icon = editor_utils->get_editor_icon(icon_type);
+			icon = AkEditorUtils::get_editor_icon(icon_type);
 		}
 		else
 		{
-			icon = editor_utils->get_editor_icon(ak_type);
+			icon = AkEditorUtils::get_editor_icon(ak_type);
 		}
 
-		if ((ak_type == AkEditorUtils::AkType::AKTYPE_STATE_GROUP) ||
-				(ak_type == AkEditorUtils::AkType::AKTYPE_SWITCH_GROUP))
+		if ((ak_type == WwiseObjectType::AKTYPE_STATE_GROUP) ||
+				(ak_type == WwiseObjectType::AKTYPE_SWITCH_GROUP))
 		{
 			id = values[i].get("GROUP");
 		}
@@ -236,13 +238,12 @@ void AkInspectorEditorProperty::_bind_methods()
 	ClassDB::bind_method(D_METHOD("_on_item_selected"), &AkInspectorEditorProperty::_on_item_selected);
 }
 
-void AkInspectorEditorProperty::init(const AkEditorUtils::AkType type, const Dictionary& user_data_)
+void AkInspectorEditorProperty::init(const WwiseObjectType type, const Dictionary& user_data_)
 {
 	ak_type = type;
 	user_data = user_data_;
 
-	current_value["name"] = "";
-	current_value["id"] = 0;
+	current_value = memnew(AkWwiseBaseType);
 
 	property_control = memnew(Button);
 	property_control->set_clip_text(true);
@@ -255,10 +256,10 @@ void AkInspectorEditorProperty::init(const AkEditorUtils::AkType type, const Dic
 	AkInspectorTree* tree = window->tree;
 	tree->initialize(ak_type, user_data);
 
-	const AkInspectorEditorPropertyInfo info = get_ak_inspector_property_info(ak_type);
+	const AkInspectorEditorPropertyInfo info = get_ak_inspector_property_info();
 	property_control->set_text(info.text);
 	tree->search_text->set("placeholder_text", info.placeholder);
-	icon = AkEditorUtils::get_singleton()->get_editor_icon(ak_type);
+	icon = AkEditorUtils::get_editor_icon(ak_type);
 
 	tree->connect("item_selected", callable_mp(this, &AkInspectorEditorProperty::_on_item_selected));
 	property_control->connect("pressed", callable_mp(this, &AkInspectorEditorProperty::_on_button_pressed));
@@ -305,26 +306,27 @@ void AkInspectorEditorProperty::_update_property()
 	}
 
 	updating = true;
-	current_value = new_value_variant;
+	current_value = Object::cast_to<AkWwiseEvent>(new_value_variant.operator Object*());
 
-	if (current_value["name"].get_type() == Variant::NIL)
+	if (current_value == nullptr)
 	{
+		updating = false;
 		return;
 	}
 
-	String name = current_value["name"];
+	String name = current_value->get_name();
 	if (!name.is_empty())
 	{
-		if (ak_type == AkEditorUtils::AkType::AKTYPE_BANK)
+		if (ak_type == WwiseObjectType::AKTYPE_SOUNDBANK)
 		{
 			if (name == "Init")
 			{
-				icon = AkEditorUtils::get_singleton()->get_editor_icon(
+				icon = AkEditorUtils::get_editor_icon(
 						AkEditorUtils::AkEditorIconType::AK_ICON_SOUNDBANK_INIT);
 			}
 			else
 			{
-				icon = AkEditorUtils::get_singleton()->get_editor_icon(
+				icon = AkEditorUtils::get_editor_icon(
 						AkEditorUtils::AkEditorIconType::AK_ICON_SOUNDBANK);
 			}
 		}
@@ -334,17 +336,17 @@ void AkInspectorEditorProperty::_update_property()
 	}
 	else
 	{
-		const AkInspectorEditorPropertyInfo info = get_ak_inspector_property_info(ak_type);
+		const AkInspectorEditorPropertyInfo info = get_ak_inspector_property_info();
 		property_control->set_text(info.text);
 		property_control->set_button_icon(Ref<Texture2D>());
 	}
 
 	switch (ak_type)
 	{
-		case AkEditorUtils::AkType::AKTYPE_STATE:
+		case WwiseObjectType::AKTYPE_STATE:
 			window->tree->user_data = get_edited_object()->get("state_group");
 			break;
-		case AkEditorUtils::AkType::AKTYPE_SWITCH:
+		case WwiseObjectType::AKTYPE_SWITCH:
 			window->tree->user_data = get_edited_object()->get("switch_group");
 			break;
 		default:
@@ -377,38 +379,38 @@ void AkInspectorEditorProperty::_on_item_selected()
 
 	if (selected_item)
 	{
-		Dictionary current_value;
-		current_value["name"] = selected_item->get_meta("name");
-		current_value["id"] = selected_item->get_meta("id");
+		AkWwiseBaseType* current_value = memnew(AkWwiseBaseType);
+		current_value->set_name(selected_item->get_meta("name"));
+		current_value->set_id(selected_item->get_meta("id"));
 
-		property_control->set_text(current_value["name"]);
+		property_control->set_text(current_value->get_name());
 		property_control->set_button_icon(icon);
 
 		Variant new_value = get_edited_object()->get(get_edited_property());
 
-		if (new_value.get_type() != Variant::Type::DICTIONARY)
+		if (new_value.get_type() != Variant::Type::OBJECT)
 		{
 			emit_changed(get_edited_property(), current_value);
 			return;
 		}
 
-		if (new_value.get("id", 0) != current_value.get("id", 0))
-		{
-			if (ak_type == AkEditorUtils::AkType::AKTYPE_STATE_GROUP)
-			{
-				Dictionary default_value;
-				default_value["name"] = "";
-				default_value["id"] = 0;
-				emit_changed("state_value", default_value);
-			}
-			if (ak_type == AkEditorUtils::AkType::AKTYPE_SWITCH_GROUP)
-			{
-				Dictionary default_value;
-				default_value["name"] = "";
-				default_value["id"] = 0;
-				emit_changed("switch_value", default_value);
-			}
-		}
+		// if (new_value.get("id", 0) != current_value.get("id", 0))
+		// {
+		// 	if (ak_type == WwiseObjectType::AKTYPE_STATE_GROUP)
+		// 	{
+		// 		Dictionary default_value;
+		// 		default_value["name"] = "";
+		// 		default_value["id"] = 0;
+		// 		emit_changed("state_value", default_value);
+		// 	}
+		// 	if (ak_type == WwiseObjectType::AKTYPE_SWITCH_GROUP)
+		// 	{
+		// 		Dictionary default_value;
+		// 		default_value["name"] = "";
+		// 		default_value["id"] = 0;
+		// 		emit_changed("switch_value", default_value);
+		// 	}
+		// }
 
 		emit_changed(get_edited_property(), current_value);
 	}
@@ -425,69 +427,80 @@ bool AkInspectorEditorInspectorPlugin::_can_handle(Object* object) const
 bool AkInspectorEditorInspectorPlugin::_parse_property(Object* object, Variant::Type type, const String& name,
 		PropertyHint hint_type, const String& hint_string, BitField<PropertyUsageFlags> usage_flags, bool wide)
 {
-	if (type == Variant::DICTIONARY)
+	if (type == Variant::OBJECT)
 	{
 		if (name == "event")
 		{
-			AkInspectorEditorProperty* property = memnew(AkInspectorEditorProperty);
-			property->init(AkEditorUtils::AkType::AKTYPE_EVENT);
+			UtilityFunctions::print("is_event");
+			AkWwiseEventEditorProperty* property = memnew(AkWwiseEventEditorProperty);
+			property->init(WwiseObjectType::AKTYPE_EVENT);
 			add_property_editor(name, property);
 			return true;
-		}
-		else if (name == "bank")
-		{
-			AkInspectorEditorProperty* property = memnew(AkInspectorEditorProperty);
-			property->init(AkEditorUtils::AkType::AKTYPE_BANK);
-			add_property_editor(name, property);
-			return true;
-		}
-		else if (name == "state_group")
-		{
-			AkInspectorEditorProperty* property = memnew(AkInspectorEditorProperty);
-			property->init(AkEditorUtils::AkType::AKTYPE_STATE_GROUP, object->get("state_group"));
-			add_property_editor(name, property);
-			return true;
-		}
-		else if (name == "state_value")
-		{
-			AkInspectorEditorProperty* property = memnew(AkInspectorEditorProperty);
-			property->init(AkEditorUtils::AkType::AKTYPE_STATE, object->get("state_group"));
-			add_property_editor(name, property);
-			return true;
-		}
-		else if (name == "switch_group")
-		{
-			AkInspectorEditorProperty* property = memnew(AkInspectorEditorProperty);
-			property->init(AkEditorUtils::AkType::AKTYPE_SWITCH_GROUP, object->get("switch_group"));
-			add_property_editor(name, property);
-			return true;
-		}
-		else if (name == "switch_value")
-		{
-			AkInspectorEditorProperty* property = memnew(AkInspectorEditorProperty);
-			property->init(AkEditorUtils::AkType::AKTYPE_SWITCH, object->get("switch_group"));
-			add_property_editor(name, property);
-			return true;
-		}
-		else if (name == "aux_bus")
-		{
-			AkInspectorEditorProperty* property = memnew(AkInspectorEditorProperty);
-			property->init(AkEditorUtils::AkType::AKTYPE_AUX_BUS);
-			add_property_editor(name, property);
-			return true;
-		}
-		else if (name == "game_parameter")
-		{
-			AkInspectorEditorProperty* property = memnew(AkInspectorEditorProperty);
-			property->init(AkEditorUtils::AkType::AKTYPE_RTPC);
-			add_property_editor(name, property);
-			return true;
-		}
-		else
-		{
-			return false;
 		}
 	}
+	// if (type == Variant::DICTIONARY)
+	// {
+	// 	if (name == "event")
+	// 	{
+	// 		AkInspectorEditorProperty* property = memnew(AkInspectorEditorProperty);
+	// 		property->init(WwiseObjectType::AKTYPE_EVENT);
+	// 		add_property_editor(name, property);
+	// 		return true;
+	// 	}
+	// 	else if (name == "bank")
+	// 	{
+	// 		AkInspectorEditorProperty* property = memnew(AkInspectorEditorProperty);
+	// 		property->init(WwiseObjectType::AKTYPE_SOUNDBANK);
+	// 		add_property_editor(name, property);
+	// 		return true;
+	// 	}
+	// 	else if (name == "state_group")
+	// 	{
+	// 		AkInspectorEditorProperty* property = memnew(AkInspectorEditorProperty);
+	// 		property->init(WwiseObjectType::AKTYPE_STATE_GROUP, object->get("state_group"));
+	// 		add_property_editor(name, property);
+	// 		return true;
+	// 	}
+	// 	else if (name == "state_value")
+	// 	{
+	// 		AkInspectorEditorProperty* property = memnew(AkInspectorEditorProperty);
+	// 		property->init(WwiseObjectType::AKTYPE_STATE, object->get("state_group"));
+	// 		add_property_editor(name, property);
+	// 		return true;
+	// 	}
+	// 	else if (name == "switch_group")
+	// 	{
+	// 		AkInspectorEditorProperty* property = memnew(AkInspectorEditorProperty);
+	// 		property->init(WwiseObjectType::AKTYPE_SWITCH_GROUP, object->get("switch_group"));
+	// 		add_property_editor(name, property);
+	// 		return true;
+	// 	}
+	// 	else if (name == "switch_value")
+	// 	{
+	// 		AkInspectorEditorProperty* property = memnew(AkInspectorEditorProperty);
+	// 		property->init(WwiseObjectType::AKTYPE_SWITCH, object->get("switch_group"));
+	// 		add_property_editor(name, property);
+	// 		return true;
+	// 	}
+	// 	else if (name == "aux_bus")
+	// 	{
+	// 		AkInspectorEditorProperty* property = memnew(AkInspectorEditorProperty);
+	// 		property->init(WwiseObjectType::AKTYPE_AUX_BUS);
+	// 		add_property_editor(name, property);
+	// 		return true;
+	// 	}
+	// 	else if (name == "game_parameter")
+	// 	{
+	// 		AkInspectorEditorProperty* property = memnew(AkInspectorEditorProperty);
+	// 		property->init(WwiseObjectType::AKTYPE_GAME_PARAMETER);
+	// 		add_property_editor(name, property);
+	// 		return true;
+	// 	}
+	// 	else
+	// 	{
+	// 		return false;
+	// 	}
+	// }
 	else
 	{
 		return false;

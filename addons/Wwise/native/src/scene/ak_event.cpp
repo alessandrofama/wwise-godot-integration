@@ -195,7 +195,7 @@ void AkEvent3D::_bind_methods()
 			D_METHOD("set_is_environment_aware", "is_environment_aware"), &AkEvent3D::set_is_environment_aware);
 	ClassDB::bind_method(D_METHOD("get_is_environment_aware"), &AkEvent3D::get_is_environment_aware);
 
-	ADD_PROPERTY(PropertyInfo(Variant::DICTIONARY, "event", PROPERTY_HINT_NONE), "set_event", "get_event");
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "event", PROPERTY_HINT_NONE), "set_event", "get_event");
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "trigger_on", PROPERTY_HINT_ENUM, "None,Enter Tree,Ready,Exit Tree"),
 			"set_trigger_on", "get_trigger_on");
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "stop_on", PROPERTY_HINT_ENUM, "None,Enter Tree,Ready,Exit Tree"),
@@ -237,9 +237,9 @@ void AkEvent3D::check_signal_connections()
 
 AkEvent3D::AkEvent3D()
 {
-	event["name"] = "";
-	event["id"] = 0;
-
+	// event["name"] = "";
+	// event["id"] = 0;
+	event = memnew(AkWwiseEvent);
 	cookie = memnew(AkCookie(Callable(this, "callback_emitter")));
 }
 
@@ -324,11 +324,11 @@ void AkEvent3D::post_event()
 		if (callback_type)
 		{
 			playing_id = soundengine->post_event_id_callback(
-					event.get("id", 0), (AkUtils::AkCallbackType)callback_type, this, cookie);
+					event->get("id"), (AkUtils::AkCallbackType)callback_type, this, cookie);
 		}
 		else
 		{
-			playing_id = soundengine->post_event_id(event.get("id", 0), this);
+			playing_id = soundengine->post_event_id(event->get("id"), this);
 		}
 	}
 }
@@ -351,9 +351,9 @@ void AkEvent3D::callback_emitter(const Dictionary& data)
 	emit_signal(AkUtils::get_singleton()->event_callback_signals[type], data);
 }
 
-void AkEvent3D::set_event(const Dictionary& event) { this->event = event; }
+void AkEvent3D::set_event(AkWwiseEvent* event) { this->event = event; }
 
-Dictionary AkEvent3D::get_event() const { return event; }
+AkWwiseEvent* AkEvent3D::get_event() const { return event; }
 
 void AkEvent3D::set_stop_fade_time(unsigned int stop_fade_time) { this->stop_fade_time = stop_fade_time; }
 

@@ -51,14 +51,14 @@
 #include <godot_cpp/core/defs.hpp>
 #include <godot_cpp/core/object.hpp>
 #include <godot_cpp/godot.hpp>
+#include <godot_cpp/templates/hash_map.hpp>
 #include <godot_cpp/variant/callable.hpp>
 #include <godot_cpp/variant/string.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
 
 #include <AK/MusicEngine/Common/AkMusicEngine.h>
 #include <AK/SoundEngine/Common/AkCallback.h>
-#include <AK/SoundEngine/Common/AkMemoryMgr.h>
-#include <AK/SoundEngine/Common/AkModule.h>
+#include <AK/SoundEngine/Common/AkMemoryMgrModule.h>
 #include <AK/SoundEngine/Common/AkQueryParameters.h>
 #include <AK/SoundEngine/Common/AkSoundEngine.h>
 #include <AK/SoundEngine/Common/AkTypes.h>
@@ -76,12 +76,19 @@
 #include <AK/Comm/AkCommunication.h>
 #endif
 
+#if TOOLS_ENABLED
+#endif
+
 using namespace godot;
 
 #if defined(AK_ANDROID)
 #include "platform/android/jni_support.cpp"
 #endif
 
+#include "common/ak_wwise_base_type.cpp"
+#include "common/ak_wwise_event.h"
+
+#include "common/wwise_object_type.h"
 #include "common/utils.h"
 #include "common/ak_utils.cpp"
 #include "common/ak_io_hook.cpp"
@@ -102,13 +109,19 @@ using namespace godot;
 
 #if defined(TOOLS_ENABLED)
 #include "gen/doc_data.gen.cpp"
+#include "editor/short_id_generator.cpp"
+#include "editor/ak_editor_settings.h"
+#include "common/wwise_object_reference.cpp"
+#include "common/wwise_bank_reference.cpp"
 #include "editor/ak_android_export_plugin.cpp"
 #include "editor/ak_editor_export_plugin.cpp"
 #include "editor/ak_editor_utils.cpp"
 #include "editor/ak_event_3d_gizmo_plugin.cpp"
 #include "editor/ak_inspector_plugin.cpp"
 #include "editor/ak_editor_plugin.cpp"
+#include "WwiseProjectDatabase.h"
 #endif
+
 
 #if defined(AK_WIN) || defined(AK_MAC_OS_X)
 #include <AK/WwiseAuthoringAPI/AkAutobahn/Client.h>
@@ -123,10 +136,6 @@ static Waapi* waapi_module;
 static Wwise* wwise_module;
 static AkSettings* wwise_settings;
 static AkUtils* ak_utils;
-
-#if defined(TOOLS_ENABLED)
-static AkEditorUtils* ak_editor_utils;
-#endif
 
 void register_wwise_types(ModuleInitializationLevel p_level)
 {
@@ -144,18 +153,19 @@ void register_wwise_types(ModuleInitializationLevel p_level)
 
 #if defined(AK_WIN) || defined(AK_MAC_OS_X) || defined(AK_LINUX)
 #if defined(TOOLS_ENABLED)
-		ClassDB::register_class<AkEditorUtils>();
-		ak_editor_utils = memnew(AkEditorUtils);
-		Engine::get_singleton()->register_singleton("AkEditorUtils", AkEditorUtils::get_singleton());
 		ClassDB::register_class<AkInspectorEditor>();
 		ClassDB::register_class<AkInspectorTree>();
 		ClassDB::register_class<AkInspectorEditorInspectorPlugin>();
 		ClassDB::register_class<AkInspectorEditorProperty>();
+		ClassDB::register_class<AkWwiseEventEditorProperty>();
 		ClassDB::register_class<AkEvent3DGizmoPlugin>();
 		ClassDB::register_class<AkEditorExportPlugin>();
 		ClassDB::register_class<AkAndroidExportPlugin>();
 		ClassDB::register_class<AkEditorPlugin>();
 		EditorPlugins::add_by_type<AkEditorPlugin>();
+
+		ClassDB::register_abstract_class<AkWwiseBaseType>();
+		ClassDB::register_class<AkWwiseEvent>();
 #endif
 #endif
 	}
@@ -220,11 +230,6 @@ void unregister_wwise_types(ModuleInitializationLevel p_level)
 
 #if defined(AK_WIN) || defined(AK_MAC_OS_X) || defined(AK_LINUX)
 #if defined(TOOLS_ENABLED)
-		if (Engine::get_singleton()->has_singleton("AkEditorUtils"))
-		{
-			Engine::get_singleton()->unregister_singleton("AkEditorUtils");
-			memdelete(ak_editor_utils);
-		}
 #endif
 #endif
 	}

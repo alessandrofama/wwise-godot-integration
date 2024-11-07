@@ -61,7 +61,7 @@ protected:
 	void _notification(int p_what);
 
 private:
-	Dictionary event;
+	AkWwiseEvent* event;
 	unsigned int playing_id = AK_INVALID_PLAYING_ID;
 	unsigned int stop_fade_time{};
 	AkUtils::AkCurveInterpolation interpolation_mode = AkUtils::AkCurveInterpolation::AK_CURVE_LINEAR;
@@ -91,8 +91,8 @@ public:
 
 	void callback_emitter(const Dictionary& data);
 
-	void set_event(const Dictionary& event);
-	Dictionary get_event() const;
+	void set_event(AkWwiseEvent* event);
+	AkWwiseEvent* get_event() const;
 
 	void set_stop_fade_time(unsigned int stop_fade_time);
 	unsigned int get_stop_fade_time() const;

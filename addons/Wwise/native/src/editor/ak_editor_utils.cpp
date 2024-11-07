@@ -1,22 +1,6 @@
 #include "ak_editor_utils.h"
 
-AkEditorUtils* AkEditorUtils::singleton = nullptr;
-
-AkEditorUtils::AkEditorUtils()
-{
-	ERR_FAIL_COND(singleton != nullptr);
-	singleton = this;
-}
-
-AkEditorUtils::~AkEditorUtils()
-{
-	ERR_FAIL_COND(singleton != this);
-	singleton = nullptr;
-}
-
-AkEditorUtils* AkEditorUtils::get_singleton() { return singleton; }
-
-Ref<Texture2D> AkEditorUtils::get_editor_icon(const AkType ak_type)
+Ref<Texture2D> AkEditorUtils::get_editor_icon(const WwiseObjectType ak_type)
 {
 	const AkEditorIconType icon_type = get_ak_editor_icon_type(ak_type);
 	return get_editor_icon(icon_type);

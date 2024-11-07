@@ -162,8 +162,6 @@ static const char* wwise_error_string(AKRESULT errcode)
 			return "AK_FileFormatMismatch";
 		case AK_NoDistinctListener:
 			return "AK_NoDistinctListener";
-		case AK_ACP_Error:
-			return "AK_ACP_Error";
 		case AK_ResourceInUse:
 			return "AK_ResourceInUse";
 		case AK_InvalidBankType:
@@ -319,4 +317,69 @@ static inline bool find_matching_vertex(Vector3 vertex, Dictionary vert_dict, in
 	{
 		return false;
 	}
+}
+
+static Array get_all_file_paths(const String &path, const String &extension) {
+    Array file_paths;
+    Ref<DirAccess> dir = DirAccess::open(path);
+
+    if (!dir.is_valid()) {
+        return file_paths;
+    }
+
+    dir->list_dir_begin();
+    String file_name = dir->get_next();
+
+    while (file_name != "") {
+        String file_path = path.path_join(file_name);
+
+        if (dir->current_is_dir()) {
+            file_paths.append_array(get_all_file_paths(file_path, extension));
+        } else {
+            if (file_path.get_extension() == extension) {
+                file_paths.append(file_path);
+            }
+        }
+
+        file_name = dir->get_next();
+    }
+
+    return file_paths;
+}
+
+static bool create_folder(const String &folder_to_create) {
+	DirAccess::make_dir_recursive_absolute(folder_to_create);
+    // bool created = false;
+    // String folder = "";
+
+    // PackedStringArray folders = folder_to_create.split("/", false);
+    // for (int i = 0; i < folders.size(); ++i) {
+    //     String parentFolder = folder;
+    //     folder = parentFolder.is_empty() ? folders[i] : parentFolder.path_join(folders[i]);
+
+    //     Ref<DirAccess> dir = DirAccess::open(folder);
+    //     if (dir.is_valid()) {
+    //         continue;
+    //     }
+
+    //     if (parentFolder.is_empty()) {
+    //         if (dir->make_dir(folder) == OK) {
+    //             UtilityFunctions::print("Created folder: " + folder);
+    //             created = true;
+    //             continue;
+    //         }
+    //     } else {
+    //         if (dir->change_dir(parentFolder) == OK) {
+    //             if (dir->make_dir(folders[i]) == OK) {
+    //                 UtilityFunctions::print("Created folder: " + folders[i] + " in " + parentFolder);
+    //                 created = true;
+    //                 continue;
+    //             }
+    //         }
+    //     }
+
+    //     return false;
+    // }
+
+    return true;
 }
