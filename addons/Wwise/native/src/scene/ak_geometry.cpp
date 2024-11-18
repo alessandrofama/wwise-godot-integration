@@ -144,13 +144,9 @@ bool AkGeometry::set_geometry(const MeshInstance3D* mesh_instance)
 Ref<MeshDataTool> AkGeometry::create_mesh_data_tool(const Ref<Mesh>& mesh)
 {
 	Ref<ArrayMesh> array_mesh;
-
-	if (mesh->get_class() != "ArrayMesh")
-	{
-		Array surface_arrays = mesh->surface_get_arrays(0);
-		array_mesh.instantiate();
-		array_mesh->add_surface_from_arrays(Mesh::PRIMITIVE_TRIANGLES, surface_arrays);
-	}
+	Array surface_arrays = mesh->surface_get_arrays(0);
+	array_mesh.instantiate();
+	array_mesh->add_surface_from_arrays(Mesh::PRIMITIVE_TRIANGLES, surface_arrays);
 
 	Ref<MeshDataTool> mesh_data_tool;
 	mesh_data_tool.instantiate();
