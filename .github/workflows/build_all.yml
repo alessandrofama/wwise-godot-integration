@@ -4,12 +4,13 @@ on:
   push:
     branches:
       - main
-      - dev
+      - wwise_v2023.1
+      - wwise_v2024.1
   pull_request:
     branches:
       - main
-      - dev
-
+      - wwise_v2023.1
+      - wwise_v2024.1
 env:
   BASE_BRANCH: ci
   WWISE_VERSION: "2023.1.0"
