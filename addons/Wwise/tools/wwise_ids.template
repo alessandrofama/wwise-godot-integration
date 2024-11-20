@@ -35,3 +35,7 @@ class AUX_BUSSES:
 class AUDIO_DEVICES:
 	const _dict = {
 	}
+
+class ACOUSTIC_TEXTURES:
+	const _dict = {
+	}
