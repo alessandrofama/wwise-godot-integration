@@ -43,8 +43,8 @@ CAkLock g_localOutputLock;
 #if defined(AK_ENABLE_ASSERTS)
 void WwiseAssertHook(const char* in_pszExpression, const char* in_psz_filename, int in_lineNumber)
 {
-	String msg = "AKASSERT: " + String(in_pszExpression);
-	UtilityFunctions::push_warning(msg, "WwiseAssertHook", String(in_psz_filename), in_lineNumber);
+	String msg = vformat("WwiseGodot: AKASSERT: %s, %s:%d", in_pszExpression, in_psz_filename, in_lineNumber);
+	UtilityFunctions::push_warning(msg);
 	AKPLATFORM::OutputDebugMsg(msg.utf8().get_data());
 }
 #endif
@@ -56,7 +56,7 @@ void LocalOutput(AK::Monitor::ErrorCode in_eErrorCode, const AkOSChar* in_pszErr
 
 	if (in_eErrorCode != AK::Monitor::ErrorCode::ErrorCode_NoError)
 	{
-		UtilityFunctions::push_error(String(in_pszError), "Wwise monitor", "", 0);
+		UtilityFunctions::push_error(vformat("WwiseGodot: %s", in_pszError));
 	}
 }
 
@@ -187,12 +187,13 @@ void Wwise::init()
 
 	if (!result)
 	{
-		ERROR_CHECK_MSG(AK_Fail, "Wwise systems initialization failed!");
+		ERROR_CHECK_MSG(AK_Fail, "WwiseGodot: Sound engine initialization failed!");
 		return;
 	}
 	else
 	{
-		UtilityFunctions::print("[Wwise] Initialized Wwise systems");
+		UtilityFunctions::print("WwiseGodot: Sound engine initialized successfully.");
+		UtilityFunctions::print(vformat("WwiseGodot: Wwise(R) SDK %s Build %d.", AK_WWISESDK_VERSIONNAME_SHORT, AK_WWISESDK_VERSION_BUILD));
 	}
 
 	String base_path = get_platform_project_setting(WWISE_COMMON_USER_SETTINGS_PATH + "base_path");
@@ -258,7 +259,7 @@ void Wwise::shutdown()
 {
 	if (shutdown_wwise_system())
 	{
-		UtilityFunctions::print("[Wwise] Shut down Wwise systems");
+		UtilityFunctions::print("WwiseGodot: Sound engine terminated successfully.");
 	}
 }
 
@@ -1582,7 +1583,7 @@ Variant Wwise::get_platform_project_setting(const String& setting)
 	else
 	{
 		AKASSERT(false);
-		UtilityFunctions::print("Failed to get setting " + platform_setting);
+		UtilityFunctions::print(vformat("WwiseGodot: Failed to get setting: %s", platform_setting));
 		return "";
 	}
 }
@@ -1813,7 +1814,7 @@ bool Wwise::initialize_wwise_systems()
 #endif
 
 	if (!ERROR_CHECK_MSG(AK::SoundEngine::Init(&init_settings, &platform_init_settings),
-				"Wwise Sound Engine initialization failed."))
+				"WwiseGodot: Sound engine initialization failed."))
 
 	{
 		return false;

@@ -766,11 +766,11 @@ void AkWaapiPicker::_on_export_soundbanks_button_up()
 
 		if (error == OK && call_result)
 		{
-			UtilityFunctions::print("[Wwise] Generated soundbanks OK");
+			UtilityFunctions::print("WwiseGodot: Soundbanks generated successfully.");
 		}
 		else
 		{
-			UtilityFunctions::print("[Wwise] Error during soundbank generation with result " +
+			UtilityFunctions::print("WwiseGodot: Error during soundbank generation with result " +
 					String(json->get_data().operator godot::Dictionary()["result"]));
 		}
 	}
@@ -832,7 +832,7 @@ void AkWaapiPicker::_on_file_dialog_file_selected(const String& path)
 	}
 	else
 	{
-		UtilityFunctions::print("[Wwise] Failed to generate Wwise IDs. Wwise authoring isn't launched!");
+		UtilityFunctions::print("WwiseGodot: Failed to generate Wwise IDs. Wwise Authoring is not launched!");
 
 		if (Waapi::get_singleton()->is_client_connected())
 		{
@@ -856,7 +856,7 @@ void AkWaapiPicker::_on_file_dialog_file_selected(const String& path)
 	script->set_source_code(final_text);
 	ResourceSaver::get_singleton()->save(script, path);
 
-	UtilityFunctions::print("[Wwise] Generated IDs at " + path);
+	UtilityFunctions::print("WwiseGodot: Generated IDs at " + path);
 
 	file_dialog->queue_free();
 	final_text = "";
