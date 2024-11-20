@@ -92,6 +92,8 @@ private:
 				return AkInspectorEditorPropertyInfo{ "Select Bus...", "Search Busses..." };
 			case AkEditorUtils::AkType::AKTYPE_AUX_BUS:
 				return AkInspectorEditorPropertyInfo{ "Select Aux Bus...", "Search Aux Busses..." };
+			case AkEditorUtils::AkType::AKTYPE_ACOUSTIC_TEXTURE:
+				return AkInspectorEditorPropertyInfo{ "Select Acoustic Texture...", "Search Acoustic Textures..." };
 			default:
 				return AkInspectorEditorPropertyInfo{ "Default Select Label", "Default Search Label" };
 		}

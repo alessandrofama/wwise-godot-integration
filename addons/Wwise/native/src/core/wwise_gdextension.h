@@ -138,7 +138,7 @@ public:
 	bool set_object_obstruction_and_occlusion(
 			const Object* game_object, const Object* listener, float f_calculated_obs, float f_calculated_occ);
 
-	bool set_geometry(const Array vertices, const Array triangles, const Ref<Resource>& acoustic_texture,
+	bool set_geometry(const Array vertices, const Array triangles, const Dictionary& acoustic_texture,
 			float transmission_loss_value, const Object* game_object, bool enable_diffraction,
 			bool enable_diffraction_on_boundary_edges);
 	bool remove_geometry(const Object* game_object);

@@ -71,6 +71,11 @@ Dictionary AkInspectorTree::get_wwise_ids(const AkEditorUtils::AkType ak_type)
 						type_constant = "AUX_BUSSES";
 						break;
 					}
+					case AkEditorUtils::AkType::AKTYPE_ACOUSTIC_TEXTURE:
+					{
+						type_constant = "ACOUSTIC_TEXTURES";
+						break;
+					}
 					default:
 						break;
 				}
@@ -419,7 +424,7 @@ bool AkInspectorEditorInspectorPlugin::_can_handle(Object* object) const
 	return (object->get_class() == "AkBank" || object->get_class() == "AkState" || object->get_class() == "AkSwitch" ||
 			object->get_class() == "AkEvent2D" || object->get_class() == "AkEvent3D" ||
 			object->get_class() == "AkEnvironment" || object->get_class() == "AkRoom" ||
-			object->get_class() == "AkEarlyReflections");
+			object->get_class() == "AkEarlyReflections" || object->get_class() == "AkGeometry");
 }
 
 bool AkInspectorEditorInspectorPlugin::_parse_property(Object* object, Variant::Type type, const String& name,
@@ -480,6 +485,13 @@ bool AkInspectorEditorInspectorPlugin::_parse_property(Object* object, Variant::
 		{
 			AkInspectorEditorProperty* property = memnew(AkInspectorEditorProperty);
 			property->init(AkEditorUtils::AkType::AKTYPE_RTPC);
+			add_property_editor(name, property);
+			return true;
+		}
+		else if (name == "acoustic_texture")
+		{
+			AkInspectorEditorProperty* property = memnew(AkInspectorEditorProperty);
+			property->init(AkEditorUtils::AkType::AKTYPE_ACOUSTIC_TEXTURE);
 			add_property_editor(name, property);
 			return true;
 		}

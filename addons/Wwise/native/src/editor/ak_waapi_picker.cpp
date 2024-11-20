@@ -385,6 +385,7 @@ void AkWaapiPicker::generate_ids(const Array& data)
 	Array aux_bus_array;
 	Array audio_device_array;
 	Array external_src_array;
+	Array acoustic_texture_array;
 
 	for (int i = 0; i < data.size(); ++i)
 	{
@@ -437,6 +438,10 @@ void AkWaapiPicker::generate_ids(const Array& data)
 		{
 			external_src_array.append(data[i]);
 		}
+		else if (type == "AcousticTexture")
+		{
+			acoustic_texture_array.append(data[i]);
+		}
 	}
 
 	Dictionary init_soundbank;
@@ -458,6 +463,7 @@ void AkWaapiPicker::generate_ids(const Array& data)
 	create_class(aux_bus_array, "AUX_BUSSES");
 	create_class(audio_device_array, "AUDIO_DEVICES");
 	create_class(external_src_array, "EXTERNAL_SOURCES");
+	create_class(acoustic_texture_array, "ACOUSTIC_TEXTURES");
 }
 
 void AkWaapiPicker::create_class(const Array& data, const String& type)
@@ -812,7 +818,7 @@ void AkWaapiPicker::_on_file_dialog_file_selected(const String& path)
 		Dictionary args;
 		Dictionary of_type;
 		Array type_array = Array::make("Event", "StateGroup", "State", "SwitchGroup", "Switch", "GameParameter",
-				"Trigger", "SoundBank", "Bus", "AuxBus", "AudioDevice", "ExternalSource");
+				"Trigger", "SoundBank", "Bus", "AuxBus", "AudioDevice", "ExternalSource", "AcousticTexture");
 
 		of_type["ofType"] = type_array;
 		args["from"] = of_type;

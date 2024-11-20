@@ -878,7 +878,7 @@ bool Wwise::set_object_obstruction_and_occlusion(
 			static_cast<AkGameObjectID>(listener->get_instance_id()), f_calculated_obs, f_calculated_occ));
 }
 
-bool Wwise::set_geometry(const Array vertices, const Array triangles, const Ref<Resource>& acoustic_texture,
+bool Wwise::set_geometry(const Array vertices, const Array triangles, const Dictionary& acoustic_texture,
 		float transmission_loss_value, const Object* game_object, bool enable_diffraction,
 		bool enable_diffraction_on_boundary_edges)
 {
@@ -931,22 +931,30 @@ bool Wwise::set_geometry(const Array vertices, const Array triangles, const Ref<
 
 	auto ak_triangles = std::make_unique<AkTriangle[]>(num_triangles);
 
-	AkAcousticSurface default_surface{};
-	AkAcousticSurface ak_surfaces[1] = { default_surface };
+	AkAcousticSurface surface{};
+	String texture_name = acoustic_texture.get("name", "");
+	AkUInt32 texture_id = acoustic_texture.get("id", AK_INVALID_SURFACE);
+
+	bool texture_valid = !texture_name.is_empty() && texture_id != AK_INVALID_SURFACE;
+	if (texture_valid)
+	{
+		surface.strName = texture_name.utf8().get_data();
+		surface.textureID = texture_id;
+	}
+	surface.transmissionLoss = transmission_loss_value;
+
+	AkAcousticSurface ak_surfaces[1] = { surface };
 	geometry.NumSurfaces = 1;
 	geometry.Surfaces = ak_surfaces;
 
-	// todo(alex): take care of AcousticTextures at a later stage
-
 	int triangleIdx = 0;
-
 	for (int i = 0; i < num_triangles; i++)
 	{
 		AkTriangle t{};
 		t.point0 = verts_remap[static_cast<unsigned int>(triangles[3 * i + 0])];
 		t.point1 = verts_remap[static_cast<unsigned int>(triangles[3 * i + 1])];
 		t.point2 = verts_remap[static_cast<unsigned int>(triangles[3 * i + 2])];
-		t.surface = acoustic_texture.is_valid() ? 0 : AK_INVALID_SURFACE;
+		t.surface = texture_valid ? 0 : AK_INVALID_SURFACE;
 
 		ak_triangles[triangleIdx] = t;
 
