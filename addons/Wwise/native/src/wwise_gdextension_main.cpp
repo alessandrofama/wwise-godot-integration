@@ -19,6 +19,7 @@
 #include "scene/ak_switch.cpp"
 
 #if defined(TOOLS_ENABLED)
+#include "gen/doc_data.gen.cpp"
 #include "editor/ak_android_export_plugin.cpp"
 #include "editor/ak_editor_export_plugin.cpp"
 #include "editor/ak_editor_plugin.cpp"
