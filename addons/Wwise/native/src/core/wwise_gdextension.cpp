@@ -1003,10 +1003,11 @@ bool Wwise::set_geometry_instance(const Object* associated_geometry, const Trans
 
 	AkWorldTransform position_and_orientation{};
 	position_and_orientation.SetPosition(AK::ConvertAkVectorToAkVector64(position));
-	position_and_orientation.SetOrientation(orientation_front * -1.0f, orientation_top);
+	position_and_orientation.SetOrientation(orientation_front, orientation_top);
 	params.PositionAndOrientation = position_and_orientation;
-
-	vector3_to_akvector(transform.get_basis().get_scale(), params.Scale);
+	
+	Vector3 scale = transform.get_basis().get_scale();
+	params.Scale = { scale.x, scale.y, scale.z };
 
 	params.RoomID = associated_room ? static_cast<AkRoomID>(associated_room->get_instance_id())
 									: static_cast<AkRoomID>(INVALID_ROOM_ID);

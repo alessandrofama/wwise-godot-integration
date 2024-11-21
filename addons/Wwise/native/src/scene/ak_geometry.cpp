@@ -53,16 +53,6 @@ void AkGeometry::_notification(int p_what, bool reversed)
 	}
 }
 
-void AkGeometry::add_indices(int a, int b, int c, int d)
-{
-	indices.append(a);
-	indices.append(c);
-	indices.append(d);
-	indices.append(a);
-	indices.append(b);
-	indices.append(c);
-}
-
 AkGeometry::AkGeometry()
 {
 	acoustic_texture["name"] = "";
@@ -112,7 +102,7 @@ bool AkGeometry::set_geometry(const MeshInstance3D* mesh_instance)
 	for (int i = 0; i < mdt->get_vertex_count(); ++i)
 	{
 		Vector3 vertex = mdt->get_vertex(i);
-		vertices.append(vertex);
+		vertices.append(Vector3(vertex.x, vertex.y, -vertex.z));
 	}
 
 	for (int i = 0; i < mdt->get_face_count(); ++i)
@@ -121,8 +111,8 @@ bool AkGeometry::set_geometry(const MeshInstance3D* mesh_instance)
 		int point_1 = mdt->get_face_vertex(i, 1);
 		int point_2 = mdt->get_face_vertex(i, 2);
 		triangles.append(point_0);
-		triangles.append(point_1);
 		triangles.append(point_2);
+		triangles.append(point_1);
 	}
 
 	if (!associated_room.is_empty())
