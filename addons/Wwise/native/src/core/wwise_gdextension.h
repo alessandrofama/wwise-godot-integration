@@ -4,16 +4,10 @@
 #include "core/utils.h"
 #include "core/wwise_cookie.h"
 #include "core/wwise_io_hook.h"
-#include <godot_cpp/classes/display_server.hpp>
-#include <godot_cpp/classes/object.hpp>
-#include <godot_cpp/classes/project_settings.hpp>
-#include <godot_cpp/classes/ref_counted.hpp>
-#include <godot_cpp/classes/resource.hpp>
-#include <godot_cpp/variant/utility_functions.hpp>
 #include <AK/MusicEngine/Common/AkMusicEngine.h>
 #include <AK/SoundEngine/Common/AkCallback.h>
 #include <AK/SoundEngine/Common/AkMemoryMgr.h>
-#include <AK/SoundEngine/Common/AkModule.h>
+#include <AK/SoundEngine/Common/AkMemoryMgrModule.h>
 #include <AK/SoundEngine/Common/AkQueryParameters.h>
 #include <AK/SoundEngine/Common/AkSoundEngine.h>
 #include <AK/SoundEngine/Common/AkTypes.h>
@@ -22,6 +16,12 @@
 #include <AK/Tools/Common/AkAutoLock.h>
 #include <AK/Tools/Common/AkMonitorError.h>
 #include <AK/Tools/Common/AkObject.h>
+#include <godot_cpp/classes/display_server.hpp>
+#include <godot_cpp/classes/object.hpp>
+#include <godot_cpp/classes/project_settings.hpp>
+#include <godot_cpp/classes/ref_counted.hpp>
+#include <godot_cpp/classes/resource.hpp>
+#include <godot_cpp/variant/utility_functions.hpp>
 
 #ifndef AK_OPTIMIZED
 #include <AK/Comm/AkCommunication.h>
@@ -142,8 +142,8 @@ public:
 			float transmission_loss_value, const Object* game_object, bool enable_diffraction,
 			bool enable_diffraction_on_boundary_edges);
 	bool remove_geometry(const Object* game_object);
-	bool set_geometry_instance(const Object* associated_geometry, const Transform3D& transform,
-			const Object* geometry_instance, const Object* associated_room);
+	bool set_geometry_instance(
+			const Object* associated_geometry, const Transform3D& transform, const Object* geometry_instance);
 	bool remove_geometry_instance(const Object* geometry_instance);
 	bool register_spatial_listener(const Object* game_object);
 	bool set_room(const Object* game_object, const unsigned int ak_aux_bus_id, const float reverb_level,

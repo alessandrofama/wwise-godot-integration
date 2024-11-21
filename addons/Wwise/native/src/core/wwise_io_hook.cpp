@@ -236,17 +236,6 @@ void WwiseIOHook::BatchWrite(AkUInt32 in_u_num_transfers, BatchIoTransferItem* i
 	}
 }
 
-void WwiseIOHook::BatchCancel(AkUInt32 in_u_num_transfers, BatchIoTransferItem* in_p_transfer_items,
-		bool** io_ppb_cancel_all_transfers_for_this_file)
-{
-	for (int i = 0; i < (int)in_u_num_transfers; ++i)
-	{
-		BatchIoTransferItem io_transfer_item = in_p_transfer_items[i];
-		cancel(*(io_transfer_item.pFileDesc), *(io_transfer_item.pTransferInfo),
-				*io_ppb_cancel_all_transfers_for_this_file[i]);
-	}
-}
-
 AKRESULT WwiseIOHook::Close(AkFileDesc* in_file_desc)
 {
 	AKRESULT result = AK_Fail;

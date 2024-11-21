@@ -106,16 +106,16 @@ wwise_soundengine_sample_path = ""
 if env["platform"] == "windows":
     wwise_soundengine_sample_path = env["wwise_sdk"] + "/samples/SoundEngine/Win32/"
     if env["target"] in ("editor", "template_debug"):
-        wwise_sdk_libs_path = env["wwise_sdk"] + "/x64_vc160/Debug(StaticCRT)/lib/"
+        wwise_sdk_libs_path = env["wwise_sdk"] + "/x64_vc170/Debug(StaticCRT)/lib/"
     else:
-        wwise_sdk_libs_path = env["wwise_sdk"] + "/x64_vc160/Release(StaticCRT)/lib/"
+        wwise_sdk_libs_path = env["wwise_sdk"] + "/x64_vc170/Release(StaticCRT)/lib/"
 
 if env["platform"] == "macos":
     wwise_soundengine_sample_path = env["wwise_sdk"] + "/samples/SoundEngine/POSIX/"
     if env["target"] in ("editor", "template_debug"):
-        wwise_sdk_libs_path = env["wwise_sdk"] + "/Mac/Debug/lib/"
+        wwise_sdk_libs_path = env["wwise_sdk"] + "/Mac_Xcode1500/Debug/lib/"
     else:
-        wwise_sdk_libs_path = env["wwise_sdk"] + "/Mac/Release/lib/"
+        wwise_sdk_libs_path = env["wwise_sdk"] + "/Mac_Xcode1500/Release/lib/"
 
 if env["platform"] == "linux":
     wwise_soundengine_sample_path = env["wwise_sdk"] + "/samples/SoundEngine/POSIX/"
@@ -127,16 +127,16 @@ if env["platform"] == "linux":
 if env["platform"] == "ios" and not env["ios_simulator"]:
     wwise_soundengine_sample_path = env["wwise_sdk"] + "/samples/SoundEngine/POSIX/"
     if env["target"] in ("template_debug"):
-        wwise_sdk_libs_path = env["wwise_sdk"] + "/iOS/Debug-iphoneos/lib/"
+        wwise_sdk_libs_path = env["wwise_sdk"] + "/iOS_Xcode1500/Debug-iphoneos/lib/"
     else:
-        wwise_sdk_libs_path = env["wwise_sdk"] + "/iOS/Release-iphoneos/lib/"
+        wwise_sdk_libs_path = env["wwise_sdk"] + "/iOS_Xcode1500/Release-iphoneos/lib/"
 
 if env["platform"] == "ios" and env["ios_simulator"]:
     wwise_soundengine_sample_path = env["wwise_sdk"] + "/samples/SoundEngine/POSIX/"
     if env["target"] in ("template_debug"):
-        wwise_sdk_libs_path = env["wwise_sdk"] + "/iOS/Debug-iphonesimulator/lib/"
+        wwise_sdk_libs_path = env["wwise_sdk"] + "/iOS_Xcode1500/Debug-iphonesimulator/lib/"
     else:
-        wwise_sdk_libs_path = env["wwise_sdk"] + "/iOS/Release-iphonesimulator/lib/"
+        wwise_sdk_libs_path = env["wwise_sdk"] + "/iOS_Xcode1500/Release-iphonesimulator/lib/"
 
 wwise_soundengine_sample_common_path = env["wwise_sdk"] + "/samples/SoundEngine/Common/"
 wwise_soundengine_common_include_path = wwise_sdk_headers_path + "AK/SoundEngine/Common/"

@@ -170,8 +170,6 @@ static const char* wwise_error_string(AKRESULT errcode)
 			return "AK_FileFormatMismatch";
 		case AK_NoDistinctListener:
 			return "AK_NoDistinctListener";
-		case AK_ACP_Error:
-			return "AK_ACP_Error";
 		case AK_ResourceInUse:
 			return "AK_ResourceInUse";
 		case AK_InvalidBankType:

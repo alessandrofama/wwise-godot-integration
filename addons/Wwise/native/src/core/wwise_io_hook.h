@@ -40,8 +40,6 @@ public:
 	virtual void BatchOpen(AkUInt32 in_u_num_files, AkAsyncFileOpenData** in_pp_items) override;
 	virtual void BatchRead(AkUInt32 in_u_num_transfers, BatchIoTransferItem* in_p_transfer_items) override;
 	virtual void BatchWrite(AkUInt32 in_u_num_transfers, BatchIoTransferItem* in_p_transfer_items) override;
-	virtual void BatchCancel(AkUInt32 in_u_num_transfers, BatchIoTransferItem* in_p_transfer_items,
-			bool** io_ppb_cancel_all_transfers_for_this_file) override;
 	virtual AKRESULT Close(AkFileDesc* in_file_desc) override;
 	virtual AkUInt32 GetBlockSize(AkFileDesc& in_file_desc) override;
 	virtual void GetDeviceDesc(AkDeviceDesc& out_device_desc) override;
