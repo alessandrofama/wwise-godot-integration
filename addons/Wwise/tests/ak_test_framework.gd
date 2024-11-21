@@ -6,14 +6,12 @@ var banks_loaded = false
 
 
 func load_test_banks():
-	Wwise.load_bank("Init")
 	Wwise.load_bank("TestBank")
 	banks_loaded = true
 
 
 func unload_test_banks():
 	Wwise.unload_bank_id(AK.BANKS.TESTBANK)
-	Wwise.unload_bank_id(AK.BANKS.INIT)
 	banks_loaded = false
 
 
@@ -26,10 +24,7 @@ func after_all():
 
 
 func _ready():
-	print()
-	print_rich(
-		"[wave amp=50 freq=2]≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈ ≈ 🆁🆄🅽🅽🅸🅽🅶 ​ 🆃🅴🆂🆃🆂 ≈ ≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈[/wave]\n"
-	)
+	print("WwiseGodot: Running tests")
 	before_all()
 	var infos = Array()
 	for test in wwise_tests:

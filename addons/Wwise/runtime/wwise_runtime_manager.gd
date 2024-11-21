@@ -3,7 +3,7 @@ extends Node
 var suspend_on_focus_loss:bool = false;
 
 func _init() -> void:
-	suspend_on_focus_loss = ProjectSettings.get_setting("wwise/common_user_settings/suspend_on_focus_loss", false)
+	suspend_on_focus_loss = ProjectSettings.get_setting("wwise/common_user_settings/suspend_audio_during_focus_loss", false)
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	Wwise.init()
 
