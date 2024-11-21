@@ -12,6 +12,53 @@ else:
     def decode_utf8(x):
         return codecs.utf_8_decode(x)[0]
 
+# This is a modified version of the documentation generation function from godot-cpp in godotcpp.py.
+# Unlike the original, this version writes the generated .cpp file directly to disk,
+# rather than including it in the sources processed by the build system during the build stage.
+def make_doc_source(target, source, env):
+    import zlib
+    if not os.path.exists(os.path.dirname(target)):
+        os.makedirs(os.path.dirname(target))
+
+    dst = str(target)
+    g = open(dst, "w", encoding="utf-8")
+    buf = ""
+    docbegin = ""
+    docend = ""
+    for src in source:
+        src_path = str(src)
+        if not src_path.endswith(".xml"):
+            continue
+        with open(src_path, "r", encoding="utf-8") as f:
+            content = f.read()
+        buf += content
+
+    buf = (docbegin + buf + docend).encode("utf-8")
+    decomp_size = len(buf)
+
+    # Use maximum zlib compression level to further reduce file size
+    # (at the cost of initial build times).
+    buf = zlib.compress(buf, zlib.Z_BEST_COMPRESSION)
+
+    g.write("/* THIS FILE IS GENERATED DO NOT EDIT */\n")
+    g.write("\n")
+
+    g.write('static const char *_doc_data_hash = "' + str(hash(buf)) + '";\n')
+    g.write("static const int _doc_data_uncompressed_size = " + str(decomp_size) + ";\n")
+    g.write("static const int _doc_data_compressed_size = " + str(len(buf)) + ";\n")
+    g.write("static const unsigned char _doc_data_compressed[] = {\n")
+    for i in range(len(buf)):
+        g.write("\t" + str(buf[i]) + ",\n")
+    g.write("};\n")
+    g.write("\n")
+
+    g.write(
+        "static godot::internal::DocDataRegistration _doc_data_registration(_doc_data_hash, _doc_data_uncompressed_size, _doc_data_compressed_size, _doc_data_compressed);\n"
+    )
+    g.write("\n")
+
+    g.close()
+
 env = SConscript("godot-cpp/SConstruct")
 opts = Variables([], ARGUMENTS)
 
@@ -165,6 +212,7 @@ if env["platform"] == "windows":
     if env["target"] in ("editor", "template_debug"):
         if env["target"] == "editor":
             env["target_path"] += "editor/"
+            make_doc_source("src/gen/doc_data.gen.cpp", Glob("doc_classes/*.xml"), env)
         else:
             env["target_path"] += "debug/"
 
@@ -194,6 +242,7 @@ elif env["platform"] == "macos":
     if env["target"] in ("editor", "template_debug"):
         if env["target"] == "editor":
             env["target_path"] += "editor/"
+            make_doc_source("src/gen/doc_data.gen.cpp", Glob("doc_classes/*.xml"), env)
         else:
             env["target_path"] += "debug/"
             
@@ -227,6 +276,7 @@ elif env["platform"] == "linux":
     if env["target"] in ("editor", "template_debug"):
         if env["target"] == "editor":
             env["target_path"] += "editor/"
+            make_doc_source("src/gen/doc_data.gen.cpp", Glob("doc_classes/*.xml"), env)
         else:
             env["target_path"] += "debug/"
 
