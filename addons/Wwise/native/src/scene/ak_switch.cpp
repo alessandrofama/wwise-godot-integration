@@ -53,7 +53,7 @@ void AkSwitch::set_switch()
 {
 	if (ak_event.is_empty())
 	{
-		UtilityFunctions::push_warning("[Wwise] AkEvent NodePath in AkSwitch is empty, id: " + itos(get_instance_id()));
+		UtilityFunctions::push_warning(vformat("WwiseGodot: AkEvent NodePath in AkSwitch is empty, id: %d", get_instance_id()));
 		return;
 	}
 

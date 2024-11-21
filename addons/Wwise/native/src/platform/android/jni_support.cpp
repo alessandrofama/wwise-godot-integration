@@ -10,7 +10,7 @@ void JNISupport::initialize(JNIEnv* env, jobject activity)
 {
 	if (env->GetJavaVM(&jvm) != JNI_OK)
 	{
-		ALOGE("[Wwise] Failed to get the JavaVM");
+		ALOGE("WwiseGodot: Failed to get the JavaVM");
 		return;
 	}
 	jactivity = env->NewGlobalRef(activity);

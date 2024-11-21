@@ -11,12 +11,12 @@ WwiseSettings::WwiseSettings()
 		Error error = ProjectSettings::get_singleton()->save();
 		if (error)
 		{
-			UtilityFunctions::push_error(String("[Wwise] Encountered error {0} when saving Wwise Project Settings")
+			UtilityFunctions::push_error(String("WwiseGodot: Encountered error {0} while saving Wwise Project Settings.")
 												 .format(Array::make(error)));
 		}
 		else
 		{
-			UtilityFunctions::print("[Wwise] Saved Project Settings");
+			UtilityFunctions::print("WwiseGodot: Saved Project Settings.");
 		}
 	}
 }
