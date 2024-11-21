@@ -81,40 +81,43 @@ Dictionary AkInspectorTree::get_wwise_ids(const AkEditorUtils::AkType ak_type)
 				}
 
 				Ref<Script> type_script = script_constants.get(type_constant, "");
-				Dictionary type_constants = type_script->get_script_constant_map();
-				Dictionary _dict = type_constants.get("_dict", "");
+				if (type_script.is_valid())
+				{
+					Dictionary type_constants = type_script->get_script_constant_map();
+					Dictionary _dict = type_constants.get("_dict", "");
 
-				if (ak_type == AkEditorUtils::AkType::AKTYPE_STATE)
-				{
-					if (!user_data.is_empty())
+					if (ak_type == AkEditorUtils::AkType::AKTYPE_STATE)
 					{
-						if (_dict.get(user_data.get("name", Variant(nullptr)), Variant(nullptr)).get_type() !=
-								Variant::Type::NIL)
+						if (!user_data.is_empty())
 						{
-							_dict = _dict.get(user_data.get("name", ""), "").get("STATE");
-						}
-						else
-						{
-							_dict = Dictionary();
+							if (_dict.get(user_data.get("name", Variant(nullptr)), Variant(nullptr)).get_type() !=
+									Variant::Type::NIL)
+							{
+								_dict = _dict.get(user_data.get("name", ""), "").get("STATE");
+							}
+							else
+							{
+								_dict = Dictionary();
+							}
 						}
 					}
-				}
-				else if (ak_type == AkEditorUtils::AkType::AKTYPE_SWITCH)
-				{
-					if (!user_data.is_empty())
+					else if (ak_type == AkEditorUtils::AkType::AKTYPE_SWITCH)
 					{
-						if (_dict.get(user_data.get("name", Variant(nullptr)), Variant(nullptr)).get_type() !=
-								Variant::Type::NIL)
+						if (!user_data.is_empty())
 						{
-							_dict = _dict.get(user_data.get("name", ""), "").get("SWITCH");
-						}
-						else
-						{
-							_dict = Dictionary();
+							if (_dict.get(user_data.get("name", Variant(nullptr)), Variant(nullptr)).get_type() !=
+									Variant::Type::NIL)
+							{
+								_dict = _dict.get(user_data.get("name", ""), "").get("SWITCH");
+							}
+							else
+							{
+								_dict = Dictionary();
+							}
 						}
 					}
+					result = _dict;
 				}
-				result = _dict;
 			}
 		}
 	}
