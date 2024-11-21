@@ -38,7 +38,6 @@ private:
 	Array triangles{};
 	MeshInstance3D* mesh_instance{};
 	Object* geometry_instance{};
-	void add_indices(int a, int b, int c, int d);
 
 public:
 	AkGeometry();
