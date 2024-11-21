@@ -28,9 +28,7 @@ private:
 	bool enable_diffraction_on_boundary_edges{};
 	Dictionary acoustic_texture{};
 	float transmission_loss_value{ 1.0f };
-	NodePath associated_room{};
 
-	Area3D* room_node{};
 	AABB aabb{};
 	PackedInt32Array indices{};
 
@@ -60,7 +58,4 @@ public:
 
 	void set_transmission_loss_value(float transmission_loss_value);
 	float get_transmission_loss_value() const;
-
-	void set_associated_room(const NodePath& associated_room);
-	NodePath get_associated_room() const;
 };

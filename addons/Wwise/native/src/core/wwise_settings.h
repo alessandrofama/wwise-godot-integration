@@ -1,5 +1,7 @@
 #pragma once
 
+#include <AK/SpatialAudio/Common/AkSpatialAudio.h>
+#include <AK/SpatialAudio/Common/AkSpatialAudioTypes.h>
 #include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/classes/project_settings.hpp>
 #include <godot_cpp/classes/ref_counted.hpp>
