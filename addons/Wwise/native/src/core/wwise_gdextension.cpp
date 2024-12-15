@@ -988,8 +988,8 @@ bool Wwise::remove_geometry(const Object* game_object)
 	return ERROR_CHECK(AK::SpatialAudio::RemoveGeometry(static_cast<AkGeometrySetID>(game_object->get_instance_id())));
 }
 
-bool Wwise::set_geometry_instance(const Object* associated_geometry, const Transform3D& transform,
-		const Object* geometry_instance, const Object* associated_room)
+bool Wwise::set_geometry_instance(
+		const Object* associated_geometry, const Transform3D& transform, const Object* geometry_instance)
 {
 	AkGeometryInstanceParams params{};
 	params.GeometrySetID = associated_geometry->get_instance_id();
@@ -1008,9 +1008,6 @@ bool Wwise::set_geometry_instance(const Object* associated_geometry, const Trans
 	
 	Vector3 scale = transform.get_basis().get_scale();
 	params.Scale = { scale.x, scale.y, scale.z };
-
-	params.RoomID = associated_room ? static_cast<AkRoomID>(associated_room->get_instance_id())
-									: static_cast<AkRoomID>(INVALID_ROOM_ID);
 
 	return ERROR_CHECK(AK::SpatialAudio::SetGeometryInstance(
 			static_cast<AkGeometryInstanceID>(geometry_instance->get_instance_id()), params));
@@ -1772,9 +1769,8 @@ bool Wwise::initialize_wwise_systems()
 
 		// Platform-specific settings
 #ifdef AK_WIN
-	int64_t handle = DisplayServer::get_singleton()->window_get_native_handle(DisplayServer::HandleType::WINDOW_HANDLE);
-	HWND hwnd = reinterpret_cast<HWND>(handle);
-	platform_init_settings.hWnd = hwnd;
+	platform_init_settings.uMaxSystemAudioObjects = static_cast<unsigned int>(
+			get_platform_project_setting("wwise/windows_advanced_settings/max_system_audio_objects"));
 
 #elif defined(AK_MAC_OS_X)
 	platform_init_settings.eAudioAPI = static_cast<AkAudioAPIMac>(
@@ -1845,27 +1841,55 @@ bool Wwise::initialize_wwise_systems()
 	spatialSettings.uMaxSoundPropagationDepth = static_cast<unsigned int>(get_platform_project_setting(
 			WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "max_sound_propagation_depth"));
 
-	spatialSettings.bCalcEmitterVirtualPosition = static_cast<bool>(get_platform_project_setting(
-			WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "calc_emitter_virtual_position"));
-
-	spatialSettings.fMovementThreshold = static_cast<float>(get_platform_project_setting(
+	spatialSettings.fMovementThreshold = static_cast<AkReal32>(get_platform_project_setting(
 			WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "movement_threshold"));
 
-	spatialSettings.uNumberOfPrimaryRays = static_cast<unsigned int>(get_platform_project_setting(
+	spatialSettings.uNumberOfPrimaryRays = static_cast<AkUInt32>(get_platform_project_setting(
 			WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "number_of_primary_rays"));
 
-	spatialSettings.uMaxReflectionOrder = static_cast<unsigned int>(get_platform_project_setting(
+	spatialSettings.uMaxReflectionOrder = static_cast<AkUInt32>(get_platform_project_setting(
 			WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "max_reflection_order"));
 
-	spatialSettings.fMaxPathLength = static_cast<float>(get_platform_project_setting(
+	spatialSettings.uMaxDiffractionOrder = static_cast<AkUInt32>(get_platform_project_setting(
+			WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "max_diffraction_order"));
+
+	spatialSettings.uMaxDiffractionPaths = static_cast<AkUInt32>(get_platform_project_setting(
+			WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "max_diffraction_paths"));
+
+	spatialSettings.uMaxGlobalReflectionPaths = static_cast<AkUInt32>(get_platform_project_setting(
+			WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "max_global_reflection_paths"));
+
+	spatialSettings.uMaxEmitterRoomAuxSends = static_cast<AkUInt32>(get_platform_project_setting(
+			WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "max_emitter_room_aux_sends"));
+
+	spatialSettings.uDiffractionOnReflectionsOrder = static_cast<AkUInt32>(get_platform_project_setting(
+			WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "diffraction_on_reflections_order"));
+
+	spatialSettings.fMaxDiffractionAngleDegrees = static_cast<AkReal32>(get_platform_project_setting(
+			WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "max_diffraction_angle_degrees"));
+
+	spatialSettings.fMaxPathLength = static_cast<AkReal32>(get_platform_project_setting(
 			WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "max_path_length"));
+
+	spatialSettings.fCPULimitPercentage = static_cast<AkReal32>(get_platform_project_setting(
+			WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "cpu_limit_percentage"));
+
+	spatialSettings.fSmoothingConstantMs = static_cast<AkReal32>(get_platform_project_setting(
+			WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "smoothing_constant_ms"));
+
+	spatialSettings.uLoadBalancingSpread = static_cast<AkUInt32>(get_platform_project_setting(
+			WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "load_balancing_spread"));
 
 	spatialSettings.bEnableGeometricDiffractionAndTransmission =
 			static_cast<bool>(get_platform_project_setting(WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH +
 					"enable_geometric_diffraction_and_transmission"));
 
-	spatialSettings.uMaxEmitterRoomAuxSends = static_cast<int>(get_platform_project_setting(
-			WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "max_emitter_room_aux_sends"));
+	spatialSettings.bCalcEmitterVirtualPosition = static_cast<bool>(get_platform_project_setting(
+			WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "calc_emitter_virtual_position"));
+
+	spatialSettings.eTransmissionOperation =
+			(AkTransmissionOperation) static_cast<AkUInt32>(get_platform_project_setting(
+					WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "transmission_operation"));
 
 	if (!ERROR_CHECK_MSG(AK::SpatialAudio::Init(spatialSettings), "Spatial Audio initialization failed."))
 	{

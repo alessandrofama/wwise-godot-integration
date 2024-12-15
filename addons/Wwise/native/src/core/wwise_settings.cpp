@@ -23,6 +23,7 @@ WwiseSettings::WwiseSettings()
 
 void WwiseSettings::add_wwise_settings()
 {
+	// Common User Settings
 	add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "base_path", String("res://GeneratedSoundBanks"),
 			Variant::Type::STRING, PROPERTY_HINT_DIR, "res://GeneratedSoundBanks");
 	add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "startup_language", String("English(US)"), Variant::Type::STRING);
@@ -45,10 +46,8 @@ void WwiseSettings::add_wwise_settings()
 	// note(alex): this is not implemented:
 	add_setting(WWISE_COMMON_USER_SETTINGS_MAIN_OUTPUT_PATH + "channel_config/channel_mask", 0, Variant::Type::INT,
 			PROPERTY_HINT_ENUM, "NONE, Everything, SETUP_ALL_SPEAKERS");
-
 	add_setting(
 			WWISE_COMMON_USER_SETTINGS_MAIN_OUTPUT_PATH + "channel_config/number_of_channels", 0, Variant::Type::INT);
-
 	add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "streaming_look_ahead_ratio", 1.0f, Variant::Type::FLOAT,
 			PROPERTY_HINT_RANGE, "0.0, 1.0");
 	add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "sample_rate", 4, Variant::Type::INT, PROPERTY_HINT_ENUM,
@@ -56,24 +55,41 @@ void WwiseSettings::add_wwise_settings()
 	add_setting(WWISE_COMMON_USER_SETTINGS_PATH + "number_of_refills_in_voice", 1, Variant::Type::INT,
 			PROPERTY_HINT_ENUM, "2, 4");
 
-	// Spatial Audio
-	add_setting(WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "max_sound_propagation_depth", 8.0f,
-			Variant::Type::FLOAT, PROPERTY_HINT_RANGE, "0.0,8.0");
+	// Spatial Audio Settings
+	add_setting(WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "max_sound_propagation_depth",
+			AK_MAX_SOUND_PROPAGATION_DEPTH, Variant::Type::FLOAT, PROPERTY_HINT_RANGE, "0.0,8.0");
+	add_setting(WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "movement_threshold", 0.25f, Variant::Type::FLOAT,
+			PROPERTY_HINT_NONE, "");
+	add_setting(WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "number_of_primary_rays", 35, Variant::Type::INT,
+			PROPERTY_HINT_NONE, "");
+	add_setting(WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "max_reflection_order", 2, Variant::Type::INT,
+			PROPERTY_HINT_RANGE, "1,4");
+	add_setting(WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "max_diffraction_order", 4, Variant::Type::INT,
+			PROPERTY_HINT_RANGE, "1,8");
+	add_setting(WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "max_diffraction_paths", 8, Variant::Type::INT,
+			PROPERTY_HINT_NONE, "");
+	add_setting(WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "max_global_reflection_paths", 0, Variant::Type::INT,
+			PROPERTY_HINT_NONE, "");
+	add_setting(WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "max_emitter_room_aux_sends", 3, Variant::Type::INT);
 	add_setting(
-			WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "calc_emitter_virtual_position", true, Variant::Type::BOOL);
-	add_setting(WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "movement_threshold", 1.0f, Variant::Type::FLOAT,
-			PROPERTY_HINT_NONE, "");
-	add_setting(WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "number_of_primary_rays", 100, Variant::Type::INT,
-			PROPERTY_HINT_NONE, "");
-	add_setting(WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "max_reflection_order", 1.0f, Variant::Type::FLOAT,
-			PROPERTY_HINT_RANGE, "0.0,4.0");
+			WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "diffraction_on_reflections_order", 2, Variant::Type::INT);
+	add_setting(WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "max_diffraction_angle_degrees", 180.f,
+			Variant::Type::FLOAT, PROPERTY_HINT_NONE, "");
 	add_setting(WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "max_path_length", 10000.0f, Variant::Type::FLOAT,
 			PROPERTY_HINT_NONE, "");
+	add_setting(WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "cpu_limit_percentage", 0.0f, Variant::Type::FLOAT,
+			PROPERTY_HINT_RANGE, "0.0,100.0");
+	add_setting(WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "smoothing_constant_ms", 0.0f, Variant::Type::FLOAT,
+			PROPERTY_HINT_NONE, "");
+	add_setting(WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "load_balancing_spread", 1, Variant::Type::INT);
 	add_setting(WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "enable_geometric_diffraction_and_transmission", true,
 			Variant::Type::BOOL);
-	add_setting(WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "max_emitter_room_aux_sends", 0, Variant::Type::INT);
+	add_setting(
+			WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "calc_emitter_virtual_position", true, Variant::Type::BOOL);
+	add_setting(WWISE_COMMON_USER_SETTINGS_SPATIAL_AUDIO_PATH + "transmission_operation",
+			AkTransmissionOperation_Default, Variant::Type::INT, PROPERTY_HINT_ENUM, "Add, Multiply, Max");
 
-	// common advanced settings
+	// Common Advanced Settings
 	add_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "IO_memory_size", 2097152, Variant::Type::INT, PROPERTY_HINT_NONE,
 			"");
 	add_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "target_auto_stream_buffer_length_ms", 380, Variant::Type::INT);
@@ -87,18 +103,21 @@ void WwiseSettings::add_wwise_settings()
 	add_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "debug_out_of_range_check_enabled", false, Variant::Type::BOOL);
 	add_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "debug_out_of_range_limit", 16.0f, Variant::Type::FLOAT);
 
-	// communication settings
+	// Communication Settings
 	add_setting(WWISE_COMMUNICATION_SETTINGS_PATH + "discovery_broadcast_port", 24024, Variant::Type::INT);
 	add_setting(WWISE_COMMUNICATION_SETTINGS_PATH + "command_port", 0, Variant::Type::INT);
 	add_setting(WWISE_COMMUNICATION_SETTINGS_PATH + "initialize_system_comms", true, Variant::Type::BOOL);
 	add_setting(WWISE_COMMUNICATION_SETTINGS_PATH + "network_name", "", Variant::Type::STRING);
 	add_setting(WWISE_COMMUNICATION_SETTINGS_PATH + "waapi_port", 8080, Variant::Type::INT);
 
+	// Windows Advanced Settings
+	add_setting(WWISE_WINDOWS_ADVANCED_SETTINGS_PATH + "max_system_audio_objects", 128, Variant::Type::INT);
+
 	// macOS advanced settings
 	add_setting(WWISE_MACOS_ADVANCED_SETTINGS_PATH + "audio_API", 3, Variant::Type::INT, PROPERTY_HINT_FLAGS,
 			"AVAudioEngine,AudioUnit");
 
-	// ios advanced settings
+	// iOS advanced settings
 	add_setting(WWISE_IOS_ADVANCED_SETTINGS_PATH + "audio_API", 3, Variant::Type::INT, PROPERTY_HINT_FLAGS,
 			"AVAudioEngine,AudioUnit");
 	add_setting(WWISE_IOS_ADVANCED_SETTINGS_PATH + "audio_session_category", 0, Variant::Type::INT, PROPERTY_HINT_ENUM,
