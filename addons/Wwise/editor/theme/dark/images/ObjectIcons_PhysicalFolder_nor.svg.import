@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://di2p281eymr6"
-path="res://.godot/imported/SwitchGroup_nor.svg-4b8ec47f9b0f2d0ad35f4b4c39823197.ctex"
+uid="uid://brq0yscqpprxy"
+path="res://.godot/imported/ObjectIcons_PhysicalFolder_nor.svg-fe1760182da787e91c04458750d3cd3e.ctex"
 metadata={
 "has_editor_variant": true,
 "vram_texture": false
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://addons/Wwise/editor/images/SwitchGroup_nor.svg"
-dest_files=["res://.godot/imported/SwitchGroup_nor.svg-4b8ec47f9b0f2d0ad35f4b4c39823197.ctex"]
+source_file="res://addons/Wwise/editor/theme/dark/images/ObjectIcons_PhysicalFolder_nor.svg"
+dest_files=["res://.godot/imported/ObjectIcons_PhysicalFolder_nor.svg-fe1760182da787e91c04458750d3cd3e.ctex"]
 
 [params]
 
