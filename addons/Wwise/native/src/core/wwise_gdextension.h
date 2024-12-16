@@ -1,5 +1,6 @@
 #pragma once
 
+#include "core/ak_midi_post.h"
 #include "core/ak_utils.h"
 #include "core/utils.h"
 #include "core/wwise_cookie.h"
@@ -9,6 +10,7 @@
 #include <AK/SoundEngine/Common/AkCallback.h>
 #include <AK/SoundEngine/Common/AkMemoryMgr.h>
 #include <AK/SoundEngine/Common/AkMemoryMgrModule.h>
+#include <AK/SoundEngine/Common/AkMidiTypes.h>
 #include <AK/SoundEngine/Common/AkQueryParameters.h>
 #include <AK/SoundEngine/Common/AkSoundEngine.h>
 #include <AK/SoundEngine/Common/AkTypes.h>
@@ -18,9 +20,12 @@
 #include <AK/Tools/Common/AkMonitorError.h>
 #include <AK/Tools/Common/AkObject.h>
 #include <godot_cpp/classes/display_server.hpp>
+#include <godot_cpp/classes/node2d.hpp>
+#include <godot_cpp/classes/node3d.hpp>
 #include <godot_cpp/classes/object.hpp>
 #include <godot_cpp/classes/ref_counted.hpp>
 #include <godot_cpp/classes/resource.hpp>
+#include <godot_cpp/templates/hash_set.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
 
 #ifndef AK_OPTIMIZED
@@ -41,7 +46,9 @@ private:
 	static void event_callback(AkCallbackType callback_type, AkCallbackInfo* callback_info);
 	static void bank_callback(AkUInt32 bank_id, const void* in_memory_bank_ptr, AKRESULT load_result, void* in_pCookie);
 
-	Variant get_platform_project_setting(const String& setting);
+	void pre_game_object_api_call(Node* p_node, AkGameObjectID p_id);
+	void post_register_game_object(AKRESULT p_result, const Node* p_node, AkGameObjectID p_id);
+	void post_unregister_game_object(AKRESULT p_result, const Node* p_node, AkGameObjectID p_id);
 
 	bool initialize_wwise_systems();
 	bool shutdown_wwise_system();
@@ -49,6 +56,7 @@ private:
 	static CAkLock callback_data_lock;
 
 	WwiseFileIOHandler low_level_io;
+	static HashSet<AkGameObjectID> registered_game_objects;
 
 public:
 	Wwise();
@@ -71,8 +79,8 @@ public:
 	bool unload_bank_async_id(const unsigned int bank_id, const WwiseCookie* cookie);
 
 	bool register_listener(const Object* game_object);
-	bool register_game_obj(const Object* game_object, const String& game_object_name);
-	bool unregister_game_obj(const Object* game_object);
+	bool register_game_obj(const Node* game_object, const String& game_object_name);
+	bool unregister_game_obj(const Node* game_object);
 
 	bool set_distance_probe(const Object* listener_game_object, const Object* probe_game_object);
 	bool reset_distance_probe(const Object* listener_game_object);
@@ -89,18 +97,21 @@ public:
 			const AkUtils::MultiPositionType multi_position_type);
 	bool set_game_object_radius(const Object* game_object, const float outer_radius, const float inner_radius);
 
-	unsigned int post_event(const String& event_name, const Object* game_object);
-	unsigned int post_event_callback(const String& event_name, const AkUtils::AkCallbackType flags,
-			const Object* game_object, const WwiseCookie* cookie);
-	unsigned int post_event_id(const unsigned int event_id, const Object* game_object);
-	unsigned int post_event_id_callback(const unsigned int event_id, const AkUtils::AkCallbackType flags,
-			const Object* game_object, const WwiseCookie* cookie);
+	AkPlayingID post_event(const String& event_name, Node* game_object);
+	AkPlayingID post_event_callback(
+			const String& event_name, const AkUtils::AkCallbackType flags, Node* game_object, const Callable& cookie);
+	AkPlayingID post_event_id(uint32_t event_id, Node* game_object);
+	AkPlayingID post_event_id_callback(
+			uint32_t event_id, AkUtils::AkCallbackType flags, Node* game_object, const Callable& cookie);
+	AkPlayingID post_midi_on_event_id(const AkUniqueID p_event_id, Node* p_game_object,
+			TypedArray<AkMidiPost> p_midi_posts, bool p_absolute_offsets = false);
 	void stop_event(const unsigned int playing_id, const unsigned int fade_time,
 			const AkUtils::AkCurveInterpolation interpolation);
-
-	bool set_switch(const String& switch_group, const String& switch_value, const Object* game_object);
-	bool set_switch_id(
-			const unsigned int switch_group_id, const unsigned int switch_value_id, const Object* game_object);
+	bool stop_midi_on_event_id(const AkUniqueID p_event_id, Node* p_game_object);
+	bool execute_action_on_event_id(AkUniqueID p_event_id, AkUtils::AkActionOnEventType p_action_type,
+			Node* game_object, int p_transition_duration = 0,
+			AkUtils::AkCurveInterpolation p_fade_curve = AkUtils::AkCurveInterpolation::AK_CURVE_LINEAR,
+			AkPlayingID p_playing_id = AK_INVALID_PLAYING_ID);
 	bool set_state(const String& state_group, const String& state_value);
 	bool set_state_id(const unsigned int state_group_id, const unsigned int state_value_id);
 
