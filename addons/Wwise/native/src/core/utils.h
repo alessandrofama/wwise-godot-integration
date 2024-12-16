@@ -326,3 +326,8 @@ static inline bool find_matching_vertex(Vector3 vertex, Dictionary vert_dict, in
 		return false;
 	}
 }
+
+static inline AkGameObjectID get_ak_game_object_id(const Node* p_node)
+{
+	return p_node == nullptr ? AK_INVALID_GAME_OBJECT : p_node->get_instance_id();
+}

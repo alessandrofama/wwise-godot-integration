@@ -36,9 +36,14 @@
 #include <AK/Plugin/MasteringSuiteFXFactory.h>
 #endif
 
+#include "scene/ak_game_obj.h"
+#include "scene/ak_game_obj_2d.h"
+#include "scene/ak_game_obj_3d.h"
+
 Wwise* Wwise::singleton = nullptr;
 CAkLock Wwise::callback_data_lock;
 CAkLock g_localOutputLock;
+HashSet<AkGameObjectID> Wwise::registered_game_objects;
 
 #if defined(AK_ENABLE_ASSERTS)
 void WwiseAssertHook(const char* in_pszExpression, const char* in_psz_filename, int in_lineNumber)
@@ -114,7 +119,14 @@ void Wwise::_bind_methods()
 	ClassDB::bind_method(D_METHOD("post_event_id", "event_id", "game_object"), &Wwise::post_event_id);
 	ClassDB::bind_method(D_METHOD("post_event_id_callback", "event_id", "flags", "game_object", "cookie"),
 			&Wwise::post_event_id_callback);
+	ClassDB::bind_method(D_METHOD("post_midi_on_event_id", "event_id", "game_object", "midi_posts", "aboslute_offsets"),
+			&Wwise::post_midi_on_event_id);
 	ClassDB::bind_method(D_METHOD("stop_event", "playing_id", "fade_time", "interpolation"), &Wwise::stop_event);
+	ClassDB::bind_method(D_METHOD("stop_midi_on_event_id", "event_id", "game_object"), &Wwise::stop_midi_on_event_id);
+	ClassDB::bind_method(D_METHOD("execute_action_on_event_id", "event_id", "action_type", "game_object",
+								 "transition_duration", "fade_curve", "playing_id"),
+			&Wwise::execute_action_on_event_id, DEFVAL(0), DEFVAL(AkUtils::AkCurveInterpolation::AK_CURVE_LINEAR),
+			DEFVAL(AK_INVALID_PLAYING_ID));
 	ClassDB::bind_method(D_METHOD("set_switch", "switch_group", "switch_value", "game_object"), &Wwise::set_switch);
 	ClassDB::bind_method(
 			D_METHOD("set_switch_id", "switch_group_id", "switch_value_id", "game_object"), &Wwise::set_switch_id);
@@ -252,7 +264,11 @@ void Wwise::init()
 	}
 }
 
-void Wwise::render_audio() { ERROR_CHECK(AK::SoundEngine::RenderAudio()); }
+void Wwise::render_audio()
+{
+	AkBankManager::do_unload_banks();
+	ERROR_CHECK(AK::SoundEngine::RenderAudio());
+}
 
 void Wwise::shutdown()
 {
@@ -352,21 +368,25 @@ bool Wwise::register_listener(const Object* game_object)
 	return true;
 }
 
-bool Wwise::register_game_obj(const Object* game_object, const String& game_object_name)
+bool Wwise::register_game_obj(const Node* game_object, const String& game_object_name)
 {
-	AKASSERT(game_object);
-	AKASSERT(!game_object_name.is_empty());
-
-	return ERROR_CHECK_MSG(AK::SoundEngine::RegisterGameObj(static_cast<AkGameObjectID>(game_object->get_instance_id()),
-								   game_object_name.utf8().get_data()),
-			vformat("Failed to register Game Object with name: %s.", game_object_name));
+	AkGameObjectID id = get_ak_game_object_id(game_object);
+	AKRESULT result = AK::SoundEngine::RegisterGameObj(id, game_object_name.utf8().get_data());
+	post_register_game_object(result, game_object, id);
+	return ERROR_CHECK_MSG(result, vformat("Failed to register Game Object with name: %s.", game_object_name));
 }
 
-bool Wwise::unregister_game_obj(const Object* game_object)
+bool Wwise::unregister_game_obj(const Node* game_object)
 {
-	AKASSERT(game_object);
+	if (!game_object || !is_initialized())
+	{
+		return true;
+	}
 
-	return ERROR_CHECK(AK::SoundEngine::UnregisterGameObj(static_cast<AkGameObjectID>(game_object->get_instance_id())));
+	AkGameObjectID id = get_ak_game_object_id(game_object);
+	AKRESULT result = AK::SoundEngine::UnregisterGameObj(id);
+	post_unregister_game_object(result, game_object, id);
+	return ERROR_CHECK(result);
 }
 
 bool Wwise::set_distance_probe(const Object* listener_game_object, const Object* probe_game_object)
@@ -525,75 +545,116 @@ bool Wwise::set_game_object_radius(const Object* game_object, const float outer_
 			AK::SpatialAudio::SetGameObjectRadius(game_object->get_instance_id(), outer_radius, inner_radius));
 }
 
-unsigned int Wwise::post_event(const String& event_name, const Object* game_object)
+AkPlayingID Wwise::post_event(const String& event_name, Node* game_object)
 {
-	AKASSERT(!event_name.is_empty());
-	AKASSERT(game_object);
+	AkGameObjectID id = get_ak_game_object_id(game_object);
+	pre_game_object_api_call(game_object, id);
+	AkPlayingID playing_id = AK::SoundEngine::PostEvent(event_name.utf8().get_data(), id);
 
-	AkPlayingID playing_id = AK::SoundEngine::PostEvent(
-			event_name.utf8().get_data(), static_cast<AkGameObjectID>(game_object->get_instance_id()));
-
-	if (playing_id == AK_INVALID_PLAYING_ID)
+	if (playing_id == AK_INVALID_PLAYING_ID && game_object)
 	{
 		ERROR_CHECK_MSG(AK_InvalidID,
-				vformat("Failed to post Event: %s on Game Object: %s.", event_name,
-						itos(game_object->get_instance_id())));
+				vformat("Failed to post Event: %s on Game Object: %s.", event_name, game_object->get_name()));
 	}
 
 	return playing_id;
 }
 
-unsigned int Wwise::post_event_callback(const String& event_name, const AkUtils::AkCallbackType flags,
-		const Object* game_object, const WwiseCookie* cookie)
+AkPlayingID Wwise::post_event_callback(
+		const String& event_name, const AkUtils::AkCallbackType flags, Node* game_object, const Callable& cookie)
 {
-	AKASSERT(!event_name.is_empty());
-	AKASSERT(game_object);
-	AKASSERT(cookie);
-
-	AkPlayingID playing_id = AK::SoundEngine::PostEvent(event_name.utf8().get_data(),
-			static_cast<AkGameObjectID>(game_object->get_instance_id()), flags, event_callback, (void*)cookie);
-
-	if (playing_id == AK_INVALID_PLAYING_ID)
-	{
-		ERROR_CHECK_MSG(AK_InvalidID,
-				vformat("Failed to post Event: %s on Game Object: %s.", event_name,
-						itos(game_object->get_instance_id())));
-	}
-
-	return playing_id;
-}
-
-unsigned int Wwise::post_event_id(const unsigned int event_id, const Object* game_object)
-{
-	AKASSERT(game_object);
-
+	AkGameObjectID id = get_ak_game_object_id(game_object);
+	pre_game_object_api_call(game_object, id);
+	Callable* callable_obj = new Callable(cookie);
 	AkPlayingID playing_id =
-			AK::SoundEngine::PostEvent(event_id, static_cast<AkGameObjectID>(game_object->get_instance_id()));
+			AK::SoundEngine::PostEvent(event_name.utf8().get_data(), id, flags, event_callback, (void*)callable_obj);
 
-	if (playing_id == AK_INVALID_PLAYING_ID)
+	if (playing_id == AK_INVALID_PLAYING_ID && game_object)
 	{
 		ERROR_CHECK_MSG(AK_InvalidID,
-				vformat("Failed to post Event with ID: %d on Game Object: %s.", event_id,
-						itos(game_object->get_instance_id())));
+				vformat("Failed to post Event: %s on Game Object: %s.", event_name, game_object->get_name()));
 	}
 
 	return playing_id;
 }
 
-unsigned int Wwise::post_event_id_callback(const unsigned int event_id, const AkUtils::AkCallbackType flags,
-		const Object* game_object, const WwiseCookie* cookie)
+AkPlayingID Wwise::post_event_id(uint32_t event_id, Node* game_object)
 {
-	AKASSERT(game_object);
-	AKASSERT(cookie);
+	AkGameObjectID id = get_ak_game_object_id(game_object);
+	pre_game_object_api_call(game_object, id);
+	AkPlayingID playing_id = AK::SoundEngine::PostEvent(event_id, id);
 
-	AkPlayingID playing_id = AK::SoundEngine::PostEvent(event_id,
-			static_cast<AkGameObjectID>(game_object->get_instance_id()), flags, event_callback, (void*)cookie);
-
-	if (playing_id == AK_INVALID_PLAYING_ID)
+	if (playing_id == AK_INVALID_PLAYING_ID && game_object)
 	{
 		ERROR_CHECK_MSG(AK_InvalidID,
-				vformat("Failed to post Event with ID: %d on Game Object: %s.", event_id,
-						itos(game_object->get_instance_id())));
+				vformat("Failed to post Event: %d on Game Object: %s.", event_id, game_object->get_name()));
+	}
+
+	return playing_id;
+}
+
+AkPlayingID Wwise::post_event_id_callback(
+		uint32_t event_id, AkUtils::AkCallbackType flags, Node* game_object, const Callable& cookie)
+{
+	AkGameObjectID id = get_ak_game_object_id(game_object);
+	pre_game_object_api_call(game_object, id);
+	flags = static_cast<AkUtils::AkCallbackType>(flags | AkUtils::AkCallbackType::AK_END_OF_EVENT);
+	Callable* callable_obj = new Callable(cookie);
+	AkPlayingID playing_id = AK::SoundEngine::PostEvent(event_id, id, flags, event_callback, (void*)callable_obj);
+
+	if (playing_id == AK_INVALID_PLAYING_ID && game_object)
+	{
+		ERROR_CHECK_MSG(AK_InvalidID,
+				vformat("Failed to post Event with ID: %d on Game Object: %s.", event_id, game_object->get_name()));
+	}
+
+	return playing_id;
+}
+
+AkPlayingID Wwise::post_midi_on_event_id(
+		const AkUniqueID p_event_id, Node* p_game_object, TypedArray<AkMidiPost> p_midi_posts, bool p_absolute_offsets)
+{
+	AkGameObjectID id = get_ak_game_object_id(p_game_object);
+	pre_game_object_api_call(p_game_object, id);
+
+	auto ak_midi_posts = std::make_unique<AkMIDIPost[]>(p_midi_posts.size());
+
+	for (int i = 0; i < p_midi_posts.size(); i++)
+	{
+		Ref<AkMidiPost> post = p_midi_posts[i];
+		if (!post.is_valid())
+		{
+			continue;
+		}
+
+		AkMIDIPost ak_post{};
+		ak_post.byType = post->get_by_type();
+		ak_post.byChan = post->get_by_chan();
+		ak_post.uOffset = post->get_u_offset();
+
+		switch (ak_post.byType)
+		{
+			case AkMidiPost::MidiEventType::MIDI_EVENT_TYPE_NOTE_OFF:
+			case AkMidiPost::MidiEventType::MIDI_EVENT_TYPE_NOTE_ON:
+			{
+				ak_post.NoteOnOff.byVelocity = post->get_by_velocity();
+				ak_post.NoteOnOff.byNote = post->get_by_note();
+				break;
+			}
+			default:
+				break;
+		}
+		ak_midi_posts[i] = ak_post;
+	}
+
+	AkPlayingID playing_id = AK::SoundEngine::PostMIDIOnEvent(
+			p_event_id, id, ak_midi_posts.get(), p_midi_posts.size(), p_absolute_offsets);
+
+	if (playing_id == AK_INVALID_PLAYING_ID && p_game_object)
+	{
+		ERROR_CHECK_MSG(AK_InvalidID,
+				vformat("Failed to post Midi on Event with ID: %d on Game Object: %s.", p_event_id,
+						p_game_object->get_name()));
 	}
 
 	return playing_id;
@@ -607,14 +668,32 @@ void Wwise::stop_event(
 			static_cast<AkCurveInterpolation>(interpolation));
 }
 
-bool Wwise::set_switch(const String& switch_group, const String& switch_value, const Object* game_object)
+bool Wwise::stop_midi_on_event_id(const AkUniqueID p_event_id, Node* p_game_object)
 {
-	AKASSERT(!switch_group.is_empty());
-	AKASSERT(!switch_value.is_empty());
-	AKASSERT(game_object);
+	AkGameObjectID id = get_ak_game_object_id(p_game_object);
+	pre_game_object_api_call(p_game_object, id);
 
-	return ERROR_CHECK(AK::SoundEngine::SetSwitch(switch_group.utf8().get_data(), switch_value.utf8().get_data(),
-			static_cast<AkGameObjectID>(game_object->get_instance_id())));
+	return ERROR_CHECK(AK::SoundEngine::StopMIDIOnEvent(p_event_id, id));
+}
+
+bool Wwise::execute_action_on_event_id(AkUniqueID p_event_id, AkUtils::AkActionOnEventType p_action_type,
+		Node* game_object, int p_transition_duration, AkUtils::AkCurveInterpolation p_fade_curve,
+		AkPlayingID p_playing_id)
+{
+	AkGameObjectID id = get_ak_game_object_id(game_object);
+	pre_game_object_api_call(game_object, id);
+
+	return ERROR_CHECK(
+			AK::SoundEngine::ExecuteActionOnEvent(p_event_id, (AK::SoundEngine::AkActionOnEventType)p_action_type, id,
+					p_transition_duration, (AkCurveInterpolation)p_fade_curve, p_playing_id));
+}
+
+bool Wwise::set_switch(const String& switch_group, const String& switch_value, Node* game_object)
+{
+	AkGameObjectID id = get_ak_game_object_id(game_object);
+	pre_game_object_api_call(game_object, id);
+
+	return ERROR_CHECK(AK::SoundEngine::SetSwitch(switch_group.utf8().get_data(), switch_value.utf8().get_data(), id));
 }
 
 bool Wwise::set_switch_id(
@@ -1553,43 +1632,63 @@ void Wwise::bank_callback(AkUInt32 bank_id, const void* in_memory_bank_ptr, AKRE
 	wrapper->get_cookie().callv(args);
 }
 
-Variant Wwise::get_platform_project_setting(const String& setting)
+void Wwise::pre_game_object_api_call(Node* p_node, AkGameObjectID p_id)
 {
-	AKASSERT(project_settings);
-	AKASSERT(!setting.is_empty());
-
-	String platform_setting = setting;
-
-#ifdef AK_WIN
-	platform_setting += GODOT_WINDOWS_SETTING_POSTFIX;
-#elif defined(AK_MAC_OS_X)
-	platform_setting += GODOT_MAC_OSX_SETTING_POSTFIX;
-#elif defined(AK_IOS)
-	platform_setting += GODOT_IOS_SETTING_POSTFIX;
-#elif defined(AK_ANDROID)
-	platform_setting += GODOT_ANDROID_SETTING_POSTFIX;
-#elif defined(AK_LINUX)
-	platform_setting += GODOT_LINUX_SETTING_POSTFIX;
-#else
-#error "Platform not supported"
-#endif
-
-	// Try to get the platform-specific setting, if it exists
-	if (project_settings && project_settings->has_setting(platform_setting))
+	bool found = registered_game_objects.find(p_id) != registered_game_objects.end();
+	if (!found && is_initialized())
 	{
-		return project_settings->get(platform_setting);
+		if (!p_node)
+		{
+			return;
+		}
+
+		if (Object::cast_to<Node3D>(p_node))
+		{
+			if (!p_node->has_node("AkGameObj3D"))
+			{
+				AkGameObj3D* game_obj_3d = memnew(AkGameObj3D);
+				game_obj_3d->set_name("AkGameObj3D");
+				p_node->add_child(game_obj_3d);
+			}
+		}
+		else if (Object::cast_to<Node2D>(p_node))
+		{
+			if (!p_node->has_node("AkGameObj2D"))
+			{
+				AkGameObj2D* game_obj_2d = memnew(AkGameObj2D);
+				game_obj_2d->set_name("AkGameObj2D");
+				p_node->add_child(game_obj_2d);
+			}
+		}
+		else
+		{
+			if (!p_node->has_node("AkGameObj"))
+			{
+				AkGameObj* game_obj = memnew(AkGameObj);
+				game_obj->set_name("AkGameObj");
+				p_node->add_child(game_obj);
+			}
+		}
 	}
+}
 
-	// Otherwise, try to get the default platform-agnostic setting
-	if (project_settings && project_settings->has_setting(setting))
+void Wwise::post_register_game_object(AKRESULT p_result, const Node* p_node, AkGameObjectID p_id)
+{
+	if (p_result == AK_Success)
 	{
-		return project_settings->get(setting);
+		registered_game_objects.insert(p_id);
 	}
-	else
+}
+
+void Wwise::post_unregister_game_object(AKRESULT p_result, const Node* p_node, AkGameObjectID p_id)
+{
+	if (p_result == AK_Success)
 	{
-		AKASSERT(false);
-		UtilityFunctions::print(vformat("WwiseGodot: Failed to get setting: %s", platform_setting));
-		return "";
+		auto it = registered_game_objects.find(p_id);
+		if (it != registered_game_objects.end())
+		{
+			registered_game_objects.remove(it);
+		}
 	}
 }
 
