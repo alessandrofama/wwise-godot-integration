@@ -27,11 +27,11 @@ AkBank::AkBank()
 
 void AkBank::_enter_tree()
 {
-	ProjectSettings* settings = ProjectSettings::get_singleton();
+	WwiseSettings* settings = WwiseSettings::get_singleton();
 
 	if (settings)
 	{
-		use_soundbank_names = settings->get_setting("wwise/common_user_settings/use_soundbank_names", true);
+		use_soundbank_names = settings->get_setting(settings->project_settings.use_soundbank_names, true);
 	}
 
 	handle_game_event(AkUtils::GameEvent::GAMEEVENT_ENTER_TREE);
