@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dtl5m1faegd7c"
-path="res://.godot/imported/AcousticTexture_nor.svg-7052446467938c70bece44de02fa6583.ctex"
+uid="uid://cxgdoybdvy0da"
+path="res://.godot/imported/ObjectIcons_SwitchGroup_nor.svg-cc099070651cd335d07d34a137ddd578.ctex"
 metadata={
 "has_editor_variant": true,
 "vram_texture": false
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://addons/Wwise/editor/images/AcousticTexture_nor.svg"
-dest_files=["res://.godot/imported/AcousticTexture_nor.svg-7052446467938c70bece44de02fa6583.ctex"]
+source_file="res://addons/Wwise/editor/theme/light/images/ObjectIcons_SwitchGroup_nor.svg"
+dest_files=["res://.godot/imported/ObjectIcons_SwitchGroup_nor.svg-cc099070651cd335d07d34a137ddd578.ctex"]
 
 [params]
 

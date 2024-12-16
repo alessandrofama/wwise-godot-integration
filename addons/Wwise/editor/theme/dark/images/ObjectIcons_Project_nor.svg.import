@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://billu2uub7dyo"
-path="res://.godot/imported/State_nor.svg-367952294445cb37b2ffc0af50a35618.ctex"
+uid="uid://bipwsxmd2iv6w"
+path="res://.godot/imported/ObjectIcons_Project_nor.svg-dc54e7c1d86ab87d3d353b8d56d84d91.ctex"
 metadata={
 "has_editor_variant": true,
 "vram_texture": false
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://addons/Wwise/editor/images/State_nor.svg"
-dest_files=["res://.godot/imported/State_nor.svg-367952294445cb37b2ffc0af50a35618.ctex"]
+source_file="res://addons/Wwise/editor/theme/dark/images/ObjectIcons_Project_nor.svg"
+dest_files=["res://.godot/imported/ObjectIcons_Project_nor.svg-dc54e7c1d86ab87d3d353b8d56d84d91.ctex"]
 
 [params]
 

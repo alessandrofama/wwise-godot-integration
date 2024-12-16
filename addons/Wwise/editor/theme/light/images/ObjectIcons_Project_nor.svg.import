@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://pc88x388tcsm"
-path="res://.godot/imported/Workunit_nor.svg-e25848aba6a8174e5430bbb0701de596.ctex"
+uid="uid://cna5nfk88jp1c"
+path="res://.godot/imported/ObjectIcons_Project_nor.svg-03f73eb25f92ec8c0eb7923b7ed04de1.ctex"
 metadata={
 "has_editor_variant": true,
 "vram_texture": false
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://addons/Wwise/editor/images/Workunit_nor.svg"
-dest_files=["res://.godot/imported/Workunit_nor.svg-e25848aba6a8174e5430bbb0701de596.ctex"]
+source_file="res://addons/Wwise/editor/theme/light/images/ObjectIcons_Project_nor.svg"
+dest_files=["res://.godot/imported/ObjectIcons_Project_nor.svg-03f73eb25f92ec8c0eb7923b7ed04de1.ctex"]
 
 [params]
 

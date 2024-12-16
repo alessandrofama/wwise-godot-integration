@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bx6kmkkhf8uiu"
-path="res://.godot/imported/Soundbank_nor.svg-4156d1b612ac06ebcfe2b9efac7ddcc1.ctex"
+uid="uid://tgmh2p5dnyqr"
+path="res://.godot/imported/ObjectIcons_AuxBus_nor.svg-6cc503715849d6a0e05b04b101d3ab59.ctex"
 metadata={
 "has_editor_variant": true,
 "vram_texture": false
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://addons/Wwise/editor/images/Soundbank_nor.svg"
-dest_files=["res://.godot/imported/Soundbank_nor.svg-4156d1b612ac06ebcfe2b9efac7ddcc1.ctex"]
+source_file="res://addons/Wwise/editor/theme/light/images/ObjectIcons_AuxBus_nor.svg"
+dest_files=["res://.godot/imported/ObjectIcons_AuxBus_nor.svg-6cc503715849d6a0e05b04b101d3ab59.ctex"]
 
 [params]
 

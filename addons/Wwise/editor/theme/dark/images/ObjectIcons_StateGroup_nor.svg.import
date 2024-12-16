@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c6henbtgmply7"
-path="res://.godot/imported/SoundbankInit_nor.svg-9fa97e168e627235d3e772b3183b27fd.ctex"
+uid="uid://ct2g8igdlioxl"
+path="res://.godot/imported/ObjectIcons_StateGroup_nor.svg-138badbb85d41621a38411e8fc4a6a15.ctex"
 metadata={
 "has_editor_variant": true,
 "vram_texture": false
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://addons/Wwise/editor/images/SoundbankInit_nor.svg"
-dest_files=["res://.godot/imported/SoundbankInit_nor.svg-9fa97e168e627235d3e772b3183b27fd.ctex"]
+source_file="res://addons/Wwise/editor/theme/dark/images/ObjectIcons_StateGroup_nor.svg"
+dest_files=["res://.godot/imported/ObjectIcons_StateGroup_nor.svg-138badbb85d41621a38411e8fc4a6a15.ctex"]
 
 [params]
 
