@@ -4,6 +4,7 @@
 #include "core/utils.h"
 #include "core/wwise_cookie.h"
 #include "core/wwise_io_hook.h"
+#include "core/wwise_settings.h"
 #include <AK/MusicEngine/Common/AkMusicEngine.h>
 #include <AK/SoundEngine/Common/AkCallback.h>
 #include <AK/SoundEngine/Common/AkMemoryMgr.h>
@@ -18,7 +19,6 @@
 #include <AK/Tools/Common/AkObject.h>
 #include <godot_cpp/classes/display_server.hpp>
 #include <godot_cpp/classes/object.hpp>
-#include <godot_cpp/classes/project_settings.hpp>
 #include <godot_cpp/classes/ref_counted.hpp>
 #include <godot_cpp/classes/resource.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
@@ -38,17 +38,6 @@ protected:
 	static void _bind_methods();
 
 private:
-	String GODOT_WINDOWS_SETTING_POSTFIX = ".Windows";
-	String GODOT_MAC_OSX_SETTING_POSTFIX = ".OSX";
-	String GODOT_IOS_SETTING_POSTFIX = ".iOS";
-	String GODOT_ANDROID_SETTING_POSTFIX = ".Android";
-	String GODOT_LINUX_SETTING_POSTFIX = ".Linux";
-
-	String WWISE_COMMON_USER_SETTINGS_PATH = "wwise/common_user_settings/";
-	String WWISE_COMMON_ADVANCED_SETTINGS_PATH = "wwise/common_advanced_settings/";
-	String WWISE_SPATIAL_AUDIO_PATH = "spatial_audio/";
-	String WWISE_COMMUNICATION_SETTINGS_PATH = "wwise/communication_settings/";
-
 	static void event_callback(AkCallbackType callback_type, AkCallbackInfo* callback_info);
 	static void bank_callback(AkUInt32 bank_id, const void* in_memory_bank_ptr, AKRESULT load_result, void* in_pCookie);
 
@@ -59,7 +48,6 @@ private:
 
 	static CAkLock callback_data_lock;
 
-	ProjectSettings* project_settings;
 	WwiseFileIOHandler low_level_io;
 
 public:
