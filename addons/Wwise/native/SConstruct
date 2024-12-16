@@ -140,6 +140,7 @@ if env["platform"] == "ios" and env["ios_simulator"]:
 
 wwise_soundengine_sample_common_path = env["wwise_sdk"] + "/samples/SoundEngine/Common/"
 wwise_soundengine_common_include_path = wwise_sdk_headers_path + "AK/SoundEngine/Common/"
+wwise_soundengine_project_database_path = env["wwise_sdk"] + "/samples/WwiseProjectDatabase/"
 
 ## Wwise libs
 wwise_memorymanager_library = "AkMemoryMgr"
@@ -385,6 +386,10 @@ sources.append("src/wwise_gdextension_main.cpp")
 
 if env["platform"] == "windows" or env["platform"] == "macos":
     env.Append(LIBS=["AkAutobahn"])
+
+if env["target"] in ("editor"):
+    env.Append(CPPPATH=[wwise_soundengine_project_database_path, wwise_soundengine_project_database_path + "WwiseProjectDatabase", env["wwise_sdk"] + "/samples/3rdParty/subprojects/rapidjson/include"])
+    env.Append(CPPDEFINES=["WWISE_DB_STANDARD_TYPES", "TESTING_WWISE_PROJECT_DATABASE"])
 
 # Wwise specific configuration
 env.Append(CPPPATH=[wwise_sdk_headers_path, wwise_soundengine_sample_path, wwise_soundengine_sample_common_path, wwise_soundengine_common_include_path])
