@@ -1,8 +1,8 @@
 #pragma once
 
 #include <godot_cpp/classes/object.hpp>
-#include <unordered_map>
 #include <godot_cpp/core/class_db.hpp>
+#include <unordered_map>
 
 using namespace godot;
 
@@ -17,7 +17,6 @@ private:
 	static AkUtils* singleton;
 
 public:
-
 	enum GameEvent
 	{
 		GAMEEVENT_NONE,
@@ -66,6 +65,16 @@ public:
 		AK_ENABLE_GET_SOURCE_STREAM_BUFFERING = 0x400000
 	};
 
+	enum AkActionOnEventType
+	{
+		AK_ACTION_ON_EVENT_STOP = 0,
+		AK_ACTION_ON_EVENT_PAUSE = 1,
+		AK_ACTION_ON_EVENT_RESUME = 2,
+		AK_ACTION_ON_EVENT_BREAK = 3,
+		AK_ACTION_ON_EVENT_RELEASE_ENVELOPE = 4,
+		AK_ACTION_ON_EVENT_LAST
+	};
+
 	enum MultiPositionType
 	{
 		TYPE_SINGLE_SOURCE = 0,
@@ -101,29 +110,18 @@ public:
 		AK_CODECID_BANK_BUS = 31
 	};
 
-	std::unordered_map<AkCallbackType, StringName> event_callback_signals{
-		{ AK_END_OF_EVENT, "end_of_event" },
-		{ AK_END_OF_DYNAMIC_SEQUENCE_ITEM, "end_of_dynamic_sequence_item" },
-		{ AK_MARKER, "audio_marker" },
-		{ AK_DURATION, "duration" },
-		{ AK_SPEAKER_VOLUME_MATRIX, "speaker_volume_matrix" },
-		{ AK_STARVATION, "audio_starvation" },
-		{ AK_MUSIC_PLAYLIST_SELECT, "music_playlist_select" },
-		{ AK_MUSIC_PLAY_STARTED, "music_play_started" },
-		{ AK_MUSIC_SYNC_BEAT, "music_sync_beat" },
-		{ AK_MUSIC_SYNC_BAR, "music_sync_bar" },
-		{ AK_MUSIC_SYNC_ENTRY, "music_sync_entry" },
-		{ AK_MUSIC_SYNC_EXIT, "music_sync_exit" },
-		{ AK_MUSIC_SYNC_GRID, "music_sync_grid" },
-		{ AK_MUSIC_SYNC_USER_CUE, "music_sync_user_cue" },
-		{ AK_MUSIC_SYNC_POINT, "music_sync_point" },
-		{ AK_MUSIC_SYNC_ALL, "music_sync_all" },
-		{ AK_MIDI_EVENT, "midi_event" },
-		{ AK_CALLBACK_BITS, "callback_bits" },
+	std::unordered_map<AkCallbackType, StringName> event_callback_signals{ { AK_END_OF_EVENT, "end_of_event" },
+		{ AK_END_OF_DYNAMIC_SEQUENCE_ITEM, "end_of_dynamic_sequence_item" }, { AK_MARKER, "audio_marker" },
+		{ AK_DURATION, "duration" }, { AK_SPEAKER_VOLUME_MATRIX, "speaker_volume_matrix" },
+		{ AK_STARVATION, "audio_starvation" }, { AK_MUSIC_PLAYLIST_SELECT, "music_playlist_select" },
+		{ AK_MUSIC_PLAY_STARTED, "music_play_started" }, { AK_MUSIC_SYNC_BEAT, "music_sync_beat" },
+		{ AK_MUSIC_SYNC_BAR, "music_sync_bar" }, { AK_MUSIC_SYNC_ENTRY, "music_sync_entry" },
+		{ AK_MUSIC_SYNC_EXIT, "music_sync_exit" }, { AK_MUSIC_SYNC_GRID, "music_sync_grid" },
+		{ AK_MUSIC_SYNC_USER_CUE, "music_sync_user_cue" }, { AK_MUSIC_SYNC_POINT, "music_sync_point" },
+		{ AK_MUSIC_SYNC_ALL, "music_sync_all" }, { AK_MIDI_EVENT, "midi_event" }, { AK_CALLBACK_BITS, "callback_bits" },
 		{ AK_ENABLE_GET_SOURCE_PLAY_POSITION, "enable_get_source_play_position" },
 		{ AK_ENABLE_GET_MUSIC_PLAY_POSITION, "enable_get_music_play_position" },
-		{ AK_ENABLE_GET_SOURCE_STREAM_BUFFERING, "enable_get_source_stream_buffering" }
-	};
+		{ AK_ENABLE_GET_SOURCE_STREAM_BUFFERING, "enable_get_source_stream_buffering" } };
 
 public:
 	AkUtils();
@@ -134,5 +132,6 @@ public:
 VARIANT_ENUM_CAST(AkUtils::GameEvent);
 VARIANT_ENUM_CAST(AkUtils::AkCurveInterpolation);
 VARIANT_ENUM_CAST(AkUtils::AkCallbackType);
+VARIANT_ENUM_CAST(AkUtils::AkActionOnEventType);
 VARIANT_ENUM_CAST(AkUtils::MultiPositionType);
 VARIANT_ENUM_CAST(AkUtils::AkCodecID);
