@@ -88,6 +88,8 @@ opts.Add(
         ],
     )
 )
+
+opts.Add(EnumVariable("wwise_config", "Wwise Build Configuration", "debug", ["debug", "profile", "release"]))
 opts.Add(EnumVariable("ios_arch", "Target iOS architecture", "arm64", ["arm64"]))
 opts.Add("ios_min_version", "Target minimum iphoneos/iphonesimulator version", "11.0")
 opts.Add(BoolVariable("ios_simulator", "Target iOS Simulator", False))
@@ -105,36 +107,46 @@ wwise_soundengine_sample_path = ""
 
 if env["platform"] == "windows":
     wwise_soundengine_sample_path = env["wwise_sdk"] + "/samples/SoundEngine/Win32/"
-    if env["target"] in ("editor", "template_debug"):
+    if env["wwise_config"] == "debug":
         wwise_sdk_libs_path = env["wwise_sdk"] + "/x64_vc170/Debug(StaticCRT)/lib/"
+    elif env["wwise_config"] == "profile":
+        wwise_sdk_libs_path = env["wwise_sdk"] + "/x64_vc170/Profile(StaticCRT)/lib/"
     else:
         wwise_sdk_libs_path = env["wwise_sdk"] + "/x64_vc170/Release(StaticCRT)/lib/"
 
 if env["platform"] == "macos":
     wwise_soundengine_sample_path = env["wwise_sdk"] + "/samples/SoundEngine/POSIX/"
-    if env["target"] in ("editor", "template_debug"):
+    if env["wwise_config"] == "debug":
         wwise_sdk_libs_path = env["wwise_sdk"] + "/Mac_Xcode1500/Debug/lib/"
+    elif env["wwise_config"] == "profile":
+        wwise_sdk_libs_path = env["wwise_sdk"] + "/Mac_Xcode1500/Profile/lib/"
     else:
         wwise_sdk_libs_path = env["wwise_sdk"] + "/Mac_Xcode1500/Release/lib/"
 
 if env["platform"] == "linux":
     wwise_soundengine_sample_path = env["wwise_sdk"] + "/samples/SoundEngine/POSIX/"
-    if env["target"] in ("editor", "template_debug"):
+    if env["wwise_config"] == "debug":
         wwise_sdk_libs_path = env["wwise_sdk"] + "/Linux_x64/Debug/lib/"
+    elif env["wwise_config"] == "profile":
+        wwise_sdk_libs_path = env["wwise_sdk"] + "/Linux_x64/Profile/lib/"
     else:
         wwise_sdk_libs_path = env["wwise_sdk"] + "/Linux_x64/Release/lib/"
 
 if env["platform"] == "ios" and not env["ios_simulator"]:
     wwise_soundengine_sample_path = env["wwise_sdk"] + "/samples/SoundEngine/POSIX/"
-    if env["target"] in ("template_debug"):
+    if env["wwise_config"] == "debug":
         wwise_sdk_libs_path = env["wwise_sdk"] + "/iOS_Xcode1500/Debug-iphoneos/lib/"
+    elif env["wwise_config"] == "profile":
+        wwise_sdk_libs_path = env["wwise_sdk"] + "/iOS_Xcode1500/Profile-iphoneos/lib/"
     else:
         wwise_sdk_libs_path = env["wwise_sdk"] + "/iOS_Xcode1500/Release-iphoneos/lib/"
 
 if env["platform"] == "ios" and env["ios_simulator"]:
     wwise_soundengine_sample_path = env["wwise_sdk"] + "/samples/SoundEngine/POSIX/"
-    if env["target"] in ("template_debug"):
+    if env["wwise_config"] == "debug":
         wwise_sdk_libs_path = env["wwise_sdk"] + "/iOS_Xcode1500/Debug-iphonesimulator/lib/"
+    elif env["wwise_config"] == "profile":
+        wwise_sdk_libs_path = env["wwise_sdk"] + "/iOS_Xcode1500/Profile-iphonesimulator/lib/"
     else:
         wwise_sdk_libs_path = env["wwise_sdk"] + "/iOS_Xcode1500/Release-iphonesimulator/lib/"
 
@@ -210,22 +222,37 @@ print("Wwise SDK libs path: " + wwise_sdk_libs_path)
 # Windows build settings
 if env["platform"] == "windows":
     env["target_path"] += "/win64/"
-    if env["target"] in ("editor", "template_debug"):
-        if env["target"] == "editor":
+    if env["target"] in ("template_debug"):
+        env["target_path"] += "template_debug/"
+        if env["dev_build"] or env["wwise_config"] in ("debug"):
+            env["target_path"] += "debug/"
+            env.Append(CPPDEFINES=["_DEBUG"])
+            env.Append(LINKFLAGS=["-DEBUG"])
+            env.Append(CCFLAGS=["/MTd"])
+            if env["asserts"]:
+                env.Append(CPPDEFINES=["AK_ENABLE_ASSERTS"])
+        else:
+            env["target_path"] += "profile/"
+            env.Append(CPPDEFINES=["NDEBUG"])
+    else:
+        if env["target"] in ("editor"):
             env["target_path"] += "editor/"
             make_doc_source("src/gen/doc_data.gen.cpp", Glob("doc_classes/*.xml"), env)
+            if env["dev_build"] or env["wwise_config"] in ("debug"):
+                env["target_path"] += "debug/"
+                env.Append(CPPDEFINES=["_DEBUG"])
+                env.Append(LINKFLAGS=["-DEBUG"])
+                env.Append(CCFLAGS=["/MTd"])
+                if env["asserts"]:
+                    env.Append(CPPDEFINES=["AK_ENABLE_ASSERTS"])
+            else:
+                env["target_path"] += "profile/"
+                env.Append(CPPDEFINES=["NDEBUG"])
         else:
-            env["target_path"] += "debug/"
-
-        env.Append(CPPDEFINES=["_DEBUG"])
-        env.Append(LINKFLAGS=["-DEBUG"])
-        env.Append(CCFLAGS=["/MTd"])
-        if env["asserts"]:
-            env.Append(CPPDEFINES=["AK_ENABLE_ASSERTS"])
-    else:
-        env["target_path"] += "release/"
-        env.Append(CPPDEFINES=["AK_OPTIMIZED"])
-        env.Append(CPPDEFINES=["NDEBUG"])
+            env["target_path"] += "template_release/" 
+            env["target_path"] += "release/"
+            env.Append(CPPDEFINES=["AK_OPTIMIZED"])
+            env.Append(CPPDEFINES=["NDEBUG"])
 
     if "motion" in env["plugins"]:
         wwise_plugins_library.append(["AkMotionSink", "AkMotionSourceSource"])
@@ -235,26 +262,44 @@ if env["platform"] == "windows":
         CPPDEFINES=["WIN32", "_WIN32", "_WINDOWS", "_CRT_SECURE_NO_WARNINGS", "UNICODE"]
     )
 
+    env.Append(CCFLAGS=["/std:c++20", "/bigobj"])
     env.Append(LINKFLAGS=["/INCREMENTAL:NO"])
 
 # macOS build settings
 elif env["platform"] == "macos":
     env["target_path"] += "/macos/"
-    if env["target"] in ("editor", "template_debug"):
-        if env["target"] == "editor":
+    if env["target"] in ("template_debug"):
+        env["target_path"] += "template_debug/"
+        if env["dev_build"] or env["wwise_config"] in ("debug"):
+            env["target_path"] += "debug/"
+            env.Append(CPPDEFINES=["_DEBUG"])
+            env.Append(LINKFLAGS=["-DEBUG"])
+            if env["asserts"]:
+                env.Append(CPPDEFINES=["AK_ENABLE_ASSERTS"])
+        else:
+            env["target_path"] += "profile/"
+            env.Append(CPPDEFINES=["NDEBUG"])
+    else:
+        if env["target"] in ("editor"):
             env["target_path"] += "editor/"
             make_doc_source("src/gen/doc_data.gen.cpp", Glob("doc_classes/*.xml"), env)
+            if env["dev_build"] or env["wwise_config"] in ("debug"):
+                env["target_path"] += "debug/"
+                env.Append(CPPDEFINES=["_DEBUG"])
+                env.Append(LINKFLAGS=["-DEBUG"])
+                if env["asserts"]:
+                    env.Append(CPPDEFINES=["AK_ENABLE_ASSERTS"])
+            else:
+                env["target_path"] += "profile/"
+                env.Append(CPPDEFINES=["NDEBUG"])
         else:
-            env["target_path"] += "debug/"
-            
-        if env["asserts"]:
-            env.Append(CPPDEFINES=["AK_ENABLE_ASSERTS"])
-    else:
-        env["target_path"] += "release/"
-        env.Append(CPPDEFINES=["AK_OPTIMIZED"])
+            env["target_path"] += "template_release/" 
+            env["target_path"] += "release/"
+            env.Append(CPPDEFINES=["AK_OPTIMIZED"])
+            env.Append(CPPDEFINES=["NDEBUG"])
 
-    macos_install_name = "@rpath/libwwise.{}.{}.framework/libwwise.{}.{}".format(
-        env["platform"], env["target"], env["platform"], env["target"]
+    macos_install_name = "@rpath/libwwise.{}.{}.framework/libwwise.{}.{}.{}".format(
+        env["platform"], env["target"], env["platform"], env["target"], env["wwise_config"]
     )
 
     env.Append(
@@ -271,21 +316,38 @@ elif env["platform"] == "macos":
 
     wwise_plugins_library.append("AkOpusDecoder")
 
-# linux build settings
+# Linux build settings
 elif env["platform"] == "linux":
     env["target_path"] += "/linux/"
-    if env["target"] in ("editor", "template_debug"):
-        if env["target"] == "editor":
+    if env["target"] in ("template_debug"):
+        env["target_path"] += "template_debug/"
+        if env["dev_build"] or env["wwise_config"] in ("debug"):
+            env["target_path"] += "debug/"
+            env.Append(CPPDEFINES=["_DEBUG"])
+            env.Append(LINKFLAGS=["-DEBUG"])
+            if env["asserts"]:
+                env.Append(CPPDEFINES=["AK_ENABLE_ASSERTS"])
+        else:
+            env["target_path"] += "profile/"
+            env.Append(CPPDEFINES=["NDEBUG"])
+    else:
+        if env["target"] in ("editor"):
             env["target_path"] += "editor/"
             make_doc_source("src/gen/doc_data.gen.cpp", Glob("doc_classes/*.xml"), env)
+            if env["dev_build"] or env["wwise_config"] in ("debug"):
+                env["target_path"] += "debug/"
+                env.Append(CPPDEFINES=["_DEBUG"])
+                env.Append(LINKFLAGS=["-DEBUG"])
+                if env["asserts"]:
+                    env.Append(CPPDEFINES=["AK_ENABLE_ASSERTS"])
+            else:
+                env["target_path"] += "profile/"
+                env.Append(CPPDEFINES=["NDEBUG"])
         else:
-            env["target_path"] += "debug/"
-
-        if env["asserts"]:
-            env.Append(CPPDEFINES=["AK_ENABLE_ASSERTS"])
-    else:
-        env["target_path"] += "release/"
-        env.Append(CPPDEFINES=["AK_OPTIMIZED"])
+            env["target_path"] += "template_release/" 
+            env["target_path"] += "release/"
+            env.Append(CPPDEFINES=["AK_OPTIMIZED"])
+            env.Append(CPPDEFINES=["NDEBUG"])
 
     env.Prepend(_LIBFLAGS="-Wl,--start-group ")
     env.Append(_LIBFLAGS=" -Wl,--end-group")
@@ -295,19 +357,29 @@ elif env["platform"] == "linux":
     env.Append(CCFLAGS=["-fPIC", "-Wwrite-strings"])
     env.Append(LINKFLAGS=["-Wl,-R,'$$ORIGIN'"])
 
-# ios build settings
+# iOS build settings
 elif env["platform"] == "ios":
     env["target_path"] += "/ios/"
+
     if env["ios_arch"] == "arm64":
         env["target_path"] += "arm64/"
 
     if env["target"] in ("template_debug"):
-        env["target_path"] += "debug/"
-        if env["asserts"]:
-            env.Append(CPPDEFINES=["AK_ENABLE_ASSERTS"])
+        env["target_path"] += "template_debug/"
+        if env["dev_build"] or env["wwise_config"] in ("debug"):
+            env["target_path"] += "debug/"
+            env.Append(CPPDEFINES=["_DEBUG"])
+            env.Append(LINKFLAGS=["-DEBUG"])
+            if env["asserts"]:
+                env.Append(CPPDEFINES=["AK_ENABLE_ASSERTS"])
+        else:
+            env["target_path"] += "profile/"
+            env.Append(CPPDEFINES=["NDEBUG"])
     else:
+        env["target_path"] += "template_release/" 
         env["target_path"] += "release/"
         env.Append(CPPDEFINES=["AK_OPTIMIZED"])
+        env.Append(CPPDEFINES=["NDEBUG"])
 
     if env["ios_arch"] == "x86_64":
         sdk_name = "iphonesimulator"
@@ -346,8 +418,8 @@ elif env["platform"] == "ios":
         ]
     )
 
-    ios_install_name = "@rpath/libwwise.{}.{}.framework/libwwise.{}.{}".format(
-        env["platform"], env["target"], env["platform"], env["target"]
+    ios_install_name = "@rpath/libwwise.{}.{}.{}.framework/libwwise.{}.{}.{}".format(
+        env["platform"], env["target"], env["wwise_config"], env["platform"], env["target"], env["wwise_config"]
     )
 
     env.Append(
@@ -420,15 +492,15 @@ if env["platform"] == "linux":
 if env["platform"] == "windows":
     library = env.SharedLibrary(
         target=env["target_path"]
-        + "libwwise.{}.{}.dll".format(env["platform"], env["target"]),
+        + "libwwise.{}.{}.{}.dll".format(env["platform"], env["target"], env["wwise_config"]),
         source=sources,
     )
 
 if env["platform"] == "macos":
     library = env.SharedLibrary(
         target=env["target_path"]
-        + "libwwise.{}.{}.framework/libwwise.{}.{}".format(
-            env["platform"], env["target"], env["platform"], env["target"]
+        + "libwwise.{}.{}.{}.framework/libwwise.{}.{}.{}".format(
+            env["platform"], env["target"], env["wwise_config"], env["platform"], env["target"], env["wwise_config"]
         ),
         source=sources,
     )
@@ -438,15 +510,15 @@ if env["platform"] == "linux":
 
     library = env.SharedLibrary(
         target=env["target_path"]
-        + "libwwise.{}.{}.so".format(env["platform"], env["target"]),
+        + "libwwise.{}.{}.{}.so".format(env["platform"], env["target"], env["wwise_config"]),
         source=sources,
     )
 
 if env["platform"] == "ios":
     ios_lib_path = env[
         "target_path"
-    ] + "libwwise.{}.{}.framework/libwwise.{}.{}".format(
-        env["platform"], env["target"], env["platform"], env["target"]
+    ] + "libwwise.{}.{}.{}.framework/libwwise.{}.{}.{}".format(
+        env["platform"], env["target"], env["wwise_config"], env["platform"], env["target"], env["wwise_config"]
     )
 
     library = env.SharedLibrary(
@@ -459,7 +531,7 @@ if env["platform"] == "ios":
         env["platform"], env["target"]
     )
 
-    env.Replace(LIB_NAME="libwwise.{}.{}".format(env["platform"], env["target"]))
+    env.Replace(LIB_NAME="libwwise.{}.{}.{}".format(env["platform"], env["target"], env["wwise_config"]))
     env.Replace(MIN_IOS_VERSION=env["ios_min_version"])
 
     def create_output_file(target, source, env):
@@ -467,7 +539,7 @@ if env["platform"] == "ios":
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
 
-        lib_name = "libwwise.{}.{}".format(env["platform"], env["target"])
+        lib_name = "libwwise.{}.{}.{}".format(env["platform"], env["target"], env["wwise_config"])
 
         with open(os.path.join(output_dir, output_file), "w") as f:
             xml_text = """<?xml version="1.0" encoding="UTF-8"?>
