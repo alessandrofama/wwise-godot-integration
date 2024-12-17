@@ -1,12 +1,12 @@
 #pragma once
 
-#include <godot_cpp/classes/node.hpp>
-#include <godot_cpp/core/class_db.hpp>
-#include <godot_cpp/variant/dictionary.hpp>
 #include <AK/Tools/Common/AkAutoLock.h>
 #include <AK/Tools/Common/AkLock.h>
 #include <AK/WwiseAuthoringAPI/AkAutobahn/Client.h>
 #include <AK/WwiseAuthoringAPI/AkAutobahn/JsonProvider.h>
+#include <godot_cpp/classes/node.hpp>
+#include <godot_cpp/core/class_db.hpp>
+#include <godot_cpp/variant/dictionary.hpp>
 
 using namespace godot;
 
