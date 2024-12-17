@@ -304,21 +304,20 @@ bool Wwise::load_bank(const String& bank_name)
 
 bool Wwise::load_bank_id(const unsigned int bank_id) { return ERROR_CHECK(AK::SoundEngine::LoadBank(bank_id)); }
 
-bool Wwise::load_bank_async(const String& bank_name, const WwiseCookie* cookie)
+bool Wwise::load_bank_async(const String& bank_name, const Callable& cookie)
 {
 	AKASSERT(!bank_name.is_empty());
-	AKASSERT(cookie);
 
 	AkBankID bank_id{};
+	Callable* callable_obj = new Callable(cookie);
 	return ERROR_CHECK(AK::SoundEngine::LoadBank(
-			bank_name.utf8().get_data(), (AkBankCallbackFunc)bank_callback, (void*)cookie, bank_id));
+			bank_name.utf8().get_data(), (AkBankCallbackFunc)bank_callback, (void*)callable_obj, bank_id));
 }
 
-bool Wwise::load_bank_async_id(const unsigned int bank_id, const WwiseCookie* cookie)
+bool Wwise::load_bank_async_id(const unsigned int bank_id, const Callable& cookie)
 {
-	AKASSERT(cookie);
-
-	return ERROR_CHECK(AK::SoundEngine::LoadBank(bank_id, (AkBankCallbackFunc)bank_callback, (void*)cookie));
+	Callable* callable_obj = new Callable(cookie);
+	return ERROR_CHECK(AK::SoundEngine::LoadBank(bank_id, (AkBankCallbackFunc)bank_callback, (void*)callable_obj));
 }
 
 bool Wwise::unload_bank(const String& bank_name)
@@ -333,20 +332,19 @@ bool Wwise::unload_bank_id(const unsigned int bank_id)
 	return ERROR_CHECK(AK::SoundEngine::UnloadBank(bank_id, NULL));
 }
 
-bool Wwise::unload_bank_async(const String& bank_name, const WwiseCookie* cookie)
+bool Wwise::unload_bank_async(const String& bank_name, const Callable& cookie)
 {
 	AKASSERT(!bank_name.is_empty());
-	AKASSERT(cookie);
-
+	Callable* callable_obj = new Callable(cookie);
 	return ERROR_CHECK(AK::SoundEngine::UnloadBank(
-			bank_name.utf8().get_data(), NULL, (AkBankCallbackFunc)bank_callback, (void*)cookie));
+			bank_name.utf8().get_data(), NULL, (AkBankCallbackFunc)bank_callback, (void*)callable_obj));
 }
 
-bool Wwise::unload_bank_async_id(const unsigned int bank_id, const WwiseCookie* cookie)
+bool Wwise::unload_bank_async_id(const unsigned int bank_id, const Callable& cookie)
 {
-	AKASSERT(cookie);
-
-	return ERROR_CHECK(AK::SoundEngine::UnloadBank(bank_id, NULL, (AkBankCallbackFunc)bank_callback, (void*)cookie));
+	Callable* callable_obj = new Callable(cookie);
+	return ERROR_CHECK(
+			AK::SoundEngine::UnloadBank(bank_id, NULL, (AkBankCallbackFunc)bank_callback, (void*)callable_obj));
 }
 
 bool Wwise::register_listener(const Object* game_object)
@@ -1603,23 +1601,23 @@ void Wwise::event_callback(AkCallbackType callback_type, AkCallbackInfo* callbac
 	}
 
 	args.push_back(callback_data);
-	wrapper->get_cookie().callv(args);
+	cookie->callv(args);
+
+	if (callback_type == AK_EndOfEvent)
+	{
+		delete cookie;
+	}
 }
 
 void Wwise::bank_callback(AkUInt32 bank_id, const void* in_memory_bank_ptr, AKRESULT load_result, void* in_pCookie)
 {
 	AkAutoLock<CAkLock> scoped_lock(callback_data_lock);
 
-	const WwiseCookie* wrapper = static_cast<WwiseCookie*>(in_pCookie);
+	Callable* cookie = static_cast<Callable*>(in_pCookie);
 
-	if (!wrapper)
+	if (!cookie)
 	{
-		ERROR_CHECK_MSG(AK_Fail, "The Bank Callback cookie is not valid.");
-		return;
-	}
-	else if (!wrapper->get_cookie().is_valid())
-	{
-		ERROR_CHECK_MSG(AK_Fail, "The Bank Callback cookie is not valid.");
+		ERROR_CHECK_MSG(AK_Fail, "WwiseGodot: The Bank Callback cookie is not valid.");
 		return;
 	}
 
@@ -1629,7 +1627,8 @@ void Wwise::bank_callback(AkUInt32 bank_id, const void* in_memory_bank_ptr, AKRE
 	callback_data["result"] = load_result;
 
 	args.push_back(callback_data);
-	wrapper->get_cookie().callv(args);
+	cookie->callv(args);
+	delete cookie;
 }
 
 void Wwise::pre_game_object_api_call(Node* p_node, AkGameObjectID p_id)

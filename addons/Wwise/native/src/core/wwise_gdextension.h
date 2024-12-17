@@ -3,7 +3,7 @@
 #include "core/ak_midi_post.h"
 #include "core/ak_utils.h"
 #include "core/utils.h"
-#include "core/wwise_cookie.h"
+#include "core/wwise_bank_manager.h"
 #include "core/wwise_io_hook.h"
 #include "core/wwise_settings.h"
 #include <AK/MusicEngine/Common/AkMusicEngine.h>
@@ -71,12 +71,12 @@ public:
 	void set_current_language(const String& language);
 	bool load_bank(const String& bank_name);
 	bool load_bank_id(const unsigned int bank_id);
-	bool load_bank_async(const String& bank_name, const WwiseCookie* cookie);
-	bool load_bank_async_id(const unsigned int bank_id, const WwiseCookie* cookie);
+	bool load_bank_async(const String& bank_name, const Callable& cookie);
+	bool load_bank_async_id(const unsigned int bank_id, const Callable& cookie);
 	bool unload_bank(const String& bank_name);
 	bool unload_bank_id(const unsigned int bank_id);
-	bool unload_bank_async(const String& bank_name, const WwiseCookie* cookie);
-	bool unload_bank_async_id(const unsigned int bank_id, const WwiseCookie* cookie);
+	bool unload_bank_async(const String& bank_name, const Callable& cookie);
+	bool unload_bank_async_id(const unsigned int bank_id, const Callable& cookie);
 
 	bool register_listener(const Object* game_object);
 	bool register_game_obj(const Node* game_object, const String& game_object_name);

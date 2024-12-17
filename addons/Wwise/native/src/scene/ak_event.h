@@ -27,7 +27,7 @@ private:
 	unsigned int stop_fade_time{};
 	AkUtils::AkCurveInterpolation interpolation_mode = AkUtils::AkCurveInterpolation::AK_CURVE_LINEAR;
 	int callback_type{};
-	WwiseCookie* cookie{ nullptr };
+	Callable cookie;
 	bool is_editor{};
 
 	AkUtils::GameEvent trigger_on = AkUtils::GameEvent::GAMEEVENT_NONE;
@@ -80,7 +80,7 @@ private:
 	AkUtils::AkCurveInterpolation interpolation_mode = AkUtils::AkCurveInterpolation::AK_CURVE_LINEAR;
 	bool is_environment_aware{};
 	int callback_type{};
-	WwiseCookie* cookie{ nullptr };
+	Callable cookie;
 	bool is_editor{};
 
 	AkUtils::GameEvent trigger_on = AkUtils::GameEvent::GAMEEVENT_NONE;

@@ -31,14 +31,6 @@ void AkEvent2D::_bind_methods()
 	ADD_ALL_AK_EVENT_SIGNALS;
 }
 
-void AkEvent2D::_notification(int p_what)
-{
-	if (p_what == NOTIFICATION_PREDELETE)
-	{
-		memdelete(cookie);
-	}
-}
-
 void AkEvent2D::check_signal_connections()
 {
 	for (const auto& entry : AkUtils::get_singleton()->event_callback_signals)
@@ -55,13 +47,7 @@ void AkEvent2D::check_signal_connections()
 	}
 }
 
-AkEvent2D::AkEvent2D()
-{
-	event["name"] = "";
-	event["id"] = 0;
-
-	cookie = memnew(WwiseCookie(Callable(this, "callback_emitter")));
-}
+AkEvent2D::AkEvent2D() { cookie = Callable(this, "callback_emitter"); }
 
 void AkEvent2D::_enter_tree()
 {
@@ -211,14 +197,6 @@ void AkEvent3D::_bind_methods()
 	ADD_ALL_AK_EVENT_SIGNALS;
 }
 
-void AkEvent3D::_notification(int p_what)
-{
-	if (p_what == NOTIFICATION_PREDELETE)
-	{
-		memdelete(cookie);
-	}
-}
-
 void AkEvent3D::check_signal_connections()
 {
 	for (const auto& entry : AkUtils::get_singleton()->event_callback_signals)
@@ -235,13 +213,7 @@ void AkEvent3D::check_signal_connections()
 	}
 }
 
-AkEvent3D::AkEvent3D()
-{
-	event["name"] = "";
-	event["id"] = 0;
-
-	cookie = memnew(WwiseCookie(Callable(this, "callback_emitter")));
-}
+AkEvent3D::AkEvent3D() { cookie = Callable(this, "callback_emitter"); }
 
 void AkEvent3D::_enter_tree()
 {
