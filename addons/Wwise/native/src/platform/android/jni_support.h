@@ -1,5 +1,5 @@
-#include <jni.h>
 #include <android/log.h>
+#include <jni.h>
 
 class JNISupport
 {
