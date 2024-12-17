@@ -1,5 +1,6 @@
 #pragma once
 
+#include "core/types/wwise_acoustic_texture.h"
 #include "core/utils.h"
 #include "core/wwise_gdextension.h"
 #include <godot_cpp/classes/area3d.hpp>
@@ -23,22 +24,19 @@ protected:
 	void _notification(int p_what, bool reversed = false);
 
 private:
+	MeshInstance3D* mesh_instance{ nullptr };
+	Object* geometry_instance{ nullptr };
 	bool is_static{ true };
 	bool enable_diffraction{};
 	bool enable_diffraction_on_boundary_edges{};
-	Dictionary acoustic_texture{};
+	Ref<WwiseAcousticTexture> acoustic_texture;
 	float transmission_loss_value{ 1.0f };
-
 	AABB aabb{};
 	PackedInt32Array indices{};
-
 	Array vertices{};
 	Array triangles{};
-	MeshInstance3D* mesh_instance{};
-	Object* geometry_instance{};
 
 public:
-	AkGeometry();
 	virtual void _enter_tree() override;
 	virtual void _exit_tree() override;
 	bool set_geometry(const MeshInstance3D* mesh_instance);
@@ -53,8 +51,8 @@ public:
 	void set_enable_diffraction_on_boundary_edges(bool enable_diffraction_on_boundary_edges);
 	bool get_enable_diffraction_on_boundary_edges() const;
 
-	void set_acoustic_texture(const Dictionary& acoustic_texture);
-	Dictionary get_acoustic_texture() const;
+	void set_acoustic_texture(const Ref<WwiseAcousticTexture>& acoustic_texture);
+	Ref<WwiseAcousticTexture> get_acoustic_texture() const;
 
 	void set_transmission_loss_value(float transmission_loss_value);
 	float get_transmission_loss_value() const;

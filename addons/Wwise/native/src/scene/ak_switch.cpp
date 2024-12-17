@@ -3,34 +3,20 @@
 void AkSwitch::_bind_methods()
 {
 	ClassDB::bind_method(D_METHOD("handle_game_event", "game_event"), &AkSwitch::handle_game_event);
-	ClassDB::bind_method(D_METHOD("set_switch"), &AkSwitch::set_switch);
-	ClassDB::bind_method(D_METHOD("set_ak_event", "ak_event"), &AkSwitch::set_ak_event);
-	ClassDB::bind_method(D_METHOD("get_ak_event"), &AkSwitch::get_ak_event);
-	ClassDB::bind_method(D_METHOD("set_switch_group", "switch_group"), &AkSwitch::set_switch_group);
-	ClassDB::bind_method(D_METHOD("get_switch_group"), &AkSwitch::get_switch_group);
-	ClassDB::bind_method(D_METHOD("set_switch_value", "switch_value"), &AkSwitch::set_switch_value);
-	ClassDB::bind_method(D_METHOD("get_switch_value"), &AkSwitch::get_switch_value);
+	ClassDB::bind_method(D_METHOD("set_value"), &AkSwitch::set_value);
+	ClassDB::bind_method(D_METHOD("set_wwise_switch", "switch"), &AkSwitch::set_wwise_switch);
+	ClassDB::bind_method(D_METHOD("get_wwise_switch"), &AkSwitch::get_wwise_switch);
+	ClassDB::bind_method(D_METHOD("set_game_object", "game_object"), &AkSwitch::set_game_object);
+	ClassDB::bind_method(D_METHOD("get_game_object"), &AkSwitch::get_game_object);
 	ClassDB::bind_method(D_METHOD("set_trigger_on", "trigger_on"), &AkSwitch::set_trigger_on);
 	ClassDB::bind_method(D_METHOD("get_trigger_on"), &AkSwitch::get_trigger_on);
 
-	ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "ak_event", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "Node"),
-			"set_ak_event", "get_ak_event");
-	ADD_PROPERTY(PropertyInfo(Variant::DICTIONARY, "switch_group", PROPERTY_HINT_NONE), "set_switch_group",
-			"get_switch_group");
-	ADD_PROPERTY(PropertyInfo(Variant::DICTIONARY, "switch_value", PROPERTY_HINT_NONE), "set_switch_value",
-			"get_switch_value");
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "switch", PROPERTY_HINT_RESOURCE_TYPE, "WwiseSwitch"),
+			"set_wwise_switch", "get_wwise_switch");
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "game_object", PROPERTY_HINT_NODE_TYPE, "Node"), "set_game_object",
+			"get_game_object");
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "trigger_on", PROPERTY_HINT_ENUM, "None,Enter Tree,Ready,Exit Tree"),
 			"set_trigger_on", "get_trigger_on");
-	ADD_SIGNAL(MethodInfo("wwise_switch_set"));
-}
-
-AkSwitch::AkSwitch()
-{
-	switch_group["name"] = "";
-	switch_group["id"] = 0;
-
-	switch_value["name"] = "";
-	switch_value["id"] = 0;
 }
 
 void AkSwitch::_enter_tree() { handle_game_event(AkUtils::GameEvent::GAMEEVENT_ENTER_TREE); }
@@ -45,45 +31,35 @@ void AkSwitch::handle_game_event(AkUtils::GameEvent game_event)
 
 	if (trigger_on == game_event)
 	{
-		set_switch();
+		set_value();
 	}
 }
 
-void AkSwitch::set_switch()
+void AkSwitch::set_value()
 {
-	if (ak_event.is_empty())
+	if (!game_object)
 	{
-		UtilityFunctions::push_warning(vformat("WwiseGodot: AkEvent NodePath in AkSwitch is empty, id: %d", get_instance_id()));
+		UtilityFunctions::push_warning(vformat("WwiseGodot: Assigned Node in AkSwitch %s is null!", get_name()));
 		return;
 	}
 
-	Wwise* soundengine = Wwise::get_singleton();
-
-	if (soundengine)
+	if (wwise_switch.is_valid())
 	{
-		unsigned int switch_group_id = switch_group.get("id", 0);
-		unsigned int switch_value_id = switch_value.get("id", 0);
-
-		Node* event = get_node<Node>(ak_event);
-
-		if (soundengine->set_switch_id(switch_group_id, switch_value_id, event))
-		{
-			emit_signal("wwise_switch_set", event, switch_group, switch_value);
-		}
+		wwise_switch->set_value(game_object);
 	}
 }
 
-void AkSwitch::set_ak_event(const NodePath& ak_event) { this->ak_event = ak_event; }
+void AkSwitch::set_wwise_switch(const Ref<WwiseSwitch>& p_switch)
+{
+	wwise_switch = p_switch;
+	notify_property_list_changed();
+}
 
-NodePath AkSwitch::get_ak_event() const { return ak_event; }
+Ref<WwiseSwitch> AkSwitch::get_wwise_switch() const { return wwise_switch; }
 
-void AkSwitch::set_switch_group(const Dictionary& switch_group) { this->switch_group = switch_group; }
+void AkSwitch::set_game_object(Node* p_game_object) { game_object = p_game_object; }
 
-Dictionary AkSwitch::get_switch_group() const { return switch_group; }
-
-void AkSwitch::set_switch_value(const Dictionary& switch_value) { this->switch_value = switch_value; }
-
-Dictionary AkSwitch::get_switch_value() const { return switch_value; }
+Node* AkSwitch::get_game_object() const { return game_object; }
 
 void AkSwitch::set_trigger_on(AkUtils::GameEvent trigger_on) { this->trigger_on = trigger_on; }
 

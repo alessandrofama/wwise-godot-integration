@@ -1,6 +1,6 @@
 #include "ak_environment_data.h"
 
-void AkAuxArrayData::set_values(const Node* event_node)
+void AkAuxArrayData::set_values(Node* event_node)
 {
 	Wwise::get_singleton()->set_game_object_aux_send_values(event_node, data, data.size());
 }
@@ -60,11 +60,28 @@ void AkEnvironmentData::add_highest_priority_environments()
 
 			if (env)
 			{
-				if (i == 0 && !aux_array_data.data.has(env->get_aux_bus()))
+				if (i == 0)
 				{
+					Ref<WwiseAuxBus> aux_bus = env->get_aux_bus();
+					if (aux_bus.is_null())
+					{
+						continue;
+					}
+
+					for (int i = 0; i < aux_array_data.data.size(); i++)
+					{
+						Dictionary current_aux_data = aux_array_data.data[i];
+						if (current_aux_data.has("aux_bus_id"))
+						{
+							if ((uint32_t)current_aux_data["aux_bus_id"] == aux_bus->get_id())
+							{
+								continue;
+							}
+						}
+					}
+
 					Dictionary aux_data;
-					Dictionary aux_bus = env->get_aux_bus();
-					int id = aux_bus.get("id", 0);
+					uint32_t id = aux_bus->get_id();
 					aux_data["control_value"] = 1.0f;
 					aux_data["aux_bus_id"] = id;
 					aux_array_data.data.append(aux_data);
@@ -74,7 +91,7 @@ void AkEnvironmentData::add_highest_priority_environments()
 	}
 }
 
-void AkEnvironmentData::update_aux_send(const Node* event, const Vector3& position)
+void AkEnvironmentData::update_aux_send(Node* event, const Vector3& position)
 {
 	if (!have_environments_changed && position == last_position)
 	{
