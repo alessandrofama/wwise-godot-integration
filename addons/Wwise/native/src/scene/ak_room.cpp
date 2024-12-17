@@ -15,7 +15,8 @@ void AkRoom::_bind_methods()
 	ClassDB::bind_method(D_METHOD("set_keep_registered", "keep_registered"), &AkRoom::set_keep_registered);
 	ClassDB::bind_method(D_METHOD("get_keep_registered"), &AkRoom::get_keep_registered);
 
-	ADD_PROPERTY(PropertyInfo(Variant::DICTIONARY, "aux_bus", PROPERTY_HINT_NONE), "set_aux_bus", "get_aux_bus");
+	ADD_PROPERTY(
+			PropertyInfo(Variant::OBJECT, "aux_bus", PROPERTY_HINT_NONE, "WwiseAuxBus"), "set_aux_bus", "get_aux_bus");
 	ADD_PROPERTY(
 			PropertyInfo(Variant::FLOAT, "reverb_level", PROPERTY_HINT_NONE), "set_reverb_level", "get_reverb_level");
 	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "transmission_loss", PROPERTY_HINT_NONE), "set_transmission_loss",
@@ -27,15 +28,17 @@ void AkRoom::_bind_methods()
 			"get_keep_registered");
 }
 
-AkRoom::AkRoom()
-{
-	aux_bus["name"] = "";
-	aux_bus["id"] = 0;
-}
-
-void AkRoom::_enter_tree()
+void AkRoom::_ready()
 {
 	RETURN_IF_EDITOR;
+
+	if (aux_bus.is_null())
+	{
+		UtilityFunctions::push_warning(vformat("WwiseGodot: Trying to set a Room, but the AuxBus property in the "
+											   "AkRoom node: %s is not set (null).",
+				get_name()));
+		return;
+	}
 
 	AkGeometry* geometry_node{ nullptr };
 	if (!associated_geometry.is_empty())
@@ -49,9 +52,12 @@ void AkRoom::_enter_tree()
 
 	if (soundengine)
 	{
-		soundengine->set_room(this, aux_bus["id"], reverb_level, transmission_loss,
-				normalized_transform.get_basis().get_column(2), normalized_transform.get_basis().get_column(1),
-				keep_registered, geometry_node);
+		if (aux_bus.is_valid())
+		{
+			soundengine->set_room(this, aux_bus->get_id(), reverb_level, transmission_loss,
+					normalized_transform.get_basis().get_column(2), normalized_transform.get_basis().get_column(1),
+					keep_registered, geometry_node);
+		}
 	}
 
 	connect("area_entered", callable_mp(this, &AkRoom::_on_area_entered));
@@ -145,9 +151,13 @@ void AkRoom::_on_area_exited(const Area3D* area)
 	}
 }
 
-void AkRoom::set_aux_bus(const Dictionary& aux_bus) { this->aux_bus = aux_bus; }
+void AkRoom::set_aux_bus(const Ref<WwiseAuxBus>& aux_bus)
+{
+	this->aux_bus = aux_bus;
+	notify_property_list_changed();
+}
 
-Dictionary AkRoom::get_aux_bus() const { return aux_bus; }
+Ref<WwiseAuxBus> AkRoom::get_aux_bus() const { return aux_bus; }
 
 void AkRoom::set_reverb_level(float reverb_level) { this->reverb_level = reverb_level; }
 
