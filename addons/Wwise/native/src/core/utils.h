@@ -1,6 +1,7 @@
 #pragma once
 
 #include "AK/SoundEngine/Common/AkTypes.h"
+#include <godot_cpp/classes/dir_access.hpp>
 #include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/classes/node.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
@@ -215,11 +216,11 @@ static bool check_error(
 #define ERROR_CHECK(result) check_error(result, __FUNCTION__, __FILE__, __LINE__)
 #define ERROR_CHECK_MSG(result, message) check_error(result, __FUNCTION__, __FILE__, __LINE__, message)
 
+static inline bool should_return_if_editor() { return Engine::get_singleton()->is_editor_hint(); }
+
 #define RETURN_IF_EDITOR                                                                                               \
-	if (Engine::get_singleton()->is_editor_hint())                                                                     \
-	{                                                                                                                  \
-		return;                                                                                                        \
-	}
+	if (should_return_if_editor())                                                                                     \
+	return
 
 #define ADD_ALL_AK_EVENT_SIGNALS                                                                                       \
 	ADD_SIGNAL(MethodInfo(AkUtils::get_singleton()->event_callback_signals[AkUtils::AkCallbackType::AK_END_OF_EVENT],  \
