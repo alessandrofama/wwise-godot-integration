@@ -91,7 +91,7 @@ opts.Add(
 
 opts.Add(EnumVariable("wwise_config", "Wwise Build Configuration", "debug", ["debug", "profile", "release"]))
 opts.Add(EnumVariable("ios_arch", "Target iOS architecture", "arm64", ["arm64"]))
-opts.Add("ios_min_version", "Target minimum iphoneos/iphonesimulator version", "11.0")
+opts.Add("ios_min_version", "Target minimum iphoneos/iphonesimulator version", "12.0")
 opts.Add(BoolVariable("ios_simulator", "Target iOS Simulator", False))
 opts.Add(BoolVariable("asserts", "Enable AKASSERT for debug builds", "no"))
 opts.Update(env)
@@ -259,6 +259,7 @@ if env["platform"] == "windows":
 
     env.Append(CCFLAGS=["/std:c++20", "/bigobj"])
     env.Append(LINKFLAGS=["/INCREMENTAL:NO"])
+    env['CXXFLAGS'] = [flag for flag in env['CXXFLAGS'] if flag != '/std:c++17']
 
 # macOS build settings
 elif env["platform"] == "macos":
@@ -283,10 +284,13 @@ elif env["platform"] == "macos":
                     env.Append(CPPDEFINES=["AK_ENABLE_ASSERTS"])
             else:
                 env.Append(CPPDEFINES=["NDEBUG"])
+            env.Append(CXXFLAGS=["-fexceptions"])
         else:
             env["target_path"] += "release/" 
             env.Append(CPPDEFINES=["AK_OPTIMIZED"])
             env.Append(CPPDEFINES=["NDEBUG"])
+
+    env.Append(CXXFLAGS=["-std=c++20"])
 
     macos_install_name = "@rpath/libwwise.{}.{}.framework/libwwise.{}.{}.{}".format(
         env["platform"], env["target"], env["platform"], env["target"], env["wwise_config"]
@@ -329,6 +333,7 @@ elif env["platform"] == "linux":
                     env.Append(CPPDEFINES=["AK_ENABLE_ASSERTS"])
             else:
                 env.Append(CPPDEFINES=["NDEBUG"])
+            env.Append(CXXFLAGS=["-fexceptions"])
         else:
             env["target_path"] += "release/" 
             env.Append(CPPDEFINES=["AK_OPTIMIZED"])
@@ -340,6 +345,7 @@ elif env["platform"] == "linux":
     wwise_plugins_library.append("AkOpusDecoder")
 
     env.Append(CCFLAGS=["-fPIC", "-Wwrite-strings"])
+    env.Append(CXXFLAGS=["-std=c++20"])
     env.Append(LINKFLAGS=["-Wl,-R,'$$ORIGIN'"])
 
 # iOS build settings
@@ -399,6 +405,8 @@ elif env["platform"] == "ios":
             sdk_path,
         ]
     )
+
+    env.Append(CXXFLAGS=["-std=c++20"])
 
     ios_install_name = "@rpath/libwwise.{}.{}.{}.framework/libwwise.{}.{}.{}".format(
         env["platform"], env["target"], env["wwise_config"], env["platform"], env["target"], env["wwise_config"]
@@ -464,6 +472,9 @@ if env["target"] in ("editor", "template_debug"):
     if env["platform"] == "windows":
         env.Append(LIBS=["msacm32", "ws2_32"])
 
+if env["target"] == "editor" and env["platform"] == "linux":
+    env.Append(LIBS=["tbb"])
+
 if env["platform"] == "windows":
     env.Append(LIBS=["advapi32", "user32", "ole32"])
 if env["platform"] == "windows" and "motion" in env["plugins"]:
@@ -509,8 +520,8 @@ if env["platform"] == "ios":
     )
 
     output_file = "Info.plist"
-    output_dir = env["target_path"] + "libwwise.{}.{}.framework".format(
-        env["platform"], env["target"]
+    output_dir = env["target_path"] + "libwwise.{}.{}.{}.framework".format(
+        env["platform"], env["target"], env["wwise_config"]
     )
 
     env.Replace(LIB_NAME="libwwise.{}.{}.{}".format(env["platform"], env["target"], env["wwise_config"]))
