@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{282BB9B1-1E57-4655-A417-FA6FA18005A5}" SchemaVersion="123">
+	<Switches>
+		<WorkUnit Name="Default Work Unit" ID="{282BB9B1-1E57-4655-A417-FA6FA18005A5}" PersistMode="Standalone">
+			<ChildrenList>
+				<SwitchGroup Name="AkSwitch" ID="{49632900-08D5-45A0-9987-9E2695FCC375}">
+					<ChildrenList>
+						<Switch Name="LowSwitch" ID="{9A0DC949-8985-44A5-900D-568BBB7764A2}"/>
+						<Switch Name="HighSwitch" ID="{98DBE011-DE61-4706-9118-49210AA0EE16}"/>
+						<Switch Name="Default" ID="{F55053CF-90C5-413C-A934-4F179E55D3F6}"/>
+					</ChildrenList>
+				</SwitchGroup>
+				<SwitchGroup Name="Nested_Switch" ID="{5BF8F825-856B-4B91-97EC-C5DCDED2EFAB}">
+					<ChildrenList>
+						<Switch Name="High" ID="{29DDA90E-AAD5-496A-8BF3-FAE3C610C992}"/>
+						<Switch Name="Low" ID="{5D6EC796-7D6E-4482-BC64-F9BA88E9A97E}"/>
+					</ChildrenList>
+				</SwitchGroup>
+				<SwitchGroup Name="Nested_Switch_Low" ID="{43515D77-7D62-4F87-9842-A15B1809E568}">
+					<ChildrenList>
+						<Switch Name="High" ID="{D2D7A184-97A8-4FBA-B0DF-ABBF7FDF65A1}"/>
+						<Switch Name="Low" ID="{246B72D2-4351-4273-BA96-E62BECAAE124}"/>
+					</ChildrenList>
+				</SwitchGroup>
+				<SwitchGroup Name="Nested_Switch_High" ID="{2802E126-F3FA-4F8A-84B9-0A95A4989757}">
+					<ChildrenList>
+						<Switch Name="High" ID="{2BCA209A-0CA9-4DFB-839D-B44CEB0572F6}"/>
+						<Switch Name="Low" ID="{CD0AEA89-06AC-4EE1-A99F-DD12F2A9F00F}"/>
+					</ChildrenList>
+				</SwitchGroup>
+				<SwitchGroup Name="Footstep_Switch" ID="{23919CA6-7C88-4D3F-987A-396315DE2D25}">
+					<ChildrenList>
+						<Switch Name="Wood" ID="{F5913F72-053D-498D-B5B2-8B1907841805}"/>
+						<Switch Name="Metal" ID="{3613E025-6104-48E0-A98B-B472AD61DF5A}"/>
+						<Switch Name="Grass" ID="{2C4D3FAB-B4BF-4808-9DA4-D00C66590B51}"/>
+					</ChildrenList>
+				</SwitchGroup>
+			</ChildrenList>
+		</WorkUnit>
+	</Switches>
+</WwiseDocument>

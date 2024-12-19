@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{858B3F18-D0D9-4D89-B29D-243241F1EE6C}" SchemaVersion="123">
+	<Events>
+		<WorkUnit Name="Switches Gyms" ID="{858B3F18-D0D9-4D89-B29D-243241F1EE6C}" PersistMode="Standalone">
+			<ChildrenList>
+				<Event Name="Post_SetStatePlaySwitch_unrelated" ID="{5DBC17FE-4790-4E2C-90CC-7F2F804089E2}">
+					<ChildrenList>
+						<Action Name="" ID="{CBDE1FEB-69AD-41E0-9D99-1A1F17C5907D}" ShortID="795363624">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="23"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Switch1" ID="{00E6A7B6-EA16-4D72-A782-2C1F65215D38}" WorkUnitID="{A7CE24A6-BE73-46DF-A6E0-0C14BD39D6D6}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{EE10CC21-E57A-4A92-B37E-1958F1AF21EF}" ShortID="9988552">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="ManySounds_Switch" ID="{01CA4BFF-6001-4D83-99CC-03E74042CC81}" WorkUnitID="{53876CD0-19C2-476C-A830-BBCF3F922E8C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_RTPC_Switch" ID="{26AEF0CE-FDC9-4AE8-898E-22F231BACAD5}">
+					<ChildrenList>
+						<Action Name="" ID="{2CAE5A4F-8127-40DD-8DA8-6FBF69BA2E4F}" ShortID="589133029">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="RTPC_Switch" ID="{C2C2FA5D-903A-4139-A8A8-82E0410DF6EB}" WorkUnitID="{53876CD0-19C2-476C-A830-BBCF3F922E8C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Post_SetStatePlaySwitch_withAnother" ID="{7AF55619-D4A7-428A-9840-19531DBAAAC1}">
+					<ChildrenList>
+						<Action Name="" ID="{0B50B26B-1764-49DB-8DCC-A509EAA8E65F}" ShortID="914039582">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="23"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Switch_1_3" ID="{019759CE-065F-4176-911D-5D538113013E}" WorkUnitID="{A7CE24A6-BE73-46DF-A6E0-0C14BD39D6D6}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{F326E69A-13C0-42D8-BD66-6A6DDBC5DDC2}" ShortID="224594431">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="23"/>
+								<Property Name="Inclusion" Type="bool">
+									<ValueList>
+										<Value>False</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Switch1" ID="{2228076E-B474-47A7-AB5D-EBB0F03BFB2A}" WorkUnitID="{A7CE24A6-BE73-46DF-A6E0-0C14BD39D6D6}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{85325E23-8763-431F-AA0D-C5392A6EC2F2}" ShortID="599823534">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="MultiNestedSwitch" ID="{5190E678-0EDA-44E2-842E-A90358F716D3}" WorkUnitID="{53876CD0-19C2-476C-A830-BBCF3F922E8C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Post_SetStatePlaySwitch_related" ID="{AC23DCD8-8119-4452-B70D-867FAA7E2077}">
+					<ChildrenList>
+						<Action Name="" ID="{0A84C1B5-9851-436A-903C-53336736F12F}" ShortID="361089024">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="23"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Switch1" ID="{00E6A7B6-EA16-4D72-A782-2C1F65215D38}" WorkUnitID="{A7CE24A6-BE73-46DF-A6E0-0C14BD39D6D6}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{7A2652B9-72B0-416D-A4C9-DFCB20DC608A}" ShortID="568719349">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Simple_Switch" ID="{EBCDDF68-A9FD-4EEC-8C39-6F3B511A1828}" WorkUnitID="{53876CD0-19C2-476C-A830-BBCF3F922E8C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_Simple_Switch_2" ID="{C25C3C57-0359-4F9E-86C2-8652DDDC71C9}">
+					<ChildrenList>
+						<Action Name="" ID="{25B31ADC-9E83-449C-A681-70D9F576CDA9}" ShortID="554516914">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Simple_Switch_2" ID="{A70FBC1C-6F4B-499E-B264-2247DB55CCC1}" WorkUnitID="{53876CD0-19C2-476C-A830-BBCF3F922E8C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_Localized_Switch" ID="{26B17128-DC08-4147-AFCD-EC3BC5CA2B33}">
+					<ChildrenList>
+						<Action Name="" ID="{86BFB10A-A39F-49DE-8C6C-556D3C1EA79B}" ShortID="93079653">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Localized_Switch" ID="{DDDE463A-8768-4071-B818-ECBCE3734B7F}" WorkUnitID="{53876CD0-19C2-476C-A830-BBCF3F922E8C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_ExternalSources_Switch" ID="{F6B6862D-EC1A-42C7-8D19-74303ACDBBE8}">
+					<ChildrenList>
+						<Action Name="" ID="{7C4F184A-32AC-4D0B-A064-00BE8058BBB5}" ShortID="937008963">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="ExternalSources_Switch" ID="{D839C8F9-F8AC-48E7-9414-8967EEB17FF9}" WorkUnitID="{53876CD0-19C2-476C-A830-BBCF3F922E8C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_ManySounds_Switch" ID="{0DC299CA-2F4D-4882-BA6D-8E22CC23A4F7}">
+					<ChildrenList>
+						<Action Name="" ID="{819357D4-8675-474D-80EF-FBB77F2C19ED}" ShortID="379550468">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="ManySounds_Switch" ID="{01CA4BFF-6001-4D83-99CC-03E74042CC81}" WorkUnitID="{53876CD0-19C2-476C-A830-BBCF3F922E8C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_Switch_State_Container" ID="{3689F9C2-76F2-4487-9C86-4D2156F997DF}">
+					<ChildrenList>
+						<Action Name="" ID="{13AF54CD-33D3-4091-B5F5-EB4CBFEA48E4}" ShortID="777663478">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Switch_State_Container" ID="{00D23FB4-5DE8-46CB-8ACD-1A291FFC866C}" WorkUnitID="{53876CD0-19C2-476C-A830-BBCF3F922E8C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_Simple_Switch" ID="{92340869-5042-44B1-AC83-20B192D28866}">
+					<ChildrenList>
+						<Action Name="" ID="{85AD3EA1-5518-4992-A4A3-D74A9ED63DFF}" ShortID="165843147">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Simple_Switch" ID="{EBCDDF68-A9FD-4EEC-8C39-6F3B511A1828}" WorkUnitID="{53876CD0-19C2-476C-A830-BBCF3F922E8C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_MultiNestedSwitch" ID="{C9D45F28-F991-407A-9BD2-298DC8E9CFC2}">
+					<ChildrenList>
+						<Action Name="" ID="{A33C1556-7EAE-49AE-A729-79C7B6DA5503}" ShortID="617672053">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="MultiNestedSwitch" ID="{5190E678-0EDA-44E2-842E-A90358F716D3}" WorkUnitID="{53876CD0-19C2-476C-A830-BBCF3F922E8C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_Simple_Switch_withDefault" ID="{6A27748F-4380-4C3D-8B5A-B230CC3B670F}">
+					<ChildrenList>
+						<Action Name="" ID="{F31BA0BD-7492-4FB4-BB3F-85CE44DA57B6}" ShortID="677544819">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Simple_Switch_withDefault" ID="{34E77034-3535-4109-8DF8-7A91C4AD1224}" WorkUnitID="{53876CD0-19C2-476C-A830-BBCF3F922E8C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Post_SetNestedSwitchPlaySwitch_related" ID="{4DC3BB9E-CB5D-4815-9CEB-1CBFB0BCBE88}">
+					<ChildrenList>
+						<Action Name="" ID="{FB43A3B8-D5BA-481E-AC35-0113AF3E4391}" ShortID="175496754">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="23"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Switch_1_3" ID="{019759CE-065F-4176-911D-5D538113013E}" WorkUnitID="{A7CE24A6-BE73-46DF-A6E0-0C14BD39D6D6}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{8665DA9B-5A35-416D-B5D8-54E7EAD5D080}" ShortID="148720915">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="23"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Switch1" ID="{2228076E-B474-47A7-AB5D-EBB0F03BFB2A}" WorkUnitID="{A7CE24A6-BE73-46DF-A6E0-0C14BD39D6D6}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{396F0E1F-9661-468F-B025-3314D9AA10DD}" ShortID="540257812">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="MultiNestedSwitch" ID="{5190E678-0EDA-44E2-842E-A90358F716D3}" WorkUnitID="{53876CD0-19C2-476C-A830-BBCF3F922E8C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Set_NotUsedSwitch" ID="{2A9DDA05-A825-48CA-A8ED-0E7B59F0AC12}">
+					<ChildrenList>
+						<Action Name="" ID="{01F7E46C-7845-4204-8A60-84D3EB3F938E}" ShortID="994493930">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="23"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="One" ID="{941B92A6-DEEB-4514-AA4F-75B959F3A354}" WorkUnitID="{A7CE24A6-BE73-46DF-A6E0-0C14BD39D6D6}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+			</ChildrenList>
+		</WorkUnit>
+	</Events>
+</WwiseDocument>
