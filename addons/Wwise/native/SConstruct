@@ -259,6 +259,7 @@ if env["platform"] == "windows":
 
     env.Append(CCFLAGS=["/std:c++20", "/bigobj"])
     env.Append(LINKFLAGS=["/INCREMENTAL:NO"])
+    env['CXXFLAGS'] = [flag for flag in env['CXXFLAGS'] if flag != '/std:c++17']
 
 # macOS build settings
 elif env["platform"] == "macos":
@@ -283,10 +284,13 @@ elif env["platform"] == "macos":
                     env.Append(CPPDEFINES=["AK_ENABLE_ASSERTS"])
             else:
                 env.Append(CPPDEFINES=["NDEBUG"])
+            env.Append(CXXFLAGS=["-fexceptions"])
         else:
             env["target_path"] += "release/" 
             env.Append(CPPDEFINES=["AK_OPTIMIZED"])
             env.Append(CPPDEFINES=["NDEBUG"])
+
+    env.Append(CXXFLAGS=["-std=c++20"])
 
     macos_install_name = "@rpath/libwwise.{}.{}.framework/libwwise.{}.{}.{}".format(
         env["platform"], env["target"], env["platform"], env["target"], env["wwise_config"]
@@ -329,6 +333,7 @@ elif env["platform"] == "linux":
                     env.Append(CPPDEFINES=["AK_ENABLE_ASSERTS"])
             else:
                 env.Append(CPPDEFINES=["NDEBUG"])
+            env.Append(CXXFLAGS=["-fexceptions"])
         else:
             env["target_path"] += "release/" 
             env.Append(CPPDEFINES=["AK_OPTIMIZED"])
@@ -340,6 +345,7 @@ elif env["platform"] == "linux":
     wwise_plugins_library.append("AkOpusDecoder")
 
     env.Append(CCFLAGS=["-fPIC", "-Wwrite-strings"])
+    env.Append(CXXFLAGS=["-std=c++20"])
     env.Append(LINKFLAGS=["-Wl,-R,'$$ORIGIN'"])
 
 # iOS build settings
@@ -463,6 +469,9 @@ if env["target"] in ("editor", "template_debug"):
 
     if env["platform"] == "windows":
         env.Append(LIBS=["msacm32", "ws2_32"])
+
+if env["target"] == "editor" and env["platform"] == "linux":
+    env.Append(LIBS=["tbb"])
 
 if env["platform"] == "windows":
     env.Append(LIBS=["advapi32", "user32", "ole32"])
