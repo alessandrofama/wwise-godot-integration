@@ -461,6 +461,7 @@ elif env["platform"] == "macos":
 
 # Linux build settings
 elif env["platform"] == "linux":
+    env["CXX"] = "g++-11"
     env["target_path"] += "/linux/"
     if env["target"] in ("template_debug"):
         env["target_path"] += "template_debug/"
