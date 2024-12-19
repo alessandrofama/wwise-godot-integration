@@ -11,6 +11,17 @@ else:
 
     def decode_utf8(x):
         return codecs.utf_8_decode(x)[0]
+    
+def print_section_header(title):
+    print(f"\n\033[34m:: {title} ::\033[0m\n") 
+
+def print_project_info(env):
+    print(f"  Wwise SDK Path: {env.get('wwise_sdk', 'Not Defined')}")
+    print(f"  Platform: {env.get('platform', 'Not Defined')}")
+    print(f"  Target: {env.get('target', 'Not Defined')}")
+    print(f"  Wwise Config: {env.get('wwise_config', 'Not Defined')}")
+    print(f"  Dev Build: {env.get('dev_build', 'Not Defined')}")
+    print(f"  Target Path: {os.path.abspath(env.get('target_path', 'Not Defined'))}")
 
 # This is a modified version of the documentation generation function from godot-cpp in godotcpp.py.
 # Unlike the original, this version writes the generated .cpp file directly to disk,
@@ -59,6 +70,100 @@ def make_doc_source(target, source, env):
 
     g.close()
 
+def copy_plugins_with_skip(src_path, dst_path, file_extension, skip_plugins):
+    if not os.path.exists(src_path):
+        return
+    if not os.path.exists(dst_path):
+        os.makedirs(dst_path)
+
+    for file_name in os.listdir(src_path):
+        if file_name.endswith(file_extension):
+            if any(plugin_name in file_name for plugin_name in skip_plugins):
+                continue
+            full_src_path = os.path.join(src_path, file_name)
+            full_dst_path = os.path.join(dst_path, file_name)
+
+            if os.path.exists(full_dst_path):
+                print(f"\033[33mSkipped copying {file_name}; it already exists in {dst_path}\033[0m")
+                continue
+        
+            shutil.copy2(full_src_path, full_dst_path)
+            print(f"\033[32mCopied {file_name} to {dst_path}")
+
+def copy_header_files_with_skip(src_path, dst_path, file_extension=".h", skip_plugins=None):
+    if not os.path.exists(src_path):
+        return
+    if not os.path.exists(dst_path):
+        os.makedirs(dst_path)
+    if skip_plugins is None:
+        skip_plugins = []
+
+    for root, _, files in os.walk(src_path):
+        for file_name in files:
+            if file_name.endswith(file_extension):
+                if any(plugin_name in file_name for plugin_name in skip_plugins):
+                    continue
+                full_src_path = os.path.join(root, file_name)
+                relative_path = os.path.relpath(full_src_path, src_path)
+                full_dst_path = os.path.join(dst_path, relative_path)
+
+                if os.path.exists(full_dst_path):
+                    print(f"\033[33mSkipped copying {file_name}; it already exists in {full_dst_path}\033[0m")
+                    continue
+            
+                os.makedirs(os.path.dirname(full_dst_path), exist_ok=True)
+                shutil.copy2(full_src_path, full_dst_path)
+                print(f"\033[32mCopied header file {file_name} to {full_dst_path}")
+
+skip_plugins = [
+    "SineSource",
+    "ToneSource",
+    "SilenceGenerator",
+    "SineTone",
+    "ToneGen",
+    "SilenceSource",
+    "AkAudioInput",
+    "Ak3DAudioBedMixer",
+    "AkCompressor",
+    "AkDelay",
+    "AkExpander",
+    "AkFlanger",
+    "AkGain",
+    "AkGuitarDistortion",
+    "AkHarmonizer",
+    "AkMatrixReverb",
+    "AkMeter",
+    "AkParametricEQ",
+    "AkPeakLimiter",
+    "AkPitchShifter",
+    "AkRecorder",
+    "AkRoomVerb",
+    "AkStereoDelay",
+    "AkSynthOne",
+    "AkTimeStretch",
+    "AkTremolo",
+    "AkVorbisDecoder",
+    "AkSoundEngine",
+    "WwiseProjectDatabase",
+    "CommunicationCentral",
+    "SDL2",
+    "ASIOSourceSinkFactory",
+    "ASIO",
+    "AkSinkFactory",
+    "AkOpusDecoderFactory",
+    "AllPluginsFactories",
+    "AllPluginsRegistrationHelpers",
+    "AkFXDurationHandler",
+    "AkFXParameterChangeHandler",
+    "AkFXTailHandler",
+    "AkMixerInputMap",
+    "AkValueRamp",
+    "AkVectorValueRamp",
+    "AkMotionSinkGameInputHelpers",
+    "GME",
+    "gme"
+]
+
 env = SConscript("godot-cpp/SConstruct")
 opts = Variables([], ARGUMENTS)
 
@@ -91,7 +196,7 @@ opts.Add(
 
 opts.Add(EnumVariable("wwise_config", "Wwise Build Configuration", "debug", ["debug", "profile", "release"]))
 opts.Add(EnumVariable("ios_arch", "Target iOS architecture", "arm64", ["arm64"]))
-opts.Add("ios_min_version", "Target minimum iphoneos/iphonesimulator version", "11.0")
+opts.Add("ios_min_version", "Target minimum iphoneos/iphonesimulator version", "12.0")
 opts.Add(BoolVariable("ios_simulator", "Target iOS Simulator", False))
 opts.Add(BoolVariable("asserts", "Enable AKASSERT for debug builds", "no"))
 opts.Update(env)
@@ -216,8 +321,17 @@ if "mastering_suite" in env["plugins"]:
     wwise_plugins_library.append("MasteringSuiteFX")
     env.Append(CPPDEFINES=["AK_MASTERING_SUITE"])
 
-print("Wwise SDK headers path: " + wwise_sdk_headers_path)
-print("Wwise SDK libs path: " + wwise_sdk_libs_path)
+if env["wwise_config"] == "debug":
+    env.Append(CPPDEFINES=["AK_DEBUG"])
+elif env["wwise_config"] == "profile":
+    env.Append(CPPDEFINES=["AK_PROFILE"])
+else:
+    env.Append(CPPDEFINES=["AK_RELEASE"])
+
+if env["target"] == "template_debug":
+    env.Append(CPPDEFINES=["TEMPLATE_DEBUG"])
+elif env["target"] == "template_release":
+    env.Append(CPPDEFINES=["TEMPLATE_RELEASE"])
 
 # Windows build settings
 if env["platform"] == "windows":
@@ -264,6 +378,7 @@ if env["platform"] == "windows":
 
     env.Append(CCFLAGS=["/std:c++20", "/bigobj"])
     env.Append(LINKFLAGS=["/INCREMENTAL:NO"])
+    env['CXXFLAGS'] = [flag for flag in env['CXXFLAGS'] if flag != '/std:c++17']
 
 # macOS build settings
 elif env["platform"] == "macos":
@@ -292,11 +407,14 @@ elif env["platform"] == "macos":
             else:
                 env["target_path"] += "profile/"
                 env.Append(CPPDEFINES=["NDEBUG"])
+            env.Append(CXXFLAGS=["-fexceptions"])
         else:
             env["target_path"] += "template_release/" 
             env["target_path"] += "release/"
             env.Append(CPPDEFINES=["AK_OPTIMIZED"])
             env.Append(CPPDEFINES=["NDEBUG"])
+
+    env.Append(CXXFLAGS=["-std=c++20"])
 
     macos_install_name = "@rpath/libwwise.{}.{}.framework/libwwise.{}.{}.{}".format(
         env["platform"], env["target"], env["platform"], env["target"], env["wwise_config"]
@@ -343,6 +461,7 @@ elif env["platform"] == "linux":
             else:
                 env["target_path"] += "profile/"
                 env.Append(CPPDEFINES=["NDEBUG"])
+            env.Append(CXXFLAGS=["-fexceptions"])
         else:
             env["target_path"] += "template_release/" 
             env["target_path"] += "release/"
@@ -355,6 +474,7 @@ elif env["platform"] == "linux":
     wwise_plugins_library.append("AkOpusDecoder")
 
     env.Append(CCFLAGS=["-fPIC", "-Wwrite-strings"])
+    env.Append(CXXFLAGS=["-std=c++20"])
     env.Append(LINKFLAGS=["-Wl,-R,'$$ORIGIN'"])
 
 # iOS build settings
@@ -417,6 +537,8 @@ elif env["platform"] == "ios":
             sdk_path,
         ]
     )
+
+    env.Append(CXXFLAGS=["-std=c++20"])
 
     ios_install_name = "@rpath/libwwise.{}.{}.{}.framework/libwwise.{}.{}.{}".format(
         env["platform"], env["target"], env["wwise_config"], env["platform"], env["target"], env["wwise_config"]
@@ -482,6 +604,9 @@ if env["target"] in ("editor", "template_debug"):
     if env["platform"] == "windows":
         env.Append(LIBS=["msacm32", "ws2_32"])
 
+if env["target"] == "editor" and env["platform"] == "linux":
+    env.Append(LIBS=["tbb"])
+
 if env["platform"] == "windows":
     env.Append(LIBS=["advapi32", "user32", "ole32"])
 if env["platform"] == "windows" and "motion" in env["plugins"]:
@@ -527,8 +652,8 @@ if env["platform"] == "ios":
     )
 
     output_file = "Info.plist"
-    output_dir = env["target_path"] + "libwwise.{}.{}.framework".format(
-        env["platform"], env["target"]
+    output_dir = env["target_path"] + "libwwise.{}.{}.{}.framework".format(
+        env["platform"], env["target"], env["wwise_config"]
     )
 
     env.Replace(LIB_NAME="libwwise.{}.{}.{}".format(env["platform"], env["target"], env["wwise_config"]))
@@ -578,5 +703,9 @@ if env["platform"] == "ios":
     AddPostAction(library, create_output_file)
 
 Default(library)
+
+print_section_header("Wwise Godot Integration: Build Info")
+print_project_info(env)
+print_section_header("Compiling GDExtension")
 
 Help(opts.GenerateHelpText(env))

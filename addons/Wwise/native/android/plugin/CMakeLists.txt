@@ -63,10 +63,9 @@ if (NOT DEFINED BITS)
 endif ()
 
 # Set C++ standard and flags
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
-
 
 # Create the project
 project(WwiseAndroidPlugin LANGUAGES CXX)
