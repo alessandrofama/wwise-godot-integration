@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{7670CF80-3164-4DC9-A81B-EC61B8A6DE43}" SchemaVersion="123">
+	<AudioObjects>
+		<WorkUnit Name="Shared Assets" ID="{7670CF80-3164-4DC9-A81B-EC61B8A6DE43}" PersistMode="Standalone">
+			<ChildrenList>
+				<Folder Name="Language-based" ID="{C4B65D76-B12C-4FBA-AF26-0391C841B6D9}" ShortID="224164045">
+					<ChildrenList>
+						<Sound Name="Language Name" ID="{7C789217-B25F-4E8E-82D4-BFA787B3BB19}" ShortID="339334518">
+							<PropertyList>
+								<Property Name="IsVoice" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{D2311743-B22F-4E19-B713-C7EA158EBE44}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{221E0A94-966F-4E8C-AAEA-F1A2F743E8F7}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="en-US Name" ID="{93801553-40F2-40E4-97E9-4FD9F04B9F0E}">
+									<Comment>https://commons.wikimedia.org/w/index.php?title=File%3AEn-us-English.ogg</Comment>
+									<PropertyList>
+										<Property Name="FadeInDuration" Type="Real64" Value="0.0466603519044749"/>
+										<Property Name="FadeOutDuration" Type="Real64" Value="0.143313937992316"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+										<Property Name="TrimBegin" Type="Real64" Value="0.0899878215300587"/>
+										<Property Name="TrimEnd" Type="Real64" Value="0.893212450742805"/>
+									</PropertyList>
+									<Language>en_US</Language>
+									<AudioFile>en-US Name.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="888163124"/>
+									</MediaIDList>
+								</AudioFileSource>
+								<AudioFileSource Name="en-GB Name" ID="{F21EBE64-F887-44AE-B6AE-DB68F0AFC965}">
+									<Comment>https://commons.wikimedia.org/w/index.php?title=File%3AEn-uk-English.oga</Comment>
+									<PropertyList>
+										<Property Name="FadeInDuration" Type="Real64" Value="0.040257019022196"/>
+										<Property Name="FadeOutDuration" Type="Real64" Value="0.0865525908977215"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+										<Property Name="TrimBegin" Type="Real64" Value="0.140899566577686"/>
+									</PropertyList>
+									<Language>en_GB</Language>
+									<AudioFile>en-GB Name.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="704436556"/>
+									</MediaIDList>
+								</AudioFileSource>
+								<AudioFileSource Name="fr-FR Name" ID="{CDBF63B8-B65B-483B-9ADC-AC678C2B097C}">
+									<Comment>https://commons.wikimedia.org/w/index.php?title=File%3ALL-Q150_(fra)-Fhala.K-Fran%C3%A7ais.wav</Comment>
+									<PropertyList>
+										<Property Name="FadeInDuration" Type="Real64" Value="0.0127685352622061"/>
+										<Property Name="FadeOutDuration" Type="Real64" Value="0.0303252712477395"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+										<Property Name="TrimBegin" Type="Real64" Value="0.0909758137432188"/>
+										<Property Name="TrimEnd" Type="Real64" Value="0.643214963833635"/>
+									</PropertyList>
+									<Language>fr_FR</Language>
+									<AudioFile>fr-FR Name.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="218616669"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="en-US Name" ID="{93801553-40F2-40E4-97E9-4FD9F04B9F0E}" Platform="Linked"/>
+								<ActiveSource Name="en-GB Name" ID="{F21EBE64-F887-44AE-B6AE-DB68F0AFC965}" Platform="Linked"/>
+								<ActiveSource Name="fr-FR Name" ID="{CDBF63B8-B65B-483B-9ADC-AC678C2B097C}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="User Interface" ID="{B069EFFE-A3CF-4A60-A886-07FA15823111}" ShortID="192117748">
+					<ChildrenList>
+						<Sound Name="Glass Tick" ID="{CE86A3F0-FED4-4E52-9BA8-5072DA66F9E9}" ShortID="991589503">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{D2311743-B22F-4E19-B713-C7EA158EBE44}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{221E0A94-966F-4E8C-AAEA-F1A2F743E8F7}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<SourcePlugin Name="Wwise Tone Generator" ID="{9FEA43F3-6569-4D5E-B9D6-84C23E5AC18F}" ShortID="544236730" PluginName="Wwise Tone Generator" CompanyID="0" PluginID="102">
+									<PropertyList>
+										<Property Name="AttackTime" Type="Real32" Value="0.001"/>
+										<Property Name="DecayTime" Type="Real32" Value="0.005"/>
+										<Property Name="DurMode" Type="int32" Value="1"/>
+										<Property Name="FixDur" Type="Real32" Value="0.005"/>
+										<Property Name="ReleaseTime" Type="Real32" Value="0.02"/>
+										<Property Name="StartFreq" Type="Real32" Value="4186"/>
+										<Property Name="SustainTime" Type="Real32" Value="0.02"/>
+										<Property Name="WaveGain" Type="Real32" Value="0"/>
+									</PropertyList>
+									<Language>SFX</Language>
+								</SourcePlugin>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="Wwise Tone Generator" ID="{9FEA43F3-6569-4D5E-B9D6-84C23E5AC18F}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+				</Folder>
+			</ChildrenList>
+		</WorkUnit>
+	</AudioObjects>
+</WwiseDocument>
