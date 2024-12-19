@@ -28,6 +28,15 @@
     <Filter Include="Source Files\core">
       <UniqueIdentifier>{0a35a43b-bc36-4e83-a1e2-13cbbd6ec243}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\core\types">
+      <UniqueIdentifier>{dbc3af75-c209-4c09-a718-cfa38ebf4936}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\editor\plugins">
+      <UniqueIdentifier>{ec09b5d1-5c93-46fe-ad63-ae6d5225c831}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\editor\properties">
+      <UniqueIdentifier>{19bc1cc0-af29-437f-b2d5-8cbdf8d9acd2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\scene\ak_bank.cpp">
@@ -63,25 +72,7 @@
     <ClCompile Include="..\src\scene\ak_switch.cpp">
       <Filter>Source Files\scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\editor\ak_android_export_plugin.cpp">
-      <Filter>Source Files\editor</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\editor\ak_editor_export_plugin.cpp">
-      <Filter>Source Files\editor</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\editor\ak_editor_plugin.cpp">
-      <Filter>Source Files\editor</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\editor\ak_editor_utils.cpp">
-      <Filter>Source Files\editor</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\editor\ak_event_3d_gizmo_plugin.cpp">
-      <Filter>Source Files\editor</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\editor\ak_inspector_plugin.cpp">
-      <Filter>Source Files\editor</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\editor\ak_waapi_picker.cpp">
       <Filter>Source Files\editor</Filter>
     </ClCompile>
     <ClCompile Include="..\src\platform\android\jni_support.cpp">
@@ -108,9 +99,6 @@
     <ClCompile Include="..\src\core\waapi_gdextension.cpp">
       <Filter>Source Files\core</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\core\wwise_cookie.cpp">
-      <Filter>Source Files\core</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\core\wwise_gdextension.cpp">
       <Filter>Source Files\core</Filter>
     </ClCompile>
@@ -118,6 +106,120 @@
       <Filter>Source Files\core</Filter>
     </ClCompile>
     <ClCompile Include="..\src\core\wwise_settings.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\wwise_project_database.cpp">
+      <Filter>Source Files\editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\wwise_base_information.cpp">
+      <Filter>Source Files\editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\wwise_tree_object.cpp">
+      <Filter>Source Files\editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\wwise_project_data.cpp">
+      <Filter>Source Files\editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\wwise_tree_object_event.cpp">
+      <Filter>Source Files\editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\ak_wwise_tree_item.cpp">
+      <Filter>Source Files\editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\ak_wwise_tree.cpp">
+      <Filter>Source Files\editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\ak_wwise_inspector_picker.cpp">
+      <Filter>Source Files\editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\ak_wwise_tree_data_source.cpp">
+      <Filter>Source Files\editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\types\wwise_base_type.cpp">
+      <Filter>Source Files\core\types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\types\wwise_event.cpp">
+      <Filter>Source Files\core\types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\types\wwise_group_type.cpp">
+      <Filter>Source Files\core\types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\types\wwise_state.cpp">
+      <Filter>Source Files\core\types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\types\wwise_switch.cpp">
+      <Filter>Source Files\core\types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\types\wwise_rtpc.cpp">
+      <Filter>Source Files\core\types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\types\wwise_bank.cpp">
+      <Filter>Source Files\core\types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\types\wwise_trigger.cpp">
+      <Filter>Source Files\core\types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\plugins\ak_android_export_plugin.cpp">
+      <Filter>Source Files\editor\plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\plugins\ak_editor_export_plugin.cpp">
+      <Filter>Source Files\editor\plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\plugins\ak_editor_plugin.cpp">
+      <Filter>Source Files\editor\plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\plugins\ak_event_3d_gizmo_plugin.cpp">
+      <Filter>Source Files\editor\plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\plugins\ak_json_builder.cpp">
+      <Filter>Source Files\editor\plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\plugins\ak_soundbank_directory_watcher_plugin.cpp">
+      <Filter>Source Files\editor\plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\plugins\ak_wwise_editor_inspector_plugin.cpp">
+      <Filter>Source Files\editor\plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\plugins\wwise_browser.cpp">
+      <Filter>Source Files\editor\plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\plugins\wwise_project_info.cpp">
+      <Filter>Source Files\editor\plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\properties\ak_wwise_editor_property.cpp">
+      <Filter>Source Files\editor\properties</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\properties\ak_wwise_editor_property_acoustic_texture.cpp">
+      <Filter>Source Files\editor\properties</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\properties\ak_wwise_editor_property_aux_bus.cpp">
+      <Filter>Source Files\editor\properties</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\properties\ak_wwise_editor_property_bank.cpp">
+      <Filter>Source Files\editor\properties</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\properties\ak_wwise_editor_property_event.cpp">
+      <Filter>Source Files\editor\properties</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\properties\ak_wwise_editor_property_rtpc.cpp">
+      <Filter>Source Files\editor\properties</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\properties\ak_wwise_editor_property_state.cpp">
+      <Filter>Source Files\editor\properties</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\properties\ak_wwise_editor_property_switch.cpp">
+      <Filter>Source Files\editor\properties</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\properties\ak_wwise_editor_property_trigger.cpp">
+      <Filter>Source Files\editor\properties</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\types\wwise_aux_bus.cpp">
+      <Filter>Source Files\core\types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\wwise_plugin_info.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\wwise_platform_info.cpp">
       <Filter>Source Files\core</Filter>
     </ClCompile>
   </ItemGroup>
@@ -155,25 +257,7 @@
     <ClInclude Include="..\src\scene\ak_switch.h">
       <Filter>Source Files\scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\editor\ak_android_export_plugin.h">
-      <Filter>Source Files\editor</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\editor\ak_editor_export_plugin.h">
-      <Filter>Source Files\editor</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\editor\ak_editor_plugin.h">
-      <Filter>Source Files\editor</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\editor\ak_editor_utils.h">
-      <Filter>Source Files\editor</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\editor\ak_event_3d_gizmo_plugin.h">
-      <Filter>Source Files\editor</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\editor\ak_inspector_plugin.h">
-      <Filter>Source Files\editor</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\editor\ak_waapi_picker.h">
       <Filter>Source Files\editor</Filter>
     </ClInclude>
     <ClInclude Include="..\src\platform\android\jni_support.h">
@@ -200,9 +284,6 @@
     <ClInclude Include="..\src\core\waapi_gdextension.h">
       <Filter>Source Files\core</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\core\wwise_cookie.h">
-      <Filter>Source Files\core</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\core\wwise_gdextension.h">
       <Filter>Source Files\core</Filter>
     </ClInclude>
@@ -210,6 +291,159 @@
       <Filter>Source Files\core</Filter>
     </ClInclude>
     <ClInclude Include="..\src\core\wwise_settings.h">
+      <Filter>Source Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\ak_editor_settings.h">
+      <Filter>Source Files\editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\short_id_generator.h">
+      <Filter>Source Files\editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\wwise_object_type.h">
+      <Filter>Source Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\wwise_project_database.h">
+      <Filter>Source Files\editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\wwise_project_data.h">
+      <Filter>Source Files\editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\wwise_tree_object.h">
+      <Filter>Source Files\editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\wwise_base_information.h">
+      <Filter>Source Files\editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\wwise_tree_object_event.h">
+      <Filter>Source Files\editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\ak_wwise_tree_item.h">
+      <Filter>Source Files\editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\ak_wwise_inspector_picker.h">
+      <Filter>Source Files\editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\ak_wwise_tree.h">
+      <Filter>Source Files\editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\ak_wwise_tree_data_source.h">
+      <Filter>Source Files\editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\wwise_bank_manager.h">
+      <Filter>Source Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\types\wwise_acoustic_texture.h">
+      <Filter>Source Files\core\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\types\wwise_bank.h">
+      <Filter>Source Files\core\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\types\wwise_base_type.h">
+      <Filter>Source Files\core\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\types\wwise_event.h">
+      <Filter>Source Files\core\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\types\wwise_group_type.h">
+      <Filter>Source Files\core\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\types\wwise_state.h">
+      <Filter>Source Files\core\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\types\wwise_state_group.h">
+      <Filter>Source Files\core\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\types\wwise_switch_group.h">
+      <Filter>Source Files\core\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\types\wwise_switch.h">
+      <Filter>Source Files\core\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\types\wwise_rtpc.h">
+      <Filter>Source Files\core\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\types\wwise_trigger.h">
+      <Filter>Source Files\core\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\types\wwise_aux_bus.h">
+      <Filter>Source Files\core\types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\ak_midi_post.h">
+      <Filter>Source Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\ak_game_obj_helper.h">
+      <Filter>Source Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\scene\ak_game_obj_3d.h">
+      <Filter>Source Files\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\scene\ak_game_obj_2d.h">
+      <Filter>Source Files\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\scene\ak_game_obj.h">
+      <Filter>Source Files\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\plugins\ak_android_export_plugin.h">
+      <Filter>Source Files\editor\plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\plugins\ak_editor_export_plugin.h">
+      <Filter>Source Files\editor\plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\plugins\ak_editor_plugin.h">
+      <Filter>Source Files\editor\plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\plugins\ak_event_3d_gizmo_plugin.h">
+      <Filter>Source Files\editor\plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\plugins\ak_json_builder.h">
+      <Filter>Source Files\editor\plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\plugins\ak_soundbank_directory_watcher_plugin.h">
+      <Filter>Source Files\editor\plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\plugins\ak_wwise_editor_inspector_plugin.h">
+      <Filter>Source Files\editor\plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\plugins\wwise_browser.h">
+      <Filter>Source Files\editor\plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\plugins\wwise_project_info.h">
+      <Filter>Source Files\editor\plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\properties\ak_wwise_editor_property.h">
+      <Filter>Source Files\editor\properties</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\properties\ak_wwise_editor_property_acoustic_texture.h">
+      <Filter>Source Files\editor\properties</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\properties\ak_wwise_editor_property_aux_bus.h">
+      <Filter>Source Files\editor\properties</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\properties\ak_wwise_editor_property_bank.h">
+      <Filter>Source Files\editor\properties</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\properties\ak_wwise_editor_property_event.h">
+      <Filter>Source Files\editor\properties</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\properties\ak_wwise_editor_property_rtpc.h">
+      <Filter>Source Files\editor\properties</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\properties\ak_wwise_editor_property_state.h">
+      <Filter>Source Files\editor\properties</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\properties\ak_wwise_editor_property_switch.h">
+      <Filter>Source Files\editor\properties</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\properties\ak_wwise_editor_property_trigger.h">
+      <Filter>Source Files\editor\properties</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\wwise_project_database_includes.h">
+      <Filter>Source Files\editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\wwise_plugin_info.h">
+      <Filter>Source Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\wwise_platform_info.h">
       <Filter>Source Files\core</Filter>
     </ClInclude>
   </ItemGroup>
