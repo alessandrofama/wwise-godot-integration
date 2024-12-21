@@ -6,6 +6,7 @@
 #include "core/utils.h"
 #include "core/wwise_bank_manager.h"
 #include "core/wwise_io_hook.h"
+#include "core/wwise_platform_info.h"
 #include "core/wwise_settings.h"
 #include <AK/MusicEngine/Common/AkMusicEngine.h>
 #include <AK/SoundEngine/Common/AkCallback.h>
