@@ -119,7 +119,7 @@ void Wwise::_bind_methods()
 	ClassDB::bind_method(D_METHOD("post_event_id", "event_id", "game_object"), &Wwise::post_event_id);
 	ClassDB::bind_method(D_METHOD("post_event_id_callback", "event_id", "flags", "game_object", "cookie"),
 			&Wwise::post_event_id_callback);
-	ClassDB::bind_method(D_METHOD("post_midi_on_event_id", "event_id", "game_object", "midi_posts", "aboslute_offsets"),
+	ClassDB::bind_method(D_METHOD("post_midi_on_event_id", "event_id", "game_object", "midi_posts", "absolute_offsets"),
 			&Wwise::post_midi_on_event_id);
 	ClassDB::bind_method(D_METHOD("stop_event", "playing_id", "fade_time", "interpolation"), &Wwise::stop_event);
 	ClassDB::bind_method(D_METHOD("stop_midi_on_event_id", "event_id", "game_object"), &Wwise::stop_midi_on_event_id);
@@ -215,22 +215,39 @@ void Wwise::init()
 
 	String root_output_path = project_settings->get_setting(project_settings->common_user_settings.root_output_path);
 
+	Ref<WwisePlatformInfo> platform_info;
+	String platform_info_res_path;
+	String banks_platform_suffix;
+
+	auto load_platform_suffix = [&](const String& setting) -> String
+	{
+		platform_info_res_path = project_settings->get_setting(setting);
+		platform_info = ResourceLoader::get_singleton()->load(platform_info_res_path);
+		if (platform_info.is_valid())
+		{
+			return platform_info->get_platform_path();
+		}
+		return String();
+	};
+
 #ifdef AK_WIN
-	String banks_platform_suffix =
-			project_settings->get_setting(project_settings->project_settings.windows_platform_path);
+	banks_platform_suffix = load_platform_suffix(project_settings->project_settings.windows_platform_info);
 #elif defined(AK_MAC_OS_X)
-	String banks_platform_suffix = project_settings->get_setting(project_settings->project_settings.mac_platform_path);
-#elif defined(AK_IOS)
-	String banks_platform_suffix = project_settings->get_setting(project_settings->project_settings.ios_platform_path);
-#elif defined(AK_ANDROID)
-	String banks_platform_suffix =
-			project_settings->get_setting(project_settings->project_settings.android_platform_path);
+	banks_platform_suffix = load_platform_suffix(project_settings->project_settings.mac_platform_info);
 #elif defined(AK_LINUX)
-	String banks_platform_suffix =
-			project_settings->get_setting(project_settings->project_settings.linux_platform_path);
+	banks_platform_suffix = load_platform_suffix(project_settings->project_settings.linux_platform_info);
+#elif defined(AK_IOS)
+	banks_platform_suffix = load_platform_suffix(project_settings->project_settings.ios_platform_info);
+#elif defined(AK_ANDROID)
+	banks_platform_suffix = load_platform_suffix(project_settings->project_settings.android_platform_info);
 #else
 #error "Platform not supported"
 #endif
+
+	if (banks_platform_suffix.is_empty())
+	{
+		UtilityFunctions::push_error("WwiseGodot: Failed to get the SoundBank directory for the current platform.");
+	}
 
 	String banks_path = vformat("%s/%s/", root_output_path, banks_platform_suffix);
 	set_banks_path(banks_path);
@@ -953,8 +970,7 @@ bool Wwise::set_geometry(const Array vertices, const Array triangles, const Ref<
 
 	if ((num_triangles % 3) != 0)
 	{
-		UtilityFunctions::print(
-				"WwiseGidot: Wrong number of triangles on mesh {0}", String::num_int64(id));
+		UtilityFunctions::print("WwiseGidot: Wrong number of triangles on mesh {0}", String::num_int64(id));
 	}
 
 	auto ak_triangles = std::make_unique<AkTriangle[]>(num_triangles);
@@ -992,8 +1008,7 @@ bool Wwise::set_geometry(const Array vertices, const Array triangles, const Ref<
 		}
 		else
 		{
-			UtilityFunctions::print("WwiseGodot: Skipped degenerate triangles on mesh {0}",
-					String::num_int64(id));
+			UtilityFunctions::print("WwiseGodot: Skipped degenerate triangles on mesh {0}", String::num_int64(id));
 		}
 	}
 
@@ -1004,8 +1019,7 @@ bool Wwise::set_geometry(const Array vertices, const Array triangles, const Ref<
 	geometry.EnableDiffraction = enable_diffraction;
 	geometry.EnableDiffractionOnBoundaryEdges = enable_diffraction_on_boundary_edges;
 
-	return ERROR_CHECK(
-			AK::SpatialAudio::SetGeometry(id, geometry));
+	return ERROR_CHECK(AK::SpatialAudio::SetGeometry(id, geometry));
 }
 
 bool Wwise::remove_geometry(const Object* game_object)
@@ -1867,8 +1881,8 @@ bool Wwise::initialize_wwise_systems()
 
 #elif defined(AK_LINUX)
 
-	platform_init_settings.eAudioAPI = static_cast<AkAudioAPILinux>(
-			static_cast<unsigned int>(project_settings->get_setting(project_settings->platform_settings.linux_audio_api)));
+	platform_init_settings.eAudioAPI = static_cast<AkAudioAPILinux>(static_cast<unsigned int>(
+			project_settings->get_setting(project_settings->platform_settings.linux_audio_api)));
 
 #else
 #error "Platform not supported"
