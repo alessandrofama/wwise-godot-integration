@@ -1,5 +1,5 @@
 #!python
-import os, sys, subprocess, html
+import os, sys, subprocess, html, shutil
 
 if sys.version_info < (3,):
 
@@ -201,6 +201,16 @@ opts.Add(BoolVariable("ios_simulator", "Target iOS Simulator", False))
 opts.Add(BoolVariable("asserts", "Enable AKASSERT for debug builds", "no"))
 opts.Update(env)
 
+file_extension = ""
+if env["platform"] == "windows":
+    file_extension = ".dll"
+elif env["platform"] == "macos":
+    file_extension = ".dylib"
+elif env["platform"] == "linux":
+    file_extension = ".so"
+elif env["platform"] == "ios":
+    file_extension = ".a"
+
 # Local dependency paths, adapt them to your setup
 godot_headers_path = "godot-cpp/gdextension/"
 cpp_bindings_path = "godot-cpp/"
@@ -208,52 +218,68 @@ cpp_bindings_path = "godot-cpp/"
 # Wwise dependency paths
 wwise_sdk_headers_path = env["wwise_sdk"] + "/include/"
 wwise_sdk_libs_path = ""
+wwise_sdk_plugins_path = ""
 wwise_soundengine_sample_path = ""
 
 if env["platform"] == "windows":
     wwise_soundengine_sample_path = env["wwise_sdk"] + "/samples/SoundEngine/Win32/"
     if env["wwise_config"] == "debug":
         wwise_sdk_libs_path = env["wwise_sdk"] + "/x64_vc170/Debug(StaticCRT)/lib/"
+        wwise_sdk_plugins_path = env["wwise_sdk"] + "/x64_vc170/Debug/bin/"
     elif env["wwise_config"] == "profile":
         wwise_sdk_libs_path = env["wwise_sdk"] + "/x64_vc170/Profile(StaticCRT)/lib/"
+        wwise_sdk_plugins_path = env["wwise_sdk"] + "/x64_vc170/Profile/bin/"
     else:
         wwise_sdk_libs_path = env["wwise_sdk"] + "/x64_vc170/Release(StaticCRT)/lib/"
+        wwise_sdk_plugins_path = env["wwise_sdk"] + "/x64_vc170/Release/bin/"
 
 if env["platform"] == "macos":
     wwise_soundengine_sample_path = env["wwise_sdk"] + "/samples/SoundEngine/POSIX/"
     if env["wwise_config"] == "debug":
         wwise_sdk_libs_path = env["wwise_sdk"] + "/Mac_Xcode1500/Debug/lib/"
+        wwise_sdk_plugins_path = env["wwise_sdk"] + "/Mac_Xcode1500/Debug/bin/"
     elif env["wwise_config"] == "profile":
         wwise_sdk_libs_path = env["wwise_sdk"] + "/Mac_Xcode1500/Profile/lib/"
+        wwise_sdk_plugins_path = env["wwise_sdk"] + "/Mac_Xcode1500/Profile/bin/"
     else:
         wwise_sdk_libs_path = env["wwise_sdk"] + "/Mac_Xcode1500/Release/lib/"
+        wwise_sdk_plugins_path = env["wwise_sdk"] + "/Mac_Xcode1500/Release/bin/"
 
 if env["platform"] == "linux":
     wwise_soundengine_sample_path = env["wwise_sdk"] + "/samples/SoundEngine/POSIX/"
     if env["wwise_config"] == "debug":
         wwise_sdk_libs_path = env["wwise_sdk"] + "/Linux_x64/Debug/lib/"
+        wwise_sdk_plugins_path = env["wwise_sdk"] + "/Linux_x64/Debug/bin/"
     elif env["wwise_config"] == "profile":
         wwise_sdk_libs_path = env["wwise_sdk"] + "/Linux_x64/Profile/lib/"
+        wwise_sdk_plugins_path = env["wwise_sdk"] + "/Linux_x64/Profile/bin/"
     else:
         wwise_sdk_libs_path = env["wwise_sdk"] + "/Linux_x64/Release/lib/"
+        wwise_sdk_plugins_path = env["wwise_sdk"] + "/Linux_x64/Release/bin/"
 
 if env["platform"] == "ios" and not env["ios_simulator"]:
     wwise_soundengine_sample_path = env["wwise_sdk"] + "/samples/SoundEngine/POSIX/"
     if env["wwise_config"] == "debug":
         wwise_sdk_libs_path = env["wwise_sdk"] + "/iOS_Xcode1500/Debug-iphoneos/lib/"
+        wwise_sdk_plugins_path = env["wwise_sdk"] + "/iOS_Xcode1500/Debug-iphoneos/lib/"
     elif env["wwise_config"] == "profile":
         wwise_sdk_libs_path = env["wwise_sdk"] + "/iOS_Xcode1500/Profile-iphoneos/lib/"
+        wwise_sdk_plugins_path = env["wwise_sdk"] + "/iOS_Xcode1500/Profile-iphoneos/lib/"
     else:
         wwise_sdk_libs_path = env["wwise_sdk"] + "/iOS_Xcode1500/Release-iphoneos/lib/"
+        wwise_sdk_plugins_path = env["wwise_sdk"] + "/iOS_Xcode1500/Release-iphoneos/lib/"
 
 if env["platform"] == "ios" and env["ios_simulator"]:
     wwise_soundengine_sample_path = env["wwise_sdk"] + "/samples/SoundEngine/POSIX/"
     if env["wwise_config"] == "debug":
         wwise_sdk_libs_path = env["wwise_sdk"] + "/iOS_Xcode1500/Debug-iphonesimulator/lib/"
+        wwise_sdk_plugins_path = env["wwise_sdk"] + "/iOS_Xcode1500/Debug-iphonesimulator/lib/"
     elif env["wwise_config"] == "profile":
         wwise_sdk_libs_path = env["wwise_sdk"] + "/iOS_Xcode1500/Profile-iphonesimulator/lib/"
+        wwise_sdk_plugins_path = env["wwise_sdk"] + "/iOS_Xcode1500/Profile-iphonesimulator/lib/"
     else:
         wwise_sdk_libs_path = env["wwise_sdk"] + "/iOS_Xcode1500/Release-iphonesimulator/lib/"
+        wwise_sdk_plugins_path = env["wwise_sdk"] + "/iOS_Xcode1500/Release-iphonesimulator/lib/"
 
 wwise_soundengine_sample_common_path = env["wwise_sdk"] + "/samples/SoundEngine/Common/"
 wwise_soundengine_common_include_path = wwise_sdk_headers_path + "AK/SoundEngine/Common/"
@@ -428,11 +454,10 @@ elif env["platform"] == "macos":
             "AVFoundation",
             "-Wl,-undefined,dynamic_lookup",
             "-Wl,-rpath,@loader_path",
+            "-Wl,-rpath,@loader_path/../DSP",
             "-Wl,-install_name,{}".format(macos_install_name),
         ]
     )
-
-    wwise_plugins_library.append("AkOpusDecoder")
 
 # Linux build settings
 elif env["platform"] == "linux":
@@ -470,8 +495,6 @@ elif env["platform"] == "linux":
 
     env.Prepend(_LIBFLAGS="-Wl,--start-group ")
     env.Append(_LIBFLAGS=" -Wl,--end-group")
-
-    wwise_plugins_library.append("AkOpusDecoder")
 
     env.Append(CCFLAGS=["-fPIC", "-Wwrite-strings"])
     env.Append(CXXFLAGS=["-std=c++20"])
@@ -706,6 +729,16 @@ Default(library)
 
 print_section_header("Wwise Godot Integration: Build Info")
 print_project_info(env)
+
+print_section_header("Copying Plugins")
+dsp_target_path = os.path.join(env["target_path"], "DSP")
+copy_plugins_with_skip(wwise_sdk_plugins_path, dsp_target_path, file_extension, skip_plugins)
+
+if env["platform"] == "ios":
+    print_section_header("Copying iOS Plugin Headers")
+    plugin_header_src_path = os.path.join(wwise_sdk_headers_path, "AK", "Plugin")
+    copy_header_files_with_skip(plugin_header_src_path, dsp_target_path, skip_plugins=skip_plugins)
+
 print_section_header("Compiling GDExtension")
 
 Help(opts.GenerateHelpText(env))

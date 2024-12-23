@@ -64,6 +64,42 @@ void WwiseProjectDatabase::post_init_callback()
 				platform_info->set_platform_path(platform.Path.String.c_str());
 
 				TypedArray<WwisePluginInfo> plugin_info_array;
+
+				const auto* plugins = GetAllPluginRef();
+				for (int i = 0; i < GetPluginCount(); i++)
+				{
+					const auto* plugin = GetPluginRefIndex((void*)plugins, i);
+
+					uint32_t plugin_id = plugin->id;
+
+					if (plugin_id == 0)
+					{
+						continue;
+					}
+
+					if (AkEditorSettings::always_skip_plugin_ids.contains((AkEditorSettings::PluginID)plugin_id))
+					{
+						continue;
+					}
+
+					if (AkEditorSettings::built_in_plugin_ids.contains((AkEditorSettings::PluginID)plugin_id))
+					{
+						continue;
+					}
+
+					String plugin_name = plugin->name;
+					String plugin_dll = plugin->dll;
+					String plugin_static_lib = plugin->staticLib;
+					
+					Ref<WwisePluginInfo> plugin_info;
+					plugin_info.instantiate();
+					plugin_info->set_plugin_name(plugin_name); 
+					plugin_info->set_plugin_id(plugin_id);
+					plugin_info->set_dll_name(plugin_dll);
+					plugin_info->set_static_lib_name(plugin_static_lib);
+					plugin_info_array.push_back(plugin_info);
+				}
+
 				platform_info->set_plugin_info(plugin_info_array);
 
 				String save_path = AkEditorSettings::get_wwise_resource_relative_path().path_join(

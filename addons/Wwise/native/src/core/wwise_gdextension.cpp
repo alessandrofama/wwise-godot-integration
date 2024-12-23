@@ -6,36 +6,6 @@
 
 #include <AK/Plugin/AllPluginsFactories.h>
 
-#if defined(AK_REFLECT)
-#include <AK/Plugin/AkReflectFXFactory.h>
-#endif
-
-#if defined(AK_MOTION)
-#include <AK/Plugin/AkMotionSinkFactory.h>
-#include <AK/Plugin/AkMotionSourceSourceFactory.h>
-#endif
-
-#if defined(AK_CONVOLUTION)
-#include <AK/Plugin/AkConvolutionReverbFXFactory.h>
-#endif
-
-#if defined(AK_SOUNDSEED_GRAIN)
-#include <AK/Plugin/AkSoundSeedGrainSourceFactory.h>
-#endif
-
-#if defined(AK_SOUNDSEED_AIR)
-#include <AK/Plugin/AkSoundSeedWindSourceFactory.h>
-#include <AK/Plugin/AkSoundSeedWooshSourceFactory.h>
-#endif
-
-#if defined(AK_IMPACTER)
-#include <AK/Plugin/AkImpacterSourceFactory.h>
-#endif
-
-#if defined(AK_MASTERING_SUITE)
-#include <AK/Plugin/MasteringSuiteFXFactory.h>
-#endif
-
 #include "scene/ak_game_obj.h"
 #include "scene/ak_game_obj_2d.h"
 #include "scene/ak_game_obj_3d.h"
@@ -1838,6 +1808,13 @@ bool Wwise::initialize_wwise_systems()
 			break;
 	}
 
+#if defined(TOOLS_ENABLED)
+	String dsp_path = AkEditorSettings::get_editor_plugins_path();
+	AkOSChar* dll_path;
+	CONVERT_CHAR_TO_OSCHAR(ProjectSettings::get_singleton()->globalize_path(dsp_path).utf8().get_data(), dll_path);
+	init_settings.szPluginDLLPath = dll_path;
+#endif
+
 		// Platform-specific settings
 #ifdef AK_WIN
 	platform_init_settings.uMaxSystemAudioObjects = static_cast<unsigned int>(
@@ -1876,6 +1853,10 @@ bool Wwise::initialize_wwise_systems()
 
 	platform_init_settings.pJavaVM = JNISupport::getJavaVM();
 	platform_init_settings.jActivity = JNISupport::getActivity();
+
+	AkOSChar* dll_path;
+	CONVERT_CHAR_TO_OSCHAR(JNISupport::getPluginsDir().c_str(), dll_path);
+	init_settings.szPluginDLLPath = dll_path;
 
 	platform_init_settings.bEnableLowLatency = true;
 
