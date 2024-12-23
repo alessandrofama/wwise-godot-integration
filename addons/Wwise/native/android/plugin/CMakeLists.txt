@@ -151,11 +151,6 @@ else ()
     add_definitions(-DAK_OPTIMIZED)
 endif ()
 
-if ("motion" IN_LIST plugins)
-    list(APPEND WWISE_PLUGINS_LIBRARY "AkMotionSink" "AkMotionSourceSource")
-    add_definitions(-DAK_MOTION)
-endif ()
-
 add_definitions(-DLUA_USE_POSIX)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-conversion-null -Wno-deprecated-declarations -fvisibility=hidden -fno-exceptions")
