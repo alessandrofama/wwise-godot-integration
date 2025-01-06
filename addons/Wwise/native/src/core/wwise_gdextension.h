@@ -170,6 +170,7 @@ public:
 	bool remove_output(const unsigned int output_id);
 	bool suspend(bool render_anyway);
 	bool wakeup_from_suspend();
+	void stop_all(Node* game_object = nullptr);
 	uint64_t get_sample_tick();
 	bool is_initialized();
 };

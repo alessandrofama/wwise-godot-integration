@@ -190,6 +190,7 @@ void Wwise::_bind_methods()
 	ClassDB::bind_method(D_METHOD("remove_output", "output_id"), &Wwise::remove_output);
 	ClassDB::bind_method(D_METHOD("suspend", "render_anyway"), &Wwise::suspend);
 	ClassDB::bind_method(D_METHOD("wakeup_from_suspend"), &Wwise::wakeup_from_suspend);
+	ClassDB::bind_method(D_METHOD("stop_all", "game_object"), &Wwise::stop_all, DEFVAL(nullptr));
 	ClassDB::bind_method(D_METHOD("get_sample_tick"), &Wwise::get_sample_tick);
 	ClassDB::bind_method(D_METHOD("is_initialized"), &Wwise::is_initialized);
 }
@@ -1203,6 +1204,20 @@ bool Wwise::remove_output(const unsigned int output_id)
 bool Wwise::suspend(bool render_anyway) { return ERROR_CHECK(AK::SoundEngine::Suspend(render_anyway)); }
 
 bool Wwise::wakeup_from_suspend() { return ERROR_CHECK(AK::SoundEngine::WakeupFromSuspend()); }
+
+void Wwise::stop_all(Node* game_object)
+{
+	AkGameObjectID id = get_ak_game_object_id(game_object);
+
+	if (id == AK_INVALID_GAME_OBJECT)
+	{
+		AK::SoundEngine::StopAll();
+	}
+	else
+	{
+		AK::SoundEngine::StopAll(id);
+	}
+}
 
 uint64_t Wwise::get_sample_tick() { return AK::SoundEngine::GetSampleTick(); }
 
