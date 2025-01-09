@@ -22,7 +22,7 @@ class GDExtensionAndroidPlugin(godot: Godot) : GodotPlugin(godot) {
         }
     }
 
-    external fun initPlugin(activity: Activity)
+    external fun initPlugin(activity: Activity, nativeLibDir: String)
 
     override fun getPluginName() = BuildConfig.GODOT_PLUGIN_NAME
 
@@ -32,8 +32,13 @@ class GDExtensionAndroidPlugin(godot: Godot) : GodotPlugin(godot) {
 
     override fun onMainCreate(activity: Activity?): View? {
         if (activity != null) {
-            initPlugin(activity)
+            val nativeLibDir = getNativeLibraryDir(activity)
+            initPlugin(activity, nativeLibDir)
         }
         return null
+    }
+
+    fun getNativeLibraryDir(activity: Activity): String {
+        return activity.applicationInfo.nativeLibraryDir
     }
 }

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{92BD2F57-F1E6-4572-B365-4DAFC95C9BC0}" SchemaVersion="123">
+	<States>
+		<WorkUnit Name="Default Work Unit" ID="{92BD2F57-F1E6-4572-B365-4DAFC95C9BC0}" PersistMode="Standalone">
+			<ChildrenList>
+				<StateGroup Name="SwitchState" ID="{6BB4F90F-39AD-4ED3-9877-839FFE9AB63A}">
+					<ChildrenList>
+						<State Name="None" ID="{33A72F71-FDF3-4F52-88AC-36C949711C78}"/>
+						<State Name="One" ID="{ABE50EBD-4901-451E-B0DF-88CE269C80DF}"/>
+						<State Name="Two" ID="{AEC9A348-C824-4A3C-8375-F24ED52DB244}"/>
+					</ChildrenList>
+				</StateGroup>
+				<StateGroup Name="AkState" ID="{1D255671-F634-4E4C-A548-DFAEF2B7B1CE}">
+					<ChildrenList>
+						<State Name="None" ID="{7AD0A12A-0D58-4AF6-899B-B7200A8DAB52}"/>
+						<State Name="High" ID="{B5DE0219-EAAF-42FD-82CC-8DF16BE103DC}"/>
+						<State Name="Low" ID="{46F5A797-A960-4A09-8620-3A6D39C4726C}"/>
+					</ChildrenList>
+				</StateGroup>
+			</ChildrenList>
+		</WorkUnit>
+	</States>
+</WwiseDocument>

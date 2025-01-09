@@ -1,7 +1,9 @@
 #pragma once
 
 #include "AK/SoundEngine/Common/AkTypes.h"
+#include <godot_cpp/classes/dir_access.hpp>
 #include <godot_cpp/classes/engine.hpp>
+#include <godot_cpp/classes/node.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
 
 using namespace godot;
@@ -214,11 +216,11 @@ static bool check_error(
 #define ERROR_CHECK(result) check_error(result, __FUNCTION__, __FILE__, __LINE__)
 #define ERROR_CHECK_MSG(result, message) check_error(result, __FUNCTION__, __FILE__, __LINE__, message)
 
+static inline bool should_return_if_editor() { return Engine::get_singleton()->is_editor_hint(); }
+
 #define RETURN_IF_EDITOR                                                                                               \
-	if (Engine::get_singleton()->is_editor_hint())                                                                     \
-	{                                                                                                                  \
-		return;                                                                                                        \
-	}
+	if (should_return_if_editor())                                                                                     \
+	return
 
 #define ADD_ALL_AK_EVENT_SIGNALS                                                                                       \
 	ADD_SIGNAL(MethodInfo(AkUtils::get_singleton()->event_callback_signals[AkUtils::AkCallbackType::AK_END_OF_EVENT],  \
@@ -325,4 +327,45 @@ static inline bool find_matching_vertex(Vector3 vertex, Dictionary vert_dict, in
 	{
 		return false;
 	}
+}
+
+static bool make_dir_recursive(const String& p_directory)
+{
+	if (!DirAccess::dir_exists_absolute(p_directory))
+	{
+		auto error = DirAccess::make_dir_recursive_absolute(p_directory);
+		if (error != OK)
+			return false;
+	}
+	return true;
+}
+
+static PackedStringArray skip(const PackedStringArray& folders, int n)
+{
+	if (n >= folders.size())
+	{
+		return PackedStringArray();
+	}
+
+	PackedStringArray result;
+	for (int i = n; i < folders.size(); i++)
+	{
+		result.push_back(folders[i]);
+	}
+	return result;
+}
+
+static PackedStringArray take(const PackedStringArray& folders, int n)
+{
+	PackedStringArray result;
+	for (int i = 0; i < Math::min(n, (int)folders.size()); i++)
+	{
+		result.push_back(folders[i]);
+	}
+	return result;
+}
+
+static inline AkGameObjectID get_ak_game_object_id(const Node* p_node)
+{
+	return p_node == nullptr ? AK_INVALID_GAME_OBJECT : p_node->get_instance_id();
 }

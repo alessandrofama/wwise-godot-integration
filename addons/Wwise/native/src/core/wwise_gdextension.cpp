@@ -6,39 +6,14 @@
 
 #include <AK/Plugin/AllPluginsFactories.h>
 
-#if defined(AK_REFLECT)
-#include <AK/Plugin/AkReflectFXFactory.h>
-#endif
-
-#if defined(AK_MOTION)
-#include <AK/Plugin/AkMotionSinkFactory.h>
-#include <AK/Plugin/AkMotionSourceSourceFactory.h>
-#endif
-
-#if defined(AK_CONVOLUTION)
-#include <AK/Plugin/AkConvolutionReverbFXFactory.h>
-#endif
-
-#if defined(AK_SOUNDSEED_GRAIN)
-#include <AK/Plugin/AkSoundSeedGrainSourceFactory.h>
-#endif
-
-#if defined(AK_SOUNDSEED_AIR)
-#include <AK/Plugin/AkSoundSeedWindSourceFactory.h>
-#include <AK/Plugin/AkSoundSeedWooshSourceFactory.h>
-#endif
-
-#if defined(AK_IMPACTER)
-#include <AK/Plugin/AkImpacterSourceFactory.h>
-#endif
-
-#if defined(AK_MASTERING_SUITE)
-#include <AK/Plugin/MasteringSuiteFXFactory.h>
-#endif
+#include "scene/ak_game_obj.h"
+#include "scene/ak_game_obj_2d.h"
+#include "scene/ak_game_obj_3d.h"
 
 Wwise* Wwise::singleton = nullptr;
 CAkLock Wwise::callback_data_lock;
 CAkLock g_localOutputLock;
+HashSet<AkGameObjectID> Wwise::registered_game_objects;
 
 #if defined(AK_ENABLE_ASSERTS)
 void WwiseAssertHook(const char* in_pszExpression, const char* in_psz_filename, int in_lineNumber)
@@ -79,7 +54,7 @@ void Wwise::_bind_methods()
 	ClassDB::bind_method(D_METHOD("init"), &Wwise::init);
 	ClassDB::bind_method(D_METHOD("render_audio"), &Wwise::render_audio);
 	ClassDB::bind_method(D_METHOD("shutdown"), &Wwise::shutdown);
-	ClassDB::bind_method(D_METHOD("set_base_path", "base_path"), &Wwise::set_base_path);
+	ClassDB::bind_method(D_METHOD("set_banks_path", "root_output_path"), &Wwise::set_banks_path);
 	ClassDB::bind_method(D_METHOD("set_current_language", "language"), &Wwise::set_current_language);
 	ClassDB::bind_method(D_METHOD("load_bank", "bank_name"), &Wwise::load_bank);
 	ClassDB::bind_method(D_METHOD("load_bank_id", "bank_id"), &Wwise::load_bank_id);
@@ -114,7 +89,14 @@ void Wwise::_bind_methods()
 	ClassDB::bind_method(D_METHOD("post_event_id", "event_id", "game_object"), &Wwise::post_event_id);
 	ClassDB::bind_method(D_METHOD("post_event_id_callback", "event_id", "flags", "game_object", "cookie"),
 			&Wwise::post_event_id_callback);
+	ClassDB::bind_method(D_METHOD("post_midi_on_event_id", "event_id", "game_object", "midi_posts", "absolute_offsets"),
+			&Wwise::post_midi_on_event_id);
 	ClassDB::bind_method(D_METHOD("stop_event", "playing_id", "fade_time", "interpolation"), &Wwise::stop_event);
+	ClassDB::bind_method(D_METHOD("stop_midi_on_event_id", "event_id", "game_object"), &Wwise::stop_midi_on_event_id);
+	ClassDB::bind_method(D_METHOD("execute_action_on_event_id", "event_id", "action_type", "game_object",
+								 "transition_duration", "fade_curve", "playing_id"),
+			&Wwise::execute_action_on_event_id, DEFVAL(0), DEFVAL(AkUtils::AkCurveInterpolation::AK_CURVE_LINEAR),
+			DEFVAL(AK_INVALID_PLAYING_ID));
 	ClassDB::bind_method(D_METHOD("set_switch", "switch_group", "switch_value", "game_object"), &Wwise::set_switch);
 	ClassDB::bind_method(
 			D_METHOD("set_switch_id", "switch_group_id", "switch_value_id", "game_object"), &Wwise::set_switch_id);
@@ -148,6 +130,9 @@ void Wwise::_bind_methods()
 								 "game_object", "enable_diffraction", "enable_diffraction_on_boundary_edges"),
 			&Wwise::set_geometry);
 	ClassDB::bind_method(D_METHOD("remove_geometry", "game_object"), &Wwise::remove_geometry);
+	ClassDB::bind_method(D_METHOD("set_geometry_instance", "associated_geometry", "transform", "geometry_instance"),
+			&Wwise::set_geometry_instance);
+	ClassDB::bind_method(D_METHOD("remove_geometry_instance", "geometry_instance"), &Wwise::remove_geometry_instance);
 	ClassDB::bind_method(D_METHOD("register_spatial_listener", "game_object"), &Wwise::register_spatial_listener);
 	ClassDB::bind_method(D_METHOD("set_room", "game_object", "aux_bus_id", "reverb_level", "transmission_loss",
 								 "front_vector", "up_vector", "keep_registered", "associated_geometry"),
@@ -175,14 +160,13 @@ void Wwise::_bind_methods()
 	ClassDB::bind_method(D_METHOD("remove_output", "output_id"), &Wwise::remove_output);
 	ClassDB::bind_method(D_METHOD("suspend", "render_anyway"), &Wwise::suspend);
 	ClassDB::bind_method(D_METHOD("wakeup_from_suspend"), &Wwise::wakeup_from_suspend);
+	ClassDB::bind_method(D_METHOD("stop_all", "game_object"), &Wwise::stop_all, DEFVAL(nullptr));
+	ClassDB::bind_method(D_METHOD("get_sample_tick"), &Wwise::get_sample_tick);
 	ClassDB::bind_method(D_METHOD("is_initialized"), &Wwise::is_initialized);
 }
 
 void Wwise::init()
 {
-	project_settings = ProjectSettings::get_singleton();
-	AKASSERT(project_settings);
-
 	bool result = initialize_wwise_systems();
 
 	if (!result)
@@ -193,67 +177,88 @@ void Wwise::init()
 	else
 	{
 		UtilityFunctions::print("WwiseGodot: Sound engine initialized successfully.");
-		UtilityFunctions::print(vformat("WwiseGodot: Wwise(R) SDK %s Build %d.", AK_WWISESDK_VERSIONNAME_SHORT, AK_WWISESDK_VERSION_BUILD));
+		UtilityFunctions::print(vformat(
+				"WwiseGodot: Wwise(R) SDK %s Build %d.", AK_WWISESDK_VERSIONNAME_SHORT, AK_WWISESDK_VERSION_BUILD));
 	}
 
-	String base_path = get_platform_project_setting(WWISE_COMMON_USER_SETTINGS_PATH + "base_path");
+	WwiseSettings* project_settings = WwiseSettings::get_singleton();
+
+	String root_output_path = project_settings->get_setting(project_settings->common_user_settings.root_output_path);
+
+	Ref<WwisePlatformInfo> platform_info;
+	String platform_info_res_path;
+	String banks_platform_suffix;
+
+	auto load_platform_suffix = [&](const String& setting) -> String
+	{
+		platform_info_res_path = project_settings->get_setting(setting);
+		platform_info = ResourceLoader::get_singleton()->load(platform_info_res_path);
+		if (platform_info.is_valid())
+		{
+			return platform_info->get_platform_path();
+		}
+		return String();
+	};
 
 #ifdef AK_WIN
-	String banks_platform_suffix = "/Windows";
+	banks_platform_suffix = load_platform_suffix(project_settings->project_settings.windows_platform_info);
 #elif defined(AK_MAC_OS_X)
-	String banks_platform_suffix = "/Mac";
-#elif defined(AK_IOS)
-	String banks_platform_suffix = "/iOS";
-#elif defined(AK_ANDROID)
-	String banks_platform_suffix = "/Android";
+	banks_platform_suffix = load_platform_suffix(project_settings->project_settings.mac_platform_info);
 #elif defined(AK_LINUX)
-	String banks_platform_suffix = "/Linux";
+	banks_platform_suffix = load_platform_suffix(project_settings->project_settings.linux_platform_info);
+#elif defined(AK_IOS)
+	banks_platform_suffix = load_platform_suffix(project_settings->project_settings.ios_platform_info);
+#elif defined(AK_ANDROID)
+	banks_platform_suffix = load_platform_suffix(project_settings->project_settings.android_platform_info);
 #else
 #error "Platform not supported"
 #endif
 
-	base_path += banks_platform_suffix + "/";
+	if (banks_platform_suffix.is_empty())
+	{
+		UtilityFunctions::push_error("WwiseGodot: Failed to get the SoundBank directory for the current platform.");
+	}
 
-	bool set_base_path_result = set_base_path(base_path);
-	AKASSERT(set_base_path_result);
+	String banks_path = vformat("%s/%s/", root_output_path, banks_platform_suffix);
+	set_banks_path(banks_path);
 
-	String startup_language = get_platform_project_setting(WWISE_COMMON_USER_SETTINGS_PATH + "startup_language");
-
+	String startup_language = project_settings->get_setting(project_settings->common_user_settings.startup_language);
 	set_current_language(startup_language);
 
 #if !defined(AK_OPTIMIZED)
 	const bool engineLogging =
-			static_cast<bool>(get_platform_project_setting(WWISE_COMMON_USER_SETTINGS_PATH + "engine_logging"));
+			static_cast<bool>(project_settings->get_setting(project_settings->common_user_settings.engine_logging));
 
 	if (engineLogging)
 	{
 		ERROR_CHECK_MSG(AK::Monitor::SetLocalOutput(
 								AK::Monitor::ErrorLevel_All, static_cast<AK::Monitor::LocalOutputFunc>(LocalOutput)),
-				"Setting local output to ErrorLevel_All failed.");
+				"WwiseGodot: Setting local output to ErrorLevel_All failed.");
 	}
 #endif
 
-	bool load_init_bank_at_startup =
-			get_platform_project_setting(WWISE_COMMON_USER_SETTINGS_PATH + "load_init_bank_at_startup");
+	bool use_subfolders =
+			project_settings->get_setting(project_settings->project_settings.create_subfolders_for_generated_files);
 
-	bool use_soundbank_names = get_platform_project_setting(WWISE_COMMON_USER_SETTINGS_PATH + "use_soundbank_names");
+	low_level_io.set_use_subfolders(use_subfolders);
 
-	if (load_init_bank_at_startup)
+	bool use_soundbank_names = project_settings->get_setting(project_settings->project_settings.use_soundbank_names);
+
+	if (use_soundbank_names)
 	{
-		if (use_soundbank_names)
-		{
-			String init_bank_name = "Init";
-			load_bank(init_bank_name);
-		}
-		else
-		{
-			AkUInt32 initBankID = AK::SoundEngine::GetIDFromString("Init");
-			load_bank_id(initBankID);
-		}
+		AkBankManager::load_init_bank();
+	}
+	else
+	{
+		AkBankManager::load_init_bank_id();
 	}
 }
 
-void Wwise::render_audio() { ERROR_CHECK(AK::SoundEngine::RenderAudio()); }
+void Wwise::render_audio()
+{
+	AkBankManager::do_unload_banks();
+	ERROR_CHECK(AK::SoundEngine::RenderAudio());
+}
 
 void Wwise::shutdown()
 {
@@ -263,13 +268,11 @@ void Wwise::shutdown()
 	}
 }
 
-bool Wwise::set_base_path(const String& base_path)
+void Wwise::set_banks_path(const String& p_banks_path)
 {
-	AKASSERT(!base_path.is_empty());
+	AKASSERT(!p_banks_path.is_empty());
 
-	low_level_io.set_banks_path(base_path);
-
-	return true;
+	low_level_io.set_banks_path(p_banks_path);
 }
 
 void Wwise::set_current_language(const String& language)
@@ -289,21 +292,20 @@ bool Wwise::load_bank(const String& bank_name)
 
 bool Wwise::load_bank_id(const unsigned int bank_id) { return ERROR_CHECK(AK::SoundEngine::LoadBank(bank_id)); }
 
-bool Wwise::load_bank_async(const String& bank_name, const WwiseCookie* cookie)
+bool Wwise::load_bank_async(const String& bank_name, const Callable& cookie)
 {
 	AKASSERT(!bank_name.is_empty());
-	AKASSERT(cookie);
 
 	AkBankID bank_id{};
+	Callable* callable_obj = new Callable(cookie);
 	return ERROR_CHECK(AK::SoundEngine::LoadBank(
-			bank_name.utf8().get_data(), (AkBankCallbackFunc)bank_callback, (void*)cookie, bank_id));
+			bank_name.utf8().get_data(), (AkBankCallbackFunc)bank_callback, (void*)callable_obj, bank_id));
 }
 
-bool Wwise::load_bank_async_id(const unsigned int bank_id, const WwiseCookie* cookie)
+bool Wwise::load_bank_async_id(const unsigned int bank_id, const Callable& cookie)
 {
-	AKASSERT(cookie);
-
-	return ERROR_CHECK(AK::SoundEngine::LoadBank(bank_id, (AkBankCallbackFunc)bank_callback, (void*)cookie));
+	Callable* callable_obj = new Callable(cookie);
+	return ERROR_CHECK(AK::SoundEngine::LoadBank(bank_id, (AkBankCallbackFunc)bank_callback, (void*)callable_obj));
 }
 
 bool Wwise::unload_bank(const String& bank_name)
@@ -318,106 +320,94 @@ bool Wwise::unload_bank_id(const unsigned int bank_id)
 	return ERROR_CHECK(AK::SoundEngine::UnloadBank(bank_id, NULL));
 }
 
-bool Wwise::unload_bank_async(const String& bank_name, const WwiseCookie* cookie)
+bool Wwise::unload_bank_async(const String& bank_name, const Callable& cookie)
 {
 	AKASSERT(!bank_name.is_empty());
-	AKASSERT(cookie);
-
+	Callable* callable_obj = new Callable(cookie);
 	return ERROR_CHECK(AK::SoundEngine::UnloadBank(
-			bank_name.utf8().get_data(), NULL, (AkBankCallbackFunc)bank_callback, (void*)cookie));
+			bank_name.utf8().get_data(), NULL, (AkBankCallbackFunc)bank_callback, (void*)callable_obj));
 }
 
-bool Wwise::unload_bank_async_id(const unsigned int bank_id, const WwiseCookie* cookie)
+bool Wwise::unload_bank_async_id(const unsigned int bank_id, const Callable& cookie)
 {
-	AKASSERT(cookie);
-
-	return ERROR_CHECK(AK::SoundEngine::UnloadBank(bank_id, NULL, (AkBankCallbackFunc)bank_callback, (void*)cookie));
+	Callable* callable_obj = new Callable(cookie);
+	return ERROR_CHECK(
+			AK::SoundEngine::UnloadBank(bank_id, NULL, (AkBankCallbackFunc)bank_callback, (void*)callable_obj));
 }
 
-bool Wwise::register_listener(const Object* game_object)
-{
-	AKASSERT(game_object);
-
-	const AkGameObjectID listener = static_cast<AkGameObjectID>(game_object->get_instance_id());
-
-	if (!ERROR_CHECK(AK::SoundEngine::RegisterGameObj(listener, "Default Listener")))
-	{
-		return false;
-	}
-
-	if (!ERROR_CHECK(AK::SoundEngine::SetDefaultListeners(&listener, 1)))
-	{
-		return false;
-	}
-
-	return true;
-}
-
-bool Wwise::register_game_obj(const Object* game_object, const String& game_object_name)
-{
-	AKASSERT(game_object);
-	AKASSERT(!game_object_name.is_empty());
-
-	return ERROR_CHECK_MSG(AK::SoundEngine::RegisterGameObj(static_cast<AkGameObjectID>(game_object->get_instance_id()),
-								   game_object_name.utf8().get_data()),
-			vformat("Failed to register Game Object with name: %s.", game_object_name));
-}
-
-bool Wwise::unregister_game_obj(const Object* game_object)
+bool Wwise::register_listener(const Node* game_object)
 {
 	AKASSERT(game_object);
 
-	return ERROR_CHECK(AK::SoundEngine::UnregisterGameObj(static_cast<AkGameObjectID>(game_object->get_instance_id())));
-}
-
-bool Wwise::set_distance_probe(const Object* listener_game_object, const Object* probe_game_object)
-{
-	AKASSERT(listener_game_object);
-	AKASSERT(probe_game_object);
-
-	const AkGameObjectID listener = static_cast<AkGameObjectID>(listener_game_object->get_instance_id());
-	const AkGameObjectID probe = static_cast<AkGameObjectID>(probe_game_object->get_instance_id());
-
-	if (!ERROR_CHECK(AK::SoundEngine::SetDistanceProbe(listener, probe)))
+	if (!register_game_obj(game_object, "Default_Listener"))
 	{
-		return false;
+		return ERROR_CHECK(AK_Fail);
 	}
 
-	return true;
+	AkGameObjectID id = get_ak_game_object_id(game_object);
+	return ERROR_CHECK(AK::SoundEngine::SetDefaultListeners(&id, 1));
 }
 
-bool Wwise::reset_distance_probe(const Object* listener_game_object)
+bool Wwise::register_game_obj(const Node* game_object, const String& game_object_name)
 {
-	AKASSERT(listener_game_object);
-	const AkGameObjectID listener = static_cast<AkGameObjectID>(listener_game_object->get_instance_id());
-	if (!ERROR_CHECK(AK::SoundEngine::SetDistanceProbe(listener, AK_INVALID_GAME_OBJECT)))
+	AkGameObjectID id = get_ak_game_object_id(game_object);
+	AKRESULT result = AK::SoundEngine::RegisterGameObj(id, game_object_name.utf8().get_data());
+	post_register_game_object(result, game_object, id);
+	return ERROR_CHECK_MSG(result, vformat("Failed to register Game Object with name: %s.", game_object_name));
+}
+
+bool Wwise::unregister_game_obj(const Node* game_object)
+{
+	if (!game_object || !is_initialized())
 	{
-		return false;
+		return true;
 	}
 
-	return true;
+	AkGameObjectID id = get_ak_game_object_id(game_object);
+	AKRESULT result = AK::SoundEngine::UnregisterGameObj(id);
+	post_unregister_game_object(result, game_object, id);
+	return ERROR_CHECK(result);
 }
 
-bool Wwise::set_listeners(const Object* emitter, const Object* listener)
+bool Wwise::set_distance_probe(Node* listener_game_object, Node* probe_game_object)
 {
-	AKASSERT(emitter);
-	AKASSERT(listener);
+	AkGameObjectID listener_id = get_ak_game_object_id(listener_game_object);
+	pre_game_object_api_call(listener_game_object, listener_id);
+
+	AkGameObjectID probe_id = get_ak_game_object_id(probe_game_object);
+	pre_game_object_api_call(probe_game_object, probe_id);
+
+	return ERROR_CHECK(AK::SoundEngine::SetDistanceProbe(listener_id, probe_id));
+}
+
+bool Wwise::reset_distance_probe(Node* listener_game_object)
+{
+	AkGameObjectID listener_id = get_ak_game_object_id(listener_game_object);
+	pre_game_object_api_call(listener_game_object, listener_id);
+
+	return ERROR_CHECK(AK::SoundEngine::SetDistanceProbe(listener_id, AK_INVALID_GAME_OBJECT));
+}
+
+bool Wwise::set_listeners(Node* emitter, Node* listener)
+{
+	AkGameObjectID emitter_id = get_ak_game_object_id(emitter);
+	pre_game_object_api_call(emitter, emitter_id);
+
+	AkGameObjectID listener_id = get_ak_game_object_id(listener);
+	pre_game_object_api_call(listener, listener_id);
 
 	static const int num_listeners_for_emitter = 1;
-	static const AkGameObjectID listeners_for_emitter[num_listeners_for_emitter] = { static_cast<AkGameObjectID>(
-			listener->get_instance_id()) };
-	return ERROR_CHECK(AK::SoundEngine::SetListeners(
-			static_cast<AkGameObjectID>(emitter->get_instance_id()), listeners_for_emitter, 1));
+	static const AkGameObjectID listeners_for_emitter[num_listeners_for_emitter] = { listener_id };
+	return ERROR_CHECK(AK::SoundEngine::SetListeners(emitter_id, listeners_for_emitter, 1));
 }
 
 void Wwise::set_random_seed(const unsigned int seed) { AK::SoundEngine::SetRandomSeed(seed); }
 
-bool Wwise::set_3d_position(const Object* game_object, const Transform3D& transform_3d)
+bool Wwise::set_3d_position(const Node* game_object, const Transform3D& transform_3d)
 {
-	AKASSERT(game_object);
+	AkGameObjectID id = get_ak_game_object_id(game_object);
 
 	AkSoundPosition sound_pos{};
-
 	AkVector position{};
 	get_akvector(transform_3d, position, VectorType::POSITION);
 	AkVector forward{};
@@ -427,18 +417,15 @@ bool Wwise::set_3d_position(const Object* game_object, const Transform3D& transf
 
 	sound_pos.Set(AK::ConvertAkVectorToAkVector64(position), forward, up);
 
-	return ERROR_CHECK(
-			AK::SoundEngine::SetPosition(static_cast<AkGameObjectID>(game_object->get_instance_id()), sound_pos));
+	return ERROR_CHECK(AK::SoundEngine::SetPosition(id, sound_pos));
 }
 
-bool Wwise::set_2d_position(const Object* game_object, const Transform2D& transform_2d, const float z_depth)
+bool Wwise::set_2d_position(const Node* game_object, const Transform2D& transform_2d, const float z_depth)
 {
-	AKASSERT(game_object);
+	AkGameObjectID id = get_ak_game_object_id(game_object);
 
 	AkSoundPosition sound_pos{};
-
 	Vector2 origin = transform_2d.get_origin();
-
 	Vector3 position = Vector3(origin.x, origin.y, z_depth);
 	Vector3 forward = Vector3(transform_2d.columns[1].x, 0.0f, transform_2d.columns[1].y).normalized();
 	Vector3 up = Vector3(0, -1, 0);
@@ -452,23 +439,18 @@ bool Wwise::set_2d_position(const Object* game_object, const Transform2D& transf
 
 	sound_pos.Set(AK::ConvertAkVectorToAkVector64(ak_position), ak_forward, ak_up);
 
-	return ERROR_CHECK(
-			AK::SoundEngine::SetPosition(static_cast<AkGameObjectID>(game_object->get_instance_id()), sound_pos));
+	return ERROR_CHECK(AK::SoundEngine::SetPosition(id, sound_pos));
 }
 
-bool Wwise::set_multiple_positions_3d(const Object* game_object, const TypedArray<Transform3D>& positions,
+bool Wwise::set_multiple_positions_3d(const Node* game_object, const TypedArray<Transform3D>& positions,
 		const int num_positions, const AkUtils::MultiPositionType multi_position_type)
 {
-	AKASSERT(game_object);
-	AKASSERT(positions.size() > 0);
-	AKASSERT(positions.size() == num_positions);
+	AkGameObjectID id = get_ak_game_object_id(game_object);
 
 	auto ak_positions = std::make_unique<AkSoundPosition[]>(num_positions);
-
 	for (int i = 0; i < positions.size(); i++)
 	{
 		Transform3D transform = positions[i];
-
 		AkVector position{};
 		get_akvector(transform, position, VectorType::POSITION);
 		AkVector forward{};
@@ -479,27 +461,22 @@ bool Wwise::set_multiple_positions_3d(const Object* game_object, const TypedArra
 		ak_positions[i].Set(AK::ConvertAkVectorToAkVector64(position), forward, up);
 	}
 
-	return ERROR_CHECK(AK::SoundEngine::SetMultiplePositions(game_object->get_instance_id(), ak_positions.get(),
-			num_positions, static_cast<AK::SoundEngine::MultiPositionType>(multi_position_type)));
+	return ERROR_CHECK(AK::SoundEngine::SetMultiplePositions(id, ak_positions.get(), num_positions,
+			static_cast<AK::SoundEngine::MultiPositionType>(multi_position_type)));
 }
 
-bool Wwise::set_multiple_positions_2d(const Object* game_object, const TypedArray<Transform2D>& positions,
+bool Wwise::set_multiple_positions_2d(const Node* game_object, const TypedArray<Transform2D>& positions,
 		const TypedArray<float>& z_depths, const int num_positions,
 		const AkUtils::MultiPositionType multi_position_type)
 {
-	AKASSERT(game_object);
-	AKASSERT(positions.size() > 0);
-	AKASSERT(positions.size() == num_positions);
-	AKASSERT(z_depths.size() == num_positions);
+	AkGameObjectID id = get_ak_game_object_id(game_object);
 
 	auto ak_positions = std::make_unique<AkSoundPosition[]>(num_positions);
-
 	for (int i = 0; i < positions.size(); i++)
 	{
 		Transform2D transform_2d = positions[i];
 
 		Vector2 origin = transform_2d.get_origin();
-
 		Vector3 position = Vector3(origin.x, origin.y, z_depths[i]);
 		Vector3 forward = Vector3(transform_2d.columns[1].x, 0, transform_2d.columns[1].y).normalized();
 		Vector3 up = Vector3(0, 1, 0);
@@ -514,87 +491,127 @@ bool Wwise::set_multiple_positions_2d(const Object* game_object, const TypedArra
 		ak_positions[i].Set(AK::ConvertAkVectorToAkVector64(ak_position), ak_forward, ak_up);
 	}
 
-	return ERROR_CHECK(AK::SoundEngine::SetMultiplePositions(game_object->get_instance_id(), ak_positions.get(),
-			num_positions, static_cast<AK::SoundEngine::MultiPositionType>(multi_position_type)));
+	return ERROR_CHECK(AK::SoundEngine::SetMultiplePositions(id, ak_positions.get(), num_positions,
+			static_cast<AK::SoundEngine::MultiPositionType>(multi_position_type)));
 }
 
-bool Wwise::set_game_object_radius(const Object* game_object, const float outer_radius, const float inner_radius)
+bool Wwise::set_game_object_radius(const Node* game_object, const float outer_radius, const float inner_radius)
 {
-	AKASSERT(game_object);
+	AkGameObjectID id = get_ak_game_object_id(game_object);
 
-	return ERROR_CHECK(
-			AK::SpatialAudio::SetGameObjectRadius(game_object->get_instance_id(), outer_radius, inner_radius));
+	return ERROR_CHECK(AK::SpatialAudio::SetGameObjectRadius(id, outer_radius, inner_radius));
 }
 
-unsigned int Wwise::post_event(const String& event_name, const Object* game_object)
+AkPlayingID Wwise::post_event(const String& event_name, Node* game_object)
 {
-	AKASSERT(!event_name.is_empty());
-	AKASSERT(game_object);
+	AkGameObjectID id = get_ak_game_object_id(game_object);
+	pre_game_object_api_call(game_object, id);
+	AkPlayingID playing_id = AK::SoundEngine::PostEvent(event_name.utf8().get_data(), id);
 
-	AkPlayingID playing_id = AK::SoundEngine::PostEvent(
-			event_name.utf8().get_data(), static_cast<AkGameObjectID>(game_object->get_instance_id()));
-
-	if (playing_id == AK_INVALID_PLAYING_ID)
+	if (playing_id == AK_INVALID_PLAYING_ID && game_object)
 	{
 		ERROR_CHECK_MSG(AK_InvalidID,
-				vformat("Failed to post Event: %s on Game Object: %s.", event_name,
-						itos(game_object->get_instance_id())));
+				vformat("Failed to post Event: %s on Game Object: %s.", event_name, game_object->get_name()));
 	}
 
 	return playing_id;
 }
 
-unsigned int Wwise::post_event_callback(const String& event_name, const AkUtils::AkCallbackType flags,
-		const Object* game_object, const WwiseCookie* cookie)
+AkPlayingID Wwise::post_event_callback(
+		const String& event_name, const AkUtils::AkCallbackType flags, Node* game_object, const Callable& cookie)
 {
-	AKASSERT(!event_name.is_empty());
-	AKASSERT(game_object);
-	AKASSERT(cookie);
-
-	AkPlayingID playing_id = AK::SoundEngine::PostEvent(event_name.utf8().get_data(),
-			static_cast<AkGameObjectID>(game_object->get_instance_id()), flags, event_callback, (void*)cookie);
-
-	if (playing_id == AK_INVALID_PLAYING_ID)
-	{
-		ERROR_CHECK_MSG(AK_InvalidID,
-				vformat("Failed to post Event: %s on Game Object: %s.", event_name,
-						itos(game_object->get_instance_id())));
-	}
-
-	return playing_id;
-}
-
-unsigned int Wwise::post_event_id(const unsigned int event_id, const Object* game_object)
-{
-	AKASSERT(game_object);
-
+	AkGameObjectID id = get_ak_game_object_id(game_object);
+	pre_game_object_api_call(game_object, id);
+	Callable* callable_obj = new Callable(cookie);
 	AkPlayingID playing_id =
-			AK::SoundEngine::PostEvent(event_id, static_cast<AkGameObjectID>(game_object->get_instance_id()));
+			AK::SoundEngine::PostEvent(event_name.utf8().get_data(), id, flags, event_callback, (void*)callable_obj);
 
-	if (playing_id == AK_INVALID_PLAYING_ID)
+	if (playing_id == AK_INVALID_PLAYING_ID && game_object)
 	{
 		ERROR_CHECK_MSG(AK_InvalidID,
-				vformat("Failed to post Event with ID: %d on Game Object: %s.", event_id,
-						itos(game_object->get_instance_id())));
+				vformat("Failed to post Event: %s on Game Object: %s.", event_name, game_object->get_name()));
 	}
 
 	return playing_id;
 }
 
-unsigned int Wwise::post_event_id_callback(const unsigned int event_id, const AkUtils::AkCallbackType flags,
-		const Object* game_object, const WwiseCookie* cookie)
+AkPlayingID Wwise::post_event_id(uint32_t event_id, Node* game_object)
 {
-	AKASSERT(game_object);
-	AKASSERT(cookie);
+	AkGameObjectID id = get_ak_game_object_id(game_object);
+	pre_game_object_api_call(game_object, id);
+	AkPlayingID playing_id = AK::SoundEngine::PostEvent(event_id, id);
 
-	AkPlayingID playing_id = AK::SoundEngine::PostEvent(event_id,
-			static_cast<AkGameObjectID>(game_object->get_instance_id()), flags, event_callback, (void*)cookie);
-
-	if (playing_id == AK_INVALID_PLAYING_ID)
+	if (playing_id == AK_INVALID_PLAYING_ID && game_object)
 	{
 		ERROR_CHECK_MSG(AK_InvalidID,
-				vformat("Failed to post Event with ID: %d on Game Object: %s.", event_id,
-						itos(game_object->get_instance_id())));
+				vformat("Failed to post Event: %d on Game Object: %s.", event_id, game_object->get_name()));
+	}
+
+	return playing_id;
+}
+
+AkPlayingID Wwise::post_event_id_callback(
+		uint32_t event_id, AkUtils::AkCallbackType flags, Node* game_object, const Callable& cookie)
+{
+	AkGameObjectID id = get_ak_game_object_id(game_object);
+	pre_game_object_api_call(game_object, id);
+	flags = static_cast<AkUtils::AkCallbackType>(flags | AkUtils::AkCallbackType::AK_END_OF_EVENT);
+	Callable* callable_obj = new Callable(cookie);
+	AkPlayingID playing_id = AK::SoundEngine::PostEvent(event_id, id, flags, event_callback, (void*)callable_obj);
+
+	if (playing_id == AK_INVALID_PLAYING_ID && game_object)
+	{
+		ERROR_CHECK_MSG(AK_InvalidID,
+				vformat("Failed to post Event with ID: %d on Game Object: %s.", event_id, game_object->get_name()));
+	}
+
+	return playing_id;
+}
+
+AkPlayingID Wwise::post_midi_on_event_id(
+		const AkUniqueID p_event_id, Node* p_game_object, TypedArray<AkMidiPost> p_midi_posts, bool p_absolute_offsets)
+{
+	AkGameObjectID id = get_ak_game_object_id(p_game_object);
+	pre_game_object_api_call(p_game_object, id);
+
+	auto ak_midi_posts = std::make_unique<AkMIDIPost[]>(p_midi_posts.size());
+
+	for (int i = 0; i < p_midi_posts.size(); i++)
+	{
+		Ref<AkMidiPost> post = p_midi_posts[i];
+		if (!post.is_valid())
+		{
+			continue;
+		}
+
+		AkMIDIPost ak_post{};
+		ak_post.byType = post->get_by_type();
+		ak_post.byChan = post->get_by_chan();
+		ak_post.uOffset = post->get_u_offset();
+
+		switch (ak_post.byType)
+		{
+			case AkMidiPost::MidiEventType::MIDI_EVENT_TYPE_NOTE_OFF:
+			case AkMidiPost::MidiEventType::MIDI_EVENT_TYPE_NOTE_ON:
+			{
+				ak_post.NoteOnOff.byVelocity = post->get_by_velocity();
+				ak_post.NoteOnOff.byNote = post->get_by_note();
+				break;
+			}
+			default:
+				break;
+		}
+		ak_midi_posts[i] = ak_post;
+	}
+
+	AkPlayingID playing_id = AK::SoundEngine::PostMIDIOnEvent(
+			p_event_id, id, ak_midi_posts.get(), p_midi_posts.size(), p_absolute_offsets);
+
+	if (playing_id == AK_INVALID_PLAYING_ID && p_game_object)
+	{
+		ERROR_CHECK_MSG(AK_InvalidID,
+				vformat("Failed to post Midi on Event with ID: %d on Game Object: %s.", p_event_id,
+						p_game_object->get_name()));
 	}
 
 	return playing_id;
@@ -608,30 +625,44 @@ void Wwise::stop_event(
 			static_cast<AkCurveInterpolation>(interpolation));
 }
 
-bool Wwise::set_switch(const String& switch_group, const String& switch_value, const Object* game_object)
+bool Wwise::stop_midi_on_event_id(const AkUniqueID p_event_id, Node* p_game_object)
 {
-	AKASSERT(!switch_group.is_empty());
-	AKASSERT(!switch_value.is_empty());
-	AKASSERT(game_object);
+	AkGameObjectID id = get_ak_game_object_id(p_game_object);
+	pre_game_object_api_call(p_game_object, id);
 
-	return ERROR_CHECK(AK::SoundEngine::SetSwitch(switch_group.utf8().get_data(), switch_value.utf8().get_data(),
-			static_cast<AkGameObjectID>(game_object->get_instance_id())));
+	return ERROR_CHECK(AK::SoundEngine::StopMIDIOnEvent(p_event_id, id));
 }
 
-bool Wwise::set_switch_id(
-		const unsigned int switch_group_id, const unsigned int switch_value_id, const Object* game_object)
+bool Wwise::execute_action_on_event_id(AkUniqueID p_event_id, AkUtils::AkActionOnEventType p_action_type,
+		Node* game_object, int p_transition_duration, AkUtils::AkCurveInterpolation p_fade_curve,
+		AkPlayingID p_playing_id)
 {
-	AKASSERT(game_object);
+	AkGameObjectID id = get_ak_game_object_id(game_object);
+	pre_game_object_api_call(game_object, id);
 
-	return ERROR_CHECK(AK::SoundEngine::SetSwitch(
-			switch_group_id, switch_value_id, static_cast<AkGameObjectID>(game_object->get_instance_id())));
+	return ERROR_CHECK(
+			AK::SoundEngine::ExecuteActionOnEvent(p_event_id, (AK::SoundEngine::AkActionOnEventType)p_action_type, id,
+					p_transition_duration, (AkCurveInterpolation)p_fade_curve, p_playing_id));
+}
+
+bool Wwise::set_switch(const String& switch_group, const String& switch_value, Node* game_object)
+{
+	AkGameObjectID id = get_ak_game_object_id(game_object);
+	pre_game_object_api_call(game_object, id);
+
+	return ERROR_CHECK(AK::SoundEngine::SetSwitch(switch_group.utf8().get_data(), switch_value.utf8().get_data(), id));
+}
+
+bool Wwise::set_switch_id(const unsigned int switch_group_id, const unsigned int switch_value_id, Node* game_object)
+{
+	AkGameObjectID id = get_ak_game_object_id(game_object);
+	pre_game_object_api_call(game_object, id);
+
+	return ERROR_CHECK(AK::SoundEngine::SetSwitch(switch_group_id, switch_value_id, id));
 }
 
 bool Wwise::set_state(const String& state_group, const String& state_value)
 {
-	AKASSERT(!state_group.is_empty());
-	AKASSERT(!state_value.is_empty());
-
 	return ERROR_CHECK(AK::SoundEngine::SetState(state_group.utf8().get_data(), state_value.utf8().get_data()));
 }
 
@@ -640,110 +671,92 @@ bool Wwise::set_state_id(const unsigned int state_group_id, const unsigned int s
 	return ERROR_CHECK(AK::SoundEngine::SetState(state_group_id, state_value_id));
 }
 
-float Wwise::get_rtpc_value(const String& rtpc_name, const Object* game_object)
+float Wwise::get_rtpc_value(const String& rtpc_name, Node* game_object)
 {
-	AKASSERT(!rtpc_name.is_empty());
-	AkRtpcValue value;
-	AK::SoundEngine::Query::RTPCValue_type type = AK::SoundEngine::Query::RTPCValue_Default;
-	AkGameObjectID game_object_id = AK_INVALID_GAME_OBJECT;
+	AkGameObjectID id = get_ak_game_object_id(game_object);
+	pre_game_object_api_call(game_object, id);
 
-	if (game_object)
+	AK::SoundEngine::Query::RTPCValue_type type = AK::SoundEngine::Query::RTPCValue_Default;
+	if (id == AK_INVALID_GAME_OBJECT)
 	{
-		type = AK::SoundEngine::Query::RTPCValue_GameObject;
-		game_object_id = static_cast<AkGameObjectID>(game_object->get_instance_id());
+		type = AK::SoundEngine::Query::RTPCValue_Global;
 	}
 	else
 	{
-		type = AK::SoundEngine::Query::RTPCValue_Global;
-		game_object_id = AK_INVALID_GAME_OBJECT;
+		type = AK::SoundEngine::Query::RTPCValue_GameObject;
 	}
 
+	AkRtpcValue value;
 	if (!ERROR_CHECK(AK::SoundEngine::Query::GetRTPCValue(
-				rtpc_name.utf8().get_data(), game_object_id, static_cast<AkPlayingID>(0), value, type)))
+				rtpc_name.utf8().get_data(), id, static_cast<AkPlayingID>(0), value, type)))
 	{
 		return INVALID_RTPC_VALUE;
 	}
 
-	return static_cast<float>(value);
+	return value;
 }
 
-float Wwise::get_rtpc_value_id(const unsigned int rtpc_id, const Object* game_object)
+float Wwise::get_rtpc_value_id(const unsigned int rtpc_id, Node* game_object)
 {
-	AkRtpcValue value;
-	AK::SoundEngine::Query::RTPCValue_type type = AK::SoundEngine::Query::RTPCValue_Default;
-	AkGameObjectID game_object_id = AK_INVALID_GAME_OBJECT;
+	AkGameObjectID id = get_ak_game_object_id(game_object);
+	pre_game_object_api_call(game_object, id);
 
-	if (game_object)
+	AK::SoundEngine::Query::RTPCValue_type type = AK::SoundEngine::Query::RTPCValue_Default;
+	if (id == AK_INVALID_GAME_OBJECT)
 	{
-		type = AK::SoundEngine::Query::RTPCValue_GameObject;
-		game_object_id = static_cast<AkGameObjectID>(game_object->get_instance_id());
+		type = AK::SoundEngine::Query::RTPCValue_Global;
 	}
 	else
 	{
-		type = AK::SoundEngine::Query::RTPCValue_Global;
-		game_object_id = AK_INVALID_GAME_OBJECT;
+		type = AK::SoundEngine::Query::RTPCValue_GameObject;
 	}
 
-	if (!ERROR_CHECK(AK::SoundEngine::Query::GetRTPCValue(
-				rtpc_id, game_object_id, static_cast<AkPlayingID>(0), value, type)))
+	AkRtpcValue value;
+	if (!ERROR_CHECK(AK::SoundEngine::Query::GetRTPCValue(rtpc_id, id, static_cast<AkPlayingID>(0), value, type)))
 	{
 		return INVALID_RTPC_VALUE;
 	}
 
-	return static_cast<float>(value);
+	return value;
 }
 
-bool Wwise::set_rtpc_value(const String& rtpc_name, const float rtpc_value, const Object* game_object)
+bool Wwise::set_rtpc_value(const String& rtpc_name, const float rtpc_value, Node* game_object)
 {
-	AKASSERT(!rtpc_name.is_empty());
+	AkGameObjectID id = get_ak_game_object_id(game_object);
+	pre_game_object_api_call(game_object, id);
 
-	AkGameObjectID game_object_id{ AK_INVALID_GAME_OBJECT };
-
-	if (game_object)
-	{
-		game_object_id = static_cast<AkGameObjectID>(game_object->get_instance_id());
-	}
-
-	return ERROR_CHECK(AK::SoundEngine::SetRTPCValue(
-			rtpc_name.utf8().get_data(), static_cast<AkRtpcValue>(rtpc_value), game_object_id));
+	return ERROR_CHECK(AK::SoundEngine::SetRTPCValue(rtpc_name.utf8().get_data(), rtpc_value, id));
 }
 
-bool Wwise::set_rtpc_value_id(const unsigned int rtpc_id, const float rtpc_value, const Object* game_object)
+bool Wwise::set_rtpc_value_id(const unsigned int rtpc_id, const float rtpc_value, Node* game_object)
 {
-	AkGameObjectID game_object_id{ AK_INVALID_GAME_OBJECT };
+	AkGameObjectID id = get_ak_game_object_id(game_object);
+	pre_game_object_api_call(game_object, id);
 
-	if (game_object)
-	{
-		game_object_id = static_cast<AkGameObjectID>(game_object->get_instance_id());
-	}
-
-	return ERROR_CHECK(AK::SoundEngine::SetRTPCValue(rtpc_id, static_cast<AkRtpcValue>(rtpc_value), game_object_id));
+	return ERROR_CHECK(AK::SoundEngine::SetRTPCValue(rtpc_id, rtpc_value, id));
 }
 
-bool Wwise::post_trigger(const String& trigger_name, const Object* game_object)
+bool Wwise::post_trigger(const String& trigger_name, Node* game_object)
 {
-	AKASSERT(!trigger_name.is_empty());
-	AKASSERT(game_object);
+	AkGameObjectID id = get_ak_game_object_id(game_object);
+	pre_game_object_api_call(game_object, id);
 
-	return ERROR_CHECK(AK::SoundEngine::PostTrigger(
-			trigger_name.utf8().get_data(), static_cast<AkGameObjectID>(game_object->get_instance_id())));
+	return ERROR_CHECK(AK::SoundEngine::PostTrigger(trigger_name.utf8().get_data(), id));
 }
 
-bool Wwise::post_trigger_id(const unsigned int trigger_id, const Object* game_object)
+bool Wwise::post_trigger_id(const unsigned int trigger_id, Node* game_object)
 {
-	AKASSERT(game_object);
+	AkGameObjectID id = get_ak_game_object_id(game_object);
+	pre_game_object_api_call(game_object, id);
 
-	return ERROR_CHECK(
-			AK::SoundEngine::PostTrigger(trigger_id, static_cast<AkGameObjectID>(game_object->get_instance_id())));
+	return ERROR_CHECK(AK::SoundEngine::PostTrigger(trigger_id, id));
 }
 
-unsigned int Wwise::post_external_source(const String& event_name, const Object* game_object,
-		const String& source_object_name, const String& filename, const AkUtils::AkCodecID id_codec)
+unsigned int Wwise::post_external_source(const String& event_name, Node* game_object, const String& source_object_name,
+		const String& filename, const AkUtils::AkCodecID id_codec)
 {
-	AKASSERT(!event_name.is_empty());
-	AKASSERT(game_object);
-	AKASSERT(!source_object_name.is_empty());
-	AKASSERT(!filename.is_empty());
+	AkGameObjectID id = get_ak_game_object_id(game_object);
+	pre_game_object_api_call(game_object, id);
 
 	AkExternalSourceInfo source{};
 	source.iExternalSrcCookie = AK::SoundEngine::GetIDFromString(source_object_name.utf8().get_data());
@@ -754,25 +767,24 @@ unsigned int Wwise::post_external_source(const String& event_name, const Object*
 	source.szFile = sz_file_os_string;
 	source.idCodec = id_codec;
 
-	AkPlayingID playing_id = AK::SoundEngine::PostEvent(event_name.utf8().get_data(),
-			static_cast<AkGameObjectID>(game_object->get_instance_id()), 0, nullptr, 0, 1, &source);
+	AkPlayingID playing_id = AK::SoundEngine::PostEvent(event_name.utf8().get_data(), id, 0, nullptr, 0, 1, &source);
 
-	if (playing_id == AK_INVALID_PLAYING_ID)
+	if (playing_id == AK_INVALID_PLAYING_ID && game_object)
 	{
 		ERROR_CHECK_MSG(AK_InvalidID,
 				vformat("Failed to post External Source with Event: %s on Game Object: %s", event_name,
-						itos(game_object->get_instance_id())));
+						game_object->get_name()));
 		return AK_INVALID_PLAYING_ID;
 	}
 
 	return playing_id;
 }
 
-unsigned int Wwise::post_external_source_id(const unsigned int event_id, const Object* game_object,
+unsigned int Wwise::post_external_source_id(const unsigned int event_id, Node* game_object,
 		const unsigned int source_object_id, const String& filename, const AkUtils::AkCodecID id_codec)
 {
-	AKASSERT(game_object);
-	AKASSERT(!filename.is_empty());
+	AkGameObjectID id = get_ak_game_object_id(game_object);
+	pre_game_object_api_call(game_object, id);
 
 	AkExternalSourceInfo source{};
 	source.iExternalSrcCookie = source_object_id;
@@ -783,15 +795,14 @@ unsigned int Wwise::post_external_source_id(const unsigned int event_id, const O
 	source.szFile = sz_file_os_string;
 	source.idCodec = id_codec;
 
-	AkPlayingID playing_id = AK::SoundEngine::PostEvent(
-			event_id, static_cast<AkGameObjectID>(game_object->get_instance_id()), 0, NULL, 0, 1, &source);
+	AkPlayingID playing_id = AK::SoundEngine::PostEvent(event_id, id, 0, NULL, 0, 1, &source);
 
-	if (playing_id == AK_INVALID_PLAYING_ID)
+	if (playing_id == AK_INVALID_PLAYING_ID && game_object)
 	{
 		ERROR_CHECK_MSG(AK_InvalidID,
 				vformat("Failed to post External Source with Event ID: %d on Game Object: %s", event_id,
-						itos(game_object->get_instance_id())));
-		return static_cast<unsigned int>(AK_INVALID_PLAYING_ID);
+						game_object->get_name()));
+		return AK_INVALID_PLAYING_ID;
 	}
 
 	return playing_id;
@@ -800,13 +811,12 @@ unsigned int Wwise::post_external_source_id(const unsigned int event_id, const O
 int Wwise::get_source_play_position(const unsigned int playing_id, const bool extrapolate)
 {
 	AkTimeMs position{};
-	AKRESULT result =
-			AK::SoundEngine::GetSourcePlayPosition(static_cast<AkPlayingID>(playing_id), &position, extrapolate);
+	AKRESULT result = AK::SoundEngine::GetSourcePlayPosition(playing_id, &position, extrapolate);
 
 	if (result == AK_Fail)
 	{
 		ERROR_CHECK(result);
-		return static_cast<int>(AK_INVALID_PLAYING_ID);
+		return AK_INVALID_PLAYING_ID;
 	}
 
 	return position;
@@ -815,8 +825,7 @@ int Wwise::get_source_play_position(const unsigned int playing_id, const bool ex
 Dictionary Wwise::get_playing_segment_info(const unsigned int playing_id, const bool extrapolate)
 {
 	AkSegmentInfo segment_info;
-	AKRESULT result =
-			AK::MusicEngine::GetPlayingSegmentInfo(static_cast<AkPlayingID>(playing_id), segment_info, extrapolate);
+	AKRESULT result = AK::MusicEngine::GetPlayingSegmentInfo(playing_id, segment_info, extrapolate);
 
 	if (result == AK_Fail)
 	{
@@ -837,22 +846,23 @@ Dictionary Wwise::get_playing_segment_info(const unsigned int playing_id, const 
 	return segment;
 }
 
-bool Wwise::set_game_object_output_bus_volume(const Object* game_object, const Object* listener, float f_control_value)
+bool Wwise::set_game_object_output_bus_volume(Node* game_object, Node* listener, float f_control_value)
 {
-	AkGameObjectID listener_obj_id{ AK_INVALID_GAME_OBJECT };
+	AkGameObjectID emitter_id = get_ak_game_object_id(game_object);
+	pre_game_object_api_call(game_object, emitter_id);
 
-	if (listener)
-	{
-		listener_obj_id = static_cast<AkGameObjectID>(listener->get_instance_id());
-	}
+	AkGameObjectID listener_id = get_ak_game_object_id(listener);
+	pre_game_object_api_call(listener, listener_id);
 
-	return ERROR_CHECK(AK::SoundEngine::SetGameObjectOutputBusVolume(
-			static_cast<AkGameObjectID>(game_object->get_instance_id()), listener_obj_id, f_control_value));
+	return ERROR_CHECK(AK::SoundEngine::SetGameObjectOutputBusVolume(emitter_id, listener_id, f_control_value));
 }
 
 bool Wwise::set_game_object_aux_send_values(
-		const Object* game_object, const Array ak_aux_send_values, const unsigned int num_send_values)
+		Node* game_object, const Array ak_aux_send_values, const unsigned int num_send_values)
 {
+	AkGameObjectID id = get_ak_game_object_id(game_object);
+	pre_game_object_api_call(game_object, id);
+
 	std::vector<AkAuxSendValue> environments;
 
 	for (int i = 0; i < ak_aux_send_values.size(); i++)
@@ -867,25 +877,29 @@ bool Wwise::set_game_object_aux_send_values(
 
 	environments.resize(AK_MAX_ENVIRONMENTS);
 
-	return ERROR_CHECK(AK::SoundEngine::SetGameObjectAuxSendValues(
-			static_cast<AkGameObjectID>(game_object->get_instance_id()), environments.data(), num_send_values));
+	return ERROR_CHECK(AK::SoundEngine::SetGameObjectAuxSendValues(id, environments.data(), num_send_values));
 }
 
 bool Wwise::set_object_obstruction_and_occlusion(
-		const Object* game_object, const Object* listener, float f_calculated_obs, float f_calculated_occ)
+		Node* game_object, Node* listener, float f_calculated_obs, float f_calculated_occ)
 {
+	AkGameObjectID emitter_id = get_ak_game_object_id(game_object);
+	pre_game_object_api_call(game_object, emitter_id);
+
+	AkGameObjectID listener_id = get_ak_game_object_id(listener);
+	pre_game_object_api_call(listener, listener_id);
+
 	return ERROR_CHECK(AK::SoundEngine::SetObjectObstructionAndOcclusion(
-			static_cast<AkGameObjectID>(game_object->get_instance_id()),
-			static_cast<AkGameObjectID>(listener->get_instance_id()), f_calculated_obs, f_calculated_occ));
+			emitter_id, listener_id, f_calculated_obs, f_calculated_occ));
 }
 
-bool Wwise::set_geometry(const Array vertices, const Array triangles, const Dictionary& acoustic_texture,
-		float transmission_loss_value, const Object* game_object, bool enable_diffraction,
+bool Wwise::set_geometry(const Array vertices, const Array triangles, const Ref<WwiseAcousticTexture>& acoustic_texture,
+		float transmission_loss_value, const Node* game_object, bool enable_diffraction,
 		bool enable_diffraction_on_boundary_edges)
 {
 	AKASSERT(!vertices.is_empty());
 	AKASSERT(!triangles.is_empty());
-	AKASSERT(game_object);
+	AkGameObjectID id = get_ak_game_object_id(game_object);
 
 	AkGeometryParams geometry{};
 
@@ -926,15 +940,14 @@ bool Wwise::set_geometry(const Array vertices, const Array triangles, const Dict
 
 	if ((num_triangles % 3) != 0)
 	{
-		UtilityFunctions::print(
-				"Wrong number of triangles on mesh {0}", String::num_int64(game_object->get_instance_id()));
+		UtilityFunctions::print("WwiseGidot: Wrong number of triangles on mesh {0}", String::num_int64(id));
 	}
 
 	auto ak_triangles = std::make_unique<AkTriangle[]>(num_triangles);
 
 	AkAcousticSurface surface{};
-	String texture_name = acoustic_texture.get("name", "");
-	AkUInt32 texture_id = acoustic_texture.get("id", AK_INVALID_SURFACE);
+	String texture_name = acoustic_texture.is_valid() ? acoustic_texture->get_name() : "";
+	AkUInt32 texture_id = acoustic_texture.is_valid() ? acoustic_texture->get_id() : AK_INVALID_SURFACE;
 
 	bool texture_valid = !texture_name.is_empty() && texture_id != AK_INVALID_SURFACE;
 	if (texture_valid)
@@ -965,8 +978,7 @@ bool Wwise::set_geometry(const Array vertices, const Array triangles, const Dict
 		}
 		else
 		{
-			UtilityFunctions::print(
-					"Skipped degenerate triangles on mesh {0}", String::num_int64(game_object->get_instance_id()));
+			UtilityFunctions::print("WwiseGodot: Skipped degenerate triangles on mesh {0}", String::num_int64(id));
 		}
 	}
 
@@ -977,8 +989,7 @@ bool Wwise::set_geometry(const Array vertices, const Array triangles, const Dict
 	geometry.EnableDiffraction = enable_diffraction;
 	geometry.EnableDiffractionOnBoundaryEdges = enable_diffraction_on_boundary_edges;
 
-	return ERROR_CHECK(
-			AK::SpatialAudio::SetGeometry(static_cast<AkGeometrySetID>(game_object->get_instance_id()), geometry));
+	return ERROR_CHECK(AK::SpatialAudio::SetGeometry(id, geometry));
 }
 
 bool Wwise::remove_geometry(const Object* game_object)
@@ -1005,7 +1016,7 @@ bool Wwise::set_geometry_instance(
 	position_and_orientation.SetPosition(AK::ConvertAkVectorToAkVector64(position));
 	position_and_orientation.SetOrientation(orientation_front, orientation_top);
 	params.PositionAndOrientation = position_and_orientation;
-	
+
 	Vector3 scale = transform.get_basis().get_scale();
 	params.Scale = { scale.x, scale.y, scale.z };
 
@@ -1019,18 +1030,19 @@ bool Wwise::remove_geometry_instance(const Object* geometry_instance)
 			static_cast<AkGeometryInstanceID>(geometry_instance->get_instance_id())));
 }
 
-bool Wwise::register_spatial_listener(const Object* game_object)
+bool Wwise::register_spatial_listener(Node* game_object)
 {
-	AKASSERT(game_object);
+	AkGameObjectID id = get_ak_game_object_id(game_object);
+	pre_game_object_api_call(game_object, id);
 
-	return ERROR_CHECK(AK::SpatialAudio::RegisterListener(static_cast<AkGameObjectID>(game_object->get_instance_id())));
+	return ERROR_CHECK(AK::SpatialAudio::RegisterListener(id));
 }
 
-bool Wwise::set_room(const Object* game_object, const unsigned int ak_aux_bus_id, const float reverb_level,
+bool Wwise::set_room(const Node* game_object, const unsigned int ak_aux_bus_id, const float reverb_level,
 		const float transmission_loss, const Vector3& front_vector, const Vector3& up_vector, bool keep_registered,
 		const Object* associated_geometry_instance)
 {
-	AKASSERT(game_object);
+	AkGameObjectID id = get_ak_game_object_id(game_object);
 
 	AkRoomParams room_params{};
 	room_params.ReverbAuxBus = ak_aux_bus_id;
@@ -1052,18 +1064,22 @@ bool Wwise::set_room(const Object* game_object, const unsigned int ak_aux_bus_id
 		room_params.GeometryInstanceID = static_cast<AkGeometrySetID>(associated_geometry_instance->get_instance_id());
 	}
 
-	return ERROR_CHECK(AK::SpatialAudio::SetRoom(static_cast<AkRoomID>(game_object->get_instance_id()), room_params));
+	return ERROR_CHECK(AK::SpatialAudio::SetRoom(AkRoomID::FromGameObjectID(id), room_params,
+			game_object ? String(game_object->get_name()).utf8().get_data() : nullptr));
 }
 
-bool Wwise::remove_room(const Object* game_object)
+bool Wwise::remove_room(const Node* game_object)
 {
-	return ERROR_CHECK(AK::SpatialAudio::RemoveRoom(static_cast<AkRoomID>(game_object->get_instance_id())));
+	AkGameObjectID id = get_ak_game_object_id(game_object);
+	return ERROR_CHECK(AK::SpatialAudio::RemoveRoom(AkRoomID::FromGameObjectID(id)));
 }
 
-bool Wwise::set_portal(const Object* game_object, const Transform3D transform, const Vector3& extent,
-		const Object* front_room, const Object* back_room, bool enabled)
+bool Wwise::set_portal(const Node* game_object, const Transform3D transform, const Vector3& extent,
+		const Node* front_room, const Node* back_room, bool enabled)
 {
-	AKASSERT(game_object);
+	AkGameObjectID id = get_ak_game_object_id(game_object);
+	AkGameObjectID front_room_id = get_ak_game_object_id(front_room);
+	AkGameObjectID back_room_id = get_ak_game_object_id(back_room);
 
 	AkVector position;
 	get_akvector(transform, position, VectorType::POSITION);
@@ -1075,9 +1091,6 @@ bool Wwise::set_portal(const Object* game_object, const Transform3D transform, c
 	AkWorldTransform ak_transform;
 	ak_transform.Set(AK::ConvertAkVectorToAkVector64(position), forward, up);
 
-	// todo(alex): not used?
-	AkRoomID room_id;
-
 	AkPortalParams portal_params;
 	AkExtent portal_extent;
 
@@ -1087,83 +1100,77 @@ bool Wwise::set_portal(const Object* game_object, const Transform3D transform, c
 
 	portal_params.Transform = ak_transform;
 	portal_params.Extent = portal_extent;
-	portal_params.FrontRoom =
-			front_room ? static_cast<AkRoomID>(front_room->get_instance_id()) : AK::SpatialAudio::kOutdoorRoomID;
-	portal_params.BackRoom =
-			back_room ? static_cast<AkRoomID>(back_room->get_instance_id()) : AK::SpatialAudio::kOutdoorRoomID;
+	portal_params.FrontRoom = front_room ? AkRoomID::FromGameObjectID(front_room_id) : AK::SpatialAudio::kOutdoorRoomID;
+	portal_params.BackRoom = back_room ? AkRoomID::FromGameObjectID(back_room_id) : AK::SpatialAudio::kOutdoorRoomID;
 	portal_params.bEnabled = enabled;
 
-	return ERROR_CHECK(
-			AK::SpatialAudio::SetPortal(static_cast<AkPortalID>(game_object->get_instance_id()), portal_params));
+	return ERROR_CHECK(AK::SpatialAudio::SetPortal(id, portal_params));
 }
 
-bool Wwise::remove_portal(const Object* game_object)
+bool Wwise::remove_portal(const Node* game_object)
 {
-	AKASSERT(game_object);
+	AkGameObjectID id = get_ak_game_object_id(game_object);
 
-	return ERROR_CHECK(AK::SpatialAudio::RemovePortal(static_cast<AkPortalID>(game_object->get_instance_id())));
+	return ERROR_CHECK(AK::SpatialAudio::RemovePortal(id));
 }
 
 bool Wwise::set_portal_obstruction_and_occlusion(
-		const Object* portal, const float obstruction_value, const float occlusion_value)
+		const Node* portal, const float obstruction_value, const float occlusion_value)
 {
-	AKASSERT(portal);
+	AkGameObjectID id = get_ak_game_object_id(portal);
 
-	return ERROR_CHECK(AK::SpatialAudio::SetPortalObstructionAndOcclusion(
-			static_cast<AkPortalID>(portal->get_instance_id()), obstruction_value, occlusion_value));
+	return ERROR_CHECK(AK::SpatialAudio::SetPortalObstructionAndOcclusion(id, obstruction_value, occlusion_value));
 }
 
 bool Wwise::set_game_object_to_portal_obstruction(
-		const Object* game_object, const Object* portal, const float obstruction_value)
+		const Node* game_object, const Node* portal, const float obstruction_value)
 {
-	AKASSERT(game_object);
-	AKASSERT(portal);
+	AkGameObjectID id = get_ak_game_object_id(game_object);
+	AkGameObjectID portal_id = get_ak_game_object_id(portal);
 
-	return ERROR_CHECK(AK::SpatialAudio::SetGameObjectToPortalObstruction(
-			game_object->get_instance_id(), portal->get_instance_id(), obstruction_value));
+	return ERROR_CHECK(AK::SpatialAudio::SetGameObjectToPortalObstruction(id, portal_id, obstruction_value));
 }
 
-bool Wwise::set_portal_to_portal_obstruction(
-		const Object* portal0, const Object* portal1, const float obstruction_value)
+bool Wwise::set_portal_to_portal_obstruction(const Node* portal0, const Node* portal1, const float obstruction_value)
 {
-	AKASSERT(portal0);
-	AKASSERT(portal1);
+	AkGameObjectID portal0_id = get_ak_game_object_id(portal0);
+	AkGameObjectID portal1_id = get_ak_game_object_id(portal1);
 
-	return ERROR_CHECK(AK::SpatialAudio::SetPortalToPortalObstruction(
-			portal0->get_instance_id(), portal1->get_instance_id(), obstruction_value));
+	return ERROR_CHECK(AK::SpatialAudio::SetPortalToPortalObstruction(portal0_id, portal1_id, obstruction_value));
 }
 
-bool Wwise::set_game_object_in_room(const Object* game_object, const Object* room)
+bool Wwise::set_game_object_in_room(Node* game_object, const Node* room)
 {
-	AKASSERT(game_object);
-	AKASSERT(room);
-	return ERROR_CHECK(
-			AK::SpatialAudio::SetGameObjectInRoom(static_cast<AkGameObjectID>(game_object->get_instance_id()),
-					static_cast<AkRoomID>(room->get_instance_id())));
+	AkGameObjectID id = get_ak_game_object_id(game_object);
+	pre_game_object_api_call(game_object, id);
+
+	AkGameObjectID room_id = get_ak_game_object_id(room);
+
+	return ERROR_CHECK(AK::SpatialAudio::SetGameObjectInRoom(id, AkRoomID::FromGameObjectID(room_id)));
 }
 
-bool Wwise::remove_game_object_from_room(const Object* game_object)
+bool Wwise::remove_game_object_from_room(Node* game_object)
 {
-	AKASSERT(game_object);
+	AkGameObjectID id = get_ak_game_object_id(game_object);
+	pre_game_object_api_call(game_object, id);
 
-	return ERROR_CHECK(AK::SpatialAudio::SetGameObjectInRoom(
-			static_cast<AkGameObjectID>(game_object->get_instance_id()), INVALID_ROOM_ID));
+	return ERROR_CHECK(AK::SpatialAudio::SetGameObjectInRoom(id, INVALID_ROOM_ID));
 }
 
-bool Wwise::set_early_reflections_aux_send(const Object* game_object, const unsigned int aux_bus_id)
+bool Wwise::set_early_reflections_aux_send(Node* game_object, const unsigned int aux_bus_id)
 {
-	AKASSERT(game_object);
+	AkGameObjectID id = get_ak_game_object_id(game_object);
+	pre_game_object_api_call(game_object, id);
 
-	return ERROR_CHECK(AK::SpatialAudio::SetEarlyReflectionsAuxSend(
-			static_cast<AkGameObjectID>(game_object->get_instance_id()), static_cast<AkAuxBusID>(aux_bus_id)));
+	return ERROR_CHECK(AK::SpatialAudio::SetEarlyReflectionsAuxSend(id, aux_bus_id));
 }
 
-bool Wwise::set_early_reflections_volume(const Object* game_object, const float volume)
+bool Wwise::set_early_reflections_volume(Node* game_object, const float volume)
 {
-	AKASSERT(game_object);
+	AkGameObjectID id = get_ak_game_object_id(game_object);
+	pre_game_object_api_call(game_object, id);
 
-	return ERROR_CHECK(AK::SpatialAudio::SetEarlyReflectionsVolume(
-			static_cast<AkGameObjectID>(game_object->get_instance_id()), volume));
+	return ERROR_CHECK(AK::SpatialAudio::SetEarlyReflectionsVolume(id, volume));
 }
 
 bool Wwise::add_output(const String& share_set, const unsigned int output_id)
@@ -1182,20 +1189,31 @@ bool Wwise::suspend(bool render_anyway) { return ERROR_CHECK(AK::SoundEngine::Su
 
 bool Wwise::wakeup_from_suspend() { return ERROR_CHECK(AK::SoundEngine::WakeupFromSuspend()); }
 
+void Wwise::stop_all(Node* game_object)
+{
+	AkGameObjectID id = get_ak_game_object_id(game_object);
+
+	if (id == AK_INVALID_GAME_OBJECT)
+	{
+		AK::SoundEngine::StopAll();
+	}
+	else
+	{
+		AK::SoundEngine::StopAll(id);
+	}
+}
+
+uint64_t Wwise::get_sample_tick() { return AK::SoundEngine::GetSampleTick(); }
+
 bool Wwise::is_initialized() { return AK::SoundEngine::IsInitialized(); }
 
 void Wwise::event_callback(AkCallbackType callback_type, AkCallbackInfo* callback_info)
 {
 	AkAutoLock<CAkLock> scoped_lock(callback_data_lock);
 
-	const WwiseCookie* wrapper = static_cast<WwiseCookie*>(callback_info->pCookie);
+	Callable* cookie = static_cast<Callable*>(callback_info->pCookie);
 
-	if (!wrapper)
-	{
-		ERROR_CHECK_MSG(AK_Fail, "The Event Callback cookie is not valid.");
-		return;
-	}
-	else if (!wrapper->get_cookie().is_valid())
+	if (!cookie)
 	{
 		ERROR_CHECK_MSG(AK_Fail, "The Event Callback cookie is not valid.");
 		return;
@@ -1525,23 +1543,23 @@ void Wwise::event_callback(AkCallbackType callback_type, AkCallbackInfo* callbac
 	}
 
 	args.push_back(callback_data);
-	wrapper->get_cookie().callv(args);
+	cookie->callv(args);
+
+	if (callback_type == AK_EndOfEvent)
+	{
+		delete cookie;
+	}
 }
 
 void Wwise::bank_callback(AkUInt32 bank_id, const void* in_memory_bank_ptr, AKRESULT load_result, void* in_pCookie)
 {
 	AkAutoLock<CAkLock> scoped_lock(callback_data_lock);
 
-	const WwiseCookie* wrapper = static_cast<WwiseCookie*>(in_pCookie);
+	Callable* cookie = static_cast<Callable*>(in_pCookie);
 
-	if (!wrapper)
+	if (!cookie)
 	{
-		ERROR_CHECK_MSG(AK_Fail, "The Bank Callback cookie is not valid.");
-		return;
-	}
-	else if (!wrapper->get_cookie().is_valid())
-	{
-		ERROR_CHECK_MSG(AK_Fail, "The Bank Callback cookie is not valid.");
+		ERROR_CHECK_MSG(AK_Fail, "WwiseGodot: The Bank Callback cookie is not valid.");
 		return;
 	}
 
@@ -1551,51 +1569,74 @@ void Wwise::bank_callback(AkUInt32 bank_id, const void* in_memory_bank_ptr, AKRE
 	callback_data["result"] = load_result;
 
 	args.push_back(callback_data);
-	wrapper->get_cookie().callv(args);
+	cookie->callv(args);
+	delete cookie;
 }
 
-Variant Wwise::get_platform_project_setting(const String& setting)
+void Wwise::pre_game_object_api_call(Node* p_node, AkGameObjectID p_id)
 {
-	AKASSERT(project_settings);
-	AKASSERT(!setting.is_empty());
-
-	String platform_setting = setting;
-
-#ifdef AK_WIN
-	platform_setting += GODOT_WINDOWS_SETTING_POSTFIX;
-#elif defined(AK_MAC_OS_X)
-	platform_setting += GODOT_MAC_OSX_SETTING_POSTFIX;
-#elif defined(AK_IOS)
-	platform_setting += GODOT_IOS_SETTING_POSTFIX;
-#elif defined(AK_ANDROID)
-	platform_setting += GODOT_ANDROID_SETTING_POSTFIX;
-#elif defined(AK_LINUX)
-	platform_setting += GODOT_LINUX_SETTING_POSTFIX;
-#else
-#error "Platform not supported"
-#endif
-
-	// Try to get the platform-specific setting, if it exists
-	if (project_settings && project_settings->has_setting(platform_setting))
+	bool found = registered_game_objects.find(p_id) != registered_game_objects.end();
+	if (!found && is_initialized())
 	{
-		return project_settings->get(platform_setting);
+		if (!p_node)
+		{
+			return;
+		}
+
+		if (Object::cast_to<Node3D>(p_node))
+		{
+			if (!p_node->has_node("AkGameObj3D"))
+			{
+				AkGameObj3D* game_obj_3d = memnew(AkGameObj3D);
+				game_obj_3d->set_name("AkGameObj3D");
+				p_node->add_child(game_obj_3d);
+			}
+		}
+		else if (Object::cast_to<Node2D>(p_node))
+		{
+			if (!p_node->has_node("AkGameObj2D"))
+			{
+				AkGameObj2D* game_obj_2d = memnew(AkGameObj2D);
+				game_obj_2d->set_name("AkGameObj2D");
+				p_node->add_child(game_obj_2d);
+			}
+		}
+		else
+		{
+			if (!p_node->has_node("AkGameObj"))
+			{
+				AkGameObj* game_obj = memnew(AkGameObj);
+				game_obj->set_name("AkGameObj");
+				p_node->add_child(game_obj);
+			}
+		}
 	}
+}
 
-	// Otherwise, try to get the default platform-agnostic setting
-	if (project_settings && project_settings->has_setting(setting))
+void Wwise::post_register_game_object(AKRESULT p_result, const Node* p_node, AkGameObjectID p_id)
+{
+	if (p_result == AK_Success)
 	{
-		return project_settings->get(setting);
+		registered_game_objects.insert(p_id);
 	}
-	else
+}
+
+void Wwise::post_unregister_game_object(AKRESULT p_result, const Node* p_node, AkGameObjectID p_id)
+{
+	if (p_result == AK_Success)
 	{
-		AKASSERT(false);
-		UtilityFunctions::print(vformat("WwiseGodot: Failed to get setting: %s", platform_setting));
-		return "";
+		auto it = registered_game_objects.find(p_id);
+		if (it != registered_game_objects.end())
+		{
+			registered_game_objects.remove(it);
+		}
 	}
 }
 
 bool Wwise::initialize_wwise_systems()
 {
+	WwiseSettings* project_settings = WwiseSettings::get_singleton();
+
 	AkMemSettings mem_settings;
 	AK::MemoryMgr::GetDefaultSettings(mem_settings);
 	if (!ERROR_CHECK_MSG(AK::MemoryMgr::Init(&mem_settings), "Memory manager initialization failed."))
@@ -1614,16 +1655,16 @@ bool Wwise::initialize_wwise_systems()
 	AK::StreamMgr::GetDefaultDeviceSettings(device_settings);
 
 	device_settings.bUseStreamCache =
-			static_cast<bool>(get_platform_project_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "use_stream_cache"));
+			static_cast<bool>(project_settings->get_setting(project_settings->advanced_settings.use_stream_cache));
 
 	device_settings.fTargetAutoStmBufferLength = static_cast<float>(
-			get_platform_project_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "target_auto_stream_buffer_length_ms"));
+			project_settings->get_setting(project_settings->advanced_settings.target_auto_stream_buffer_length_ms));
 
 	device_settings.uIOMemorySize = static_cast<unsigned int>(
-			get_platform_project_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "IO_memory_size"));
+			project_settings->get_setting(project_settings->advanced_settings.io_memory_size));
 
 	device_settings.uMaxCachePinnedBytes = static_cast<unsigned int>(
-			get_platform_project_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "maximum_pinned_bytes_in_cache"));
+			project_settings->get_setting(project_settings->advanced_settings.maximum_pinned_bytes_in_cache));
 
 	if (!ERROR_CHECK_MSG(low_level_io.init(device_settings), "Initializing Low level IO failed."))
 	{
@@ -1638,24 +1679,24 @@ bool Wwise::initialize_wwise_systems()
 #endif
 
 	init_settings.bDebugOutOfRangeCheckEnabled = static_cast<bool>(
-			get_platform_project_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "debug_out_of_range_check_enabled"));
+			project_settings->get_setting(project_settings->advanced_settings.debug_out_of_range_check_enabled));
 
 	init_settings.bEnableGameSyncPreparation = static_cast<bool>(
-			get_platform_project_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "enable_game_sync_preparation"));
+			project_settings->get_setting(project_settings->advanced_settings.enable_game_sync_preparation));
 
 	init_settings.fDebugOutOfRangeLimit = static_cast<float>(
-			get_platform_project_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "debug_out_of_range_limit"));
+			project_settings->get_setting(project_settings->advanced_settings.debug_out_of_range_limit));
 
 	String audioDeviceShareSet =
-			get_platform_project_setting(WWISE_COMMON_USER_SETTINGS_PATH + "main_output/audio_device_shareset");
+			project_settings->get_setting(project_settings->common_user_settings.main_output.audio_device_shareset);
 	init_settings.settingsMainOutput.audioDeviceShareset =
 			AK::SoundEngine::GetIDFromString(audioDeviceShareSet.utf8().get_data());
 
-	const unsigned int channelConfigType = static_cast<unsigned int>(get_platform_project_setting(
-			WWISE_COMMON_USER_SETTINGS_PATH + "main_output/channel_config/channel_config_type"));
+	const unsigned int channelConfigType = static_cast<unsigned int>(
+			project_settings->get_setting(project_settings->common_user_settings.main_output.channel_config_type));
 
-	const unsigned int numChannels = static_cast<unsigned int>(get_platform_project_setting(
-			WWISE_COMMON_USER_SETTINGS_PATH + "main_output/channel_config/number_of_channels"));
+	const unsigned int numChannels = static_cast<unsigned int>(
+			project_settings->get_setting(project_settings->common_user_settings.main_output.number_of_channels));
 
 	if (channelConfigType == AK_ChannelConfigType_Anonymous)
 	{
@@ -1675,28 +1716,28 @@ bool Wwise::initialize_wwise_systems()
 	}
 
 	init_settings.settingsMainOutput.idDevice = static_cast<unsigned int>(
-			get_platform_project_setting(WWISE_COMMON_USER_SETTINGS_PATH + "main_output/device_id"));
+			project_settings->get_setting(project_settings->common_user_settings.main_output.device_id));
 
 	init_settings.settingsMainOutput.ePanningRule = static_cast<AkPanningRule>(static_cast<unsigned int>(
-			get_platform_project_setting(WWISE_COMMON_USER_SETTINGS_PATH + "main_output/panning_rule")));
+			project_settings->get_setting(project_settings->common_user_settings.main_output.panning_rule)));
 
 	init_settings.uCommandQueueSize = static_cast<unsigned int>(
-			get_platform_project_setting(WWISE_COMMON_USER_SETTINGS_PATH + "command_queue_size"));
+			project_settings->get_setting(project_settings->common_user_settings.command_queue_size));
 
 	init_settings.uContinuousPlaybackLookAhead = static_cast<unsigned int>(
-			get_platform_project_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "continuous_playback_look_ahead"));
+			project_settings->get_setting(project_settings->advanced_settings.continuous_playback_look_ahead));
 
 	init_settings.uMaxHardwareTimeoutMs = static_cast<unsigned int>(
-			get_platform_project_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "maximum_hardware_timeout_ms"));
+			project_settings->get_setting(project_settings->advanced_settings.maximum_hardware_timeout_ms));
 
 	init_settings.uMaxNumPaths = static_cast<unsigned int>(
-			get_platform_project_setting(WWISE_COMMON_USER_SETTINGS_PATH + "maximum_number_of_positioning_paths"));
+			project_settings->get_setting(project_settings->common_user_settings.maximum_number_of_positioning_paths));
 
 	init_settings.uMonitorQueuePoolSize = static_cast<unsigned int>(
-			get_platform_project_setting(WWISE_COMMON_ADVANCED_SETTINGS_PATH + "monitor_queue_pool_size"));
+			project_settings->get_setting(project_settings->advanced_settings.monitor_queue_pool_size));
 
 	const unsigned int num_samples_per_frame_enum = static_cast<unsigned int>(
-			get_platform_project_setting(WWISE_COMMON_USER_SETTINGS_PATH + "samples_per_frame"));
+			project_settings->get_setting(project_settings->common_user_settings.samples_per_frame));
 
 	switch (num_samples_per_frame_enum)
 	{
@@ -1717,8 +1758,8 @@ bool Wwise::initialize_wwise_systems()
 			break;
 	}
 
-	init_settings.fGameUnitsToMeters =
-			static_cast<float>(get_platform_project_setting(WWISE_COMMON_USER_SETTINGS_PATH + "game_units_to_meters"));
+	init_settings.fGameUnitsToMeters = static_cast<float>(
+			project_settings->get_setting(project_settings->common_user_settings.game_units_to_meters));
 
 	init_settings.eFloorPlane = AkFloorPlane_Default;
 
@@ -1727,7 +1768,7 @@ bool Wwise::initialize_wwise_systems()
 
 	// Common platform settings
 	const unsigned int num_refills_in_voice_enum = static_cast<unsigned int>(
-			get_platform_project_setting(WWISE_COMMON_USER_SETTINGS_PATH + "number_of_refills_in_voice"));
+			project_settings->get_setting(project_settings->common_user_settings.number_of_refills_in_voice));
 
 	switch (num_refills_in_voice_enum)
 	{
@@ -1742,8 +1783,8 @@ bool Wwise::initialize_wwise_systems()
 			break;
 	}
 
-	const unsigned int samplerate_enum =
-			static_cast<unsigned int>(get_platform_project_setting(WWISE_COMMON_USER_SETTINGS_PATH + "sample_rate"));
+	const unsigned int samplerate_enum = static_cast<unsigned int>(
+			project_settings->get_setting(project_settings->common_user_settings.sample_rate));
 
 	switch (samplerate_enum)
 	{
@@ -1767,52 +1808,62 @@ bool Wwise::initialize_wwise_systems()
 			break;
 	}
 
+#if defined(TOOLS_ENABLED)
+	String dsp_path = AkEditorSettings::get_editor_plugins_path();
+	AkOSChar* dll_path;
+	CONVERT_CHAR_TO_OSCHAR(ProjectSettings::get_singleton()->globalize_path(dsp_path).utf8().get_data(), dll_path);
+	init_settings.szPluginDLLPath = dll_path;
+#endif
+
 		// Platform-specific settings
 #ifdef AK_WIN
 	platform_init_settings.uMaxSystemAudioObjects = static_cast<unsigned int>(
-			get_platform_project_setting("wwise/windows_advanced_settings/max_system_audio_objects"));
+			project_settings->get_setting(project_settings->platform_settings.windows_max_system_audio_objects));
 
 #elif defined(AK_MAC_OS_X)
-	platform_init_settings.eAudioAPI = static_cast<AkAudioAPIMac>(
-			static_cast<unsigned int>(get_platform_project_setting("wwise/macos_advanced_settings/audio_API")));
+	platform_init_settings.eAudioAPI = static_cast<AkAudioAPIMac>(static_cast<unsigned int>(
+			project_settings->get_setting(project_settings->platform_settings.macos_audio_api)));
 
 #elif defined(AK_IOS)
-	platform_init_settings.eAudioAPI = static_cast<AkAudioAPIiOS>(
-			static_cast<unsigned int>(get_platform_project_setting("wwise/ios_advanced_settings/audio_API")));
+	platform_init_settings.eAudioAPI = static_cast<AkAudioAPIiOS>(static_cast<unsigned int>(
+			project_settings->get_setting(project_settings->platform_settings.ios_audio_api)));
 
 	const unsigned int session_category_enum = static_cast<unsigned int>(
-			get_platform_project_setting("wwise/ios_advanced_settings/audio_session_category"));
+			project_settings->get_setting(project_settings->platform_settings.ios_audio_session_category));
 
 	platform_init_settings.audioSession.eCategory = static_cast<AkAudioSessionCategory>(session_category_enum);
 
 	const unsigned int session_category_flags = static_cast<unsigned int>(
-			get_platform_project_setting("wwise/ios_advanced_settings/audio_session_category_options"));
+			project_settings->get_setting(project_settings->platform_settings.ios_audio_session_category_options));
 
 	platform_init_settings.audioSession.eCategoryOptions =
 			static_cast<AkAudioSessionCategoryOptions>(session_category_flags);
 
-	const unsigned int audio_session_mode_enum =
-			static_cast<unsigned int>(get_platform_project_setting("wwise/ios_advanced_settings/audio_session_mode"));
+	const unsigned int audio_session_mode_enum = static_cast<unsigned int>(
+			project_settings->get_setting(project_settings->platform_settings.ios_audio_session_mode));
 
 	platform_init_settings.audioSession.eMode = static_cast<AkAudioSessionMode>(audio_session_mode_enum);
 
 #elif defined(AK_ANDROID)
-
-	platform_init_settings.eAudioAPI = static_cast<AkAudioAPIAndroid>(
-			static_cast<unsigned int>(get_platform_project_setting("wwise/android_advanced_settings/audio_API")));
+	platform_init_settings.eAudioAPI = static_cast<AkAudioAPIAndroid>(static_cast<unsigned int>(
+			project_settings->get_setting(project_settings->platform_settings.android_audio_api)));
 
 	platform_init_settings.bRoundFrameSizeToHWSize = static_cast<bool>(
-			get_platform_project_setting("wwise/android_advanced_settings/round_frame_size_to_hw_size"));
+			project_settings->get_setting(project_settings->platform_settings.android_round_frame_size_to_hw_size));
 
 	platform_init_settings.pJavaVM = JNISupport::getJavaVM();
 	platform_init_settings.jActivity = JNISupport::getActivity();
+
+	AkOSChar* dll_path;
+	CONVERT_CHAR_TO_OSCHAR(JNISupport::getPluginsDir().c_str(), dll_path);
+	init_settings.szPluginDLLPath = dll_path;
 
 	platform_init_settings.bEnableLowLatency = true;
 
 #elif defined(AK_LINUX)
 
-	platform_init_settings.eAudioAPI = static_cast<AkAudioAPILinux>(
-			static_cast<unsigned int>(get_platform_project_setting("wwise/linux_advanced_settings/audio_API")));
+	platform_init_settings.eAudioAPI = static_cast<AkAudioAPILinux>(static_cast<unsigned int>(
+			project_settings->get_setting(project_settings->platform_settings.linux_audio_api)));
 
 #else
 #error "Platform not supported"
@@ -1829,69 +1880,67 @@ bool Wwise::initialize_wwise_systems()
 	AK::MusicEngine::GetDefaultInitSettings(musicInitSettings);
 
 	musicInitSettings.fStreamingLookAheadRatio = static_cast<float>(
-			get_platform_project_setting(WWISE_COMMON_USER_SETTINGS_PATH + "streaming_look_ahead_ratio"));
+			project_settings->get_setting(project_settings->common_user_settings.streaming_look_ahead_ratio));
 
-	if (!ERROR_CHECK_MSG(AK::MusicEngine::Init(&musicInitSettings), "Music Engine initialization failed."))
+	if (!ERROR_CHECK_MSG(AK::MusicEngine::Init(&musicInitSettings), "WwiseGodot: Music Engine initialization failed."))
 	{
 		return false;
 	}
 
 	AkSpatialAudioInitSettings spatialSettings;
 
-	spatialSettings.uMaxSoundPropagationDepth = static_cast<unsigned int>(get_platform_project_setting(
-			WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "max_sound_propagation_depth"));
+	spatialSettings.uMaxSoundPropagationDepth = static_cast<unsigned int>(
+			project_settings->get_setting(project_settings->spatial_audio_settings.max_sound_propagation_depth));
 
-	spatialSettings.fMovementThreshold = static_cast<AkReal32>(get_platform_project_setting(
-			WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "movement_threshold"));
+	spatialSettings.fMovementThreshold = static_cast<AkReal32>(
+			project_settings->get_setting(project_settings->spatial_audio_settings.movement_threshold));
 
-	spatialSettings.uNumberOfPrimaryRays = static_cast<AkUInt32>(get_platform_project_setting(
-			WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "number_of_primary_rays"));
+	spatialSettings.uNumberOfPrimaryRays = static_cast<AkUInt32>(
+			project_settings->get_setting(project_settings->spatial_audio_settings.number_of_primary_rays));
 
-	spatialSettings.uMaxReflectionOrder = static_cast<AkUInt32>(get_platform_project_setting(
-			WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "max_reflection_order"));
+	spatialSettings.uMaxReflectionOrder = static_cast<AkUInt32>(
+			project_settings->get_setting(project_settings->spatial_audio_settings.max_reflection_order));
 
-	spatialSettings.uMaxDiffractionOrder = static_cast<AkUInt32>(get_platform_project_setting(
-			WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "max_diffraction_order"));
+	spatialSettings.uMaxDiffractionOrder = static_cast<AkUInt32>(
+			project_settings->get_setting(project_settings->spatial_audio_settings.max_diffraction_order));
 
-	spatialSettings.uMaxDiffractionPaths = static_cast<AkUInt32>(get_platform_project_setting(
-			WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "max_diffraction_paths"));
+	spatialSettings.uMaxDiffractionPaths = static_cast<AkUInt32>(
+			project_settings->get_setting(project_settings->spatial_audio_settings.max_diffraction_paths));
 
-	spatialSettings.uMaxGlobalReflectionPaths = static_cast<AkUInt32>(get_platform_project_setting(
-			WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "max_global_reflection_paths"));
+	spatialSettings.uMaxGlobalReflectionPaths = static_cast<AkUInt32>(
+			project_settings->get_setting(project_settings->spatial_audio_settings.max_global_reflection_paths));
 
-	spatialSettings.uMaxEmitterRoomAuxSends = static_cast<AkUInt32>(get_platform_project_setting(
-			WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "max_emitter_room_aux_sends"));
+	spatialSettings.uMaxEmitterRoomAuxSends = static_cast<AkUInt32>(
+			project_settings->get_setting(project_settings->spatial_audio_settings.max_emitter_room_aux_sends));
 
-	spatialSettings.uDiffractionOnReflectionsOrder = static_cast<AkUInt32>(get_platform_project_setting(
-			WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "diffraction_on_reflections_order"));
+	spatialSettings.uDiffractionOnReflectionsOrder = static_cast<AkUInt32>(
+			project_settings->get_setting(project_settings->spatial_audio_settings.diffraction_on_reflections_order));
 
-	spatialSettings.fMaxDiffractionAngleDegrees = static_cast<AkReal32>(get_platform_project_setting(
-			WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "max_diffraction_angle_degrees"));
+	spatialSettings.fMaxDiffractionAngleDegrees = static_cast<AkReal32>(
+			project_settings->get_setting(project_settings->spatial_audio_settings.max_diffraction_angle_degrees));
 
-	spatialSettings.fMaxPathLength = static_cast<AkReal32>(get_platform_project_setting(
-			WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "max_path_length"));
+	spatialSettings.fMaxPathLength = static_cast<AkReal32>(
+			project_settings->get_setting(project_settings->spatial_audio_settings.max_path_length));
 
-	spatialSettings.fCPULimitPercentage = static_cast<AkReal32>(get_platform_project_setting(
-			WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "cpu_limit_percentage"));
+	spatialSettings.fCPULimitPercentage = static_cast<AkReal32>(
+			project_settings->get_setting(project_settings->spatial_audio_settings.cpu_limit_percentage));
 
-	spatialSettings.fSmoothingConstantMs = static_cast<AkReal32>(get_platform_project_setting(
-			WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "smoothing_constant_ms"));
+	spatialSettings.fSmoothingConstantMs = static_cast<AkReal32>(
+			project_settings->get_setting(project_settings->spatial_audio_settings.smoothing_constant_ms));
 
-	spatialSettings.uLoadBalancingSpread = static_cast<AkUInt32>(get_platform_project_setting(
-			WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "load_balancing_spread"));
+	spatialSettings.uLoadBalancingSpread = static_cast<AkUInt32>(
+			project_settings->get_setting(project_settings->spatial_audio_settings.load_balancing_spread));
 
-	spatialSettings.bEnableGeometricDiffractionAndTransmission =
-			static_cast<bool>(get_platform_project_setting(WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH +
-					"enable_geometric_diffraction_and_transmission"));
+	spatialSettings.bEnableGeometricDiffractionAndTransmission = static_cast<bool>(project_settings->get_setting(
+			project_settings->spatial_audio_settings.enable_geometric_diffraction_and_transmission));
 
-	spatialSettings.bCalcEmitterVirtualPosition = static_cast<bool>(get_platform_project_setting(
-			WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "calc_emitter_virtual_position"));
+	spatialSettings.bCalcEmitterVirtualPosition = static_cast<bool>(
+			project_settings->get_setting(project_settings->spatial_audio_settings.calc_emitter_virtual_position));
 
-	spatialSettings.eTransmissionOperation =
-			(AkTransmissionOperation) static_cast<AkUInt32>(get_platform_project_setting(
-					WWISE_COMMON_USER_SETTINGS_PATH + WWISE_SPATIAL_AUDIO_PATH + "transmission_operation"));
+	spatialSettings.eTransmissionOperation = (AkTransmissionOperation) static_cast<AkUInt32>(
+			project_settings->get_setting(project_settings->spatial_audio_settings.transmission_operation));
 
-	if (!ERROR_CHECK_MSG(AK::SpatialAudio::Init(spatialSettings), "Spatial Audio initialization failed."))
+	if (!ERROR_CHECK_MSG(AK::SpatialAudio::Init(spatialSettings), "WwiseGodot: Spatial Audio initialization failed."))
 	{
 		return false;
 	}
@@ -1901,20 +1950,19 @@ bool Wwise::initialize_wwise_systems()
 	AK::Comm::GetDefaultInitSettings(comm_settings);
 
 	comm_settings.bInitSystemLib = static_cast<bool>(
-			get_platform_project_setting(WWISE_COMMUNICATION_SETTINGS_PATH + "initialize_system_comms"));
+			project_settings->get_setting(project_settings->communication_settings.initialize_system_comms));
 
-	// note(alex): Default value: 24024
-	comm_settings.ports.uCommand =
-			static_cast<unsigned int>(get_platform_project_setting(WWISE_COMMUNICATION_SETTINGS_PATH + "command_port"));
+	comm_settings.ports.uCommand = static_cast<unsigned int>(
+			project_settings->get_setting(project_settings->communication_settings.command_port));
 
 	comm_settings.ports.uDiscoveryBroadcast = static_cast<unsigned int>(
-			get_platform_project_setting(WWISE_COMMUNICATION_SETTINGS_PATH + "discovery_broadcast_port"));
+			project_settings->get_setting(project_settings->communication_settings.discovery_broadcast_port));
 
-	String network_name = get_platform_project_setting(WWISE_COMMUNICATION_SETTINGS_PATH + "network_name");
+	String network_name = project_settings->get_setting(project_settings->communication_settings.network_name);
 	AKPLATFORM::SafeStrCpy(
 			comm_settings.szAppNetworkName, network_name.utf8().get_data(), AK_COMM_SETTINGS_MAX_STRING_SIZE);
 
-	ERROR_CHECK_MSG(AK::Comm::Init(comm_settings), "Comm initialization failed");
+	ERROR_CHECK_MSG(AK::Comm::Init(comm_settings), "WwiseGodot: Comm initialization failed.");
 #endif
 
 	return true;
@@ -1926,12 +1974,12 @@ bool Wwise::shutdown_wwise_system()
 	AK::Comm::Term();
 #endif
 
-	if (!ERROR_CHECK_MSG(AK::SoundEngine::UnregisterAllGameObj(), "Unregister All GameObj failed."))
+	if (!ERROR_CHECK(AK::SoundEngine::UnregisterAllGameObj()))
 	{
 		return false;
 	}
 
-	if (!ERROR_CHECK_MSG(AK::SoundEngine::ClearBanks(), "Failed to clear all Banks at shutdown."))
+	if (!ERROR_CHECK(AK::SoundEngine::ClearBanks()))
 	{
 		return false;
 	}
@@ -1948,6 +1996,8 @@ bool Wwise::shutdown_wwise_system()
 	}
 
 	AK::MemoryMgr::Term();
+
+	AkBankManager::reset();
 
 	return true;
 }

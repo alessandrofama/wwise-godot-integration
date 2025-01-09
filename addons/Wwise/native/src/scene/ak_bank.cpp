@@ -12,26 +12,21 @@ void AkBank::_bind_methods()
 	ClassDB::bind_method(D_METHOD("set_unload_on", "unload_on"), &AkBank::set_unload_on);
 	ClassDB::bind_method(D_METHOD("get_unload_on"), &AkBank::get_unload_on);
 
-	ADD_PROPERTY(PropertyInfo(Variant::DICTIONARY, "bank", PROPERTY_HINT_NONE), "set_bank", "get_bank");
+	ADD_PROPERTY(
+			PropertyInfo(Variant::OBJECT, "bank", PROPERTY_HINT_RESOURCE_TYPE, "WwiseBank"), "set_bank", "get_bank");
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "load_on", PROPERTY_HINT_ENUM, "None,Enter Tree,Ready,Exit Tree"),
 			"set_load_on", "get_load_on");
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "unload_on", PROPERTY_HINT_ENUM, "None,Enter Tree,Ready,Exit Tree"),
 			"set_unload_on", "get_unload_on");
 }
 
-AkBank::AkBank()
-{
-	bank["name"] = "";
-	bank["id"] = 0;
-}
-
 void AkBank::_enter_tree()
 {
-	ProjectSettings* settings = ProjectSettings::get_singleton();
+	WwiseSettings* settings = WwiseSettings::get_singleton();
 
 	if (settings)
 	{
-		use_soundbank_names = settings->get_setting("wwise/common_user_settings/use_soundbank_names", true);
+		use_soundbank_names = settings->get_setting(settings->project_settings.use_soundbank_names, true);
 	}
 
 	handle_game_event(AkUtils::GameEvent::GAMEEVENT_ENTER_TREE);
@@ -57,18 +52,25 @@ void AkBank::handle_game_event(AkUtils::GameEvent game_event)
 
 void AkBank::load_bank()
 {
+	if (bank.is_null())
+	{
+		UtilityFunctions::push_warning(vformat("WwiseGodot: Trying to load a Bank, but the Bank property in the "
+											   "AkBank node: %s is not set (null).",
+				get_name()));
+		return;
+	}
+
 	Wwise* soundengine = Wwise::get_singleton();
 
 	if (soundengine)
 	{
 		if (use_soundbank_names)
 		{
-			String name = bank.get("name", "");
-			soundengine->load_bank(name);
+			bank->load();
 		}
 		else
 		{
-			unsigned int id = bank.get("id", AK_INVALID_BANK_ID);
+			uint32_t id = bank->get_id();
 			soundengine->load_bank_id(id);
 		}
 	}
@@ -76,26 +78,37 @@ void AkBank::load_bank()
 
 void AkBank::unload_bank()
 {
+	if (bank.is_null())
+	{
+		UtilityFunctions::push_warning(vformat("WwiseGodot: Trying to unload a Bank, but the Bank property in the "
+											   "AkBank node: %s is not set (null).",
+				get_name()));
+		return;
+	}
+
 	Wwise* soundengine = Wwise::get_singleton();
 
 	if (soundengine)
 	{
 		if (use_soundbank_names)
 		{
-			String name = bank.get("name", "");
-			soundengine->unload_bank(name);
+			bank->unload();
 		}
 		else
 		{
-			unsigned int id = bank.get("id", AK_INVALID_BANK_ID);
+			uint32_t id = bank->get_id();
 			soundengine->unload_bank_id(id);
 		}
 	}
 }
 
-void AkBank::set_bank(const Dictionary& bank) { this->bank = bank; }
+void AkBank::set_bank(const Ref<WwiseBank>& bank)
+{
+	this->bank = bank;
+	notify_property_list_changed();
+}
 
-Dictionary AkBank::get_bank() const { return bank; }
+Ref<WwiseBank> AkBank::get_bank() const { return bank; }
 
 void AkBank::set_load_on(AkUtils::GameEvent load_on) { this->load_on = load_on; }
 

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="WwiseSwitch" inherits="WwiseGroupType" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+	This type can be used to set Switch values on game objects.
+	</brief_description>
+	<description>
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="set_value">
+			<return type="void" />
+			<param index="0" name="game_object" type="Node" />
+			<description>
+			Sets this Switch value for the associated [param game_object]
+			</description>
+		</method>
+	</methods>
+</class>

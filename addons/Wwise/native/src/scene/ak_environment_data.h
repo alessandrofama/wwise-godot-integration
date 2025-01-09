@@ -2,9 +2,9 @@
 
 #include "core/utils.h"
 #include "core/wwise_gdextension.h"
+#include "scene/ak_environment.h"
 #include <godot_cpp/classes/node.hpp>
 #include <godot_cpp/variant/array.hpp>
-#include "scene/ak_environment.h"
 
 using namespace godot;
 
@@ -13,7 +13,7 @@ class AkEnvironment;
 struct AkAuxArrayData
 {
 	Array data{};
-	void set_values(const Node* event_node);
+	void set_values(Node* event_node);
 
 	AkAuxArrayData() { data.clear(); }
 };
@@ -36,5 +36,5 @@ public:
 	void remove_environment(const AkEnvironment* env);
 	bool compare_by_priority(const AkEnvironment* a, const AkEnvironment* b);
 	void add_highest_priority_environments();
-	void update_aux_send(const Node* event, const Vector3& position);
+	void update_aux_send(Node* event, const Vector3& position);
 };

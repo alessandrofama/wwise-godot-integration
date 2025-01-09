@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="WwiseTrigger" inherits="WwiseBaseType" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+	This type can be used to post triggers to the sound engine.
+	</brief_description>
+	<description>
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="post">
+			<return type="void" />
+			<param index="0" name="game_object" type="Node" />
+			<description>
+			Posts this Trigger for the associated [param game_object].
+			</description>
+		</method>
+	</methods>
+</class>
