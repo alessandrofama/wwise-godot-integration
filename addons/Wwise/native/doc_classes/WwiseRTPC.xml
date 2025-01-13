@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="WwiseRTPC" inherits="WwiseBaseType" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+	This type can be used to set game parameter values to the sound engine.
+	</brief_description>
+	<description>
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="get_global_value">
+			<return type="float" />
+			<description>
+			Gets the global value for this RTPC.
+			</description>
+		</method>
+		<method name="get_value">
+			<return type="float" />
+			<param index="0" name="game_object" type="Node" />
+			<description>
+			Gets the value associated with the [param game_object] for this RTPC.
+			</description>
+		</method>
+		<method name="set_global_value">
+			<return type="void" />
+			<param index="0" name="value" type="float" />
+			<description>
+			Set the global value for this RTPC.
+			</description>
+		</method>
+		<method name="set_value">
+			<return type="void" />
+			<param index="0" name="game_object" type="Node" />
+			<param index="1" name="value" type="float" />
+			<description>
+			Sets the value associated with the [param game_object] for this RTPC.
+			</description>
+		</method>
+	</methods>
+</class>

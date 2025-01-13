@@ -16,8 +16,11 @@ void AkEvent2D::_bind_methods()
 	ClassDB::bind_method(D_METHOD("get_trigger_on"), &AkEvent2D::get_trigger_on);
 	ClassDB::bind_method(D_METHOD("set_stop_on", "stop_on"), &AkEvent2D::set_stop_on);
 	ClassDB::bind_method(D_METHOD("get_stop_on"), &AkEvent2D::get_stop_on);
+	ClassDB::bind_method(D_METHOD("set_playing_id", "playing_id"), &AkEvent2D::set_playing_id);
+	ClassDB::bind_method(D_METHOD("get_playing_id"), &AkEvent2D::get_playing_id);
 
-	ADD_PROPERTY(PropertyInfo(Variant::DICTIONARY, "event", PROPERTY_HINT_NONE), "set_event", "get_event");
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "event", PROPERTY_HINT_RESOURCE_TYPE, "WwiseEvent"), "set_event",
+			"get_event");
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "trigger_on", PROPERTY_HINT_ENUM, "None,Enter Tree,Ready,Exit Tree"),
 			"set_trigger_on", "get_trigger_on");
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "stop_on", PROPERTY_HINT_ENUM, "None,Enter Tree,Ready,Exit Tree"),
@@ -27,16 +30,10 @@ void AkEvent2D::_bind_methods()
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "interpolation_mode", PROPERTY_HINT_ENUM,
 						 "LOG3,SINE,LOG1,INVSCURVE,LINEAR,SCURVE,EXP1,SINERECIP,EXP3,LASTFADECURVE,CONSTANT"),
 			"set_interpolation_mode", "get_interpolation_mode");
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "playing_id", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_NONE),
+			"set_playing_id", "get_playing_id");
 
 	ADD_ALL_AK_EVENT_SIGNALS;
-}
-
-void AkEvent2D::_notification(int p_what)
-{
-	if (p_what == NOTIFICATION_PREDELETE)
-	{
-		memdelete(cookie);
-	}
 }
 
 void AkEvent2D::check_signal_connections()
@@ -55,13 +52,7 @@ void AkEvent2D::check_signal_connections()
 	}
 }
 
-AkEvent2D::AkEvent2D()
-{
-	event["name"] = "";
-	event["id"] = 0;
-
-	cookie = memnew(WwiseCookie(Callable(this, "callback_emitter")));
-}
+AkEvent2D::AkEvent2D() { cookie = Callable(this, "callback_emitter"); }
 
 void AkEvent2D::_enter_tree()
 {
@@ -73,29 +64,12 @@ void AkEvent2D::_enter_tree()
 		return;
 	}
 
-	Wwise* soundengine = Wwise::get_singleton();
-
-	if (soundengine)
-	{
-		soundengine->register_game_obj(this, get_name());
-	}
-
 	handle_game_event(AkUtils::GameEvent::GAMEEVENT_ENTER_TREE);
 }
 
 void AkEvent2D::_ready() { handle_game_event(AkUtils::GameEvent::GAMEEVENT_READY); }
 
 void AkEvent2D::_exit_tree() { handle_game_event(AkUtils::GameEvent::GAMEEVENT_EXIT_TREE); }
-
-void AkEvent2D::_process(double delta)
-{
-	if (is_editor)
-	{
-		return;
-	}
-
-	Wwise::get_singleton()->set_2d_position(this, get_global_transform(), get_z_index());
-}
 
 void AkEvent2D::handle_game_event(AkUtils::GameEvent game_event)
 {
@@ -113,32 +87,37 @@ void AkEvent2D::handle_game_event(AkUtils::GameEvent game_event)
 
 void AkEvent2D::post_event()
 {
-	Wwise* soundengine = Wwise::get_singleton();
-
-	if (soundengine)
+	if (event.is_null())
 	{
-		check_signal_connections();
+		UtilityFunctions::push_warning(vformat("WwiseGodot: Trying to post an Event, but the Event property in the "
+											   "AkEvent node: %s is not set (null).",
+				get_name()));
+		return;
+	}
 
-		if (callback_type)
-		{
-			playing_id = soundengine->post_event_id_callback(
-					event.get("id", 0), (AkUtils::AkCallbackType)callback_type, this, cookie);
-		}
-		else
-		{
-			playing_id = soundengine->post_event_id(event.get("id", 0), this);
-		}
+	check_signal_connections();
+
+	if (callback_type)
+	{
+		playing_id = event->post_callback(this, (AkUtils::AkCallbackType)callback_type, cookie);
+	}
+	else
+	{
+		playing_id = event->post(this);
 	}
 }
 
 void AkEvent2D::stop_event()
 {
-	Wwise* soundengine = Wwise::get_singleton();
-
-	if (soundengine)
+	if (event.is_null())
 	{
-		soundengine->stop_event(playing_id, stop_fade_time, interpolation_mode);
+		UtilityFunctions::push_warning(vformat("WwiseGodot: Trying to stop an Event, but the Event property in the "
+											   "AkEvent node: %s is not set (null).",
+				get_name()));
+		return;
 	}
+
+	event->stop(this, stop_fade_time, interpolation_mode);
 }
 
 void AkEvent2D::callback_emitter(const Dictionary& data)
@@ -149,9 +128,9 @@ void AkEvent2D::callback_emitter(const Dictionary& data)
 	emit_signal(AkUtils::get_singleton()->event_callback_signals[type], data);
 }
 
-void AkEvent2D::set_event(const Dictionary& event) { this->event = event; }
+void AkEvent2D::set_event(const Ref<WwiseEvent>& event) { this->event = event; }
 
-Dictionary AkEvent2D::get_event() const { return event; }
+Ref<WwiseEvent> AkEvent2D::get_event() const { return event; }
 
 void AkEvent2D::set_stop_fade_time(unsigned int stop_fade_time) { this->stop_fade_time = stop_fade_time; }
 
@@ -171,6 +150,10 @@ AkUtils::GameEvent AkEvent2D::get_trigger_on() const { return trigger_on; }
 void AkEvent2D::set_stop_on(AkUtils::GameEvent stop_on) { this->stop_on = stop_on; }
 
 AkUtils::GameEvent AkEvent2D::get_stop_on() const { return stop_on; }
+
+void AkEvent2D::set_playing_id(AkPlayingID p_playing_id) { playing_id = p_playing_id; }
+
+AkPlayingID AkEvent2D::get_playing_id() const { return playing_id; }
 
 void AkEvent3D::_bind_methods()
 {
@@ -193,8 +176,11 @@ void AkEvent3D::_bind_methods()
 	ClassDB::bind_method(D_METHOD("get_is_environment_aware"), &AkEvent3D::get_is_environment_aware);
 	ClassDB::bind_method(D_METHOD("set_room_id", "room_id"), &AkEvent3D::set_room_id);
 	ClassDB::bind_method(D_METHOD("get_room_id"), &AkEvent3D::get_room_id);
+	ClassDB::bind_method(D_METHOD("set_playing_id", "playing_id"), &AkEvent3D::set_playing_id);
+	ClassDB::bind_method(D_METHOD("get_playing_id"), &AkEvent3D::get_playing_id);
 
-	ADD_PROPERTY(PropertyInfo(Variant::DICTIONARY, "event", PROPERTY_HINT_NONE), "set_event", "get_event");
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "event", PROPERTY_HINT_RESOURCE_TYPE, "WwiseEvent"), "set_event",
+			"get_event");
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "trigger_on", PROPERTY_HINT_ENUM, "None,Enter Tree,Ready,Exit Tree"),
 			"set_trigger_on", "get_trigger_on");
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "stop_on", PROPERTY_HINT_ENUM, "None,Enter Tree,Ready,Exit Tree"),
@@ -206,17 +192,12 @@ void AkEvent3D::_bind_methods()
 			"set_interpolation_mode", "get_interpolation_mode");
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "is_environment_aware", PROPERTY_HINT_NONE), "set_is_environment_aware",
 			"get_is_environment_aware");
-	ADD_PROPERTY(PropertyInfo(Variant::INT, "room_id", PROPERTY_HINT_NONE), "set_room_id", "get_room_id");
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "room_id", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_NONE), "set_room_id",
+			"get_room_id");
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "playing_id", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_NONE),
+			"set_playing_id", "get_playing_id");
 
 	ADD_ALL_AK_EVENT_SIGNALS;
-}
-
-void AkEvent3D::_notification(int p_what)
-{
-	if (p_what == NOTIFICATION_PREDELETE)
-	{
-		memdelete(cookie);
-	}
 }
 
 void AkEvent3D::check_signal_connections()
@@ -235,13 +216,7 @@ void AkEvent3D::check_signal_connections()
 	}
 }
 
-AkEvent3D::AkEvent3D()
-{
-	event["name"] = "";
-	event["id"] = 0;
-
-	cookie = memnew(WwiseCookie(Callable(this, "callback_emitter")));
-}
+AkEvent3D::AkEvent3D() { cookie = Callable(this, "callback_emitter"); }
 
 void AkEvent3D::_enter_tree()
 {
@@ -251,13 +226,6 @@ void AkEvent3D::_enter_tree()
 		// the process callback.
 		is_editor = true;
 		return;
-	}
-
-	Wwise* soundengine = Wwise::get_singleton();
-
-	if (soundengine)
-	{
-		soundengine->register_game_obj(this, get_name());
 	}
 
 	if (is_environment_aware)
@@ -291,8 +259,6 @@ void AkEvent3D::_process(double delta)
 		return;
 	}
 
-	Wwise::get_singleton()->set_3d_position(this, get_global_transform());
-
 	if (is_environment_aware)
 	{
 		environment_data->update_aux_send(this, get_global_transform().get_origin());
@@ -315,32 +281,37 @@ void AkEvent3D::handle_game_event(AkUtils::GameEvent game_event)
 
 void AkEvent3D::post_event()
 {
-	Wwise* soundengine = Wwise::get_singleton();
-
-	if (soundengine)
+	if (event.is_null())
 	{
-		check_signal_connections();
+		UtilityFunctions::push_warning(vformat("WwiseGodot: Trying to post an Event, but the Event property in the "
+											   "AkEvent node: %s is not set (null).",
+				get_name()));
+		return;
+	}
 
-		if (callback_type)
-		{
-			playing_id = soundengine->post_event_id_callback(
-					event.get("id", 0), (AkUtils::AkCallbackType)callback_type, this, cookie);
-		}
-		else
-		{
-			playing_id = soundengine->post_event_id(event.get("id", 0), this);
-		}
+	check_signal_connections();
+
+	if (callback_type)
+	{
+		playing_id = event->post_callback(this, (AkUtils::AkCallbackType)callback_type, cookie);
+	}
+	else
+	{
+		playing_id = event->post(this);
 	}
 }
 
 void AkEvent3D::stop_event()
 {
-	Wwise* soundengine = Wwise::get_singleton();
-
-	if (soundengine)
+	if (event.is_null())
 	{
-		soundengine->stop_event(playing_id, stop_fade_time, interpolation_mode);
+		UtilityFunctions::push_warning(vformat("WwiseGodot: Trying to stop an Event, but the Event property in the "
+											   "AkEvent node: %s is not set (null).",
+				get_name()));
+		return;
 	}
+
+	event->stop(this, stop_fade_time, interpolation_mode);
 }
 
 void AkEvent3D::callback_emitter(const Dictionary& data)
@@ -351,9 +322,13 @@ void AkEvent3D::callback_emitter(const Dictionary& data)
 	emit_signal(AkUtils::get_singleton()->event_callback_signals[type], data);
 }
 
-void AkEvent3D::set_event(const Dictionary& event) { this->event = event; }
+void AkEvent3D::set_event(const Ref<WwiseEvent>& event)
+{
+	this->event = event;
+	notify_property_list_changed();
+}
 
-Dictionary AkEvent3D::get_event() const { return event; }
+Ref<WwiseEvent> AkEvent3D::get_event() const { return event; }
 
 void AkEvent3D::set_stop_fade_time(unsigned int stop_fade_time) { this->stop_fade_time = stop_fade_time; }
 
@@ -384,3 +359,7 @@ bool AkEvent3D::get_is_environment_aware() const { return is_environment_aware; 
 void AkEvent3D::set_room_id(uint64_t room_id) { this->room_id = room_id; }
 
 uint64_t AkEvent3D::get_room_id() const { return room_id; }
+
+void AkEvent3D::set_playing_id(AkPlayingID p_playing_id) { playing_id = p_playing_id; }
+
+AkPlayingID AkEvent3D::get_playing_id() const { return playing_id; }

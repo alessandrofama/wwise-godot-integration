@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="WwiseBank" inherits="WwiseBaseType" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+	This type can be used to load/unload SoundBanks.
+	</brief_description>
+	<description>
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="load">
+			<return type="void" />
+			<description>
+			Loads this SoundBank.
+			</description>
+		</method>
+		<method name="unload">
+			<return type="void" />
+			<description>
+			Unloads this SoundBank.
+			</description>
+		</method>
+	</methods>
+</class>

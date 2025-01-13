@@ -1,26 +1,32 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29503.13
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34728.176
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wwise-gdextension", "wwise-gdextension.vcxproj", "{E63689CC-EFB2-4B9F-BAD7-792A554C2790}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|x64 = Debug|x64
-		Debug|x86 = Debug|x86
-		Release|x64 = Release|x64
-		Release|x86 = Release|x86
+		editor|x64 = editor|x64
+		editor|x86 = editor|x86
+		template_debug|x64 = template_debug|x64
+		template_debug|x86 = template_debug|x86
+		template_release|x64 = template_release|x64
+		template_release|x86 = template_release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E63689CC-EFB2-4B9F-BAD7-792A554C2790}.Debug|x64.ActiveCfg = Debug|x64
-		{E63689CC-EFB2-4B9F-BAD7-792A554C2790}.Debug|x64.Build.0 = Debug|x64
-		{E63689CC-EFB2-4B9F-BAD7-792A554C2790}.Debug|x86.ActiveCfg = Debug|Win32
-		{E63689CC-EFB2-4B9F-BAD7-792A554C2790}.Debug|x86.Build.0 = Debug|Win32
-		{E63689CC-EFB2-4B9F-BAD7-792A554C2790}.Release|x64.ActiveCfg = Release|x64
-		{E63689CC-EFB2-4B9F-BAD7-792A554C2790}.Release|x64.Build.0 = Release|x64
-		{E63689CC-EFB2-4B9F-BAD7-792A554C2790}.Release|x86.ActiveCfg = Release|Win32
-		{E63689CC-EFB2-4B9F-BAD7-792A554C2790}.Release|x86.Build.0 = Release|Win32
+		{E63689CC-EFB2-4B9F-BAD7-792A554C2790}.editor|x64.ActiveCfg = editor|x64
+		{E63689CC-EFB2-4B9F-BAD7-792A554C2790}.editor|x64.Build.0 = editor|x64
+		{E63689CC-EFB2-4B9F-BAD7-792A554C2790}.editor|x86.ActiveCfg = editor|Win32
+		{E63689CC-EFB2-4B9F-BAD7-792A554C2790}.editor|x86.Build.0 = editor|Win32
+		{E63689CC-EFB2-4B9F-BAD7-792A554C2790}.template_debug|x64.ActiveCfg = template_debug|x64
+		{E63689CC-EFB2-4B9F-BAD7-792A554C2790}.template_debug|x64.Build.0 = template_debug|x64
+		{E63689CC-EFB2-4B9F-BAD7-792A554C2790}.template_debug|x86.ActiveCfg = template_debug|Win32
+		{E63689CC-EFB2-4B9F-BAD7-792A554C2790}.template_debug|x86.Build.0 = template_debug|Win32
+		{E63689CC-EFB2-4B9F-BAD7-792A554C2790}.template_release|x64.ActiveCfg = template_release|x64
+		{E63689CC-EFB2-4B9F-BAD7-792A554C2790}.template_release|x64.Build.0 = template_release|x64
+		{E63689CC-EFB2-4B9F-BAD7-792A554C2790}.template_release|x86.ActiveCfg = template_release|Win32
+		{E63689CC-EFB2-4B9F-BAD7-792A554C2790}.template_release|x86.Build.0 = template_release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

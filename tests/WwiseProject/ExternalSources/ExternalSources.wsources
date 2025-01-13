@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ExternalSourcesList SchemaVersion="1" Root="ExternalSources">
+    <Source Path="01.wav" Conversion="ExternalSource" />
+    <Source Path="02.wav" Conversion="ExternalSource" />
+    <Source Path="03.wav" Conversion="ExternalSource" />
+    <Source Path="04.wav" Conversion="ExternalSource" />
+    <Source Path="05.wav" Conversion="ExternalSource" />
+    <Source Path="06.wav" Conversion="ExternalSource" />
+</ExternalSourcesList>

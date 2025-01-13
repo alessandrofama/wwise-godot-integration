@@ -1,0 +1,7 @@
+[gd_resource type="WwisePlatformInfo" format=3 uid="uid://cvv3uxcyb2mdp"]
+
+[resource]
+platform_name = "Base"
+platform_path = "Base"
+resource_local_to_scene = null
+resource_name = null

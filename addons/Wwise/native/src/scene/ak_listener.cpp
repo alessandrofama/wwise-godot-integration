@@ -34,7 +34,8 @@ void AkListener3D::_bind_methods()
 	ClassDB::bind_method(D_METHOD("get_room_id"), &AkListener3D::get_room_id);
 
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "is_spatial", PROPERTY_HINT_NONE), "set_is_spatial", "get_is_spatial");
-	ADD_PROPERTY(PropertyInfo(Variant::INT, "room_id", PROPERTY_HINT_NONE), "set_room_id", "get_room_id");
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "room_id", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_INTERNAL), "set_room_id",
+			"get_room_id");
 }
 
 void AkListener3D::_enter_tree()

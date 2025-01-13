@@ -9,14 +9,9 @@ void AkEnvironment::_bind_methods()
 	ClassDB::bind_method(D_METHOD("set_priority", "priority"), &AkEnvironment::set_priority);
 	ClassDB::bind_method(D_METHOD("get_priority"), &AkEnvironment::get_priority);
 
-	ADD_PROPERTY(PropertyInfo(Variant::DICTIONARY, "aux_bus", PROPERTY_HINT_NONE), "set_aux_bus", "get_aux_bus");
+	ADD_PROPERTY(
+			PropertyInfo(Variant::OBJECT, "aux_bus", PROPERTY_HINT_NONE, "WwiseAuxBus"), "set_aux_bus", "get_aux_bus");
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "priority", PROPERTY_HINT_NONE), "set_priority", "get_priority");
-}
-
-AkEnvironment::AkEnvironment()
-{
-	aux_bus["name"] = "";
-	aux_bus["id"] = 0;
 }
 
 void AkEnvironment::_enter_tree()
@@ -67,9 +62,13 @@ void AkEnvironment::_on_area_exited(const Area3D* area)
 	}
 }
 
-void AkEnvironment::set_aux_bus(const Dictionary& aux_bus) { this->aux_bus = aux_bus; }
+void AkEnvironment::set_aux_bus(const Ref<WwiseAuxBus>& aux_bus)
+{
+	this->aux_bus = aux_bus;
+	notify_property_list_changed();
+}
 
-Dictionary AkEnvironment::get_aux_bus() const { return aux_bus; }
+Ref<WwiseAuxBus> AkEnvironment::get_aux_bus() const { return aux_bus; }
 
 void AkEnvironment::set_priority(int priority) { this->priority = priority; }
 

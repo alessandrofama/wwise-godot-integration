@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{A7CE24A6-BE73-46DF-A6E0-0C14BD39D6D6}" SchemaVersion="123">
+	<Switches>
+		<WorkUnit Name="Switches Gyms" ID="{A7CE24A6-BE73-46DF-A6E0-0C14BD39D6D6}" PersistMode="Standalone">
+			<ChildrenList>
+				<SwitchGroup Name="Localized_Switch" ID="{072EADB9-8F65-41F3-8ED5-CCB2B64B1CE3}">
+					<ChildrenList>
+						<Switch Name="Voice1" ID="{758C098B-3B60-4489-ADD8-9BDFD0081452}"/>
+						<Switch Name="Voice2" ID="{020591F7-F7BA-4296-AABC-B61F9DA209EE}"/>
+					</ChildrenList>
+				</SwitchGroup>
+				<SwitchGroup Name="ExternalSources_Switch" ID="{6763C657-411F-4167-AACC-1699B33DEF85}">
+					<ChildrenList>
+						<Switch Name="Source1" ID="{1692D0D4-34C0-4B20-AC30-AECD03D0C048}"/>
+						<Switch Name="Source2" ID="{21B1F38A-B6D3-4520-99A8-B3DAC42A6432}"/>
+					</ChildrenList>
+				</SwitchGroup>
+				<SwitchGroup Name="NotUsed_Switch" ID="{885689B2-135A-44CF-84AA-CC01E4619EEF}">
+					<ChildrenList>
+						<Switch Name="One" ID="{941B92A6-DEEB-4514-AA4F-75B959F3A354}"/>
+						<Switch Name="Two" ID="{87C6617D-C8B6-4EA8-923F-F8775CB94B90}"/>
+					</ChildrenList>
+				</SwitchGroup>
+				<SwitchGroup Name="RTPC_Switch" ID="{271383F8-DC08-4B88-A117-876448668997}">
+					<PropertyList>
+						<Property Name="UseGameParameter" Type="bool" Value="True"/>
+					</PropertyList>
+					<ChildrenList>
+						<Switch Name="Switch1" ID="{CA649B50-4B62-4504-A04C-DD847EBC1F0A}"/>
+						<Switch Name="Switch2" ID="{346E2891-D3E8-49D3-AD64-C1BF8DB2788C}"/>
+						<Switch Name="Switch3" ID="{ED9B41F8-F85C-4191-98FF-1AEED4D59AC3}"/>
+					</ChildrenList>
+					<SwitchOnRTPC>
+						<GameParameterRef Name="RTPC_SwitchControler" ID="{17A29FCC-FD32-4EA9-BCD7-A3FEB1666E0E}"/>
+						<Curve Name="" ID="{73DC6E4D-1269-40EC-AF7C-5630B339DBFA}">
+							<PropertyList>
+								<Property Name="Flags" Type="int32" Value="65537"/>
+							</PropertyList>
+							<PointList>
+								<Point>
+									<XPos>0</XPos>
+									<YPos>0</YPos>
+									<Flags>5</Flags>
+								</Point>
+								<Point>
+									<XPos>1</XPos>
+									<YPos>1</YPos>
+									<Flags>0</Flags>
+								</Point>
+								<Point>
+									<XPos>2</XPos>
+									<YPos>2</YPos>
+									<Flags>0</Flags>
+								</Point>
+								<Point>
+									<XPos>2.999</XPos>
+									<YPos>3</YPos>
+									<Flags>0</Flags>
+								</Point>
+								<Point>
+									<XPos>4</XPos>
+									<YPos>3</YPos>
+									<Flags>37</Flags>
+								</Point>
+							</PointList>
+						</Curve>
+					</SwitchOnRTPC>
+				</SwitchGroup>
+				<SwitchGroup Name="SwitchState" ID="{F9A80D0C-1A94-4A02-818C-0ADB8FFCD4A5}">
+					<ChildrenList>
+						<Switch Name="One" ID="{91FB03BB-6824-4330-9DA1-B2728366B2A1}"/>
+						<Switch Name="Two" ID="{74578350-490B-408C-95F7-B355447AB948}"/>
+					</ChildrenList>
+				</SwitchGroup>
+				<Folder Name="MultiNestedFolder" ID="{5C89A440-D041-4922-B127-4A637BFD2FFF}" ShortID="799872933">
+					<ChildrenList>
+						<SwitchGroup Name="MultiNested" ID="{10DDBF3A-B303-4470-937E-DF0FFF820076}">
+							<ChildrenList>
+								<Switch Name="Switch1" ID="{2228076E-B474-47A7-AB5D-EBB0F03BFB2A}"/>
+								<Switch Name="Switch2" ID="{D9066EA3-89C9-4AF2-814B-870F0B905537}"/>
+								<Switch Name="Switch3" ID="{E8C60EF7-8369-4FA9-BB27-7851EBA9C0D5}"/>
+							</ChildrenList>
+						</SwitchGroup>
+						<SwitchGroup Name="MultiNested_1" ID="{2ADAAB47-E441-440C-A717-157E9AF5EE5F}">
+							<ChildrenList>
+								<Switch Name="Switch_1_1" ID="{FE42477C-7C95-44D0-A046-4216DB0EAB1C}"/>
+								<Switch Name="Switch_1_2" ID="{7C536B49-7A5B-49AA-B194-FA9A7454AE8D}"/>
+								<Switch Name="Switch_1_3" ID="{019759CE-065F-4176-911D-5D538113013E}"/>
+							</ChildrenList>
+						</SwitchGroup>
+						<SwitchGroup Name="MultiNested_1_1" ID="{4FB19754-6B4B-4F71-9A53-09747F89A556}">
+							<ChildrenList>
+								<Switch Name="Switch_1_1_1" ID="{1A842F68-4695-45CB-9468-554A3B6F6BBF}"/>
+								<Switch Name="Switch_1_1_2" ID="{85DABEA8-1520-4AAC-97FD-CE719FA50911}"/>
+							</ChildrenList>
+						</SwitchGroup>
+						<SwitchGroup Name="MultiNested_1_2" ID="{3AAF0CBD-9178-40B1-9D88-6949DEE362A0}">
+							<ChildrenList>
+								<Switch Name="Switch_1_2_1" ID="{422BF945-1A8C-4953-B555-6E03886C3C19}"/>
+								<Switch Name="Switch_1_2_2" ID="{F56A71C2-8423-412E-BC53-9B63A5DDF42A}"/>
+							</ChildrenList>
+						</SwitchGroup>
+						<SwitchGroup Name="MultiNested_2" ID="{8494D00F-F783-40D6-8494-9BE58992D1D3}">
+							<ChildrenList>
+								<Switch Name="Switch_2_1" ID="{110BD000-A46C-4A10-B8B2-CB840D042C14}"/>
+								<Switch Name="Switch_2_2" ID="{D588A6D6-6BB8-4D61-B62C-BCF9EA3EFD25}"/>
+							</ChildrenList>
+						</SwitchGroup>
+						<SwitchGroup Name="MultiNested_2_1" ID="{6D448137-BE1C-48F4-8E33-86F20C2A6B3A}">
+							<ChildrenList>
+								<Switch Name="Switch_2_1_1" ID="{96DDE069-2845-4F88-879E-AB62CAE9023E}"/>
+								<Switch Name="Switch_2_1_2" ID="{448FAD3D-69D2-4ADC-8FC3-FF125CCB02C5}"/>
+							</ChildrenList>
+						</SwitchGroup>
+					</ChildrenList>
+				</Folder>
+				<SwitchGroup Name="Simple_Switch" ID="{046DFBED-A4E8-4FE5-B241-CC4BC8999388}">
+					<ChildrenList>
+						<Switch Name="Switch1" ID="{00E6A7B6-EA16-4D72-A782-2C1F65215D38}"/>
+						<Switch Name="Switch2" ID="{D691CB03-64DA-4276-AD63-4E9B7AE33F46}"/>
+					</ChildrenList>
+				</SwitchGroup>
+				<SwitchGroup Name="SwitchState_Switch" ID="{8AE7A01A-8A51-4A00-87A2-C1CA87F66E64}">
+					<ChildrenList>
+						<Switch Name="Switch" ID="{2A407366-2BD3-4E13-9303-674F34DF1360}"/>
+						<Switch Name="State" ID="{0D3A6965-83EA-490E-9AEF-279F79A40FFA}"/>
+					</ChildrenList>
+				</SwitchGroup>
+			</ChildrenList>
+		</WorkUnit>
+	</Switches>
+</WwiseDocument>

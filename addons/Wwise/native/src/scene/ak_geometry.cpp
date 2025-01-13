@@ -24,8 +24,8 @@ void AkGeometry::_bind_methods()
 			"get_enable_diffraction");
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "enable_diffraction_on_boundary_edges", PROPERTY_HINT_NONE),
 			"set_enable_diffraction_on_boundary_edges", "get_enable_diffraction_on_boundary_edges");
-	ADD_PROPERTY(PropertyInfo(Variant::DICTIONARY, "acoustic_texture", PROPERTY_HINT_NONE), "set_acoustic_texture",
-			"get_acoustic_texture");
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "acoustic_texture", PROPERTY_HINT_RESOURCE_TYPE, "WwiseAcousticTexture"),
+			"set_acoustic_texture", "get_acoustic_texture");
 	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "transmission_loss_value", PROPERTY_HINT_NONE),
 			"set_transmission_loss_value", "get_transmission_loss_value");
 }
@@ -47,12 +47,6 @@ void AkGeometry::_notification(int p_what, bool reversed)
 			set_geometry(mesh_instance);
 		}
 	}
-}
-
-AkGeometry::AkGeometry()
-{
-	acoustic_texture["name"] = "";
-	acoustic_texture["id"] = 0;
 }
 
 void AkGeometry::_enter_tree()
@@ -156,9 +150,13 @@ void AkGeometry::set_enable_diffraction_on_boundary_edges(bool enable_diffractio
 
 bool AkGeometry::get_enable_diffraction_on_boundary_edges() const { return enable_diffraction_on_boundary_edges; }
 
-void AkGeometry::set_acoustic_texture(const Dictionary& acoustic_texture) { this->acoustic_texture = acoustic_texture; }
+void AkGeometry::set_acoustic_texture(const Ref<WwiseAcousticTexture>& acoustic_texture)
+{
+	this->acoustic_texture = acoustic_texture;
+	notify_property_list_changed();
+}
 
-Dictionary AkGeometry::get_acoustic_texture() const { return acoustic_texture; }
+Ref<WwiseAcousticTexture> AkGeometry::get_acoustic_texture() const { return acoustic_texture; }
 
 void AkGeometry::set_transmission_loss_value(float transmission_loss_value)
 {

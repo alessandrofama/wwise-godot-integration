@@ -19,74 +19,61 @@ AKRESULT WwiseIOHook::open(const AkFileOpenData& in_file_open, AkFileDesc*& out_
 		return AK_InsufficientMemory;
 
 	FileAccess::ModeFlags open_mode{};
-
 	switch (in_file_open.eOpenMode)
 	{
 		case AK_OpenModeRead:
-		{
 			open_mode = FileAccess::ModeFlags::READ;
-
 			break;
-		}
 		case AK_OpenModeWrite:
-		{
-			open_mode = FileAccess::ModeFlags::WRITE;
-
-			break;
-		}
 		case AK_OpenModeWriteOvrwr:
-		{
 			open_mode = FileAccess::ModeFlags::WRITE;
-
 			break;
-		}
 		case AK_OpenModeReadWrite:
-		{
 			open_mode = FileAccess::ModeFlags::READ_WRITE;
-
 			break;
-		}
 		default:
-		{
 			AKASSERT(!"Unknown open mode");
-
-			break;
-		}
+			return result;
 	}
 
-	bool use_names = in_file_open.fileID == AK_INVALID_FILE_ID;
 	String final_file_path{ banks_path };
-	String filename_format{};
 
-	if (in_file_open.pFlags)
+	if (in_file_open.pFlags && in_file_open.eOpenMode == AK_OpenModeRead)
 	{
-		if (in_file_open.eOpenMode == AK_OpenModeRead)
+		if (in_file_open.pFlags->uCompanyID == AKCOMPANYID_AUDIOKINETIC)
 		{
-			if (in_file_open.pFlags->uCompanyID == AKCOMPANYID_AUDIOKINETIC)
+			switch (in_file_open.pFlags->uCodecID)
 			{
-				if (in_file_open.pFlags->uCodecID == AKCODECID_BANK)
-				{
-					filename_format = ".bnk";
-				}
-				else
-				{
+				case AKCODECID_BANK:
+					break;
+				case AKCODECID_BANK_EVENT:
+					final_file_path += "Event/";
+					break;
+				case AKCODECID_BANK_BUS:
+					final_file_path += "Bus/";
+					break;
+				default:
 					final_file_path += "Media/";
-					filename_format = ".wem";
-				}
-
-				if (in_file_open.pFlags->bIsLanguageSpecific)
-				{
-					final_file_path += language_folder + "/";
-				}
+					break;
 			}
-			else if (in_file_open.pFlags->uCompanyID == AKCOMPANYID_AUDIOKINETIC_EXTERNAL)
+
+			if (in_file_open.pFlags->bIsLanguageSpecific)
 			{
-				filename_format = ".wem";
+				final_file_path += language_folder + "/";
+			}
+
+			if (use_subfolders && in_file_open.pFlags->uCodecID != AKCODECID_BANK)
+			{
+				if (in_file_open.pFlags->uDirectoryHash != AK_INVALID_FILE_ID)
+				{
+					String subfolder = String::num_uint64(in_file_open.pFlags->uDirectoryHash).substr(0, 2);
+					final_file_path += subfolder + "/";
+				}
 			}
 		}
 	}
 
-	if (use_names)
+	if (in_file_open.fileID == AK_INVALID_FILE_ID)
 	{
 		char* filename;
 		CONVERT_OSCHAR_TO_CHAR(in_file_open.pszFileName, filename);
@@ -94,14 +81,16 @@ AKRESULT WwiseIOHook::open(const AkFileOpenData& in_file_open, AkFileDesc*& out_
 	}
 	else
 	{
-		final_file_path += String::num_int64(in_file_open.fileID) + filename_format;
+		String file_extension =
+				(in_file_open.pFlags && in_file_open.pFlags->uCodecID == AKCODECID_BANK) ? ".bnk" : ".wem";
+		final_file_path += String::num_int64(in_file_open.fileID) + file_extension;
 	}
 
 	FileHandle* const file_handle = memnew(FileHandle);
 	Ref<FileAccess> file = FileAccess::open(final_file_path, open_mode);
 	file_handle->file = file;
 
-	if (file->get_open_error() == Error::OK)
+	if (file->get_open_error() == godot::Error::OK)
 	{
 		out_p_file_desc->iFileSize = static_cast<AkInt64>(file->get_length());
 		out_p_file_desc->hFile = reinterpret_cast<AkFileHandle>(file_handle);
@@ -248,7 +237,7 @@ AKRESULT WwiseIOHook::Close(AkFileDesc* in_file_desc)
 		Ref<FileAccess> file = file_handle->file;
 		file->close();
 
-		if (file->get_error() == Error::OK)
+		if (file->get_error() == godot::Error::OK)
 		{
 			AkDelete(AkMemID_Streaming, in_file_desc);
 			memdelete(file_handle);
@@ -307,3 +296,5 @@ void WwiseFileIOHandler::set_language_folder(const String& language_folder)
 {
 	device.language_folder = language_folder;
 }
+
+void WwiseFileIOHandler::set_use_subfolders(bool p_use_subfolders) { device.use_subfolders = p_use_subfolders; }

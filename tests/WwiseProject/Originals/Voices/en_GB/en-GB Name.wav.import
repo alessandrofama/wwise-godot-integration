@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dac80sbxlsf6f"
+path="res://.godot/imported/en-GB Name.wav-5218429047b1fa657c7e27e99e5f349f.sample"
+
+[deps]
+
+source_file="res://addons/Wwise/tests/WwiseProject/Originals/Voices/en_GB/en-GB Name.wav"
+dest_files=["res://.godot/imported/en-GB Name.wav-5218429047b1fa657c7e27e99e5f349f.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0
