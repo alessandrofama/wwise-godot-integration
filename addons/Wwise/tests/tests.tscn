@@ -1,9 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://dc03r3y6khghh"]
-
-[ext_resource type="Script" path="res://addons/Wwise/tests/ak_test_framework.gd" id="1_y8upg"]
-
-[node name="Tests" type="Node3D"]
-script = ExtResource("1_y8upg")
-wwise_tests = {
-"Wwise": &"res://addons/Wwise/tests/test_wwise.gd"
-}

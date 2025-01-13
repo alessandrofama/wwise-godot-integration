@@ -1,10 +1,10 @@
 #pragma once
 
+#include <AK/SoundEngine/Common/AkStreamMgrModule.h>
+#include <AK/Tools/Common/AkObject.h>
 #include <godot_cpp/classes/file_access.hpp>
 #include <godot_cpp/classes/ref_counted.hpp>
 #include <godot_cpp/variant/callable.hpp>
-#include <AK/SoundEngine/Common/AkStreamMgrModule.h>
-#include <AK/Tools/Common/AkObject.h>
 
 using namespace godot;
 
@@ -31,6 +31,7 @@ public:
 
 	String banks_path{};
 	String language_folder{};
+	bool use_subfolders{};
 
 	~WwiseIOHook() override;
 
@@ -63,4 +64,5 @@ public:
 
 	void set_banks_path(const String& banks_path);
 	void set_language_folder(const String& language_folder);
+	void set_use_subfolders(bool p_use_subfolders);
 };

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{719C8F4D-E570-4D69-98F0-7C49704EE24D}" SchemaVersion="123">
+	<GameParameters>
+		<WorkUnit Name="Default Work Unit" ID="{719C8F4D-E570-4D69-98F0-7C49704EE24D}" PersistMode="Standalone">
+			<ChildrenList>
+				<Folder Name="RTPC" ID="{D0E1BF00-4F83-4C1D-9409-9B67B91D9E7E}" ShortID="642277751">
+					<ChildrenList>
+						<GameParameter Name="RTPC" ID="{E5365D66-91AC-475A-B0F3-30DD9F97E3D4}">
+							<PropertyList>
+								<Property Name="InitialValue" Type="Real64" Value="600"/>
+								<Property Name="Max" Type="Real64" Value="1200"/>
+							</PropertyList>
+						</GameParameter>
+						<GameParameter Name="RTPC_SwitchControler" ID="{17A29FCC-FD32-4EA9-BCD7-A3FEB1666E0E}">
+							<PropertyList>
+								<Property Name="InitialValue" Type="Real64" Value="1"/>
+								<Property Name="Max" Type="Real64" Value="4"/>
+							</PropertyList>
+						</GameParameter>
+						<GameParameter Name="GlobalParameterVolume" ID="{6816E7D7-D2D5-4E38-8029-5316BF0A1408}">
+							<PropertyList>
+								<Property Name="InitialValue" Type="Real64" Value="0.2"/>
+								<Property Name="Max" Type="Real64" Value="1"/>
+							</PropertyList>
+						</GameParameter>
+					</ChildrenList>
+				</Folder>
+			</ChildrenList>
+		</WorkUnit>
+	</GameParameters>
+</WwiseDocument>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 15 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
+    <g transform="matrix(1,0,0,1,-120,-165)">
+        <g transform="matrix(1,0,0,1,120,165)">
+            <g id="ObjectIcons_Trigger_nor">
+                <g id="Icons">
+                    <g transform="matrix(1,0,0,1,-40,-25)">
+                        <g id="Base-Block" serif:id="Base Block">
+                            <path d="M55,27.1C55,25.941 54.059,25 52.9,25L42.1,25C40.941,25 40,25.941 40,27.1L40,37.9C40,39.059 40.941,40 42.1,40L52.9,40C54.059,40 55,39.059 55,37.9L55,27.1Z" style="fill-opacity:0;"/>
+                        </g>
+                    </g>
+                    <path d="M3.65,7L3.35,7C2.605,7 2,6.395 2,5.65L2,2.35C2,1.606 2.604,1.001 3.35,1L3.65,1C4.275,1.001 4.799,1.425 4.952,2L10.048,2C10.201,1.425 10.725,1.001 11.35,1L11.65,1C12.396,1.001 13,1.606 13,2.35L13,5.65C13,6.394 12.397,6.998 11.65,7L11.35,7C10.726,7 10.201,6.576 10.048,6L9,6L9,10L12.56,10C13.356,10.001 14,10.646 14,11.44L14,12.56C14,13.354 13.355,14 12.56,14L2.44,14C1.645,14 1,13.355 1,12.56L1,11.44C1,10.646 1.644,10.001 2.44,10L6,10L6,6L4.952,6C4.799,6.575 4.276,6.998 3.65,7ZM13,11L2,11L2,13L13,13L13,11ZM8,5L8,4L7,4L7,10L8,10L8,5ZM4,3L4,2L3,2L3,6L4,6L4,4L11,4L11,6L12,6L12,2L11,2L11,3L4,3Z" style="fill:rgb(196,196,196);"/>
+                    <g transform="matrix(1,0,0,1,-140,-105)">
+                        <rect x="143" y="107" width="1" height="4"/>
+                    </g>
+                    <g transform="matrix(1,0,0,1,-132,-105)">
+                        <rect x="143" y="107" width="1" height="4"/>
+                    </g>
+                    <g transform="matrix(7,0,0,0.25,-997,-23.75)">
+                        <rect x="143" y="107" width="1" height="4"/>
+                    </g>
+                    <g transform="matrix(1,0,0,1.25,-136,-128.75)">
+                        <rect x="143" y="107" width="1" height="4"/>
+                    </g>
+                    <g transform="matrix(11,0,-1.56319e-13,0.5,-1571,-42.5)">
+                        <rect x="143" y="107" width="1" height="4" style="fill:rgb(57,57,57);"/>
+                    </g>
+                    <g transform="matrix(1,1.12712e-18,-1.54516e-17,0.333333,2,0.666667)">
+                        <rect x="2" y="10" width="3" height="3" style="fill:rgb(149,149,149);"/>
+                    </g>
+                    <g transform="matrix(1,1.12712e-18,-1.54516e-17,0.333333,6,0.666667)">
+                        <rect x="2" y="10" width="3" height="3" style="fill:rgb(149,149,149);"/>
+                    </g>
+                    <g transform="matrix(0.333333,3.75706e-19,-1.54516e-17,0.333333,6.33333,0.666667)">
+                        <rect x="2" y="10" width="3" height="3" style="fill:rgb(57,57,57);"/>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

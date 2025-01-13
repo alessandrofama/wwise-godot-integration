@@ -1,0 +1,7 @@
+[gd_resource type="WwisePlatformInfo" format=3 uid="uid://hovmbam7e635"]
+
+[resource]
+platform_name = "Windows"
+platform_path = "Windows"
+resource_local_to_scene = null
+resource_name = null

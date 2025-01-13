@@ -1,0 +1,251 @@
+class_name AK
+
+class EVENTS:
+
+	const AMBIENT_EVENT : int = 2932565050
+	const POST_STATE_EVENT : int = 33362104
+	const POST_NESTED_SWITCH_EVENT : int = 4269733507
+	const POST_SWITCH_EVENT : int = 728757559
+	const FIRE_SHOTGUN : int = 626438066
+	const AUDIODEVICEEVENT : int = 1838711977
+	const PLAY_AUTOBANKSFX : int = 341179642
+	const PLAY_USERDEFINEDBANKSFX : int = 1815374861
+	const FOOTSTEP_EVENT : int = 116178158
+	const SILENCE : int = 3041563226
+	const PLAY_DLCSOUND : int = 384930650
+	const PLAY_DLCSOUNDSTREAMING : int = 3947256854
+	const SETSTATEEVENT : int = 339261270
+	const STOPEVENT : int = 4032683079
+	const PLAY_ONE : int = 3010160138
+	const PLAY_THREE : int = 2078310098
+	const PLAY_TWO : int = 2587027180
+	const POST_EXTERNALAUDIO_EVENT : int = 3458677950
+	const POST_NO_DEFAULT_EXTERNAL_SOURCES : int = 3528500910
+	const INTERACTIVEMUSICEVENT : int = 2057227272
+	const LARGEMEDIA_EVENT : int = 1010869919
+	const POST_LOCALIZED_VOICE : int = 3850012998
+	const LOOPING_EVENT : int = 2667962652
+	const POSTEVENT_ADPCM : int = 1599413621
+	const POSTEVENT_PCM : int = 3656178856
+	const POSTEVENT_VORBIS : int = 3466590525
+	const POSTEVENT_WEMOPUS : int = 3706333528
+	const POSTEVENT_STREAM : int = 1944558380
+	const POSTEVENT_STREAM_ZERO_LATENCY : int = 2804091782
+	const POSTEVENT_EVENT : int = 4267801788
+	const POST_RTPC_EVENT : int = 1124698950
+	const PLAY_SHORTMEDIARANDOM : int = 922123497
+	const PLAY_SHORTMEDIASEQUENCE : int = 1240505795
+	const PLAY_SHORTMEDIASTREAMEDRANDOM : int = 49360926
+	const PLAY_SHORTMEDIASTREAMEDSEQUENCE : int = 2034399872
+	const PLAY_SHORTMEDIASTREAMEDSWITCHED : int = 161236112
+	const PLAY_SHORTMEDIASWITCHED : int = 1885754027
+	const POST_SPATIAL_AUDIO_EVENT : int = 2787036724
+	const IN_MEMORY_EVENT : int = 1920463151
+	const STREAMING_EVENT : int = 1352062650
+	const POST_SUBTITLE_EVENT : int = 3212803131
+	const POST_TRIGGER : int = 662721902
+	const UNLOADEDEVENT : int = 2480771981
+	const PLAY_EXTERNALSOURCES_SWITCH : int = 3598390806
+	const PLAY_LOCALIZED_SWITCH : int = 1005487328
+	const PLAY_MANYSOUNDS_SWITCH : int = 3651745982
+	const PLAY_MULTINESTEDSWITCH : int = 406228296
+	const PLAY_RTPC_SWITCH : int = 3596783974
+	const PLAY_SIMPLE_SWITCH : int = 778608535
+	const PLAY_SIMPLE_SWITCH_2 : int = 3274030700
+	const PLAY_SIMPLE_SWITCH_WITHDEFAULT : int = 2545608445
+	const PLAY_SWITCH_STATE_CONTAINER : int = 2207365516
+	const POST_SETNESTEDSWITCHPLAYSWITCH_RELATED : int = 3409525425
+	const POST_SETSTATEPLAYSWITCH_RELATED : int = 4224046647
+	const POST_SETSTATEPLAYSWITCH_UNRELATED : int = 502003324
+	const POST_SETSTATEPLAYSWITCH_WITHANOTHER : int = 1075726419
+	const SET_NOTUSEDSWITCH : int = 3972962086
+
+class STATES:
+
+	class AKSTATE:
+		const GROUP : int = 1500336508
+	
+		class STATE:
+			const HIGH : int = 3550808449
+			const LOW : int = 545371365
+			const NONE : int = 748895195
+
+	class SWITCHSTATE:
+		const GROUP : int = 2363682352
+	
+		class STATE:
+			const NONE : int = 748895195
+			const ONE : int = 1064933119
+			const TWO : int = 678209053
+
+
+class SWITCHES:
+
+	class AKSWITCH:
+		const GROUP : int = 1642697889
+	
+		class SWITCH:
+			const DEFAULT : int = 782826392
+			const HIGHSWITCH : int = 1122046097
+			const LOWSWITCH : int = 4095098373
+
+	class FOOTSTEP_SWITCH:
+		const GROUP : int = 442453602
+	
+		class SWITCH:
+			const GRASS : int = 4248645337
+			const METAL : int = 2473969246
+			const WOOD : int = 2058049674
+
+	class NESTED_SWITCH:
+		const GROUP : int = 1320392471
+	
+		class SWITCH:
+			const HIGH : int = 3550808449
+			const LOW : int = 545371365
+
+	class NESTED_SWITCH_HIGH:
+		const GROUP : int = 2631215178
+	
+		class SWITCH:
+			const HIGH : int = 3550808449
+			const LOW : int = 545371365
+
+	class NESTED_SWITCH_LOW:
+		const GROUP : int = 879099244
+	
+		class SWITCH:
+			const HIGH : int = 3550808449
+			const LOW : int = 545371365
+
+	class MULTINESTED:
+		const GROUP : int = 999328865
+	
+		class SWITCH:
+			const SWITCH1 : int = 1590382670
+			const SWITCH2 : int = 1590382669
+			const SWITCH3 : int = 1590382668
+
+	class MULTINESTED_1:
+		const GROUP : int = 150087605
+	
+		class SWITCH:
+			const SWITCH_1_1 : int = 3392289125
+			const SWITCH_1_2 : int = 3392289126
+			const SWITCH_1_3 : int = 3392289127
+
+	class MULTINESTED_1_1:
+		const GROUP : int = 11020321
+	
+		class SWITCH:
+			const SWITCH_1_1_1 : int = 4022146769
+			const SWITCH_1_1_2 : int = 4022146770
+
+	class MULTINESTED_1_2:
+		const GROUP : int = 11020322
+	
+		class SWITCH:
+			const SWITCH_1_2_1 : int = 2948629382
+			const SWITCH_1_2_2 : int = 2948629381
+
+	class MULTINESTED_2:
+		const GROUP : int = 150087606
+	
+		class SWITCH:
+			const SWITCH_2_1 : int = 3392436186
+			const SWITCH_2_2 : int = 3392436185
+
+	class MULTINESTED_2_1:
+		const GROUP : int = 3232470230
+	
+		class SWITCH:
+			const SWITCH_2_1_1 : int = 2136438226
+			const SWITCH_2_1_2 : int = 2136438225
+
+	class EXTERNALSOURCES_SWITCH:
+		const GROUP : int = 990031609
+	
+		class SWITCH:
+			const SOURCE1 : int = 3284804491
+			const SOURCE2 : int = 3284804488
+
+	class LOCALIZED_SWITCH:
+		const GROUP : int = 3500953055
+	
+		class SWITCH:
+			const VOICE1 : int = 3313685170
+			const VOICE2 : int = 3313685169
+
+	class NOTUSED_SWITCH:
+		const GROUP : int = 968006914
+	
+		class SWITCH:
+			const ONE : int = 1064933119
+			const TWO : int = 678209053
+
+	class RTPC_SWITCH:
+		const GROUP : int = 4102035339
+	
+		class SWITCH:
+			const SWITCH1 : int = 1590382670
+			const SWITCH2 : int = 1590382669
+			const SWITCH3 : int = 1590382668
+
+	class SIMPLE_SWITCH:
+		const GROUP : int = 3319656242
+	
+		class SWITCH:
+			const SWITCH1 : int = 1590382670
+			const SWITCH2 : int = 1590382669
+
+	class SWITCHSTATE:
+		const GROUP : int = 2363682352
+	
+		class SWITCH:
+			const ONE : int = 1064933119
+			const TWO : int = 678209053
+
+	class SWITCHSTATE_SWITCH:
+		const GROUP : int = 3040072467
+	
+		class SWITCH:
+			const STATE : int = 1382476432
+			const SWITCH : int = 3202316517
+
+
+class GAME_PARAMETERS:
+
+	const GLOBALPARAMETERVOLUME : int = 1609229239
+	const RTPC : int = 2392629736
+	const RTPC_SWITCHCONTROLER : int = 3591005599
+	const LEVELSEQUENCER : int = 1109917076
+
+class TRIGGERS:
+
+	const TRIGGER : int = 3571255931
+
+class BANKS:
+
+	const USERDEFINEDBANK : int = 330859961
+
+class AUX_BUSSES:
+
+	const LOWER_PITCH_BUS : int = 1023652152
+	const ROOM_BUS : int = 3923769827
+
+class ACOUSTIC_TEXTURES:
+
+	const ACOUSTIC_BANNER : int = 4168643977
+	const ANECHOIC : int = 1873957695
+	const BRICK : int = 504532776
+	const CARPET : int = 2412606308
+	const CONCRETE : int = 841620460
+	const CORK_TILES : int = 3195498748
+	const CURTAINS : int = 2928161104
+	const DRYWALL : int = 3670307564
+	const FABRIC : int = 1970351858
+	const MOUNTAIN : int = 513139656
+	const TILE : int = 2637588553
+	const WOOD : int = 2058049674
+	const WOOD_BRIGHT : int = 4262522749
+	const WOOD_DEEP : int = 1755085759

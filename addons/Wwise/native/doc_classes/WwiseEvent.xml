@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="WwiseEvent" inherits="WwiseBaseType" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+	</brief_description>
+	<description>
+	This type can be used to post Events to the sound engine.
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="execute_action">
+			<return type="void" />
+			<param index="0" name="game_object" type="Node" />
+			<param index="1" name="action_on_event_type" type="int" enum="AkUtils.AkActionOnEventType" />
+			<param index="2" name="transition_duration" type="int" />
+			<param index="3" name="fade_curve" type="int" enum="AkUtils.AkCurveInterpolation" />
+			<description>
+			Executes various actions on this Event associated with a GameObject.
+			</description>
+		</method>
+		<method name="post">
+			<return type="int" />
+			<param index="0" name="game_object" type="Node" />
+			<description>
+			Posts this Event on a GameObject.
+			</description>
+		</method>
+		<method name="post_callback">
+			<return type="int" />
+			<param index="0" name="game_object" type="Node" />
+			<param index="1" name="flags" type="int" enum="AkUtils.AkCallbackType" />
+			<param index="2" name="cookie" type="Callable" />
+			<description>
+			Posts this Event on a GameObject (with callback).
+			</description>
+		</method>
+		<method name="post_midi">
+			<return type="void" />
+			<param index="0" name="game_object" type="Node" />
+			<param index="1" name="midi_posts" type="AkMidiPost[]" />
+			<description>
+			Posts MIDI Events on this Event associated with a GameObject.
+			</description>
+		</method>
+		<method name="stop">
+			<return type="void" />
+			<param index="0" name="game_object" type="Node" />
+			<param index="1" name="transition_duration" type="int" default="0" />
+			<param index="2" name="fade_curve" type="int" enum="AkUtils.AkCurveInterpolation" default="4" />
+			<description>
+			Stops this Event associated with a GameObject
+			</description>
+		</method>
+		<method name="stop_midi">
+			<return type="void" />
+			<param index="0" name="game_object" type="Node" />
+			<description>
+			Stops MIDI Events on this Event associated with a GameObject.
+			</description>
+		</method>
+	</methods>
+	<members>
+		<member name="bank_id" type="int" setter="set_bank_id" getter="get_bank_id" default="0">
+		</member>
+		<member name="is_auto_bank_loaded" type="bool" setter="set_is_auto_bank_loaded" getter="get_is_auto_bank_loaded" default="false">
+		</member>
+		<member name="is_in_user_defined_sound_bank" type="bool" setter="set_is_in_user_defined_sound_bank" getter="get_is_in_user_defined_sound_bank" default="false">
+		</member>
+	</members>
+</class>

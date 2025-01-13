@@ -1,20 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="Debug|Win32">
-      <Configuration>Debug</Configuration>
+    <ProjectConfiguration Include="editor|Win32">
+      <Configuration>editor</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|Win32">
-      <Configuration>Release</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Debug|x64">
-      <Configuration>Debug</Configuration>
+    <ProjectConfiguration Include="editor|x64">
+      <Configuration>editor</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|x64">
-      <Configuration>Release</Configuration>
+    <ProjectConfiguration Include="template_debug|Win32">
+      <Configuration>template_debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="template_release|Win32">
+      <Configuration>template_release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="template_debug|x64">
+      <Configuration>template_debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="template_release|x64">
+      <Configuration>template_release</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
@@ -25,26 +33,38 @@
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='template_debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='editor|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='template_release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='editor|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='template_release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
@@ -56,32 +76,44 @@
   </ImportGroup>
   <ImportGroup Label="Shared">
   </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='template_debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='editor|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='template_release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='editor|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
     <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;</LibraryPath>
-    <TargetName>libwwise.windows.template_debug</TargetName>
+    <TargetName>libwwise.windows.template_debug.profile</TargetName>
     <OutDir>$(SolutionDir)..\lib\win64\debug\</OutDir>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='editor|x64'">
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
     <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;</LibraryPath>
-    <TargetName>libwwise.windows.template_release</TargetName>
+    <TargetName>libwwise.windows.editor.profile</TargetName>
+    <OutDir>$(SolutionDir)..\lib\win64\editor\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;</LibraryPath>
+    <TargetName>libwwise.windows.template_release.release</TargetName>
     <OutDir>$(SolutionDir)..\lib\win64\release\</OutDir>
   </PropertyGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='template_debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
@@ -92,30 +124,67 @@
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='editor|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>TYPED_METHOD_BIND;_WINDLL;_WIN32;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <UndefinePreprocessorDefinitions>AK_OPTIMIZED</UndefinePreprocessorDefinitions>
-      <AdditionalIncludeDirectories>%WWISESDK%\samples\SoundEngine\Common;%WWISESDK%\samples\SoundEngine\Win32;%WWISESDK%\include;..\godot-cpp;..\godot-cpp\include;..\godot-cpp\gen\include\godot_cpp;..\godot-cpp\include\godot_cpp\core;..\godot-cpp\include\godot_cpp;..\godot-cpp\include\godot_cpp\variant;..\godot-cpp\include\godot_cpp\templates;..\godot-cpp\include\godot_cpp\classes;..\godot-cpp\gdextension;..\godot-cpp\gen;..\godot-cpp\gen\include;..\godot-cpp\gen\include\godot_cpp\classes;..\godot-cpp\gen\include\godot_cpp\variant;..\godot-cpp\gen\include\godot_cpp\core;$(SolutionPath)\..\..\src\editor;$(SolutionPath)\..\..\src;$(SolutionPath)\..\..\src\common;$(SolutionPath)\..\..\src\platform;$(SolutionPath)\..\..\src\scene</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp17</LanguageStandard>
-      <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>%WWISESDK%\x64_vc160\Debug(StaticCRT)\lib;..\godot-cpp\bin</AdditionalLibraryDirectories>
-      <AdditionalDependencies>msacm32.lib;ws2_32.lib;AkAutobahn.lib;AkMusicEngine.lib;AkSoundEngine.lib;AkMemoryMgr.lib;AkStreamMgr.lib;AkVorbisDecoder.lib;AkMeterFX.lib;AkOpusDecoder.lib;AkCompressorFX.lib;AkDelayFX.lib;AkExpanderFX.lib;AkFlangerFX.lib;AkGainFX.lib;AkGuitarDistortionFX.lib;AkHarmonizerFX.lib;AkMatrixReverbFX.lib;AkParametricEQFX.lib;AKPeakLimiterFX.lib;AkPitchShifterFX.lib;AkRecorderFX.lib;AkStereoDelayFX.lib;AkToneSource.lib;AkTimeStretchFX.lib;AkTremoloFX.lib;AkSineSource.lib;AkRoomVerbFX.lib;AkSilenceSource.lib;AkAudioInputSource.lib;AkSynthOneSource.lib;AkSpatialAudio.lib;Ak3DAudioBedMixerFX.lib;CommunicationCentral.lib;libgodot-cpp.windows.template_debug.dev.x86_64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <PreprocessorDefinitions>TYPED_METHOD_BIND;AK_PROFILE;_WINDLL;_WIN32;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <UndefinePreprocessorDefinitions>AK_OPTIMIZED</UndefinePreprocessorDefinitions>
+      <AdditionalIncludeDirectories>%WWISESDK%\samples\SoundEngine\Common;%WWISESDK%\samples\SoundEngine\Win32;%WWISESDK%\include;..\godot-cpp;..\godot-cpp\include;..\godot-cpp\gen\include\godot_cpp;..\godot-cpp\include\godot_cpp\core;..\godot-cpp\include\godot_cpp;..\godot-cpp\include\godot_cpp\variant;..\godot-cpp\include\godot_cpp\templates;..\godot-cpp\include\godot_cpp\classes;..\godot-cpp\gdextension;..\godot-cpp\gen;..\godot-cpp\gen\include;..\godot-cpp\gen\include\godot_cpp\classes;..\godot-cpp\gen\include\godot_cpp\variant;..\godot-cpp\gen\include\godot_cpp\core;$(SolutionPath)\..\..\src;$(SolutionPath)\..\..\src\core;$(SolutionPath)\..\..\src\core\types;$(SolutionPath)\..\..\src\editor;$(SolutionPath)\..\..\src\editor\plugins;$(SolutionPath)\..\..\src\editor\properties;$(SolutionPath)\..\..\src\platform;$(SolutionPath)\..\..\src\scene</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <AdditionalLibraryDirectories>%WWISESDK%\x64_vc170\Profile(StaticCRT)\lib;..\godot-cpp\bin</AdditionalLibraryDirectories>
+      <AdditionalDependencies>msacm32.lib;ws2_32.lib;AkAutobahn.lib;AkMusicEngine.lib;AkSoundEngine.lib;AkMemoryMgr.lib;AkStreamMgr.lib;AkVorbisDecoder.lib;AkMeterFX.lib;AkOpusDecoder.lib;AkCompressorFX.lib;AkDelayFX.lib;AkExpanderFX.lib;AkFlangerFX.lib;AkGainFX.lib;AkGuitarDistortionFX.lib;AkHarmonizerFX.lib;AkMatrixReverbFX.lib;AkParametricEQFX.lib;AKPeakLimiterFX.lib;AkPitchShifterFX.lib;AkRecorderFX.lib;AkStereoDelayFX.lib;AkToneSource.lib;AkTimeStretchFX.lib;AkTremoloFX.lib;AkSineSource.lib;AkRoomVerbFX.lib;AkSilenceSource.lib;AkAudioInputSource.lib;AkSynthOneSource.lib;AkSpatialAudio.lib;Ak3DAudioBedMixerFX.lib;CommunicationCentral.lib;libgodot-cpp.windows.template_debug.x86_64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ProjectReference>
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
     </ProjectReference>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='editor|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <PreprocessorDefinitions>TOOLS_ENABLED;AK_PROFILE;WWISE_DB_STANDARD_TYPES;TESTING_WWISE_PROJECT_DATABASE;TYPED_METHOD_BIND;_WINDLL;_WIN32;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <UndefinePreprocessorDefinitions>AK_OPTIMIZED</UndefinePreprocessorDefinitions>
+      <AdditionalIncludeDirectories>%WWISESDK%\samples\WwiseProjectDatabase;%WWISESDK%\samples\WwiseProjectDatabase\WwiseProjectDatabase\;%WWISESDK%\samples\3rdParty\subprojects\rapidjson\include;%WWISESDK%\samples\SoundEngine\Common;%WWISESDK%\samples\SoundEngine\Win32;%WWISESDK%\include;..\godot-cpp;..\godot-cpp\include;..\godot-cpp\gen\include\godot_cpp;..\godot-cpp\include\godot_cpp\core;..\godot-cpp\include\godot_cpp;..\godot-cpp\include\godot_cpp\variant;..\godot-cpp\include\godot_cpp\templates;..\godot-cpp\include\godot_cpp\classes;..\godot-cpp\gdextension;..\godot-cpp\gen;..\godot-cpp\gen\include;..\godot-cpp\gen\include\godot_cpp\classes;..\godot-cpp\gen\include\godot_cpp\variant;..\godot-cpp\gen\include\godot_cpp\core;$(SolutionPath)\..\..\src;$(SolutionPath)\..\..\src\core;$(SolutionPath)\..\..\src\core\types;$(SolutionPath)\..\..\src\editor;$(SolutionPath)\..\..\src\editor\plugins;$(SolutionPath)\..\..\src\editor\properties;$(SolutionPath)\..\..\src\platform;$(SolutionPath)\..\..\src\scene</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <AdditionalLibraryDirectories>%WWISESDK%\x64_vc170\Profile(StaticCRT)\lib;..\godot-cpp\bin</AdditionalLibraryDirectories>
+      <AdditionalDependencies>msacm32.lib;ws2_32.lib;AkAutobahn.lib;AkMusicEngine.lib;AkSoundEngine.lib;AkMemoryMgr.lib;AkStreamMgr.lib;AkVorbisDecoder.lib;AkMeterFX.lib;AkOpusDecoder.lib;AkCompressorFX.lib;AkDelayFX.lib;AkExpanderFX.lib;AkFlangerFX.lib;AkGainFX.lib;AkGuitarDistortionFX.lib;AkHarmonizerFX.lib;AkMatrixReverbFX.lib;AkParametricEQFX.lib;AKPeakLimiterFX.lib;AkPitchShifterFX.lib;AkRecorderFX.lib;AkStereoDelayFX.lib;AkToneSource.lib;AkTimeStretchFX.lib;AkTremoloFX.lib;AkSineSource.lib;AkRoomVerbFX.lib;AkSilenceSource.lib;AkAudioInputSource.lib;AkSynthOneSource.lib;AkSpatialAudio.lib;Ak3DAudioBedMixerFX.lib;CommunicationCentral.lib;libgodot-cpp.windows.editor.x86_64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='template_release|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
@@ -130,7 +199,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
@@ -138,8 +207,8 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>AK_OPTIMIZED;TYPED_METHOD_BIND;NOMINMAX;_WINDLL;_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionPath)\..\..\src;$(SolutionPath)\..\..\src\editor;%WWISESDK%\samples\SoundEngine\Common;%WWISESDK%\samples\SoundEngine\Win32;%WWISESDK%\include;..\godot-cpp\include\;..\godot-cpp\gen\include\;..\godot-cpp\gdextension\</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>AK_OPTIMIZED;AK_RELEASE;TYPED_METHOD_BIND;NOMINMAX;_WINDLL;_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>%WWISESDK%\samples\SoundEngine\Common;%WWISESDK%\samples\SoundEngine\Win32;%WWISESDK%\include;..\godot-cpp;..\godot-cpp\include;..\godot-cpp\gen\include\godot_cpp;..\godot-cpp\include\godot_cpp\core;..\godot-cpp\include\godot_cpp;..\godot-cpp\include\godot_cpp\variant;..\godot-cpp\include\godot_cpp\templates;..\godot-cpp\include\godot_cpp\classes;..\godot-cpp\gdextension;..\godot-cpp\gen;..\godot-cpp\gen\include;..\godot-cpp\gen\include\godot_cpp\classes;..\godot-cpp\gen\include\godot_cpp\variant;..\godot-cpp\gen\include\godot_cpp\core;$(SolutionPath)\..\..\src;$(SolutionPath)\..\..\src\core;$(SolutionPath)\..\..\src\core\types;$(SolutionPath)\..\..\src\editor;$(SolutionPath)\..\..\src\editor\plugins;$(SolutionPath)\..\..\src\editor\properties;$(SolutionPath)\..\..\src\platform;$(SolutionPath)\..\..\src\scene</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -148,7 +217,7 @@
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>%WWISESDK%\x64_vc160\Release(StaticCRT)\lib;..\godot-cpp\bin</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%WWISESDK%\x64_vc170\Release(StaticCRT)\lib;..\godot-cpp\bin</AdditionalLibraryDirectories>
       <AdditionalDependencies>AkAutobahn.lib;AkMusicEngine.lib;AkSoundEngine.lib;AkMemoryMgr.lib;AkStreamMgr.lib;AkVorbisDecoder.lib;AkMeterFX.lib;AkOpusDecoder.lib;AkCompressorFX.lib;AkDelayFX.lib;AkExpanderFX.lib;AkFlangerFX.lib;AkGainFX.lib;AkGuitarDistortionFX.lib;AkHarmonizerFX.lib;AkMatrixReverbFX.lib;AkParametricEQFX.lib;AKPeakLimiterFX.lib;AkPitchShifterFX.lib;AkRecorderFX.lib;AkStereoDelayFX.lib;AkToneSource.lib;AkTimeStretchFX.lib;AkTremoloFX.lib;AkSineSource.lib;AkRoomVerbFX.lib;AkSilenceSource.lib;AkAudioInputSource.lib;AkSynthOneSource.lib;AkSpatialAudio.lib;Ak3DAudioBedMixerFX.lib;libgodot-cpp.windows.template_release.x86_64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ProjectReference>
@@ -156,72 +225,679 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="$(WWISESDK)\samples\SoundEngine\Common\AkFilePackage.cpp" />
-    <ClCompile Include="$(WWISESDK)\samples\SoundEngine\Common\AkFilePackageLUT.cpp" />
-    <ClCompile Include="$(WWISESDK)\samples\SoundEngine\Common\AkMultipleFileLocation.cpp" />
-    <ClCompile Include="..\src\core\ak_utils.cpp" />
-    <ClCompile Include="..\src\core\waapi_gdextension.cpp" />
-    <ClCompile Include="..\src\core\wwise_cookie.cpp" />
-    <ClCompile Include="..\src\core\wwise_gdextension.cpp" />
-    <ClCompile Include="..\src\core\wwise_io_hook.cpp" />
-    <ClCompile Include="..\src\core\wwise_settings.cpp" />
-    <ClCompile Include="..\src\editor\ak_android_export_plugin.cpp" />
-    <ClCompile Include="..\src\editor\ak_editor_export_plugin.cpp" />
-    <ClCompile Include="..\src\editor\ak_editor_plugin.cpp" />
-    <ClCompile Include="..\src\editor\ak_editor_utils.cpp" />
-    <ClCompile Include="..\src\editor\ak_event_3d_gizmo_plugin.cpp" />
-    <ClCompile Include="..\src\editor\ak_inspector_plugin.cpp" />
-    <ClCompile Include="..\src\editor\ak_waapi_picker.cpp" />
-    <ClCompile Include="..\src\platform\android\jni_support.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    <ClCompile Include="$(WWISESDK)\samples\SoundEngine\Common\AkFilePackage.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\src\scene\ak_bank.cpp" />
-    <ClCompile Include="..\src\scene\ak_early_reflections.cpp" />
-    <ClCompile Include="..\src\scene\ak_environment.cpp" />
-    <ClCompile Include="..\src\scene\ak_environment_data.cpp" />
-    <ClCompile Include="..\src\scene\ak_event.cpp" />
-    <ClCompile Include="..\src\scene\ak_geometry.cpp" />
-    <ClCompile Include="..\src\scene\ak_listener.cpp" />
-    <ClCompile Include="..\src\scene\ak_portal.cpp" />
-    <ClCompile Include="..\src\scene\ak_room.cpp" />
-    <ClCompile Include="..\src\scene\ak_state.cpp" />
-    <ClCompile Include="..\src\scene\ak_switch.cpp" />
-    <ClCompile Include="$(WWISESDK)\samples\SoundEngine\Common\AkGeneratedSoundBanksResolver.cpp" />
+    <ClCompile Include="$(WWISESDK)\samples\SoundEngine\Common\AkFilePackageLUT.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="$(WWISESDK)\samples\SoundEngine\Common\AkMultipleFileLocation.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\core\wwise_platform_info.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\core\wwise_plugin_info.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\core\ak_utils.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\core\types\wwise_aux_bus.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\core\types\wwise_bank.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\core\types\wwise_base_type.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\core\types\wwise_event.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\core\types\wwise_group_type.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\core\types\wwise_rtpc.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\core\types\wwise_state.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\core\types\wwise_switch.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\core\types\wwise_trigger.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\core\waapi_gdextension.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\core\wwise_gdextension.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\core\wwise_io_hook.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\core\wwise_settings.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\ak_editor_utils.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\ak_wwise_inspector_picker.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\ak_wwise_tree.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\ak_wwise_tree_data_source.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\ak_wwise_tree_item.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\plugins\ak_android_export_plugin.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\plugins\ak_editor_export_plugin.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\plugins\ak_editor_plugin.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\plugins\ak_event_3d_gizmo_plugin.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\plugins\ak_json_builder.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\plugins\ak_soundbank_directory_watcher_plugin.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\plugins\ak_wwise_editor_inspector_plugin.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\plugins\wwise_browser.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\plugins\wwise_project_info.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\properties\ak_wwise_editor_property.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\properties\ak_wwise_editor_property_acoustic_texture.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\properties\ak_wwise_editor_property_aux_bus.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\properties\ak_wwise_editor_property_bank.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\properties\ak_wwise_editor_property_event.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\properties\ak_wwise_editor_property_rtpc.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\properties\ak_wwise_editor_property_state.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\properties\ak_wwise_editor_property_switch.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\properties\ak_wwise_editor_property_trigger.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\wwise_base_information.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\wwise_project_data.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\wwise_project_database.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\wwise_tree_object.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\editor\wwise_tree_object_event.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\platform\android\jni_support.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\scene\ak_bank.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\scene\ak_early_reflections.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\scene\ak_environment.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\scene\ak_environment_data.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\scene\ak_event.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\scene\ak_geometry.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\scene\ak_listener.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\scene\ak_portal.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\scene\ak_room.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\scene\ak_state.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\scene\ak_switch.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="$(WWISESDK)\samples\SoundEngine\Common\AkGeneratedSoundBanksResolver.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\src\wwise_gdextension_main.cpp" />
-    <ClInclude Include="$(WWISESDK)\samples\SoundEngine\Win32\stdafx.cpp" />
-    <ClInclude Include="..\src\core\ak_utils.h" />
-    <ClInclude Include="..\src\core\utils.h" />
-    <ClInclude Include="..\src\core\waapi_gdextension.h" />
-    <ClInclude Include="..\src\core\wwise_cookie.h" />
-    <ClInclude Include="..\src\core\wwise_gdextension.h" />
-    <ClInclude Include="..\src\core\wwise_io_hook.h" />
-    <ClInclude Include="..\src\core\wwise_settings.h" />
-    <ClInclude Include="..\src\editor\ak_android_export_plugin.h" />
-    <ClInclude Include="..\src\editor\ak_editor_export_plugin.h" />
-    <ClInclude Include="..\src\editor\ak_editor_plugin.h" />
-    <ClInclude Include="..\src\editor\ak_editor_utils.h" />
-    <ClInclude Include="..\src\editor\ak_event_3d_gizmo_plugin.h" />
-    <ClInclude Include="..\src\editor\ak_inspector_plugin.h" />
-    <ClInclude Include="..\src\editor\ak_waapi_picker.h" />
-    <ClInclude Include="..\src\platform\android\jni_support.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    <ClInclude Include="$(WWISESDK)\samples\SoundEngine\Win32\stdafx.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="..\src\scene\ak_bank.h" />
-    <ClInclude Include="..\src\scene\ak_early_reflections.h" />
-    <ClInclude Include="..\src\scene\ak_environment.h" />
-    <ClInclude Include="..\src\scene\ak_environment_data.h" />
-    <ClInclude Include="..\src\scene\ak_event.h" />
-    <ClInclude Include="..\src\scene\ak_geometry.h" />
-    <ClInclude Include="..\src\scene\ak_listener.h" />
-    <ClInclude Include="..\src\scene\ak_portal.h" />
-    <ClInclude Include="..\src\scene\ak_room.h" />
-    <ClInclude Include="..\src\scene\ak_state.h" />
-    <ClInclude Include="..\src\scene\ak_switch.h" />
-    <ClInclude Include="$(WWISESDK)\samples\SoundEngine\Common\AkGeneratedSoundBanksResolver.h" />
-    <ClInclude Include="$(WWISESDK)\include\AK\SoundEngine\Common\AkStreamMgrModule.h" />
+    <ClInclude Include="..\src\core\ak_game_obj_helper.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\core\ak_midi_post.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\core\wwise_platform_info.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\core\wwise_plugin_info.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\core\ak_utils.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\core\types\wwise_acoustic_texture.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\core\types\wwise_aux_bus.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\core\types\wwise_bank.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\core\types\wwise_base_type.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\core\types\wwise_event.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\core\types\wwise_group_type.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\core\types\wwise_rtpc.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\core\types\wwise_state.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\core\types\wwise_state_group.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\core\types\wwise_switch.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\core\types\wwise_switch_group.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\core\types\wwise_trigger.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\core\utils.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\core\waapi_gdextension.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\core\wwise_bank_manager.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\core\wwise_gdextension.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\core\wwise_io_hook.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\core\wwise_object_type.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\core\wwise_settings.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\ak_editor_settings.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\ak_editor_utils.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\ak_wwise_inspector_picker.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\ak_wwise_tree.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\ak_wwise_tree_data_source.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\ak_wwise_tree_item.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\plugins\ak_android_export_plugin.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\plugins\ak_editor_export_plugin.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\plugins\ak_editor_plugin.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\plugins\ak_event_3d_gizmo_plugin.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\plugins\ak_json_builder.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\plugins\ak_soundbank_directory_watcher_plugin.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\plugins\ak_wwise_editor_inspector_plugin.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\plugins\wwise_browser.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\plugins\wwise_project_info.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\properties\ak_wwise_editor_property.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\properties\ak_wwise_editor_property_acoustic_texture.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\properties\ak_wwise_editor_property_aux_bus.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\properties\ak_wwise_editor_property_bank.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\properties\ak_wwise_editor_property_event.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\properties\ak_wwise_editor_property_rtpc.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\properties\ak_wwise_editor_property_state.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\properties\ak_wwise_editor_property_switch.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\properties\ak_wwise_editor_property_trigger.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\short_id_generator.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\wwise_base_information.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\wwise_project_data.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\wwise_project_database.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\wwise_project_database_includes.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\wwise_tree_object.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\editor\wwise_tree_object_event.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\platform\android\jni_support.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\scene\ak_bank.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\scene\ak_early_reflections.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\scene\ak_environment.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\scene\ak_environment_data.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\scene\ak_event.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\scene\ak_game_obj.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\scene\ak_game_obj_2d.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\scene\ak_game_obj_3d.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\scene\ak_geometry.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\scene\ak_listener.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\scene\ak_portal.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\scene\ak_room.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\scene\ak_state.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\scene\ak_switch.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="$(WWISESDK)\samples\SoundEngine\Common\AkGeneratedSoundBanksResolver.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="$(WWISESDK)\include\AK\SoundEngine\Common\AkStreamMgrModule.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="$(WWISESDK)\samples\SoundEngine\Win32\stdafx.h" />
+    <ClInclude Include="$(WWISESDK)\samples\SoundEngine\Win32\stdafx.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
