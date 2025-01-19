@@ -4,30 +4,33 @@
 
 Welcome! This repository provides an integration of [Audiokinetic's Wwise audio middleware](https://www.audiokinetic.com/products/wwise/) into [Godot Engine](https://godotengine.org) 4.3. At the moment, Wwise version 2024.1 is supported. Older versions can be downloaded in the releases section of the repository.
 
+<img src="https://github.com/user-attachments/assets/e0a3dd1c-36de-4a9a-ad14-c6fe18303f90" width="720">
+
 ## Features
 
 * [GDExtension](https://docs.godotengine.org/en/stable/tutorials/scripting/gdextension/what_is_gdextension.html)-based Wwise wrapper library for Windows, macOS, Linux, Android and iOS.
-* Multi-platform build with SCons for Wwise and Wwise Authoring API wrappers. Visual Studio 2022 solution provided for Windows development.
-* Wwise profiler connection available in GDExtension debug builds.
+* Multi-platform builds with SCons (Windows, macOS, Linux, iOS) and Gradle/CMake (Android). A Visual Studio 2022 solution is provided for Windows development.
+* Wwise profiler connection available in GDExtension debug and profile builds.
 * Stream manager uses the default blocking I/O implementation and it can be extended to use custom I/O devices.
-* Custom Godot nodes: AkEvent3D, AkEvent2D, AkBank, AkListener3D, AkListener2D, AkState, AkSwitch, AkEnvironment, AkGeometry, AkRoom, AkPortal, AkEarlyReflections.
-* Event callbacks exposed as Signals in AkEvent nodes.
-* WAAPI picker for querying Wwise projects, generating soundbanks from Godot's editor.
-* C++ to GDScript Wwise IDs converter tool embedded in WAAPI Picker.
-* Configurable per-platform Wwise settings in Godot editor.
-* Support for spatial audio API.
-* Compatibility with Wwise plug-ins.
+* Custom Godot Nodes: AkEvent3D, AkEvent2D, AkBank, AkListener3D, AkListener2D, AkState, AkSwitch, AkEnvironment, AkGeometry, AkRoom, AkPortal, AkEarlyReflections.
+* Wwise Types: WwiseAcousticTexture, WwiseAuxBus, WwiseBank, WwiseEvent, WwiseRTPC, WwiseState, WwiseSwitch, WwiseTrigger.
+* Support for Auto-Defined SoundBanks.
+* Event Callbacks exposed as Signals in AkEvent Nodes.
+* Wwise Browser: Query the integrated Wwise project and generate SoundBanks directly in the editor.
+* A Wwise IDs generator tool is embedded in the Wwise Browser.
+* Per-platform Wwise configurations in the Godot Project Settings.
+* In-engine documentation: quick access to reference materials and code snippets in the Godot Editor
+* Plugin Support: Plugin detection and export across all platforms, including custom plugin support.
 
+## Getting Started
 
-## Getting started
+If you're a game developer who wants to integrate Wwise into your Godot project, go to the [Releases](https://github.com/alessandrofama/wwise-godot-integration/releases) page to download the integration and check out the [Getting Started](https://github.com/alessandrofama/wwise-godot-integration/wiki/Getting-Started-(24.1)) guide.
 
-If you are a game developer that would like to integrate Wwise into your Godot project, go to the [releases](https://github.com/alessandrofama/wwise-godot-integration/releases) page to download the addon and read the [getting started](https://github.com/alessandrofama/wwise-godot-integration/wiki/Getting-Started-(4.0)) guide.
-
-If you would like to modify the code of the GDExtensions or build them yourself, go to the [Building tutorial](https://github.com/alessandrofama/wwise-godot-integration/wiki/Building-the-GDExtension-Library) for build instructions.
+If you would like to modify the GDExtension code or build it yourself, refer to the [Building the GDExtension Library tutorial](https://github.com/alessandrofama/wwise-godot-integration/wiki/Building-the-GDExtension-Library-(24.1)) for detailed build instructions.
 
 ## Documentation
 
-The docs for the GDExtensions interfaces, custom nodes and addons can be accessed through the [wiki](https://github.com/alessandrofama/wwise-godot-integration/wiki).
+Documentation for the GDExtension interfaces is available on the [wiki](https://github.com/alessandrofama/wwise-godot-integration/wiki).
 
 ## Known issues
 
