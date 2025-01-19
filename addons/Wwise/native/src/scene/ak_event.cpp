@@ -16,7 +16,6 @@ void AkEvent2D::_bind_methods()
 	ClassDB::bind_method(D_METHOD("get_trigger_on"), &AkEvent2D::get_trigger_on);
 	ClassDB::bind_method(D_METHOD("set_stop_on", "stop_on"), &AkEvent2D::set_stop_on);
 	ClassDB::bind_method(D_METHOD("get_stop_on"), &AkEvent2D::get_stop_on);
-	ClassDB::bind_method(D_METHOD("set_playing_id", "playing_id"), &AkEvent2D::set_playing_id);
 	ClassDB::bind_method(D_METHOD("get_playing_id"), &AkEvent2D::get_playing_id);
 
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "event", PROPERTY_HINT_RESOURCE_TYPE, "WwiseEvent"), "set_event",
@@ -30,8 +29,6 @@ void AkEvent2D::_bind_methods()
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "interpolation_mode", PROPERTY_HINT_ENUM,
 						 "LOG3,SINE,LOG1,INVSCURVE,LINEAR,SCURVE,EXP1,SINERECIP,EXP3,LASTFADECURVE,CONSTANT"),
 			"set_interpolation_mode", "get_interpolation_mode");
-	ADD_PROPERTY(PropertyInfo(Variant::INT, "playing_id", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_NONE),
-			"set_playing_id", "get_playing_id");
 
 	ADD_ALL_AK_EVENT_SIGNALS;
 }
@@ -99,11 +96,11 @@ void AkEvent2D::post_event()
 
 	if (callback_type)
 	{
-		playing_id = event->post_callback(this, (AkUtils::AkCallbackType)callback_type, cookie);
+		event->post_callback(this, (AkUtils::AkCallbackType)callback_type, cookie);
 	}
 	else
 	{
-		playing_id = event->post(this);
+		event->post(this);
 	}
 }
 
@@ -151,9 +148,15 @@ void AkEvent2D::set_stop_on(AkUtils::GameEvent stop_on) { this->stop_on = stop_o
 
 AkUtils::GameEvent AkEvent2D::get_stop_on() const { return stop_on; }
 
-void AkEvent2D::set_playing_id(AkPlayingID p_playing_id) { playing_id = p_playing_id; }
+AkPlayingID AkEvent2D::get_playing_id() const
+{
+	if (event.is_null())
+	{
+		return AK_INVALID_PLAYING_ID;
+	}
 
-AkPlayingID AkEvent2D::get_playing_id() const { return playing_id; }
+	return event->get_playing_id();
+}
 
 void AkEvent3D::_bind_methods()
 {
@@ -176,7 +179,6 @@ void AkEvent3D::_bind_methods()
 	ClassDB::bind_method(D_METHOD("get_is_environment_aware"), &AkEvent3D::get_is_environment_aware);
 	ClassDB::bind_method(D_METHOD("set_room_id", "room_id"), &AkEvent3D::set_room_id);
 	ClassDB::bind_method(D_METHOD("get_room_id"), &AkEvent3D::get_room_id);
-	ClassDB::bind_method(D_METHOD("set_playing_id", "playing_id"), &AkEvent3D::set_playing_id);
 	ClassDB::bind_method(D_METHOD("get_playing_id"), &AkEvent3D::get_playing_id);
 
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "event", PROPERTY_HINT_RESOURCE_TYPE, "WwiseEvent"), "set_event",
@@ -194,8 +196,6 @@ void AkEvent3D::_bind_methods()
 			"get_is_environment_aware");
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "room_id", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_NONE), "set_room_id",
 			"get_room_id");
-	ADD_PROPERTY(PropertyInfo(Variant::INT, "playing_id", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_NONE),
-			"set_playing_id", "get_playing_id");
 
 	ADD_ALL_AK_EVENT_SIGNALS;
 }
@@ -293,11 +293,11 @@ void AkEvent3D::post_event()
 
 	if (callback_type)
 	{
-		playing_id = event->post_callback(this, (AkUtils::AkCallbackType)callback_type, cookie);
+		event->post_callback(this, (AkUtils::AkCallbackType)callback_type, cookie);
 	}
 	else
 	{
-		playing_id = event->post(this);
+		event->post(this);
 	}
 }
 
@@ -360,6 +360,12 @@ void AkEvent3D::set_room_id(uint64_t room_id) { this->room_id = room_id; }
 
 uint64_t AkEvent3D::get_room_id() const { return room_id; }
 
-void AkEvent3D::set_playing_id(AkPlayingID p_playing_id) { playing_id = p_playing_id; }
+AkPlayingID AkEvent3D::get_playing_id() const
+{
+	if (event.is_null())
+	{
+		return AK_INVALID_PLAYING_ID;
+	}
 
-AkPlayingID AkEvent3D::get_playing_id() const { return playing_id; }
+	return event->get_playing_id();
+}

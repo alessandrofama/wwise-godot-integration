@@ -24,7 +24,7 @@ private:
 	bool is_in_user_defined_sound_bank{};
 	uint32_t bank_id{ AK_INVALID_UNIQUE_ID };
 	bool is_auto_bank_loaded{};
-	uint32_t playing_id;
+	uint32_t playing_id{ AK_INVALID_PLAYING_ID };
 
 	void _on_post_resource_init();
 	void load_auto_bank();
@@ -53,6 +53,9 @@ public:
 
 	void set_is_auto_bank_loaded(bool p_is_auto_bank_loaded);
 	bool get_is_auto_bank_loaded() const;
+
+	void set_playing_id(AkPlayingID p_playing_id);
+	AkPlayingID get_playing_id() const;
 
 #ifdef TOOLS_ENABLED
 	bool update_is_user_defined_soundbank()
