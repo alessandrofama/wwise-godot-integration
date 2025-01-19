@@ -59,13 +59,13 @@ void AkWwiseInspectorPicker::open(WwiseObjectType p_wwise_object_type, Point2i p
 	if (saved_size != Rect2())
 	{
 		set_min_size(min_size);
-		popup_on_parent(saved_size);
+		popup(saved_size);
 	}
 	else
 	{
 		Rect2i rect = Rect2i(Point2i(p_pos.x - min_size.x, p_pos.y), min_size);
 		set_min_size(min_size);
-		popup_on_parent(rect);
+		popup(rect);
 	}
 
 	search_text->set_placeholder("Search...");
