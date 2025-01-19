@@ -13,6 +13,9 @@ void WwiseEvent::_bind_methods()
 			D_METHOD("set_is_auto_bank_loaded", "is_auto_bank_loaded"), &WwiseEvent::set_is_auto_bank_loaded);
 	ClassDB::bind_method(D_METHOD("get_is_auto_bank_loaded"), &WwiseEvent::get_is_auto_bank_loaded);
 
+	ClassDB::bind_method(D_METHOD("set_playing_id", "playing_id"), &WwiseEvent::set_playing_id);
+	ClassDB::bind_method(D_METHOD("get_playing_id"), &WwiseEvent::get_playing_id);
+
 	ClassDB::bind_method(D_METHOD("_on_post_resource_init"), &WwiseEvent::_on_post_resource_init);
 	ClassDB::bind_method(D_METHOD("post", "game_object"), &WwiseEvent::post);
 	ClassDB::bind_method(D_METHOD("post_callback", "game_object", "flags", "cookie"), &WwiseEvent::post_callback);
@@ -29,6 +32,8 @@ void WwiseEvent::_bind_methods()
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "bank_id"), "set_bank_id", "get_bank_id");
 	ADD_PROPERTY(
 			PropertyInfo(Variant::BOOL, "is_auto_bank_loaded"), "set_is_auto_bank_loaded", "get_is_auto_bank_loaded");
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "playing_id", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_NONE),
+			"set_playing_id", "get_playing_id");
 }
 
 void WwiseEvent::_notification(int p_what)
@@ -235,3 +240,10 @@ void WwiseEvent::set_is_auto_bank_loaded(bool p_is_auto_bank_loaded)
 }
 
 bool WwiseEvent::get_is_auto_bank_loaded() const { return is_auto_bank_loaded; }
+
+void WwiseEvent::set_playing_id(AkPlayingID p_playing_id)
+{
+	playing_id = p_playing_id;
+}
+
+AkPlayingID WwiseEvent::get_playing_id() const { return playing_id; }

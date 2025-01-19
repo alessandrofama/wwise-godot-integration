@@ -22,7 +22,6 @@ protected:
 
 private:
 	Ref<WwiseEvent> event;
-	AkPlayingID playing_id = AK_INVALID_PLAYING_ID;
 	unsigned int stop_fade_time{};
 	AkUtils::AkCurveInterpolation interpolation_mode = AkUtils::AkCurveInterpolation::AK_CURVE_LINEAR;
 	int callback_type{};
@@ -62,7 +61,6 @@ public:
 	void set_stop_on(AkUtils::GameEvent stop_on);
 	AkUtils::GameEvent get_stop_on() const;
 
-	void set_playing_id(AkPlayingID p_playing_id);
 	AkPlayingID get_playing_id() const;
 };
 
@@ -75,7 +73,6 @@ protected:
 
 private:
 	Ref<WwiseEvent> event;
-	AkPlayingID playing_id = AK_INVALID_PLAYING_ID;
 	unsigned int stop_fade_time{};
 	AkUtils::AkCurveInterpolation interpolation_mode = AkUtils::AkCurveInterpolation::AK_CURVE_LINEAR;
 	bool is_environment_aware{};
@@ -127,6 +124,5 @@ public:
 	void set_room_id(uint64_t room_id);
 	uint64_t get_room_id() const;
 
-	void set_playing_id(AkPlayingID p_playing_id);
 	AkPlayingID get_playing_id() const;
 };
