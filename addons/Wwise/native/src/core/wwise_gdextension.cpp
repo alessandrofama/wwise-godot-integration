@@ -901,6 +901,12 @@ bool Wwise::set_geometry(const Array vertices, const Array triangles, const Ref<
 	AKASSERT(!triangles.is_empty());
 	AkGameObjectID id = get_ak_game_object_id(game_object);
 
+	if (id == AK_INVALID_GAME_OBJECT)
+	{
+		UtilityFunctions::print("WwiseGodot: Failed to Set Geometry, passed game_object is null.");
+		return false;
+	}
+
 	AkGeometryParams geometry{};
 
 	int vertex_count = vertices.size();
@@ -940,7 +946,8 @@ bool Wwise::set_geometry(const Array vertices, const Array triangles, const Ref<
 
 	if ((num_triangles % 3) != 0)
 	{
-		UtilityFunctions::print("WwiseGidot: Wrong number of triangles on mesh {0}", String::num_int64(id));
+		UtilityFunctions::print(
+				vformat("WwiseGodot: Wrong number of triangles on GameObject: %s.", game_object->get_name()));
 	}
 
 	auto ak_triangles = std::make_unique<AkTriangle[]>(num_triangles);
@@ -978,7 +985,8 @@ bool Wwise::set_geometry(const Array vertices, const Array triangles, const Ref<
 		}
 		else
 		{
-			UtilityFunctions::print("WwiseGodot: Skipped degenerate triangles on mesh {0}", String::num_int64(id));
+			UtilityFunctions::print(
+					vformat("WwiseGodot: Skipped degenerate triangles on GameObject: %s.", game_object->get_name()));
 		}
 	}
 
