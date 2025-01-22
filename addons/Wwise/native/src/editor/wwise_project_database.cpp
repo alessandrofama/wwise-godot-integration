@@ -112,7 +112,7 @@ void WwiseProjectDatabase::post_init_callback()
 		ProjectSettings::get_singleton()->save();
 	}
 
-	emit_signal("ws_soundbank_directory_updated");
+	call_deferred("emit_signal", "ws_soundbank_directory_updated");
 }
 
 bool WwiseProjectDatabase::init(const String& p_directory_path, const String& p_directory_platform_name)

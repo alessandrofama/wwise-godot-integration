@@ -389,7 +389,7 @@ void AkJSONBuilder::_process(double p_delta)
 	if (all_completed)
 	{
 		all_tasks_completed = true;
-		WwiseProjectInfo::get_singleton()->emit_signal("ws_populate_completed");
+		WwiseProjectInfo::get_singleton()->call_deferred("emit_signal", "ws_populate_completed");
 		current_platform_data = nullptr;
 		running = false;
 	}

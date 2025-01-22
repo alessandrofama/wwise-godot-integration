@@ -168,7 +168,7 @@ void AkWwiseTree::_on_item_activated()
 			case WwiseObjectType::GameParameter:
 			case WwiseObjectType::AcousticTexture:
 			case WwiseObjectType::Trigger:
-				emit_signal("ws_wwise_property_activated", wwise_tree_item);
+				call_deferred("emit_signal", "ws_wwise_property_activated", wwise_tree_item);
 				break;
 			default:
 				break;

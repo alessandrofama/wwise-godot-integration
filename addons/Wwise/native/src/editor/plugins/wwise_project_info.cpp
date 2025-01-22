@@ -60,7 +60,7 @@ void WwiseProjectInfo::_process(double p_delta)
 	if (completed)
 	{
 		running = false;
-		emit_signal("ws_updating_assets_completed");
+		call_deferred("emit_signal", "ws_updating_assets_completed");
 	}
 }
 
@@ -198,7 +198,7 @@ void WwiseProjectInfo::_on_populate_completed()
 void WwiseProjectInfo::_on_updating_assets_completed()
 {
 	EditorInterface::get_singleton()->get_resource_filesystem()->scan();
-	emit_signal("ws_refresh_completed");
+	call_deferred("emit_signal", "ws_refresh_completed");
 	UtilityFunctions::print("WwiseGodot: Project has been refreshed successfully.");
 }
 
