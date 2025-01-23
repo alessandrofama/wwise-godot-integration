@@ -250,7 +250,7 @@ jobs:
           ./gradlew assemble -PWWISE_SDK="$WWISESDK"
 
       - name: Upload libs
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.artifact-name }}
           path: addons/Wwise/native/lib
@@ -264,7 +264,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Download all libs
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
 
       - name: Assemble all artifacts
         run: |
@@ -311,7 +311,7 @@ jobs:
           rm -r ./tests
 
       - name: Upload final artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: wwise-${{ env.WWISE_VERSION }}-for-godot-${{ env.GODOT_ENGINE_VERSION }}-${{ env.GODOT_ENGINE_STAGE }}-${{ env.INTEGRATION_VERSION }}
           path: ./
