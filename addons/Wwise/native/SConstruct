@@ -499,7 +499,14 @@ elif env["platform"] == "linux":
 
     env.Append(CCFLAGS=["-fPIC", "-Wwrite-strings"])
     env.Append(CXXFLAGS=["-std=c++20"])
-    env.Append(LINKFLAGS=["-Wl,-R,'$$ORIGIN'"])
+    symbols_file = env.File("linux/symbols-extension.map")
+    env.Append(
+    LINKFLAGS=[
+        "-Wl,-R,'$$ORIGIN'",
+        "-Wl,--no-undefined,--version-script=" + symbols_file.abspath,
+        "-static-libgcc",
+        "-static-libstdc++",
+    ])
 
 # iOS build settings
 elif env["platform"] == "ios":
