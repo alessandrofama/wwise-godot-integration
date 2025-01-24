@@ -1,0 +1,6 @@
+{
+    global:
+        wwise_library_init;
+    local:
+        *;
+};

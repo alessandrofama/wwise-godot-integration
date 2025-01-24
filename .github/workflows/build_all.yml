@@ -300,6 +300,7 @@ jobs:
           rm -r ./addons/Wwise/native/src
           rm -r ./addons/Wwise/native/vs2022
           rm -r ./addons/Wwise/native/android
+          rm -r ./addons/Wwise/native/linux
           rm -r ./addons/Wwise/native/doc_classes
           rm ./addons/Wwise/native/SConstruct
           rm ./LICENSE
