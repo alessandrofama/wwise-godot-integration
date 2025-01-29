@@ -13,6 +13,8 @@ env:
   GODOT_ENGINE_VERSION: "4.3.0"
   GODOT_ENGINE_STAGE: "stable"
   INTEGRATION_VERSION: "3.0.0"
+  BUILD_PROFILE_EDITOR: "build_profile_editor.json"
+  BUILD_PROFILE_RUNTIME: "build_profile_runtime.json"
 
 jobs:
   build-all:
@@ -208,7 +210,7 @@ jobs:
         run: |
           cd addons/Wwise/native
           mkdir -p godot-cpp/bin
-          scons platform=${{ matrix.scons-platform }} target=editor wwise_config=profile use_static_cpp=yes wwise_sdk=wwise_sdk
+          scons platform=${{ matrix.scons-platform }} target=editor wwise_config=profile use_static_cpp=yes wwise_sdk=wwise_sdk build_profile=${{ env.BUILD_PROFILE_EDITOR }}
           cd ../../../
 
       - name: Compile template_debug library
@@ -219,7 +221,7 @@ jobs:
           SCONS_CACHE_LIMIT: 7168
         run: |
           cd addons/Wwise/native
-          scons platform=${{ matrix.scons-platform }} target=template_debug wwise_config=profile use_static_cpp=yes wwise_sdk=wwise_sdk ${{ matrix.debug-flags }}
+          scons platform=${{ matrix.scons-platform }} target=template_debug wwise_config=profile use_static_cpp=yes wwise_sdk=wwise_sdk build_profile=${{ env.BUILD_PROFILE_RUNTIME }} ${{ matrix.debug-flags }}
           cd ../../../
 
       - name: Compile template_release library
@@ -230,7 +232,7 @@ jobs:
           SCONS_CACHE_LIMIT: 7168
         run: |
           cd addons/Wwise/native
-          scons platform=${{ matrix.scons-platform }} target=template_release wwise_config=release use_static_cpp=yes wwise_sdk=wwise_sdk ${{ matrix.release-flags }}
+          scons platform=${{ matrix.scons-platform }} target=template_release wwise_config=release use_static_cpp=yes wwise_sdk=wwise_sdk build_profile=${{ env.BUILD_PROFILE_RUNTIME }} ${{ matrix.release-flags }}
           cd ../../../
 
       - name: Compile Android libraries
@@ -241,10 +243,10 @@ jobs:
           WWISESDK=$(pwd)
           cd ../godot-cpp
           mkdir -p bin
-          scons platform=android target=template_debug dev_build=yes -j6 ${{ matrix.debug-flags-arm64 }}
-          scons platform=android target=template_debug dev_build=yes -j6 ${{ matrix.debug-flags-arm32 }}
-          scons platform=android target=template_release -j6 ${{ matrix.release-flags-arm64 }}
-          scons platform=android target=template_release -j6 ${{ matrix.release-flags-arm32 }}
+          scons platform=android target=template_debug dev_build=yes build_profile="../build_profile_runtime.json" -j6 ${{ matrix.debug-flags-arm64 }}
+          scons platform=android target=template_debug dev_build=yes build_profile="../build_profile_runtime.json" -j6 ${{ matrix.debug-flags-arm32 }}
+          scons platform=android target=template_release build_profile="../build_profile_runtime.json" -j6 ${{ matrix.release-flags-arm64 }}
+          scons platform=android target=template_release build_profile="../build_profile_runtime.json" -j6 ${{ matrix.release-flags-arm32 }}
           cd ../android
           chmod +x ./gradlew
           ./gradlew assemble -PWWISE_SDK="$WWISESDK"
