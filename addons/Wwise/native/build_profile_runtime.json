@@ -1,0 +1,22 @@
+{
+	"enabled_classes": [
+		"Area3D",
+		"ArrayMesh",
+		"BoxShape3D",
+		"CollisionShape3D",
+		"DisplayServer",
+		"Engine",
+		"Material",
+		"MeshDataTool",
+		"MeshInstance3D",
+		"Node2D",
+		"Node3D",
+		"OS",
+		"ProjectSettings",
+		"ResourceLoader",
+		"SceneTree",
+		"Texture2D",
+		"Thread",
+		"Window"
+	]
+}

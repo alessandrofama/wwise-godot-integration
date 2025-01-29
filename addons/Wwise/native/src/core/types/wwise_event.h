@@ -2,12 +2,12 @@
 
 #ifdef TOOLS_ENABLED
 #include "editor/wwise_project_database.h"
+#include <godot_cpp/classes/editor_file_system.hpp>
+#include <godot_cpp/classes/editor_interface.hpp>
 #endif
 
 #include "core/types/wwise_base_type.h"
 #include "core/wwise_gdextension.h"
-#include <godot_cpp/classes/editor_file_system.hpp>
-#include <godot_cpp/classes/editor_interface.hpp>
 #include <godot_cpp/classes/node3d.hpp>
 
 using namespace godot;
