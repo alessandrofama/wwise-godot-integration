@@ -2,6 +2,7 @@
 
 #if defined(TOOLS_ENABLED)
 #include "editor/ak_editor_settings.h"
+#include <godot_cpp/classes/resource_saver.hpp>
 #endif
 
 #include "core/utils.h"
@@ -9,7 +10,6 @@
 #include "editor/short_id_generator.h"
 #include <godot_cpp/classes/resource.hpp>
 #include <godot_cpp/classes/resource_loader.hpp>
-#include <godot_cpp/classes/resource_saver.hpp>
 
 using namespace godot;
 

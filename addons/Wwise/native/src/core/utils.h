@@ -1,7 +1,10 @@
 #pragma once
 
-#include "AK/SoundEngine/Common/AkTypes.h"
+#if defined(TOOLS_ENABLED)
 #include <godot_cpp/classes/dir_access.hpp>
+#endif
+
+#include "AK/SoundEngine/Common/AkTypes.h"
 #include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/classes/node.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
@@ -329,6 +332,13 @@ static inline bool find_matching_vertex(Vector3 vertex, Dictionary vert_dict, in
 	}
 }
 
+
+static inline AkGameObjectID get_ak_game_object_id(const Node* p_node)
+{
+	return p_node == nullptr ? AK_INVALID_GAME_OBJECT : p_node->get_instance_id();
+}
+
+#if defined(TOOLS_ENABLED)
 static bool make_dir_recursive(const String& p_directory)
 {
 	if (!DirAccess::dir_exists_absolute(p_directory))
@@ -364,8 +374,4 @@ static PackedStringArray take(const PackedStringArray& folders, int n)
 	}
 	return result;
 }
-
-static inline AkGameObjectID get_ak_game_object_id(const Node* p_node)
-{
-	return p_node == nullptr ? AK_INVALID_GAME_OBJECT : p_node->get_instance_id();
-}
+#endif
