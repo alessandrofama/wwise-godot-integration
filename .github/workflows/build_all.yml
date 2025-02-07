@@ -305,6 +305,8 @@ jobs:
           rm -r ./addons/Wwise/native/linux
           rm -r ./addons/Wwise/native/doc_classes
           rm ./addons/Wwise/native/SConstruct
+          rm ./addons/Wwise/native/build_profile_editor.json
+          rm ./addons/Wwise/native/build_profile_runtime.json
           rm ./LICENSE
           rm ./README.md
           rm .gitattributes
