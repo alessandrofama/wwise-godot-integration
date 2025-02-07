@@ -18,6 +18,7 @@
 #include "core/types/wwise_switch.cpp"
 #include "core/types/wwise_switch_group.h"
 #include "core/types/wwise_trigger.cpp"
+#include "core/wwise_external_source_info.h"
 #include "core/wwise_gdextension.cpp"
 #include "core/wwise_io_hook.cpp"
 #include "core/wwise_platform_info.cpp"
@@ -159,6 +160,7 @@ void register_wwise_types(ModuleInitializationLevel p_level)
 		ClassDB::register_class<WwiseTrigger>();
 		ClassDB::register_class<WwiseAuxBus>();
 		ClassDB::register_class<AkMidiPost>();
+		ClassDB::register_class<WwiseExternalSourceInfo>();
 		ClassDB::register_class<WwisePluginInfo>();
 		ClassDB::register_class<WwisePlatformInfo>();
 

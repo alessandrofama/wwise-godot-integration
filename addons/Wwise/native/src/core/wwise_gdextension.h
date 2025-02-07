@@ -1,5 +1,6 @@
 #pragma once
 
+#include "core/wwise_external_source_info.h"
 #include "core/ak_midi_post.h"
 #include "core/ak_utils.h"
 #include "core/types/wwise_acoustic_texture.h"
@@ -132,6 +133,8 @@ public:
 			const String& filename, const AkUtils::AkCodecID id_codec);
 	unsigned int post_external_source_id(const unsigned int event_id, Node* game_object,
 			const unsigned int source_object_id, const String& filename, const AkUtils::AkCodecID id_codec);
+	unsigned int post_external_sources(
+			const unsigned int event_id, Node* game_object, TypedArray<WwiseExternalSourceInfo> external_source_info);
 
 	int get_source_play_position(const unsigned int playing_id, const bool extrapolate);
 	Dictionary get_playing_segment_info(const unsigned int playing_id, const bool extrapolate);
@@ -173,5 +176,6 @@ public:
 	bool wakeup_from_suspend();
 	void stop_all(Node* game_object = nullptr);
 	uint64_t get_sample_tick();
+	uint32_t get_id_from_string(const String& p_string);
 	bool is_initialized();
 };

@@ -114,6 +114,8 @@ void Wwise::_bind_methods()
 	ClassDB::bind_method(
 			D_METHOD("post_external_source_id", "event_id", "game_object", "source_object_id", "filename", "id_codec"),
 			&Wwise::post_external_source_id);
+	ClassDB::bind_method(D_METHOD("post_external_sources", "event_id", "game_object", "external_source_info"),
+			&Wwise::post_external_sources);
 	ClassDB::bind_method(
 			D_METHOD("get_source_play_position", "playing_id", "extrapolate"), &Wwise::get_source_play_position);
 	ClassDB::bind_method(
@@ -162,6 +164,7 @@ void Wwise::_bind_methods()
 	ClassDB::bind_method(D_METHOD("wakeup_from_suspend"), &Wwise::wakeup_from_suspend);
 	ClassDB::bind_method(D_METHOD("stop_all", "game_object"), &Wwise::stop_all, DEFVAL(nullptr));
 	ClassDB::bind_method(D_METHOD("get_sample_tick"), &Wwise::get_sample_tick);
+	ClassDB::bind_method(D_METHOD("get_id_from_string", "string"), &Wwise::get_id_from_string);
 	ClassDB::bind_method(D_METHOD("is_initialized"), &Wwise::is_initialized);
 }
 
@@ -808,6 +811,44 @@ unsigned int Wwise::post_external_source_id(const unsigned int event_id, Node* g
 	return playing_id;
 }
 
+unsigned int Wwise::post_external_sources(
+		const unsigned int event_id, Node* game_object, TypedArray<WwiseExternalSourceInfo> external_source_info)
+{
+	AkGameObjectID id = get_ak_game_object_id(game_object);
+	pre_game_object_api_call(game_object, id);
+
+	auto ak_external_sources = std::make_unique<AkExternalSourceInfo[]>(external_source_info.size());
+
+	for (int i = 0; i < external_source_info.size(); i++)
+	{
+		Ref<WwiseExternalSourceInfo> info = external_source_info[i];
+		if (!info.is_valid())
+		{
+			continue;
+		}
+
+		AkExternalSourceInfo ak_info{};
+		ak_info.iExternalSrcCookie = info->get_external_src_cookie();
+		ak_info.idCodec = info->get_id_codec();
+		CONVERT_CHAR_TO_OSCHAR(info->get_sz_file().utf8().get_data(), ak_info.szFile);
+
+		ak_external_sources[i] = ak_info;
+	}
+
+	AkPlayingID playing_id = AK::SoundEngine::PostEvent(
+			event_id, id, 0, NULL, 0, external_source_info.size(), ak_external_sources.get());
+
+	if (playing_id == AK_INVALID_PLAYING_ID && game_object)
+	{
+		ERROR_CHECK_MSG(AK_InvalidID,
+				vformat("Failed to post External Source with Event ID: %d on Game Object: %s", event_id,
+						game_object->get_name()));
+		return AK_INVALID_PLAYING_ID;
+	}
+
+	return playing_id;
+}
+
 int Wwise::get_source_play_position(const unsigned int playing_id, const bool extrapolate)
 {
 	AkTimeMs position{};
@@ -1212,6 +1253,11 @@ void Wwise::stop_all(Node* game_object)
 }
 
 uint64_t Wwise::get_sample_tick() { return AK::SoundEngine::GetSampleTick(); }
+
+uint32_t Wwise::get_id_from_string(const String& p_string)
+{
+	return AK::SoundEngine::GetIDFromString(p_string.utf8().get_data());
+}
 
 bool Wwise::is_initialized() { return AK::SoundEngine::IsInitialized(); }
 

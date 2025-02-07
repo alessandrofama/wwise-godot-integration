@@ -35,6 +35,14 @@
 			Returns [code]true[/code] if executing the action succeeded.
 			</description>
 		</method>
+		<method name="get_id_from_string">
+			<return type="int" />
+			<param index="0" name="string" type="String" />
+			<description>
+			Universal converter from string to ID for the sound engine.
+			Calls [code]AK::SoundEngine::GetIDFromString[/code].
+			</description>
+		</method>
 		<method name="get_playing_segment_info">
 			<return type="Dictionary" />
 			<param index="0" name="playing_id" type="int" />
@@ -265,6 +273,43 @@
 			Pass the [code]AkCodecID[/code] value defined in [AkUtils] class to [param id_codec].
 			Calls [code]AK::SoundEngine::PostEvent[/code].
 			Returns the [code]PlayingID[/code] of the Event posted, or [code]0[/code] if posting the Event failed.
+			</description>
+		</method>
+		<method name="post_external_sources">
+			<return type="int" />
+			<param index="0" name="event_id" type="int" />
+			<param index="1" name="game_object" type="Node" />
+			<param index="2" name="external_source_info" type="WwiseExternalSourceInfo[]" />
+			<description>
+			Posts an Event with the given [param event_id] with External Sources on the [param game_object].
+			Populate the [param external_source_info] array with [WwiseExternalSourceInfo] containing the external source cookie id, the codec and filename of the External Source.
+			Returns the [code]PlayingID[/code] of the Event posted, or [code]0[/code] if posting the Event failed. 
+			Example:
+			[codeblock]			
+			@export var event:WwiseEvent
+			var codec = AkUtils.AkCodecID.AK_CODECID_ADPCM
+			var array:Array[WwiseExternalSourceInfo]
+
+			func _enter_tree() -> void:
+			    array.resize(3)
+			    
+			    array[0] = WwiseExternalSourceInfo.new()
+			    array[0].external_src_cookie = Wwise.get_id_from_string("One")
+			    array[0].id_codec = codec
+			    array[0].sz_file = "01.wem"
+			    
+			    array[1] = WwiseExternalSourceInfo.new()
+			    array[1].external_src_cookie = Wwise.get_id_from_string("Two")
+			    array[1].id_codec = codec
+			    array[1].sz_file = "02.wem"
+			    
+			    array[2] = WwiseExternalSourceInfo.new()
+			    array[2].external_src_cookie = Wwise.get_id_from_string("Three")
+			    array[2].id_codec = codec
+			    array[2].sz_file = "03.wem"
+			    
+			    Wwise.post_external_sources(event.id, self, array)
+			[/codeblock]
 			</description>
 		</method>
 		<method name="post_midi_on_event_id">

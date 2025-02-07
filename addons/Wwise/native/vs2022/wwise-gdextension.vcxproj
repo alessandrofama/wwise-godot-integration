@@ -531,6 +531,11 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="..\src\core\wwise_external_source_info.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="..\src\core\ak_game_obj_helper.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>

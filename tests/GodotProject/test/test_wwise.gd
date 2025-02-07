@@ -359,6 +359,29 @@ func test_post_external_source_id() -> void:
 	Wwise.stop_event(playing_id, 0, AkUtils.AK_CURVE_LINEAR)
 	free_node_3d(node)
 	assert_int(playing_id).is_greater(0)
+	
+
+
+func test_post_external_sources() -> void:
+	var node = create_node_3d()
+	var event:WwiseEvent = WwiseEvent.new()
+	event.set_name("Play_One")
+	event.set_id(AK.EVENTS.PLAY_ONE)
+	event.emit_signal("ws_post_resource_init")
+	var array:Array[WwiseExternalSourceInfo]
+	array.resize(1)
+	array[0] = WwiseExternalSourceInfo.new()
+	array[0].external_src_cookie = Wwise.get_id_from_string("One")
+	array[0].id_codec = AkUtils.AK_CODECID_ADPCM
+	array[0].sz_file = "01.wem"
+	var playing_id = Wwise.post_external_sources(
+		event.id,
+		node,
+		array
+	)
+	Wwise.stop_event(playing_id, 0, AkUtils.AK_CURVE_LINEAR)
+	free_node_3d(node)
+	assert_int(playing_id).is_greater(0)
 
 
 func test_get_source_play_position() -> void:
@@ -666,3 +689,8 @@ func test_set_early_reflections_volume() -> void:
 	var result = Wwise.set_early_reflections_volume(game_obj, volume)
 	free_node_3d(game_obj)
 	assert_bool(result).is_true()
+
+
+func test_get_id_from_string() -> void:
+	var id = Wwise.get_id_from_string("Looping_Event")
+	assert_int(id).is_equal(AK.EVENTS.LOOPING_EVENT)
