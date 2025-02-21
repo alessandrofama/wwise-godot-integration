@@ -74,6 +74,9 @@ void AkRoom::_exit_tree()
 	{
 		soundengine->remove_room(this);
 	}
+
+	disconnect("area_entered", callable_mp(this, &AkRoom::_on_area_entered));
+	disconnect("area_exited", callable_mp(this, &AkRoom::_on_area_exited));
 }
 
 void AkRoom::_on_area_entered(const Area3D* area)
