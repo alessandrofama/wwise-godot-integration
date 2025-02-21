@@ -54,8 +54,18 @@ void AkEnvironmentData::add_highest_priority_environments()
 {
 	if (aux_array_data.data.size() < active_environments.size())
 	{
+		Vector<int> invalid_indices;
+
 		for (int i = 0; i < active_environments.size(); i++)
 		{
+			Variant environment = active_environments[i];
+
+			if (!UtilityFunctions::is_instance_valid(environment))
+			{
+				invalid_indices.push_back(i);
+				continue;
+			}
+
 			const AkEnvironment* env = Object::cast_to<AkEnvironment>(active_environments[i].operator godot::Object*());
 
 			if (env)
@@ -68,25 +78,36 @@ void AkEnvironmentData::add_highest_priority_environments()
 						continue;
 					}
 
-					for (int i = 0; i < aux_array_data.data.size(); i++)
+					bool exists = false;
+					for (int j = 0; j < aux_array_data.data.size(); j++)
 					{
-						Dictionary current_aux_data = aux_array_data.data[i];
-						if (current_aux_data.has("aux_bus_id"))
+						Dictionary current_aux_data = aux_array_data.data[j];
+						if (current_aux_data.has("aux_bus_id") &&
+								(uint32_t)current_aux_data["aux_bus_id"] == aux_bus->get_id())
 						{
-							if ((uint32_t)current_aux_data["aux_bus_id"] == aux_bus->get_id())
-							{
-								continue;
-							}
+							exists = true;
+							break;
 						}
 					}
 
-					Dictionary aux_data;
-					uint32_t id = aux_bus->get_id();
-					aux_data["control_value"] = 1.0f;
-					aux_data["aux_bus_id"] = id;
-					aux_array_data.data.append(aux_data);
+					if (!exists)
+					{
+						Dictionary aux_data;
+						aux_data["control_value"] = 1.0f;
+						aux_data["aux_bus_id"] = aux_bus->get_id();
+						aux_array_data.data.append(aux_data);
+					}
 				}
 			}
+		}
+
+		if (!invalid_indices.is_empty())
+		{
+			for (int i = invalid_indices.size() - 1; i >= 0; i--)
+			{
+				active_environments.remove_at(invalid_indices[i]);
+			}
+			have_environments_changed = true;
 		}
 	}
 }
