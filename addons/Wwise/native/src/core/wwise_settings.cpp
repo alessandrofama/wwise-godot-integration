@@ -237,7 +237,7 @@ void WwiseSettings::add_wwise_settings()
 	add_setting(advanced_settings.maximum_pinned_bytes_in_cache, static_cast<uint64_t>(4294967295), Variant::Type::INT);
 	add_setting(advanced_settings.enable_game_sync_preparation, false, Variant::Type::BOOL);
 	add_setting(advanced_settings.continuous_playback_look_ahead, 1, Variant::Type::INT);
-	add_setting(advanced_settings.monitor_queue_pool_size, 65536, Variant::Type::INT);
+	add_setting(advanced_settings.monitor_queue_pool_size, 1048576, Variant::Type::INT);
 	add_setting(advanced_settings.maximum_hardware_timeout_ms, 1000, Variant::Type::INT);
 	add_setting(advanced_settings.debug_out_of_range_check_enabled, false, Variant::Type::BOOL);
 	add_setting(advanced_settings.debug_out_of_range_limit, 16.0f, Variant::Type::FLOAT);
