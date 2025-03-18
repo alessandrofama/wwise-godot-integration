@@ -399,8 +399,8 @@ bool Wwise::set_listeners(Node* emitter, Node* listener)
 	AkGameObjectID listener_id = get_ak_game_object_id(listener);
 	pre_game_object_api_call(listener, listener_id);
 
-	static const int num_listeners_for_emitter = 1;
-	static const AkGameObjectID listeners_for_emitter[num_listeners_for_emitter] = { listener_id };
+	const int num_listeners_for_emitter = 1;
+	const AkGameObjectID listeners_for_emitter[num_listeners_for_emitter] = { listener_id };
 	return ERROR_CHECK(AK::SoundEngine::SetListeners(emitter_id, listeners_for_emitter, 1));
 }
 
