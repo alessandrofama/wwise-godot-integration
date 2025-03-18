@@ -913,6 +913,17 @@ bool Wwise::set_game_object_aux_send_values(
 		environment.auxBusID = static_cast<unsigned int>(aux_bus_data["aux_bus_id"]);
 		environment.fControlValue = static_cast<float>(aux_bus_data["control_value"]);
 		environment.listenerID = AK_INVALID_GAME_OBJECT;
+		if (aux_bus_data.has("listener_path"))
+		{
+			NodePath listener_node_path = static_cast<NodePath>(aux_bus_data["listener_path"]);
+			Node* listener_game_object = game_object->get_tree()->get_root()->get_node_or_null(listener_node_path);
+			if (listener_game_object != nullptr)
+			{
+				AkGameObjectID listener_id = get_ak_game_object_id(listener_game_object);
+				pre_game_object_api_call(listener_game_object, listener_id);
+				environment.listenerID = listener_id;
+			}
+		}
 		environments.push_back(environment);
 	}
 
