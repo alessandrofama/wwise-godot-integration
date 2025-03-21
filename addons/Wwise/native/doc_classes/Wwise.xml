@@ -1,23 +1,41 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<class name="Wwise" inherits="Object" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="Wwise" inherits="Object" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
 	<brief_description>
-	Wwise Singleton
+		Wwise Singleton
 	</brief_description>
 	<description>
 	</description>
 	<tutorials>
-		<link title="Wwise Integration for Godot Wiki"> https://github.com/alessandrofama/wwise-godot-integration/wiki</link>
+		<link title="Wwise Integration for Godot Wiki">https://github.com/alessandrofama/wwise-godot-integration/wiki</link>
 	</tutorials>
 	<methods>
+		<method name="add_default_listener">
+			<return type="bool" />
+			<param index="0" name="game_object" type="Node" />
+			<description>
+				Adds a single listener to the default set of listeners.
+				Calls [code]AK::SoundEngine::AddDefaultListener[/code].
+				Returns [code]true[/code] if adding the default listener succeeded.
+			</description>
+		</method>
+		<method name="add_listener">
+			<return type="bool" />
+			<param index="0" name="emitter" type="Node" />
+			<param index="1" name="listener" type="Node" />
+			<description>
+				Adds a single listener to a game object's set of associated listeners.
+				Calls [code]AK::SoundEngine::AddDefaultListener[/code].
+				Returns [code]true[/code] if adding the listener succeeded.
+			</description>
+		</method>
 		<method name="add_output">
 			<return type="bool" />
 			<param index="0" name="share_set" type="String" />
 			<param index="1" name="output_id" type="int" />
 			<description>
-			Adds an output with the given [param share_set] and [param output_id] to the sound engine.
-			Calls [code]AK::SoundEngine::AddOutput[/code].
-			Returns [code]true[/code] if adding the output succeeded.
+				Adds an output with the given [param share_set] and [param output_id] to the sound engine.
+				Calls [code]AK::SoundEngine::AddOutput[/code].
+				Returns [code]true[/code] if adding the output succeeded.
 			</description>
 		</method>
 		<method name="execute_action_on_event_id">
@@ -26,21 +44,20 @@
 			<param index="1" name="action_type" type="int" enum="AkUtils.AkActionOnEventType" />
 			<param index="2" name="game_object" type="Node" />
 			<param index="3" name="transition_duration" type="int" default="0" />
-			<param index="4" name="fade_curve" type="int" enum="AkUtils.AkCurveInterpolation"
-				default="4" />
+			<param index="4" name="fade_curve" type="int" enum="AkUtils.AkCurveInterpolation" default="4" />
 			<param index="5" name="playing_id" type="int" default="0" />
 			<description>
-			Executes an action on all nodes that are referenced in the specified event in an action of type play.
-			Calls [code]AK::SoundEngine::ExecuteActionOnEvent[/code].
-			Returns [code]true[/code] if executing the action succeeded.
+				Executes an action on all nodes that are referenced in the specified event in an action of type play.
+				Calls [code]AK::SoundEngine::ExecuteActionOnEvent[/code].
+				Returns [code]true[/code] if executing the action succeeded.
 			</description>
 		</method>
 		<method name="get_id_from_string">
 			<return type="int" />
 			<param index="0" name="string" type="String" />
 			<description>
-			Universal converter from string to ID for the sound engine.
-			Calls [code]AK::SoundEngine::GetIDFromString[/code].
+				Universal converter from string to ID for the sound engine.
+				Calls [code]AK::SoundEngine::GetIDFromString[/code].
 			</description>
 		</method>
 		<method name="get_playing_segment_info">
@@ -48,10 +65,10 @@
 			<param index="0" name="playing_id" type="int" />
 			<param index="1" name="extrapolate" type="bool" />
 			<description>
-			Queries information on the active segment of a music object that is playing, associated with the given [param playing_id], obtained from [method post_event_callback] or [method post_event_id_callback].
-			You need to pass the [constant AkUtils.AK_EnableGetMusicPlayPosition] flag to the [code]post_event_callback_*[/code] functions to use this method.
-			Calls [code]AK::MusicEngine::GetPlayingSegmentInfo[/code].
-			Returns a Dictionary with the segment info.
+				Queries information on the active segment of a music object that is playing, associated with the given [param playing_id], obtained from [method post_event_callback] or [method post_event_id_callback].
+				You need to pass the [constant AkUtils.AK_EnableGetMusicPlayPosition] flag to the [code]post_event_callback_*[/code] functions to use this method.
+				Calls [code]AK::MusicEngine::GetPlayingSegmentInfo[/code].
+				Returns a Dictionary with the segment info.
 			</description>
 		</method>
 		<method name="get_rtpc_value">
@@ -59,11 +76,11 @@
 			<param index="0" name="name" type="String" />
 			<param index="1" name="game_object" type="Node" />
 			<description>
-			Gets the RTPC value with the given [param name] of the [param game_object].
-			Pass [code]null[/code] to [param game_object] to get a global RTPC value.
-			Calls [code]AK::SoundEngine::Query::GetRTPCValue[/code].
-			Returns the RTPC value if succeeded, 1.0f (INVALID_RTPC_VALUE) if failed.
-			[b]Warning:[/b] This function may stall for several milliseconds before returning, as it cannot run while the main sound engine tick is active. It is not recommended to use this in a release export.
+				Gets the RTPC value with the given [param name] of the [param game_object].
+				Pass [code]null[/code] to [param game_object] to get a global RTPC value.
+				Calls [code]AK::SoundEngine::Query::GetRTPCValue[/code].
+				Returns the RTPC value if succeeded, 1.0f (INVALID_RTPC_VALUE) if failed.
+				[b]Warning:[/b] This function may stall for several milliseconds before returning, as it cannot run while the main sound engine tick is active. It is not recommended to use this in a release export.
 			</description>
 		</method>
 		<method name="get_rtpc_value_id">
@@ -71,19 +88,19 @@
 			<param index="0" name="id" type="int" />
 			<param index="1" name="game_object" type="Node" />
 			<description>
-			Gets the RTPC value with the given [param id] of the [param game_object]. 
-			Pass [code]null[/code] to [param game_object] to get a global RTPC value.
-			Calls [code]AK::SoundEngine::Query::GetRTPCValue[/code].
-			Returns the RTPC value if succeeded, 1.0f (INVALID_RTPC_VALUE) if failed.
-			[b]Warning:[/b] This function may stall for several milliseconds before returning, as it cannot run while the main sound engine tick is active. It is not recommended to use this in a release export.
+				Gets the RTPC value with the given [param id] of the [param game_object]. 
+				Pass [code]null[/code] to [param game_object] to get a global RTPC value.
+				Calls [code]AK::SoundEngine::Query::GetRTPCValue[/code].
+				Returns the RTPC value if succeeded, 1.0f (INVALID_RTPC_VALUE) if failed.
+				[b]Warning:[/b] This function may stall for several milliseconds before returning, as it cannot run while the main sound engine tick is active. It is not recommended to use this in a release export.
 			</description>
 		</method>
 		<method name="get_sample_tick">
 			<return type="int" />
 			<description>
-			Obtains the current audio output sample tick. This corresponds to the number of sapmles produced by the sound engine since initialization.
-			Calls [code]AK::SoundEngine::GetSampleTick[/code].
-			Return the sample count.
+				Obtains the current audio output sample tick. This corresponds to the number of sapmles produced by the sound engine since initialization.
+				Calls [code]AK::SoundEngine::GetSampleTick[/code].
+				Return the sample count.
 			</description>
 		</method>
 		<method name="get_source_play_position">
@@ -91,31 +108,31 @@
 			<param index="0" name="playing_id" type="int" />
 			<param index="1" name="extrapolate" type="bool" />
 			<description>
-			Gets the current position of the source associated with the given [param playing_id], obtained from [method post_event_callback] or [method post_event_id_callback]. 
-			You need to pass the [constant AkUtils.AK_EnableGetSourcePlayPosition] flag to the [code]post_event_callback_*[/code] functions to use this method.
-			Calls [code]AK::SoundEngine::GetSourcePlayPosition[/code].
-			Returns the current position of the source if succeeded, 0 if failed.
+				Gets the current position of the source associated with the given [param playing_id], obtained from [method post_event_callback] or [method post_event_id_callback]. 
+				You need to pass the [constant AkUtils.AK_EnableGetSourcePlayPosition] flag to the [code]post_event_callback_*[/code] functions to use this method.
+				Calls [code]AK::SoundEngine::GetSourcePlayPosition[/code].
+				Returns the current position of the source if succeeded, 0 if failed.
 			</description>
 		</method>
 		<method name="init">
 			<return type="void" />
 			<description>
-			Initializes the Wwise sound engine. This is automatically called by the WwiseRuntimeManager autoload singleton at the start of each game.
+				Initializes the Wwise sound engine. This is automatically called by the WwiseRuntimeManager autoload singleton at the start of each game.
 			</description>
 		</method>
 		<method name="is_initialized">
 			<return type="bool" />
 			<description>
-			Returns [code]true[/code] if the Wwise sound engine is initialized. Otherwise, it returns [code]false[/code].
+				Returns [code]true[/code] if the Wwise sound engine is initialized. Otherwise, it returns [code]false[/code].
 			</description>
 		</method>
 		<method name="load_bank">
 			<return type="bool" />
 			<param index="0" name="bank_name" type="String" />
 			<description>
-			Loads a SoundBank with the specified [param bank_name] synchronously.
-			Calls [code]AK::SoundEngine::LoadBank[/code].
-			Returns [code]true[/code] if the SoundBank was loaded successfully.
+				Loads a SoundBank with the specified [param bank_name] synchronously.
+				Calls [code]AK::SoundEngine::LoadBank[/code].
+				Returns [code]true[/code] if the SoundBank was loaded successfully.
 			</description>
 		</method>
 		<method name="load_bank_async">
@@ -123,18 +140,18 @@
 			<param index="0" name="bank_name" type="String" />
 			<param index="1" name="cookie" type="Callable" />
 			<description>
-			Loads a Bank with the given [param bank_name] asynchronously. 
-			Calls [code]AK::SoundEngine::LoadBank[/code].
-			Returns [code]true[/code] if the SoundBank loading request succeeded.
-			Example:
-			[codeblock]
-			func _enter_tree() -> void:
-			    Wwise.load_bank_async("UserDefinedSoundBank", _bank_callback)
+				Loads a Bank with the given [param bank_name] asynchronously. 
+				Calls [code]AK::SoundEngine::LoadBank[/code].
+				Returns [code]true[/code] if the SoundBank loading request succeeded.
+				Example:
+				[codeblock]
+				func _enter_tree() -&gt; void:
+				    Wwise.load_bank_async("UserDefinedSoundBank", _bank_callback)
 
-			func _bank_callback(data: Dictionary):
-			    print(data)
-			    # { "bank_id": 3291379323, "result": 1 }
-			[/codeblock]
+				func _bank_callback(data: Dictionary):
+				    print(data)
+				    # { "bank_id": 3291379323, "result": 1 }
+				[/codeblock]
 			</description>
 		</method>
 		<method name="load_bank_async_id">
@@ -142,27 +159,27 @@
 			<param index="0" name="bank_id" type="int" />
 			<param index="1" name="cookie" type="Callable" />
 			<description>
-			Loads a Bank with the given [param bank_id] asynchronously. 
-			Calls [code]AK::SoundEngine::LoadBank[/code].
-			Returns [code]true[/code] if the SoundBank loading request succeeded.
-			Example:
-			[codeblock]
-			func _enter_tree() -> void:
-			    Wwise.load_bank_async_id(AK.BANKS.USER_DEFINED_SOUNDBANK, _bank_callback)
+				Loads a Bank with the given [param bank_id] asynchronously. 
+				Calls [code]AK::SoundEngine::LoadBank[/code].
+				Returns [code]true[/code] if the SoundBank loading request succeeded.
+				Example:
+				[codeblock]
+				func _enter_tree() -&gt; void:
+				    Wwise.load_bank_async_id(AK.BANKS.USER_DEFINED_SOUNDBANK, _bank_callback)
 
-			func _bank_callback(data: Dictionary):
-			    print(data)
-			    # { "bank_id": 3291379323, "result": 1 }
-			[/codeblock]
+				func _bank_callback(data: Dictionary):
+				    print(data)
+				    # { "bank_id": 3291379323, "result": 1 }
+				[/codeblock]
 			</description>
 		</method>
 		<method name="load_bank_id">
 			<return type="bool" />
 			<param index="0" name="bank_id" type="int" />
 			<description>
-			Loads a SoundBank with the specified [param bank_id] synchronously.
-			Calls [code]AK::SoundEngine::LoadBank[/code].
-			Returns [code]true[/code] if the SoundBank was loaded successfully.
+				Loads a SoundBank with the specified [param bank_id] synchronously.
+				Calls [code]AK::SoundEngine::LoadBank[/code].
+				Returns [code]true[/code] if the SoundBank was loaded successfully.
 			</description>
 		</method>
 		<method name="post_event">
@@ -170,16 +187,16 @@
 			<param index="0" name="event_name" type="String" />
 			<param index="1" name="game_object" type="Node" />
 			<description>
-			Posts an Event with the given [param event_name] on the given [param game_object] to the sound engine.
-			Calls [code]AK::SoundEngine::PostEvent[/code].
-			Returns the [code]PlayingID[/code] of the Event that has been posted, or [code]0[/code] if posting the Event failed.
-			[b]Note:[/b] Make sure you added or registered an AkListener before trying to post the Event.
-			[b]Warning:[/b] This function will only work if the Event was added to a user-defined SoundBank. Alternatively, export a [WwiseEvent] and pass its [code]name[/code] property to the function.
-			Example:
-			[codeblock]
-			func _ready() -> void:
-			    Wwise.post_event("Music", self)
-			[/codeblock]
+				Posts an Event with the given [param event_name] on the given [param game_object] to the sound engine.
+				Calls [code]AK::SoundEngine::PostEvent[/code].
+				Returns the [code]PlayingID[/code] of the Event that has been posted, or [code]0[/code] if posting the Event failed.
+				[b]Note:[/b] Make sure you added or registered an AkListener before trying to post the Event.
+				[b]Warning:[/b] This function will only work if the Event was added to a user-defined SoundBank. Alternatively, export a [WwiseEvent] and pass its [code]name[/code] property to the function.
+				Example:
+				[codeblock]
+				func _ready() -&gt; void:
+				    Wwise.post_event("Music", self)
+				[/codeblock]
 			</description>
 		</method>
 		<method name="post_event_callback">
@@ -189,19 +206,19 @@
 			<param index="2" name="game_object" type="Node" />
 			<param index="3" name="cookie" type="Callable" />
 			<description>
-			Posts an Event with the given [param event_name] on the given [param game_object] to the sound engine.
-			Calls [code]AK::SoundEngine::PostEvent[/code].
-			Returns the [code]PlayingID[/code] of the Event that has been posted, or [code]0[/code] if posting the Event failed.
-			[b]Note:[/b] Make sure you added or registered an AkListener before trying to post the Event.
-			[b]Warning:[/b] This function will only work if the Event was added to a user-defined SoundBank. Alternatively, export a [WwiseEvent] and pass its [code]name[/code] property to the function.
-			Example:
-			[codeblock]			
-			func _ready() -> void:
-			    Wwise.post_event_callback("Music", AkUtils.AK_END_OF_EVENT, self, _on_end_of_event)
+				Posts an Event with the given [param event_name] on the given [param game_object] to the sound engine.
+				Calls [code]AK::SoundEngine::PostEvent[/code].
+				Returns the [code]PlayingID[/code] of the Event that has been posted, or [code]0[/code] if posting the Event failed.
+				[b]Note:[/b] Make sure you added or registered an AkListener before trying to post the Event.
+				[b]Warning:[/b] This function will only work if the Event was added to a user-defined SoundBank. Alternatively, export a [WwiseEvent] and pass its [code]name[/code] property to the function.
+				Example:
+				[codeblock]			
+				func _ready() -&gt; void:
+				    Wwise.post_event_callback("Music", AkUtils.AK_END_OF_EVENT, self, _on_end_of_event)
 
-			func _on_end_of_event(data: Dictionary) -> void:
-			    print(data)
-			[/codeblock]
+				func _on_end_of_event(data: Dictionary) -&gt; void:
+				    print(data)
+				[/codeblock]
 			</description>
 		</method>
 		<method name="post_event_id">
@@ -209,16 +226,16 @@
 			<param index="0" name="event_id" type="int" />
 			<param index="1" name="game_object" type="Node" />
 			<description>
-			Posts an Event with the given [param event_id] on the given [param game_object] to the sound engine.
-			Calls [code]AK::SoundEngine::PostEvent[/code].
-			Returns the [code]PlayingID[/code] of the Event that has been posted, or [code]0[/code] if posting the Event failed.
-			[b]Note:[/b] Make sure you added or registered an AkListener before trying to post the Event.
-			[b]Warning:[/b] This function will only work if the Event was added to a user-defined SoundBank. Alternatively, export a [WwiseEvent] and pass its [code]id[/code] property to the function.
-			Example:
-			[codeblock]
-			func _ready() -> void:
-			    Wwise.post_event_id(AK.EVENTS.MUSIC, self)
-			[/codeblock]
+				Posts an Event with the given [param event_id] on the given [param game_object] to the sound engine.
+				Calls [code]AK::SoundEngine::PostEvent[/code].
+				Returns the [code]PlayingID[/code] of the Event that has been posted, or [code]0[/code] if posting the Event failed.
+				[b]Note:[/b] Make sure you added or registered an AkListener before trying to post the Event.
+				[b]Warning:[/b] This function will only work if the Event was added to a user-defined SoundBank. Alternatively, export a [WwiseEvent] and pass its [code]id[/code] property to the function.
+				Example:
+				[codeblock]
+				func _ready() -&gt; void:
+				    Wwise.post_event_id(AK.EVENTS.MUSIC, self)
+				[/codeblock]
 			</description>
 		</method>
 		<method name="post_event_id_callback">
@@ -228,19 +245,19 @@
 			<param index="2" name="game_object" type="Node" />
 			<param index="3" name="cookie" type="Callable" />
 			<description>
-			Posts an Event with the given [param event_id] on the given [param game_object] to the sound engine.
-			Calls [code]AK::SoundEngine::PostEvent[/code].
-			Returns the [code]PlayingID[/code] of the Event that has been posted, or [code]0[/code] if posting the Event failed.
-			[b]Note:[/b] Make sure you added or registered an AkListener before trying to post the Event.
-			[b]Warning:[/b] This function will only work if the Event was added to a user-defined SoundBank. Alternatively, export a [WwiseEvent] and pass its [code]id[/code] property to the function.
-			Example:
-			[codeblock]			
-			func _ready() -> void:
-			    Wwise.post_event_id_callback(AK.EVENTS.MUSIC, AkUtils.AK_END_OF_EVENT, self, _on_end_of_event)
+				Posts an Event with the given [param event_id] on the given [param game_object] to the sound engine.
+				Calls [code]AK::SoundEngine::PostEvent[/code].
+				Returns the [code]PlayingID[/code] of the Event that has been posted, or [code]0[/code] if posting the Event failed.
+				[b]Note:[/b] Make sure you added or registered an AkListener before trying to post the Event.
+				[b]Warning:[/b] This function will only work if the Event was added to a user-defined SoundBank. Alternatively, export a [WwiseEvent] and pass its [code]id[/code] property to the function.
+				Example:
+				[codeblock]			
+				func _ready() -&gt; void:
+				    Wwise.post_event_id_callback(AK.EVENTS.MUSIC, AkUtils.AK_END_OF_EVENT, self, _on_end_of_event)
 
-			func _on_end_of_event(data: Dictionary) -> void:
-			    print(data)
-			[/codeblock]
+				func _on_end_of_event(data: Dictionary) -&gt; void:
+				    print(data)
+				[/codeblock]
 			</description>
 		</method>
 		<method name="post_external_source">
@@ -251,12 +268,12 @@
 			<param index="3" name="filename" type="String" />
 			<param index="4" name="id_codec" type="int" enum="AkUtils.AkCodecID" />
 			<description>
-			Posts an Event with the given [param event_name] with an External Source on the [param game_object]. 
-			[param source_object_name] is the Wwise External Source SFX name added through the Contents Editor in the Authoring Application. 
-			[param filename] refers to the relative file path of the external source specified in the Output Path of the External Sources settings in the Authoring Application. 
-			Pass the [code]AkCodecID[/code] value defined in [AkUtils] class to [param id_codec].
-			Calls [code]AK::SoundEngine::PostEvent[/code].
-			Returns the [code]PlayingID[/code] of the Event posted, or [code]0[/code] if posting the Event failed.
+				Posts an Event with the given [param event_name] with an External Source on the [param game_object]. 
+				[param source_object_name] is the Wwise External Source SFX name added through the Contents Editor in the Authoring Application. 
+				[param filename] refers to the relative file path of the external source specified in the Output Path of the External Sources settings in the Authoring Application. 
+				Pass the [code]AkCodecID[/code] value defined in [AkUtils] class to [param id_codec].
+				Calls [code]AK::SoundEngine::PostEvent[/code].
+				Returns the [code]PlayingID[/code] of the Event posted, or [code]0[/code] if posting the Event failed.
 			</description>
 		</method>
 		<method name="post_external_source_id">
@@ -267,12 +284,12 @@
 			<param index="3" name="filename" type="String" />
 			<param index="4" name="id_codec" type="int" enum="AkUtils.AkCodecID" />
 			<description>
-			Posts an Event with the given [param event_id] with an External Source on the [param game_object]. 
-			[param source_object_id] is the Wwise External Source SFX ID added through the Contents Editor in the Authoring Application. 
-			[param filename] refers to the relative file path of the external source specified in the Output Path of the External Sources settings in the Authoring Application. 
-			Pass the [code]AkCodecID[/code] value defined in [AkUtils] class to [param id_codec].
-			Calls [code]AK::SoundEngine::PostEvent[/code].
-			Returns the [code]PlayingID[/code] of the Event posted, or [code]0[/code] if posting the Event failed.
+				Posts an Event with the given [param event_id] with an External Source on the [param game_object]. 
+				[param source_object_id] is the Wwise External Source SFX ID added through the Contents Editor in the Authoring Application. 
+				[param filename] refers to the relative file path of the external source specified in the Output Path of the External Sources settings in the Authoring Application. 
+				Pass the [code]AkCodecID[/code] value defined in [AkUtils] class to [param id_codec].
+				Calls [code]AK::SoundEngine::PostEvent[/code].
+				Returns the [code]PlayingID[/code] of the Event posted, or [code]0[/code] if posting the Event failed.
 			</description>
 		</method>
 		<method name="post_external_sources">
@@ -281,35 +298,35 @@
 			<param index="1" name="game_object" type="Node" />
 			<param index="2" name="external_source_info" type="WwiseExternalSourceInfo[]" />
 			<description>
-			Posts an Event with the given [param event_id] with External Sources on the [param game_object].
-			Populate the [param external_source_info] array with [WwiseExternalSourceInfo] containing the external source cookie id, the codec and filename of the External Source.
-			Returns the [code]PlayingID[/code] of the Event posted, or [code]0[/code] if posting the Event failed. 
-			Example:
-			[codeblock]			
-			@export var event:WwiseEvent
-			var codec = AkUtils.AkCodecID.AK_CODECID_ADPCM
-			var array:Array[WwiseExternalSourceInfo]
+				Posts an Event with the given [param event_id] with External Sources on the [param game_object].
+				Populate the [param external_source_info] array with [WwiseExternalSourceInfo] containing the external source cookie id, the codec and filename of the External Source.
+				Returns the [code]PlayingID[/code] of the Event posted, or [code]0[/code] if posting the Event failed. 
+				Example:
+				[codeblock]			
+				@export var event:WwiseEvent
+				var codec = AkUtils.AkCodecID.AK_CODECID_ADPCM
+				var array:Array[WwiseExternalSourceInfo]
 
-			func _enter_tree() -> void:
-			    array.resize(3)
-			    
-			    array[0] = WwiseExternalSourceInfo.new()
-			    array[0].external_src_cookie = Wwise.get_id_from_string("One")
-			    array[0].id_codec = codec
-			    array[0].sz_file = "01.wem"
-			    
-			    array[1] = WwiseExternalSourceInfo.new()
-			    array[1].external_src_cookie = Wwise.get_id_from_string("Two")
-			    array[1].id_codec = codec
-			    array[1].sz_file = "02.wem"
-			    
-			    array[2] = WwiseExternalSourceInfo.new()
-			    array[2].external_src_cookie = Wwise.get_id_from_string("Three")
-			    array[2].id_codec = codec
-			    array[2].sz_file = "03.wem"
-			    
-			    Wwise.post_external_sources(event.id, self, array)
-			[/codeblock]
+				func _enter_tree() -&gt; void:
+				    array.resize(3)
+
+				    array[0] = WwiseExternalSourceInfo.new()
+				    array[0].external_src_cookie = Wwise.get_id_from_string("One")
+				    array[0].id_codec = codec
+				    array[0].sz_file = "01.wem"
+
+				    array[1] = WwiseExternalSourceInfo.new()
+				    array[1].external_src_cookie = Wwise.get_id_from_string("Two")
+				    array[1].id_codec = codec
+				    array[1].sz_file = "02.wem"
+
+				    array[2] = WwiseExternalSourceInfo.new()
+				    array[2].external_src_cookie = Wwise.get_id_from_string("Three")
+				    array[2].id_codec = codec
+				    array[2].sz_file = "03.wem"
+
+				    Wwise.post_external_sources(event.id, self, array)
+				[/codeblock]
 			</description>
 		</method>
 		<method name="post_midi_on_event_id">
@@ -319,21 +336,21 @@
 			<param index="2" name="midi_posts" type="AkMidiPost[]" />
 			<param index="3" name="absolute_offsets" type="bool" />
 			<description>
-			Posts a set of MIDI events to the sound engine for the given [param event_id] on the specified [param game_object].
-			Uses the provided [param midi_posts] array to send MIDI messages (e.g., note on/off, control changes), optionally using absolute offsets when [param absolute_offsets] is [code]true[/code].
-			Returns the [code]PlayingID[/code] of the Event posted, or [code]0[/code] if posting the Event failed.
-			[b]Warning:[/b] This function will only work if the Event was added to a user-defined SoundBank. Alternatively, export a [WwiseEvent] and pass its [code]id[/code] property to the function.
-			Example:
-			[codeblock]
-			var midi_array:Array[AkMidiPost]
-			var m1: AkMidiPost = AkMidiPost.new()
-			m1.by_type = AkMidiPost.MIDI_EVENT_TYPE_NOTE_ON
-			m1.by_note = 42
-			m1.u_offset = 0
-			midi_array.push_back(m1)
+				Posts a set of MIDI events to the sound engine for the given [param event_id] on the specified [param game_object].
+				Uses the provided [param midi_posts] array to send MIDI messages (e.g., note on/off, control changes), optionally using absolute offsets when [param absolute_offsets] is [code]true[/code].
+				Returns the [code]PlayingID[/code] of the Event posted, or [code]0[/code] if posting the Event failed.
+				[b]Warning:[/b] This function will only work if the Event was added to a user-defined SoundBank. Alternatively, export a [WwiseEvent] and pass its [code]id[/code] property to the function.
+				Example:
+				[codeblock]
+				var midi_array:Array[AkMidiPost]
+				var m1: AkMidiPost = AkMidiPost.new()
+				m1.by_type = AkMidiPost.MIDI_EVENT_TYPE_NOTE_ON
+				m1.by_note = 42
+				m1.u_offset = 0
+				midi_array.push_back(m1)
 
-			Wwise.post_midi_on_event_id(AK.EVENTS.MUSIC, self, midi_array, false)
-			[/codeblock]
+				Wwise.post_midi_on_event_id(AK.EVENTS.MUSIC, self, midi_array, false)
+				[/codeblock]
 			</description>
 		</method>
 		<method name="post_trigger">
@@ -341,9 +358,9 @@
 			<param index="0" name="name" type="String" />
 			<param index="1" name="game_object" type="Node" />
 			<description>
-			Posts a Trigger with the given [param name] on the given [param game_object].
-			Calls [code]AK::SoundEngine::PostTrigger[/code].
-			Returns [code]true[/code] if posting the Trigger succeeded.
+				Posts a Trigger with the given [param name] on the given [param game_object].
+				Calls [code]AK::SoundEngine::PostTrigger[/code].
+				Returns [code]true[/code] if posting the Trigger succeeded.
 			</description>
 		</method>
 		<method name="post_trigger_id">
@@ -351,9 +368,9 @@
 			<param index="0" name="id" type="int" />
 			<param index="1" name="game_object" type="Node" />
 			<description>
-			Posts a Trigger with the given [param id] on the given [param game_object].
-			Calls [code]AK::SoundEngine::PostTrigger[/code].
-			Returns [code]true[/code] if posting the Trigger succeeded.
+				Posts a Trigger with the given [param id] on the given [param game_object].
+				Calls [code]AK::SoundEngine::PostTrigger[/code].
+				Returns [code]true[/code] if posting the Trigger succeeded.
 			</description>
 		</method>
 		<method name="register_game_obj">
@@ -361,95 +378,115 @@
 			<param index="0" name="game_object" type="Node" />
 			<param index="1" name="name" type="String" />
 			<description>
-			Registers a GameObject with the given [param game_object] and [param name].
-			[Calls [code]AK::SoundEngine::RegisterGameObj[/code].
-			Returns [code]true[/code] if registering the GameObject succeeded.
+				Registers a GameObject with the given [param game_object] and [param name].
+				Calls [code]AK::SoundEngine::RegisterGameObj[/code].
+				Returns [code]true[/code] if registering the GameObject succeeded.
 			</description>
 		</method>
 		<method name="register_listener">
 			<return type="bool" />
 			<param index="0" name="game_object" type="Node" />
 			<description>
-			Registers a Listener with the given [param game_object]. 
-			Returns [code]true[/code] if registering the Listener succeeded.
+				[b]Warning:[/b] Deprecated.
+				Registers a Listener with the given [param game_object]. 
+				Returns [code]true[/code] if registering the Listener succeeded.
 			</description>
 		</method>
 		<method name="register_spatial_listener">
 			<return type="bool" />
 			<param index="0" name="game_object" type="Node" />
 			<description>
-			Registers a Spatial Audio Listener with the given [param game_object].
-			Calls [code]AK::SpatialAudio::RegisterListener[/code].
-			Returns [code]true[/code] if registering the Listener succeeded.
-			[b]Note:[/b] There can be only one Spatial Audio Listener registered at any given time.
+				Registers a Spatial Audio Listener with the given [param game_object].
+				Calls [code]AK::SpatialAudio::RegisterListener[/code].
+				Returns [code]true[/code] if registering the Listener succeeded.
+				[b]Note:[/b] There can be only one Spatial Audio Listener registered at any given time.
+			</description>
+		</method>
+		<method name="remove_default_listener">
+			<return type="bool" />
+			<param index="0" name="game_object" type="Node" />
+			<description>
+				Removes a single listener from the default set of listeners.
+				Calls [code]AK::SoundEngine::RemoveDefaultListener[/code].
+				Returns [code]true[/code] if removing the default Listener succeeded.
 			</description>
 		</method>
 		<method name="remove_game_object_from_room">
 			<return type="bool" />
 			<param index="0" name="game_object" type="Node" />
 			<description>
-			Removes the given [param game_object] from any Room.
-			Calls [code]AK::SpatialAudio::SetGameObjectInRoom[/code].
-			Returns [code]true[/code] if removing the [param game_object] from a Room succeeded.
+				Removes the given [param game_object] from any Room.
+				Calls [code]AK::SpatialAudio::SetGameObjectInRoom[/code].
+				Returns [code]true[/code] if removing the [param game_object] from a Room succeeded.
 			</description>
 		</method>
 		<method name="remove_geometry">
 			<return type="bool" />
 			<param index="0" name="game_object" type="Object" />
 			<description>
-			Removes a Geometry Set. Pass the [param game_object] that was used to register the geometry to the function.
-			Calls [code]AK::SpatialAudio::RemoveGeometry[/code].
-			Returns [code]true[/code] if removing the Geometry Set succeeded.
+				Removes a Geometry Set. Pass the [param game_object] that was used to register the geometry to the function.
+				Calls [code]AK::SpatialAudio::RemoveGeometry[/code].
+				Returns [code]true[/code] if removing the Geometry Set succeeded.
 			</description>
 		</method>
 		<method name="remove_geometry_instance">
 			<return type="bool" />
 			<param index="0" name="geometry_instance" type="Object" />
 			<description>
-			Removes a Geometry Instance from the SpatialAudio API.
-			Calls [code]AK::SpatialAudio::RemoveGeometryInstance[/code].
-			Returns [code]true[/code] if removing the Geometry Instance succeeded.
+				Removes a Geometry Instance from the SpatialAudio API.
+				Calls [code]AK::SpatialAudio::RemoveGeometryInstance[/code].
+				Returns [code]true[/code] if removing the Geometry Instance succeeded.
+			</description>
+		</method>
+		<method name="remove_listener">
+			<return type="bool" />
+			<param index="0" name="emitter" type="Node" />
+			<param index="1" name="listener" type="Node" />
+			<description>
+				Removes a single listener from a game object's set of active listeners.
+				Calls [code]AK::SoundEngine::RemoveListener[/code].
+				Returns [code]true[/code] if removing the Listener succeeded.
 			</description>
 		</method>
 		<method name="remove_output">
 			<return type="bool" />
 			<param index="0" name="output_id" type="int" />
 			<description>
-			Removes an output with the given [param output_id].
-			Calls [code]AK::SoundEngine::RemoveOutput[/code].
-			Returns [code]true[/code] if removing the output succeeded.
+				Removes an output with the given [param output_id].
+				Calls [code]AK::SoundEngine::RemoveOutput[/code].
+				Returns [code]true[/code] if removing the output succeeded.
 			</description>
 		</method>
 		<method name="remove_portal">
 			<return type="bool" />
 			<param index="0" name="game_object" type="Node" />
 			<description>
-			Removes a Portal created previously with [method set_portal].
-			Calls [code]AK::SpatialAudio::RemovePortal[/code].
-			Returns [code]true[/code] if removing the Portal succeeded.
+				Removes a Portal created previously with [method set_portal].
+				Calls [code]AK::SpatialAudio::RemovePortal[/code].
+				Returns [code]true[/code] if removing the Portal succeeded.
 			</description>
 		</method>
 		<method name="remove_room">
 			<return type="bool" />
 			<param index="0" name="game_object" type="Node" />
 			<description>
-			Removes a Room with the given [param game_object].
-			Calls [code]AK::SpatialAudio::RemoveRoom[/code].
-			Returns [code]true[/code] if removing the Room succeeded.
+				Removes a Room with the given [param game_object].
+				Calls [code]AK::SpatialAudio::RemoveRoom[/code].
+				Returns [code]true[/code] if removing the Room succeeded.
 			</description>
 		</method>
 		<method name="render_audio">
 			<return type="void" />
 			<description>
-			Processes all commands in the sound engine's command queue. This is called automatically by the WwiseRuntimeManager autoload singleton.
-			Calls [code]AK::SoundEngine::RenderAudio[/code].
+				Processes all commands in the sound engine's command queue. This is called automatically by the WwiseRuntimeManager autoload singleton.
+				Calls [code]AK::SoundEngine::RenderAudio[/code].
 			</description>
 		</method>
 		<method name="reset_distance_probe">
 			<return type="bool" />
 			<param index="0" name="listener_game_object" type="Node" />
 			<description>
-			Clears the Distance Probe for the given [param listener_game_object] and reverts to using the listener position for distance calculations.
+				Clears the Distance Probe for the given [param listener_game_object] and reverts to using the listener position for distance calculations.
 			</description>
 		</method>
 		<method name="set_2d_position">
@@ -458,10 +495,10 @@
 			<param index="1" name="transform_2d" type="Transform2D" />
 			<param index="2" name="z_depth" type="float" />
 			<description>
-			Sets the 3D position of the given [param game_object] with the given [param transform_2d] and [param z_depth]. 
-			Use the [param z_depth] parameter to position the game object on the (virtual) z-axis.
-			Calls [code]AK::SoundEngine::SetPosition[/code].
-			Returns [code]true[/code] if setting the position succeeded.
+				Sets the 3D position of the given [param game_object] with the given [param transform_2d] and [param z_depth]. 
+				Use the [param z_depth] parameter to position the game object on the (virtual) z-axis.
+				Calls [code]AK::SoundEngine::SetPosition[/code].
+				Returns [code]true[/code] if setting the position succeeded.
 			</description>
 		</method>
 		<method name="set_3d_position">
@@ -469,25 +506,25 @@
 			<param index="0" name="game_object" type="Node" />
 			<param index="1" name="transform_3d" type="Transform3D" />
 			<description>
-			Sets the 3D position of the given [param game_object] with the given [param transform_3d].
-			Calls [code]AK::SoundEngine::SetPosition[/code].
-			Returns [code]true[/code] if setting the position succeeded.
+				Sets the 3D position of the given [param game_object] with the given [param transform_3d].
+				Calls [code]AK::SoundEngine::SetPosition[/code].
+				Returns [code]true[/code] if setting the position succeeded.
 			</description>
 		</method>
 		<method name="set_banks_path">
 			<return type="void" />
 			<param index="0" name="root_output_path" type="String" />
 			<description>
-			Configures the root output path for generated SoundBanks. 
-			This can be especially useful when loading SoundBanks from locations outside Godot's virtual filesystem.
+				Configures the root output path for generated SoundBanks. 
+				This can be especially useful when loading SoundBanks from locations outside Godot's virtual filesystem.
 			</description>
 		</method>
 		<method name="set_current_language">
 			<return type="void" />
 			<param index="0" name="language" type="String" />
 			<description>
-			Sets the current language. 
-			This is performed automatically based on the [code]startup_language[/code] setting in the Common User Wwise settings (Project Settings).
+				Sets the current language. 
+				This is performed automatically based on the [code]startup_language[/code] setting in the Common User Wwise settings (Project Settings).
 			</description>
 		</method>
 		<method name="set_distance_probe">
@@ -495,10 +532,10 @@
 			<param index="0" name="listener_game_object" type="Node" />
 			<param index="1" name="probe_game_object" type="Node" />
 			<description>
-			Sets the given [param probe_game_object] to be a Distance Probe for the given [param listener_game_object]. 
-			This means attenuation will be calculated from the probe's position, but panning and spatialization will be calculated from the listener. 
-			Returns [code]true[/code] if the process succeeded. 
-			[b]Note:[/b] Both the Listener and GameObject must be registered before this will succeed.
+				Sets the given [param probe_game_object] to be a Distance Probe for the given [param listener_game_object]. 
+				This means attenuation will be calculated from the probe's position, but panning and spatialization will be calculated from the listener. 
+				Returns [code]true[/code] if the process succeeded. 
+				[b]Note:[/b] Both the Listener and GameObject must be registered before this will succeed.
 			</description>
 		</method>
 		<method name="set_early_reflections_aux_send">
@@ -506,9 +543,9 @@
 			<param index="0" name="game_object" type="Node" />
 			<param index="1" name="aux_id" type="int" />
 			<description>
-			Set the given early reflections auxiliary bus [param aux_id] for the particular [param game_object].
-			Calls [code]AK::SpatialAudio::SetEarlyReflectionsAuxSend[/code].
-			Returns [code]true[/code] if setting the early reflections auxiliary bus succeeded.
+				Set the given early reflections auxiliary bus [param aux_id] for the particular [param game_object].
+				Calls [code]AK::SpatialAudio::SetEarlyReflectionsAuxSend[/code].
+				Returns [code]true[/code] if setting the early reflections auxiliary bus succeeded.
 			</description>
 		</method>
 		<method name="set_early_reflections_volume">
@@ -516,9 +553,9 @@
 			<param index="0" name="game_object" type="Node" />
 			<param index="1" name="volume" type="float" />
 			<description>
-			Set the given early reflections send [param volume] for the particular [param game_object].
-			Calls [code]AK::SpatialAudio::SetEarlyReflectionsVolume[/code].
-			Returns [code]true[/code] if setting the early reflections send volume succeeded.
+				Set the given early reflections send [param volume] for the particular [param game_object].
+				Calls [code]AK::SpatialAudio::SetEarlyReflectionsVolume[/code].
+				Returns [code]true[/code] if setting the early reflections send volume succeeded.
 			</description>
 		</method>
 		<method name="set_game_object_aux_send_values">
@@ -527,12 +564,12 @@
 			<param index="1" name="ak_aux_send_values" type="Array" />
 			<param index="2" name="num_send_values" type="int" />
 			<description>
-			Sets the Auxiliary Buses to route the specified [param game_object]. 
-			Pass an Array of Dictionaries to [param ak_aux_send_values] that will represent environments. 
-			The Dictionaries should contain the keys [code]aux_bus_id[/code] (the Aux Bus ID) and [code]control_value[/code] (float representing the attenuation or amplification factor applied to the volume of the sound going through the auxiliary bus).
-			Pass the number of environments to [param num_send_values], 0 to clear the game object's auxiliary send.
-			Calls [code]AK::SoundEngine::SetGameObjectAuxSendValues[/code].
-			Returns [code]true[/code] if succeeded.
+				Sets the Auxiliary Buses to route the specified [param game_object]. 
+				Pass an Array of Dictionaries to [param ak_aux_send_values] that will represent environments. 
+				The Dictionaries should contain the keys [code]aux_bus_id[/code] (the Aux Bus ID) and [code]control_value[/code] (float representing the attenuation or amplification factor applied to the volume of the sound going through the auxiliary bus).
+				Pass the number of environments to [param num_send_values], 0 to clear the game object's auxiliary send.
+				Calls [code]AK::SoundEngine::SetGameObjectAuxSendValues[/code].
+				Returns [code]true[/code] if succeeded.
 			</description>
 		</method>
 		<method name="set_game_object_in_room">
@@ -540,10 +577,10 @@
 			<param index="0" name="game_object" type="Node" />
 			<param index="1" name="room" type="Node" />
 			<description>
-			Sets the Room that the GameObject is currently located in. 
-			Pass a previously registered GameObject to [param game_object] and the Room to [param room].
-			Calls [code]AK::SpatialAudio::SetGameObjectInRoom[/code].
-			Returns [code]true[/code] if succeeded.
+				Sets the Room that the GameObject is currently located in. 
+				Pass a previously registered GameObject to [param game_object] and the Room to [param room].
+				Calls [code]AK::SpatialAudio::SetGameObjectInRoom[/code].
+				Returns [code]true[/code] if succeeded.
 			</description>
 		</method>
 		<method name="set_game_object_output_bus_volume">
@@ -552,10 +589,10 @@
 			<param index="1" name="listener" type="Node" />
 			<param index="2" name="f_control_value" type="float" />
 			<description>
-			Sets the Output Bus Volume of the given [param game_object].
-			Calls [code]AK::SoundEngine::SetGameObjectOutputBusVolume[/code].
-			Set [param listener] to [code]null[/code] to set the Output Bus Volume for all connected listeners.
-			Returns [code]true[/code] if setting the Output Bus Volume succeeded.
+				Sets the Output Bus Volume of the given [param game_object].
+				Calls [code]AK::SoundEngine::SetGameObjectOutputBusVolume[/code].
+				Set [param listener] to [code]null[/code] to set the Output Bus Volume for all connected listeners.
+				Returns [code]true[/code] if setting the Output Bus Volume succeeded.
 			</description>
 		</method>
 		<method name="set_game_object_radius">
@@ -564,9 +601,9 @@
 			<param index="1" name="outer_radius" type="float" />
 			<param index="2" name="inner_radius" type="float" />
 			<description>
-			Sets the outer and inner radius for the specified [param game_object].
-			Calls [code]AK::SpatialAudio::SetGameObjectRadius[/code].
-			Returns [code]true[/code] if succeeded.
+				Sets the outer and inner radius for the specified [param game_object].
+				Calls [code]AK::SpatialAudio::SetGameObjectRadius[/code].
+				Returns [code]true[/code] if succeeded.
 			</description>
 		</method>
 		<method name="set_game_object_to_portal_obstruction">
@@ -575,9 +612,9 @@
 			<param index="1" name="portal" type="Node" />
 			<param index="2" name="obstruction_value" type="float" />
 			<description>
-			Set the obstruction value of the path between a game object and a portal that has been created by Spatial Audio.
-			Calls [code]SetGameObjectToPortalObstruction[/code].
-			Returns [code]true[/code] if succeeded.
+				Set the obstruction value of the path between a game object and a portal that has been created by Spatial Audio.
+				Calls [code]SetGameObjectToPortalObstruction[/code].
+				Returns [code]true[/code] if succeeded.
 			</description>
 		</method>
 		<method name="set_geometry">
@@ -590,14 +627,14 @@
 			<param index="5" name="enable_diffraction" type="bool" />
 			<param index="6" name="enable_diffraction_on_boundary_edges" type="bool" />
 			<description>
-			Adds a set of geometry from the SpatialAudio module for geometric reflection and diffraction processing on the given [param game_object]. 
-			[param vertices] should be an Array containing Vertices (Vector3). 
-			Pass an Array of triangles (int) to [param triangles]. 
-			[param enable_diffraction] enables or disables geometric diffraction for this geometry.
-			[param enable_diffraction_on_boundary_edges] enables or disables geometric diffraction on boundary edges for this geometry. 
-			[param acoustic_texture] is a WwiseAcousticTexture type. Pass null here if you don't use Acoustic Textures.
-			Calls [code]AK::SpatialAudio::SetGeometry[/code].
-			Returns [code]true[/code] if succeeded.
+				Adds a set of geometry from the SpatialAudio module for geometric reflection and diffraction processing on the given [param game_object]. 
+				[param vertices] should be an Array containing Vertices (Vector3). 
+				Pass an Array of triangles (int) to [param triangles]. 
+				[param enable_diffraction] enables or disables geometric diffraction for this geometry.
+				[param enable_diffraction_on_boundary_edges] enables or disables geometric diffraction on boundary edges for this geometry. 
+				[param acoustic_texture] is a WwiseAcousticTexture type. Pass null here if you don't use Acoustic Textures.
+				Calls [code]AK::SpatialAudio::SetGeometry[/code].
+				Returns [code]true[/code] if succeeded.
 			</description>
 		</method>
 		<method name="set_geometry_instance">
@@ -606,16 +643,16 @@
 			<param index="1" name="transform" type="Transform3D" />
 			<param index="2" name="geometry_instance" type="Object" />
 			<description>
-			Add or update a geometry instance from the SpatialAudio module for geometric reflection and diffraction processing.
+				Add or update a geometry instance from the SpatialAudio module for geometric reflection and diffraction processing.
 			</description>
 		</method>
 		<method name="set_listeners">
 			<return type="bool" />
-			<param index="0" name="emtter" type="Node" />
-			<param index="1" name="listener" type="Node" />
+			<param index="0" name="emitter" type="Node" />
+			<param index="1" name="listeners" type="Node[]" />
 			<description>
-			Associates the game object [param emitter] with a [param listener] object.
-			Returns [code]true[/code] if succeeded.
+				Associates the game object [param emitter] with a set of [param listeners].
+				Returns [code]true[/code] if succeeded.
 			</description>
 		</method>
 		<method name="set_multiple_positions_2d">
@@ -626,11 +663,11 @@
 			<param index="3" name="num_positions" type="int" />
 			<param index="4" name="multi_position_type" type="int" enum="AkUtils.MultiPositionType" />
 			<description>
-			Sets the 3D position of the given [param game_object] with the given [param positions] array. 
-			Specify the number of position with [param num_positions] and the position type with [enum AkUtils.MultiPositionType].
-			Use the [param z_depths] parameter to position the game object on the (virtual) z-axis.
-			Calls [code]AK::SoundEngine::SetMultiplePositions[/code].
-			Returns [code]true[/code] if succeeded.
+				Sets the 3D position of the given [param game_object] with the given [param positions] array. 
+				Specify the number of position with [param num_positions] and the position type with [enum AkUtils.MultiPositionType].
+				Use the [param z_depths] parameter to position the game object on the (virtual) z-axis.
+				Calls [code]AK::SoundEngine::SetMultiplePositions[/code].
+				Returns [code]true[/code] if succeeded.
 			</description>
 		</method>
 		<method name="set_multiple_positions_3d">
@@ -640,10 +677,10 @@
 			<param index="2" name="num_positions" type="int" />
 			<param index="3" name="multi_position_type" type="int" enum="AkUtils.MultiPositionType" />
 			<description>
-			Sets the 3D position of the given [param game_object] with the given [param positions] array. 
-			Specify the number of position with [param num_positions] and the position type with [enum AkUtils.MultiPositionType].
-			Calls [code]AK::SoundEngine::SetMultiplePositions[/code].
-			Returns [code]true[/code] if succeeded.
+				Sets the 3D position of the given [param game_object] with the given [param positions] array. 
+				Specify the number of position with [param num_positions] and the position type with [enum AkUtils.MultiPositionType].
+				Calls [code]AK::SoundEngine::SetMultiplePositions[/code].
+				Returns [code]true[/code] if succeeded.
 			</description>
 		</method>
 		<method name="set_object_obstruction_and_occlusion">
@@ -653,10 +690,10 @@
 			<param index="2" name="calculated_obs" type="float" />
 			<param index="3" name="calculated_occ" type="float" />
 			<description>
-			Sets the obstruction and occlusion levels of the given [param game_object]. 
-			The [param calculated_obs] and [param calculated_occ] values should be calculated by the user of this function.
-			Calls [code]AK::SoundEngine::SetObjectObstructionAndOcclusion[/code].
-			Returns [code]true[/code] if succeeded.
+				Sets the obstruction and occlusion levels of the given [param game_object]. 
+				The [param calculated_obs] and [param calculated_occ] values should be calculated by the user of this function.
+				Calls [code]AK::SoundEngine::SetObjectObstructionAndOcclusion[/code].
+				Returns [code]true[/code] if succeeded.
 			</description>
 		</method>
 		<method name="set_portal">
@@ -668,12 +705,12 @@
 			<param index="4" name="back_room" type="Node" />
 			<param index="5" name="enabled" type="bool" />
 			<description>
-			Adds an Acoustic Portal with the given [param game_object] at the [param transform] position. 
-			[param extent] defines the dimensions of the portal relative to its center. 
-			Pass room objects created with [method set_room] to [param front_room] and [param back_room]. 
-			[param enabled] defines whether the portal is enabled or disabled. 
-			[code]Calls AK::SpatialAudio::SetPortal[/code].
-			Returns [code]true[/code] if setting the portal succeeded.
+				Adds an Acoustic Portal with the given [param game_object] at the [param transform] position. 
+				[param extent] defines the dimensions of the portal relative to its center. 
+				Pass room objects created with [method set_room] to [param front_room] and [param back_room]. 
+				[param enabled] defines whether the portal is enabled or disabled. 
+				[code]Calls AK::SpatialAudio::SetPortal[/code].
+				Returns [code]true[/code] if setting the portal succeeded.
 			</description>
 		</method>
 		<method name="set_portal_obstruction_and_occlusion">
@@ -682,7 +719,7 @@
 			<param index="1" name="obstruction_value" type="float" />
 			<param index="2" name="occlusion_value" type="float" />
 			<description>
-			Set the obstruction and occlusion value for a portal that has been registered with Spatial Audio.
+				Set the obstruction and occlusion value for a portal that has been registered with Spatial Audio.
 			</description>
 		</method>
 		<method name="set_portal_to_portal_obstruction">
@@ -691,16 +728,16 @@
 			<param index="1" name="portal1" type="Node" />
 			<param index="2" name="obstruction_value" type="float" />
 			<description>
-			Set the obstruction value of the path between two portals that has been created by Spatial Audio.
+				Set the obstruction value of the path between two portals that has been created by Spatial Audio.
 			</description>
 		</method>
 		<method name="set_random_seed">
 			<return type="void" />
 			<param index="0" name="seed" type="int" />
 			<description>
-			Sets the random seed value. 
-			Can be used to synchronize randomness across instances of the sound engine.
-			Calls [code]AK::SoundEngine::SetRandomSeed[/code].
+				Sets the random seed value. 
+				Can be used to synchronize randomness across instances of the sound engine.
+				Calls [code]AK::SoundEngine::SetRandomSeed[/code].
 			</description>
 		</method>
 		<method name="set_room">
@@ -714,10 +751,10 @@
 			<param index="6" name="keep_registered" type="bool" />
 			<param index="7" name="associated_geometry" type="Object" />
 			<description>
-			Adds a Room with the given [param game_object]. 
-			Pass the reverb aux bus that is associated with the room to [param aux_bus_id].
-			Calls [code]AK::SpatialAudio::SetRoom[/code].
-			Returns [code]true[/code] if setting the Room succeeded.
+				Adds a Room with the given [param game_object]. 
+				Pass the reverb aux bus that is associated with the room to [param aux_bus_id].
+				Calls [code]AK::SpatialAudio::SetRoom[/code].
+				Returns [code]true[/code] if setting the Room succeeded.
 			</description>
 		</method>
 		<method name="set_rtpc_value">
@@ -726,10 +763,10 @@
 			<param index="1" name="value" type="float" />
 			<param index="2" name="game_object" type="Node" />
 			<description>
-			Sets the RTPC [param name] with the given [param value] on the [param game_object]. 
-			Pass [code]null[/code] to [param game_object] to set a global RTPC value.
-			Calls [code]AK::SoundEngine::SetRTPCValue[/code].
-			Returns [code]true[/code] if setting the RTPC succeeded.
+				Sets the RTPC [param name] with the given [param value] on the [param game_object]. 
+				Pass [code]null[/code] to [param game_object] to set a global RTPC value.
+				Calls [code]AK::SoundEngine::SetRTPCValue[/code].
+				Returns [code]true[/code] if setting the RTPC succeeded.
 			</description>
 		</method>
 		<method name="set_rtpc_value_id">
@@ -738,10 +775,10 @@
 			<param index="1" name="value" type="float" />
 			<param index="2" name="game_object" type="Node" />
 			<description>
-			Sets the RTPC [param id] with the given [param value] on the [param game_object]. 
-			Pass [code]null[/code] to [param game_object] to set a global RTPC value.
-			Calls [code]AK::SoundEngine::SetRTPCValue[/code].
-			Returns [code]true[/code] if setting the RTPC succeeded.
+				Sets the RTPC [param id] with the given [param value] on the [param game_object]. 
+				Pass [code]null[/code] to [param game_object] to set a global RTPC value.
+				Calls [code]AK::SoundEngine::SetRTPCValue[/code].
+				Returns [code]true[/code] if setting the RTPC succeeded.
 			</description>
 		</method>
 		<method name="set_state">
@@ -749,9 +786,9 @@
 			<param index="0" name="state_group" type="String" />
 			<param index="1" name="state_value" type="String" />
 			<description>
-			Sets the given [param state_value] of the [param state_group].
-			Calls [code]AK::SoundEngine::SetState[/code].
-			Returns [code]true[/code] if setting the State succeeded.
+				Sets the given [param state_value] of the [param state_group].
+				Calls [code]AK::SoundEngine::SetState[/code].
+				Returns [code]true[/code] if setting the State succeeded.
 			</description>
 		</method>
 		<method name="set_state_id">
@@ -759,9 +796,9 @@
 			<param index="0" name="state_group_id" type="int" />
 			<param index="1" name="state_value_id" type="int" />
 			<description>
-			Sets the given [param state_value_id] of the [param state_group_id].
-			Calls [code]AK::SoundEngine::SetState[/code].
-			Returns [code]true[/code] if setting the State succeeded.
+				Sets the given [param state_value_id] of the [param state_group_id].
+				Calls [code]AK::SoundEngine::SetState[/code].
+				Returns [code]true[/code] if setting the State succeeded.
 			</description>
 		</method>
 		<method name="set_switch">
@@ -770,9 +807,9 @@
 			<param index="1" name="switch_value" type="String" />
 			<param index="2" name="game_object" type="Node" />
 			<description>
-			Sets the given [param switch_value] of the [param switch_group] on the given [param game_object].
-			Calls [code]AK::SoundEngine::SetSwitch[/code].
-			Returns [code]true[/code] if setting the Switch succeeded.
+				Sets the given [param switch_value] of the [param switch_group] on the given [param game_object].
+				Calls [code]AK::SoundEngine::SetSwitch[/code].
+				Returns [code]true[/code] if setting the Switch succeeded.
 			</description>
 		</method>
 		<method name="set_switch_id">
@@ -781,23 +818,23 @@
 			<param index="1" name="switch_value_id" type="int" />
 			<param index="2" name="game_object" type="Node" />
 			<description>
-			Sets the given [param switch_value_id] of the [param switch_group_id] on the given [param game_object].
-			Calls [code]AK::SoundEngine::SetSwitch[/code].
-			Returns [code]true[/code] if setting the Switch succeeded.
+				Sets the given [param switch_value_id] of the [param switch_group_id] on the given [param game_object].
+				Calls [code]AK::SoundEngine::SetSwitch[/code].
+				Returns [code]true[/code] if setting the Switch succeeded.
 			</description>
 		</method>
 		<method name="shutdown">
 			<return type="void" />
 			<description>
-			Shuts down the Wwise sound engine. This is called automatically by the WwiseRuntimeManager autoload singleton.
+				Shuts down the Wwise sound engine. This is called automatically by the WwiseRuntimeManager autoload singleton.
 			</description>
 		</method>
 		<method name="stop_all">
 			<return type="void" />
 			<param index="0" name="game_object" type="Node" default="null" />
 			<description>
-			Stops the current content playing associated to the specified [param game_object]. 
-			If no game object is specified, all sounds will be stopped.
+				Stops the current content playing associated to the specified [param game_object]. 
+				If no game object is specified, all sounds will be stopped.
 			</description>
 		</method>
 		<method name="stop_event">
@@ -806,10 +843,10 @@
 			<param index="1" name="fade_time" type="int" />
 			<param index="2" name="interpolation" type="int" enum="AkUtils.AkCurveInterpolation" />
 			<description>
-			Stops an Event with the given [param playing_id]. 
-			[param fade_time] describes the fade time duration in milliseconds. 
-			Pass the [enum AkUtils.AkCurveInterpolation] value to [param interpolation].
-			Calls [code]AK::SoundEngine::ExecuteActionOnPlayingID[/code].
+				Stops an Event with the given [param playing_id]. 
+				[param fade_time] describes the fade time duration in milliseconds. 
+				Pass the [enum AkUtils.AkCurveInterpolation] value to [param interpolation].
+				Calls [code]AK::SoundEngine::ExecuteActionOnPlayingID[/code].
 			</description>
 		</method>
 		<method name="stop_midi_on_event_id">
@@ -817,28 +854,28 @@
 			<param index="0" name="event_id" type="int" />
 			<param index="1" name="game_object" type="Node" />
 			<description>
-			Stops MIDI notes on all nodes that are referenced in the specified event in an action of type play, with the specified [param game_object].
-			Calls [code]AK::SoundEngine::StopMIDIOnEvent[/code].
-			Returns [code]true[/code] if succeeded.
+				Stops MIDI notes on all nodes that are referenced in the specified event in an action of type play, with the specified [param game_object].
+				Calls [code]AK::SoundEngine::StopMIDIOnEvent[/code].
+				Returns [code]true[/code] if succeeded.
 			</description>
 		</method>
 		<method name="suspend">
 			<return type="bool" />
 			<param index="0" name="render_anyway" type="bool" />
 			<description>
-			Suspends the sound engine. 
-			Set [param render_anyway] to true if your game still runs in backround.
-			Calls [code]AK::SoundEngine::Suspend[/code].
-			Returns [code]true[/code] if suspending the sound engine succeeded.
+				Suspends the sound engine. 
+				Set [param render_anyway] to true if your game still runs in backround.
+				Calls [code]AK::SoundEngine::Suspend[/code].
+				Returns [code]true[/code] if suspending the sound engine succeeded.
 			</description>
 		</method>
 		<method name="unload_bank">
 			<return type="bool" />
 			<param index="0" name="bank_name" type="String" />
 			<description>
-			Unloads a SoundBank with the given [param bank_name] synchronously.
-			Calls [code]AK::SoundEngine::UnloadBank[/code].
-			[br]Returns [code]true[/code] if SoundBank unloading succeeded.
+				Unloads a SoundBank with the given [param bank_name] synchronously.
+				Calls [code]AK::SoundEngine::UnloadBank[/code].
+				[br]Returns [code]true[/code] if SoundBank unloading succeeded.
 			</description>
 		</method>
 		<method name="unload_bank_async">
@@ -846,9 +883,9 @@
 			<param index="0" name="bank_name" type="String" />
 			<param index="1" name="cookie" type="Callable" />
 			<description>
-			Unloads a SoundBank with the given [param bank_name] asynchronously.
-			Calls [code]AK::SoundEngine::UnloadBank[/code].
-			[br]Returns [code]true[/code] if the SoundBank unloading request succeeded.
+				Unloads a SoundBank with the given [param bank_name] asynchronously.
+				Calls [code]AK::SoundEngine::UnloadBank[/code].
+				[br]Returns [code]true[/code] if the SoundBank unloading request succeeded.
 			</description>
 		</method>
 		<method name="unload_bank_async_id">
@@ -856,34 +893,34 @@
 			<param index="0" name="bank_id" type="int" />
 			<param index="1" name="cookie" type="Callable" />
 			<description>
-			Unloads a SoundBank with the given [param bank_id] asynchronously.
-			Calls [code]AK::SoundEngine::UnloadBank[/code].
-			[br]Returns [code]true[/code] if the SoundBank unloading request succeeded.
+				Unloads a SoundBank with the given [param bank_id] asynchronously.
+				Calls [code]AK::SoundEngine::UnloadBank[/code].
+				[br]Returns [code]true[/code] if the SoundBank unloading request succeeded.
 			</description>
 		</method>
 		<method name="unload_bank_id">
 			<return type="bool" />
 			<param index="0" name="bank_id" type="int" />
 			<description>
-			Unloads a SoundBank with the given [param bank_id] synchronously.
-			Calls [code]AK::SoundEngine::UnloadBank[/code].
-			[br]Returns [code]true[/code] if SoundBank unloading succeeded.
+				Unloads a SoundBank with the given [param bank_id] synchronously.
+				Calls [code]AK::SoundEngine::UnloadBank[/code].
+				[br]Returns [code]true[/code] if SoundBank unloading succeeded.
 			</description>
 		</method>
 		<method name="unregister_game_obj">
 			<return type="bool" />
 			<param index="0" name="game_object" type="Node" />
 			<description>
-			Unregisters the given [param game_object].
-			Calls [code]AK::SoundEngine::UnregisterGameObj[/code].
+				Unregisters the given [param game_object].
+				Calls [code]AK::SoundEngine::UnregisterGameObj[/code].
 			</description>
 		</method>
 		<method name="wakeup_from_suspend">
 			<return type="bool" />
 			<description>
-			Wakes up the sound engine and starts processing audio again.
-			Calls [code]AK::SoundEngine::WakeupFromSuspend[/code].
-			Returns [code]true[/code] if waking up the sound engine succeeded.
+				Wakes up the sound engine and starts processing audio again.
+				Calls [code]AK::SoundEngine::WakeupFromSuspend[/code].
+				Returns [code]true[/code] if waking up the sound engine succeeded.
 			</description>
 		</method>
 	</methods>
