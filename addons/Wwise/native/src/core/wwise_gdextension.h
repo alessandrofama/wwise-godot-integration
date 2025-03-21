@@ -1,11 +1,11 @@
 #pragma once
 
-#include "core/wwise_external_source_info.h"
 #include "core/ak_midi_post.h"
 #include "core/ak_utils.h"
 #include "core/types/wwise_acoustic_texture.h"
 #include "core/utils.h"
 #include "core/wwise_bank_manager.h"
+#include "core/wwise_external_source_info.h"
 #include "core/wwise_io_hook.h"
 #include "core/wwise_platform_info.h"
 #include "core/wwise_settings.h"
@@ -82,14 +82,19 @@ public:
 	bool unload_bank_async(const String& bank_name, const Callable& cookie);
 	bool unload_bank_async_id(const unsigned int bank_id, const Callable& cookie);
 
-	bool register_listener(const Node* game_object);
+	bool register_listener(const Node* game_object); // todo(25.1): deprecated
 	bool register_game_obj(const Node* game_object, const String& game_object_name);
 	bool unregister_game_obj(const Node* game_object);
+
+	bool add_listener(Node* emitter, Node* listener);
+	bool remove_listener(Node* emitter, Node* listener);
+	bool add_default_listener(Node* game_object);
+	bool remove_default_listener(Node* game_object);
+	bool set_listeners(Node* emitter, TypedArray<Node> listeners);
 
 	bool set_distance_probe(Node* listener_game_object, Node* probe_game_object);
 	bool reset_distance_probe(Node* listener_game_object);
 
-	bool set_listeners(Node* emitter, Node* listener);
 	void set_random_seed(const unsigned int seed);
 
 	bool set_3d_position(const Node* game_object, const Transform3D& transform_3d);

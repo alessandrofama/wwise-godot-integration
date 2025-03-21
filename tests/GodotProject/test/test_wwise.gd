@@ -84,6 +84,7 @@ func test_unload_bank_async() -> void:
 	assert_bool(bank_data["result"] == 1).is_true()
 
 
+# todo(25.1): deprecated
 func test_register_listener() -> void:
 	var listener = Node3D.new()
 	var result = Wwise.register_listener(listener)
@@ -107,6 +108,56 @@ func test_unregister_game_obj() -> void:
 	assert_bool(result).is_true()
 
 
+func test_add_listener() -> void:
+	var emitter = create_node_3d()
+	var listener = create_node_3d()
+	var result = Wwise.add_listener(emitter, listener)
+	free_node_3d(emitter)
+	free_node_3d(listener)
+	assert_bool(result).is_true()
+
+
+func test_remove_listener() -> void:
+	var emitter = create_node_3d()
+	var listener = create_node_3d()
+	Wwise.add_listener(emitter, listener)
+	var result = Wwise.remove_listener(emitter, listener)
+	free_node_3d(emitter)
+	free_node_3d(listener)
+	assert_bool(result).is_true()
+
+
+func test_add_default_listener() -> void:
+	var node = create_node_3d()
+	var result = Wwise.add_default_listener(node)
+	free_node_3d(node)
+	assert_bool(result).is_true()
+
+
+func test_remove_default_listener() -> void:
+	var node = create_node_3d()
+	Wwise.add_default_listener(node)
+	var result = Wwise.remove_default_listener(node)
+	free_node_3d(node)
+	assert_bool(result).is_true()
+
+
+func test_set_listeners_single() -> void:
+	var emitter = create_node_3d()
+	var listener = create_node_3d()
+	var result = Wwise.set_listeners(emitter, [listener])
+	free_node_3d(emitter)
+	free_node_3d(listener)
+	assert_bool(result).is_true()
+
+
+func test_set_listeners_empty() -> void:
+	var emitter = create_node_3d()
+	var result = Wwise.set_listeners(emitter, [])
+	free_node_3d(emitter)
+	assert_bool(result).is_true()
+
+
 func test_set_distance_probe() -> void:
 	var listener = create_node_3d()
 	Wwise.register_listener(listener)
@@ -127,16 +178,6 @@ func test_reset_distance_probe() -> void:
 	free_node_3d(probe)
 	assert_bool(result).is_true()
 
-
-func test_set_listeners() -> void:
-	var listener = Node3D.new()
-	Wwise.register_listener(listener)
-	var game_obj = Node.new()
-	Wwise.register_game_obj(game_obj, "emitter")
-	var result = Wwise.set_listeners(game_obj, listener)
-	listener.queue_free()
-	game_obj.queue_free()
-	assert_bool(result).is_true()
 
 
 func test_set_3d_position() -> void:
