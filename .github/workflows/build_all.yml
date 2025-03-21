@@ -10,6 +10,7 @@ on:
 env:
   BASE_BRANCH: ci
   WWISE_VERSION: "2024.1.2"
+  WWISE_BUILD: "8726"
   GODOT_ENGINE_VERSION: "4.3.0"
   GODOT_ENGINE_STAGE: "stable"
   BUILD_PROFILE_EDITOR: "build_profile_editor.json"
@@ -64,6 +65,13 @@ jobs:
         with:
           submodules: recursive
 
+      - name: Checkout private scripts
+        uses: actions/checkout@v3
+        with:
+          repository: alessandrofama/wwise-dl
+          token: ${{ secrets.WWISE_DL_REPO_TOKEN }}
+          path: ./addons/Wwise/native/tools/
+
       - name: Setup java
         uses: actions/setup-java@v3
         if: matrix.sdk-platform == 'android'
@@ -105,100 +113,38 @@ jobs:
           architecture: "x64"
 
       - name: Set up dependencies (Python, SCons)
-        run: python -m pip install scons==4.7.0
-
-      - name: Set up Windows dependencies
-        if: runner.os == 'Windows'
-        run: |
-          choco install 7zip -y
+        run: python -m pip install scons==4.7.0 requests tqdm
 
       - name: Set up Linux dependencies
         if: runner.os == 'Linux' && matrix.sdk-platform == 'linux'
         run: |
           sudo apt-get install build-essential pkg-config libx11-dev \
-            yasm zip unzip p7zip-full p7zip-rar gcc-11 g++-11 libtbb-dev
+            yasm zip gcc-11 g++-11 libtbb-dev
 
-      - name: Download Wwise SDK (Base)
-        uses: suisei-cn/actions-download-file@v1.4.0
-        if: steps.cache-wwise-sdk.outputs.cache-hit != 'true'
-        with:
-          url: "https://www.dropbox.com/scl/fi/xlz1hr21e1njnkcsy7me1/wwise_sdk_2024.1.2_base.zip?rlkey=xl0cgb23711dyk4gp78dfdm2o&st=ku00ag9d&dl=1"
-          target: ./addons/Wwise/native/wwise_sdk/
-
-      - name: Download Wwise SDK (Windows)
-        uses: suisei-cn/actions-download-file@v1.4.0
-        if: runner.os == 'Windows' && steps.cache-wwise-sdk.outputs.cache-hit != 'true'
-        with:
-          url: "https://www.dropbox.com/scl/fi/s07hg30jhmdgb3bh0uu5f/wwise_sdk_2024.1.2_win.zip?rlkey=smg5p043w58lc6b06j7uixx6d&st=nxbetwd4&dl=1"
-          target: ./addons/Wwise/native/wwise_sdk/
-
-      - name: Download Wwise SDK (macOS)
-        uses: suisei-cn/actions-download-file@v1.4.0
-        if: runner.os == 'MacOS' && matrix.sdk-platform == 'mac' && steps.cache-wwise-sdk.outputs.cache-hit != 'true'
-        with:
-          url: "https://www.dropbox.com/scl/fi/kpmzhab4uvptpd27yuygk/wwise_sdk_2024.1.2_mac.zip?rlkey=8rfcs41oqbj0s07g36ka8xdnm&st=xdhx2r7d&dl=1"
-          target: ./addons/Wwise/native/wwise_sdk/
-
-      - name: Download Wwise SDK (Linux)
-        uses: suisei-cn/actions-download-file@v1.4.0
-        if: runner.os == 'Linux' && matrix.sdk-platform == 'linux' && steps.cache-wwise-sdk.outputs.cache-hit != 'true'
-        with:
-          url: "https://www.dropbox.com/scl/fi/492nf5u1sux7sdc1u8jyb/wwise_sdk_2024.1.2_linux.zip?rlkey=7h2ncifo0655i8b1ab71pur5s&st=yxix8lh2&dl=1"
-          target: ./addons/Wwise/native/wwise_sdk/
-
-      - name: Download Wwise SDK (iOS)
-        uses: suisei-cn/actions-download-file@v1.4.0
-        if: runner.os == 'MacOS' && matrix.sdk-platform == 'ios' && steps.cache-wwise-sdk.outputs.cache-hit != 'true'
-        with:
-          url: "https://www.dropbox.com/scl/fi/t1bd7fbz37p0gcujzwldn/wwise_sdk_2024.1.2_ios.zip?rlkey=cbpnlrsoeojnk9hxiamut791w&st=ohhcw5om&dl=1"
-          target: ./addons/Wwise/native/wwise_sdk/
-
-      - name: Download Wwise SDK (Android)
-        uses: suisei-cn/actions-download-file@v1.4.0
-        if: runner.os == 'Linux' && matrix.sdk-platform == 'android' && steps.cache-wwise-sdk.outputs.cache-hit != 'true'
-        with:
-          url: "https://www.dropbox.com/scl/fi/629vcgw20tzrp5199gzk9/wwise_sdk_2024.1.2_android.zip?rlkey=0kcpqko9m4sqjlyprg8dd901k&st=in33mx3c&dl=1"
-          target: ./addons/Wwise/native/wwise_sdk/
-
-      - name: Unzip SDK (Windows)
+      - name: Prepare SDK (Windows)
         if: runner.os == 'Windows' && steps.cache-wwise-sdk.outputs.cache-hit != 'true'
         run: |
-          cd ./addons/Wwise/native/wwise_sdk
-          7z x wwise_sdk_${{ env.WWISE_VERSION }}_base.zip
-          7z x wwise_sdk_${{ env.WWISE_VERSION }}_win.zip
-          cd ../../../../
+            python ./addons/Wwise/native/tools/wwise-dl.py --user ${{ secrets.AK_USER }} --pass ${{ secrets.AK_PASS }} ${{ env.WWISE_VERSION }}.${{ env.WWISE_BUILD }} Windows_vc170 --plugins Auro ConvolutionReverb iZotope McDSP Reflect SoundSeed SoundSeedGrain ResonanceAudio Motion ASIO AkChannelRouter MasteringSuite CrankcaseAudioREVModelPlayer Impacter --output ./addons/Wwise/native/wwise_sdk/
 
-      - name: Unzip SDK (macOS)
+      - name: Prepare SDK (macOS)
         if: runner.os == 'MacOS' && matrix.sdk-platform == 'mac' && steps.cache-wwise-sdk.outputs.cache-hit != 'true'
         run: |
-          cd ./addons/Wwise/native/wwise_sdk
-          7z x wwise_sdk_${{ env.WWISE_VERSION }}_base.zip
-          7z x wwise_sdk_${{ env.WWISE_VERSION }}_mac.zip
-          cd ../../../../
+            python ./addons/Wwise/native/tools/wwise-dl.py --user ${{ secrets.AK_USER }} --pass ${{ secrets.AK_PASS }} ${{ env.WWISE_VERSION }}.${{ env.WWISE_BUILD }} Mac --plugins Auro ConvolutionReverb iZotope McDSP Reflect SoundSeed SoundSeedGrain ResonanceAudio Motion ASIO AkChannelRouter MasteringSuite CrankcaseAudioREVModelPlayer Impacter --output ./addons/Wwise/native/wwise_sdk/
 
-      - name: Unzip SDK (Linux)
+      - name: Prepare SDK (Linux)
         if: runner.os == 'Linux' && matrix.sdk-platform == 'linux' && steps.cache-wwise-sdk.outputs.cache-hit != 'true'
         run: |
-          cd ./addons/Wwise/native/wwise_sdk
-          7z x wwise_sdk_${{ env.WWISE_VERSION }}_base.zip
-          7z x wwise_sdk_${{ env.WWISE_VERSION }}_linux.zip
-          cd ../../../../
+            python ./addons/Wwise/native/tools/wwise-dl.py --user ${{ secrets.AK_USER }} --pass ${{ secrets.AK_PASS }} ${{ env.WWISE_VERSION }}.${{ env.WWISE_BUILD }} Linux --plugins Auro ConvolutionReverb iZotope McDSP Reflect SoundSeed SoundSeedGrain ResonanceAudio Motion ASIO AkChannelRouter MasteringSuite CrankcaseAudioREVModelPlayer Impacter --output ./addons/Wwise/native/wwise_sdk/
 
-      - name: Unzip SDK (iOS)
+      - name: Prepare SDK (iOS)
         if: runner.os == 'MacOS' && matrix.sdk-platform == 'ios' && steps.cache-wwise-sdk.outputs.cache-hit != 'true'
         run: |
-            cd ./addons/Wwise/native/wwise_sdk
-            7z x wwise_sdk_${{ env.WWISE_VERSION }}_base.zip
-            7z x wwise_sdk_${{ env.WWISE_VERSION }}_ios.zip
-            cd ../../../../
+            python ./addons/Wwise/native/tools/wwise-dl.py --user ${{ secrets.AK_USER }} --pass ${{ secrets.AK_PASS }} ${{ env.WWISE_VERSION }}.${{ env.WWISE_BUILD }} iOS --plugins Auro ConvolutionReverb iZotope McDSP Reflect SoundSeed SoundSeedGrain ResonanceAudio Motion ASIO AkChannelRouter MasteringSuite CrankcaseAudioREVModelPlayer Impacter --output ./addons/Wwise/native/wwise_sdk/
 
-      - name: Unzip SDK (Android)
+      - name: Prepare SDK (Android)
         if: runner.os == 'Linux' && matrix.sdk-platform == 'android' && steps.cache-wwise-sdk.outputs.cache-hit != 'true'
         run: |
-              cd ./addons/Wwise/native/wwise_sdk
-              7z x wwise_sdk_${{ env.WWISE_VERSION }}_base.zip
-              7z x wwise_sdk_${{ env.WWISE_VERSION }}_android.zip
-              cd ../../../../
+            python ./addons/Wwise/native/tools/wwise-dl.py --user ${{ secrets.AK_USER }} --pass ${{ secrets.AK_PASS }} ${{ env.WWISE_VERSION }}.${{ env.WWISE_BUILD }} Android --plugins Auro ConvolutionReverb iZotope McDSP Reflect SoundSeed SoundSeedGrain ResonanceAudio Motion ASIO AkChannelRouter MasteringSuite CrankcaseAudioREVModelPlayer Impacter --output ./addons/Wwise/native/wwise_sdk/
 
       - name: Compile editor library
         if: matrix.sdk-platform != 'android' && matrix.sdk-platform != 'ios'
@@ -209,7 +155,7 @@ jobs:
         run: |
           cd addons/Wwise/native
           mkdir -p godot-cpp/bin
-          scons platform=${{ matrix.scons-platform }} target=editor wwise_config=profile use_static_cpp=yes wwise_sdk=wwise_sdk build_profile=${{ env.BUILD_PROFILE_EDITOR }}
+          scons platform=${{ matrix.scons-platform }} target=editor wwise_config=profile use_static_cpp=yes wwise_sdk=wwise_sdk/SDK build_profile=${{ env.BUILD_PROFILE_EDITOR }}
           cd ../../../
 
       - name: Compile template_debug library
@@ -220,7 +166,7 @@ jobs:
           SCONS_CACHE_LIMIT: 7168
         run: |
           cd addons/Wwise/native
-          scons platform=${{ matrix.scons-platform }} target=template_debug wwise_config=profile use_static_cpp=yes wwise_sdk=wwise_sdk build_profile=${{ env.BUILD_PROFILE_RUNTIME }} ${{ matrix.debug-flags }}
+          scons platform=${{ matrix.scons-platform }} target=template_debug wwise_config=profile use_static_cpp=yes wwise_sdk=wwise_sdk/SDK build_profile=${{ env.BUILD_PROFILE_RUNTIME }} ${{ matrix.debug-flags }}
           cd ../../../
 
       - name: Compile template_release library
@@ -231,16 +177,16 @@ jobs:
           SCONS_CACHE_LIMIT: 7168
         run: |
           cd addons/Wwise/native
-          scons platform=${{ matrix.scons-platform }} target=template_release wwise_config=release use_static_cpp=yes wwise_sdk=wwise_sdk build_profile=${{ env.BUILD_PROFILE_RUNTIME }} ${{ matrix.release-flags }}
+          scons platform=${{ matrix.scons-platform }} target=template_release wwise_config=release use_static_cpp=yes wwise_sdk=wwise_sdk/SDK build_profile=${{ env.BUILD_PROFILE_RUNTIME }} ${{ matrix.release-flags }}
           cd ../../../
 
       - name: Compile Android libraries
         if: matrix.sdk-platform == 'android'
         shell: bash
         run: |
-          cd addons/Wwise/native/wwise_sdk
+          cd addons/Wwise/native/wwise_sdk/SDK
           WWISESDK=$(pwd)
-          cd ../godot-cpp
+          cd ../../godot-cpp
           mkdir -p bin
           scons platform=android target=template_debug dev_build=yes build_profile="../build_profile_runtime.json" -j6 ${{ matrix.debug-flags-arm64 }}
           scons platform=android target=template_debug dev_build=yes build_profile="../build_profile_runtime.json" -j6 ${{ matrix.debug-flags-arm32 }}
