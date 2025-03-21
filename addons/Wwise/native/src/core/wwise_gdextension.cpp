@@ -67,10 +67,14 @@ void Wwise::_bind_methods()
 	ClassDB::bind_method(D_METHOD("register_listener", "game_object"), &Wwise::register_listener);
 	ClassDB::bind_method(D_METHOD("register_game_obj", "game_object", "name"), &Wwise::register_game_obj);
 	ClassDB::bind_method(D_METHOD("unregister_game_obj", "game_object"), &Wwise::unregister_game_obj);
+	ClassDB::bind_method(D_METHOD("add_listener", "emitter", "listener"), &Wwise::add_listener);
+	ClassDB::bind_method(D_METHOD("remove_listener", "emitter", "listener"), &Wwise::remove_listener);
+	ClassDB::bind_method(D_METHOD("add_default_listener", "game_object"), &Wwise::add_default_listener);
+	ClassDB::bind_method(D_METHOD("remove_default_listener", "game_object"), &Wwise::remove_default_listener);
+	ClassDB::bind_method(D_METHOD("set_listeners", "emitter", "listeners"), &Wwise::set_listeners);
 	ClassDB::bind_method(
 			D_METHOD("set_distance_probe", "listener_game_object", "probe_game_object"), &Wwise::set_distance_probe);
 	ClassDB::bind_method(D_METHOD("reset_distance_probe", "listener_game_object"), &Wwise::reset_distance_probe);
-	ClassDB::bind_method(D_METHOD("set_listeners", "emtter", "listener"), &Wwise::set_listeners);
 	ClassDB::bind_method(D_METHOD("set_random_seed", "seed"), &Wwise::set_random_seed);
 	ClassDB::bind_method(D_METHOD("set_3d_position", "game_object", "transform_3d"), &Wwise::set_3d_position);
 	ClassDB::bind_method(
@@ -356,7 +360,8 @@ bool Wwise::register_game_obj(const Node* game_object, const String& game_object
 	AkGameObjectID id = get_ak_game_object_id(game_object);
 	AKRESULT result = AK::SoundEngine::RegisterGameObj(id, game_object_name.utf8().get_data());
 	post_register_game_object(result, game_object, id);
-	return ERROR_CHECK_MSG(result, vformat("Failed to register Game Object with name: %s.", game_object_name));
+	return ERROR_CHECK_MSG(
+			result, vformat("WwiseGodot: Failed to register Game Object with name: %s.", game_object_name));
 }
 
 bool Wwise::unregister_game_obj(const Node* game_object)
@@ -370,6 +375,65 @@ bool Wwise::unregister_game_obj(const Node* game_object)
 	AKRESULT result = AK::SoundEngine::UnregisterGameObj(id);
 	post_unregister_game_object(result, game_object, id);
 	return ERROR_CHECK(result);
+}
+
+bool Wwise::add_listener(Node* emitter, Node* listener)
+{
+	AkGameObjectID emitter_id = get_ak_game_object_id(emitter);
+	pre_game_object_api_call(emitter, emitter_id);
+
+	AkGameObjectID listener_id = get_ak_game_object_id(listener);
+	pre_game_object_api_call(listener, listener_id);
+
+	return ERROR_CHECK(AK::SoundEngine::AddListener(emitter_id, listener_id));
+}
+
+bool Wwise::remove_listener(Node* emitter, Node* listener)
+{
+	AkGameObjectID emitter_id = get_ak_game_object_id(emitter);
+	pre_game_object_api_call(emitter, emitter_id);
+
+	AkGameObjectID listener_id = get_ak_game_object_id(listener);
+	pre_game_object_api_call(listener, listener_id);
+
+	return ERROR_CHECK(AK::SoundEngine::RemoveListener(emitter_id, listener_id));
+}
+
+bool Wwise::add_default_listener(Node* game_object)
+{
+	AkGameObjectID listener_id = get_ak_game_object_id(game_object);
+	pre_game_object_api_call(game_object, listener_id);
+
+	return ERROR_CHECK(AK::SoundEngine::AddDefaultListener(listener_id));
+}
+
+bool Wwise::remove_default_listener(Node* game_object)
+{
+	AkGameObjectID listener_id = get_ak_game_object_id(game_object);
+	pre_game_object_api_call(game_object, listener_id);
+
+	return ERROR_CHECK(AK::SoundEngine::RemoveDefaultListener(listener_id));
+}
+
+bool Wwise::set_listeners(Node* emitter, TypedArray<Node> listeners)
+{
+	AkGameObjectID emitter_id = get_ak_game_object_id(emitter);
+	pre_game_object_api_call(emitter, emitter_id);
+
+	if (listeners.is_empty())
+	{
+		return ERROR_CHECK(AK::SoundEngine::SetListeners(emitter_id, nullptr, 0));
+	}
+
+	uint32_t num_listeners = listeners.size();
+	auto listener_array = std::make_unique<AkGameObjectID[]>(num_listeners);
+	for (int i = 0; i < listeners.size(); ++i)
+	{
+		AkGameObjectID listener_id = get_ak_game_object_id(Object::cast_to<Node>(listeners[i]));
+		listener_array[i] = listener_id;
+	}
+
+	return ERROR_CHECK(AK::SoundEngine::SetListeners(emitter_id, listener_array.get(), num_listeners));
 }
 
 bool Wwise::set_distance_probe(Node* listener_game_object, Node* probe_game_object)
@@ -389,19 +453,6 @@ bool Wwise::reset_distance_probe(Node* listener_game_object)
 	pre_game_object_api_call(listener_game_object, listener_id);
 
 	return ERROR_CHECK(AK::SoundEngine::SetDistanceProbe(listener_id, AK_INVALID_GAME_OBJECT));
-}
-
-bool Wwise::set_listeners(Node* emitter, Node* listener)
-{
-	AkGameObjectID emitter_id = get_ak_game_object_id(emitter);
-	pre_game_object_api_call(emitter, emitter_id);
-
-	AkGameObjectID listener_id = get_ak_game_object_id(listener);
-	pre_game_object_api_call(listener, listener_id);
-
-	static const int num_listeners_for_emitter = 1;
-	static const AkGameObjectID listeners_for_emitter[num_listeners_for_emitter] = { listener_id };
-	return ERROR_CHECK(AK::SoundEngine::SetListeners(emitter_id, listeners_for_emitter, 1));
 }
 
 void Wwise::set_random_seed(const unsigned int seed) { AK::SoundEngine::SetRandomSeed(seed); }

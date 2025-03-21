@@ -8,12 +8,13 @@
 #include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/classes/node.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
+#include <limits>
 
 using namespace godot;
 
 const float INVALID_RTPC_VALUE = 1.0f;
 const unsigned int AK_MAX_ENVIRONMENTS = 4;
-const int INVALID_ROOM_ID = -1;
+constexpr uint64_t INVALID_ROOM_ID = std::numeric_limits<uint64_t>::max();
 const AkGameObjectID OUTDOORS_ROOM_ID = (AkGameObjectID)-4;
 
 enum SamplesPerFrame
@@ -331,7 +332,6 @@ static inline bool find_matching_vertex(Vector3 vertex, Dictionary vert_dict, in
 		return false;
 	}
 }
-
 
 static inline AkGameObjectID get_ak_game_object_id(const Node* p_node)
 {
