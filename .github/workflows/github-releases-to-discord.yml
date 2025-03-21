@@ -12,6 +12,6 @@ jobs:
         uses: SethCohen/github-releases-to-discord@master
         with:
           webhook_url: ${{ secrets.WEBHOOK_URL }}
-          content: ":mage::sparkles:  **Hark, Wwise Wwizards & Wwitches!** A new **Wwise Integration for Godot** has been conjured! Unleash its magic upon your projects - **update now!**  :loud_sound::dizzy:  ||@everyone||"
+          content: ":mage::sparkles:  **Hark, Wwise Wwizards & Wwitches!** A new **Wwise Integration for Godot** has been conjured! Unleash its magic upon your projects - **update now!**  :loud_sound::dizzy:  ||@here||"
           max_description: '4096'
           reduce_headings: true
