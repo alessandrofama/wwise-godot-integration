@@ -77,8 +77,9 @@ void WwiseAuxBus::post_load_auto_bank(uint32_t p_bank_id)
 		return;
 	}
 
-	const char* bus_name = get_name().utf8().get_data();
-	auto result = AK::SoundEngine::PrepareBus(AK::SoundEngine::Preparation_Load, &bus_name, 1);
+	const AkUniqueID bus_id = get_id();
+	AkUniqueID bus_ids[] = { bus_id };
+	auto result = AK::SoundEngine::PrepareBus(AK::SoundEngine::Preparation_Load, bus_ids, 1);
 	if (result != AK_Success)
 	{
 		UtilityFunctions::push_error(vformat(
@@ -90,8 +91,9 @@ void WwiseAuxBus::unload_auto_bank()
 {
 	if (get_bank_id() != AK_INVALID_UNIQUE_ID && get_is_auto_bank_loaded())
 	{
-		const char* bus_name = get_name().utf8().get_data();
-		AK::SoundEngine::PrepareBus(AK::SoundEngine::Preparation_Unload, &bus_name, 1);
+		const AkUniqueID bus_id = get_id();
+		AkUniqueID bus_ids[] = { bus_id };
+		AK::SoundEngine::PrepareBus(AK::SoundEngine::Preparation_Unload, bus_ids, 1);
 		AkBankManager::unload_bank(get_name());
 		set_bank_id(AK_INVALID_UNIQUE_ID);
 	}
