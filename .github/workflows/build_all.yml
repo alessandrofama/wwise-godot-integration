@@ -259,7 +259,7 @@ jobs:
           path: addons/Wwise/native/lib
 
   upload-addon:
-    runs-on: "ubuntu-20.04"
+    runs-on: "ubuntu-22.04"
     needs: [build-all]
     name: Addon
     steps:
