@@ -35,8 +35,6 @@ void AkListener2D::_exit_tree()
 		{
 			soundengine->remove_default_listener(this);
 		}
-
-		soundengine->unregister_game_obj(this);
 	}
 }
 
@@ -89,8 +87,6 @@ void AkListener3D::_exit_tree()
 		{
 			soundengine->remove_default_listener(this);
 		}
-
-		soundengine->unregister_game_obj(this);
 	}
 }
 
