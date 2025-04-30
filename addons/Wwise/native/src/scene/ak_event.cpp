@@ -326,6 +326,11 @@ void AkEvent3D::set_event(const Ref<WwiseEvent>& event)
 {
 	this->event = event;
 	notify_property_list_changed();
+
+	if (Engine::get_singleton()->is_editor_hint())
+	{
+		update_gizmos();
+	}
 }
 
 Ref<WwiseEvent> AkEvent3D::get_event() const { return event; }

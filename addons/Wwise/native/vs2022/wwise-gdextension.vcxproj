@@ -686,6 +686,11 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="..\src\editor\editor_utils.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="..\src\editor\plugins\ak_android_export_plugin.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>

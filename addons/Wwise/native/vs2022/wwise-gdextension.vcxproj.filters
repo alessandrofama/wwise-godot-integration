@@ -449,5 +449,8 @@
     <ClInclude Include="..\src\core\wwise_external_source_info.h">
       <Filter>Source Files\core</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\editor\editor_utils.h">
+      <Filter>Source Files\editor</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "editor/wwise_tree_object.h"
+#include "editor/wwise_tree_object_event.h"
 #include <functional>
 #include <godot_cpp/classes/resource.hpp>
 
@@ -24,6 +25,9 @@ private:
 	Array trigger_root;
 
 public:
+	float get_event_max_attenuation(AkUniqueID p_event_id);
+	Ref<WwiseTreeObjectEvent> get_event_info(AkUniqueID p_event_id);
+
 	void set_acoustic_texture_root(const Array& p_acoustic_texture);
 	Array get_acoustic_texture_root() const;
 

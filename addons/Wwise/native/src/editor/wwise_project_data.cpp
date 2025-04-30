@@ -42,6 +42,67 @@ void WwiseProjectData::_bind_methods()
 	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "trigger_root"), "set_trigger_root", "get_trigger_root");
 }
 
+float WwiseProjectData::get_event_max_attenuation(AkUniqueID p_event_id)
+{
+	auto event = get_event_info(p_event_id);
+	return event.is_valid() ? event->get_max_attenuation() : 0.0f;
+}
+
+Ref<WwiseTreeObjectEvent> WwiseProjectData::get_event_info(AkUniqueID p_event_id)
+{
+	Array root_array = get_event_root();
+	if (root_array.is_empty())
+	{
+		return Ref<WwiseTreeObjectEvent>();
+	}
+
+	std::function<Ref<WwiseTreeObjectEvent>(const Ref<WwiseTreeObject>&)> find_event =
+			[&](const Ref<WwiseTreeObject>& node) -> Ref<WwiseTreeObjectEvent>
+	{
+		if (node.is_null())
+		{
+			return Ref<WwiseTreeObjectEvent>();
+		}
+
+		if (node->get_id() == p_event_id)
+		{
+			Ref<WwiseTreeObjectEvent> event = node;
+			if (event.is_valid())
+			{
+				return event;
+			}
+		}
+
+		Array children = node->get_children();
+		for (int i = 0; i < children.size(); ++i)
+		{
+			Ref<WwiseTreeObject> child = children[i];
+			Ref<WwiseTreeObjectEvent> found = find_event(child);
+			if (found.is_valid())
+			{
+				return found;
+			}
+		}
+
+		return Ref<WwiseTreeObjectEvent>();
+	};
+
+	for (int i = 0; i < root_array.size(); ++i)
+	{
+		Ref<WwiseTreeObject> root = root_array[i];
+		if (root.is_valid())
+		{
+			Ref<WwiseTreeObjectEvent> result = find_event(root);
+			if (result.is_valid())
+			{
+				return result;
+			}
+		}
+	}
+
+	return Ref<WwiseTreeObjectEvent>();
+}
+
 void WwiseProjectData::set_acoustic_texture_root(const Array& p_acoustic_texture)
 {
 	acoustic_texture_root = p_acoustic_texture;
