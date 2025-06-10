@@ -17,6 +17,13 @@ const unsigned int AK_MAX_ENVIRONMENTS = 4;
 constexpr uint64_t INVALID_ROOM_ID = std::numeric_limits<uint64_t>::max();
 const AkGameObjectID OUTDOORS_ROOM_ID = (AkGameObjectID)-4;
 
+struct AkEventCallbackPackage
+{
+	uint64_t object_id{};
+	Callable* cookie{};
+	bool notify_end_of_event{};
+};
+
 enum SamplesPerFrame
 {
 	SAMPLES_256 = 0,

@@ -304,15 +304,29 @@ bool Wwise::load_bank_async(const String& bank_name, const Callable& cookie)
 	AKASSERT(!bank_name.is_empty());
 
 	AkBankID bank_id{};
-	Callable* callable_obj = new Callable(cookie);
-	return ERROR_CHECK(AK::SoundEngine::LoadBank(
-			bank_name.utf8().get_data(), (AkBankCallbackFunc)bank_callback, (void*)callable_obj, bank_id));
+	Callable* callable = memnew(Callable(cookie));
+	bool result = ERROR_CHECK(AK::SoundEngine::LoadBank(
+			bank_name.utf8().get_data(), (AkBankCallbackFunc)bank_callback, (void*)callable, bank_id));
+
+	if (!result)
+	{
+		delete callable;
+	}
+
+	return result;
 }
 
 bool Wwise::load_bank_async_id(const unsigned int bank_id, const Callable& cookie)
 {
-	Callable* callable_obj = new Callable(cookie);
-	return ERROR_CHECK(AK::SoundEngine::LoadBank(bank_id, (AkBankCallbackFunc)bank_callback, (void*)callable_obj));
+	Callable* callable = memnew(Callable(cookie));
+	bool result = ERROR_CHECK(AK::SoundEngine::LoadBank(bank_id, (AkBankCallbackFunc)bank_callback, (void*)callable));
+
+	if (!result)
+	{
+		delete callable;
+	}
+
+	return result;
 }
 
 bool Wwise::unload_bank(const String& bank_name)
@@ -330,16 +344,30 @@ bool Wwise::unload_bank_id(const unsigned int bank_id)
 bool Wwise::unload_bank_async(const String& bank_name, const Callable& cookie)
 {
 	AKASSERT(!bank_name.is_empty());
-	Callable* callable_obj = new Callable(cookie);
-	return ERROR_CHECK(AK::SoundEngine::UnloadBank(
-			bank_name.utf8().get_data(), NULL, (AkBankCallbackFunc)bank_callback, (void*)callable_obj));
+	Callable* callable = memnew(Callable(cookie));
+	bool result = ERROR_CHECK(AK::SoundEngine::UnloadBank(
+			bank_name.utf8().get_data(), NULL, (AkBankCallbackFunc)bank_callback, (void*)callable));
+
+	if (!result)
+	{
+		delete callable;
+	}
+
+	return result;
 }
 
 bool Wwise::unload_bank_async_id(const unsigned int bank_id, const Callable& cookie)
 {
-	Callable* callable_obj = new Callable(cookie);
-	return ERROR_CHECK(
-			AK::SoundEngine::UnloadBank(bank_id, NULL, (AkBankCallbackFunc)bank_callback, (void*)callable_obj));
+	Callable* callable = memnew(Callable(cookie));
+	bool result =
+			ERROR_CHECK(AK::SoundEngine::UnloadBank(bank_id, NULL, (AkBankCallbackFunc)bank_callback, (void*)callable));
+
+	if (!result)
+	{
+		delete callable;
+	}
+
+	return result;
 }
 
 bool Wwise::register_listener(const Node* game_object)
@@ -572,18 +600,39 @@ AkPlayingID Wwise::post_event(const String& event_name, Node* game_object)
 }
 
 AkPlayingID Wwise::post_event_callback(
-		const String& event_name, const AkUtils::AkCallbackType flags, Node* game_object, const Callable& cookie)
+		const String& event_name, AkUtils::AkCallbackType flags, Node* game_object, const Callable& cookie)
 {
 	AkGameObjectID id = get_ak_game_object_id(game_object);
 	pre_game_object_api_call(game_object, id);
-	Callable* callable_obj = new Callable(cookie);
-	AkPlayingID playing_id =
-			AK::SoundEngine::PostEvent(event_name.utf8().get_data(), id, flags, event_callback, (void*)callable_obj);
 
-	if (playing_id == AK_INVALID_PLAYING_ID && game_object)
+	AkEventCallbackPackage* callback_package = new AkEventCallbackPackage;
+	callback_package->object_id = cookie.get_object_id();
+	callback_package->cookie = memnew(Callable(cookie));
+	callback_package->notify_end_of_event = (flags & AkUtils::AkCallbackType::AK_END_OF_EVENT);
+	flags = static_cast<AkUtils::AkCallbackType>(flags | AkUtils::AkCallbackType::AK_END_OF_EVENT);
+
+	AkPlayingID playing_id = AK::SoundEngine::PostEvent(
+			event_name.utf8().get_data(), id, flags, event_callback, (void*)callback_package);
+
+	if (playing_id == AK_INVALID_PLAYING_ID)
 	{
-		ERROR_CHECK_MSG(AK_InvalidID,
-				vformat("Failed to post Event: %s on Game Object: %s.", event_name, game_object->get_name()));
+		if (callback_package)
+		{
+			memdelete(callback_package->cookie);
+			delete callback_package;
+		}
+
+		if (game_object)
+		{
+			ERROR_CHECK_MSG(AK_InvalidID,
+					vformat("Failed to post Event: %s on Game Object: %s.", event_name, game_object->get_name()));
+		}
+		else
+		{
+			ERROR_CHECK_MSG(AK_InvalidID,
+					vformat("Failed to post Event: %s. An invalid Game Object was passed to this function.",
+							event_name));
+		}
 	}
 
 	return playing_id;
@@ -609,14 +658,34 @@ AkPlayingID Wwise::post_event_id_callback(
 {
 	AkGameObjectID id = get_ak_game_object_id(game_object);
 	pre_game_object_api_call(game_object, id);
-	flags = static_cast<AkUtils::AkCallbackType>(flags | AkUtils::AkCallbackType::AK_END_OF_EVENT);
-	Callable* callable_obj = new Callable(cookie);
-	AkPlayingID playing_id = AK::SoundEngine::PostEvent(event_id, id, flags, event_callback, (void*)callable_obj);
 
-	if (playing_id == AK_INVALID_PLAYING_ID && game_object)
+	AkEventCallbackPackage* callback_package = new AkEventCallbackPackage;
+	callback_package->object_id = cookie.get_object_id();
+	callback_package->cookie = memnew(Callable(cookie));
+	callback_package->notify_end_of_event = (flags & AkUtils::AkCallbackType::AK_END_OF_EVENT);
+	flags = static_cast<AkUtils::AkCallbackType>(flags | AkUtils::AkCallbackType::AK_END_OF_EVENT);
+
+	AkPlayingID playing_id = AK::SoundEngine::PostEvent(event_id, id, flags, event_callback, (void*)callback_package);
+
+	if (playing_id == AK_INVALID_PLAYING_ID)
 	{
-		ERROR_CHECK_MSG(AK_InvalidID,
-				vformat("Failed to post Event with ID: %d on Game Object: %s.", event_id, game_object->get_name()));
+		if (callback_package)
+		{
+			memdelete(callback_package->cookie);
+			delete callback_package;
+		}
+
+		if (game_object)
+		{
+			ERROR_CHECK_MSG(AK_InvalidID,
+					vformat("Failed to post Event with ID: %d on Game Object: %s.", event_id, game_object->get_name()));
+		}
+		else
+		{
+			ERROR_CHECK_MSG(AK_InvalidID,
+					vformat("Failed to post Event with ID: %d. An invalid Game Object was passed to this function.",
+							event_id));
+		}
 	}
 
 	return playing_id;
@@ -1314,13 +1383,14 @@ bool Wwise::is_initialized() { return AK::SoundEngine::IsInitialized(); }
 
 void Wwise::event_callback(AkCallbackType callback_type, AkCallbackInfo* callback_info)
 {
+	Wwise* soundengine = get_singleton();
+
 	AkAutoLock<CAkLock> scoped_lock(callback_data_lock);
 
-	Callable* cookie = static_cast<Callable*>(callback_info->pCookie);
-
-	if (!cookie)
+	AkEventCallbackPackage* package = static_cast<AkEventCallbackPackage*>(callback_info->pCookie);
+	if (!package || !package->cookie)
 	{
-		ERROR_CHECK_MSG(AK_Fail, "The Event Callback cookie is not valid.");
+		ERROR_CHECK_MSG(AK_Fail, "Event Callback package is not valid.");
 		return;
 	}
 
@@ -1648,11 +1718,19 @@ void Wwise::event_callback(AkCallbackType callback_type, AkCallbackInfo* callbac
 	}
 
 	args.push_back(callback_data);
-	cookie->callv(args);
+
+	if (ObjectDB::get_instance(package->object_id) && package->cookie)
+	{
+		if (callback_type != AK_EndOfEvent || package->notify_end_of_event)
+		{
+			package->cookie->callv(args);
+		}
+	}
 
 	if (callback_type == AK_EndOfEvent)
 	{
-		delete cookie;
+		memdelete(package->cookie);
+		delete package;
 	}
 }
 
@@ -1920,7 +1998,7 @@ bool Wwise::initialize_wwise_systems()
 	init_settings.szPluginDLLPath = dll_path;
 #endif
 
-		// Platform-specific settings
+	// Platform-specific settings
 #ifdef AK_WIN
 	platform_init_settings.uMaxSystemAudioObjects = static_cast<unsigned int>(
 			project_settings->get_setting(project_settings->platform_settings.windows_max_system_audio_objects));

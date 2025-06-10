@@ -108,7 +108,7 @@ public:
 
 	AkPlayingID post_event(const String& event_name, Node* game_object);
 	AkPlayingID post_event_callback(
-			const String& event_name, const AkUtils::AkCallbackType flags, Node* game_object, const Callable& cookie);
+			const String& event_name, AkUtils::AkCallbackType flags, Node* game_object, const Callable& cookie);
 	AkPlayingID post_event_id(uint32_t event_id, Node* game_object);
 	AkPlayingID post_event_id_callback(
 			uint32_t event_id, AkUtils::AkCallbackType flags, Node* game_object, const Callable& cookie);
