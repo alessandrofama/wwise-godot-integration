@@ -138,8 +138,8 @@ include_directories("${WWISE_SDK}/include" "${WWISE_SDK}/samples/SoundEngine/And
 link_directories("${WWISE_SDK_LIBS_PATH}")
 
 # Define Wwise core and plugins libraries
-set(WWISE_CORE_LIBRARIES "AkSoundEngine" "AkStreamMgr" "AkMusicEngine" "AkMemoryMgr")
-set(WWISE_PLUGINS_LIBRARY "AkGainFX" "AkHarmonizerFX" "AkStereoDelayFX" "AkTimeStretchFX" "AkTremoloFX" "AkGuitarDistortionFX" "AkVorbisDecoder" "AkOpusDecoder" "AkMeterFX" "AkPitchShifterFX" "AkRoomVerbFX" "AkPeakLimiterFX" "AkExpanderFX" "AkCompressorFX" "AkMatrixReverbFX" "AkParametricEQFX" "AkDelayFX" "AkSilenceSource" "AkToneSource" "AkFlangerFX" "AkSineSource" "AkRecorderFX" "AkAudioInputSource" "AkSynthOneSource" "AkSpatialAudio" "Ak3DAudioBedMixerFX")
+set(WWISE_CORE_LIBRARIES "AkSoundEngine" "AkStreamMgr" "AkMemoryMgr")
+set(WWISE_PLUGINS_LIBRARY "AkGainFX" "AkHarmonizerFX" "AkStereoDelayFX" "AkTimeStretchFX" "AkTremoloFX" "AkGuitarDistortionFX" "AkVorbisDecoder" "AkOpusDecoder" "AkMeterFX" "AkPitchShifterFX" "AkRoomVerbFX" "AkPeakLimiterFX" "AkCompressorFX" "AkMatrixReverbFX" "AkParametricEQFX" "AkDelayFX" "AkSilenceSource" "AkToneSource" "AkFlangerFX" "AkSineSource" "AkRecorderFX" "AkAudioInputSource" "AkSidechainFX" "AkSynthOneSource" "AkSpatialAudio" "Ak3DAudioBedMixerFX")
 
 if (CMAKE_BUILD_TYPE MATCHES Debug)
     list(APPEND WWISE_PLUGINS_LIBRARY CommunicationCentral)

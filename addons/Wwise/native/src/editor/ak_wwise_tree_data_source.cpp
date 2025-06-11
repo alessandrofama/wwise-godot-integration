@@ -78,7 +78,7 @@ AkWwiseTreeItem* AkWwiseTreeDataSource::build_object_type_tree(WwiseObjectType p
 		case WwiseObjectType::AuxBus:
 		{
 			root_element =
-					build_tree("Master-Mixer Hierarchy", WwiseProjectInfo::get_singleton()->get_data()->get_bus_root());
+					build_tree("Busses", WwiseProjectInfo::get_singleton()->get_data()->get_bus_root());
 			break;
 		}
 		case WwiseObjectType::Event:

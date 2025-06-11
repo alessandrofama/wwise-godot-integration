@@ -126,7 +126,6 @@ skip_plugins = [
     "Ak3DAudioBedMixer",
     "AkCompressor",
     "AkDelay",
-    "AkExpander",
     "AkFlanger",
     "AkGain",
     "AkGuitarDistortion",
@@ -143,6 +142,7 @@ skip_plugins = [
     "AkTimeStretch",
     "AkTremolo",
     "AkVorbisDecoder",
+    "AkSidechain",
     "AkSoundEngine",
     "WwiseProjectDatabase",
     "CommunicationCentral",
@@ -288,7 +288,6 @@ wwise_soundengine_project_database_path = env["wwise_sdk"] + "/samples/WwiseProj
 ## Wwise libs
 wwise_memorymanager_library = "AkMemoryMgr"
 wwise_soundengine_library = "AkSoundEngine"
-wwise_musicengine_library = "AkMusicEngine"
 wwise_streammanager_library = "AkStreamMgr"
 wwise_communications_library = "CommunicationCentral"
 wwise_plugins_library = [
@@ -304,7 +303,6 @@ wwise_plugins_library = [
     "AkPitchShifterFX",
     "AkRoomVerbFX",
     "AkPeakLimiterFX",
-    "AkExpanderFX",
     "AkCompressorFX",
     "AkMatrixReverbFX",
     "AkParametricEQFX",
@@ -316,6 +314,7 @@ wwise_plugins_library = [
     "AkRecorderFX",
     "AkAudioInputSource",
     "AkSynthOneSource",
+    "AkSidechainFX",
     "AkSpatialAudio",
     "Ak3DAudioBedMixerFX",
 ]
@@ -624,7 +623,6 @@ env.Append(
         wwise_memorymanager_library,
         wwise_soundengine_library,
         wwise_streammanager_library,
-        wwise_musicengine_library,
         wwise_plugins_library,
     ]
 )

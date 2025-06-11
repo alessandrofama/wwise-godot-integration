@@ -9,7 +9,6 @@
 #include "core/wwise_io_hook.h"
 #include "core/wwise_platform_info.h"
 #include "core/wwise_settings.h"
-#include <AK/MusicEngine/Common/AkMusicEngine.h>
 #include <AK/SoundEngine/Common/AkCallback.h>
 #include <AK/SoundEngine/Common/AkMemoryMgr.h>
 #include <AK/SoundEngine/Common/AkMemoryMgrModule.h>
@@ -47,7 +46,8 @@ protected:
 	static void _bind_methods();
 
 private:
-	static void event_callback(AkCallbackType callback_type, AkCallbackInfo* callback_info);
+	static void event_callback(enum AkCallbackType in_eType, struct AkEventCallbackInfo* in_pEventInfo,
+			void* in_pCallbackInfo, void* in_pCookie);
 	static void bank_callback(AkUInt32 bank_id, const void* in_memory_bank_ptr, AKRESULT load_result, void* in_pCookie);
 
 	void pre_game_object_api_call(Node* p_node, AkGameObjectID p_id);

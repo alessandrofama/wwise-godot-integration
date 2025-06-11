@@ -431,7 +431,7 @@ func test_get_source_play_position() -> void:
 	event.set_name("InteractiveMusicEvent")
 	event.set_id(AK.EVENTS.INTERACTIVEMUSICEVENT)
 	event.emit_signal("ws_post_resource_init")
-	var playing_id = Wwise.post_event_callback("InteractiveMusicEvent", AkUtils.AK_ENABLE_GET_SOURCE_PLAY_POSITION, node, func(_data): pass)
+	var playing_id = Wwise.post_event("InteractiveMusicEvent", node)
 	await get_tree().create_timer(1.2).timeout
 	var pos:float = Wwise.get_source_play_position(playing_id, true)
 	free_node_3d(node)

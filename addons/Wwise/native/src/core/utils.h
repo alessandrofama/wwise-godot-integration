@@ -4,6 +4,7 @@
 #include <godot_cpp/classes/dir_access.hpp>
 #endif
 
+#include "AK/SoundEngine/Common/AkCallbackTypes.h"
 #include "AK/SoundEngine/Common/AkTypes.h"
 #include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/classes/node.hpp>
@@ -284,10 +285,6 @@ static inline bool should_return_if_editor() { return Engine::get_singleton()->i
 			PropertyInfo(Variant::DICTIONARY, "data")));                                                               \
 	ADD_SIGNAL(                                                                                                        \
 			MethodInfo(AkUtils::get_singleton()                                                                        \
-							   ->event_callback_signals[AkUtils::AkCallbackType::AK_ENABLE_GET_SOURCE_PLAY_POSITION],  \
-					PropertyInfo(Variant::DICTIONARY, "data")));                                                       \
-	ADD_SIGNAL(                                                                                                        \
-			MethodInfo(AkUtils::get_singleton()                                                                        \
 							   ->event_callback_signals[AkUtils::AkCallbackType::AK_ENABLE_GET_MUSIC_PLAY_POSITION],   \
 					PropertyInfo(Variant::DICTIONARY, "data")));                                                       \
 	ADD_SIGNAL(MethodInfo(                                                                                             \
@@ -343,6 +340,30 @@ static inline bool find_matching_vertex(Vector3 vertex, Dictionary vert_dict, in
 static inline AkGameObjectID get_ak_game_object_id(const Node* p_node)
 {
 	return p_node == nullptr ? AK_INVALID_GAME_OBJECT : p_node->get_instance_id();
+}
+
+static void pack_base_event_info(Dictionary& r_dict, const AkEventCallbackInfo* in_pEventInfo)
+{
+	if (!in_pEventInfo)
+		return;
+	r_dict["gameObjID"] = in_pEventInfo->gameObjID;
+	r_dict["playingID"] = in_pEventInfo->playingID;
+	r_dict["eventID"] = in_pEventInfo->eventID;
+}
+
+static void pack_segment_info(Dictionary& r_dict, const AkSegmentInfo& in_segmentInfo)
+{
+	Dictionary segment_info;
+	segment_info["iCurrentPosition"] = in_segmentInfo.iCurrentPosition;
+	segment_info["iPreEntryDuration"] = in_segmentInfo.iPreEntryDuration;
+	segment_info["iActiveDuration"] = in_segmentInfo.iActiveDuration;
+	segment_info["iPostExitDuration"] = in_segmentInfo.iPostExitDuration;
+	segment_info["iRemainingLookAheadTime"] = in_segmentInfo.iRemainingLookAheadTime;
+	segment_info["fBeatDuration"] = in_segmentInfo.fBeatDuration;
+	segment_info["fBarDuration"] = in_segmentInfo.fBarDuration;
+	segment_info["fGridDuration"] = in_segmentInfo.fGridDuration;
+	segment_info["fGridOffset"] = in_segmentInfo.fGridOffset;
+	r_dict["segmentInfo"] = segment_info;
 }
 
 #if defined(TOOLS_ENABLED)

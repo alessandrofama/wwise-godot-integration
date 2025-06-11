@@ -88,8 +88,6 @@ WwiseSettings::WwiseSettings()
 	platform_settings.ios_audio_session_category_options = "wwise/ios_advanced_settings/audio_session_category_options";
 	platform_settings.ios_audio_session_mode = "wwise/ios_advanced_settings/audio_session_mode";
 	platform_settings.android_audio_api = "wwise/android_advanced_settings/audio_API";
-	platform_settings.android_round_frame_size_to_hw_size =
-			"wwise/android_advanced_settings/round_frame_size_to_hw_size";
 	platform_settings.linux_audio_api = "wwise/linux_advanced_settings/audio_API";
 
 	// Project Settings
@@ -183,7 +181,8 @@ Variant WwiseSettings::get_setting(const StringName& p_setting, const Variant& p
 void WwiseSettings::add_wwise_settings()
 {
 	// Common User Settings
-	add_setting(common_user_settings.root_output_path, "", Variant::Type::STRING, PROPERTY_HINT_DIR, "", PROPERTY_USAGE_NONE);
+	add_setting(common_user_settings.root_output_path, "", Variant::Type::STRING, PROPERTY_HINT_DIR, "",
+			PROPERTY_USAGE_NONE);
 	add_setting(common_user_settings.startup_language, "English(US)", Variant::Type::STRING);
 	add_setting(common_user_settings.suspend_audio_during_focus_loss, false, Variant::Type::BOOL);
 	add_setting(common_user_settings.engine_logging, true, Variant::Type::BOOL);
@@ -260,8 +259,8 @@ void WwiseSettings::add_wwise_settings()
 			"Mix with others, Duck others, Allow bluetooth, Default to speaker");
 	add_setting(platform_settings.ios_audio_session_mode, 0, Variant::Type::INT, PROPERTY_HINT_ENUM,
 			"Default, Voice Chat, Game Chat, Video Recording, Measurement, Movie Playback, Video Chat");
-	add_setting(platform_settings.android_audio_api, 3, Variant::Type::INT, PROPERTY_HINT_FLAGS, "AAudio, OPENSL_ES");
-	add_setting(platform_settings.android_round_frame_size_to_hw_size, true, Variant::Type::BOOL);
+	add_setting(platform_settings.android_audio_api, 4, Variant::Type::INT, PROPERTY_HINT_ENUM,
+			"AAudio,OPENSL_ES,DolbyAtmos,AndroidSpatializer,Default");
 	add_setting(platform_settings.linux_audio_api, 3, Variant::Type::INT, PROPERTY_HINT_FLAGS, "PulseAudio, ALSA");
 
 	// Project Setting

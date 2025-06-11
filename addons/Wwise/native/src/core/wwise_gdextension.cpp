@@ -545,8 +545,8 @@ bool Wwise::set_multiple_positions_3d(const Node* game_object, const TypedArray<
 		ak_positions[i].Set(AK::ConvertAkVectorToAkVector64(position), forward, up);
 	}
 
-	return ERROR_CHECK(AK::SoundEngine::SetMultiplePositions(id, ak_positions.get(), num_positions,
-			static_cast<AK::SoundEngine::MultiPositionType>(multi_position_type)));
+	return ERROR_CHECK(AK::SoundEngine::SetMultiplePositions(
+			id, ak_positions.get(), num_positions, static_cast<AkMultiPositionType>(multi_position_type)));
 }
 
 bool Wwise::set_multiple_positions_2d(const Node* game_object, const TypedArray<Transform2D>& positions,
@@ -575,8 +575,8 @@ bool Wwise::set_multiple_positions_2d(const Node* game_object, const TypedArray<
 		ak_positions[i].Set(AK::ConvertAkVectorToAkVector64(ak_position), ak_forward, ak_up);
 	}
 
-	return ERROR_CHECK(AK::SoundEngine::SetMultiplePositions(id, ak_positions.get(), num_positions,
-			static_cast<AK::SoundEngine::MultiPositionType>(multi_position_type)));
+	return ERROR_CHECK(AK::SoundEngine::SetMultiplePositions(
+			id, ak_positions.get(), num_positions, static_cast<AkMultiPositionType>(multi_position_type)));
 }
 
 bool Wwise::set_game_object_radius(const Node* game_object, const float outer_radius, const float inner_radius)
@@ -710,17 +710,17 @@ AkPlayingID Wwise::post_midi_on_event_id(
 		}
 
 		AkMIDIPost ak_post{};
-		ak_post.byType = post->get_by_type();
-		ak_post.byChan = post->get_by_chan();
+		ak_post.midiEvent.byType = post->get_by_type();
+		ak_post.midiEvent.byChan = post->get_by_chan();
 		ak_post.uOffset = post->get_u_offset();
 
-		switch (ak_post.byType)
+		switch (ak_post.midiEvent.byType)
 		{
 			case AkMidiPost::MidiEventType::MIDI_EVENT_TYPE_NOTE_OFF:
 			case AkMidiPost::MidiEventType::MIDI_EVENT_TYPE_NOTE_ON:
 			{
-				ak_post.NoteOnOff.byVelocity = post->get_by_velocity();
-				ak_post.NoteOnOff.byNote = post->get_by_note();
+				ak_post.midiEvent.NoteOnOff.byVelocity = post->get_by_velocity();
+				ak_post.midiEvent.NoteOnOff.byNote = post->get_by_note();
 				break;
 			}
 			default:
@@ -745,7 +745,7 @@ AkPlayingID Wwise::post_midi_on_event_id(
 void Wwise::stop_event(
 		const unsigned int playing_id, const unsigned int fade_time, const AkUtils::AkCurveInterpolation interpolation)
 {
-	AK::SoundEngine::ExecuteActionOnPlayingID(AK::SoundEngine::AkActionOnEventType::AkActionOnEventType_Stop,
+	AK::SoundEngine::ExecuteActionOnPlayingID(AkActionOnEventType::AkActionOnEventType_Stop,
 			static_cast<AkPlayingID>(playing_id), static_cast<AkTimeMs>(fade_time),
 			static_cast<AkCurveInterpolation>(interpolation));
 }
@@ -765,9 +765,8 @@ bool Wwise::execute_action_on_event_id(AkUniqueID p_event_id, AkUtils::AkActionO
 	AkGameObjectID id = get_ak_game_object_id(game_object);
 	pre_game_object_api_call(game_object, id);
 
-	return ERROR_CHECK(
-			AK::SoundEngine::ExecuteActionOnEvent(p_event_id, (AK::SoundEngine::AkActionOnEventType)p_action_type, id,
-					p_transition_duration, (AkCurveInterpolation)p_fade_curve, p_playing_id));
+	return ERROR_CHECK(AK::SoundEngine::ExecuteActionOnEvent(p_event_id, (AkActionOnEventType)p_action_type, id,
+			p_transition_duration, (AkCurveInterpolation)p_fade_curve, p_playing_id));
 }
 
 bool Wwise::set_switch(const String& switch_group, const String& switch_value, Node* game_object)
@@ -886,10 +885,7 @@ unsigned int Wwise::post_external_source(const String& event_name, Node* game_ob
 	AkExternalSourceInfo source{};
 	source.iExternalSrcCookie = AK::SoundEngine::GetIDFromString(source_object_name.utf8().get_data());
 
-	AkOSChar* sz_file_os_string = nullptr;
-	CONVERT_CHAR_TO_OSCHAR(filename.utf8().get_data(), sz_file_os_string);
-
-	source.szFile = sz_file_os_string;
+	source.szFile = filename.utf8().get_data();
 	source.idCodec = id_codec;
 
 	AkPlayingID playing_id = AK::SoundEngine::PostEvent(event_name.utf8().get_data(), id, 0, nullptr, 0, 1, &source);
@@ -914,10 +910,7 @@ unsigned int Wwise::post_external_source_id(const unsigned int event_id, Node* g
 	AkExternalSourceInfo source{};
 	source.iExternalSrcCookie = source_object_id;
 
-	AkOSChar* sz_file_os_string = nullptr;
-	CONVERT_CHAR_TO_OSCHAR(filename.utf8().get_data(), sz_file_os_string);
-
-	source.szFile = sz_file_os_string;
+	source.szFile = filename.utf8().get_data();
 	source.idCodec = id_codec;
 
 	AkPlayingID playing_id = AK::SoundEngine::PostEvent(event_id, id, 0, NULL, 0, 1, &source);
@@ -952,7 +945,7 @@ unsigned int Wwise::post_external_sources(
 		AkExternalSourceInfo ak_info{};
 		ak_info.iExternalSrcCookie = info->get_external_src_cookie();
 		ak_info.idCodec = info->get_id_codec();
-		CONVERT_CHAR_TO_OSCHAR(info->get_sz_file().utf8().get_data(), ak_info.szFile);
+		ak_info.szFile = info->get_sz_file().utf8().get_data();
 
 		ak_external_sources[i] = ak_info;
 	}
@@ -988,7 +981,7 @@ int Wwise::get_source_play_position(const unsigned int playing_id, const bool ex
 Dictionary Wwise::get_playing_segment_info(const unsigned int playing_id, const bool extrapolate)
 {
 	AkSegmentInfo segment_info;
-	AKRESULT result = AK::MusicEngine::GetPlayingSegmentInfo(playing_id, segment_info, extrapolate);
+	AKRESULT result = AK::SoundEngine::GetPlayingSegmentInfo(playing_id, segment_info, extrapolate);
 
 	if (result == AK_Fail)
 	{
@@ -1386,13 +1379,14 @@ uint32_t Wwise::get_id_from_string(const String& p_string)
 
 bool Wwise::is_initialized() { return AK::SoundEngine::IsInitialized(); }
 
-void Wwise::event_callback(AkCallbackType callback_type, AkCallbackInfo* callback_info)
+void Wwise::event_callback(enum AkCallbackType in_eType, struct AkEventCallbackInfo* in_pEventInfo,
+		void* in_pCallbackInfo, void* in_pCookie)
 {
 	Wwise* soundengine = get_singleton();
 
 	AkAutoLock<CAkLock> scoped_lock(callback_data_lock);
 
-	AkEventCallbackPackage* package = static_cast<AkEventCallbackPackage*>(callback_info->pCookie);
+	AkEventCallbackPackage* package = static_cast<AkEventCallbackPackage*>(in_pCookie);
 	if (!package || !package->cookie)
 	{
 		ERROR_CHECK_MSG(AK_Fail, "Event Callback package is not valid.");
@@ -1401,303 +1395,122 @@ void Wwise::event_callback(AkCallbackType callback_type, AkCallbackInfo* callbac
 
 	Array args = Array();
 	Dictionary callback_data;
-	callback_data["callback_type"] = static_cast<unsigned int>(callback_type);
+	callback_data["callback_type"] = static_cast<unsigned int>(in_eType);
 
-	switch (callback_type)
+	switch (in_eType)
 	{
 		case AK_EndOfEvent:
+		case AK_Starvation:
+		case AK_MusicPlayStarted:
 		{
-			AkEventCallbackInfo* event_info = static_cast<AkEventCallbackInfo*>(callback_info);
-			callback_data["eventID"] = event_info->eventID;
-			callback_data["gameObjID"] = event_info->gameObjID;
-			callback_data["playingID"] = event_info->playingID;
+			pack_base_event_info(callback_data, in_pEventInfo);
 			break;
 		}
 		case AK_EndOfDynamicSequenceItem:
 		{
-			AkDynamicSequenceItemCallbackInfo* dynamic_sequence_item_info =
-					static_cast<AkDynamicSequenceItemCallbackInfo*>(callback_info);
-			callback_data["audioNodeID"] = dynamic_sequence_item_info->audioNodeID;
-			callback_data["gameObjID"] = dynamic_sequence_item_info->gameObjID;
-			callback_data["playingID"] = dynamic_sequence_item_info->playingID;
+			const auto* info = static_cast<AkDynamicSequenceItemCallbackInfo*>(in_pCallbackInfo);
+			pack_base_event_info(callback_data, in_pEventInfo);
+			callback_data["audioNodeID"] = info->audioNodeID;
 			break;
 		}
 		case AK_Marker:
 		{
-			AkMarkerCallbackInfo* marker_info = static_cast<AkMarkerCallbackInfo*>(callback_info);
-			callback_data["uIdentifier"] = marker_info->uIdentifier;
-			callback_data["uPosition"] = marker_info->uPosition;
-			callback_data["strLabel"] = String(marker_info->strLabel);
+			const auto* info = static_cast<AkMarkerCallbackInfo*>(in_pCallbackInfo);
+			pack_base_event_info(callback_data, in_pEventInfo);
+			callback_data["uIdentifier"] = info->uIdentifier;
+			callback_data["uPosition"] = info->uPosition;
+			callback_data["strLabel"] = info->strLabel ? String(info->strLabel) : String();
 			break;
 		}
 		case AK_Duration:
 		{
-			AkDurationCallbackInfo* duration_info = static_cast<AkDurationCallbackInfo*>(callback_info);
-
-			callback_data["audioNodeID"] = duration_info->audioNodeID;
-			callback_data["bStreaming"] = duration_info->bStreaming;
-			callback_data["eventID"] = duration_info->eventID;
-			callback_data["fDuration"] = duration_info->fDuration;
-			callback_data["fEstimatedDuration"] = duration_info->fEstimatedDuration;
-			callback_data["gameObjID"] = duration_info->gameObjID;
-			callback_data["mediaID"] = duration_info->mediaID;
-			callback_data["playingID"] = duration_info->playingID;
+			const auto* info = static_cast<AkDurationCallbackInfo*>(in_pCallbackInfo);
+			pack_base_event_info(callback_data, in_pEventInfo);
+			callback_data["fDuration"] = info->fDuration;
+			callback_data["fEstimatedDuration"] = info->fEstimatedDuration;
+			callback_data["audioNodeID"] = info->audioNodeID;
+			callback_data["mediaID"] = info->mediaID;
+			callback_data["bStreaming"] = info->bStreaming;
 			break;
 		}
-		case AK_SpeakerVolumeMatrix:
+		case AK_MusicSyncBeat:
+		case AK_MusicSyncBar:
+		case AK_MusicSyncEntry:
+		case AK_MusicSyncExit:
+		case AK_MusicSyncGrid:
+		case AK_MusicSyncUserCue:
+		case AK_MusicSyncPoint:
+		case AK_MusicSyncAll:
 		{
-			AkSpeakerVolumeMatrixCallbackInfo* speaker_volume_matrix_info =
-					static_cast<AkSpeakerVolumeMatrixCallbackInfo*>(callback_info);
-			callback_data["eventID"] = speaker_volume_matrix_info->eventID;
-			callback_data["gameObjID"] = speaker_volume_matrix_info->gameObjID;
-
-			Dictionary input_config;
-			input_config["uNumChannels"] = speaker_volume_matrix_info->inputConfig.uNumChannels;
-			input_config["eConfigType"] = speaker_volume_matrix_info->inputConfig.eConfigType;
-			input_config["uChannelMask"] = speaker_volume_matrix_info->inputConfig.uChannelMask;
-			callback_data["inputConfig"] = input_config;
-
-			Dictionary output_config;
-			output_config["uNumChannels"] = speaker_volume_matrix_info->outputConfig.uNumChannels;
-			output_config["eConfigType"] = speaker_volume_matrix_info->outputConfig.eConfigType;
-			output_config["uChannelMask"] = speaker_volume_matrix_info->outputConfig.uChannelMask;
-			callback_data["outputConfig"] = output_config;
-
-			callback_data["playingID"] = speaker_volume_matrix_info->playingID;
-			break;
-		}
-		case AK_Starvation:
-		{
-			AkEventCallbackInfo* event_info = static_cast<AkEventCallbackInfo*>(callback_info);
-			callback_data["eventID"] = event_info->eventID;
-			callback_data["gameObjID"] = event_info->gameObjID;
-			callback_data["playingID"] = event_info->playingID;
+			const auto* info = static_cast<AkMusicSyncCallbackInfo*>(in_pCallbackInfo);
+			pack_base_event_info(callback_data, in_pEventInfo);
+			callback_data["musicSyncType"] = info->musicSyncType;
+			callback_data["pszUserCueName"] = info->pszUserCueName ? String(info->pszUserCueName) : String();
+			pack_segment_info(callback_data, info->segmentInfo);
 			break;
 		}
 		case AK_MusicPlaylistSelect:
 		{
-			AkMusicPlaylistCallbackInfo* music_playlist_info = static_cast<AkMusicPlaylistCallbackInfo*>(callback_info);
-			callback_data["eventID"] = music_playlist_info->eventID;
-			callback_data["gameObjID"] = music_playlist_info->gameObjID;
-			callback_data["playingID"] = music_playlist_info->playingID;
-			callback_data["playlistID"] = music_playlist_info->playlistID;
-			callback_data["uNumPlaylistItems"] = music_playlist_info->uNumPlaylistItems;
-			callback_data["uPlaylistItemDone"] = music_playlist_info->uPlaylistItemDone;
-			callback_data["uPlaylistSelection"] = music_playlist_info->uPlaylistSelection;
+			const auto* info = static_cast<AkMusicPlaylistCallbackInfo*>(in_pCallbackInfo);
+			pack_base_event_info(callback_data, in_pEventInfo);
+			callback_data["playlistID"] = info->playlistID;
+			callback_data["uNumPlaylistItems"] = info->uNumPlaylistItems;
+			callback_data["uPlaylistSelection"] = info->uPlaylistSelection;
+			callback_data["uPlaylistItemDone"] = info->uPlaylistItemDone;
 			break;
 		}
-		case AK_MusicPlayStarted:
+		case AK_SpeakerVolumeMatrix:
 		{
-			AkEventCallbackInfo* event_info = static_cast<AkEventCallbackInfo*>(callback_info);
-			callback_data["eventID"] = event_info->eventID;
-			callback_data["gameObjID"] = event_info->gameObjID;
-			callback_data["playingID"] = event_info->playingID;
-			break;
-		}
-		case AK_MusicSyncBeat:
-		{
-			AkMusicSyncCallbackInfo* music_sync_info = static_cast<AkMusicSyncCallbackInfo*>(callback_info);
-			callback_data["gameObjID"] = music_sync_info->gameObjID;
-			callback_data["musicSyncType"] = music_sync_info->musicSyncType;
-			callback_data["playingID"] = music_sync_info->playingID;
-			callback_data["pszUserCueName"] = String(music_sync_info->pszUserCueName);
+			const auto* info = static_cast<AkSpeakerVolumeMatrixCallbackInfo*>(in_pCallbackInfo);
+			pack_base_event_info(callback_data, in_pEventInfo);
 
-			Dictionary segment_info;
-			segment_info["fBarDuration"] = music_sync_info->segmentInfo.fBarDuration;
-			segment_info["fBeatDuration"] = music_sync_info->segmentInfo.fBeatDuration;
-			segment_info["fGridDuration"] = music_sync_info->segmentInfo.fGridDuration;
-			segment_info["fGridOffset"] = music_sync_info->segmentInfo.fGridOffset;
-			segment_info["iActiveDuration"] = music_sync_info->segmentInfo.iActiveDuration;
-			segment_info["iCurrentPosition"] = music_sync_info->segmentInfo.iCurrentPosition;
-			segment_info["iPostExitDuration"] = music_sync_info->segmentInfo.iPostExitDuration;
-			segment_info["iPreEntryDuration"] = music_sync_info->segmentInfo.iPreEntryDuration;
-			segment_info["iRemainingLookAheadTime"] = music_sync_info->segmentInfo.iRemainingLookAheadTime;
-			callback_data["segmentInfo"] = segment_info;
-			break;
-		}
-		case AK_MusicSyncBar:
-		{
-			AkMusicSyncCallbackInfo* music_sync_info = static_cast<AkMusicSyncCallbackInfo*>(callback_info);
-			callback_data["gameObjID"] = music_sync_info->gameObjID;
-			callback_data["musicSyncType"] = music_sync_info->musicSyncType;
-			callback_data["playingID"] = music_sync_info->playingID;
-			callback_data["pszUserCueName"] = String(music_sync_info->pszUserCueName);
+			Dictionary input_config;
+			input_config["uNumChannels"] = info->inputConfig.uNumChannels;
+			input_config["eConfigType"] = info->inputConfig.eConfigType;
+			input_config["uChannelMask"] = info->inputConfig.uChannelMask;
+			callback_data["inputConfig"] = input_config;
 
-			Dictionary segment_info;
-			segment_info["fBarDuration"] = music_sync_info->segmentInfo.fBarDuration;
-			segment_info["fBeatDuration"] = music_sync_info->segmentInfo.fBeatDuration;
-			segment_info["fGridDuration"] = music_sync_info->segmentInfo.fGridDuration;
-			segment_info["fGridOffset"] = music_sync_info->segmentInfo.fGridOffset;
-			segment_info["iActiveDuration"] = music_sync_info->segmentInfo.iActiveDuration;
-			segment_info["iCurrentPosition"] = music_sync_info->segmentInfo.iCurrentPosition;
-			segment_info["iPostExitDuration"] = music_sync_info->segmentInfo.iPostExitDuration;
-			segment_info["iPreEntryDuration"] = music_sync_info->segmentInfo.iPreEntryDuration;
-			segment_info["iRemainingLookAheadTime"] = music_sync_info->segmentInfo.iRemainingLookAheadTime;
-			callback_data["segmentInfo"] = segment_info;
-			break;
-		}
-		case AK_MusicSyncEntry:
-		{
-			AkMusicSyncCallbackInfo* music_sync_info = static_cast<AkMusicSyncCallbackInfo*>(callback_info);
-			callback_data["gameObjID"] = music_sync_info->gameObjID;
-			callback_data["musicSyncType"] = music_sync_info->musicSyncType;
-			callback_data["playingID"] = music_sync_info->playingID;
-			callback_data["pszUserCueName"] = String(music_sync_info->pszUserCueName);
-
-			Dictionary segment_info;
-			segment_info["fBarDuration"] = music_sync_info->segmentInfo.fBarDuration;
-			segment_info["fBeatDuration"] = music_sync_info->segmentInfo.fBeatDuration;
-			segment_info["fGridDuration"] = music_sync_info->segmentInfo.fGridDuration;
-			segment_info["fGridOffset"] = music_sync_info->segmentInfo.fGridOffset;
-			segment_info["iActiveDuration"] = music_sync_info->segmentInfo.iActiveDuration;
-			segment_info["iCurrentPosition"] = music_sync_info->segmentInfo.iCurrentPosition;
-			segment_info["iPostExitDuration"] = music_sync_info->segmentInfo.iPostExitDuration;
-			segment_info["iPreEntryDuration"] = music_sync_info->segmentInfo.iPreEntryDuration;
-			segment_info["iRemainingLookAheadTime"] = music_sync_info->segmentInfo.iRemainingLookAheadTime;
-			callback_data["segmentInfo"] = segment_info;
-			break;
-		}
-		case AK_MusicSyncExit:
-		{
-			AkMusicSyncCallbackInfo* music_sync_info = static_cast<AkMusicSyncCallbackInfo*>(callback_info);
-			callback_data["gameObjID"] = music_sync_info->gameObjID;
-			callback_data["musicSyncType"] = music_sync_info->musicSyncType;
-			callback_data["playingID"] = music_sync_info->playingID;
-			callback_data["pszUserCueName"] = String(music_sync_info->pszUserCueName);
-
-			Dictionary segment_info;
-			segment_info["fBarDuration"] = music_sync_info->segmentInfo.fBarDuration;
-			segment_info["fBeatDuration"] = music_sync_info->segmentInfo.fBeatDuration;
-			segment_info["fGridDuration"] = music_sync_info->segmentInfo.fGridDuration;
-			segment_info["fGridOffset"] = music_sync_info->segmentInfo.fGridOffset;
-			segment_info["iActiveDuration"] = music_sync_info->segmentInfo.iActiveDuration;
-			segment_info["iCurrentPosition"] = music_sync_info->segmentInfo.iCurrentPosition;
-			segment_info["iPostExitDuration"] = music_sync_info->segmentInfo.iPostExitDuration;
-			segment_info["iPreEntryDuration"] = music_sync_info->segmentInfo.iPreEntryDuration;
-			segment_info["iRemainingLookAheadTime"] = music_sync_info->segmentInfo.iRemainingLookAheadTime;
-			callback_data["segmentInfo"] = segment_info;
-			break;
-		}
-		case AK_MusicSyncGrid:
-		{
-			AkMusicSyncCallbackInfo* music_sync_info = static_cast<AkMusicSyncCallbackInfo*>(callback_info);
-			callback_data["gameObjID"] = music_sync_info->gameObjID;
-			callback_data["musicSyncType"] = music_sync_info->musicSyncType;
-			callback_data["playingID"] = music_sync_info->playingID;
-			callback_data["pszUserCueName"] = String(music_sync_info->pszUserCueName);
-
-			Dictionary segment_info;
-			segment_info["fBarDuration"] = music_sync_info->segmentInfo.fBarDuration;
-			segment_info["fBeatDuration"] = music_sync_info->segmentInfo.fBeatDuration;
-			segment_info["fGridDuration"] = music_sync_info->segmentInfo.fGridDuration;
-			segment_info["fGridOffset"] = music_sync_info->segmentInfo.fGridOffset;
-			segment_info["iActiveDuration"] = music_sync_info->segmentInfo.iActiveDuration;
-			segment_info["iCurrentPosition"] = music_sync_info->segmentInfo.iCurrentPosition;
-			segment_info["iPostExitDuration"] = music_sync_info->segmentInfo.iPostExitDuration;
-			segment_info["iPreEntryDuration"] = music_sync_info->segmentInfo.iPreEntryDuration;
-			segment_info["iRemainingLookAheadTime"] = music_sync_info->segmentInfo.iRemainingLookAheadTime;
-			callback_data["segmentInfo"] = segment_info;
-			break;
-		}
-		case AK_MusicSyncUserCue:
-		{
-			AkMusicSyncCallbackInfo* music_sync_info = static_cast<AkMusicSyncCallbackInfo*>(callback_info);
-			callback_data["gameObjID"] = music_sync_info->gameObjID;
-			callback_data["musicSyncType"] = music_sync_info->musicSyncType;
-			callback_data["playingID"] = music_sync_info->playingID;
-			callback_data["pszUserCueName"] = String(music_sync_info->pszUserCueName);
-
-			Dictionary segment_info;
-			segment_info["fBarDuration"] = music_sync_info->segmentInfo.fBarDuration;
-			segment_info["fBeatDuration"] = music_sync_info->segmentInfo.fBeatDuration;
-			segment_info["fGridDuration"] = music_sync_info->segmentInfo.fGridDuration;
-			segment_info["fGridOffset"] = music_sync_info->segmentInfo.fGridOffset;
-			segment_info["iActiveDuration"] = music_sync_info->segmentInfo.iActiveDuration;
-			segment_info["iCurrentPosition"] = music_sync_info->segmentInfo.iCurrentPosition;
-			segment_info["iPostExitDuration"] = music_sync_info->segmentInfo.iPostExitDuration;
-			segment_info["iPreEntryDuration"] = music_sync_info->segmentInfo.iPreEntryDuration;
-			segment_info["iRemainingLookAheadTime"] = music_sync_info->segmentInfo.iRemainingLookAheadTime;
-			callback_data["segmentInfo"] = segment_info;
-			break;
-		}
-		case AK_MusicSyncPoint:
-		{
-			AkMusicSyncCallbackInfo* music_sync_info = static_cast<AkMusicSyncCallbackInfo*>(callback_info);
-			callback_data["gameObjID"] = music_sync_info->gameObjID;
-			callback_data["musicSyncType"] = music_sync_info->musicSyncType;
-			callback_data["playingID"] = music_sync_info->playingID;
-			callback_data["pszUserCueName"] = String(music_sync_info->pszUserCueName);
-
-			Dictionary segment_info;
-			segment_info["fBarDuration"] = music_sync_info->segmentInfo.fBarDuration;
-			segment_info["fBeatDuration"] = music_sync_info->segmentInfo.fBeatDuration;
-			segment_info["fGridDuration"] = music_sync_info->segmentInfo.fGridDuration;
-			segment_info["fGridOffset"] = music_sync_info->segmentInfo.fGridOffset;
-			segment_info["iActiveDuration"] = music_sync_info->segmentInfo.iActiveDuration;
-			segment_info["iCurrentPosition"] = music_sync_info->segmentInfo.iCurrentPosition;
-			segment_info["iPostExitDuration"] = music_sync_info->segmentInfo.iPostExitDuration;
-			segment_info["iPreEntryDuration"] = music_sync_info->segmentInfo.iPreEntryDuration;
-			segment_info["iRemainingLookAheadTime"] = music_sync_info->segmentInfo.iRemainingLookAheadTime;
-			callback_data["segmentInfo"] = segment_info;
-			break;
-		}
-		case AK_MusicSyncAll:
-		{
-			AkMusicSyncCallbackInfo* music_sync_info = static_cast<AkMusicSyncCallbackInfo*>(callback_info);
-			callback_data["gameObjID"] = music_sync_info->gameObjID;
-			callback_data["musicSyncType"] = music_sync_info->musicSyncType;
-			callback_data["playingID"] = music_sync_info->playingID;
-			callback_data["pszUserCueName"] = String(music_sync_info->pszUserCueName);
-
-			Dictionary segment_info;
-			segment_info["fBarDuration"] = music_sync_info->segmentInfo.fBarDuration;
-			segment_info["fBeatDuration"] = music_sync_info->segmentInfo.fBeatDuration;
-			segment_info["fGridDuration"] = music_sync_info->segmentInfo.fGridDuration;
-			segment_info["fGridOffset"] = music_sync_info->segmentInfo.fGridOffset;
-			segment_info["iActiveDuration"] = music_sync_info->segmentInfo.iActiveDuration;
-			segment_info["iCurrentPosition"] = music_sync_info->segmentInfo.iCurrentPosition;
-			segment_info["iPostExitDuration"] = music_sync_info->segmentInfo.iPostExitDuration;
-			segment_info["iPreEntryDuration"] = music_sync_info->segmentInfo.iPreEntryDuration;
-			segment_info["iRemainingLookAheadTime"] = music_sync_info->segmentInfo.iRemainingLookAheadTime;
-			callback_data["segmentInfo"] = segment_info;
+			Dictionary output_config;
+			output_config["uNumChannels"] = info->outputConfig.uNumChannels;
+			output_config["eConfigType"] = info->outputConfig.eConfigType;
+			output_config["uChannelMask"] = info->outputConfig.uChannelMask;
+			callback_data["outputConfig"] = output_config;
 			break;
 		}
 		case AK_MIDIEvent:
 		{
-			AkMIDIEventCallbackInfo* midiEventInfo = static_cast<AkMIDIEventCallbackInfo*>(callback_info);
-			callback_data["eventID"] = midiEventInfo->eventID;
-			callback_data["gameObjID"] = midiEventInfo->gameObjID;
+			const auto* info = static_cast<AkMIDIEventCallbackInfo*>(in_pCallbackInfo);
+			pack_base_event_info(callback_data, in_pEventInfo);
 
 			Dictionary midiEvent;
-			midiEvent["byType"] = static_cast<unsigned char>(midiEventInfo->midiEvent.byType);
-			midiEvent["byChan"] = static_cast<unsigned char>(midiEventInfo->midiEvent.byChan);
+			midiEvent["byType"] = static_cast<unsigned char>(info->midiEvent.byType);
+			midiEvent["byChan"] = static_cast<unsigned char>(info->midiEvent.byChan);
 
 			Dictionary cc;
-			cc["byCc"] = static_cast<unsigned char>(midiEventInfo->midiEvent.Cc.byCc);
-			cc["byValue"] = static_cast<unsigned char>(midiEventInfo->midiEvent.Cc.byValue);
+			cc["byCc"] = static_cast<unsigned char>(info->midiEvent.Cc.byCc);
+			cc["byValue"] = static_cast<unsigned char>(info->midiEvent.Cc.byValue);
 
 			Dictionary chanAftertouch;
-			chanAftertouch["byValue"] = static_cast<unsigned char>(midiEventInfo->midiEvent.ChanAftertouch.byValue);
+			chanAftertouch["byValue"] = static_cast<unsigned char>(info->midiEvent.ChanAftertouch.byValue);
 
 			Dictionary gen;
-			gen["byParam1"] = static_cast<unsigned char>(midiEventInfo->midiEvent.Gen.byParam1);
-			gen["byParam2"] = static_cast<unsigned char>(midiEventInfo->midiEvent.Gen.byParam2);
+			gen["byParam1"] = static_cast<unsigned char>(info->midiEvent.Gen.byParam1);
+			gen["byParam2"] = static_cast<unsigned char>(info->midiEvent.Gen.byParam2);
 
 			Dictionary noteAftertouch;
-			noteAftertouch["byNote"] = static_cast<unsigned char>(midiEventInfo->midiEvent.NoteAftertouch.byNote);
-			noteAftertouch["byValue"] = static_cast<unsigned char>(midiEventInfo->midiEvent.NoteAftertouch.byValue);
+			noteAftertouch["byNote"] = static_cast<unsigned char>(info->midiEvent.NoteAftertouch.byNote);
+			noteAftertouch["byValue"] = static_cast<unsigned char>(info->midiEvent.NoteAftertouch.byValue);
 
 			Dictionary noteOnOff;
-			noteOnOff["byNote"] = static_cast<unsigned char>(midiEventInfo->midiEvent.NoteOnOff.byNote);
-			noteOnOff["byVelocity"] = static_cast<unsigned char>(midiEventInfo->midiEvent.NoteOnOff.byVelocity);
+			noteOnOff["byNote"] = static_cast<unsigned char>(info->midiEvent.NoteOnOff.byNote);
+			noteOnOff["byVelocity"] = static_cast<unsigned char>(info->midiEvent.NoteOnOff.byVelocity);
 
 			Dictionary pitchBend;
-			pitchBend["byValueLsb"] = static_cast<unsigned char>(midiEventInfo->midiEvent.PitchBend.byValueLsb);
-			pitchBend["byValueMsb"] = static_cast<unsigned char>(midiEventInfo->midiEvent.PitchBend.byValueMsb);
+			pitchBend["byValueLsb"] = static_cast<unsigned char>(info->midiEvent.PitchBend.byValueLsb);
+			pitchBend["byValueMsb"] = static_cast<unsigned char>(info->midiEvent.PitchBend.byValueMsb);
 
 			Dictionary programChange;
-			programChange["byProgramNum"] =
-					static_cast<unsigned char>(midiEventInfo->midiEvent.ProgramChange.byProgramNum);
+			programChange["byProgramNum"] = static_cast<unsigned char>(info->midiEvent.ProgramChange.byProgramNum);
 
 			midiEvent["cc"] = cc;
 			midiEvent["chanAftertouch"] = chanAftertouch;
@@ -1706,33 +1519,25 @@ void Wwise::event_callback(AkCallbackType callback_type, AkCallbackInfo* callbac
 			midiEvent["noteOnOff"] = noteOnOff;
 			midiEvent["pitchBend"] = pitchBend;
 			midiEvent["programChange"] = programChange;
-
 			callback_data["midiEvent"] = midiEvent;
-
-			callback_data["playingID"] = midiEventInfo->playingID;
 			break;
 		}
-		case AK_CallbackBits:
-		case AK_EnableGetSourcePlayPosition:
-		case AK_EnableGetMusicPlayPosition:
-		case AK_EnableGetSourceStreamBuffering:
-			break;
 		default:
 			AKASSERT(false);
-			break;
+			return;
 	}
 
 	args.push_back(callback_data);
 
 	if (ObjectDB::get_instance(package->object_id) && package->cookie)
 	{
-		if (callback_type != AK_EndOfEvent || package->notify_end_of_event)
+		if (in_eType != AK_EndOfEvent || package->notify_end_of_event)
 		{
 			package->cookie->callv(args);
 		}
 	}
 
-	if (callback_type == AK_EndOfEvent)
+	if (in_eType == AK_EndOfEvent)
 	{
 		memdelete(package->cookie);
 		delete package;
@@ -1871,6 +1676,9 @@ bool Wwise::initialize_wwise_systems()
 
 	init_settings.bEnableGameSyncPreparation = static_cast<bool>(
 			project_settings->get_setting(project_settings->advanced_settings.enable_game_sync_preparation));
+
+	init_settings.fStreamingLookAheadRatio = static_cast<float>(
+			project_settings->get_setting(project_settings->common_user_settings.streaming_look_ahead_ratio));
 
 	init_settings.fDebugOutOfRangeLimit = static_cast<float>(
 			project_settings->get_setting(project_settings->advanced_settings.debug_out_of_range_limit));
@@ -2033,11 +1841,34 @@ bool Wwise::initialize_wwise_systems()
 	platform_init_settings.audioSession.eMode = static_cast<AkAudioSessionMode>(audio_session_mode_enum);
 
 #elif defined(AK_ANDROID)
-	platform_init_settings.eAudioAPI = static_cast<AkAudioAPIAndroid>(static_cast<unsigned int>(
-			project_settings->get_setting(project_settings->platform_settings.android_audio_api)));
+	AkAudioAPIAndroid android_api_flag = AkAudioAPI_Default;
 
-	platform_init_settings.bRoundFrameSizeToHWSize = static_cast<bool>(
-			project_settings->get_setting(project_settings->platform_settings.android_round_frame_size_to_hw_size));
+	int selected_api_index =
+			static_cast<int>(project_settings->get_setting(project_settings->platform_settings.android_audio_api));
+
+	switch (selected_api_index)
+	{
+		case 0:
+			android_api_flag = AkAudioAPI_AAudio;
+			break;
+		case 1:
+			android_api_flag = AkAudioAPI_OpenSL_ES;
+			break;
+		case 2:
+			android_api_flag = AkAudioAPI_DolbyAtmos;
+			break;
+		case 3:
+			android_api_flag = AkAudioAPI_AndroidSpatializer;
+			break;
+		case 4:
+			android_api_flag = AkAudioAPI_Default;
+			break;
+		default:
+			android_api_flag = AkAudioAPI_Default;
+			break;
+	}
+
+	platform_init_settings.eAudioAPI = android_api_flag;
 
 	platform_init_settings.pJavaVM = JNISupport::getJavaVM();
 	platform_init_settings.jActivity = JNISupport::getActivity();
@@ -2046,7 +1877,8 @@ bool Wwise::initialize_wwise_systems()
 	CONVERT_CHAR_TO_OSCHAR(JNISupport::getPluginsDir().c_str(), dll_path);
 	init_settings.szPluginDLLPath = dll_path;
 
-	platform_init_settings.bEnableLowLatency = true;
+	// todo(afama): Expose setting
+	platform_init_settings.eAudioPath = AkAudioPath_LowLatency;
 
 #elif defined(AK_LINUX)
 
@@ -2060,17 +1892,6 @@ bool Wwise::initialize_wwise_systems()
 	if (!ERROR_CHECK_MSG(AK::SoundEngine::Init(&init_settings, &platform_init_settings),
 				"WwiseGodot: Sound engine initialization failed."))
 
-	{
-		return false;
-	}
-
-	AkMusicSettings musicInitSettings;
-	AK::MusicEngine::GetDefaultInitSettings(musicInitSettings);
-
-	musicInitSettings.fStreamingLookAheadRatio = static_cast<float>(
-			project_settings->get_setting(project_settings->common_user_settings.streaming_look_ahead_ratio));
-
-	if (!ERROR_CHECK_MSG(AK::MusicEngine::Init(&musicInitSettings), "WwiseGodot: Music Engine initialization failed."))
 	{
 		return false;
 	}
@@ -2171,8 +1992,6 @@ bool Wwise::shutdown_wwise_system()
 	{
 		return false;
 	}
-
-	AK::MusicEngine::Term();
 
 	AK::SoundEngine::Term();
 
