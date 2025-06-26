@@ -38,7 +38,7 @@ jobs:
             artifact-name: macos
 
           - name: Linux
-            os: "ubuntu-20.04"
+            os: "ubuntu-22.04"
             sdk-platform: linux
             scons-platform: linux
             artifact-name: linux
@@ -52,7 +52,7 @@ jobs:
             artifact-name: ios
 
           - name: Android
-            os: "ubuntu-20.04"
+            os: "ubuntu-22.04"
             sdk-platform: android
             scons-platform: android
             debug-flags-arm64: ANDROID_NDK_ROOT=$ANDROID_NDK_LATEST_HOME arch=arm64
