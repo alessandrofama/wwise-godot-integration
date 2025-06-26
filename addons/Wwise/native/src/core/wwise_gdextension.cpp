@@ -310,7 +310,7 @@ bool Wwise::load_bank_async(const String& bank_name, const Callable& cookie)
 
 	if (!result)
 	{
-		delete callable;
+		memdelete(callable);
 	}
 
 	return result;
@@ -323,7 +323,7 @@ bool Wwise::load_bank_async_id(const unsigned int bank_id, const Callable& cooki
 
 	if (!result)
 	{
-		delete callable;
+		memdelete(callable);
 	}
 
 	return result;
@@ -350,7 +350,7 @@ bool Wwise::unload_bank_async(const String& bank_name, const Callable& cookie)
 
 	if (!result)
 	{
-		delete callable;
+		memdelete(callable);
 	}
 
 	return result;
@@ -364,7 +364,7 @@ bool Wwise::unload_bank_async_id(const unsigned int bank_id, const Callable& coo
 
 	if (!result)
 	{
-		delete callable;
+		memdelete(callable);
 	}
 
 	return result;
@@ -1753,7 +1753,7 @@ void Wwise::bank_callback(AkUInt32 bank_id, const void* in_memory_bank_ptr, AKRE
 
 	args.push_back(callback_data);
 	cookie->callv(args);
-	delete cookie;
+	memdelete(cookie);
 }
 
 void Wwise::pre_game_object_api_call(Node* p_node, AkGameObjectID p_id)
