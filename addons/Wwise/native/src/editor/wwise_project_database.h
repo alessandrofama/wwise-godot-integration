@@ -9,6 +9,7 @@
 #include <godot_cpp/classes/object.hpp>
 #include <godot_cpp/classes/resource_saver.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
+#include <map>
 
 using namespace godot;
 
