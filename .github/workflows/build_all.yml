@@ -11,8 +11,8 @@ on:
       - 'wwise_v*'
 env:
   BASE_BRANCH: ci
-  WWISE_VERSION: "2024.1.3"
-  WWISE_BUILD: "8749"
+  WWISE_VERSION: "2024.1.6"
+  WWISE_BUILD: "8842"
   GODOT_ENGINE_VERSION: "4.3.0"
   GODOT_ENGINE_STAGE: "stable"
   BUILD_PROFILE_EDITOR: "build_profile_editor.json"
