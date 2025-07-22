@@ -89,7 +89,7 @@ void WwiseAuxBus::post_load_auto_bank(uint32_t p_bank_id)
 
 void WwiseAuxBus::unload_auto_bank()
 {
-	if (get_bank_id() != AK_INVALID_UNIQUE_ID && get_is_auto_bank_loaded())
+	if (AK::SoundEngine::IsInitialized() && get_bank_id() != AK_INVALID_UNIQUE_ID && get_is_auto_bank_loaded())
 	{
 		const AkUniqueID bus_id = get_id();
 		AkUniqueID bus_ids[] = { bus_id };
