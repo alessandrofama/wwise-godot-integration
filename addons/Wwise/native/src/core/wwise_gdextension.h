@@ -154,8 +154,9 @@ public:
 			float transmission_loss_value, const Node* game_object, bool enable_diffraction,
 			bool enable_diffraction_on_boundary_edges);
 	bool remove_geometry(const Object* game_object);
-	bool set_geometry_instance(
-			const Object* associated_geometry, const Transform3D& transform, const Object* geometry_instance);
+	bool set_geometry_instance(const Object* associated_geometry, const Transform3D& transform,
+			bool use_for_reflection_and_diffraction, bool is_solid, bool bypass_portal_subtraction,
+			const Object* geometry_instance);
 	bool remove_geometry_instance(const Object* geometry_instance);
 	bool register_spatial_listener(Node* game_object);
 	bool set_room(const Node* game_object, const unsigned int ak_aux_bus_id, const float reverb_level,

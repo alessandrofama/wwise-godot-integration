@@ -2,8 +2,14 @@
 	"enabled_classes": [
 		"Area3D",
 		"ArrayMesh",
+		"BoxMesh",
 		"BoxShape3D",
+		"CapsuleMesh",
+		"CapsuleShape3D",
 		"CollisionShape3D",
+		"ConcavePolygonShape3D",
+		"CylinderMesh",
+		"CylinderShape3D",
 		"DisplayServer",
 		"Engine",
 		"Material",
@@ -15,6 +21,8 @@
 		"ProjectSettings",
 		"ResourceLoader",
 		"SceneTree",
+		"SphereMesh",
+		"SphereShape3D",
 		"Texture2D",
 		"Thread",
 		"Window"
