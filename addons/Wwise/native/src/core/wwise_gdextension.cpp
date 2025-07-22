@@ -136,7 +136,9 @@ void Wwise::_bind_methods()
 								 "game_object", "enable_diffraction", "enable_diffraction_on_boundary_edges"),
 			&Wwise::set_geometry);
 	ClassDB::bind_method(D_METHOD("remove_geometry", "game_object"), &Wwise::remove_geometry);
-	ClassDB::bind_method(D_METHOD("set_geometry_instance", "associated_geometry", "transform", "geometry_instance"),
+	ClassDB::bind_method(
+			D_METHOD("set_geometry_instance", "associated_geometry", "transform", "use_for_reflection_and_diffraction",
+					"is_solid", "bypass_portal_subtraction", "geometry_instance"),
 			&Wwise::set_geometry_instance);
 	ClassDB::bind_method(D_METHOD("remove_geometry_instance", "geometry_instance"), &Wwise::remove_geometry_instance);
 	ClassDB::bind_method(D_METHOD("register_spatial_listener", "game_object"), &Wwise::register_spatial_listener);
