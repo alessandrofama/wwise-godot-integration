@@ -102,7 +102,7 @@ void WwiseEvent::post_load_auto_bank(uint32_t p_bank_id)
 
 void WwiseEvent::unload_auto_bank()
 {
-	if (get_bank_id() != AK_INVALID_UNIQUE_ID && get_is_auto_bank_loaded())
+	if (AK::SoundEngine::IsInitialized() && get_bank_id() != AK_INVALID_UNIQUE_ID && get_is_auto_bank_loaded())
 	{
 		const AkUniqueID event_id = get_id();
 		AkUniqueID event_ids[] = { event_id };
