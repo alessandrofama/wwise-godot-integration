@@ -1064,7 +1064,7 @@ bool Wwise::set_geometry(const Array vertices, const Array triangles, const Ref<
 
 	if (id == AK_INVALID_GAME_OBJECT)
 	{
-		UtilityFunctions::print("WwiseGodot: Failed to Set Geometry, passed game_object is null.");
+		UtilityFunctions::printerr("WwiseGodot: Failed to Set Geometry, passed game_object is null.");
 		return false;
 	}
 
@@ -1103,14 +1103,13 @@ bool Wwise::set_geometry(const Array vertices, const Array triangles, const Ref<
 		ak_vertices[i] = v;
 	}
 
-	int num_triangles = triangles.size() / 3;
-
-	if ((num_triangles % 3) != 0)
+	if (triangles.size() % 3 != 0)
 	{
 		UtilityFunctions::print(
-				vformat("WwiseGodot: Wrong number of triangles on GameObject: %s.", game_object->get_name()));
+				vformat("WwiseGodot: Wrong number of triangles on GameObject: %s.", game_object->get_path()));
 	}
 
+	int num_triangles = triangles.size() / 3;
 	auto ak_triangles = std::make_unique<AkTriangle[]>(num_triangles);
 
 	AkAcousticSurface surface{};
@@ -1136,7 +1135,7 @@ bool Wwise::set_geometry(const Array vertices, const Array triangles, const Ref<
 		t.point0 = verts_remap[static_cast<unsigned int>(triangles[3 * i + 0])];
 		t.point1 = verts_remap[static_cast<unsigned int>(triangles[3 * i + 1])];
 		t.point2 = verts_remap[static_cast<unsigned int>(triangles[3 * i + 2])];
-		t.surface = texture_valid ? 0 : AK_INVALID_SURFACE;
+		t.surface = 0;
 
 		ak_triangles[triangleIdx] = t;
 
@@ -1147,7 +1146,7 @@ bool Wwise::set_geometry(const Array vertices, const Array triangles, const Ref<
 		else
 		{
 			UtilityFunctions::print(
-					vformat("WwiseGodot: Skipped degenerate triangles on GameObject: %s.", game_object->get_name()));
+					vformat("WwiseGodot: Skipped degenerate triangles on GameObject: %s.", game_object->get_path()));
 		}
 	}
 
@@ -1168,11 +1167,15 @@ bool Wwise::remove_geometry(const Object* game_object)
 	return ERROR_CHECK(AK::SpatialAudio::RemoveGeometry(static_cast<AkGeometrySetID>(game_object->get_instance_id())));
 }
 
-bool Wwise::set_geometry_instance(
-		const Object* associated_geometry, const Transform3D& transform, const Object* geometry_instance)
+bool Wwise::set_geometry_instance(const Object* associated_geometry, const Transform3D& transform,
+		bool use_for_reflection_and_diffraction, bool is_solid, bool bypass_portal_subtraction,
+		const Object* geometry_instance)
 {
 	AkGeometryInstanceParams params{};
 	params.GeometrySetID = associated_geometry->get_instance_id();
+	params.UseForReflectionAndDiffraction = use_for_reflection_and_diffraction;
+	params.IsSolid = is_solid;
+	params.BypassPortalSubtraction = bypass_portal_subtraction;
 
 	AkVector position{};
 	AkVector orientation_front{};
