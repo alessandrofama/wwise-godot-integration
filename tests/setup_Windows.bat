@@ -9,6 +9,6 @@ python WwiseProject/GenerateProjectWavFiles.py
 
 :: Generate GDExtension Editor Library
 cd /d "%SCRIPT_DIR%..\addons\Wwise\native\"
-scons platform=windows target=editor use_static_cpp=yes wwise_config=profile wwise_sdk="%WWISESDK%"
+scons platform=windows target=editor use_static_cpp=yes wwise_config=profile build_profile="build_profile_editor.json" debug_symbols=yes wwise_sdk="%WWISESDK%"
 
 pause

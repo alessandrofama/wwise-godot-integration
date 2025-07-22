@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WwiseDocument Type="WorkUnit" ID="{A3D5474A-DCBE-4BA1-8EC4-CD3607407BBE}" SchemaVersion="123">
-	<AudioObjects>
+<WwiseDocument Type="WorkUnit" ID="{A3D5474A-DCBE-4BA1-8EC4-CD3607407BBE}" SchemaVersion="131">
+	<Containers>
 		<WorkUnit Name="UserDefinedBank" ID="{A3D5474A-DCBE-4BA1-8EC4-CD3607407BBE}" PersistMode="Standalone">
 			<ChildrenList>
 				<Sound Name="UserDefinedBankSFX" ID="{5A2B4F1A-7B7B-4F51-B9D5-281B585594C0}" ShortID="264238389">
@@ -9,7 +9,7 @@
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{D2311743-B22F-4E19-B713-C7EA158EBE44}"/>
 						</Reference>
 						<Reference Name="OutputBus">
-							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{221E0A94-966F-4E8C-AAEA-F1A2F743E8F7}"/>
+							<ObjectRef Name="Main Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{221E0A94-966F-4E8C-AAEA-F1A2F743E8F7}"/>
 						</Reference>
 					</ReferenceList>
 					<ChildrenList>
@@ -27,5 +27,5 @@
 				</Sound>
 			</ChildrenList>
 		</WorkUnit>
-	</AudioObjects>
+	</Containers>
 </WwiseDocument>
