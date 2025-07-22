@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WwiseDocument Type="Project" SchemaVersion="123" WwiseVersion="v2024.1.0" WwiseBuild="8669">
+<WwiseDocument Type="Project" SchemaVersion="131" WwiseVersion="v2025.1.0" WwiseBuild="8897">
 	<ProjectInfo>
 		<Project Name="GodotTests" ID="{225E3277-D99C-47A8-9765-D8D28C291B75}">
 			<Platforms>
@@ -255,6 +255,11 @@
 								<Value>0</Value>
 							</ValueList>
 						</Property>
+						<Property Name="GameAuxSendHSF" Type="Real64">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
 						<Property Name="GameAuxSendLPF" Type="int16">
 							<ValueList>
 								<Value>0</Value>
@@ -436,6 +441,11 @@
 							</ValueList>
 						</Property>
 						<Property Name="OutputBusHighpass" Type="int16">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="OutputBusHighshelf" Type="Real64">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
@@ -677,7 +687,7 @@
 						</Property>
 					</PropertyList>
 				</SharedPropertyList>
-				<SharedPropertyList ClassName="" PluginType="3" CompanyID="259" PluginID="2">
+				<SharedPropertyList ClassName="iZotope Hybrid Reverb" PluginType="3" CompanyID="259" PluginID="2">
 					<PropertyList>
 						<Property Name="Color" Type="int16">
 							<ValueList>
@@ -903,6 +913,11 @@
 								<Value>256</Value>
 							</ValueList>
 						</Property>
+						<Property Name="HSFEmphasis" Type="Real64">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
 						<Property Name="LicenseKey" Type="string">
 							<ValueList>
 								<Value></Value>
@@ -969,6 +984,11 @@
 							</ValueList>
 						</Property>
 						<Property Name="SoundBankGenerateMaxAttenuationInfo" Type="bool">
+							<ValueList>
+								<Value>True</Value>
+							</ValueList>
+						</Property>
+						<Property Name="SoundBankGeneratePrintColor" Type="bool">
 							<ValueList>
 								<Value>True</Value>
 							</ValueList>
@@ -1070,7 +1090,7 @@
 						</Property>
 					</PropertyList>
 				</SharedPropertyList>
-				<SharedPropertyList ClassName="" PluginType="3" CompanyID="259" PluginID="3">
+				<SharedPropertyList ClassName="iZotope Trash Distortion" PluginType="3" CompanyID="259" PluginID="3">
 					<PropertyList>
 						<Property Name="Color" Type="int16">
 							<ValueList>
@@ -1220,9 +1240,24 @@
 								<Value>0</Value>
 							</ValueList>
 						</Property>
+						<Property Name="CooldownTime" Type="Real32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
 						<Property Name="Inclusion" Type="bool">
 							<ValueList>
 								<Value>True</Value>
+							</ValueList>
+						</Property>
+						<Property Name="InstanceLimit" Type="int16">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="LimitScope" Type="int16">
+							<ValueList>
+								<Value>0</Value>
 							</ValueList>
 						</Property>
 						<Property Name="OverrideColor" Type="bool">
@@ -1232,7 +1267,7 @@
 						</Property>
 					</PropertyList>
 				</SharedPropertyList>
-				<SharedPropertyList ClassName="" PluginType="3" CompanyID="259" PluginID="4">
+				<SharedPropertyList ClassName="iZotope Trash Delay" PluginType="3" CompanyID="259" PluginID="4">
 					<PropertyList>
 						<Property Name="Color" Type="int16">
 							<ValueList>
@@ -1435,7 +1470,7 @@
 						</Property>
 					</PropertyList>
 				</SharedPropertyList>
-				<SharedPropertyList ClassName="" PluginType="3" CompanyID="259" PluginID="5">
+				<SharedPropertyList ClassName="iZotope Trash Dynamics Mono" PluginType="3" CompanyID="259" PluginID="5">
 					<PropertyList>
 						<Property Name="Bypass" Type="int32">
 							<ValueList>
@@ -1518,7 +1553,7 @@
 						</Property>
 					</PropertyList>
 				</SharedPropertyList>
-				<SharedPropertyList ClassName="" PluginType="3" CompanyID="259" PluginID="6">
+				<SharedPropertyList ClassName="iZotope Trash Filters" PluginType="3" CompanyID="259" PluginID="6">
 					<PropertyList>
 						<Property Name="Color" Type="int16">
 							<ValueList>
@@ -1736,7 +1771,7 @@
 						</Property>
 					</PropertyList>
 				</SharedPropertyList>
-				<SharedPropertyList ClassName="" PluginType="3" CompanyID="259" PluginID="7">
+				<SharedPropertyList ClassName="iZotope Trash Box Modeler" PluginType="3" CompanyID="259" PluginID="7">
 					<PropertyList>
 						<Property Name="BoxModel" Type="int32">
 							<ValueList>
@@ -1790,7 +1825,7 @@
 						</Property>
 					</PropertyList>
 				</SharedPropertyList>
-				<SharedPropertyList ClassName="ActorMixer" PluginType="0" CompanyID="1" PluginID="8">
+				<SharedPropertyList ClassName="PropertyContainer" PluginType="0" CompanyID="1" PluginID="8">
 					<PropertyList>
 						<Property Name="3DPosition" Type="int16">
 							<ValueList>
@@ -1848,6 +1883,11 @@
 							</ValueList>
 						</Property>
 						<Property Name="GameAuxSendHPF" Type="int16">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="GameAuxSendHSF" Type="Real64">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
@@ -1993,6 +2033,11 @@
 							</ValueList>
 						</Property>
 						<Property Name="OutputBusHighpass" Type="int16">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="OutputBusHighshelf" Type="Real64">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
@@ -2266,6 +2311,11 @@
 								<Value>0</Value>
 							</ValueList>
 						</Property>
+						<Property Name="GameAuxSendHSF" Type="Real64">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
 						<Property Name="GameAuxSendLPF" Type="int16">
 							<ValueList>
 								<Value>0</Value>
@@ -2422,6 +2472,11 @@
 							</ValueList>
 						</Property>
 						<Property Name="OutputBusHighpass" Type="int16">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="OutputBusHighshelf" Type="Real64">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
@@ -2698,7 +2753,7 @@
 						</Property>
 					</PropertyList>
 				</SharedPropertyList>
-				<SharedPropertyList ClassName="" PluginType="3" CompanyID="259" PluginID="9">
+				<SharedPropertyList ClassName="iZotope Trash Multiband Distortion" PluginType="3" CompanyID="259" PluginID="9">
 					<PropertyList>
 						<Property Name="Color" Type="int16">
 							<ValueList>
@@ -2969,6 +3024,11 @@
 								<Value>0</Value>
 							</ValueList>
 						</Property>
+						<Property Name="GameAuxSendHSF" Type="Real64">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
 						<Property Name="GameAuxSendLPF" Type="int16">
 							<ValueList>
 								<Value>0</Value>
@@ -3115,6 +3175,11 @@
 							</ValueList>
 						</Property>
 						<Property Name="OutputBusHighpass" Type="int16">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="OutputBusHighshelf" Type="Real64">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
@@ -3661,6 +3726,11 @@
 								<Value>0</Value>
 							</ValueList>
 						</Property>
+						<Property Name="GameAuxSendHSF" Type="Real64">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
 						<Property Name="GameAuxSendLPF" Type="int16">
 							<ValueList>
 								<Value>0</Value>
@@ -3757,6 +3827,11 @@
 							</ValueList>
 						</Property>
 						<Property Name="OutputBusHighpass" Type="int16">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="OutputBusHighshelf" Type="Real64">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
@@ -4090,6 +4165,11 @@
 								<Value>0</Value>
 							</ValueList>
 						</Property>
+						<Property Name="GameAuxSendHSF" Type="Real64">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
 						<Property Name="GameAuxSendLPF" Type="int16">
 							<ValueList>
 								<Value>0</Value>
@@ -4201,6 +4281,11 @@
 							</ValueList>
 						</Property>
 						<Property Name="OutputBusHighpass" Type="int16">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="OutputBusHighshelf" Type="Real64">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
@@ -4489,6 +4574,11 @@
 								<Value>0</Value>
 							</ValueList>
 						</Property>
+						<Property Name="GameAuxSendHSF" Type="Real64">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
 						<Property Name="GameAuxSendLPF" Type="int16">
 							<ValueList>
 								<Value>0</Value>
@@ -4610,6 +4700,11 @@
 							</ValueList>
 						</Property>
 						<Property Name="OutputBusHighpass" Type="int16">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="OutputBusHighshelf" Type="Real64">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
@@ -4888,6 +4983,11 @@
 								<Value>0</Value>
 							</ValueList>
 						</Property>
+						<Property Name="GameAuxSendHSF" Type="Real64">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
 						<Property Name="GameAuxSendLPF" Type="int16">
 							<ValueList>
 								<Value>0</Value>
@@ -5034,6 +5134,11 @@
 							</ValueList>
 						</Property>
 						<Property Name="OutputBusHighpass" Type="int16">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="OutputBusHighshelf" Type="Real64">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
@@ -5360,6 +5465,11 @@
 								<Value></Value>
 							</ValueList>
 						</Property>
+						<Property Name="ErrorResult" Type="string">
+							<ValueList>
+								<Value></Value>
+							</ValueList>
+						</Property>
 						<Property Name="EventsReferencedInOperator" Type="int16">
 							<ValueList>
 								<Value>0</Value>
@@ -5619,6 +5729,11 @@
 								<Value>0</Value>
 							</ValueList>
 						</Property>
+						<Property Name="GameAuxSendHSF" Type="Real64">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
 						<Property Name="GameAuxSendLPF" Type="int16">
 							<ValueList>
 								<Value>0</Value>
@@ -5730,6 +5845,11 @@
 							</ValueList>
 						</Property>
 						<Property Name="OutputBusHighpass" Type="int16">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="OutputBusHighshelf" Type="Real64">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
@@ -6023,6 +6143,11 @@
 								<Value>0</Value>
 							</ValueList>
 						</Property>
+						<Property Name="GameAuxSendHSF" Type="Real64">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
 						<Property Name="GameAuxSendLPF" Type="int16">
 							<ValueList>
 								<Value>0</Value>
@@ -6139,6 +6264,11 @@
 							</ValueList>
 						</Property>
 						<Property Name="OutputBusHighpass" Type="int16">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="OutputBusHighshelf" Type="Real64">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
@@ -6834,6 +6964,11 @@
 								<Value>False</Value>
 							</ValueList>
 						</Property>
+						<Property Name="SoundBankGeneratePrintColor" Type="bool">
+							<ValueList>
+								<Value>True</Value>
+							</ValueList>
+						</Property>
 						<Property Name="SoundBankGeneratePrintGUID" Type="bool">
 							<ValueList>
 								<Value>False</Value>
@@ -7187,6 +7322,11 @@
 								<Value>0</Value>
 							</ValueList>
 						</Property>
+						<Property Name="GameAuxSendHSF" Type="Real64">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
 						<Property Name="GameAuxSendLPF" Type="int16">
 							<ValueList>
 								<Value>0</Value>
@@ -7223,6 +7363,11 @@
 							</ValueList>
 						</Property>
 						<Property Name="OutputBusHighpass" Type="int16">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="OutputBusHighshelf" Type="Real64">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
@@ -7810,6 +7955,130 @@
 						</Property>
 					</PropertyList>
 				</SharedPropertyList>
+				<SharedPropertyList ClassName="MetadataSlot" PluginType="0" CompanyID="0" PluginID="85"/>
+				<SharedPropertyList ClassName="StateGroupInfo" PluginType="0" CompanyID="1" PluginID="85">
+					<PropertyList>
+						<Property Name="MusicSyncType" Type="int32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+				</SharedPropertyList>
+				<SharedPropertyList ClassName="PlaylistSlot" PluginType="0" CompanyID="0" PluginID="86"/>
+				<SharedPropertyList ClassName="SidechainMix" PluginType="0" CompanyID="1" PluginID="86">
+					<PropertyList>
+						<Property Name="Color" Type="int16">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Inclusion" Type="bool">
+							<ValueList>
+								<Value>True</Value>
+							</ValueList>
+						</Property>
+						<Property Name="OverrideColor" Type="bool">
+							<ValueList>
+								<Value>False</Value>
+							</ValueList>
+						</Property>
+						<Property Name="SidechainMixChannelConfig" Type="int32">
+							<ValueList>
+								<Value>16641</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+				</SharedPropertyList>
+				<SharedPropertyList ClassName="ArgumentsSlot" PluginType="0" CompanyID="0" PluginID="87"/>
+				<SharedPropertyList ClassName="MediaPoolQuery" PluginType="0" CompanyID="1" PluginID="87">
+					<PropertyList>
+						<Property Name="Color" Type="int16">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="OverrideColor" Type="bool">
+							<ValueList>
+								<Value>False</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+				</SharedPropertyList>
+				<SharedPropertyList ClassName="EntryPathSlot" PluginType="0" CompanyID="0" PluginID="88"/>
+				<SharedPropertyList ClassName="MediaPoolFilter" PluginType="0" CompanyID="1" PluginID="88">
+					<PropertyList>
+						<Property Name="CriteriaType" Type="int32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="FieldName" Type="string">
+							<ValueList>
+								<Value></Value>
+							</ValueList>
+						</Property>
+						<Property Name="IncludeFilter" Type="bool">
+							<ValueList>
+								<Value>True</Value>
+							</ValueList>
+						</Property>
+						<Property Name="OperatorNumeric" Type="int32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="OperatorText" Type="int32">
+							<ValueList>
+								<Value>2</Value>
+							</ValueList>
+						</Property>
+						<Property Name="ValueDouble" Type="Real64">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="ValueInteger" Type="Uint64">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="ValueText" Type="string">
+							<ValueList>
+								<Value></Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+				</SharedPropertyList>
+				<SharedPropertyList ClassName="MusicArgumentsSlot" PluginType="0" CompanyID="0" PluginID="89"/>
+				<SharedPropertyList ClassName="MediaPoolDatabase" PluginType="0" CompanyID="1" PluginID="89">
+					<PropertyList>
+						<Property Name="Color" Type="int16">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Inclusion" Type="bool">
+							<ValueList>
+								<Value>True</Value>
+							</ValueList>
+						</Property>
+						<Property Name="OverrideColor" Type="bool">
+							<ValueList>
+								<Value>False</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+				</SharedPropertyList>
+				<SharedPropertyList ClassName="Path" PluginType="0" CompanyID="0" PluginID="90">
+					<PropertyList>
+						<Property Name="Path" Type="string">
+							<ValueList>
+								<Value></Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+				</SharedPropertyList>
 				<SharedPropertyList ClassName="Wwise Sine" PluginType="2" CompanyID="0" PluginID="100">
 					<PropertyList>
 						<Property Name="ChannelMask" Type="int32">
@@ -7840,6 +8109,25 @@
 						<Property Name="SineGain" Type="Real32">
 							<ValueList>
 								<Value>-12</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+				</SharedPropertyList>
+				<SharedPropertyList ClassName="Resonance Audio Renderer" PluginType="3" CompanyID="272" PluginID="100">
+					<PropertyList>
+						<Property Name="Color" Type="int16">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Inclusion" Type="bool">
+							<ValueList>
+								<Value>True</Value>
+							</ValueList>
+						</Property>
+						<Property Name="OverrideColor" Type="bool">
+							<ValueList>
+								<Value>False</Value>
 							</ValueList>
 						</Property>
 					</PropertyList>
@@ -7977,7 +8265,7 @@
 						</Property>
 					</PropertyList>
 				</SharedPropertyList>
-				<SharedPropertyList ClassName="" PluginType="3" CompanyID="256" PluginID="103">
+				<SharedPropertyList ClassName="McDSP ML1" PluginType="3" CompanyID="256" PluginID="103">
 					<PropertyList>
 						<Property Name="Ceiling" Type="Real32">
 							<ValueList>
@@ -8076,6 +8364,11 @@
 						<Property Name="Inclusion" Type="bool">
 							<ValueList>
 								<Value>True</Value>
+							</ValueList>
+						</Property>
+						<Property Name="NumBands" Type="int32">
+							<ValueList>
+								<Value>3</Value>
 							</ValueList>
 						</Property>
 						<Property Name="OnOffBand1" Type="bool">
@@ -8191,6 +8484,11 @@
 								<Value>0</Value>
 							</ValueList>
 						</Property>
+						<Property Name="GainMeterRange" Type="Real32">
+							<ValueList>
+								<Value>-24</Value>
+							</ValueList>
+						</Property>
 						<Property Name="Inclusion" Type="bool">
 							<ValueList>
 								<Value>True</Value>
@@ -8221,6 +8519,11 @@
 								<Value>0.1</Value>
 							</ValueList>
 						</Property>
+						<Property Name="SidechainScope" Type="int32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
 						<Property Name="Threshold" Type="Real32">
 							<ValueList>
 								<Value>0</Value>
@@ -8243,6 +8546,11 @@
 						<Property Name="Color" Type="int16">
 							<ValueList>
 								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="GainMeterRange" Type="Real32">
+							<ValueList>
+								<Value>-24</Value>
 							</ValueList>
 						</Property>
 						<Property Name="Inclusion" Type="bool">
@@ -8273,6 +8581,11 @@
 						<Property Name="ReleaseTime" Type="Real32">
 							<ValueList>
 								<Value>0.01</Value>
+							</ValueList>
+						</Property>
+						<Property Name="SidechainScope" Type="int32">
+							<ValueList>
+								<Value>0</Value>
 							</ValueList>
 						</Property>
 						<Property Name="Threshold" Type="Real32">
@@ -8336,7 +8649,7 @@
 						</Property>
 					</PropertyList>
 				</SharedPropertyList>
-				<SharedPropertyList ClassName="" PluginType="3" CompanyID="256" PluginID="110">
+				<SharedPropertyList ClassName="McDSP FutzBox" PluginType="3" CompanyID="256" PluginID="110">
 					<PropertyList>
 						<Property Name="Balance" Type="Real32">
 							<ValueList>
@@ -8353,6 +8666,16 @@
 								<Value>0</Value>
 							</ValueList>
 						</Property>
+						<Property Name="DistortionChopAmount" Type="Real32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="DistortionChopMode" Type="int32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
 						<Property Name="DistortionEnable" Type="bool">
 							<ValueList>
 								<Value>True</Value>
@@ -8363,12 +8686,22 @@
 								<Value>0</Value>
 							</ValueList>
 						</Property>
+						<Property Name="DistortionIntensityMode" Type="int32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
 						<Property Name="DistortionMode" Type="int32">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
 						</Property>
 						<Property Name="DistortionRectify" Type="Real32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="DistortionWobble" Type="Real32">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
@@ -8549,6 +8882,11 @@
 							</ValueList>
 						</Property>
 						<Property Name="SIMType" Type="int32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Version" Type="int32">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
@@ -9922,6 +10260,11 @@
 								<Value>-48</Value>
 							</ValueList>
 						</Property>
+						<Property Name="MixdownCfg" Type="int32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
 						<Property Name="OverrideColor" Type="bool">
 							<ValueList>
 								<Value>False</Value>
@@ -10754,6 +11097,11 @@
 								<Value>7</Value>
 							</ValueList>
 						</Property>
+						<Property Name="DelayErrorTolerance" Type="Real32">
+							<ValueList>
+								<Value>25</Value>
+							</ValueList>
+						</Property>
 						<Property Name="DiffractionWarping" Type="Real32">
 							<ValueList>
 								<Value>0</Value>
@@ -10784,6 +11132,11 @@
 								<Value>20</Value>
 							</ValueList>
 						</Property>
+						<Property Name="HardwareProcessing" Type="bool">
+							<ValueList>
+								<Value>False</Value>
+							</ValueList>
+						</Property>
 						<Property Name="Inclusion" Type="bool">
 							<ValueList>
 								<Value>True</Value>
@@ -10795,6 +11148,11 @@
 							</ValueList>
 						</Property>
 						<Property Name="MaxDistance" Type="Real32">
+							<ValueList>
+								<Value>1000</Value>
+							</ValueList>
+						</Property>
+						<Property Name="MaxImageSourceDelayTime" Type="Real32">
 							<ValueList>
 								<Value>1000</Value>
 							</ValueList>
@@ -11026,6 +11384,30 @@
 					</PropertyList>
 				</SharedPropertyList>
 				<SharedPropertyList ClassName="No Output" PluginType="7" CompanyID="0" PluginID="181">
+					<PropertyList>
+						<Property Name="BypassEffect" Type="bool">
+							<ValueList>
+								<Value>False</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Color" Type="int16">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Inclusion" Type="bool">
+							<ValueList>
+								<Value>True</Value>
+							</ValueList>
+						</Property>
+						<Property Name="OverrideColor" Type="bool">
+							<ValueList>
+								<Value>False</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+				</SharedPropertyList>
+				<SharedPropertyList ClassName="Remote System" PluginType="7" CompanyID="0" PluginID="182">
 					<PropertyList>
 						<Property Name="BypassEffect" Type="bool">
 							<ValueList>
@@ -12574,6 +12956,382 @@
 						</Property>
 					</PropertyList>
 				</SharedPropertyList>
+				<SharedPropertyList ClassName="Wwise Channel Router" PluginType="3" CompanyID="0" PluginID="191">
+					<PropertyList>
+						<Property Name="BusChannelConfig" Type="int32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Color" Type="int16">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Inclusion" Type="bool">
+							<ValueList>
+								<Value>True</Value>
+							</ValueList>
+						</Property>
+						<Property Name="OverrideColor" Type="bool">
+							<ValueList>
+								<Value>False</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+				</SharedPropertyList>
+				<SharedPropertyList ClassName="Ak Sidechain Send" PluginType="3" CompanyID="0" PluginID="193">
+					<PropertyList>
+						<Property Name="Color" Type="int16">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="DelayOutput" Type="bool">
+							<ValueList>
+								<Value>False</Value>
+							</ValueList>
+						</Property>
+						<Property Name="HPF" Type="int16">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Inclusion" Type="bool">
+							<ValueList>
+								<Value>True</Value>
+							</ValueList>
+						</Property>
+						<Property Name="LPF" Type="int16">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="OverrideColor" Type="bool">
+							<ValueList>
+								<Value>False</Value>
+							</ValueList>
+						</Property>
+						<Property Name="SidechainScope" Type="int32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Volume" Type="Real32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+				</SharedPropertyList>
+				<SharedPropertyList ClassName="Ak Sidechain Receive" PluginType="3" CompanyID="0" PluginID="194">
+					<PropertyList>
+						<Property Name="Color" Type="int16">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="HPF" Type="int16">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Inclusion" Type="bool">
+							<ValueList>
+								<Value>True</Value>
+							</ValueList>
+						</Property>
+						<Property Name="LPF" Type="int16">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="OverrideColor" Type="bool">
+							<ValueList>
+								<Value>False</Value>
+							</ValueList>
+						</Property>
+						<Property Name="SidechainScope" Type="int32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Volume" Type="Real32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+				</SharedPropertyList>
+				<SharedPropertyList ClassName="Wwise Multiband Meter" PluginType="3" CompanyID="0" PluginID="196">
+					<PropertyList>
+						<Property Name="ApplyDownstreamVolume" Type="bool">
+							<ValueList>
+								<Value>False</Value>
+							</ValueList>
+						</Property>
+						<Property Name="AttackTime_Band0" Type="Real32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="AttackTime_Band1" Type="Real32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="AttackTime_Band2" Type="Real32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="AttackTime_Band3" Type="Real32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="AttackTime_Band4" Type="Real32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Color" Type="int16">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Enabled_Band1" Type="bool">
+							<ValueList>
+								<Value>True</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Enabled_Band2" Type="bool">
+							<ValueList>
+								<Value>True</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Enabled_Band3" Type="bool">
+							<ValueList>
+								<Value>True</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Enabled_Band4" Type="bool">
+							<ValueList>
+								<Value>True</Value>
+							</ValueList>
+						</Property>
+						<Property Name="HighFrequency_Band1" Type="Real32">
+							<ValueList>
+								<Value>200</Value>
+							</ValueList>
+						</Property>
+						<Property Name="HighFrequency_Band2" Type="Real32">
+							<ValueList>
+								<Value>400</Value>
+							</ValueList>
+						</Property>
+						<Property Name="HighFrequency_Band3" Type="Real32">
+							<ValueList>
+								<Value>800</Value>
+							</ValueList>
+						</Property>
+						<Property Name="HighFrequency_Band4" Type="Real32">
+							<ValueList>
+								<Value>16000</Value>
+							</ValueList>
+						</Property>
+						<Property Name="HighRolloff_Band1" Type="int32">
+							<ValueList>
+								<Value>2</Value>
+							</ValueList>
+						</Property>
+						<Property Name="HighRolloff_Band2" Type="int32">
+							<ValueList>
+								<Value>2</Value>
+							</ValueList>
+						</Property>
+						<Property Name="HighRolloff_Band3" Type="int32">
+							<ValueList>
+								<Value>2</Value>
+							</ValueList>
+						</Property>
+						<Property Name="HighRolloff_Band4" Type="int32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Hold_Band0" Type="Real32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Hold_Band1" Type="Real32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Hold_Band2" Type="Real32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Hold_Band3" Type="Real32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Hold_Band4" Type="Real32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Inclusion" Type="bool">
+							<ValueList>
+								<Value>True</Value>
+							</ValueList>
+						</Property>
+						<Property Name="InfiniteHold" Type="bool">
+							<ValueList>
+								<Value>False</Value>
+							</ValueList>
+						</Property>
+						<Property Name="LowFrequency_Band1" Type="Real32">
+							<ValueList>
+								<Value>20</Value>
+							</ValueList>
+						</Property>
+						<Property Name="LowFrequency_Band2" Type="Real32">
+							<ValueList>
+								<Value>200</Value>
+							</ValueList>
+						</Property>
+						<Property Name="LowFrequency_Band3" Type="Real32">
+							<ValueList>
+								<Value>400</Value>
+							</ValueList>
+						</Property>
+						<Property Name="LowFrequency_Band4" Type="Real32">
+							<ValueList>
+								<Value>800</Value>
+							</ValueList>
+						</Property>
+						<Property Name="LowRolloff_Band1" Type="int32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="LowRolloff_Band2" Type="int32">
+							<ValueList>
+								<Value>2</Value>
+							</ValueList>
+						</Property>
+						<Property Name="LowRolloff_Band3" Type="int32">
+							<ValueList>
+								<Value>2</Value>
+							</ValueList>
+						</Property>
+						<Property Name="LowRolloff_Band4" Type="int32">
+							<ValueList>
+								<Value>2</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Max_Band0" Type="Real32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Max_Band1" Type="Real32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Max_Band2" Type="Real32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Max_Band3" Type="Real32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Max_Band4" Type="Real32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="MeterMode" Type="int32">
+							<ValueList>
+								<Value>1</Value>
+							</ValueList>
+						</Property>
+						<Property Name="MeterScope" Type="int32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Min_Band0" Type="Real32">
+							<ValueList>
+								<Value>-48</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Min_Band1" Type="Real32">
+							<ValueList>
+								<Value>-48</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Min_Band2" Type="Real32">
+							<ValueList>
+								<Value>-48</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Min_Band3" Type="Real32">
+							<ValueList>
+								<Value>-48</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Min_Band4" Type="Real32">
+							<ValueList>
+								<Value>-48</Value>
+							</ValueList>
+						</Property>
+						<Property Name="MixdownCfg" Type="int32">
+							<ValueList>
+								<Value>16641</Value>
+							</ValueList>
+						</Property>
+						<Property Name="OverrideColor" Type="bool">
+							<ValueList>
+								<Value>False</Value>
+							</ValueList>
+						</Property>
+						<Property Name="ReleaseTime_Band0" Type="Real32">
+							<ValueList>
+								<Value>0.1</Value>
+							</ValueList>
+						</Property>
+						<Property Name="ReleaseTime_Band1" Type="Real32">
+							<ValueList>
+								<Value>0.1</Value>
+							</ValueList>
+						</Property>
+						<Property Name="ReleaseTime_Band2" Type="Real32">
+							<ValueList>
+								<Value>0.1</Value>
+							</ValueList>
+						</Property>
+						<Property Name="ReleaseTime_Band3" Type="Real32">
+							<ValueList>
+								<Value>0.1</Value>
+							</ValueList>
+						</Property>
+						<Property Name="ReleaseTime_Band4" Type="Real32">
+							<ValueList>
+								<Value>0.1</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+				</SharedPropertyList>
 				<SharedPropertyList ClassName="Wwise Audio Input" PluginType="2" CompanyID="0" PluginID="200">
 					<PropertyList>
 						<Property Name="AudioInputGain" Type="Real32">
@@ -12761,6 +13519,237 @@
 						</Property>
 					</PropertyList>
 				</SharedPropertyList>
+				<SharedPropertyList ClassName="CrankcaseAudio REV" PluginType="2" CompanyID="261" PluginID="416">
+					<PropertyList>
+						<Property Name="Color" Type="int16">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="EnableShifting" Type="int32">
+							<ValueList>
+								<Value>1</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Gain" Type="Real32">
+							<ValueList>
+								<Value>1</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Gear" Type="int32">
+							<ValueList>
+								<Value>1</Value>
+							</ValueList>
+						</Property>
+						<Property Name="OverrideColor" Type="bool">
+							<ValueList>
+								<Value>False</Value>
+							</ValueList>
+						</Property>
+						<Property Name="RPM" Type="Real32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="RPMGameParameter" Type="string">
+							<ValueList>
+								<Value></Value>
+							</ValueList>
+						</Property>
+						<Property Name="Throttle" Type="Real32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Velocity" Type="Real32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+				</SharedPropertyList>
+				<SharedPropertyList ClassName="EngineSimulationControlData" PluginType="0" CompanyID="261" PluginID="417">
+					<PropertyList>
+						<Property Name="ClutchRPMMergeTime" Type="Real32">
+							<ValueList>
+								<Value>0.6</Value>
+							</ValueList>
+						</Property>
+						<Property Name="ClutchRPMSpike" Type="Real32">
+							<ValueList>
+								<Value>0.6</Value>
+							</ValueList>
+						</Property>
+						<Property Name="ClutchRPMSpikeDuration" Type="Real32">
+							<ValueList>
+								<Value>0.5</Value>
+							</ValueList>
+						</Property>
+						<Property Name="DownShiftDuration" Type="Real32">
+							<ValueList>
+								<Value>0.3</Value>
+							</ValueList>
+						</Property>
+						<Property Name="UpShiftAttackDuration" Type="Real32">
+							<ValueList>
+								<Value>0.05</Value>
+							</ValueList>
+						</Property>
+						<Property Name="UpShiftAttackRPM" Type="Real32">
+							<ValueList>
+								<Value>0.25</Value>
+							</ValueList>
+						</Property>
+						<Property Name="UpShiftAttackThrottleTime" Type="Real32">
+							<ValueList>
+								<Value>0.02</Value>
+							</ValueList>
+						</Property>
+						<Property Name="UpShiftAttackVolumeSpike" Type="Real32">
+							<ValueList>
+								<Value>1.5</Value>
+							</ValueList>
+						</Property>
+						<Property Name="UpShiftDuration" Type="Real32">
+							<ValueList>
+								<Value>0.2</Value>
+							</ValueList>
+						</Property>
+						<Property Name="UpShiftWobbleDuration" Type="Real32">
+							<ValueList>
+								<Value>0.3</Value>
+							</ValueList>
+						</Property>
+						<Property Name="UpShiftWobbleEnabled" Type="bool">
+							<ValueList>
+								<Value>True</Value>
+							</ValueList>
+						</Property>
+						<Property Name="UpShiftWobblePitchAmp" Type="Real32">
+							<ValueList>
+								<Value>0.2</Value>
+							</ValueList>
+						</Property>
+						<Property Name="UpShiftWobblePitchFreq" Type="Real32">
+							<ValueList>
+								<Value>8</Value>
+							</ValueList>
+						</Property>
+						<Property Name="UpShiftWobbleVolAmp" Type="Real32">
+							<ValueList>
+								<Value>0.2</Value>
+							</ValueList>
+						</Property>
+						<Property Name="UpShiftWobbleVolFreq" Type="Real32">
+							<ValueList>
+								<Value>12</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+				</SharedPropertyList>
+				<SharedPropertyList ClassName="AccelDecelModelControlData" PluginType="0" CompanyID="261" PluginID="418">
+					<PropertyList>
+						<Property Name="CrossfadeDuration" Type="int32">
+							<ValueList>
+								<Value>20</Value>
+							</ValueList>
+						</Property>
+						<Property Name="FilterDepth" Type="Real32">
+							<ValueList>
+								<Value>0.7</Value>
+							</ValueList>
+						</Property>
+						<Property Name="HarmonicToTrack" Type="int32">
+							<ValueList>
+								<Value>100</Value>
+							</ValueList>
+						</Property>
+						<Property Name="IdleRampIn" Type="Real32">
+							<ValueList>
+								<Value>0.1</Value>
+							</ValueList>
+						</Property>
+						<Property Name="IdleTechnique" Type="int32">
+							<ValueList>
+								<Value>1</Value>
+							</ValueList>
+						</Property>
+						<Property Name="IdleVolume" Type="Real32">
+							<ValueList>
+								<Value>1</Value>
+							</ValueList>
+						</Property>
+						<Property Name="LowPassEnabled" Type="bool">
+							<ValueList>
+								<Value>True</Value>
+							</ValueList>
+						</Property>
+						<Property Name="MasterVolume" Type="Real32">
+							<ValueList>
+								<Value>1</Value>
+							</ValueList>
+						</Property>
+						<Property Name="QFactor" Type="Real32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="RPMSmoothness" Type="Real32">
+							<ValueList>
+								<Value>3</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Version" Type="int32">
+							<ValueList>
+								<Value>1</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+				</SharedPropertyList>
+				<SharedPropertyList ClassName="GranularModelControlData" PluginType="0" CompanyID="261" PluginID="419">
+					<PropertyList>
+						<Property Name="GrainWidth" Type="int32">
+							<ValueList>
+								<Value>2</Value>
+							</ValueList>
+						</Property>
+						<Property Name="LoadVolumeOff" Type="Real32">
+							<ValueList>
+								<Value>0.7</Value>
+							</ValueList>
+						</Property>
+						<Property Name="LoadVolumeOn" Type="Real32">
+							<ValueList>
+								<Value>1</Value>
+							</ValueList>
+						</Property>
+						<Property Name="LoopCrossfadeStyle" Type="int32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="MasterVolume" Type="Real32">
+							<ValueList>
+								<Value>1</Value>
+							</ValueList>
+						</Property>
+						<Property Name="RampVsLoopMaxWetDry" Type="Real32">
+							<ValueList>
+								<Value>0.9</Value>
+							</ValueList>
+						</Property>
+						<Property Name="RampVsLoopMinWetDry" Type="Real32">
+							<ValueList>
+								<Value>0.1</Value>
+							</ValueList>
+						</Property>
+						<Property Name="RampVsLoopSensitivity" Type="Real32">
+							<ValueList>
+								<Value>3</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+				</SharedPropertyList>
 				<SharedPropertyList ClassName="Motion" PluginType="7" CompanyID="0" PluginID="507">
 					<PropertyList>
 						<Property Name="BypassEffect" Type="bool">
@@ -12800,6 +13789,30 @@
 						<Property Name="Mix" Type="int32">
 							<ValueList>
 								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="OverrideColor" Type="bool">
+							<ValueList>
+								<Value>False</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+				</SharedPropertyList>
+				<SharedPropertyList ClassName="Channel Router Settings" PluginType="9" CompanyID="0" PluginID="903">
+					<PropertyList>
+						<Property Name="Channel" Type="Uint32">
+							<ValueList>
+								<Value>1</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Color" Type="int16">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Inclusion" Type="bool">
+							<ValueList>
+								<Value>True</Value>
 							</ValueList>
 						</Property>
 						<Property Name="OverrideColor" Type="bool">
@@ -12898,7 +13911,7 @@
 						</Property>
 					</PropertyList>
 				</SharedPropertyList>
-				<SharedPropertyList ClassName="" PluginType="3" CompanyID="263" PluginID="1100">
+				<SharedPropertyList ClassName="Auro Headphone" PluginType="3" CompanyID="263" PluginID="1100">
 					<PropertyList>
 						<Property Name="Bypass" Type="bool">
 							<ValueList>
@@ -13027,282 +14040,31 @@
 					</PropertyList>
 				</SharedPropertyList>
 			</SharedValues>
-			<EnvironmentalSettings>
-				<ObsOccCurves>
-					<Comment></Comment>
-					<ObsOccCurve CurveXType="Obstruction" CurveYType="Volume">
-						<PlatformCurve Platform="Linked" EnableCurve="true">
-							<Curve Name="" ID="{24FAF6E5-ABFF-4412-9AA2-88A5913A071A}">
-								<PropertyList>
-									<Property Name="Flags" Type="int32" Value="3"/>
-								</PropertyList>
-								<PointList>
-									<Point>
-										<XPos>0</XPos>
-										<YPos>0</YPos>
-										<Flags>5</Flags>
-									</Point>
-									<Point>
-										<XPos>100</XPos>
-										<YPos>-200</YPos>
-										<Flags>37</Flags>
-									</Point>
-								</PointList>
-							</Curve>
-						</PlatformCurve>
-					</ObsOccCurve>
-					<ObsOccCurve CurveXType="Obstruction" CurveYType="LPF">
-						<PlatformCurve Platform="Linked" EnableCurve="true">
-							<Curve Name="" ID="{E97D36BD-3DEC-4E44-96D7-538BC7C9797D}">
-								<PropertyList>
-									<Property Name="Flags" Type="int32" Value="1"/>
-								</PropertyList>
-								<PointList>
-									<Point>
-										<XPos>0</XPos>
-										<YPos>0</YPos>
-										<Flags>5</Flags>
-									</Point>
-									<Point>
-										<XPos>100</XPos>
-										<YPos>100</YPos>
-										<Flags>37</Flags>
-									</Point>
-								</PointList>
-							</Curve>
-						</PlatformCurve>
-					</ObsOccCurve>
-					<ObsOccCurve CurveXType="Obstruction" CurveYType="HPF">
-						<PlatformCurve Platform="Linked" EnableCurve="false">
-							<Curve Name="" ID="{E4AA970B-72CB-4944-A973-950E1198AA0D}">
-								<PropertyList>
-									<Property Name="Flags" Type="int32" Value="1"/>
-								</PropertyList>
-								<PointList>
-									<Point>
-										<XPos>0</XPos>
-										<YPos>0</YPos>
-										<Flags>5</Flags>
-									</Point>
-									<Point>
-										<XPos>100</XPos>
-										<YPos>100</YPos>
-										<Flags>37</Flags>
-									</Point>
-								</PointList>
-							</Curve>
-						</PlatformCurve>
-					</ObsOccCurve>
-					<ObsOccCurve CurveXType="Occlusion" CurveYType="Volume">
-						<PlatformCurve Platform="Linked" EnableCurve="true">
-							<Curve Name="" ID="{C092F447-C078-4890-AC1E-EA585E3061DF}">
-								<PropertyList>
-									<Property Name="Flags" Type="int32" Value="3"/>
-								</PropertyList>
-								<PointList>
-									<Point>
-										<XPos>0</XPos>
-										<YPos>0</YPos>
-										<Flags>5</Flags>
-									</Point>
-									<Point>
-										<XPos>100</XPos>
-										<YPos>-200</YPos>
-										<Flags>37</Flags>
-									</Point>
-								</PointList>
-							</Curve>
-						</PlatformCurve>
-					</ObsOccCurve>
-					<ObsOccCurve CurveXType="Occlusion" CurveYType="LPF">
-						<PlatformCurve Platform="Linked" EnableCurve="true">
-							<Curve Name="" ID="{2A412342-94C6-4B75-B32A-6A426E3A86F5}">
-								<PropertyList>
-									<Property Name="Flags" Type="int32" Value="1"/>
-								</PropertyList>
-								<PointList>
-									<Point>
-										<XPos>0</XPos>
-										<YPos>0</YPos>
-										<Flags>5</Flags>
-									</Point>
-									<Point>
-										<XPos>100</XPos>
-										<YPos>100</YPos>
-										<Flags>37</Flags>
-									</Point>
-								</PointList>
-							</Curve>
-						</PlatformCurve>
-					</ObsOccCurve>
-					<ObsOccCurve CurveXType="Occlusion" CurveYType="HPF">
-						<PlatformCurve Platform="Linked" EnableCurve="false">
-							<Curve Name="" ID="{8CAEB4CE-2652-48E1-80D2-175292A81355}">
-								<PropertyList>
-									<Property Name="Flags" Type="int32" Value="1"/>
-								</PropertyList>
-								<PointList>
-									<Point>
-										<XPos>0</XPos>
-										<YPos>0</YPos>
-										<Flags>5</Flags>
-									</Point>
-									<Point>
-										<XPos>100</XPos>
-										<YPos>100</YPos>
-										<Flags>37</Flags>
-									</Point>
-								</PointList>
-							</Curve>
-						</PlatformCurve>
-					</ObsOccCurve>
-					<ObsOccCurve CurveXType="Diffraction" CurveYType="Volume">
-						<PlatformCurve Platform="Linked" EnableCurve="true">
-							<Curve Name="" ID="{79AEEB88-230F-4987-B867-14DB75720969}">
-								<PropertyList>
-									<Property Name="Flags" Type="int32" Value="3"/>
-								</PropertyList>
-								<PointList>
-									<Point>
-										<XPos>0</XPos>
-										<YPos>0</YPos>
-										<Flags>5</Flags>
-									</Point>
-									<Point>
-										<XPos>100</XPos>
-										<YPos>-200</YPos>
-										<Flags>37</Flags>
-									</Point>
-								</PointList>
-							</Curve>
-						</PlatformCurve>
-					</ObsOccCurve>
-					<ObsOccCurve CurveXType="Diffraction" CurveYType="LPF">
-						<PlatformCurve Platform="Linked" EnableCurve="true">
-							<Curve Name="" ID="{A913E74B-D9B4-4623-8893-E41BCCF69002}">
-								<PropertyList>
-									<Property Name="Flags" Type="int32" Value="1"/>
-								</PropertyList>
-								<PointList>
-									<Point>
-										<XPos>0</XPos>
-										<YPos>0</YPos>
-										<Flags>5</Flags>
-									</Point>
-									<Point>
-										<XPos>100</XPos>
-										<YPos>100</YPos>
-										<Flags>37</Flags>
-									</Point>
-								</PointList>
-							</Curve>
-						</PlatformCurve>
-					</ObsOccCurve>
-					<ObsOccCurve CurveXType="Diffraction" CurveYType="HPF">
-						<PlatformCurve Platform="Linked" EnableCurve="false">
-							<Curve Name="" ID="{F989D83B-AA6C-4608-ACD8-C469E96543D9}">
-								<PropertyList>
-									<Property Name="Flags" Type="int32" Value="1"/>
-								</PropertyList>
-								<PointList>
-									<Point>
-										<XPos>0</XPos>
-										<YPos>0</YPos>
-										<Flags>5</Flags>
-									</Point>
-									<Point>
-										<XPos>100</XPos>
-										<YPos>100</YPos>
-										<Flags>37</Flags>
-									</Point>
-								</PointList>
-							</Curve>
-						</PlatformCurve>
-					</ObsOccCurve>
-					<ObsOccCurve CurveXType="Transmission" CurveYType="Volume">
-						<PlatformCurve Platform="Linked" EnableCurve="true">
-							<Curve Name="" ID="{1A730564-D89E-4357-B252-C5B75C279970}">
-								<PropertyList>
-									<Property Name="Flags" Type="int32" Value="3"/>
-								</PropertyList>
-								<PointList>
-									<Point>
-										<XPos>0</XPos>
-										<YPos>0</YPos>
-										<Flags>5</Flags>
-									</Point>
-									<Point>
-										<XPos>100</XPos>
-										<YPos>-200</YPos>
-										<Flags>37</Flags>
-									</Point>
-								</PointList>
-							</Curve>
-						</PlatformCurve>
-					</ObsOccCurve>
-					<ObsOccCurve CurveXType="Transmission" CurveYType="LPF">
-						<PlatformCurve Platform="Linked" EnableCurve="true">
-							<Curve Name="" ID="{49EF1D1A-9947-44C6-8AC0-C88AA88CAE65}">
-								<PropertyList>
-									<Property Name="Flags" Type="int32" Value="1"/>
-								</PropertyList>
-								<PointList>
-									<Point>
-										<XPos>0</XPos>
-										<YPos>0</YPos>
-										<Flags>5</Flags>
-									</Point>
-									<Point>
-										<XPos>100</XPos>
-										<YPos>100</YPos>
-										<Flags>37</Flags>
-									</Point>
-								</PointList>
-							</Curve>
-						</PlatformCurve>
-					</ObsOccCurve>
-					<ObsOccCurve CurveXType="Transmission" CurveYType="HPF">
-						<PlatformCurve Platform="Linked" EnableCurve="false">
-							<Curve Name="" ID="{928B6C74-2274-4738-B08D-5CC5F357D8E9}">
-								<PropertyList>
-									<Property Name="Flags" Type="int32" Value="1"/>
-								</PropertyList>
-								<PointList>
-									<Point>
-										<XPos>0</XPos>
-										<YPos>0</YPos>
-										<Flags>5</Flags>
-									</Point>
-									<Point>
-										<XPos>100</XPos>
-										<YPos>100</YPos>
-										<Flags>37</Flags>
-									</Point>
-								</PointList>
-							</Curve>
-						</PlatformCurve>
-					</ObsOccCurve>
-				</ObsOccCurves>
-			</EnvironmentalSettings>
 			<DefaultConversion Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}"/>
 			<PhysicalFolderList>
-				<PhysicalFolder Path="Actor-Mixer Hierarchy">
-					<WorkUnit Name="Actor-Mixer Hierarchy" ID="{5EA7BBF8-64C0-4A50-8821-A07E8BE21D68}" PersistMode="Standalone"/>
-				</PhysicalFolder>
-				<PhysicalFolder Path="Actor-Mixer Hierarchy\AutoBankSample">
-					<WorkUnit Name="AutoBankSample" ID="{BCD86F30-46AC-4E4D-8D5D-A80A494C07C9}" PersistMode="Standalone"/>
-				</PhysicalFolder>
 				<PhysicalFolder Path="Attenuations">
 					<WorkUnit Name="Attenuations" ID="{017BDDA0-1BB1-4CE1-8077-79594EC4585C}" PersistMode="Standalone"/>
 				</PhysicalFolder>
-				<PhysicalFolder Path="Audio Devices">
-					<WorkUnit Name="Audio Devices" ID="{27092F88-225A-1154-6725-C8A34F3D4482}" PersistMode="Standalone"/>
+				<PhysicalFolder Path="Busses">
+					<WorkUnit Name="Busses" ID="{2388DAEA-9775-46C6-A2ED-C5222A397756}" PersistMode="Standalone"/>
+				</PhysicalFolder>
+				<PhysicalFolder Path="Containers">
+					<WorkUnit Name="Containers" ID="{5EA7BBF8-64C0-4A50-8821-A07E8BE21D68}" PersistMode="Standalone"/>
+				</PhysicalFolder>
+				<PhysicalFolder Path="Containers\AutoBankSample">
+					<WorkUnit Name="AutoBankSample" ID="{BCD86F30-46AC-4E4D-8D5D-A80A494C07C9}" PersistMode="Standalone"/>
+				</PhysicalFolder>
+				<PhysicalFolder Path="Containers\Music (Migrated)">
+					<WorkUnit Name="Music (Migrated)" ID="{49FED366-B530-42A8-993B-924873AAB707}" PersistMode="Standalone"/>
 				</PhysicalFolder>
 				<PhysicalFolder Path="Control Surface Sessions">
 					<WorkUnit Name="Control Surface Sessions" ID="{1751E4CD-8018-4E2C-9A8A-C77764D1D653}" PersistMode="Standalone"/>
 				</PhysicalFolder>
 				<PhysicalFolder Path="Conversion Settings">
 					<WorkUnit Name="Conversion Settings" ID="{4AA12040-049C-400F-ABCD-6EED192EC1D7}" PersistMode="Standalone"/>
+				</PhysicalFolder>
+				<PhysicalFolder Path="Devices">
+					<WorkUnit Name="Devices" ID="{27092F88-225A-1154-6725-C8A34F3D4482}" PersistMode="Standalone"/>
 				</PhysicalFolder>
 				<PhysicalFolder Path="Dynamic Dialogue">
 					<WorkUnit Name="Dynamic Dialogue" ID="{309AF5DE-031F-4CE0-9B9B-C0A536275343}" PersistMode="Standalone"/>
@@ -13315,12 +14077,6 @@
 				</PhysicalFolder>
 				<PhysicalFolder Path="Game Parameters">
 					<WorkUnit Name="Game Parameters" ID="{4025818E-097F-4A72-B692-B8A2E2663DCB}" PersistMode="Standalone"/>
-				</PhysicalFolder>
-				<PhysicalFolder Path="Interactive Music Hierarchy">
-					<WorkUnit Name="Interactive Music Hierarchy" ID="{49FED366-B530-42A8-993B-924873AAB707}" PersistMode="Standalone"/>
-				</PhysicalFolder>
-				<PhysicalFolder Path="Master-Mixer Hierarchy">
-					<WorkUnit Name="Master-Mixer Hierarchy" ID="{2388DAEA-9775-46C6-A2ED-C5222A397756}" PersistMode="Standalone"/>
 				</PhysicalFolder>
 				<PhysicalFolder Path="Metadata">
 					<WorkUnit Name="Metadata" ID="{B6F4A62E-4F9B-45A6-B280-C80685E65296}" PersistMode="Standalone"/>
@@ -13356,6 +14112,7 @@
 					<WorkUnit Name="Virtual Acoustics" ID="{32CD8547-A946-4547-BBB1-69F44E796139}" PersistMode="Standalone"/>
 				</PhysicalFolder>
 			</PhysicalFolderList>
+			<EnvironmentalCurves Name="Environmental Curves Migration" ID="{F057BE83-0D8D-402E-A51A-A00DA807CEEC}"/>
 		</Project>
 	</ProjectInfo>
 </WwiseDocument>
