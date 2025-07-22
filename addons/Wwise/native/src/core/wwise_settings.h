@@ -105,7 +105,6 @@ public:
 		StringName ios_audio_session_category_options;
 		StringName ios_audio_session_mode;
 		StringName android_audio_api;
-		StringName android_round_frame_size_to_hw_size;
 		StringName linux_audio_api;
 	};
 

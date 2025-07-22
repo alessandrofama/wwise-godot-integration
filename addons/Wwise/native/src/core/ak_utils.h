@@ -58,9 +58,9 @@ public:
 		AK_MUSIC_SYNC_USER_CUE = 0x2000,
 		AK_MUSIC_SYNC_POINT = 0x4000,
 		AK_MIDI_EVENT = 0x8000,
-		AK_CALLBACK_BITS = 0xFFFFF,
-		AK_MUSIC_SYNC_ALL = 0x7F00,
-		AK_ENABLE_GET_SOURCE_PLAY_POSITION = 0x100000,
+		AK_DYNAMIC_SEQUENCE_SELECT = 0x10000,
+		AK_MUSIC_SYNC_ALL = 0x7f00,
+		AK_CALLBACK_BITS = 0xfffff,
 		AK_ENABLE_GET_MUSIC_PLAY_POSITION = 0x200000,
 		AK_ENABLE_GET_SOURCE_STREAM_BUFFERING = 0x400000
 	};
@@ -119,7 +119,6 @@ public:
 		{ AK_MUSIC_SYNC_EXIT, "music_sync_exit" }, { AK_MUSIC_SYNC_GRID, "music_sync_grid" },
 		{ AK_MUSIC_SYNC_USER_CUE, "music_sync_user_cue" }, { AK_MUSIC_SYNC_POINT, "music_sync_point" },
 		{ AK_MUSIC_SYNC_ALL, "music_sync_all" }, { AK_MIDI_EVENT, "midi_event" }, { AK_CALLBACK_BITS, "callback_bits" },
-		{ AK_ENABLE_GET_SOURCE_PLAY_POSITION, "enable_get_source_play_position" },
 		{ AK_ENABLE_GET_MUSIC_PLAY_POSITION, "enable_get_music_play_position" },
 		{ AK_ENABLE_GET_SOURCE_STREAM_BUFFERING, "enable_get_source_stream_buffering" } };
 
