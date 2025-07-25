@@ -96,16 +96,24 @@ android {
     defaultConfig {
         minSdk = 21
 
+        val abi = project.findProperty("abi") as? String
+
         externalNativeBuild {
             cmake {
                 cppFlags("")
-                arguments("-DWWISE_SDK_PATH="+ project.findProperty("WWISE_SDK")?.toString() ?: "")
-
+                arguments.add("-DWWISE_SDK_PATH=${project.findProperty("WWISE_SDK")}")
+                if (abi != null) {
+                    arguments.add("-DANDROID_ABI=$abi")
+                }
             }
         }
         ndk {
-            abiFilters.add("arm64-v8a")
-            abiFilters.add("armeabi-v7a")
+            abiFilters.clear()
+            if (abi != null) {
+                abiFilters.add(abi)
+            } else {
+                abiFilters.addAll(listOf("arm64-v8a", "armeabi-v7a"))
+            }
 
             ndkVersion = "26.1.10909125"
         }

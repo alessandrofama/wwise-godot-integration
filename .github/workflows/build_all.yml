@@ -5,263 +5,310 @@ on:
     branches:
       - main
       - 'wwise_v*'
+      - refactor-build-script
   pull_request:
     branches:
       - main
       - 'wwise_v*'
+
 env:
   BASE_BRANCH: ci
   WWISE_VERSION: "2025.1.0"
   WWISE_BUILD: "8897"
   GODOT_ENGINE_VERSION: "4.3"
-  BUILD_PROFILE_EDITOR: "build_profile_editor.json"
-  BUILD_PROFILE_RUNTIME: "build_profile_runtime.json"
 
 jobs:
-  build-all:
+  build-desktop:
     runs-on: ${{ matrix.os }}
-    name: ${{ matrix.name }}
+    name: ${{ matrix.name }} (${{ matrix.target-name }})
     strategy:
       fail-fast: false
       matrix:
         include:
           - name: Windows
-            os: "windows-2022"
+            os: windows-2022
             sdk-platform: windows
             scons-platform: windows
-            artifact-name: windows
+            target: editor
+            target-name: Editor
+            build-profile: build_profile_editor.json
+          - name: Windows
+            os: windows-2022
+            sdk-platform: windows
+            scons-platform: windows
+            target: template_debug
+            target-name: Debug
+            build-profile: build_profile_runtime.json
+          - name: Windows
+            os: windows-2022
+            sdk-platform: windows
+            scons-platform: windows
+            target: template_release
+            target-name: Release
+            build-profile: build_profile_runtime.json
 
           - name: macOS
-            os: "macos-14"
+            os: macos-14
             sdk-platform: mac
             scons-platform: macos
-            artifact-name: macos
+            target: editor
+            target-name: Editor
+            build-profile: build_profile_editor.json
+          - name: macOS
+            os: macos-14
+            sdk-platform: mac
+            scons-platform: macos
+            target: template_debug
+            target-name: Debug
+            build-profile: build_profile_runtime.json
+          - name: macOS
+            os: macos-14
+            sdk-platform: mac
+            scons-platform: macos
+            target: template_release
+            target-name: Release
+            build-profile: build_profile_runtime.json
 
           - name: Linux
-            os: "ubuntu-22.04"
+            os: ubuntu-22.04
             sdk-platform: linux
             scons-platform: linux
-            artifact-name: linux
-
-          - name: iOS
-            os: "macos-14"
-            sdk-platform: ios
-            scons-platform: ios
-            debug-flags: arch=arm64 ios_min_version=12.0
-            release-flags: arch=arm64 ios_min_version=12.0
-            artifact-name: ios
-
-          - name: Android
-            os: "ubuntu-22.04"
-            sdk-platform: android
-            scons-platform: android
-            debug-flags-arm64: ANDROID_NDK_ROOT=$ANDROID_NDK_LATEST_HOME arch=arm64
-            release-flags-arm64: ANDROID_NDK_ROOT=$ANDROID_NDK_LATEST_HOME arch=arm64
-            debug-flags-arm32: ANDROID_NDK_ROOT=$ANDROID_NDK_LATEST_HOME arch=arm32
-            release-flags-arm32: ANDROID_NDK_ROOT=$ANDROID_NDK_LATEST_HOME arch=arm32
-            artifact-name: android-lib
+            target: editor
+            target-name: Editor
+            build-profile: build_profile_editor.json
+          - name: Linux
+            os: ubuntu-22.04
+            sdk-platform: linux
+            scons-platform: linux
+            target: template_debug
+            target-name: Debug
+            build-profile: build_profile_runtime.json
+          - name: Linux
+            os: ubuntu-22.04
+            sdk-platform: linux
+            scons-platform: linux
+            target: template_release
+            target-name: Release
+            build-profile: build_profile_runtime.json
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: recursive
 
-      - name: Checkout private scripts
-        uses: actions/checkout@v3
+      - name: Perform common setup
+        uses: ./.github/actions/setup
+        id: setup
         with:
-          repository: alessandrofama/wwise-dl
-          token: ${{ secrets.WWISE_DL_REPO_TOKEN }}
-          path: ./addons/Wwise/native/tools/
+          sdk-platform: ${{ matrix.sdk-platform }}
+          target: ${{ matrix.target }}
+          repo-token: ${{ secrets.WWISE_DL_REPO_TOKEN }}
+
+      - name: Set up Linux dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install build-essential pkg-config libx11-dev \
+            yasm zip gcc-11 g++-11 libtbb-dev -y
+
+      - name: Prepare SDK
+        if: steps.setup.outputs.cache-hit != 'true'
+        shell: bash
+        run: |
+            SDK_TARGET=""
+            if [[ "${{ runner.os }}" == "Windows" ]]; then
+                SDK_TARGET="Windows_vc170"
+            elif [[ "${{ runner.os }}" == "macOS" ]]; then
+                SDK_TARGET="Mac"
+            elif [[ "${{ runner.os }}" == "Linux" ]]; then
+                SDK_TARGET="Linux"
+            fi
+            python ./addons/Wwise/native/tools/wwise-dl.py --user ${{ secrets.AK_USER }} --pass ${{ secrets.AK_PASS }} ${{ env.WWISE_VERSION }}.${{ env.WWISE_BUILD }} $SDK_TARGET --plugins Auro ConvolutionReverb iZotope McDSP Reflect SoundSeed SoundSeedGrain ResonanceAudio Motion ASIO AkChannelRouter MasteringSuite CrankcaseAudioREVModelPlayer Impacter --output ./addons/Wwise/native/wwise_sdk/
+
+      - name: Compile library
+        shell: bash
+        run: |
+          cd addons/Wwise/native
+          scons platform=${{ matrix.scons-platform }} target=${{ matrix.target }} wwise_config=${{ contains(matrix.target, 'release') && 'release' || 'profile' }} use_static_cpp=yes wwise_sdk=wwise_sdk/SDK build_profile=${{ matrix.build-profile }}
+
+      - name: Upload lib
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.scons-platform }}-${{ matrix.target }}
+          path: addons/Wwise/native/lib
+
+  build-ios:
+    runs-on: macos-14
+    name: iOS (${{ matrix.target-name }})
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: template_debug
+            target-name: Debug
+            flags: arch=arm64 ios_min_version=12.0
+            build-profile: build_profile_runtime.json
+          - target: template_release
+            target-name: Release
+            flags: arch=arm64 ios_min_version=12.0
+            build-profile: build_profile_runtime.json
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Perform common setup
+        uses: ./.github/actions/setup
+        id: setup
+        with:
+          sdk-platform: ios
+          target: ${{ matrix.target }}
+          repo-token: ${{ secrets.WWISE_DL_REPO_TOKEN }}
+      
+      - name: Prepare SDK (iOS)
+        if: steps.setup.outputs.cache-hit != 'true'
+        run: |
+            python ./addons/Wwise/native/tools/wwise-dl.py --user ${{ secrets.AK_USER }} --pass ${{ secrets.AK_PASS }} ${{ env.WWISE_VERSION }}.${{ env.WWISE_BUILD }} iOS --plugins Auro ConvolutionReverb iZotope McDSP Reflect SoundSeed SoundSeedGrain ResonanceAudio Motion ASIO AkChannelRouter MasteringSuite CrankcaseAudioREVModelPlayer Impacter --output ./addons/Wwise/native/wwise_sdk/
+
+      - name: Compile library
+        shell: bash
+        run: |
+          cd addons/Wwise/native
+          scons platform=ios target=${{ matrix.target }} wwise_config=${{ contains(matrix.target, 'release') && 'release' || 'profile' }} use_static_cpp=yes wwise_sdk=wwise_sdk/SDK build_profile=${{ matrix.build-profile }} ${{ matrix.flags }}
+
+      - name: Upload lib
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-${{ matrix.target }}
+          path: addons/Wwise/native/lib
+  
+  build-android:
+    runs-on: ubuntu-22.04
+    name: Android (${{ matrix.target-name }} - ${{ matrix.arch }})
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: template_debug
+            target-name: Debug
+            arch: arm64
+            build-profile: build_profile_runtime.json
+          - target: template_debug
+            target-name: Debug
+            arch: arm32
+            build-profile: build_profile_runtime.json
+          - target: template_release
+            target-name: Release
+            arch: arm64
+            build-profile: build_profile_runtime.json
+          - target: template_release
+            target-name: Release
+            arch: arm32
+            build-profile: build_profile_runtime.json
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Perform common setup
+        uses: ./.github/actions/setup
+        id: setup
+        with:
+          sdk-platform: android
+          target: ${{ matrix.target }}
+          repo-token: ${{ secrets.WWISE_DL_REPO_TOKEN }}
 
       - name: Setup java
-        uses: actions/setup-java@v3
-        if: matrix.sdk-platform == 'android'
+        uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
 
       - name: Android dependencies
-        if: matrix.sdk-platform == 'android'
         uses: nttld/setup-ndk@v1
         with:
           ndk-version: r23c
           link-to-sdk: true
 
-      - name: Wwise SDK cache
-        id: cache-wwise-sdk
-        uses: actions/cache@v3
-        env:
-          cache-name: cache-wwise-sdk
-        with:
-          path: addons/Wwise/native/wwise_sdk
-          key: ${{ matrix.sdk-platform }}-build-${{ env.cache-name }}-${{ env.WWISE_VERSION }}
-
-      # - name: Load .scons_cache directory
-      #   id: cache-godot-extension
-      #   uses: actions/cache@v3
-      #   with:
-      #     path: ${{github.workspace}}/.scons_cache/
-      #     key: ${{matrix.sdk-platform}}-${{env.BASE_BRANCH}}-${{github.ref}}-${{github.sha}}
-      #     restore-keys: |
-      #       ${{matrix.sdk-platform}}-${{env.BASE_BRANCH}}-${{github.ref}}-${{github.sha}}
-      #       ${{matrix.sdk-platform}}-${{env.BASE_BRANCH}}-${{github.ref}}
-      #       ${{matrix.sdk-platform}}-${{env.BASE_BRANCH}}
-
-      - name: Set up Python 3.x
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.x"
-          architecture: "x64"
-
-      - name: Set up dependencies (Python, SCons)
-        run: python -m pip install scons==4.7.0 requests tqdm
-
-      - name: Set up Linux dependencies
-        if: runner.os == 'Linux' && matrix.sdk-platform == 'linux'
-        run: |
-          sudo apt-get install build-essential pkg-config libx11-dev \
-            yasm zip gcc-11 g++-11 libtbb-dev
-
-      - name: Prepare SDK (Windows)
-        if: runner.os == 'Windows' && steps.cache-wwise-sdk.outputs.cache-hit != 'true'
-        run: |
-            python ./addons/Wwise/native/tools/wwise-dl.py --user ${{ secrets.AK_USER }} --pass ${{ secrets.AK_PASS }} ${{ env.WWISE_VERSION }}.${{ env.WWISE_BUILD }} Windows_vc170 --plugins Auro ConvolutionReverb iZotope McDSP Reflect SoundSeed SoundSeedGrain ResonanceAudio Motion ASIO AkChannelRouter MasteringSuite CrankcaseAudioREVModelPlayer Impacter --output ./addons/Wwise/native/wwise_sdk/
-
-      - name: Prepare SDK (macOS)
-        if: runner.os == 'MacOS' && matrix.sdk-platform == 'mac' && steps.cache-wwise-sdk.outputs.cache-hit != 'true'
-        run: |
-            python ./addons/Wwise/native/tools/wwise-dl.py --user ${{ secrets.AK_USER }} --pass ${{ secrets.AK_PASS }} ${{ env.WWISE_VERSION }}.${{ env.WWISE_BUILD }} Mac --plugins Auro ConvolutionReverb iZotope McDSP Reflect SoundSeed SoundSeedGrain ResonanceAudio Motion ASIO AkChannelRouter MasteringSuite CrankcaseAudioREVModelPlayer Impacter --output ./addons/Wwise/native/wwise_sdk/
-
-      - name: Prepare SDK (Linux)
-        if: runner.os == 'Linux' && matrix.sdk-platform == 'linux' && steps.cache-wwise-sdk.outputs.cache-hit != 'true'
-        run: |
-            python ./addons/Wwise/native/tools/wwise-dl.py --user ${{ secrets.AK_USER }} --pass ${{ secrets.AK_PASS }} ${{ env.WWISE_VERSION }}.${{ env.WWISE_BUILD }} Linux --plugins Auro ConvolutionReverb iZotope McDSP Reflect SoundSeed SoundSeedGrain ResonanceAudio Motion ASIO AkChannelRouter MasteringSuite CrankcaseAudioREVModelPlayer Impacter --output ./addons/Wwise/native/wwise_sdk/
-
-      - name: Prepare SDK (iOS)
-        if: runner.os == 'MacOS' && matrix.sdk-platform == 'ios' && steps.cache-wwise-sdk.outputs.cache-hit != 'true'
-        run: |
-            python ./addons/Wwise/native/tools/wwise-dl.py --user ${{ secrets.AK_USER }} --pass ${{ secrets.AK_PASS }} ${{ env.WWISE_VERSION }}.${{ env.WWISE_BUILD }} iOS --plugins Auro ConvolutionReverb iZotope McDSP Reflect SoundSeed SoundSeedGrain ResonanceAudio Motion ASIO AkChannelRouter MasteringSuite CrankcaseAudioREVModelPlayer Impacter --output ./addons/Wwise/native/wwise_sdk/
-
       - name: Prepare SDK (Android)
-        if: runner.os == 'Linux' && matrix.sdk-platform == 'android' && steps.cache-wwise-sdk.outputs.cache-hit != 'true'
+        if: steps.setup.outputs.cache-hit != 'true'
         run: |
-            python ./addons/Wwise/native/tools/wwise-dl.py --user ${{ secrets.AK_USER }} --pass ${{ secrets.AK_PASS }} ${{ env.WWISE_VERSION }}.${{ env.WWISE_BUILD }} Android --plugins Auro ConvolutionReverb iZotope McDSP Reflect SoundSeed SoundSeedGrain ResonanceAudio Motion ASIO AkChannelRouter MasteringSuite CrankcaseAudioREVModelPlayer Impacter --output ./addons/Wwise/native/wwise_sdk/
+          python ./addons/Wwise/native/tools/wwise-dl.py --user ${{ secrets.AK_USER }} --pass ${{ secrets.AK_PASS }} ${{ env.WWISE_VERSION }}.${{ env.WWISE_BUILD }} Android --plugins Auro ConvolutionReverb iZotope McDSP Reflect SoundSeed SoundSeedGrain ResonanceAudio Motion ASIO AkChannelRouter MasteringSuite CrankcaseAudioREVModelPlayer Impacter --output ./addons/Wwise/native/wwise_sdk/
 
-      - name: Compile editor library
-        if: matrix.sdk-platform != 'android' && matrix.sdk-platform != 'ios'
+      - name: Compile Android godot-cpp library
         shell: bash
-        env:
-          SCONS_CACHE: ${{github.workspace}}/.scons_cache/
-          SCONS_CACHE_LIMIT: 7168
         run: |
-          cd addons/Wwise/native
-          mkdir -p godot-cpp/bin
-          scons platform=${{ matrix.scons-platform }} target=editor wwise_config=profile use_static_cpp=yes wwise_sdk=wwise_sdk/SDK build_profile=${{ env.BUILD_PROFILE_EDITOR }}
-          cd ../../../
+          cd addons/Wwise/native/godot-cpp
+          mkdir -p bin
+          scons platform=android target=${{ matrix.target }} build_profile="../${{ matrix.build-profile }}" -j6 arch=${{ matrix.arch }} ANDROID_NDK_ROOT=$ANDROID_NDK_LATEST_HOME
 
-      - name: Compile template_debug library
-        if: matrix.sdk-platform != 'android'
-        shell: bash
-        env:
-          SCONS_CACHE: ${{github.workspace}}/.scons_cache/
-          SCONS_CACHE_LIMIT: 7168
-        run: |
-          cd addons/Wwise/native
-          scons platform=${{ matrix.scons-platform }} target=template_debug wwise_config=profile use_static_cpp=yes wwise_sdk=wwise_sdk/SDK build_profile=${{ env.BUILD_PROFILE_RUNTIME }} ${{ matrix.debug-flags }}
-          cd ../../../
-
-      - name: Compile template_release library
-        if: matrix.sdk-platform != 'android'
-        shell: bash
-        env:
-          SCONS_CACHE: ${{github.workspace}}/.scons_cache/
-          SCONS_CACHE_LIMIT: 7168
-        run: |
-          cd addons/Wwise/native
-          scons platform=${{ matrix.scons-platform }} target=template_release wwise_config=release use_static_cpp=yes wwise_sdk=wwise_sdk/SDK build_profile=${{ env.BUILD_PROFILE_RUNTIME }} ${{ matrix.release-flags }}
-          cd ../../../
-
-      - name: Compile Android libraries
-        if: matrix.sdk-platform == 'android'
+      - name: Build Android AAR
         shell: bash
         run: |
           cd addons/Wwise/native/wwise_sdk/SDK
           WWISESDK=$(pwd)
-          cd ../../godot-cpp
-          mkdir -p bin
-          scons platform=android target=template_debug dev_build=yes build_profile="../build_profile_runtime.json" -j6 ${{ matrix.debug-flags-arm64 }}
-          scons platform=android target=template_debug dev_build=yes build_profile="../build_profile_runtime.json" -j6 ${{ matrix.debug-flags-arm32 }}
-          scons platform=android target=template_release build_profile="../build_profile_runtime.json" -j6 ${{ matrix.release-flags-arm64 }}
-          scons platform=android target=template_release build_profile="../build_profile_runtime.json" -j6 ${{ matrix.release-flags-arm32 }}
-          cd ../android
+          cd ../../android
           chmod +x ./gradlew
-          ./gradlew assemble -PWWISE_SDK="$WWISESDK"
+          if [[ "${{ matrix.arch }}" == "arm64" ]]; then
+            ABI="arm64-v8a"
+          else
+            ABI="armeabi-v7a"
+          fi
+          ./gradlew assemble${{ matrix.target-name }} -Pabi=$ABI -PWWISE_SDK="$WWISESDK"
 
-      - name: Upload libs
+      - name: Upload lib
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.artifact-name }}
+          name: android-${{ matrix.target }}-${{ matrix.arch }}
           path: addons/Wwise/native/lib
 
-  upload-addon:
-    runs-on: "ubuntu-22.04"
-    needs: [build-all]
-    name: Addon
+  package-addon:
+    runs-on: ubuntu-22.04
+    needs: [build-desktop, build-ios, build-android]
+    name: Package Addon
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Download all libs
         uses: actions/download-artifact@v4
+        with:
+          path: artifacts
 
       - name: Assemble all artifacts
         run: |
-          ls
-          shopt -s dotglob
-          if [ ! -d "addons/Wwise/native/lib" ]; then
+          echo "Assembling libraries..."
           mkdir -p addons/Wwise/native/lib
-          fi
-          if [ -d windows ]; then
-            mv windows/* addons/Wwise/native/lib/
-            rm -r windows
-          fi
-          if [ -d macos ]; then
-            mv macos/* addons/Wwise/native/lib/
-            rm -r macos
-          fi
-          if [ -d linux ]; then
-            mv linux/* addons/Wwise/native/lib/
-            rm -r linux
-          fi
-          if [ -d android-lib ]; then
-            mv android-lib/* addons/Wwise/native/lib/
-            rm -r android-lib
-          fi
-          if [ -d ios ]; then
-            mv ios/* addons/Wwise/native/lib/
-            rm -r ios
-          fi
+          for artifact_dir in artifacts/*; do
+            if [ -d "$artifact_dir" ]; then
+              echo "Merging from $artifact_dir..."
+              rsync -a "$artifact_dir/" addons/Wwise/native/lib/
+            fi
+          done
 
-      - name: Clean up addon
+      - name: Clean up addon for distribution
         run: |
-          rm -r ./addons/Wwise/native/godot-cpp
-          rm -r ./addons/Wwise/native/src
-          rm -r ./addons/Wwise/native/vs2022
-          rm -r ./addons/Wwise/native/android
-          rm -r ./addons/Wwise/native/linux
-          rm -r ./addons/Wwise/native/doc_classes
-          rm ./addons/Wwise/native/SConstruct
-          rm ./addons/Wwise/native/build_profile_editor.json
-          rm ./addons/Wwise/native/build_profile_runtime.json
-          rm ./LICENSE
-          rm ./README.md
-          rm .gitattributes
-          rm .gitmodules
-          rm -r ./.git
-          rm -r ./.github
-          rm -r ./tests
+          rm -rf ./addons/Wwise/native/godot-cpp
+          rm -rf ./addons/Wwise/native/src
+          rm -rf ./addons/Wwise/native/vs2022
+          rm -rf ./addons/Wwise/native/android
+          rm -rf ./addons/Wwise/native/linux
+          rm -rf ./addons/Wwise/native/doc_classes
+          rm -f ./addons/Wwise/native/SConstruct
+          rm -f ./addons/Wwise/native/build_profile*.json
+          rm -f ./LICENSE
+          rm -f ./README.md
+          rm -f ./.gitattributes
+          rm -f ./.gitmodules
+          rm -rf ./.git
+          rm -rf ./.github
+          rm -rf ./tests
+          rm -rf ./artifacts
 
-      - name: Upload final artifact
+      - name: Upload final addon artifact
         uses: actions/upload-artifact@v4
         with:
           name: wwise-${{ env.WWISE_VERSION }}-for-godot-${{ env.GODOT_ENGINE_VERSION }}

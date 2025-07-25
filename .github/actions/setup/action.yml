@@ -1,0 +1,44 @@
+name: 'Common Setup'
+description: 'Performs common setup steps for build jobs'
+
+inputs:
+  sdk-platform:
+    description: 'The Wwise SDK platform to cache (windows, mac, linux, ios, android)'
+    required: true
+  target:
+    description: 'The build target (editor, template_debug, template_release.)'
+    required: true
+  repo-token:
+    description: 'Token to access private repo'
+    required: true
+
+outputs:
+  cache-hit:
+    description: "Whether the Wwise SDK cache was hit"
+    value: ${{ steps.cache-wwise-sdk.outputs.cache-hit }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout private scripts
+      uses: actions/checkout@v4
+      with:
+        repository: alessandrofama/wwise-dl
+        token: ${{ inputs.repo-token }}
+        path: ./addons/Wwise/native/tools/
+
+    - name: Wwise SDK cache
+      id: cache-wwise-sdk
+      uses: actions/cache@v4
+      with:
+        path: addons/Wwise/native/wwise_sdk
+        key: ${{ runner.os }}-${{ inputs.sdk-platform }}-${{ env.WWISE_VERSION }}
+
+    - name: Set up Python 3.x
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.x"
+
+    - name: Set up dependencies (Python, SCons)
+      shell: bash
+      run: python -m pip install scons==4.7.0 requests tqdm
