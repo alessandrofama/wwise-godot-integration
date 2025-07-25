@@ -85,6 +85,9 @@ architectures.forEach { abi ->
     copyReleaseTasks.add(releaseTask)
 }
 
+val abiFilterProp = project.findProperty("abi") as? String
+val abiFilters = if (abiFilterProp != null) listOf(abiFilterProp) else listOf("arm64-v8a", "armeabi-v7a")
+
 android {
     namespace = pluginPackageName
     compileSdk = 33
@@ -104,8 +107,8 @@ android {
             }
         }
         ndk {
-            abiFilters.add("arm64-v8a")
-            abiFilters.add("armeabi-v7a")
+            abiFilters.clear()
+            abiFilters.addAll(abiFilters)
 
             ndkVersion = "26.1.10909125"
         }
