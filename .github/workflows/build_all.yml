@@ -9,6 +9,16 @@ on:
     branches:
       - main
       - 'wwise_v*'
+  workflow_dispatch:
+    inputs:
+      precision:
+        description: 'Build precision (single or double)'
+        required: false
+        default: 'single'
+        type: choice
+        options:
+        - single
+        - double
 env:
   BASE_BRANCH: ci
   WWISE_VERSION: "2024.1.8"
@@ -22,6 +32,9 @@ jobs:
   build-all:
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.name }}
+    env:
+      BUILD_PRECISION: ${{ github.event.inputs.precision || 'single' }}
+      PRECISION_SUFFIX: ${{ (github.event.inputs.precision || 'single') == 'double' && '-double' || '' }}
     strategy:
       fail-fast: false
       matrix:
@@ -157,7 +170,7 @@ jobs:
         run: |
           cd addons/Wwise/native
           mkdir -p godot-cpp/bin
-          scons platform=${{ matrix.scons-platform }} target=editor wwise_config=profile use_static_cpp=yes wwise_sdk=wwise_sdk/SDK build_profile=${{ env.BUILD_PROFILE_EDITOR }}
+          scons platform=${{ matrix.scons-platform }} target=editor wwise_config=profile use_static_cpp=yes wwise_sdk=wwise_sdk/SDK build_profile=${{ env.BUILD_PROFILE_EDITOR }} precision=${{ env.BUILD_PRECISION }}
           cd ../../../
 
       - name: Compile template_debug library
@@ -168,7 +181,7 @@ jobs:
           SCONS_CACHE_LIMIT: 7168
         run: |
           cd addons/Wwise/native
-          scons platform=${{ matrix.scons-platform }} target=template_debug wwise_config=profile use_static_cpp=yes wwise_sdk=wwise_sdk/SDK build_profile=${{ env.BUILD_PROFILE_RUNTIME }} ${{ matrix.debug-flags }}
+          scons platform=${{ matrix.scons-platform }} target=template_debug wwise_config=profile use_static_cpp=yes wwise_sdk=wwise_sdk/SDK build_profile=${{ env.BUILD_PROFILE_RUNTIME }} ${{ matrix.debug-flags }} precision=${{ env.BUILD_PRECISION }}
           cd ../../../
 
       - name: Compile template_release library
@@ -179,7 +192,7 @@ jobs:
           SCONS_CACHE_LIMIT: 7168
         run: |
           cd addons/Wwise/native
-          scons platform=${{ matrix.scons-platform }} target=template_release wwise_config=release use_static_cpp=yes wwise_sdk=wwise_sdk/SDK build_profile=${{ env.BUILD_PROFILE_RUNTIME }} ${{ matrix.release-flags }}
+          scons platform=${{ matrix.scons-platform }} target=template_release wwise_config=release use_static_cpp=yes wwise_sdk=wwise_sdk/SDK build_profile=${{ env.BUILD_PROFILE_RUNTIME }} ${{ matrix.release-flags }} precision=${{ env.BUILD_PRECISION }}
           cd ../../../
 
       - name: Compile Android libraries
@@ -190,24 +203,26 @@ jobs:
           WWISESDK=$(pwd)
           cd ../../godot-cpp
           mkdir -p bin
-          scons platform=android target=template_debug dev_build=yes build_profile="../build_profile_runtime.json" -j6 ${{ matrix.debug-flags-arm64 }}
-          scons platform=android target=template_debug dev_build=yes build_profile="../build_profile_runtime.json" -j6 ${{ matrix.debug-flags-arm32 }}
-          scons platform=android target=template_release build_profile="../build_profile_runtime.json" -j6 ${{ matrix.release-flags-arm64 }}
-          scons platform=android target=template_release build_profile="../build_profile_runtime.json" -j6 ${{ matrix.release-flags-arm32 }}
+          scons platform=android target=template_debug dev_build=yes build_profile="../build_profile_runtime.json" -j6 ${{ matrix.debug-flags-arm64 }} precision=${{ env.BUILD_PRECISION }}
+          scons platform=android target=template_debug dev_build=yes build_profile="../build_profile_runtime.json" -j6 ${{ matrix.debug-flags-arm32 }} precision=${{ env.BUILD_PRECISION }}
+          scons platform=android target=template_release build_profile="../build_profile_runtime.json" -j6 ${{ matrix.release-flags-arm64 }} precision=${{ env.BUILD_PRECISION }}
+          scons platform=android target=template_release build_profile="../build_profile_runtime.json" -j6 ${{ matrix.release-flags-arm32 }} precision=${{ env.BUILD_PRECISION }}
           cd ../android
           chmod +x ./gradlew
-          ./gradlew assemble -PWWISE_SDK="$WWISESDK"
+          ./gradlew assemble -PWWISE_SDK="$WWISESDK" -Pprecision=${{ env.BUILD_PRECISION }}
 
       - name: Upload libs
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.artifact-name }}
+          name: ${{ matrix.artifact-name }}${{ env.PRECISION_SUFFIX }}
           path: addons/Wwise/native/lib
 
   upload-addon:
     runs-on: "ubuntu-22.04"
     needs: [build-all]
     name: Addon
+    env:
+      PRECISION_SUFFIX: ${{ (github.event.inputs.precision || 'single') == 'double' && '-double' || '' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -217,30 +232,30 @@ jobs:
 
       - name: Assemble all artifacts
         run: |
-          ls
+          ls -R
           shopt -s dotglob
           if [ ! -d "addons/Wwise/native/lib" ]; then
           mkdir -p addons/Wwise/native/lib
           fi
-          if [ -d windows ]; then
-            mv windows/* addons/Wwise/native/lib/
-            rm -r windows
+          if [ -d windows${{ env.PRECISION_SUFFIX }} ]; then
+            mv windows${{ env.PRECISION_SUFFIX }}/* addons/Wwise/native/lib/
+            rm -r windows${{ env.PRECISION_SUFFIX }}
           fi
-          if [ -d macos ]; then
-            mv macos/* addons/Wwise/native/lib/
-            rm -r macos
+          if [ -d macos${{ env.PRECISION_SUFFIX }} ]; then
+            mv macos${{ env.PRECISION_SUFFIX }}/* addons/Wwise/native/lib/
+            rm -r macos${{ env.PRECISION_SUFFIX }}
           fi
-          if [ -d linux ]; then
-            mv linux/* addons/Wwise/native/lib/
-            rm -r linux
+          if [ -d linux${{ env.PRECISION_SUFFIX }} ]; then
+            mv linux${{ env.PRECISION_SUFFIX }}/* addons/Wwise/native/lib/
+            rm -r linux${{ env.PRECISION_SUFFIX }}
           fi
-          if [ -d android-lib ]; then
-            mv android-lib/* addons/Wwise/native/lib/
-            rm -r android-lib
+          if [ -d android-lib${{ env.PRECISION_SUFFIX }} ]; then
+            mv android-lib${{ env.PRECISION_SUFFIX }}/* addons/Wwise/native/lib/
+            rm -r android-lib${{ env.PRECISION_SUFFIX }}
           fi
-          if [ -d ios ]; then
-            mv ios/* addons/Wwise/native/lib/
-            rm -r ios
+          if [ -d ios${{ env.PRECISION_SUFFIX }} ]; then
+            mv ios${{ env.PRECISION_SUFFIX }}/* addons/Wwise/native/lib/
+            rm -r ios${{ env.PRECISION_SUFFIX }}
           fi
 
       - name: Clean up addon
@@ -265,5 +280,5 @@ jobs:
       - name: Upload final artifact
         uses: actions/upload-artifact@v4
         with:
-          name: wwise-${{ env.WWISE_VERSION }}-for-godot-${{ env.GODOT_ENGINE_VERSION }}-${{ env.GODOT_ENGINE_STAGE }}
+          name: wwise-${{ env.WWISE_VERSION }}-for-godot-${{ env.GODOT_ENGINE_VERSION }}${{ env.PRECISION_SUFFIX }}
           path: ./

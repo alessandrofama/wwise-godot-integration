@@ -35,6 +35,11 @@ else ()
     set(GODOT_CPP_LIB_BUILD_TYPE release)
 endif ()
 
+# Handle build precision by adding the correct definition
+if (precision STREQUAL "double")
+    add_definitions(-DREAL_T_IS_DOUBLE)
+endif()
+
 # Set default Android STL to c++_shared if not specified
 if (NOT (ANDROID_STL STREQUAL "c++_shared"))
     set(ANDROID_STL "c++_shared")
