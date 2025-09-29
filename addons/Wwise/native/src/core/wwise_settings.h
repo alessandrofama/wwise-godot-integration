@@ -21,8 +21,7 @@ private:
 
 	void add_wwise_settings();
 	void add_setting(const StringName& name, const Variant& default_value, Variant::Type type,
-			PropertyHint hint = PROPERTY_HINT_NONE, const StringName& hint_string = "",
-			int usage = PROPERTY_USAGE_DEFAULT);
+			PropertyHint hint = PROPERTY_HINT_NONE, const StringName& hint_string = "");
 
 public:
 	struct MainOutputSettings
