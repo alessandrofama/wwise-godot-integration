@@ -105,12 +105,16 @@ endif (CMAKE_BUILD_TYPE MATCHES Debug)
 set(GODOT_CPP_DIR "${CMAKE_SOURCE_DIR}/../../godot-cpp")
 set(GODOT-CPP "godot-cpp")
 
-# Use the godot-cpp prebuilt static binary
+set(GODOT_CPP_PRECISION_SUFFIX "")
+if (precision STREQUAL "double")
+    set(GODOT_CPP_PRECISION_SUFFIX ".double")
+endif()
+
 if (CMAKE_BUILD_TYPE MATCHES Debug)
-    set(GODOT_CPP_STATIC_LIB "${GODOT_CPP_DIR}/bin/libgodot-cpp.android.template_debug.dev.${GODOT_CPP_LIB_ABI}.a")
+    set(GODOT_CPP_STATIC_LIB "${GODOT_CPP_DIR}/bin/libgodot-cpp.android.template_debug.dev${GODOT_CPP_PRECISION_SUFFIX}.${GODOT_CPP_LIB_ABI}.a")
 else ()
-    set(GODOT_CPP_STATIC_LIB "${GODOT_CPP_DIR}/bin/libgodot-cpp.android.template_${GODOT_CPP_LIB_BUILD_TYPE}.${GODOT_CPP_LIB_ABI}.a")
-endif ()
+    set(GODOT_CPP_STATIC_LIB "${GODOT_CPP_DIR}/bin/libgodot-cpp.android.template_${GODOT_CPP_LIB_BUILD_TYPE}${GODOT_CPP_PRECISION_SUFFIX}.${GODOT_CPP_LIB_ABI}.a")
+endif()
 
 list(APPEND GODOT_CPP_INCLUDE_DIRECTORIES "${GODOT_CPP_DIR}/include" "${GODOT_CPP_DIR}/gen/include" "${GODOT_CPP_DIR}/gdextension")
 
