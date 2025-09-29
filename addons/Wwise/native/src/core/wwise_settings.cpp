@@ -181,8 +181,7 @@ Variant WwiseSettings::get_setting(const StringName& p_setting, const Variant& p
 void WwiseSettings::add_wwise_settings()
 {
 	// Common User Settings
-	add_setting(common_user_settings.root_output_path, "", Variant::Type::STRING, PROPERTY_HINT_DIR, "",
-			PROPERTY_USAGE_NONE);
+	add_setting(common_user_settings.root_output_path, "", Variant::Type::STRING, PROPERTY_HINT_DIR, "");
 	add_setting(common_user_settings.startup_language, "English(US)", Variant::Type::STRING);
 	add_setting(common_user_settings.suspend_audio_during_focus_loss, false, Variant::Type::BOOL);
 	add_setting(common_user_settings.engine_logging, true, Variant::Type::BOOL);
@@ -276,14 +275,13 @@ void WwiseSettings::add_wwise_settings()
 }
 
 void WwiseSettings::add_setting(const StringName& name, const Variant& default_value, Variant::Type type,
-		PropertyHint hint, const StringName& hint_string, int usage)
+		PropertyHint hint, const StringName& hint_string)
 {
 	Dictionary setting;
 	setting["name"] = name;
 	setting["type"] = type;
 	setting["hint"] = hint;
 	setting["hint_string"] = hint_string;
-	setting["usage"] = usage;
 
 	godot::ProjectSettings* project_settings = godot::ProjectSettings::get_singleton();
 
