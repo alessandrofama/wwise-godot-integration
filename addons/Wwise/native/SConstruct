@@ -312,11 +312,12 @@ wwise_plugins_library = [
     "AkFlangerFX",
     "AkSineSource",
     "AkRecorderFX",
+    "AkRecorderADMFX",
     "AkAudioInputSource",
     "AkSynthOneSource",
     "AkSidechainFX",
     "AkSpatialAudio",
-    "Ak3DAudioBedMixerFX",
+    "Ak3DAudioBedMixerFX"
 ]
 
 ## Plugins
