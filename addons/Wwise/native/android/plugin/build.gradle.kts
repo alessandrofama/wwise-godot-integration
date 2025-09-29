@@ -99,8 +99,11 @@ android {
         externalNativeBuild {
             cmake {
                 cppFlags("")
-                arguments("-DWWISE_SDK_PATH="+ project.findProperty("WWISE_SDK")?.toString() ?: "")
-
+                arguments(
+                "-DWWISE_SDK_PATH="+ project.findProperty("WWISE_SDK")?.toString() ?: "",
+                "-Dprecision=" + project.findProperty("precision")?.toString().orEmpty()
+                )
+                
             }
         }
         ndk {
