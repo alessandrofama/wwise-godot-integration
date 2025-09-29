@@ -1192,7 +1192,7 @@ bool Wwise::set_geometry_instance(const Object* associated_geometry, const Trans
 	params.PositionAndOrientation = position_and_orientation;
 
 	Vector3 scale = transform.get_basis().get_scale();
-	params.Scale = { scale.x, scale.y, scale.z };
+	params.Scale = { static_cast<AkReal32>(scale.x), static_cast<AkReal32>(scale.y), static_cast<AkReal32>(scale.z) };
 
 	return ERROR_CHECK(AK::SpatialAudio::SetGeometryInstance(
 			static_cast<AkGeometryInstanceID>(geometry_instance->get_instance_id()), params));
