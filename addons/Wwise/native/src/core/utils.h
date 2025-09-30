@@ -292,36 +292,34 @@ static inline bool should_return_if_editor() { return Engine::get_singleton()->i
 					->event_callback_signals[AkUtils::AkCallbackType::AK_ENABLE_GET_SOURCE_STREAM_BUFFERING],          \
 			PropertyInfo(Variant::DICTIONARY, "data")))
 
-enum class VectorType
+static inline AkVector64 godot_to_ak_position(const Vector3& in_vec)
 {
-	POSITION,
-	FORWARD,
-	UP
-};
-
-static inline void vector3_to_akvector(const Vector3& in_vector, AkVector& out_vector)
-{
-	out_vector.X = in_vector.x;
-	out_vector.Y = in_vector.y;
-	out_vector.Z = in_vector.z * -1.0f;
+	return { (AkReal64)in_vec.x, (AkReal64)in_vec.y, (AkReal64)(in_vec.z * -1.0) };
 }
 
-static inline void get_akvector(const Transform3D& t, AkVector& out_vector, const VectorType& type)
+static inline AkVector godot_to_ak_orientation(const Vector3& in_vec)
 {
-	switch (type)
-	{
-		case VectorType::POSITION:
-			vector3_to_akvector(t.get_origin(), out_vector);
-			break;
-		case VectorType::FORWARD:
-			vector3_to_akvector(-t.get_basis().get_column(2).normalized(), out_vector);
-			break;
-		case VectorType::UP:
-			vector3_to_akvector(t.get_basis().get_column(1).normalized(), out_vector);
-			break;
-		default:
-			break;
-	}
+	return { (AkReal32)in_vec.x, (AkReal32)in_vec.y, (AkReal32)(in_vec.z * -1.0f) };
+}
+
+static inline void godot_transform3d_to_ak_sound_position(const Transform3D& transform, AkSoundPosition& out_sound_pos)
+{
+	const Vector3 pos = transform.get_origin();
+	const Vector3 fwd = -transform.get_basis().get_column(2).normalized();
+	const Vector3 up = transform.get_basis().get_column(1).normalized();
+
+	out_sound_pos.Set(godot_to_ak_position(pos), godot_to_ak_orientation(fwd), godot_to_ak_orientation(up));
+}
+
+static inline void godot_transform2d_to_ak_sound_position(
+		const Transform2D& transform, const real_t z_depth, AkSoundPosition& out_sound_pos)
+{
+	const Vector2 origin = transform.get_origin();
+	const Vector3 pos = Vector3(origin.x, origin.y, z_depth);
+	const Vector3 fwd = Vector3(transform.columns[1].x, 0, transform.columns[1].y).normalized();
+	const Vector3 up = Vector3(0, 1, 0);
+
+	out_sound_pos.Set(godot_to_ak_position(pos), godot_to_ak_orientation(fwd), godot_to_ak_orientation(up));
 }
 
 static inline bool find_matching_vertex(Vector3 vertex, Dictionary vert_dict, int& out_idx)
