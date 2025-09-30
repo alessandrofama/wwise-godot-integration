@@ -492,36 +492,17 @@ bool Wwise::set_3d_position(const Node* game_object, const Transform3D& transfor
 	AkGameObjectID id = get_ak_game_object_id(game_object);
 
 	AkSoundPosition sound_pos{};
-	AkVector position{};
-	get_akvector(transform_3d, position, VectorType::POSITION);
-	AkVector forward{};
-	get_akvector(transform_3d, forward, VectorType::FORWARD);
-	AkVector up{};
-	get_akvector(transform_3d, up, VectorType::UP);
-
-	sound_pos.Set(AK::ConvertAkVectorToAkVector64(position), forward, up);
+	godot_transform3d_to_ak_sound_position(transform_3d, sound_pos);
 
 	return ERROR_CHECK(AK::SoundEngine::SetPosition(id, sound_pos));
 }
 
-bool Wwise::set_2d_position(const Node* game_object, const Transform2D& transform_2d, const float z_depth)
+bool Wwise::set_2d_position(const Node* game_object, const Transform2D& transform_2d, const real_t z_depth)
 {
 	AkGameObjectID id = get_ak_game_object_id(game_object);
 
 	AkSoundPosition sound_pos{};
-	Vector2 origin = transform_2d.get_origin();
-	Vector3 position = Vector3(origin.x, origin.y, z_depth);
-	Vector3 forward = Vector3(transform_2d.columns[1].x, 0.0f, transform_2d.columns[1].y).normalized();
-	Vector3 up = Vector3(0, -1, 0);
-
-	AkVector ak_position{};
-	vector3_to_akvector(position, ak_position);
-	AkVector ak_forward{};
-	vector3_to_akvector(forward, ak_forward);
-	AkVector ak_up{};
-	vector3_to_akvector(up, ak_up);
-
-	sound_pos.Set(AK::ConvertAkVectorToAkVector64(ak_position), ak_forward, ak_up);
+	godot_transform2d_to_ak_sound_position(transform_2d, z_depth, sound_pos);
 
 	return ERROR_CHECK(AK::SoundEngine::SetPosition(id, sound_pos));
 }
@@ -534,15 +515,8 @@ bool Wwise::set_multiple_positions_3d(const Node* game_object, const TypedArray<
 	auto ak_positions = std::make_unique<AkSoundPosition[]>(num_positions);
 	for (int i = 0; i < positions.size(); i++)
 	{
-		Transform3D transform = positions[i];
-		AkVector position{};
-		get_akvector(transform, position, VectorType::POSITION);
-		AkVector forward{};
-		get_akvector(transform, forward, VectorType::FORWARD);
-		AkVector up{};
-		get_akvector(transform, up, VectorType::UP);
-
-		ak_positions[i].Set(AK::ConvertAkVectorToAkVector64(position), forward, up);
+		const Transform3D& transform = positions[i];
+		godot_transform3d_to_ak_sound_position(transform, ak_positions[i]);
 	}
 
 	return ERROR_CHECK(AK::SoundEngine::SetMultiplePositions(
@@ -550,7 +524,7 @@ bool Wwise::set_multiple_positions_3d(const Node* game_object, const TypedArray<
 }
 
 bool Wwise::set_multiple_positions_2d(const Node* game_object, const TypedArray<Transform2D>& positions,
-		const TypedArray<float>& z_depths, const int num_positions,
+		const TypedArray<real_t>& z_depths, const int num_positions,
 		const AkUtils::MultiPositionType multi_position_type)
 {
 	AkGameObjectID id = get_ak_game_object_id(game_object);
@@ -558,21 +532,8 @@ bool Wwise::set_multiple_positions_2d(const Node* game_object, const TypedArray<
 	auto ak_positions = std::make_unique<AkSoundPosition[]>(num_positions);
 	for (int i = 0; i < positions.size(); i++)
 	{
-		Transform2D transform_2d = positions[i];
-
-		Vector2 origin = transform_2d.get_origin();
-		Vector3 position = Vector3(origin.x, origin.y, z_depths[i]);
-		Vector3 forward = Vector3(transform_2d.columns[1].x, 0, transform_2d.columns[1].y).normalized();
-		Vector3 up = Vector3(0, 1, 0);
-
-		AkVector ak_position{};
-		vector3_to_akvector(position, ak_position);
-		AkVector ak_forward{};
-		vector3_to_akvector(forward, ak_forward);
-		AkVector ak_up{};
-		vector3_to_akvector(up, ak_up);
-
-		ak_positions[i].Set(AK::ConvertAkVectorToAkVector64(ak_position), ak_forward, ak_up);
+		const Transform2D& transform = positions[i];
+		godot_transform2d_to_ak_sound_position(transform, z_depths[i], ak_positions[i]);
 	}
 
 	return ERROR_CHECK(AK::SoundEngine::SetMultiplePositions(
@@ -582,7 +543,6 @@ bool Wwise::set_multiple_positions_2d(const Node* game_object, const TypedArray<
 bool Wwise::set_game_object_radius(const Node* game_object, const float outer_radius, const float inner_radius)
 {
 	AkGameObjectID id = get_ak_game_object_id(game_object);
-
 	return ERROR_CHECK(AK::SpatialAudio::SetGameObjectRadius(id, outer_radius, inner_radius));
 }
 
@@ -1171,18 +1131,7 @@ bool Wwise::set_geometry_instance(const Object* associated_geometry, const Trans
 	params.UseForReflectionAndDiffraction = use_for_reflection_and_diffraction;
 	params.IsSolid = is_solid;
 	params.BypassPortalSubtraction = bypass_portal_subtraction;
-
-	AkVector position{};
-	AkVector orientation_front{};
-	AkVector orientation_top{};
-	get_akvector(transform, position, VectorType::POSITION);
-	get_akvector(transform, orientation_front, VectorType::FORWARD);
-	get_akvector(transform, orientation_top, VectorType::UP);
-
-	AkWorldTransform position_and_orientation{};
-	position_and_orientation.SetPosition(AK::ConvertAkVectorToAkVector64(position));
-	position_and_orientation.SetOrientation(orientation_front, orientation_top);
-	params.PositionAndOrientation = position_and_orientation;
+	godot_transform3d_to_ak_sound_position(transform, params.PositionAndOrientation);
 
 	Vector3 scale = transform.get_basis().get_scale();
 	params.Scale = { static_cast<AkReal32>(scale.x), static_cast<AkReal32>(scale.y), static_cast<AkReal32>(scale.z) };
@@ -1215,14 +1164,8 @@ bool Wwise::set_room(const Node* game_object, const unsigned int ak_aux_bus_id, 
 	room_params.ReverbAuxBus = ak_aux_bus_id;
 	room_params.ReverbLevel = reverb_level;
 	room_params.TransmissionLoss = transmission_loss;
-
-	AkVector front{};
-	vector3_to_akvector(front_vector, front);
-	AkVector up{};
-	vector3_to_akvector(up_vector, up);
-
-	room_params.Front = front;
-	room_params.Up = up;
+	room_params.Front = godot_to_ak_orientation(front_vector);
+	room_params.Up = godot_to_ak_orientation(up_vector);
 	room_params.RoomGameObj_KeepRegistered = keep_registered;
 	room_params.RoomGameObj_AuxSendLevelToSelf = 0.0f;
 
@@ -1248,15 +1191,8 @@ bool Wwise::set_portal(const Node* game_object, const Transform3D transform, con
 	AkGameObjectID front_room_id = get_ak_game_object_id(front_room);
 	AkGameObjectID back_room_id = get_ak_game_object_id(back_room);
 
-	AkVector position;
-	get_akvector(transform, position, VectorType::POSITION);
-	AkVector forward;
-	get_akvector(transform, forward, VectorType::FORWARD);
-	AkVector up;
-	get_akvector(transform, up, VectorType::UP);
-
-	AkWorldTransform ak_transform;
-	ak_transform.Set(AK::ConvertAkVectorToAkVector64(position), forward, up);
+	AkWorldTransform ak_transform{};
+	godot_transform3d_to_ak_sound_position(transform, ak_transform);
 
 	AkPortalParams portal_params;
 	AkExtent portal_extent;
