@@ -308,7 +308,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: android-lib-${{ matrix.build-type }}${{ env.PRECISION_SUFFIX }}
-          path: aaddons/Wwise/native/lib
+          path: addons/Wwise/native/lib
   upload-addon:
     runs-on: "ubuntu-22.04"
     needs: [build-platforms, build-android-aar]
