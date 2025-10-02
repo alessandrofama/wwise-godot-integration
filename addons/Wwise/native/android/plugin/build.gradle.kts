@@ -140,19 +140,31 @@ dependencies {
     implementation("org.godotengine:godot:4.3.0.stable")
 }
 
+// 1. Define more granular clean tasks for the output directories
 val cleanAssetsAddons by tasks.registering(Copy::class) {
     delete("src/main/assets/addons")
 }
 
-val cleanDemoAddons by tasks.registering(Delete::class) {
+val cleanDebugDemoLibs by tasks.registering(Delete::class) {
+    description = "Deletes the debug libraries from the output directory"
+    delete("../../lib/android/debug")
+}
+
+val cleanReleaseDemoLibs by tasks.registering(Delete::class) {
+    description = "Deletes the release libraries from the output directory"
+    delete("../../lib/android/release")
+}
+
+val cleanAllDemoLibs by tasks.registering(Delete::class) {
+    description = "Deletes all libraries from the output directory"
     delete("../../lib/android/")
 }
 
+
+// 2. Your existing individual copy tasks remain the same
 val copyExportScriptsTemplate by tasks.registering(Copy::class) {
     description = "Copies the export scripts templates to the plugin's addons directory"
-
     dependsOn(cleanAssetsAddons)
-
     from(file("../../wwise.gdextension"))
     into("src/main/assets/addons/Wwise/native")
 }
@@ -183,25 +195,41 @@ val copyReleaseSharedLibs by tasks.registering(Copy::class) {
     into("../../lib/android/release")
 }
 
-val copyAddonsToDemo by tasks.registering(Copy::class) {
-    description = "Copies the plugin's output artifact to the output directory"
-    dependsOn(cleanDemoAddons)
-    dependsOn(copyDebugTasks)
-    dependsOn(copyReleaseTasks)
-    finalizedBy(copyDebugAARToDemoAddons)
-    finalizedBy(copyReleaseAARToDemoAddons)
-    finalizedBy(copyDebugSharedLibs)
-    finalizedBy(copyReleaseSharedLibs)
+
+// 3. Create separate "package" tasks to group debug and release actions
+val packageDebugAddons by tasks.registering {
+    description = "Gathers all debug artifacts and copies them to the output directory"
+    group = "Distribution"
+    dependsOn(cleanDebugDemoLibs)
+    dependsOn(copyDebugTasks) // This is your list of tasks from the forEach loop
+    dependsOn(copyDebugAARToDemoAddons)
+    dependsOn(copyDebugSharedLibs)
 }
 
+val packageReleaseAddons by tasks.registering {
+    description = "Gathers all release artifacts and copies them to the output directory"
+    group = "Distribution"
+    dependsOn(cleanReleaseDemoLibs)
+    dependsOn(copyReleaseTasks) // This is your list of tasks from the forEach loop
+    dependsOn(copyReleaseAARToDemoAddons)
+    dependsOn(copyReleaseSharedLibs)
+}
+
+
+// 4. Hook the package tasks into the specific Android assemble tasks
 tasks.named("preBuild").dependsOn(copyExportScriptsTemplate)
 
-tasks.named("assemble").configure {
-    dependsOn(copyExportScriptsTemplate)
-    finalizedBy(copyAddonsToDemo)
+tasks.named("assembleDebug").configure {
+    finalizedBy(packageDebugAddons)
 }
 
+tasks.named("assembleRelease").configure {
+    finalizedBy(packageReleaseAddons)
+}
+
+
+// 5. Update the main clean task to use the new comprehensive clean task
 tasks.named<Delete>("clean").apply {
-    dependsOn(cleanDemoAddons)
+    dependsOn(cleanAllDemoLibs)
     dependsOn(cleanAssetsAddons)
 }
