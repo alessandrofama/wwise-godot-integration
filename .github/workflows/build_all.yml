@@ -282,7 +282,7 @@ jobs:
         run: |
           cd addons/Wwise/native/android
           chmod +x ./gradlew
-          ./gradlew assemble${{ matrix.build-type }} \
+          ./gradlew assemble${{ matrix.build-type }}All \
             --parallel --max-workers=$(nproc) \
             -PWWISE_SDK="$(pwd)/../wwise_sdk/SDK" \
             -Pprecision=${{ env.BUILD_PRECISION }}
