@@ -277,6 +277,24 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           pattern: godot-cpp-android-libs-*${{ env.PRECISION_SUFFIX }}
+      - name: Prepare godot-cpp artifacts for Gradle
+        run: |
+          # Clear any existing godot-cpp directories
+          rm -rf addons/Wwise/native/godot-cpp/bin
+          rm -rf addons/Wwise/native/godot-cpp/gen/include
+          mkdir -p addons/Wwise/native/godot-cpp/bin
+          mkdir -p addons/Wwise/native/godot-cpp/gen/include
+
+          # Move all downloaded godot-cpp artifacts to the expected folder
+          for d in godot-cpp-android-libs-*${{ env.PRECISION_SUFFIX }}; do
+              echo "Copying artifacts from $d"
+              if [ -d "$d/bin" ]; then
+                  cp -r "$d/bin/"* addons/Wwise/native/godot-cpp/bin/
+              fi
+              if [ -d "$d/gen/include" ]; then
+                  cp -r "$d/gen/include/"* addons/Wwise/native/godot-cpp/gen/include/
+              fi
+          done
       - name: Assemble Android AAR (${{ matrix.build-type }})
         shell: bash
         run: |
