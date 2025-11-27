@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WwiseDocument Type="WorkUnit" ID="{7670CF80-3164-4DC9-A81B-EC61B8A6DE43}" SchemaVersion="131">
+<WwiseDocument Type="WorkUnit" ID="{7670CF80-3164-4DC9-A81B-EC61B8A6DE43}" SchemaVersion="133">
 	<Containers>
 		<WorkUnit Name="Shared Assets" ID="{7670CF80-3164-4DC9-A81B-EC61B8A6DE43}" PersistMode="Standalone">
 			<ChildrenList>
