@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WwiseDocument Type="WorkUnit" ID="{A3D5474A-DCBE-4BA1-8EC4-CD3607407BBE}" SchemaVersion="131">
+<WwiseDocument Type="WorkUnit" ID="{A3D5474A-DCBE-4BA1-8EC4-CD3607407BBE}" SchemaVersion="133">
 	<Containers>
 		<WorkUnit Name="UserDefinedBank" ID="{A3D5474A-DCBE-4BA1-8EC4-CD3607407BBE}" PersistMode="Standalone">
 			<ChildrenList>

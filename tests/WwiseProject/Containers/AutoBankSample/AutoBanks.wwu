@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WwiseDocument Type="WorkUnit" ID="{A6EF49AA-FDD3-492A-8953-E2C1A973F398}" SchemaVersion="131">
+<WwiseDocument Type="WorkUnit" ID="{A6EF49AA-FDD3-492A-8953-E2C1A973F398}" SchemaVersion="133">
 	<Containers>
 		<WorkUnit Name="AutoBanks" ID="{A6EF49AA-FDD3-492A-8953-E2C1A973F398}" PersistMode="Standalone">
 			<ChildrenList>

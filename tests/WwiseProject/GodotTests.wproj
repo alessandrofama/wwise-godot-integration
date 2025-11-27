@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WwiseDocument Type="Project" SchemaVersion="131" WwiseVersion="v2025.1.0" WwiseBuild="8897">
+<WwiseDocument Type="Project" SchemaVersion="133" WwiseVersion="v2025.1.3" WwiseBuild="9039">
 	<ProjectInfo>
 		<Project Name="GodotTests" ID="{225E3277-D99C-47A8-9765-D8D28C291B75}">
 			<Platforms>
@@ -250,12 +250,12 @@
 								<Value>False</Value>
 							</ValueList>
 						</Property>
-						<Property Name="GameAuxSendHPF" Type="int16">
+						<Property Name="GameAuxSendDSF" Type="Real64">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
 						</Property>
-						<Property Name="GameAuxSendHSF" Type="Real64">
+						<Property Name="GameAuxSendHPF" Type="int16">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
@@ -440,12 +440,12 @@
 								<Value>0</Value>
 							</ValueList>
 						</Property>
-						<Property Name="OutputBusHighpass" Type="int16">
+						<Property Name="OutputBusDualshelf" Type="Real64">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
 						</Property>
-						<Property Name="OutputBusHighshelf" Type="Real64">
+						<Property Name="OutputBusHighpass" Type="int16">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
@@ -848,6 +848,11 @@
 								<Value>True</Value>
 							</ValueList>
 						</Property>
+						<Property Name="DSFEmphasis" Type="Real64">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
 						<Property Name="DefaultLanguage" Type="string">
 							<ValueList>
 								<Value>English(US)</Value>
@@ -911,11 +916,6 @@
 						<Property Name="GlobalVoiceInstancesLimit" Type="int16">
 							<ValueList>
 								<Value>256</Value>
-							</ValueList>
-						</Property>
-						<Property Name="HSFEmphasis" Type="Real64">
-							<ValueList>
-								<Value>0</Value>
 							</ValueList>
 						</Property>
 						<Property Name="LicenseKey" Type="string">
@@ -1882,12 +1882,12 @@
 								<Value>False</Value>
 							</ValueList>
 						</Property>
-						<Property Name="GameAuxSendHPF" Type="int16">
+						<Property Name="GameAuxSendDSF" Type="Real64">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
 						</Property>
-						<Property Name="GameAuxSendHSF" Type="Real64">
+						<Property Name="GameAuxSendHPF" Type="int16">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
@@ -2032,12 +2032,12 @@
 								<Value>0</Value>
 							</ValueList>
 						</Property>
-						<Property Name="OutputBusHighpass" Type="int16">
+						<Property Name="OutputBusDualshelf" Type="Real64">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
 						</Property>
-						<Property Name="OutputBusHighshelf" Type="Real64">
+						<Property Name="OutputBusHighpass" Type="int16">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
@@ -2306,12 +2306,12 @@
 								<Value>False</Value>
 							</ValueList>
 						</Property>
-						<Property Name="GameAuxSendHPF" Type="int16">
+						<Property Name="GameAuxSendDSF" Type="Real64">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
 						</Property>
-						<Property Name="GameAuxSendHSF" Type="Real64">
+						<Property Name="GameAuxSendHPF" Type="int16">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
@@ -2471,12 +2471,12 @@
 								<Value>1</Value>
 							</ValueList>
 						</Property>
-						<Property Name="OutputBusHighpass" Type="int16">
+						<Property Name="OutputBusDualshelf" Type="Real64">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
 						</Property>
-						<Property Name="OutputBusHighshelf" Type="Real64">
+						<Property Name="OutputBusHighpass" Type="int16">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
@@ -3019,12 +3019,12 @@
 								<Value>False</Value>
 							</ValueList>
 						</Property>
-						<Property Name="GameAuxSendHPF" Type="int16">
+						<Property Name="GameAuxSendDSF" Type="Real64">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
 						</Property>
-						<Property Name="GameAuxSendHSF" Type="Real64">
+						<Property Name="GameAuxSendHPF" Type="int16">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
@@ -3174,12 +3174,12 @@
 								<Value>0</Value>
 							</ValueList>
 						</Property>
-						<Property Name="OutputBusHighpass" Type="int16">
+						<Property Name="OutputBusDualshelf" Type="Real64">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
 						</Property>
-						<Property Name="OutputBusHighshelf" Type="Real64">
+						<Property Name="OutputBusHighpass" Type="int16">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
@@ -3721,12 +3721,12 @@
 								<Value>False</Value>
 							</ValueList>
 						</Property>
-						<Property Name="GameAuxSendHPF" Type="int16">
+						<Property Name="GameAuxSendDSF" Type="Real64">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
 						</Property>
-						<Property Name="GameAuxSendHSF" Type="Real64">
+						<Property Name="GameAuxSendHPF" Type="int16">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
@@ -3826,12 +3826,12 @@
 								<Value>50</Value>
 							</ValueList>
 						</Property>
-						<Property Name="OutputBusHighpass" Type="int16">
+						<Property Name="OutputBusDualshelf" Type="Real64">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
 						</Property>
-						<Property Name="OutputBusHighshelf" Type="Real64">
+						<Property Name="OutputBusHighpass" Type="int16">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
@@ -4160,12 +4160,12 @@
 								<Value>4000</Value>
 							</ValueList>
 						</Property>
-						<Property Name="GameAuxSendHPF" Type="int16">
+						<Property Name="GameAuxSendDSF" Type="Real64">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
 						</Property>
-						<Property Name="GameAuxSendHSF" Type="Real64">
+						<Property Name="GameAuxSendHPF" Type="int16">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
@@ -4280,12 +4280,12 @@
 								<Value>0</Value>
 							</ValueList>
 						</Property>
-						<Property Name="OutputBusHighpass" Type="int16">
+						<Property Name="OutputBusDualshelf" Type="Real64">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
 						</Property>
-						<Property Name="OutputBusHighshelf" Type="Real64">
+						<Property Name="OutputBusHighpass" Type="int16">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
@@ -4569,12 +4569,12 @@
 								<Value>False</Value>
 							</ValueList>
 						</Property>
-						<Property Name="GameAuxSendHPF" Type="int16">
+						<Property Name="GameAuxSendDSF" Type="Real64">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
 						</Property>
-						<Property Name="GameAuxSendHSF" Type="Real64">
+						<Property Name="GameAuxSendHPF" Type="int16">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
@@ -4699,12 +4699,12 @@
 								<Value>0</Value>
 							</ValueList>
 						</Property>
-						<Property Name="OutputBusHighpass" Type="int16">
+						<Property Name="OutputBusDualshelf" Type="Real64">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
 						</Property>
-						<Property Name="OutputBusHighshelf" Type="Real64">
+						<Property Name="OutputBusHighpass" Type="int16">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
@@ -4978,12 +4978,12 @@
 								<Value>False</Value>
 							</ValueList>
 						</Property>
-						<Property Name="GameAuxSendHPF" Type="int16">
+						<Property Name="GameAuxSendDSF" Type="Real64">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
 						</Property>
-						<Property Name="GameAuxSendHSF" Type="Real64">
+						<Property Name="GameAuxSendHPF" Type="int16">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
@@ -5133,12 +5133,12 @@
 								<Value>0</Value>
 							</ValueList>
 						</Property>
-						<Property Name="OutputBusHighpass" Type="int16">
+						<Property Name="OutputBusDualshelf" Type="Real64">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
 						</Property>
-						<Property Name="OutputBusHighshelf" Type="Real64">
+						<Property Name="OutputBusHighpass" Type="int16">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
@@ -5724,12 +5724,12 @@
 								<Value>False</Value>
 							</ValueList>
 						</Property>
-						<Property Name="GameAuxSendHPF" Type="int16">
+						<Property Name="GameAuxSendDSF" Type="Real64">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
 						</Property>
-						<Property Name="GameAuxSendHSF" Type="Real64">
+						<Property Name="GameAuxSendHPF" Type="int16">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
@@ -5844,12 +5844,12 @@
 								<Value>0</Value>
 							</ValueList>
 						</Property>
-						<Property Name="OutputBusHighpass" Type="int16">
+						<Property Name="OutputBusDualshelf" Type="Real64">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
 						</Property>
-						<Property Name="OutputBusHighshelf" Type="Real64">
+						<Property Name="OutputBusHighpass" Type="int16">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
@@ -6138,12 +6138,12 @@
 								<Value>False</Value>
 							</ValueList>
 						</Property>
-						<Property Name="GameAuxSendHPF" Type="int16">
+						<Property Name="GameAuxSendDSF" Type="Real64">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
 						</Property>
-						<Property Name="GameAuxSendHSF" Type="Real64">
+						<Property Name="GameAuxSendHPF" Type="int16">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
@@ -6263,12 +6263,12 @@
 								<Value>0</Value>
 							</ValueList>
 						</Property>
-						<Property Name="OutputBusHighpass" Type="int16">
+						<Property Name="OutputBusDualshelf" Type="Real64">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
 						</Property>
-						<Property Name="OutputBusHighshelf" Type="Real64">
+						<Property Name="OutputBusHighpass" Type="int16">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
@@ -7317,12 +7317,12 @@
 								<Value>False</Value>
 							</ValueList>
 						</Property>
-						<Property Name="GameAuxSendHPF" Type="int16">
+						<Property Name="GameAuxSendDSF" Type="Real64">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
 						</Property>
-						<Property Name="GameAuxSendHSF" Type="Real64">
+						<Property Name="GameAuxSendHPF" Type="int16">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
@@ -7362,12 +7362,12 @@
 								<Value>0</Value>
 							</ValueList>
 						</Property>
-						<Property Name="OutputBusHighpass" Type="int16">
+						<Property Name="OutputBusDualshelf" Type="Real64">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
 						</Property>
-						<Property Name="OutputBusHighshelf" Type="Real64">
+						<Property Name="OutputBusHighpass" Type="int16">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
@@ -8008,6 +8008,26 @@
 				<SharedPropertyList ClassName="EntryPathSlot" PluginType="0" CompanyID="0" PluginID="88"/>
 				<SharedPropertyList ClassName="MediaPoolFilter" PluginType="0" CompanyID="1" PluginID="88">
 					<PropertyList>
+						<Property Name="AudioDescription" Type="string">
+							<ValueList>
+								<Value></Value>
+							</ValueList>
+						</Property>
+						<Property Name="AudioSimilarityPath" Type="string">
+							<ValueList>
+								<Value></Value>
+							</ValueList>
+						</Property>
+						<Property Name="AudioSimilarityRegionEnd" Type="Real64">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="AudioSimilarityRegionStart" Type="Real64">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
 						<Property Name="CriteriaType" Type="int32">
 							<ValueList>
 								<Value>0</Value>
@@ -8048,6 +8068,11 @@
 								<Value></Value>
 							</ValueList>
 						</Property>
+						<Property Name="Weight" Type="Real64">
+							<ValueList>
+								<Value>1</Value>
+							</ValueList>
+						</Property>
 					</PropertyList>
 				</SharedPropertyList>
 				<SharedPropertyList ClassName="MusicArgumentsSlot" PluginType="0" CompanyID="0" PluginID="89"/>
@@ -8070,7 +8095,7 @@
 						</Property>
 					</PropertyList>
 				</SharedPropertyList>
-				<SharedPropertyList ClassName="Path" PluginType="0" CompanyID="0" PluginID="90">
+				<SharedPropertyList ClassName="MediaPoolDatabasePath" PluginType="0" CompanyID="0" PluginID="90">
 					<PropertyList>
 						<Property Name="Path" Type="string">
 							<ValueList>
@@ -8311,7 +8336,97 @@
 				</SharedPropertyList>
 				<SharedPropertyList ClassName="Wwise Parametric EQ" PluginType="3" CompanyID="0" PluginID="105">
 					<PropertyList>
+						<Property Name="AttackTimeBand1" Type="Real32">
+							<ValueList>
+								<Value>0.1</Value>
+							</ValueList>
+						</Property>
+						<Property Name="AttackTimeBand2" Type="Real32">
+							<ValueList>
+								<Value>0.1</Value>
+							</ValueList>
+						</Property>
+						<Property Name="AttackTimeBand3" Type="Real32">
+							<ValueList>
+								<Value>0.1</Value>
+							</ValueList>
+						</Property>
+						<Property Name="AttackTimeBand4" Type="Real32">
+							<ValueList>
+								<Value>0.1</Value>
+							</ValueList>
+						</Property>
+						<Property Name="AttackTimeBand5" Type="Real32">
+							<ValueList>
+								<Value>0.1</Value>
+							</ValueList>
+						</Property>
+						<Property Name="AttackTimeBand6" Type="Real32">
+							<ValueList>
+								<Value>0.1</Value>
+							</ValueList>
+						</Property>
+						<Property Name="AttackTimeBand7" Type="Real32">
+							<ValueList>
+								<Value>0.1</Value>
+							</ValueList>
+						</Property>
+						<Property Name="AttackTimeBand8" Type="Real32">
+							<ValueList>
+								<Value>0.1</Value>
+							</ValueList>
+						</Property>
+						<Property Name="BandListen" Type="int32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
 						<Property Name="Color" Type="int16">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="DynamicsEnableBand1" Type="bool">
+							<ValueList>
+								<Value>False</Value>
+							</ValueList>
+						</Property>
+						<Property Name="DynamicsEnableBand2" Type="bool">
+							<ValueList>
+								<Value>False</Value>
+							</ValueList>
+						</Property>
+						<Property Name="DynamicsEnableBand3" Type="bool">
+							<ValueList>
+								<Value>False</Value>
+							</ValueList>
+						</Property>
+						<Property Name="DynamicsEnableBand4" Type="bool">
+							<ValueList>
+								<Value>False</Value>
+							</ValueList>
+						</Property>
+						<Property Name="DynamicsEnableBand5" Type="bool">
+							<ValueList>
+								<Value>False</Value>
+							</ValueList>
+						</Property>
+						<Property Name="DynamicsEnableBand6" Type="bool">
+							<ValueList>
+								<Value>False</Value>
+							</ValueList>
+						</Property>
+						<Property Name="DynamicsEnableBand7" Type="bool">
+							<ValueList>
+								<Value>False</Value>
+							</ValueList>
+						</Property>
+						<Property Name="DynamicsEnableBand8" Type="bool">
+							<ValueList>
+								<Value>False</Value>
+							</ValueList>
+						</Property>
+						<Property Name="DynamicsListen" Type="int32">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
@@ -8331,6 +8446,31 @@
 								<Value>5</Value>
 							</ValueList>
 						</Property>
+						<Property Name="FilterTypeBand4" Type="int32">
+							<ValueList>
+								<Value>6</Value>
+							</ValueList>
+						</Property>
+						<Property Name="FilterTypeBand5" Type="int32">
+							<ValueList>
+								<Value>6</Value>
+							</ValueList>
+						</Property>
+						<Property Name="FilterTypeBand6" Type="int32">
+							<ValueList>
+								<Value>6</Value>
+							</ValueList>
+						</Property>
+						<Property Name="FilterTypeBand7" Type="int32">
+							<ValueList>
+								<Value>6</Value>
+							</ValueList>
+						</Property>
+						<Property Name="FilterTypeBand8" Type="int32">
+							<ValueList>
+								<Value>6</Value>
+							</ValueList>
+						</Property>
 						<Property Name="FrequencyBand1" Type="Real32">
 							<ValueList>
 								<Value>100</Value>
@@ -8346,6 +8486,31 @@
 								<Value>12000</Value>
 							</ValueList>
 						</Property>
+						<Property Name="FrequencyBand4" Type="Real32">
+							<ValueList>
+								<Value>600</Value>
+							</ValueList>
+						</Property>
+						<Property Name="FrequencyBand5" Type="Real32">
+							<ValueList>
+								<Value>900</Value>
+							</ValueList>
+						</Property>
+						<Property Name="FrequencyBand6" Type="Real32">
+							<ValueList>
+								<Value>3000</Value>
+							</ValueList>
+						</Property>
+						<Property Name="FrequencyBand7" Type="Real32">
+							<ValueList>
+								<Value>6000</Value>
+							</ValueList>
+						</Property>
+						<Property Name="FrequencyBand8" Type="Real32">
+							<ValueList>
+								<Value>9000</Value>
+							</ValueList>
+						</Property>
 						<Property Name="GainBand1" Type="Real32">
 							<ValueList>
 								<Value>0</Value>
@@ -8357,6 +8522,31 @@
 							</ValueList>
 						</Property>
 						<Property Name="GainBand3" Type="Real32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="GainBand4" Type="Real32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="GainBand5" Type="Real32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="GainBand6" Type="Real32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="GainBand7" Type="Real32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="GainBand8" Type="Real32">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
@@ -8384,6 +8574,31 @@
 						<Property Name="OnOffBand3" Type="bool">
 							<ValueList>
 								<Value>True</Value>
+							</ValueList>
+						</Property>
+						<Property Name="OnOffBand4" Type="bool">
+							<ValueList>
+								<Value>False</Value>
+							</ValueList>
+						</Property>
+						<Property Name="OnOffBand5" Type="bool">
+							<ValueList>
+								<Value>False</Value>
+							</ValueList>
+						</Property>
+						<Property Name="OnOffBand6" Type="bool">
+							<ValueList>
+								<Value>False</Value>
+							</ValueList>
+						</Property>
+						<Property Name="OnOffBand7" Type="bool">
+							<ValueList>
+								<Value>False</Value>
+							</ValueList>
+						</Property>
+						<Property Name="OnOffBand8" Type="bool">
+							<ValueList>
+								<Value>False</Value>
 							</ValueList>
 						</Property>
 						<Property Name="OutputLevel" Type="Real32">
@@ -8414,6 +8629,196 @@
 						<Property Name="QFactorBand3" Type="Real32">
 							<ValueList>
 								<Value>1</Value>
+							</ValueList>
+						</Property>
+						<Property Name="QFactorBand4" Type="Real32">
+							<ValueList>
+								<Value>1</Value>
+							</ValueList>
+						</Property>
+						<Property Name="QFactorBand5" Type="Real32">
+							<ValueList>
+								<Value>1</Value>
+							</ValueList>
+						</Property>
+						<Property Name="QFactorBand6" Type="Real32">
+							<ValueList>
+								<Value>1</Value>
+							</ValueList>
+						</Property>
+						<Property Name="QFactorBand7" Type="Real32">
+							<ValueList>
+								<Value>1</Value>
+							</ValueList>
+						</Property>
+						<Property Name="QFactorBand8" Type="Real32">
+							<ValueList>
+								<Value>1</Value>
+							</ValueList>
+						</Property>
+						<Property Name="RangeBand1" Type="Real32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="RangeBand2" Type="Real32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="RangeBand3" Type="Real32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="RangeBand4" Type="Real32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="RangeBand5" Type="Real32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="RangeBand6" Type="Real32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="RangeBand7" Type="Real32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="RangeBand8" Type="Real32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="ReleaseTimeBand1" Type="Real32">
+							<ValueList>
+								<Value>0.1</Value>
+							</ValueList>
+						</Property>
+						<Property Name="ReleaseTimeBand2" Type="Real32">
+							<ValueList>
+								<Value>0.1</Value>
+							</ValueList>
+						</Property>
+						<Property Name="ReleaseTimeBand3" Type="Real32">
+							<ValueList>
+								<Value>0.1</Value>
+							</ValueList>
+						</Property>
+						<Property Name="ReleaseTimeBand4" Type="Real32">
+							<ValueList>
+								<Value>0.1</Value>
+							</ValueList>
+						</Property>
+						<Property Name="ReleaseTimeBand5" Type="Real32">
+							<ValueList>
+								<Value>0.1</Value>
+							</ValueList>
+						</Property>
+						<Property Name="ReleaseTimeBand6" Type="Real32">
+							<ValueList>
+								<Value>0.1</Value>
+							</ValueList>
+						</Property>
+						<Property Name="ReleaseTimeBand7" Type="Real32">
+							<ValueList>
+								<Value>0.1</Value>
+							</ValueList>
+						</Property>
+						<Property Name="ReleaseTimeBand8" Type="Real32">
+							<ValueList>
+								<Value>0.1</Value>
+							</ValueList>
+						</Property>
+						<Property Name="RolloffRateBand1" Type="int32">
+							<ValueList>
+								<Value>12</Value>
+							</ValueList>
+						</Property>
+						<Property Name="RolloffRateBand2" Type="int32">
+							<ValueList>
+								<Value>12</Value>
+							</ValueList>
+						</Property>
+						<Property Name="RolloffRateBand3" Type="int32">
+							<ValueList>
+								<Value>12</Value>
+							</ValueList>
+						</Property>
+						<Property Name="RolloffRateBand4" Type="int32">
+							<ValueList>
+								<Value>12</Value>
+							</ValueList>
+						</Property>
+						<Property Name="RolloffRateBand5" Type="int32">
+							<ValueList>
+								<Value>12</Value>
+							</ValueList>
+						</Property>
+						<Property Name="RolloffRateBand6" Type="int32">
+							<ValueList>
+								<Value>12</Value>
+							</ValueList>
+						</Property>
+						<Property Name="RolloffRateBand7" Type="int32">
+							<ValueList>
+								<Value>12</Value>
+							</ValueList>
+						</Property>
+						<Property Name="RolloffRateBand8" Type="int32">
+							<ValueList>
+								<Value>12</Value>
+							</ValueList>
+						</Property>
+						<Property Name="SidechainScope" Type="int32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="ThresholdBand1" Type="Real32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="ThresholdBand2" Type="Real32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="ThresholdBand3" Type="Real32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="ThresholdBand4" Type="Real32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="ThresholdBand5" Type="Real32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="ThresholdBand6" Type="Real32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="ThresholdBand7" Type="Real32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="ThresholdBand8" Type="Real32">
+							<ValueList>
+								<Value>0</Value>
 							</ValueList>
 						</Property>
 					</PropertyList>
@@ -8479,6 +8884,11 @@
 								<Value>True</Value>
 							</ValueList>
 						</Property>
+						<Property Name="ChannelLinkPercentage" Type="Real32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
 						<Property Name="Color" Type="int16">
 							<ValueList>
 								<Value>0</Value>
@@ -8541,6 +8951,11 @@
 						<Property Name="ChannelLink" Type="bool">
 							<ValueList>
 								<Value>True</Value>
+							</ValueList>
+						</Property>
+						<Property Name="ChannelLinkPercentage" Type="Real32">
+							<ValueList>
+								<Value>0</Value>
 							</ValueList>
 						</Property>
 						<Property Name="Color" Type="int16">
@@ -13330,6 +13745,75 @@
 								<Value>0.1</Value>
 							</ValueList>
 						</Property>
+						<Property Name="SoloMonitor" Type="Uint32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+				</SharedPropertyList>
+				<SharedPropertyList ClassName="Wwise Recorder (ADM)" PluginType="3" CompanyID="0" PluginID="198">
+					<PropertyList>
+						<Property Name="ApplyDownstreamVolume" Type="bool">
+							<ValueList>
+								<Value>False</Value>
+							</ValueList>
+						</Property>
+						<Property Name="AuthoringFilename" Type="string">
+							<ValueList>
+								<Value>AKRecorderADM-%s.wav</Value>
+							</ValueList>
+						</Property>
+						<Property Name="ChannelCount" Type="int16">
+							<ValueList>
+								<Value>64</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Color" Type="int16">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="GameFilename" Type="string">
+							<ValueList>
+								<Value></Value>
+							</ValueList>
+						</Property>
+						<Property Name="Hold" Type="bool">
+							<ValueList>
+								<Value>False</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Inclusion" Type="bool">
+							<ValueList>
+								<Value>True</Value>
+							</ValueList>
+						</Property>
+						<Property Name="MainMixChannelConfig" Type="int32">
+							<ValueList>
+								<Value>6549768</Value>
+							</ValueList>
+						</Property>
+						<Property Name="OverrideColor" Type="bool">
+							<ValueList>
+								<Value>False</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Passthrough" Type="bool">
+							<ValueList>
+								<Value>False</Value>
+							</ValueList>
+						</Property>
+						<Property Name="PreserveExtraBeds" Type="bool">
+							<ValueList>
+								<Value>False</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Profile" Type="int16">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
 					</PropertyList>
 				</SharedPropertyList>
 				<SharedPropertyList ClassName="Wwise Audio Input" PluginType="2" CompanyID="0" PluginID="200">
@@ -14092,6 +14576,9 @@
 				</PhysicalFolder>
 				<PhysicalFolder Path="Queries">
 					<WorkUnit Name="Queries" ID="{23EC2DE3-3ED8-4B82-AC99-92E25F2E4C6B}" PersistMode="Standalone"/>
+				</PhysicalFolder>
+				<PhysicalFolder Path="Sidechain Mixes">
+					<WorkUnit Name="Sidechain Mixes" ID="{BF11189D-4362-4250-8C76-B828ACBAD977}" PersistMode="Standalone"/>
 				</PhysicalFolder>
 				<PhysicalFolder Path="SoundBanks">
 					<WorkUnit Name="SoundBanks" ID="{C98E673F-A24C-48A8-960F-10565FFE70A0}" PersistMode="Standalone"/>
