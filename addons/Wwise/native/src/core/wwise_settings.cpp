@@ -105,6 +105,9 @@ WwiseSettings::WwiseSettings()
 
 	if (Engine::get_singleton()->is_editor_hint())
 	{
+		remove_undefined_settings();
+		defined_settings.reset();
+
 		godot::Error error = godot::ProjectSettings::get_singleton()->save();
 		if (error)
 		{
@@ -277,6 +280,8 @@ void WwiseSettings::add_wwise_settings()
 void WwiseSettings::add_setting(const StringName& name, const Variant& default_value, Variant::Type type,
 		PropertyHint hint, const StringName& hint_string)
 {
+	defined_settings.insert(name);
+
 	Dictionary setting;
 	setting["name"] = name;
 	setting["type"] = type;
@@ -297,4 +302,34 @@ void WwiseSettings::add_setting(const StringName& name, const Variant& default_v
 	project_settings->add_property_info(setting);
 	project_settings->set_as_basic(name, true);
 	project_settings->set_initial_value(name, default_value);
+}
+
+void WwiseSettings::remove_undefined_settings()
+{
+	godot::ProjectSettings* project_settings = godot::ProjectSettings::get_singleton();
+
+	TypedArray<Dictionary> props = project_settings->get_property_list();
+
+	for (int i = 0; i < props.size(); i++)
+	{
+		Dictionary prop = props[i];
+		String name = prop["name"];
+
+		if (name.begins_with("wwise/"))
+		{
+			StringName base_name = name;
+
+			int dot_pos = name.find(".");
+			if (dot_pos != -1)
+			{
+				base_name = name.substr(0, dot_pos);
+			}
+
+			if (!defined_settings.has(base_name))
+			{
+				UtilityFunctions::print(vformat("WwiseGodot: Removing obsolete setting: %s", name));
+				project_settings->set_setting(name, Variant());
+			}
+		}
+	}
 }
