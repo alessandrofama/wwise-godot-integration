@@ -27,6 +27,8 @@
 #include <godot_cpp/classes/object.hpp>
 #include <godot_cpp/classes/ref_counted.hpp>
 #include <godot_cpp/classes/resource.hpp>
+#include <godot_cpp/classes/scene_tree.hpp>
+#include <godot_cpp/classes/window.hpp>
 #include <godot_cpp/templates/hash_set.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
 #include <memory>
