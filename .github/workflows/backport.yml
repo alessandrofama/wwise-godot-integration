@@ -1,0 +1,57 @@
+name: Backport merged pull request
+
+on:
+  pull_request_target:
+    types: [closed]
+    branches:
+      - main
+jobs:
+  backport:
+    permissions:
+      contents: write
+      pull-requests: write
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
+    steps:
+      - uses: actions/checkout@v4
+      - name: Calculate Target Branches
+        id: branch-calc
+        run: |
+          echo "::group::[Backport] Detecting Target Branches"
+          
+          LABELS_JSON='${{ toJSON(github.event.pull_request.labels.*.name) }}'
+          LABELS=$(echo "$LABELS_JSON" | jq -r '.[]')
+          
+          echo "[backport] PR labels: $LABELS"
+          
+          TARGETS=""
+          
+          for label in $LABELS; do
+            if [[ "$label" =~ ^cherry:([0-9]{2}\.[0-9]+)$ ]]; then
+              VERSION="${BASH_REMATCH[1]}"
+              BRANCH_NAME="wwise_v20${VERSION}"
+              TARGETS="$TARGETS $BRANCH_NAME"
+              echo "[backport] Label $label → branch $BRANCH_NAME"
+            fi
+          done
+          
+          TARGETS=$(echo $TARGETS | xargs)
+          
+          echo "[backport] Final target branches: $TARGETS"
+          echo "::endgroup::"
+          
+          echo "target_branches=$TARGETS" >> $GITHUB_OUTPUT
+      - name: Create Backport PRs
+        if: ${{ steps.branch-calc.outputs.target_branches != '' }}
+        id: backport-action
+        uses: alessandrofama/backport-action@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          target_branches: ${{ steps.branch-calc.outputs.target_branches }}
+          pull_description: |-
+            Automated backport to `${target_branch}`, triggered by PR #${pull_number}.
+          pull_title: "${pull_title}"
+          experimental: >
+            {
+              "conflict_resolution": "draft_commit_conflicts"
+            }
