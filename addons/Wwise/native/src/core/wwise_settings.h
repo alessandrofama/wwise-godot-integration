@@ -5,6 +5,7 @@
 #include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/classes/project_settings.hpp>
 #include <godot_cpp/classes/ref_counted.hpp>
+#include <godot_cpp/templates/hash_set.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
 
 using namespace godot;
@@ -18,10 +19,12 @@ protected:
 
 private:
 	static WwiseSettings* singleton;
+	HashSet<StringName> defined_settings;
 
 	void add_wwise_settings();
 	void add_setting(const StringName& name, const Variant& default_value, Variant::Type type,
 			PropertyHint hint = PROPERTY_HINT_NONE, const StringName& hint_string = "");
+	void remove_undefined_settings();
 
 public:
 	struct MainOutputSettings
