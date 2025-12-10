@@ -14,6 +14,8 @@ jobs:
     if: github.event.pull_request.merged == true
     steps:
       - uses: actions/checkout@v4
+        with:
+          github_token: ${{ secrets.BACKPORT_ACTION_TOKEN }}
       - name: Calculate Target Branches
         id: branch-calc
         run: |
@@ -46,7 +48,7 @@ jobs:
         id: backport-action
         uses: alessandrofama/backport-action@v1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.BACKPORT_ACTION_TOKEN }}
           target_branches: ${{ steps.branch-calc.outputs.target_branches }}
           pull_description: |-
             Automated backport to `${target_branch}`, triggered by PR #${pull_number}.
