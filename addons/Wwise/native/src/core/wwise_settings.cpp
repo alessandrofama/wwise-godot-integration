@@ -60,6 +60,8 @@ WwiseSettings::WwiseSettings()
 	spatial_audio_settings.transmission_operation = "wwise/common_user_settings/spatial_audio/transmission_operation";
 
 	// Advanced Settings
+	advanced_settings.export_banks = "wwise/common_advanced_settings/export_banks";
+	advanced_settings.custom_banks_path = "wwise/common_advanced_settings/custom_banks_path";
 	advanced_settings.io_memory_size = "wwise/common_advanced_settings/IO_memory_size";
 	advanced_settings.target_auto_stream_buffer_length_ms =
 			"wwise/common_advanced_settings/target_auto_stream_buffer_length_ms";
@@ -232,6 +234,8 @@ void WwiseSettings::add_wwise_settings()
 	add_setting(common_user_settings.main_output.number_of_channels, 0, Variant::Type::INT);
 
 	// Advanced Settings
+	add_setting(advanced_settings.export_banks, true, Variant::Type::BOOL);
+	add_setting(advanced_settings.custom_banks_path, false, Variant::Type::BOOL);
 	add_setting(advanced_settings.io_memory_size, 2097152, Variant::Type::INT);
 	add_setting(advanced_settings.target_auto_stream_buffer_length_ms, 380, Variant::Type::INT);
 	add_setting(advanced_settings.use_stream_cache, false, Variant::Type::BOOL);

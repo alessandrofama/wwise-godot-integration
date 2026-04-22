@@ -233,7 +233,9 @@ void AkEditorExportPlugin::_export_begin(
 			continue;
 		}
 
-		add_files_recursive(dir, platform_banks_path);
+		if (settings->get_setting(settings->advanced_settings.export_banks)) {
+			add_files_recursive(dir, platform_banks_path);
+		}
 
 		String library_path = get_platform_library_path(gdextension_config, it->first, p_features, p_is_debug);
 		String dsp_path = library_path.get_base_dir().path_join("DSP");

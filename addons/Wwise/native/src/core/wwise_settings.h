@@ -77,6 +77,8 @@ public:
 
 	struct AdvancedSettings
 	{
+		StringName export_banks;
+		StringName custom_banks_path;
 		StringName io_memory_size;
 		StringName target_auto_stream_buffer_length_ms;
 		StringName use_stream_cache;

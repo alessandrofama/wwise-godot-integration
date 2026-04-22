@@ -228,8 +228,10 @@ void Wwise::init()
 		UtilityFunctions::push_error("WwiseGodot: Failed to get the SoundBank directory for the current platform.");
 	}
 
-	String banks_path = vformat("%s/%s/", root_output_path, banks_platform_suffix);
-	set_banks_path(banks_path);
+	if (! static_cast<bool>(project_settings->get_setting(project_settings->advanced_settings.custom_banks_path))) {
+		String banks_path = vformat("%s/%s/", root_output_path, banks_platform_suffix);
+		set_banks_path(banks_path);
+	}
 
 	String startup_language = project_settings->get_setting(project_settings->common_user_settings.startup_language);
 	set_current_language(startup_language);
