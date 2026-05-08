@@ -16,7 +16,19 @@ protected:
 	static void _bind_methods() {};
 
 private:
-	static Ref<Texture2D> icon_cache[2][(int)WwiseObjectType::Max];
+	static Ref<Texture2D> *get_cache()
+	{
+		static Ref<Texture2D> *cache =
+				memnew_arr(
+						Ref<Texture2D>,
+						2 * (int)WwiseObjectType::Max);
+
+		return cache;
+	}
+static int get_cache_index(bool dark_mode, WwiseObjectType type)
+	{
+		return (dark_mode ? 1 : 0) * (int)WwiseObjectType::Max + (int)type;
+	}
 
 public:
 	static Ref<Texture2D> get_editor_icon(const WwiseObjectType p_type);

@@ -1,29 +1,32 @@
 #include "ak_editor_utils.h"
 
-Ref<Texture2D> AkEditorUtils::icon_cache[2][(int)WwiseObjectType::Max] = {};
-
 Ref<Texture2D> AkEditorUtils::get_editor_icon(const WwiseObjectType p_type)
 {
 	ERR_FAIL_COND_V_MSG(
 			p_type >= WwiseObjectType::Max, Ref<Texture2D>(), "WwiseGodot: Tried to get invalid editor icon.");
+	
+	const bool dark_mode =
+			DisplayServer::get_singleton()->is_dark_mode();
 
-	bool dark_mode = DisplayServer::get_singleton()->is_dark_mode();
-	int mode_index = dark_mode ? 1 : 0;
+	const int cache_index =
+			get_cache_index(dark_mode, p_type);
 
-	if (icon_cache[mode_index][(int)p_type].is_valid())
+	Ref<Texture2D> *cache = get_cache();
+	Ref<Texture2D> &cached =
+			cache[cache_index];
+
+	if (cached.is_valid())
 	{
-		return icon_cache[mode_index][(int)p_type];
+		return cached;
 	}
 
-	String icon_path = get_theme_folder(dark_mode) + get_icon_name(p_type);
-	Ref<Texture2D> icon = ResourceLoader::get_singleton()->load(icon_path);
+	String icon_path =
+			get_theme_folder(dark_mode) +
+			get_icon_name(p_type);
 
-	if (icon.is_valid())
-	{
-		icon_cache[mode_index][(int)p_type] = icon;
-	}
+	cached = ResourceLoader::get_singleton()->load(icon_path);
 
-	return icon;
+	return cached;
 }
 
 String AkEditorUtils::get_icon_name(const WwiseObjectType p_type)
