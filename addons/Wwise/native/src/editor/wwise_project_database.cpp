@@ -48,6 +48,7 @@ void WwiseProjectDatabase::post_init_callback()
 			{ "Linux", settings->project_settings.linux_platform_info },
 			{ "iOS", settings->project_settings.ios_platform_info },
 			{ "Android", settings->project_settings.android_platform_info },
+			{ "Web", settings->project_settings.web_platform_info },
 		};
 
 		const auto& project_info = platform_data->PlatformRef.ProjectInfo.GetProjectInfo();

@@ -22,6 +22,8 @@ android.debug.arm64 = "res://addons/Wwise/native/lib/android/debug/arm64-v8a/lib
 android.release.arm64 = "res://addons/Wwise/native/lib/android/release/arm64-v8a/libWwiseAndroidPlugin.so"
 android.debug.arm32 = "res://addons/Wwise/native/lib/android/debug/armeabi-v7a/libWwiseAndroidPlugin.so"
 android.release.arm32 = "res://addons/Wwise/native/lib/android/release/armeabi-v7a/libWwiseAndroidPlugin.so"
+web.debug = "res://addons/Wwise/native/lib/web/template_debug/profile/libwwise.web.template_debug.profile.wasm"
+web.release = "res://addons/Wwise/native/lib/web/template_release/release/libwwise.web.template_release.release.wasm"
 
 [icons]
 
@@ -44,6 +46,7 @@ AkWwiseInspectorPicker = "res://addons/Wwise/editor/theme/dark/images/ObjectIcon
 AkEvent3DGizmoPlugin = "res://addons/Wwise/editor/theme/dark/images/ObjectIcons_Project_nor.svg"
 AkEditorExportPlugin = "res://addons/Wwise/editor/theme/dark/images/ObjectIcons_Project_nor.svg"
 AkAndroidExportPlugin = "res://addons/Wwise/editor/theme/dark/images/ObjectIcons_Project_nor.svg"
+AkWebExportPlugin = "res://addons/Wwise/editor/theme/dark/images/ObjectIcons_Project_nor.svg"
 WwiseBaseInformation = "res://addons/Wwise/editor/theme/dark/images/ObjectIcons_Project_nor.svg"
 WwiseTreeObject = "res://addons/Wwise/editor/theme/dark/images/ObjectIcons_Project_nor.svg"
 WwiseTreeObjectEvent = "res://addons/Wwise/editor/theme/dark/images/ObjectIcons_Project_nor.svg"

@@ -210,6 +210,8 @@ elif env["platform"] == "linux":
     file_extension = ".so"
 elif env["platform"] == "ios":
     file_extension = ".a"
+elif env["platform"] == "web":
+    file_extension = ".wasm"
 
 # Local dependency paths, adapt them to your setup
 godot_headers_path = "godot-cpp/gdextension/"
@@ -268,6 +270,25 @@ if env["platform"] == "ios" and not env["ios_simulator"]:
     else:
         wwise_sdk_libs_path = env["wwise_sdk"] + "/iOS_Xcode1500/Release-iphoneos/lib/"
         wwise_sdk_plugins_path = env["wwise_sdk"] + "/iOS_Xcode1500/Release-iphoneos/lib/"
+
+if env["platform"] == "web":
+    wwise_soundengine_sample_path = env["wwise_sdk"] + "/samples/SoundEngine/POSIX/"
+    wwise_emscripten_sample_path = env["wwise_sdk"] + "/samples/SoundEngine/Emscripten/"
+    # Wwise SDK の Emscripten_mt 版は emscripten_create_wasm_audio_worklet_* 等の
+    # Emscripten -sAUDIO_WORKLET=1 機能に依存する。これはメインモジュール（Godot 本体）の
+    # リンク時に指定する必要があり、Godot 4.6 標準テンプレートでは無効なため _mt 版は
+    # 起動時に "resolved is not a function" 等で deadlock する。
+    # 代わりに Emscripten_st (single-thread) 版を使い AudioWorklet 依存を回避する。
+    # トレードオフ: オーディオレンダリングが main thread に乗る（pthread 分離なし）。
+    # Godot 本体は -pthread (shared memory) でビルドされているため、godot-cpp 側の
+    # threads オプションは threads=yes のまま維持する。詳細は docs/web-export-guide.md。
+    threads_suffix = "Emscripten_st"
+    if env["wwise_config"] == "debug":
+        wwise_sdk_libs_path = env["wwise_sdk"] + "/{}/Debug/lib/".format(threads_suffix)
+    elif env["wwise_config"] == "profile":
+        wwise_sdk_libs_path = env["wwise_sdk"] + "/{}/Profile/lib/".format(threads_suffix)
+    else:
+        wwise_sdk_libs_path = env["wwise_sdk"] + "/{}/Release/lib/".format(threads_suffix)
 
 if env["platform"] == "ios" and env["ios_simulator"]:
     wwise_soundengine_sample_path = env["wwise_sdk"] + "/samples/SoundEngine/POSIX/"
@@ -592,6 +613,41 @@ elif env["platform"] == "ios":
         ]
     )
 
+# Web (Emscripten) build settings
+elif env["platform"] == "web":
+    env["target_path"] += "/web/"
+    if env["target"] == "template_debug":
+        env["target_path"] += "template_debug/"
+        if env["dev_build"] or env["wwise_config"] == "debug":
+            env["target_path"] += "debug/"
+            env.Append(CPPDEFINES=["_DEBUG"])
+            if env["asserts"]:
+                env.Append(CPPDEFINES=["AK_ENABLE_ASSERTS"])
+        else:
+            env["target_path"] += "profile/"
+            env.Append(CPPDEFINES=["NDEBUG"])
+    else:
+        env["target_path"] += "template_release/"
+        env["target_path"] += "release/"
+        env.Append(CPPDEFINES=["AK_OPTIMIZED"])
+        env.Append(CPPDEFINES=["NDEBUG"])
+
+    env.Append(CXXFLAGS=["-std=c++20"])
+
+    # Wwise SDK uses SSE intrinsics (xmmintrin.h). Emscripten maps them onto WebAssembly SIMD.
+    env.Append(CCFLAGS=["-msimd128", "-msse", "-msse2", "-msse3", "-mssse3", "-msse4.1", "-msse4.2"])
+
+    # Wwise 2025.1.3 SDK の Emscripten 静的アーカイブ間でシンボル重複が発生する:
+    #   - libAkHarmonizerFX.a / libAkStereoDelayFX.a が DSP::Mix2 等 (Mix2Interp.o)
+    #   - libAkHarmonizerFX.a / libAkTimeStretchFX.a が DSP::CAkPhaseVocoder 等
+    # 原因: SDK が共通 DSP ソースを複数プラグインライブラリへ静的に重複格納している。
+    # macOS/Linux/Windows では静的アーカイブの遅延解決により最初に解決された .o のみ
+    # 引き出されて表面化しない。Emscripten は -shared ビルド時に --whole-archive を
+    # 使い全 .o を強制リンクするため重複定義エラーになる。
+    # 各コピーは同一ソース・同一オプションでビルドされており実装はバイト一致のため、
+    # 最初の定義を採用しても動作上の差異は生じない（実装が変わると将来リスクあり）。
+    env.Append(LINKFLAGS=["-Wl,--allow-multiple-definition"])
+
 # godot-cpp settings
 env.Append(
     CPPPATH=[
@@ -668,6 +724,23 @@ if env["platform"] == "linux":
         + "libwwise.{}.{}.{}.so".format(env["platform"], env["target"], env["wwise_config"]),
         source=sources,
     )
+
+if env["platform"] == "web":
+    library = env.SharedLibrary(
+        target=env["target_path"]
+        + "libwwise.{}.{}.{}.wasm".format(env["platform"], env["target"], env["wwise_config"]),
+        source=sources,
+    )
+
+    worklet_src = os.path.join(wwise_emscripten_sample_path, "WwiseAudioWorklet.processor.js")
+    worklet_dst_dir = os.path.join("lib", "web")
+    worklet_dst = os.path.join(worklet_dst_dir, "WwiseAudioWorklet.processor.js")
+    if os.path.exists(worklet_src):
+        os.makedirs(worklet_dst_dir, exist_ok=True)
+        shutil.copy2(worklet_src, worklet_dst)
+        print(f"\033[32mCopied WwiseAudioWorklet.processor.js to {worklet_dst}\033[0m")
+    else:
+        print(f"\033[33mWarning: {worklet_src} not found in Wwise SDK.\033[0m")
 
 if env["platform"] == "ios":
     ios_lib_path = env[

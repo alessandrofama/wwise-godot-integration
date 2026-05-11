@@ -6,6 +6,72 @@
 
 #include <AK/Plugin/AllPluginsFactories.h>
 
+#if defined(AK_EMSCRIPTEN)
+#include <emscripten/emscripten.h>
+
+// Wwise SDK の Emscripten ライブラリ（_st 含む）は古い Emscripten でビルドされており、
+// emscripten_atomic_* 系を JS ライブラリ関数（env imports）として要求する。
+// 新しい Emscripten ではこれらは atomic.h で static inline 化され env から消えたため、
+// Godot 本体には含まれない。LLVM atomic 組み込みで実装して未解決 imports を消す。
+// 詳細は docs/web-export-guide.md の「トラブルシュート」参照。
+extern "C"
+{
+	AK_DLLEXPORT uint32_t emscripten_atomic_load_u32(const void* addr)
+	{
+		return __atomic_load_n((const volatile uint32_t*)addr, __ATOMIC_SEQ_CST);
+	}
+	AK_DLLEXPORT uint64_t emscripten_atomic_load_u64(const void* addr)
+	{
+		return __atomic_load_n((const volatile uint64_t*)addr, __ATOMIC_SEQ_CST);
+	}
+	AK_DLLEXPORT uint32_t emscripten_atomic_exchange_u32(void* addr, uint32_t newVal)
+	{
+		return __atomic_exchange_n((volatile uint32_t*)addr, newVal, __ATOMIC_SEQ_CST);
+	}
+	AK_DLLEXPORT uint64_t emscripten_atomic_exchange_u64(void* addr, uint64_t newVal)
+	{
+		return __atomic_exchange_n((volatile uint64_t*)addr, newVal, __ATOMIC_SEQ_CST);
+	}
+	AK_DLLEXPORT uint32_t emscripten_atomic_cas_u32(void* addr, uint32_t oldVal, uint32_t newVal)
+	{
+		__atomic_compare_exchange_n(
+				(volatile uint32_t*)addr, &oldVal, newVal, false, __ATOMIC_SEQ_CST, __ATOMIC_SEQ_CST);
+		return oldVal;
+	}
+	AK_DLLEXPORT uint64_t emscripten_atomic_cas_u64(void* addr, uint64_t oldVal, uint64_t newVal)
+	{
+		__atomic_compare_exchange_n(
+				(volatile uint64_t*)addr, &oldVal, newVal, false, __ATOMIC_SEQ_CST, __ATOMIC_SEQ_CST);
+		return oldVal;
+	}
+	AK_DLLEXPORT uint32_t emscripten_atomic_add_u32(void* addr, uint32_t val)
+	{
+		return __atomic_fetch_add((volatile uint32_t*)addr, val, __ATOMIC_SEQ_CST);
+	}
+	AK_DLLEXPORT uint64_t emscripten_atomic_add_u64(void* addr, uint64_t val)
+	{
+		return __atomic_fetch_add((volatile uint64_t*)addr, val, __ATOMIC_SEQ_CST);
+	}
+	AK_DLLEXPORT uint32_t emscripten_atomic_sub_u32(void* addr, uint32_t val)
+	{
+		return __atomic_fetch_sub((volatile uint32_t*)addr, val, __ATOMIC_SEQ_CST);
+	}
+	AK_DLLEXPORT uint64_t emscripten_atomic_sub_u64(void* addr, uint64_t val)
+	{
+		return __atomic_fetch_sub((volatile uint64_t*)addr, val, __ATOMIC_SEQ_CST);
+	}
+	AK_DLLEXPORT uint32_t emscripten_atomic_and_u32(void* addr, uint32_t val)
+	{
+		return __atomic_fetch_and((volatile uint32_t*)addr, val, __ATOMIC_SEQ_CST);
+	}
+	AK_DLLEXPORT uint32_t emscripten_atomic_or_u32(void* addr, uint32_t val)
+	{
+		return __atomic_fetch_or((volatile uint32_t*)addr, val, __ATOMIC_SEQ_CST);
+	}
+	AK_DLLEXPORT void emscripten_atomic_fence() { __atomic_thread_fence(__ATOMIC_SEQ_CST); }
+}
+#endif  // AK_EMSCRIPTEN
+
 #include "scene/ak_game_obj.h"
 #include "scene/ak_game_obj_2d.h"
 #include "scene/ak_game_obj_3d.h"
@@ -29,10 +95,28 @@ void LocalOutput(AK::Monitor::ErrorCode in_eErrorCode, const AkOSChar* in_pszErr
 {
 	AkAutoLock<CAkLock> autoLock(g_localOutputLock);
 
-	if (in_eErrorCode != AK::Monitor::ErrorCode::ErrorCode_NoError)
+	if (in_eErrorCode == AK::Monitor::ErrorCode::ErrorCode_NoError)
 	{
-		UtilityFunctions::push_error(vformat("WwiseGodot: %s", in_pszError));
+		return;
 	}
+
+#if defined(AK_EMSCRIPTEN)
+	// Web ではブラウザ自動再生ポリシーにより、ユーザー操作（クリック等）前は
+	// AudioContext が suspended 状態で起動する。この間 Wwise は以下を Monitor に流すが、
+	// Web 上は正常な過渡状態のためエラー表示を抑制する。
+	//   - AudioThreadSuspended: suspended 状態の通知
+	//   - AudioSubsystemStoppedResponding: 同上
+	//   - AudioThreadResumed: 初回ユーザー操作で AudioContext が resume した通知
+	// 詳細は docs/web-export-guide.md の「既知の制約」参照。
+	if (in_eErrorCode == AK::Monitor::ErrorCode::ErrorCode_AudioThreadSuspended ||
+			in_eErrorCode == AK::Monitor::ErrorCode::ErrorCode_AudioThreadResumed ||
+			in_eErrorCode == AK::Monitor::ErrorCode::ErrorCode_AudioSubsystemStoppedResponding)
+	{
+		return;
+	}
+#endif
+
+	UtilityFunctions::push_error(vformat("WwiseGodot: %s", in_pszError));
 }
 
 Wwise::Wwise()
@@ -219,6 +303,8 @@ void Wwise::init()
 	banks_platform_suffix = load_platform_suffix(project_settings->project_settings.ios_platform_info);
 #elif defined(AK_ANDROID)
 	banks_platform_suffix = load_platform_suffix(project_settings->project_settings.android_platform_info);
+#elif defined(AK_EMSCRIPTEN)
+	banks_platform_suffix = load_platform_suffix(project_settings->project_settings.web_platform_info);
 #else
 #error "Platform not supported"
 #endif
@@ -1820,6 +1906,21 @@ bool Wwise::initialize_wwise_systems()
 
 	platform_init_settings.eAudioAPI = static_cast<AkAudioAPILinux>(static_cast<unsigned int>(
 			project_settings->get_setting(project_settings->platform_settings.linux_audio_api)));
+
+#elif defined(AK_EMSCRIPTEN)
+
+	// szAudioWorkletProcessorUrl は const char* で、AK::SoundEngine::Init() 内部で
+	// キャッシュされる可能性があるため、static std::string に保持してポインタの生存期間を保証する。
+	static std::string worklet_url_storage;
+	worklet_url_storage = String(project_settings->get_setting(
+			project_settings->platform_settings.web_audio_worklet_processor_url,
+			String("WwiseAudioWorklet.processor.js")))
+								  .utf8()
+								  .get_data();
+	platform_init_settings.szAudioWorkletProcessorUrl = worklet_url_storage.c_str();
+
+	platform_init_settings.bVerboseSystemOutput = static_cast<bool>(
+			project_settings->get_setting(project_settings->platform_settings.web_verbose_output, false));
 
 #else
 #error "Platform not supported"
