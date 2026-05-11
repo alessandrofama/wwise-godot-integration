@@ -8,6 +8,8 @@ GDExtension-based integration of Audiokinetic's Wwise audio middleware with Godo
 
 ## Initial Setup
 
+詳細なローカル環境構築（Python / uv / SCons / venv）は [docs/local-build-setup.md](docs/local-build-setup.md) を参照。
+
 `godot-cpp` is the only submodule. Fetch it before building:
 
 ```bash
