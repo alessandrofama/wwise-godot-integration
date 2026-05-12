@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WwiseDocument Type="WorkUnit" ID="{CF0B53F6-E4C7-4055-8958-377DF3001912}" SchemaVersion="133">
+<WwiseDocument Type="WorkUnit" ID="{DA4ED808-4892-4217-A6DE-FEFA31748044}" SchemaVersion="133">
 	<Triggers>
-		<WorkUnit Name="Default Work Unit" ID="{CF0B53F6-E4C7-4055-8958-377DF3001912}" PersistMode="Standalone">
-			<ChildrenList>
-				<Trigger Name="Trigger" ID="{201809E5-2AB9-4020-B9F6-60EC77595D0B}"/>
-			</ChildrenList>
-		</WorkUnit>
+		<WorkUnit Name="Default Work Unit" ID="{DA4ED808-4892-4217-A6DE-FEFA31748044}" PersistMode="Standalone"/>
 	</Triggers>
 </WwiseDocument>

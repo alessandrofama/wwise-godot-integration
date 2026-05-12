@@ -212,20 +212,6 @@
 								</SearchCriteria>
 							</ChildrenList>
 						</Query>
-						<Query Name="Sound - LFE higher than -96,3 dB" ID="{D0F78690-2DAE-4259-9241-994FD855C1C3}">
-							<PropertyList>
-								<Property Name="ObjectType" Type="int32" Value="800"/>
-							</PropertyList>
-							<ChildrenList>
-								<SearchCriteria Name="PropertyValue" ID="{C1CBCE65-2E3B-4D7C-B578-F2C68CBF2467}" SearchOperationID="{560736B7-4F5C-4EF7-9354-8D8DC6BBD70A}">
-									<PropertyList>
-										<Property Name="LeftValue" Type="Real64" Value="-96.3"/>
-										<Property Name="NumericOperator" Type="int16" Value="2"/>
-										<Property Name="PropertyName" Type="string" Value="LFEVolume"/>
-									</PropertyList>
-								</SearchCriteria>
-							</ChildrenList>
-						</Query>
 						<Query Name="Zero Latency" ID="{4416E3DF-24CC-474B-8ABF-A3C3CB6808E7}">
 							<PropertyList>
 								<Property Name="ObjectType" Type="int32" Value="800"/>
@@ -241,7 +227,7 @@
 						</Query>
 					</ChildrenList>
 				</Folder>
-				<Folder Name="Interactive Music" ID="{0EA68A78-EBCC-4711-AAA7-7D6C890983BE}" ShortID="783787459">
+				<Folder Name="Music" ID="{0EA68A78-EBCC-4711-AAA7-7D6C890983BE}" ShortID="783787459">
 					<ChildrenList>
 						<Query Name="Streaming Tracks" ID="{9782FAF2-BE6D-4799-AED8-94AAFE6AB099}">
 							<PropertyList>
@@ -263,7 +249,7 @@
 							<ChildrenList>
 								<SearchCriteria Name="PropertyValue" ID="{FE756298-8E32-4C80-B372-7FE54E3FA60B}" SearchOperationID="{560736B7-4F5C-4EF7-9354-8D8DC6BBD70A}">
 									<PropertyList>
-										<Property Name="PropertyName" Type="string" Value="PanningType"/>
+										<Property Name="PropertyName" Type="string" Value="SpeakerPanning"/>
 									</PropertyList>
 								</SearchCriteria>
 							</ChildrenList>
@@ -276,7 +262,7 @@
 								<SearchCriteria Name="PropertyValue" ID="{A73FB12B-AE1A-499B-9EE3-55BDBDCDCE0F}" SearchOperationID="{560736B7-4F5C-4EF7-9354-8D8DC6BBD70A}">
 									<PropertyList>
 										<Property Name="LeftValue" Type="Real64" Value="1"/>
-										<Property Name="PropertyName" Type="string" Value="PanningType"/>
+										<Property Name="PropertyName" Type="string" Value="SpeakerPanning"/>
 									</PropertyList>
 								</SearchCriteria>
 							</ChildrenList>
@@ -411,23 +397,23 @@
 										<Property Name="PropertyName" Type="string" Value="Volume"/>
 									</PropertyList>
 								</SearchCriteria>
-								<SearchCriteria Name="PropertyLinkUnlink" ID="{F7743CB5-EAC2-4D1C-863C-E545E469CF13}" SearchOperationID="{75897DFE-D859-416C-8EDE-30BA4A8369AF}">
-									<PropertyList>
-										<Property Name="IsLinked" Type="bool" Value="False"/>
-										<Property Name="PropertyName" Type="string" Value="LFEVolume"/>
-									</PropertyList>
-								</SearchCriteria>
 								<SearchCriteria Name="PropertyLinkUnlink" ID="{883BBBE1-34AD-4239-8DBD-C0489AF38E27}" SearchOperationID="{75897DFE-D859-416C-8EDE-30BA4A8369AF}">
 									<PropertyList>
 										<Property Name="IsLinked" Type="bool" Value="False"/>
 										<Property Name="PropertyName" Type="string" Value="Lowpass"/>
 									</PropertyList>
 								</SearchCriteria>
+								<SearchCriteria Name="PropertyLinkUnlink" ID="{F7743CB5-EAC2-4D1C-863C-E545E469CF13}" SearchOperationID="{75897DFE-D859-416C-8EDE-30BA4A8369AF}">
+									<PropertyList>
+										<Property Name="IsLinked" Type="bool" Value="False"/>
+										<Property Name="PropertyName" Type="string" Value="Highpass"/>
+									</PropertyList>
+								</SearchCriteria>
 							</ChildrenList>
 						</Query>
 					</ChildrenList>
 				</Folder>
-				<Folder Name="Actor-Mixer Hierarchy" ID="{75E26115-FC3D-4E25-99F9-448BC918921E}" ShortID="657523609">
+				<Folder Name="Containers" ID="{75E26115-FC3D-4E25-99F9-448BC918921E}" ShortID="657523609">
 					<ChildrenList>
 						<Query Name="Direct Speaker Assignment" ID="{93BB05B6-6653-4842-9DE8-07BF927ED117}">
 							<PropertyList>
@@ -436,7 +422,7 @@
 							<ChildrenList>
 								<SearchCriteria Name="PropertyValue" ID="{57AD2421-B502-42DB-AD05-10F7968B4718}" SearchOperationID="{560736B7-4F5C-4EF7-9354-8D8DC6BBD70A}">
 									<PropertyList>
-										<Property Name="PropertyName" Type="string" Value="PanningType"/>
+										<Property Name="PropertyName" Type="string" Value="SpeakerPanning"/>
 									</PropertyList>
 								</SearchCriteria>
 							</ChildrenList>
@@ -449,27 +435,7 @@
 								<SearchCriteria Name="PropertyValue" ID="{6B72112E-B63A-4807-8BCB-86CFD81DF3B0}" SearchOperationID="{560736B7-4F5C-4EF7-9354-8D8DC6BBD70A}">
 									<PropertyList>
 										<Property Name="LeftValue" Type="Real64" Value="1"/>
-										<Property Name="PropertyName" Type="string" Value="PanningType"/>
-									</PropertyList>
-								</SearchCriteria>
-							</ChildrenList>
-						</Query>
-						<Query Name="3D Automation" ID="{CE928DF7-C351-449E-AC18-A2C782D06E02}">
-							<PropertyList>
-								<Property Name="LogicalOperator" Type="int16" Value="1"/>
-								<Property Name="ObjectType" Type="int32" Value="200"/>
-							</PropertyList>
-							<ChildrenList>
-								<SearchCriteria Name="PropertyValue" ID="{F584549F-0CD1-4B62-874A-C477EF188173}" SearchOperationID="{560736B7-4F5C-4EF7-9354-8D8DC6BBD70A}">
-									<PropertyList>
-										<Property Name="LeftValue" Type="Real64" Value="2"/>
-										<Property Name="PropertyName" Type="string" Value="3DPositionSource"/>
-									</PropertyList>
-								</SearchCriteria>
-								<SearchCriteria Name="PropertyValue" ID="{D65DDE6B-1E28-427C-A989-6FFDCEB08D67}" SearchOperationID="{560736B7-4F5C-4EF7-9354-8D8DC6BBD70A}">
-									<PropertyList>
-										<Property Name="LeftValue" Type="Real64" Value="1"/>
-										<Property Name="PropertyName" Type="string" Value="3DPositionSource"/>
+										<Property Name="PropertyName" Type="string" Value="SpeakerPanning"/>
 									</PropertyList>
 								</SearchCriteria>
 							</ChildrenList>
@@ -482,13 +448,7 @@
 								<SearchCriteria Name="PropertyValue" ID="{0FE6C467-ACBB-40BD-B180-B6F1E4D2BCC7}" SearchOperationID="{560736B7-4F5C-4EF7-9354-8D8DC6BBD70A}">
 									<PropertyList>
 										<Property Name="LeftValue" Type="Real64" Value="1"/>
-										<Property Name="PropertyName" Type="string" Value="Spatialization"/>
-									</PropertyList>
-								</SearchCriteria>
-								<SearchCriteria Name="PropertyValue" ID="{7E2ECB28-E3BF-4C61-91B0-9BE73D8D04EE}" SearchOperationID="{560736B7-4F5C-4EF7-9354-8D8DC6BBD70A}">
-									<PropertyList>
-										<Property Name="LeftValue" Type="Real64" Value="2"/>
-										<Property Name="PropertyName" Type="string" Value="Spatialization"/>
+										<Property Name="PropertyName" Type="string" Value="3DSpatialization"/>
 									</PropertyList>
 								</SearchCriteria>
 							</ChildrenList>
@@ -517,12 +477,6 @@
 										<Property Name="PropertyName" Type="string" Value="Volume"/>
 									</PropertyList>
 								</SearchCriteria>
-								<SearchCriteria Name="PropertyLinkUnlink" ID="{9AE4E840-0489-4EC2-ACD4-11C2DB78C933}" SearchOperationID="{75897DFE-D859-416C-8EDE-30BA4A8369AF}">
-									<PropertyList>
-										<Property Name="IsLinked" Type="bool" Value="False"/>
-										<Property Name="PropertyName" Type="string" Value="LFEVolume"/>
-									</PropertyList>
-								</SearchCriteria>
 								<SearchCriteria Name="PropertyLinkUnlink" ID="{C6C01C8E-89BE-462E-ABBA-BE98C3BF4FA7}" SearchOperationID="{75897DFE-D859-416C-8EDE-30BA4A8369AF}">
 									<PropertyList>
 										<Property Name="IsLinked" Type="bool" Value="False"/>
@@ -533,6 +487,12 @@
 									<PropertyList>
 										<Property Name="IsLinked" Type="bool" Value="False"/>
 										<Property Name="PropertyName" Type="string" Value="Lowpass"/>
+									</PropertyList>
+								</SearchCriteria>
+								<SearchCriteria Name="PropertyLinkUnlink" ID="{9AE4E840-0489-4EC2-ACD4-11C2DB78C933}" SearchOperationID="{75897DFE-D859-416C-8EDE-30BA4A8369AF}">
+									<PropertyList>
+										<Property Name="IsLinked" Type="bool" Value="False"/>
+										<Property Name="PropertyName" Type="string" Value="Highpass"/>
 									</PropertyList>
 								</SearchCriteria>
 							</ChildrenList>
@@ -547,7 +507,7 @@
 						</Query>
 					</ChildrenList>
 				</Folder>
-				<Folder Name="Master-Mixer Hierarchy" ID="{F23408F1-FA3E-4006-A7B4-2288E6885FC7}" ShortID="654516827">
+				<Folder Name="Busses" ID="{F23408F1-FA3E-4006-A7B4-2288E6885FC7}" ShortID="654516827">
 					<ChildrenList>
 						<Query Name="Busses using Effect" ID="{1CD96671-0175-4AE2-A9EE-AC8CF681D49F}">
 							<PropertyList>
@@ -561,62 +521,1069 @@
 								</SearchCriteria>
 							</ChildrenList>
 						</Query>
-						<Query Name="Environmental bus" ID="{F1B54F4B-4F9E-40C7-B862-6806135D18C8}">
-							<PropertyList>
-								<Property Name="ObjectType" Type="int32" Value="500"/>
-							</PropertyList>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="WAQL" ID="{D9080E4F-EC1F-493C-9991-9D6EDA467763}" ShortID="699907902">
+					<ChildrenList>
+						<Folder Name="where" ID="{AB4D46C9-A4C5-48F4-BEA4-384D92149CCF}" ShortID="173357186">
 							<ChildrenList>
-								<SearchCriteria Name="PropertyValue" ID="{7B40ACE8-C756-4201-9B43-6A1B396D4E56}" SearchOperationID="{560736B7-4F5C-4EF7-9354-8D8DC6BBD70A}">
+								<Query Name="where pitch equals" ID="{D5BE47BE-E8BB-4CAA-8B35-D5FC88DF6377}">
 									<PropertyList>
-										<Property Name="IsChecked" Type="bool" Value="True"/>
-										<Property Name="PropertyName" Type="string" Value="IsEnvironmental"/>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ where pitch = 1200"/>
+									</PropertyList>
+								</Query>
+								<Query Name="where highpass greater than" ID="{0F01F1F4-12AD-4D2D-9816-FD760D85F147}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ where highpass &gt; 0"/>
+									</PropertyList>
+								</Query>
+								<Query Name="where name matches regex finish with text" ID="{E652504C-5FE6-4DE5-AFCE-D5B3692DEEF2}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ where name = /llo$/"/>
+									</PropertyList>
+								</Query>
+								<Query Name="where volume and" ID="{C4AADDB4-D506-42D7-8E08-E54ECC9A6F56}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ where volume &gt; -3 and volume &lt; 0"/>
+									</PropertyList>
+								</Query>
+								<Query Name="where name matches regex include letter number" ID="{CFA1AF26-054D-425A-AD25-24772DCDCC9E}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ where name = /[a-z][0-9]/"/>
+									</PropertyList>
+								</Query>
+								<Query Name="where name contains (wildcard)" ID="{790C50DB-F543-462F-AB95-539B028EB53B}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ where name : &quot;*ello&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="where volume equals" ID="{D3AFE793-EF68-4CF6-8668-210AE65E6EFC}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ where volume = -1"/>
+									</PropertyList>
+								</Query>
+								<Query Name="where parent name equals" ID="{70E7B176-9C8A-4316-8B71-3F68DA119E27}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ where parent.name = &quot;Music&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="where volume or" ID="{5C0F7A78-7B0D-4493-92A9-DBD02113ED20}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ where volume &lt; -10 or volume &lt; 0"/>
+									</PropertyList>
+								</Query>
+								<Query Name="where name contains (substring)" ID="{E699AF66-1815-4C77-B52F-8B59BCCF87DE}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ where name : &quot;Hel&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="where name equals" ID="{31735711-590B-4877-8330-4C054305891E}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ where name = &quot;Hello&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="where lowpass greater than" ID="{97C122B3-B5EB-4740-B379-E4613F96F185}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ where lowpass &gt; 0"/>
+									</PropertyList>
+								</Query>
+								<Query Name="where is looping or streaming" ID="{572A0D1F-4AE3-4817-B731-029EB42B840D}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ where IsLoopingEnabled or IsStreamingEnabled"/>
+									</PropertyList>
+								</Query>
+								<Query Name="where name contains" ID="{8A559C78-5836-454E-BA4F-1AA52C404A69}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ where name : &quot;Hello&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="where parent parent name equals" ID="{A4A98C9E-B605-40E7-8CB0-AFCC838C1FED}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ where parent.parent.name = &quot;Music&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="where parent volume less than" ID="{6238FA44-66D8-4C68-8877-DED8DAF3E494}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ where parent.volume &lt; 0"/>
+									</PropertyList>
+								</Query>
+								<Query Name="where volume, lowpass, highpass" ID="{43904B9E-B672-4F58-9B4C-991AAC8462DA}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ where (volume &gt;= 0 and (lowpass &gt; 0 or highpass &gt; 0))"/>
+									</PropertyList>
+								</Query>
+								<Query Name="where notes contains" ID="{016ABEA2-6B6B-401C-8A66-2AD6EACDC8FB}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ where notes : &quot;he&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="where volume less than" ID="{C9CF3D7F-C637-40F1-B19E-D85DB84DA173}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ where volume &lt; 0"/>
+									</PropertyList>
+								</Query>
+								<Query Name="where output bus name matches regex" ID="{EF11B3A1-F830-4D2D-8D67-7CD9A6233B76}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ where outputbus.name = /^2D$/"/>
+									</PropertyList>
+								</Query>
+								<Query Name="where name matches regex include text" ID="{D98E2912-A1D0-4EFA-8D83-0E1C21CFCAB6}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ where name = /Hello/"/>
+									</PropertyList>
+								</Query>
+								<Query Name="where category equals events" ID="{2C8377E3-EB1D-485A-8AB9-116466CABAE0}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ where category = &quot;Events&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="where shortid equals" ID="{408B698C-99D2-41FC-B0CF-6868D338AD22}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ where shortId = 1588715066"/>
+									</PropertyList>
+								</Query>
+								<Query Name="where type equals" ID="{D2A1F076-BF0E-4630-A8B1-4D23F452FCE7}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ where type = &quot;Sound&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="where type equals and children count greater than" ID="{67E39FA3-8025-428C-BED9-1F6B6B953873}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ where type = &quot;RandomSequenceContainer&quot; and childrenCount &gt; 5"/>
+									</PropertyList>
+								</Query>
+								<Query Name="where work unit is dirty" ID="{254A7644-1413-4C98-8172-78E350E4A8E9}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ where workunitIsDirty"/>
+									</PropertyList>
+								</Query>
+								<Query Name="where output bus parent name equals" ID="{E0CE9CD4-1950-4B87-9103-3699FF178AA2}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ where outputbus.parent.name = &quot;Main Audio Bus&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="where category equals containers" ID="{BB941106-EC07-45D9-A39A-9936AC58CA46}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ where category = &quot;Containers&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="where is playable equals" ID="{91BC5CE0-58B6-483A-AAEB-2547C19C9816}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ where isPlayable = false"/>
+									</PropertyList>
+								</Query>
+								<Query Name="where is playable" ID="{5B7203DF-15AE-43CC-A504-92315884327E}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ where isPlayable"/>
+									</PropertyList>
+								</Query>
+								<Query Name="where name equals (2)" ID="{5E4FC21C-FFC6-4808-932C-05E17D9956E2}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ where name = &quot;Play_Hello&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="where is default workunit" ID="{282C4353-4769-49F2-886D-26FE38A01FB1}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ where workunitIsDefault"/>
+									</PropertyList>
+								</Query>
+								<Query Name="where category equals busses" ID="{0BA06DE7-A4AD-422E-9B29-1B459A48CEAA}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ where category = &quot;Busses&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="where parent bus volume less than" ID="{A3224119-AE38-44ED-86B9-15A7374D4868}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ where parent.busvolume &lt; 0"/>
+									</PropertyList>
+								</Query>
+								<Query Name="where first effect plugin name equals" ID="{E9A78C6A-0BEC-43ED-B54B-CCE9D0177187}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ where effects.first().effect.pluginname = &quot;Wwise Compressor&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="where work unit is root but not default" ID="{486AA232-846E-474F-8039-5261BC719E13}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ where workunitType = &quot;rootFile&quot; and !workunitIsDefault"/>
+									</PropertyList>
+								</Query>
+								<Query Name="where soundbank file path contains" ID="{18FA48D0-7D70-43C6-9F51-34D92EBF5BA8}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ where soundbankBnkFilePath : &quot;car&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="where id equals" ID="{3853B61B-9CE3-4C9C-92CC-4FF249A587FA}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ where id = &quot;{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="where category equals interactive music hierarchy" ID="{9A0661DA-CEE1-41F1-B27F-21A5E0EF9930}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ where category = &quot;Interactive Music Hierarchy&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="where work unit is physical folder" ID="{4FFD9974-AC06-41BA-B522-786A7AE12584}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ where workunitType = &quot;folder&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="where classId equals" ID="{A283D4F5-40F6-4160-B79A-7BCC5E684DE9}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ where classId = 8847363"/>
+									</PropertyList>
+								</Query>
+								<Query Name="where is not playable" ID="{7470DC01-B491-4648-A5CF-5822CC2404ED}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ where !isPlayable"/>
+									</PropertyList>
+								</Query>
+								<Query Name="where type equals random switch or blend container" ID="{4651F4B0-D65B-48F2-B511-446198748E32}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ where type = &quot;randomsequencecontainer&quot; or type = &quot;switchcontainer&quot; or type = &quot;blendcontainer&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type sound where convertedFilePath contains" ID="{CE2FEA2F-98EC-44D6-9676-76BAB6AEEAFC}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type Sound where convertedFilePath : &quot;hello&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type sound where notes contains" ID="{2C9905EB-1787-49AE-AFFB-A17B78ADE314}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type Sound where notes : &quot;All&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type sound where UserAuxSend0 is not null" ID="{78370498-1875-4499-8B00-1D10B2230371}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type Sound where UserAuxSend0 != null"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type sound where originalWavFilePath contains" ID="{74F86CF1-8C22-4891-B674-55DBD93A307E}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type Sound where originalWavFilePath : &quot;hello&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type sound where outputbus equals" ID="{45858620-F4E4-4C5B-851B-61B2B6486B49}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type Sound where outputBus=&quot;Bus:Main Audio Bus&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type sound where parent name contains" ID="{AE538FF3-A501-47C8-8FDA-C3A9DD45DE8B}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type Sound where parent.name : &quot;*engine&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type sound where notes contains (wildcard)" ID="{07442D20-D675-409C-B848-A59DA982559D}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type Sound where notes : &quot;*audiokinetic*&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="where type equals random container and children count between" ID="{C033F3F7-FB57-4BCE-8D55-582EDEEC7D6A}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type RandomSequenceContainer where childrenCount &gt; 2 and childrenCount &lt;= 4"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type effect where owner name contains (wildcard)" ID="{75D2C782-7FDE-4A76-997E-BFB0A541FB35}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type Effect where owner.owner.name :&quot;*env&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="where children count greater than" ID="{7C7D09EE-470B-4364-A3BB-24FF7BDDA81D}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ where childrenCount &gt; 5"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type sound where volume between" ID="{0EC24AE3-6566-4BC1-8102-1AE4AD305164}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type Sound where volume &lt; 0 and volume &gt; -10"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type sound where volume lower than" ID="{83F536C0-449B-4653-8F4E-20B02CFAE14B}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type Sound where volume &lt; 0"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type sound where volume equals" ID="{46AEEAE2-2230-4CCC-AA41-01B3F0FCF747}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type Sound where volume = -1 or volume = -2"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type sound where userauxsend0 equals" ID="{669E91EC-706C-4EEE-99A2-FAA85995A0D1}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type Sound where UserAuxSend0=&quot;AuxBus:Hangar_Env&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type sound where first effect is eq" ID="{0BD5B0D2-5442-4599-8920-EF7A00E59582}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type Sound where effects.first().effect.pluginname : &quot;eq&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type sound where any effect is eq" ID="{297DC9C0-0FEC-4D83-9214-CFCB064531D6}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type Sound where effects.any(effect.pluginname : &quot;eq&quot;)"/>
+									</PropertyList>
+								</Query>
+								<Query Name="where any effect is rendered" ID="{F7641030-3086-4B9D-907E-82A1705C6BC9}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ where effects.any(render = true)"/>
+									</PropertyList>
+								</Query>
+							</ChildrenList>
+						</Folder>
+						<Folder Name="from type" ID="{1EC1B676-92B8-4341-A941-6581BBABD20F}" ShortID="360362197">
+							<ChildrenList>
+								<Query Name="from type audio file source" ID="{1E2D777D-D4BF-45FE-9669-EEBB0C18DDA5}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type audiofilesource"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type sound (lowercase)" ID="{84BDD37E-3C6A-4EC0-87A8-FCD00B9985C4}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type sound"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type event" ID="{D79A8D55-2902-4421-8EEC-539A93D1C387}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type Event"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type bus" ID="{8C89B539-490E-412D-80DA-A0964E4248C2}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type Bus"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type sound" ID="{0F353B8E-77E2-4641-AA57-B7424028620A}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type Sound"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type containers" ID="{5433DA28-9694-4D15-92F5-C19562497EA2}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type RandomSequenceContainer, SwitchContainer, BlendContainer"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type bus auxbus" ID="{A479B474-82BC-49E8-8597-89CC6CCED90C}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type Bus, AuxBus"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type music segment" ID="{7819B2B7-F702-471F-9CEF-910988684E2D}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type MusicSegment"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type game parameter" ID="{718DDF4F-5E8A-4568-97EB-DC39B4BAE407}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type GameParameter"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type soundbank" ID="{E3854401-3CB9-48E0-87AA-B104C2CEB6F1}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type SoundBank"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type event action" ID="{1BD3EF0B-29A5-491D-8113-449BFC306FA2}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type Action"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type effect" ID="{CDF6C00D-72F0-49B3-883D-3896694CEC28}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type Effect"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type work unit" ID="{439A7534-9A1E-489A-A3FF-A98BDE5862FF}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type WorkUnit where workunitType != &quot;Folder&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type physical folder" ID="{361B116A-D7CD-4E4E-8392-A58CA4A935BB}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type WorkUnit where workunitType = &quot;Folder&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type property container" ID="{C99E6F97-FA8F-41B9-8DDF-54781C911CBF}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type PropertyContainer"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type music containers" ID="{1112FA39-63A3-441A-8D96-EA3F6DF99F86}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type MusicSwitchContainer, MusicPlaylistContainer"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type music track" ID="{91E4E363-6159-49C8-A4DE-BD083D43181A}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type MusicTrack"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type music transition" ID="{FFA5D3D7-58E6-46D3-908C-29F12510FBAC}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type MusicTransition"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type music stinger" ID="{E8D4A8C9-0C03-4C2E-8F52-8E8CDEF4D2DA}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type MusicStinger"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type platform" ID="{610F8A6E-30FA-4001-947D-C3D2B60C0D7D}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type Platform where name != &quot;WwiseAuthoringPlayback&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type language" ID="{8A1FEFDB-2240-4951-A345-8A96D345DDF3}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type Language where name != &quot;SFX&quot; and name != &quot;External&quot; and name != &quot;Mixed&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type project" ID="{8646A3D0-D05C-4154-861F-BF87B9CB0B37}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type Project"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type RTPC" ID="{3082C5F7-8CF2-46BD-8079-47F9153C3AC9}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type RTPC"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type music clip" ID="{EF28BD07-BC0C-4D07-9176-1357B879AE9F}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type MusicClip, MusicClipMidi"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type modulator" ID="{D7F96329-9DA6-4232-87CE-B1AA155A0620}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type ModulatorLfo, ModulatorTime, ModulatorEnvelope"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type virtual folder" ID="{DF44278A-EADC-48FC-9C4F-EE1F263581BC}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type Folder"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type conversion" ID="{367E6998-E61D-4F1B-8AAF-8838E1E45FCE}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type Conversion"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type attenuation" ID="{4BC931C8-D299-45A2-AE7E-CE4E769A4F23}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type Attenuation"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type acoustic texture" ID="{2FAE951E-6EE5-49D1-942B-FBD50ABAEE56}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type AcousticTexture"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type effect (EQ)" ID="{1CD6843C-6F3F-453B-807D-FC4E56D7FDD1}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type Effect where pluginname : &quot;EQ&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type effect (RoomVerb)" ID="{09136E6C-73F9-43A7-B60B-E65AA71C74EC}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type Effect where pluginname : &quot;RoomVerb&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type source plug-in" ID="{8F3BC047-1A7D-468A-A7B8-955289C231B3}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type SourcePlugin"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type query using WAQL" ID="{8B28D42B-1277-41E7-BB8B-AD153DCB4EAD}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type Query where WAQL != &quot;&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type switch group" ID="{C6ECFC1F-46B5-43CE-AAE9-A26D776E9373}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type SwitchGroup"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type state group" ID="{6FFA57F7-F473-49E7-B38D-634A2B610438}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type StateGroup"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type state" ID="{A16C90AC-9823-48C8-A238-AC36E8D9471A}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type State where parent != null"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type switch" ID="{04F21503-8381-433B-89EA-80180102782B}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type Switch"/>
+									</PropertyList>
+								</Query>
+							</ChildrenList>
+						</Folder>
+						<Folder Name="from search" ID="{6B8832E6-8045-49FC-9309-56825541B7BA}" ShortID="451627920">
+							<ChildrenList>
+								<Query Name="from search word" ID="{BC3BF26D-6D2E-4B2A-A8D0-8797066F4D4D}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from search &quot;hello&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from search words" ID="{BE8B6DDC-474B-4B2D-819D-47F8510F4C7D}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from search &quot;foot walk&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from search where" ID="{63C09618-10F8-42D3-8380-2820845516CF}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from search &quot;hello&quot; where type = &quot;sound&quot;"/>
+									</PropertyList>
+								</Query>
+							</ChildrenList>
+						</Folder>
+						<Folder Name="from object" ID="{8E21F55A-1758-4EE1-98F5-16073F63EC09}" ShortID="471162482">
+							<ChildrenList>
+								<Query Name="from event id" ID="{135776D0-7B81-4B18-A26A-1AE0BE76F059}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from object &quot;Event:2952797154&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from default work unit" ID="{7B8B7165-4605-4288-AFC3-CEDC4499F7D5}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from object &quot;\Containers\Default Work Unit&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from main audio bus" ID="{6671A646-8DFE-4F14-9017-722044C6B4E4}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from object &quot;\Busses\Default Work Unit\Main Audio Bus&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from objects" ID="{E28836A0-AE7A-471B-8DF2-9573DE062A59}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from object &quot;Event:Play_Hello&quot;, &quot;Bus:Main Audio Bus&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from GUID" ID="{7C64ACE7-253D-46F6-B74E-64345F580BD7}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from object &quot;{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from event name" ID="{7E3C02A5-BCB5-4D73-8450-1B6873CBA272}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from object &quot;Event:Play_Hello&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from GUID (compact)" ID="{3D4EE013-D3AF-402C-B5B2-B98149B32A94}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ &quot;{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from GUIDs" ID="{7E22CD45-42A4-4844-B655-18578F4599EC}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ &quot;{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}&quot;, &quot;{4D1B2AA5-19D8-44D3-AAE5-94024469CE7C}&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from objects (compact)" ID="{2444AAD9-1B14-4E8D-B1B4-2F6039DFAB74}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ &quot;Event:Play_Hello&quot;, &quot;Bus:Main Audio Bus&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from root (project)" ID="{496EFB6D-93CA-4E97-A09C-6F78744DD7E8}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ &quot;\&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from path (compact)" ID="{CCF803A8-C125-45F2-9FA7-645091AF4F37}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ &quot;\Containers&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from main audio bus (unique name)" ID="{E26BB0EA-CE12-44CA-9088-F4D244764D90}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from object &quot;Bus:Main Audio Bus&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from effect (unique name)" ID="{251749D3-3A33-44C0-8CD0-5E71B03BABED}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ &quot;Effect:Dual_Filters_Reset&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from path and path (compact)" ID="{2730C087-6CBD-47CB-A093-1EE4FD426BD5}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ &quot;\Containers&quot;, &quot;\Busses&quot;"/>
+									</PropertyList>
+								</Query>
+							</ChildrenList>
+						</Folder>
+						<Folder Name="select" ID="{A891FB34-C16E-4248-89B1-9325722C6089}" ShortID="517725633">
+							<ChildrenList>
+								<Query Name="from default work unit select descendants select outbut bus distinct" ID="{D0FF38A1-975D-424B-B3D1-6AAAA9553913}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from object &quot;\Containers\Default Work Unit&quot; select descendants select OutputBus distinct"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from GUID select parent's attenuation" ID="{EC2E3E21-5FFC-49EA-BFB4-DB409810EDA1}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from object &quot;{CBCD492C-982D-4EE4-AE75-0019CA6577EF}&quot; select parent.Attenuation"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from bus name select descendants where type is auxbus" ID="{A0D9F3CB-AA8A-466B-AE2C-3B7C62460A81}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from object &quot;Bus:Main Audio Bus&quot; select descendants where type = &quot;AuxBus&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from bus name select children" ID="{DA224601-F46A-416F-AFE2-6640FC32D987}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from object &quot;Bus:Main Audio Bus&quot; select children"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from hello, select output bus" ID="{F838BB69-0A38-4ACF-97F1-C1E5F920C5D4}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from object &quot;\Containers\Default Work Unit\Hello&quot; select OutputBus"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from default work unit select descendants select output bus" ID="{7E45E264-247C-4EC5-8F83-83DB81D6651A}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from object &quot;\Containers\Default Work Unit&quot; select descendants select OutputBus"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from bus name select descendants" ID="{AA433BAF-C843-4785-B65B-251919916F47}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from object &quot;Bus:Main Audio Bus&quot; select descendants"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from GUID select parent" ID="{D53962D8-C023-4624-A86B-7811807962CF}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from object &quot;{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}&quot; select parent"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from default work unit select descendants where volume less than zero" ID="{443ECF1B-52CB-420F-83E3-55D860797291}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from object &quot;\Containers\Default Work Unit&quot; select descendants, this where volume &lt; 0"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from default work unit select descendants" ID="{48C4DCDF-B1C4-41E6-A9E7-F057A7777663}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from object &quot;\Containers\Default Work Unit&quot; select descendants"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from default work unit select descendants, this" ID="{960F7C09-0419-4A42-9F38-D7BB7762408F}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from object &quot;\Containers\Default Work Unit&quot; select descendants, this"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from event name select ancestors" ID="{A3002A0B-4868-4205-B3FD-5D18815710CD}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from object &quot;Event:Play_Hello&quot; select ancestors"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from event name select ancestors, this" ID="{8604C203-4128-4046-A55C-D0FE4015D4E0}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from object &quot;Event:Play_Hello&quot; select ancestors, this"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type effect select references to" ID="{A0A7098D-0C49-404B-89F5-7BCFF6259988}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type Effect select referencesTo.owner"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from name name select references to" ID="{58DDADFD-3016-4374-8272-F154E4F8E6E2}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ &quot;Event:Play_Hello&quot; select referencesTo"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type sound select parent" ID="{D0DCE7F9-D289-40AD-A2AD-12E13CACD89A}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type Sound select parent"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type sound select output bus" ID="{3BC5E26B-33F4-4157-9E61-958A50ED8261}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type Sound select OutputBus"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type sound select max radius attenuation" ID="{F60D83C4-B85C-4C52-9809-6E87C2975009}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type Sound select maxRadiusAttenuation"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type sound select output bus (lowercase)" ID="{0D2B27E2-E0C5-4F14-AFE8-0B58F6B16151}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type sound select outputbus"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type sound select output bus' parent" ID="{035D8D36-A075-4E5A-B6C1-54C15686F05F}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type sound select outputbus.parent"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type sound select output bus distinct" ID="{9F0EE7A7-BAA8-49B9-91CE-A924D2AF277F}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type sound select outputbus distinct"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type sound select first effect" ID="{987ED4D9-4AAF-494D-9C1D-AD663CF41A17}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type sound select effects.at(0).effect"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type sound select all effects" ID="{BD5A0DE9-2DFD-407A-BEE5-2789838C8525}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type sound select effects.effect"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type effect select owner" ID="{7125B9EE-8492-475F-AC92-2A407B368DA8}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type Effect select owner.owner"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from project select music transition root" ID="{3EC651C5-BF31-4A79-82AE-C56919E7625A}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from project select musicTransitionRoot"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from containers hierarchy select max duration source" ID="{B9C0B127-0EF9-4954-A526-1E93B611F370}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from object &quot;\Containers&quot; select maxDurationSource"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from project select music playlist root" ID="{C81B6387-B645-4B2E-A952-578D83A23501}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from project select musicPlaylistRoot"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type audio file source select audioSourceLanguage distinct" ID="{7F7D9958-7AF0-4B09-9E95-4C7D61EA3689}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type AudioFileSource select audioSourceLanguage distinct"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from project select switch container child context" ID="{4C82B3F2-023E-4230-82C7-80C0F781C2F6}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from project select switchContainerChildContext"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from default work unit select ancestors (compact)" ID="{BF3D72A2-0C2F-4917-83F2-1E9FB0BE32B8}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ &quot;\Containers\Default Work Unit&quot; select ancestors"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from default work unit select descendants (compact)" ID="{329F7356-1584-4114-8C31-653AF037B3F2}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ &quot;\Containers\Default Work Unit&quot; select descendants"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from default work unit select parent (compact)" ID="{F7F0F022-A1FA-451D-8712-40E4CD520097}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ &quot;\Containers\Default Work Unit&quot; select parent"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from default work unit select this, parent, children (compact)" ID="{263D4F3C-3216-4F38-9F7B-5FB8FF294C37}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ &quot;\Containers\Default Work Unit&quot; select this, parent, children"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from default work unit select parent, children (compact)" ID="{9939778E-9D14-49C4-8F09-4CEE7ED16571}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ &quot;\Containers\Default Work Unit&quot; select parent, children"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type event select children where" ID="{1E7E4354-7E8F-4543-9077-A4E30EDA6C3E}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type Event select children where Target.path : &quot;hello&quot; select parent"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type sound select this, ancestor" ID="{ABC253D4-1C96-4E03-ACF0-5C21D440A5AD}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type sound select this, ancestors select referencesTo where type = &quot;action&quot; select parent distinct orderby name"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type event select children" ID="{2C90B5AE-E7F5-4870-B614-D6248EE89B3A}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type event select children select target select this, descendants where type = &quot;sound&quot; distinct orderby name"/>
+									</PropertyList>
+								</Query>
+							</ChildrenList>
+						</Folder>
+						<Folder Name="from query" ID="{EA8B8409-B127-45E5-9EDB-BB7C6B538D60}" ShortID="267591337">
+							<ChildrenList>
+								<Query Name="from query path" ID="{0326C429-1D7B-4F46-A31B-F28CD83F4139}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from query &quot;\Queries\Factory Queries\Containers\Objects using Effect&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from query GUID" ID="{4FBC9F40-F395-4BA9-B5A9-064A8674B2C4}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from query &quot;{9ABAF5B6-3430-42DB-B78C-058CAFD5A3BC}&quot;"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from query path where type equals" ID="{86BE1738-8D13-4F19-9EB0-85B8FB7187D9}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from query &quot;\Queries\Factory Queries\Containers\Objects using Effect&quot; where type = &quot;Sound&quot;"/>
+									</PropertyList>
+								</Query>
+							</ChildrenList>
+						</Folder>
+						<Folder Name="orderby take skip" ID="{F5410234-6CB7-487C-B3DE-D117E18035C8}" ShortID="251486566">
+							<ChildrenList>
+								<Query Name="from type sound take 10" ID="{3E17A596-C101-44E6-9548-F88E6AAF3F68}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type Sound take 10"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type sound skip 10" ID="{A08E8F77-228F-428F-BE59-504E490DD2B4}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type Sound skip 10"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type sound order by name reverse take 1" ID="{D20DC361-F773-41A9-A115-25BE1F82B650}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type sound orderby name reverse take 1"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type sound order by volume take 1" ID="{BE253BE6-C1FE-4C95-9799-55027EFF7144}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type sound orderby volume take 1"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type sound order by volume reverse take 1" ID="{DBFE4CDF-462E-421B-946B-E02B0F4BDD1B}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type sound orderby volume reverse take 1"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type sound order by name skip 10 take 2" ID="{EC4E5A79-C899-4EBB-ADEE-5A0E0CBD0582}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type sound orderby name skip 10 take 2"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type bus order by bus volume" ID="{86299D3F-E90C-4FD3-970F-3390C255DAA1}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type Bus orderby busvolume"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type sound order by name" ID="{7CD6CF60-AC44-49FB-9B25-37429D7B55AA}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type Sound orderby name"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type action order by target name" ID="{B42678C2-888F-462F-AFD8-B7C3398FBBDA}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type Action orderby target.name"/>
+									</PropertyList>
+								</Query>
+								<Query Name="from type sound order by name reverse" ID="{B3B07C18-3014-4DB9-9089-AD36C343A268}">
+									<PropertyList>
+										<Property Name="ObjectType" Type="int32" Value="10"/>
+										<Property Name="WAQL" Type="string" Value="$ from type Sound orderby name reverse"/>
+									</PropertyList>
+								</Query>
+							</ChildrenList>
+						</Folder>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="Common" ID="{6DB1F0FA-FE04-4F93-8EEE-F4624C962773}" ShortID="274318651">
+					<ChildrenList>
+						<Query Name="Platform Excluded Objects" ID="{8E0F649F-7443-401D-A23F-A55AEA4AE5BC}">
+							<ChildrenList>
+								<SearchCriteria Name="GeneralPlatform Inclusion" ID="{361BBA96-A1DF-420E-A614-FFE411556F1E}" SearchOperationID="{76702F0A-B29D-4D2E-8E16-425DA225844E}"/>
+							</ChildrenList>
+						</Query>
+						<Query Name="Notes - Contains" ID="{7E8B1952-A130-4754-B9C9-651A5DC68767}">
+							<ChildrenList>
+								<SearchCriteria Name="GeneralNote" ID="{0872061F-022C-44A9-B2C7-14B9BF00D8C7}" SearchOperationID="{3DF06B4A-2E31-463A-A42B-F4B576557320}">
+									<PropertyList>
+										<Property Name="UserString" Type="string" Value="*Note text here*"/>
+									</PropertyList>
+								</SearchCriteria>
+							</ChildrenList>
+						</Query>
+						<Query Name="Name - Contains" ID="{0C2BEF06-3ABD-40A6-BFE9-A5A656A52571}">
+							<ChildrenList>
+								<SearchCriteria Name="GeneralName" ID="{2E521352-0345-47A7-9939-53653A654F49}" SearchOperationID="{82CCCD47-591B-4BD8-B3CE-89A8172A1802}">
+									<PropertyList>
+										<Property Name="UserString" Type="string" Value="*Object name here*"/>
+									</PropertyList>
+								</SearchCriteria>
+							</ChildrenList>
+						</Query>
+						<Query Name="Name - Exact name" ID="{F9FCEB15-854D-406F-ADEE-37FBA2FEE74F}">
+							<ChildrenList>
+								<SearchCriteria Name="GeneralName" ID="{FD3B26D7-89AC-4785-AAB8-B882592CD2AD}" SearchOperationID="{82CCCD47-591B-4BD8-B3CE-89A8172A1802}">
+									<PropertyList>
+										<Property Name="UserString" Type="string" Value="Object name here"/>
+									</PropertyList>
+								</SearchCriteria>
+							</ChildrenList>
+						</Query>
+						<Query Name="Notes - Exact name" ID="{C4B2F216-5F5C-43FF-873A-94680392DCFF}">
+							<ChildrenList>
+								<SearchCriteria Name="GeneralNote" ID="{436744D5-C620-4539-B54E-E9A53B9E469E}" SearchOperationID="{3DF06B4A-2E31-463A-A42B-F4B576557320}">
+									<PropertyList>
+										<Property Name="UserString" Type="string" Value="Note text here"/>
 									</PropertyList>
 								</SearchCriteria>
 							</ChildrenList>
 						</Query>
 					</ChildrenList>
 				</Folder>
-				<Query Name="Notes - Contains" ID="{7E8B1952-A130-4754-B9C9-651A5DC68767}">
-					<ChildrenList>
-						<SearchCriteria Name="GeneralNote" ID="{0872061F-022C-44A9-B2C7-14B9BF00D8C7}" SearchOperationID="{3DF06B4A-2E31-463A-A42B-F4B576557320}">
-							<PropertyList>
-								<Property Name="UserString" Type="string" Value="*Note text here*"/>
-							</PropertyList>
-						</SearchCriteria>
-					</ChildrenList>
-				</Query>
-				<Query Name="Notes - Exact name" ID="{C4B2F216-5F5C-43FF-873A-94680392DCFF}">
-					<ChildrenList>
-						<SearchCriteria Name="GeneralNote" ID="{436744D5-C620-4539-B54E-E9A53B9E469E}" SearchOperationID="{3DF06B4A-2E31-463A-A42B-F4B576557320}">
-							<PropertyList>
-								<Property Name="UserString" Type="string" Value="Note text here"/>
-							</PropertyList>
-						</SearchCriteria>
-					</ChildrenList>
-				</Query>
-				<Query Name="Name - Contains" ID="{0C2BEF06-3ABD-40A6-BFE9-A5A656A52571}">
-					<ChildrenList>
-						<SearchCriteria Name="GeneralName" ID="{2E521352-0345-47A7-9939-53653A654F49}" SearchOperationID="{82CCCD47-591B-4BD8-B3CE-89A8172A1802}">
-							<PropertyList>
-								<Property Name="UserString" Type="string" Value="*Object name here*"/>
-							</PropertyList>
-						</SearchCriteria>
-					</ChildrenList>
-				</Query>
-				<Query Name="Name - Exact name" ID="{F9FCEB15-854D-406F-ADEE-37FBA2FEE74F}">
-					<ChildrenList>
-						<SearchCriteria Name="GeneralName" ID="{FD3B26D7-89AC-4785-AAB8-B882592CD2AD}" SearchOperationID="{82CCCD47-591B-4BD8-B3CE-89A8172A1802}">
-							<PropertyList>
-								<Property Name="UserString" Type="string" Value="Object name here"/>
-							</PropertyList>
-						</SearchCriteria>
-					</ChildrenList>
-				</Query>
-				<Query Name="Platform Excluded Objects" ID="{8E0F649F-7443-401D-A23F-A55AEA4AE5BC}">
-					<ChildrenList>
-						<SearchCriteria Name="GeneralPlatform Inclusion" ID="{361BBA96-A1DF-420E-A614-FFE411556F1E}" SearchOperationID="{76702F0A-B29D-4D2E-8E16-425DA225844E}"/>
-					</ChildrenList>
-				</Query>
 			</ChildrenList>
 		</WorkUnit>
 	</Queries>

@@ -3,7 +3,7 @@
 	<Effects>
 		<WorkUnit Name="Factory Effects" ID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}" PersistMode="Standalone">
 			<ChildrenList>
-				<Folder Name="Wwise Compressor" ID="{6D4F6371-ED53-4C90-98DA-0AEB0484548B}" ShortID="64022668">
+				<Folder Name="Compressor" ID="{6D4F6371-ED53-4C90-98DA-0AEB0484548B}" ShortID="64022668">
 					<ChildrenList>
 						<Effect Name="Gentle_Program_Compressor_Minus_20dB_RMS" ID="{D3F1F88E-4123-4C05-946B-1B036BAC2DFD}" PluginName="Wwise Compressor" CompanyID="0" PluginID="108" PluginType="3">
 							<PropertyList>
@@ -96,7 +96,7 @@
 						</Effect>
 					</ChildrenList>
 				</Folder>
-				<Folder Name="Wwise Expander" ID="{93E8C416-F687-4AFA-892F-022B532AFB04}" ShortID="234435539">
+				<Folder Name="Expander" ID="{93E8C416-F687-4AFA-892F-022B532AFB04}" ShortID="234435539">
 					<ChildrenList>
 						<Effect Name="Light_Expander" ID="{C7E71A3B-745F-47B0-8F31-276DD413F83C}" PluginName="Wwise Expander" CompanyID="0" PluginID="109" PluginType="3">
 							<PropertyList>
@@ -121,7 +121,7 @@
 						</Effect>
 					</ChildrenList>
 				</Folder>
-				<Folder Name="Wwise Delay" ID="{842F3AD6-5B58-4CE4-810D-6ADE0CC61B52}" ShortID="846850439">
+				<Folder Name="Delay" ID="{842F3AD6-5B58-4CE4-810D-6ADE0CC61B52}" ShortID="846850439">
 					<ChildrenList>
 						<Effect Name="One_Tap_One_Second" ID="{5B5883FA-85A1-45CA-8A52-9DBBCF3B0A03}" PluginName="Wwise Delay" CompanyID="0" PluginID="106" PluginType="3">
 							<PropertyList>
@@ -144,7 +144,7 @@
 						</Effect>
 					</ChildrenList>
 				</Folder>
-				<Folder Name="Wwise Peak Limiter" ID="{836AD450-C7A2-4D04-B731-35228C434FD4}" ShortID="766653803">
+				<Folder Name="Peak Limiter" ID="{836AD450-C7A2-4D04-B731-35228C434FD4}" ShortID="766653803">
 					<ChildrenList>
 						<Effect Name="Brick_Wall_Minus_6dB_Peak_Fast_Release" ID="{3FF9AD86-E377-40F8-970F-3D4EE73288B5}" PluginName="Wwise Peak Limiter" CompanyID="0" PluginID="110" PluginType="3">
 							<PropertyList>
@@ -187,7 +187,6 @@
 							</PropertyList>
 						</Effect>
 						<Effect Name="Brick_Wall_Minus_1dB_Peak_Fast_Release" ID="{2144284E-7ADD-4341-86A4-4E468BEC9A2D}" PluginName="Wwise Peak Limiter" CompanyID="0" PluginID="110" PluginType="3">
-							<Comment>/!\ Do not bypass or remove the limiter</Comment>
 							<PropertyList>
 								<Property Name="Ratio" Type="Real32" Value="50"/>
 								<Property Name="ReleaseTime" Type="Real32" Value="0.02"/>
@@ -212,7 +211,7 @@
 						</Effect>
 					</ChildrenList>
 				</Folder>
-				<Folder Name="Wwise Parametric EQ" ID="{DFCF119F-F31B-4A92-BDD4-B049BB5070CF}" ShortID="679384051">
+				<Folder Name="Parametric EQ" ID="{DFCF119F-F31B-4A92-BDD4-B049BB5070CF}" ShortID="679384051">
 					<ChildrenList>
 						<Folder Name="Shelving EQ" ID="{CBB1490A-1238-442A-B6AB-2AA5C4E8D264}" ShortID="554267120">
 							<ChildrenList>
@@ -677,7 +676,7 @@
 						</Folder>
 					</ChildrenList>
 				</Folder>
-				<Folder Name="Wwise Matrix Reverb" ID="{15437578-D8BA-4E3F-B5DA-E03465545132}" ShortID="292445827">
+				<Folder Name="Matrix Reverb" ID="{15437578-D8BA-4E3F-B5DA-E03465545132}" ShortID="292445827">
 					<ChildrenList>
 						<Effect Name="Bathroom1" ID="{1969D30F-C165-45C0-B290-DE3ED07A7AA3}" PluginName="Wwise Matrix Reverb" CompanyID="0" PluginID="115" PluginType="3">
 							<PropertyList>
@@ -764,7 +763,7 @@
 						</Effect>
 					</ChildrenList>
 				</Folder>
-				<Folder Name="Wwise RoomVerb" ID="{D16E55BD-B819-4EBE-8C66-2CA5A5FE1653}" ShortID="6853472">
+				<Folder Name="RoomVerb" ID="{D16E55BD-B819-4EBE-8C66-2CA5A5FE1653}" ShortID="6853472">
 					<ChildrenList>
 						<Folder Name="Halls" ID="{98C56DE1-706D-4D92-B380-69CDF64D5DF2}" ShortID="763157902">
 							<ChildrenList>
@@ -1531,7 +1530,7 @@
 						</Folder>
 					</ChildrenList>
 				</Folder>
-				<Folder Name="Wwise Flanger" ID="{7DAC593F-E45C-42D6-9C69-23A9DEC47B9D}" ShortID="177523455">
+				<Folder Name="Flanger" ID="{7DAC593F-E45C-42D6-9C69-23A9DEC47B9D}" ShortID="177523455">
 					<ChildrenList>
 						<Folder Name="Flanging" ID="{BB44E83C-AB2B-4817-AD18-F0CF99AC37E4}" ShortID="256040100">
 							<ChildrenList>
