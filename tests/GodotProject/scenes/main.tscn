@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://b10ujjl7ming0"]
+
+[ext_resource type="WwiseEvent" uid="uid://bknudvmtiic6l" path="res://Wwise/resources/Event/{EE87C9F7-BB39-4F2E-BCB9-46066AEDEFC0}.tres" id="1_o5qli"]
+[ext_resource type="Script" uid="uid://crwvjcmbx2sea" path="res://scripts/switch.gd" id="2_sugp2"]
+[ext_resource type="Script" uid="uid://bqsre6f1t4dir" path="res://scripts/switch_volume.gd" id="3_jyhfs"]
+
+[node name="Node2D" type="Node2D" unique_id=910935780]
+
+[node name="AkEvent2D" type="AkEvent2D" parent="." unique_id=1111296945]
+event = ExtResource("1_o5qli")
+stop_on = 3
+
+[node name="Button" type="Button" parent="." unique_id=815898090]
+offset_left = 350.0
+offset_top = 175.0
+offset_right = 450.0
+offset_bottom = 225.0
+text = "Click"
+script = ExtResource("2_sugp2")
+
+[node name="HSlider" type="HSlider" parent="." unique_id=378495631]
+offset_left = 250.0
+offset_top = 300.0
+offset_right = 550.0
+offset_bottom = 320.0
+max_value = 1.0
+step = 0.01
+script = ExtResource("3_jyhfs")
+
+[node name="AkListener2D" type="AkListener2D" parent="." unique_id=1973459810]

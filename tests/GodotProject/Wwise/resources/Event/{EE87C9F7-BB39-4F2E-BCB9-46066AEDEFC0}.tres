@@ -1,0 +1,7 @@
+[gd_resource type="WwiseEvent" format=3 uid="uid://bknudvmtiic6l"]
+
+[resource]
+name = "Switch"
+id = 3202316517
+guid = "{EE87C9F7-BB39-4F2E-BCB9-46066AEDEFC0}"
+dummy = true

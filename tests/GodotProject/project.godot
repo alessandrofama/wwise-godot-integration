@@ -15,11 +15,17 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="WwiseGodotTests"
+run/main_scene="uid://b10ujjl7ming0"
 config/features=PackedStringArray("4.6")
 
 [autoload]
 
 WwiseRuntimeManager="*res://addons/Wwise/runtime/wwise_runtime_manager.gd"
+
+[display]
+
+window/size/viewport_width=800
+window/size/viewport_height=450
 
 [editor_plugins]
 
@@ -30,3 +36,5 @@ enabled=PackedStringArray("res://addons/gdUnit4/plugin.cfg")
 common_user_settings/root_output_path="res://GeneratedSoundBanks"
 common_user_settings/startup_language="en_US"
 project_settings/windows_platform_info="res://Wwise/resources/Windows.tres"
+project_settings/mac_platform_info="res://Wwise/resources/Mac.tres"
+project_settings/web_platform_info="res://Wwise/resources/Web.tres"
