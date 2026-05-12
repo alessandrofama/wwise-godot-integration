@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{A6C6B291-F615-4512-86DA-D35FEE6AF552}" SchemaVersion="133">
+	<Presets>
+		<WorkUnit Name="Factory Reflect Physically-Based" ID="{A6C6B291-F615-4512-86DA-D35FEE6AF552}" PersistMode="Standalone">
+			<ChildrenList>
+				<AuxBus Name="Physically-Based Early Reflection Auxiliary Bus" ID="{2257A9EF-4A01-4F06-9207-9E300C8CDDF2}">
+					<PropertyList>
+						<Property Name="BusChannelConfig" Type="int32">
+							<ValueList>
+								<Value>768</Value>
+							</ValueList>
+						</Property>
+						<Property Name="EnableAttenuation" Type="bool" Value="False"/>
+						<Property Name="ListenerRelativeRouting" Type="bool" Value="True"/>
+						<Property Name="UseGameAuxSends" Type="bool" Value="True"/>
+					</PropertyList>
+					<ObjectLists>
+						<ObjectList Name="Effects">
+							<EffectSlot Name="" ID="{F809FFF1-3416-4FC5-AA07-311A973DE61B}">
+								<ReferenceList>
+									<Reference Name="Effect" PluginName="Wwise Reflect" CompanyID="0" PluginID="171" PluginType="3">
+										<ObjectRef Name="Reflect_Physically_Based" ID="{C69F5865-C206-4B45-BC40-315F3F39151A}" WorkUnitID="{9A5AAF13-8275-479B-8D44-4B723CE5B2F9}"/>
+									</Reference>
+								</ReferenceList>
+							</EffectSlot>
+						</ObjectList>
+					</ObjectLists>
+				</AuxBus>
+			</ChildrenList>
+		</WorkUnit>
+	</Presets>
+</WwiseDocument>
