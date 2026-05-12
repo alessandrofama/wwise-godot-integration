@@ -14,6 +14,23 @@ GDExtension-based integration of Audiokinetic's Wwise audio middleware with Godo
 git submodule update --init --recursive
 ```
 
+**Web (Emscripten) ビルドの準備:**  
+`emsdk/` はリポジトリルートに配置済み（`.gitignore` 除外、git 管理外）。
+Web ビルド前に以下で環境変数を有効化する:
+
+```bash
+source emsdk/emsdk_env.sh   # emcc 4.0.23 が PATH に追加される
+```
+
+emsdk が未インストールの場合:
+
+```bash
+git clone https://github.com/emscripten-core/emsdk.git emsdk
+cd emsdk
+./emsdk install 4.0.23
+./emsdk activate 4.0.23
+```
+
 ## Build Commands
 
 All build commands run from `addons/Wwise/native/`. The Wwise SDK path must be provided.
