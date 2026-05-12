@@ -9,3 +9,4 @@ addons/Wwise/native/src**/*.obj
 *.validationcache
 **/WwiseProjectData.tres
 tests/WwiseProject/.cache/
+emsdk/
