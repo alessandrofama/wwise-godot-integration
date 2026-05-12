@@ -45,3 +45,14 @@ Any contribution is welcome. Please send pull-requests with fixes or additions!
 Audiokinetic offers a free Wwise license for indie developers. For detailed licensing information, visit https://www.audiokinetic.com/en/pricing/. 
 
 The licensing details for integration files, code, and scripts within this repository can be found [here](https://github.com/alessandrofama/wwise-godot-integration/blob/master/LICENSE).
+
+### Third-party plugin notice
+
+Release archives include third-party Wwise plugin binaries (iZotope, McDSP, Auro, etc.)
+that are redistributed under Audiokinetic's Wwise Plug-in EULA. Without an end-user
+license for each plugin, these run in trial mode (periodic mute/noise). Commercial
+licenses must be obtained from each vendor for production use.
+
+**Important:** License terms may change. Always verify the latest redistribution and
+end-user terms directly with [Audiokinetic](https://www.audiokinetic.com/) and each
+third-party plugin vendor before distributing or using these binaries.
