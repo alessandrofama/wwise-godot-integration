@@ -10,3 +10,5 @@ addons/Wwise/native/src**/*.obj
 **/WwiseProjectData.tres
 tests/WwiseProject/.cache/
 emsdk/
+.claude/
+.serena/
