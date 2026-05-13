@@ -16,10 +16,14 @@ protected:
 	static void _bind_methods() {};
 
 private:
-	static Ref<Texture2D> icon_cache[2][(int)WwiseObjectType::Max];
+	static AkEditorUtils* singleton;
+	Ref<Texture2D> icon_cache[2][(int)WwiseObjectType::Max];
 
 public:
-	static Ref<Texture2D> get_editor_icon(const WwiseObjectType p_type);
-	static String get_icon_name(const WwiseObjectType p_type);
-	static String get_theme_folder(bool dark_mode);
+	AkEditorUtils();
+	~AkEditorUtils();
+	static AkEditorUtils* get_singleton() { return singleton; };
+	Ref<Texture2D> get_editor_icon(const WwiseObjectType p_type);
+	String get_icon_name(const WwiseObjectType p_type);
+	String get_theme_folder(bool dark_mode);
 };
