@@ -48,6 +48,7 @@
 #include "editor/ak_wwise_tree_item.cpp"
 #include "editor/plugins/ak_android_export_plugin.cpp"
 #include "editor/plugins/ak_editor_export_plugin.cpp"
+#include "editor/plugins/ak_web_export_plugin.cpp"
 #include "editor/plugins/ak_editor_plugin.cpp"
 #include "editor/plugins/ak_event_3d_gizmo_plugin.cpp"
 #include "editor/plugins/ak_wwise_editor_inspector_plugin.cpp"
@@ -112,6 +113,7 @@ void register_wwise_types(ModuleInitializationLevel p_level)
 		ClassDB::register_class<AkEvent3DGizmoPlugin>();
 		ClassDB::register_class<AkEditorExportPlugin>();
 		ClassDB::register_class<AkAndroidExportPlugin>();
+		ClassDB::register_class<AkWebExportPlugin>();
 		ClassDB::register_class<WwiseBaseInformation>();
 		ClassDB::register_class<WwiseTreeObject>();
 		ClassDB::register_class<WwiseTreeObjectEvent>();

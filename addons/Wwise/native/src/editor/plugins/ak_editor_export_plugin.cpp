@@ -209,7 +209,8 @@ void AkEditorExportPlugin::_export_begin(
 		{ "macos", settings->project_settings.mac_platform_info },
 		{ "linux", settings->project_settings.linux_platform_info },
 		{ "ios", settings->project_settings.ios_platform_info },
-		{ "android", settings->project_settings.android_platform_info } };
+		{ "android", settings->project_settings.android_platform_info },
+		{ "web", settings->project_settings.web_platform_info } };
 
 	for (const auto& feature : p_features)
 	{

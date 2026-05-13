@@ -3,5 +3,3 @@
 [resource]
 platform_name = "Windows"
 platform_path = "Windows"
-resource_local_to_scene = null
-resource_name = null
