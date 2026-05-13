@@ -21,6 +21,7 @@
 #include "core/wwise_external_source_info.h"
 #include "core/wwise_gdextension.cpp"
 #include "core/wwise_io_hook.cpp"
+#include "core/wwise_logger.cpp"
 #include "core/wwise_platform_info.cpp"
 #include "core/wwise_plugin_info.cpp"
 #include "core/wwise_settings.cpp"
@@ -76,6 +77,7 @@ static Waapi* waapi_module;
 
 static Wwise* wwise_module;
 static WwiseSettings* wwise_settings;
+static WwiseLogger* wwise_logger;
 static AkUtils* ak_utils;
 #if defined(TOOLS_ENABLED)
 static WwiseProjectDatabase* wwise_project_database;
@@ -84,6 +86,57 @@ static AkEditorUtils* ak_editor_utils;
 
 void register_wwise_types(ModuleInitializationLevel p_level)
 {
+	if (p_level == MODULE_INITIALIZATION_LEVEL_SCENE)
+	{
+		ClassDB::register_class<WwiseSettings>();
+		wwise_settings = memnew(WwiseSettings);
+
+		ClassDB::register_class<WwiseLogger>();
+		wwise_logger = memnew(WwiseLogger);
+
+		ClassDB::register_class<AkUtils>();
+		ak_utils = memnew(AkUtils);
+		Engine::get_singleton()->register_singleton("AkUtils", AkUtils::get_singleton());
+
+		ClassDB::register_class<Wwise>();
+		wwise_module = memnew(Wwise);
+		Engine::get_singleton()->register_singleton("Wwise", Wwise::get_singleton());
+
+		ClassDB::register_abstract_class<WwiseBaseType>();
+		ClassDB::register_abstract_class<WwiseGroupType>();
+		ClassDB::register_class<WwiseEvent>();
+		ClassDB::register_class<WwiseBank>();
+		ClassDB::register_class<WwiseAcousticTexture>();
+		ClassDB::register_class<WwiseState>();
+		ClassDB::register_class<WwiseStateGroup>();
+		ClassDB::register_class<WwiseSwitch>();
+		ClassDB::register_class<WwiseSwitchGroup>();
+		ClassDB::register_class<WwiseRTPC>();
+		ClassDB::register_class<WwiseTrigger>();
+		ClassDB::register_class<WwiseAuxBus>();
+		ClassDB::register_class<AkMidiPost>();
+		ClassDB::register_class<WwiseExternalSourceInfo>();
+		ClassDB::register_class<WwisePluginInfo>();
+		ClassDB::register_class<WwisePlatformInfo>();
+
+		ClassDB::register_class<AkGameObj>();
+		ClassDB::register_class<AkGameObj2D>();
+		ClassDB::register_class<AkGameObj3D>();
+		ClassDB::register_class<AkBank>();
+		ClassDB::register_class<AkListener2D>();
+		ClassDB::register_class<AkListener3D>();
+		ClassDB::register_class<AkState>();
+		ClassDB::register_class<AkSwitch>();
+		ClassDB::register_class<AkEnvironmentData>();
+		ClassDB::register_class<AkEnvironment>();
+		ClassDB::register_class<AkEvent2D>();
+		ClassDB::register_class<AkEvent3D>();
+		ClassDB::register_class<AkPortal>();
+		ClassDB::register_class<AkGeometry>();
+		ClassDB::register_class<AkRoom>();
+		ClassDB::register_class<AkEarlyReflections>();
+	}
+
 	if (p_level == MODULE_INITIALIZATION_LEVEL_EDITOR)
 	{
 #if defined(AK_WIN) || defined(AK_MAC_OS_X)
@@ -136,74 +189,10 @@ void register_wwise_types(ModuleInitializationLevel p_level)
 #endif
 #endif
 	}
-
-	if (p_level == MODULE_INITIALIZATION_LEVEL_SCENE)
-	{
-		ClassDB::register_class<AkUtils>();
-		ak_utils = memnew(AkUtils);
-		Engine::get_singleton()->register_singleton("AkUtils", AkUtils::get_singleton());
-
-		ClassDB::register_class<Wwise>();
-		wwise_module = memnew(Wwise);
-		Engine::get_singleton()->register_singleton("Wwise", Wwise::get_singleton());
-
-		ClassDB::register_class<WwiseSettings>();
-		wwise_settings = memnew(WwiseSettings);
-
-		ClassDB::register_abstract_class<WwiseBaseType>();
-		ClassDB::register_abstract_class<WwiseGroupType>();
-		ClassDB::register_class<WwiseEvent>();
-		ClassDB::register_class<WwiseBank>();
-		ClassDB::register_class<WwiseAcousticTexture>();
-		ClassDB::register_class<WwiseState>();
-		ClassDB::register_class<WwiseStateGroup>();
-		ClassDB::register_class<WwiseSwitch>();
-		ClassDB::register_class<WwiseSwitchGroup>();
-		ClassDB::register_class<WwiseRTPC>();
-		ClassDB::register_class<WwiseTrigger>();
-		ClassDB::register_class<WwiseAuxBus>();
-		ClassDB::register_class<AkMidiPost>();
-		ClassDB::register_class<WwiseExternalSourceInfo>();
-		ClassDB::register_class<WwisePluginInfo>();
-		ClassDB::register_class<WwisePlatformInfo>();
-
-		ClassDB::register_class<AkGameObj>();
-		ClassDB::register_class<AkGameObj2D>();
-		ClassDB::register_class<AkGameObj3D>();
-		ClassDB::register_class<AkBank>();
-		ClassDB::register_class<AkListener2D>();
-		ClassDB::register_class<AkListener3D>();
-		ClassDB::register_class<AkState>();
-		ClassDB::register_class<AkSwitch>();
-		ClassDB::register_class<AkEnvironmentData>();
-		ClassDB::register_class<AkEnvironment>();
-		ClassDB::register_class<AkEvent2D>();
-		ClassDB::register_class<AkEvent3D>();
-		ClassDB::register_class<AkPortal>();
-		ClassDB::register_class<AkGeometry>();
-		ClassDB::register_class<AkRoom>();
-		ClassDB::register_class<AkEarlyReflections>();
-	}
 }
 
 void unregister_wwise_types(ModuleInitializationLevel p_level)
 {
-	if (p_level == MODULE_INITIALIZATION_LEVEL_SCENE)
-	{
-		if (Engine::get_singleton()->has_singleton("Wwise"))
-		{
-			Engine::get_singleton()->unregister_singleton("Wwise");
-			memdelete(wwise_module);
-		}
-		if (Engine::get_singleton()->has_singleton("AkUtils"))
-		{
-			Engine::get_singleton()->unregister_singleton("AkUtils");
-			memdelete(ak_utils);
-		}
-
-		memdelete(wwise_settings);
-	}
-
 	if (p_level == MODULE_INITIALIZATION_LEVEL_EDITOR)
 	{
 #if defined(AK_WIN) || defined(AK_MAC_OS_X)
@@ -223,6 +212,23 @@ void unregister_wwise_types(ModuleInitializationLevel p_level)
 		}
 #endif
 #endif
+	}
+
+	if (p_level == MODULE_INITIALIZATION_LEVEL_SCENE)
+	{
+		if (Engine::get_singleton()->has_singleton("Wwise"))
+		{
+			Engine::get_singleton()->unregister_singleton("Wwise");
+			memdelete(wwise_module);
+		}
+		if (Engine::get_singleton()->has_singleton("AkUtils"))
+		{
+			Engine::get_singleton()->unregister_singleton("AkUtils");
+			memdelete(ak_utils);
+		}
+
+		memdelete(wwise_settings);
+		memdelete(wwise_logger);
 	}
 }
 

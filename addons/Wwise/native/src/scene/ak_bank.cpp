@@ -54,9 +54,9 @@ void AkBank::load_bank()
 {
 	if (bank.is_null())
 	{
-		UtilityFunctions::push_warning(vformat("WwiseGodot: Trying to load a Bank, but the Bank property in the "
-											   "AkBank node: %s is not set (null).",
-				get_name()));
+		WwiseLogger::warning_format("Trying to load a Bank, but the Bank property in the "
+									"AkBank node: %s is not set (null).",
+				get_name());
 		return;
 	}
 
@@ -80,9 +80,9 @@ void AkBank::unload_bank()
 {
 	if (bank.is_null())
 	{
-		UtilityFunctions::push_warning(vformat("WwiseGodot: Trying to unload a Bank, but the Bank property in the "
-											   "AkBank node: %s is not set (null).",
-				get_name()));
+		WwiseLogger::warning_format("Trying to unload a Bank, but the Bank property in the "
+									"AkBank node: %s is not set (null).",
+				get_name());
 		return;
 	}
 
