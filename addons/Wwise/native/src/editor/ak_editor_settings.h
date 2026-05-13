@@ -65,7 +65,7 @@ String get_platform_name(String custom_platform_name = String())
 	platform_name = load_platform_name(settings->project_settings.linux_platform_info);
 	return platform_name.is_empty() ? "Linux" : platform_name;
 #else
-	UtilityFunctions::push_warning("WwiseGodot: Trying to get platform name for unsupported platform in the Editor.");
+	WwiseLogger::warning("Trying to get platform name for unsupported platform in the Editor.");
 	return "Windows";
 #endif
 }

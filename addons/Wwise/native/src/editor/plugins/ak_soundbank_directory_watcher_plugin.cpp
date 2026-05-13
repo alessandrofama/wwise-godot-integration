@@ -20,10 +20,12 @@ void AkSoundBankDirectoryWatcherPlugin::_on_timer_timeout()
 	{
 		if (!empty_base_path_error_was_logged)
 		{
-			UtilityFunctions::push_warning(
-					"WwiseGodot: The 'Root Output Path' setting in Wwise's Common User Settings (found under Godot Project > "
+			WwiseLogger::warning(
+					"The 'Root Output Path' setting in Wwise's Common User Settings (found under Godot "
+					"Project > "
 					"Project Settings...) is empty. SoundBanks must be generated inside your Godot project "
-					"folder. Please generate your SoundBanks within the Godot project and update the 'Root Output Path' setting "
+					"folder. Please generate your SoundBanks within the Godot project and update the 'Root Output "
+					"Path' setting "
 					"in your project settings to match the SoundBanks location in order to complete the setup "
 					"process.");
 			empty_base_path_error_was_logged = true;
@@ -38,10 +40,10 @@ void AkSoundBankDirectoryWatcherPlugin::_on_timer_timeout()
 	{
 		if (!missing_json_file_error_was_logged)
 		{
-			UtilityFunctions::printerr(vformat(
-					"WwiseGodot: ProjectInfo.json not found at %s. Ensure the 'Generate JSON Metadata' option is "
+			WwiseLogger::error_format(
+					"ProjectInfo.json not found at %s. Ensure the 'Generate JSON Metadata' option is "
 					"enabled in the Wwise Project Settings under the SoundBanks tab, then regenerate the SoundBanks.",
-					project_json_path));
+					project_json_path);
 			missing_json_file_error_was_logged = true;
 		}
 		return;
@@ -53,8 +55,7 @@ void AkSoundBankDirectoryWatcherPlugin::_on_timer_timeout()
 	{
 		uint64_t time = FileAccess::get_modified_time(root_output_path);
 
-		task = std::async(std::launch::async,
-				[this, root_output_path, time, custom_platform_name]()
+		task = std::async(std::launch::async, [this, root_output_path, time, custom_platform_name]()
 				{ this->init_project_db(root_output_path, time, custom_platform_name); });
 
 		last_file_check = Time::get_singleton()->get_unix_time_from_system();
@@ -96,8 +97,8 @@ void AkSoundBankDirectoryWatcherPlugin::init_project_db(
 		String current_language = settings->get_setting(settings->common_user_settings.startup_language);
 		if (current_language.is_empty())
 		{
-			UtilityFunctions::printerr("WwiseGodot: Startup Language property in the advanced Wwise-Godot Project "
-									   "Settings is empty. Defaulting to English(US).");
+			WwiseLogger::error("Startup Language property in the advanced Wwise-Godot Project "
+							   "Settings is empty. Defaulting to English(US).");
 			current_language = "English(US)";
 		}
 

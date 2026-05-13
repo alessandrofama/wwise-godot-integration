@@ -34,9 +34,9 @@ void AkRoom::_ready()
 
 	if (aux_bus.is_null())
 	{
-		UtilityFunctions::push_warning(vformat("WwiseGodot: Trying to set a Room, but the AuxBus property in the "
-											   "AkRoom node: %s is not set (null).",
-				get_name()));
+		WwiseLogger::warning_format("Trying to set a Room, but the AuxBus property in the "
+									"AkRoom node: %s is not set (null).",
+				get_name());
 		return;
 	}
 

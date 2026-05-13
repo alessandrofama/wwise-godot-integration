@@ -123,12 +123,18 @@ public:
 		StringName custom_platform_name;
 	};
 
+	struct WwiseLoggerSettings
+	{
+		StringName log_level;
+	};
+
 	CommonUserSettings common_user_settings;
 	SpatialAudioSettings spatial_audio_settings;
 	AdvancedSettings advanced_settings;
 	CommunicationSettings communication_settings;
 	PlatformSettings platform_settings;
 	ProjectSettings project_settings;
+	WwiseLoggerSettings wwise_logger_settings;
 
 	String GODOT_WINDOWS_SETTING_POSTFIX = ".windows";
 	String GODOT_MAC_OSX_SETTING_POSTFIX = ".macos";
