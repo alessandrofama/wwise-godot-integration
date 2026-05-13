@@ -95,8 +95,8 @@ void WwiseEvent::post_load_auto_bank(uint32_t p_bank_id)
 	auto result = AK::SoundEngine::PrepareEvent(AK::SoundEngine::Preparation_Load, event_ids, 1);
 	if (result != AK_Success)
 	{
-		UtilityFunctions::push_error(vformat(
-				"WwiseGodot: PrepareEvent for %s failed with result: %s.", get_name(), wwise_error_string(result)));
+		WwiseLogger::error_format(
+				"PrepareEvent for %s failed with result: %s.", get_name(), wwise_error_string(result));
 	}
 }
 
@@ -131,16 +131,16 @@ uint32_t WwiseEvent::post(Node* p_node)
 		playing_id = Wwise::get_singleton()->post_event_id(get_id(), p_node);
 		if (get_is_in_user_defined_sound_bank() && playing_id == 0)
 		{
-			UtilityFunctions::push_error(
-					"WwiseGodot: Post Event failed. This Event is in a User Defined Soundbank. Make sure to add an "
+			WwiseLogger::error(
+					"Post Event failed. This Event is in a User Defined Soundbank. Make sure to add an "
 					"AkBank Node to the Scene Tree and load the corresponding SoundBank before posting the Event.");
 		}
 	}
 	else
 	{
-		UtilityFunctions::push_warning(vformat("WwiseGodot: Could not post Event (name: %s, ID: %d). The Node "
-											   "(GameObject) to post the event on has been deleted or is now invalid.",
-				get_name(), get_id()));
+		WwiseLogger::warning_format("Could not post Event (name: %s, ID: %d). The Node "
+									"(GameObject) to post the event on has been deleted or is now invalid.",
+				get_name(), get_id());
 	}
 
 	return playing_id;
@@ -153,16 +153,16 @@ uint32_t WwiseEvent::post_callback(Node* p_node, AkUtils::AkCallbackType p_flags
 		playing_id = Wwise::get_singleton()->post_event_id_callback(get_id(), p_flags, p_node, cookie);
 		if (get_is_in_user_defined_sound_bank() && playing_id == 0)
 		{
-			UtilityFunctions::push_error(
-					"WwiseGodot: Post Event failed. This Event is in a User Defined Soundbank. Make sure to add an "
+			WwiseLogger::error(
+					"Post Event failed. This Event is in a User Defined Soundbank. Make sure to add an "
 					"AkBank Node to the Scene Tree and load the corresponding SoundBank before posting the Event.");
 		}
 	}
 	else
 	{
-		UtilityFunctions::push_warning(vformat("WwiseGodot: Could not post Event (name: %s, ID: %d). The Node "
-											   "(GameObject) to post the event on has been deleted or is now invalid.",
-				get_name(), get_id()));
+		WwiseLogger::warning_format("Could not post Event (name: %s, ID: %d). The Node "
+									"(GameObject) to post the event on has been deleted or is now invalid.",
+				get_name(), get_id());
 	}
 
 	return playing_id;
@@ -183,9 +183,9 @@ void WwiseEvent::execute_action(Node* p_node, AkUtils::AkActionOnEventType p_act
 	}
 	else
 	{
-		UtilityFunctions::push_warning(vformat("WwiseGodot: Could not stop Event (name: %s, ID: %d). The Node "
-											   "(GameObject) has been deleted or is now invalid.",
-				get_name(), get_id()));
+		WwiseLogger::warning_format("Could not stop Event (name: %s, ID: %d). The Node "
+									"(GameObject) has been deleted or is now invalid.",
+				get_name(), get_id());
 	}
 }
 
@@ -197,9 +197,9 @@ void WwiseEvent::post_midi(Node* p_node, TypedArray<AkMidiPost> p_midi_posts)
 	}
 	else
 	{
-		UtilityFunctions::push_warning(vformat("WwiseGodot: Could not post Midi on Event (name: %s, ID: %d). The Node "
-											   "(GameObject) has been deleted or is now invalid.",
-				get_name(), get_id()));
+		WwiseLogger::warning_format("Could not post Midi on Event (name: %s, ID: %d). The Node "
+									"(GameObject) has been deleted or is now invalid.",
+				get_name(), get_id());
 	}
 }
 
@@ -211,9 +211,9 @@ void WwiseEvent::stop_midi(Node* p_node)
 	}
 	else
 	{
-		UtilityFunctions::push_warning(vformat("WwiseGodot: Could not stop Midi on Event (name: %s, ID: %d). The Node "
-											   "(GameObject) has been deleted or is now invalid.",
-				get_name(), get_id()));
+		WwiseLogger::warning_format("Could not stop Midi on Event (name: %s, ID: %d). The Node "
+									"(GameObject) has been deleted or is now invalid.",
+				get_name(), get_id());
 	}
 }
 
@@ -241,9 +241,6 @@ void WwiseEvent::set_is_auto_bank_loaded(bool p_is_auto_bank_loaded)
 
 bool WwiseEvent::get_is_auto_bank_loaded() const { return is_auto_bank_loaded; }
 
-void WwiseEvent::set_playing_id(AkPlayingID p_playing_id)
-{
-	playing_id = p_playing_id;
-}
+void WwiseEvent::set_playing_id(AkPlayingID p_playing_id) { playing_id = p_playing_id; }
 
 AkPlayingID WwiseEvent::get_playing_id() const { return playing_id; }

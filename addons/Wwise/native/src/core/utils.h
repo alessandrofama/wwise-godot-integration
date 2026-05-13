@@ -6,6 +6,7 @@
 
 #include "AK/SoundEngine/Common/AkCallbackTypes.h"
 #include "AK/SoundEngine/Common/AkTypes.h"
+#include "core/wwise_logger.h"
 #include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/classes/node.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
@@ -218,7 +219,7 @@ static bool check_error(
 	{
 		String error_message =
 				vformat("[%s]: %s in %s:%d. %s", wwise_error_string(result), function, file, line, message);
-		UtilityFunctions::push_error(error_message);
+		WwiseLogger::error(error_message);
 		return false;
 	}
 

@@ -9,6 +9,7 @@
 #include "core/wwise_io_hook.h"
 #include "core/wwise_platform_info.h"
 #include "core/wwise_settings.h"
+#include "core/wwise_logger.h"
 #include <AK/SoundEngine/Common/AkCallback.h>
 #include <AK/SoundEngine/Common/AkMemoryMgr.h>
 #include <AK/SoundEngine/Common/AkMemoryMgrModule.h>

@@ -86,9 +86,9 @@ void AkEvent2D::post_event()
 {
 	if (event.is_null())
 	{
-		UtilityFunctions::push_warning(vformat("WwiseGodot: Trying to post an Event, but the Event property in the "
-											   "AkEvent node: %s is not set (null).",
-				get_name()));
+		WwiseLogger::warning_format("Trying to post an Event, but the Event property in the "
+									"AkEvent node: %s is not set (null).",
+				get_name());
 		return;
 	}
 
@@ -108,9 +108,9 @@ void AkEvent2D::stop_event()
 {
 	if (event.is_null())
 	{
-		UtilityFunctions::push_warning(vformat("WwiseGodot: Trying to stop an Event, but the Event property in the "
-											   "AkEvent node: %s is not set (null).",
-				get_name()));
+		WwiseLogger::warning_format("Trying to stop an Event, but the Event property in the "
+									"AkEvent node: %s is not set (null).",
+				get_name());
 		return;
 	}
 
@@ -283,9 +283,9 @@ void AkEvent3D::post_event()
 {
 	if (event.is_null())
 	{
-		UtilityFunctions::push_warning(vformat("WwiseGodot: Trying to post an Event, but the Event property in the "
-											   "AkEvent node: %s is not set (null).",
-				get_name()));
+		WwiseLogger::warning_format("Trying to post an Event, but the Event property in the "
+									"AkEvent node: %s is not set (null).",
+				get_name());
 		return;
 	}
 
@@ -305,9 +305,9 @@ void AkEvent3D::stop_event()
 {
 	if (event.is_null())
 	{
-		UtilityFunctions::push_warning(vformat("WwiseGodot: Trying to stop an Event, but the Event property in the "
-											   "AkEvent node: %s is not set (null).",
-				get_name()));
+		WwiseLogger::warning_format("Trying to stop an Event, but the Event property in the "
+									"AkEvent node: %s is not set (null).",
+				get_name());
 		return;
 	}
 

@@ -39,7 +39,7 @@ void AkSwitch::set_value()
 {
 	if (!game_object)
 	{
-		UtilityFunctions::push_warning(vformat("WwiseGodot: Assigned Node in AkSwitch %s is null!", get_name()));
+		WwiseLogger::warning_format("Assigned Node in AkSwitch %s is null!", get_name());
 		return;
 	}
 

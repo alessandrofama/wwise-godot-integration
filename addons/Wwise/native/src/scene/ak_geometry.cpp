@@ -66,15 +66,14 @@ bool AkGeometry::sync_wwise_geometry()
 	Node* parent_node = get_parent();
 	if (!parent_node)
 	{
-		UtilityFunctions::push_error(vformat("WwiseGodot: AkGeometry '%s' has no parent.", get_path()));
+		WwiseLogger::error_format("AkGeometry '%s' has no parent.", get_path());
 		return false;
 	}
 
 	Node3D* parent_3d = Object::cast_to<Node3D>(parent_node);
 	if (!parent_3d)
 	{
-		UtilityFunctions::push_error(vformat(
-				"WwiseGodot: AkGeometry '%s' parent must be a Node3D.", get_path()));
+		WwiseLogger::error_format("AkGeometry '%s' parent must be a Node3D.", get_path());
 		return false;
 	}
 
@@ -116,8 +115,8 @@ bool AkGeometry::prepare_geometry_data(
 	}
 	else
 	{
-		UtilityFunctions::push_error(vformat(
-				"WwiseGodot: AkGeometry '%s' parent is neither MeshInstance3D nor CollisionObject3D.", get_path()));
+		WwiseLogger::error_format(
+				"AkGeometry '%s' parent is neither MeshInstance3D nor CollisionObject3D.", get_path());
 		return false;
 	}
 }
@@ -128,16 +127,14 @@ bool AkGeometry::prepare_geometry_from_mesh(
 	Ref<Mesh> mesh = mesh_parent->get_mesh();
 	if (mesh.is_null())
 	{
-		UtilityFunctions::push_warning(
-				vformat("WwiseGodot: AkGeometry '%s' parent MeshInstance3D has no mesh assigned.", get_path()));
+		WwiseLogger::error_format("AkGeometry '%s' parent MeshInstance3D has no mesh assigned.", get_path());
 		return false;
 	}
 
 	Ref<MeshDataTool> mdt = create_mesh_data_tool(mesh);
 	if (mdt.is_null())
 	{
-		UtilityFunctions::push_warning(
-				vformat("WwiseGodot: AkGeometry '%s' could not create MeshDataTool.", get_path()));
+		WwiseLogger::error_format("AkGeometry '%s' could not create MeshDataTool.", get_path());
 		return false;
 	}
 
@@ -146,8 +143,7 @@ bool AkGeometry::prepare_geometry_from_mesh(
 
 	if (vertex_count == 0 || face_count == 0)
 	{
-		UtilityFunctions::push_warning(
-				vformat("WwiseGodot: AkGeometry '%s' mesh has no vertices or faces.", get_path()));
+		WwiseLogger::error_format("AkGeometry '%s' mesh has no vertices or faces.", get_path());
 		return false;
 	}
 
@@ -248,8 +244,8 @@ bool AkGeometry::prepare_geometry_from_collision_object(
 			PackedVector3Array faces = concave->get_faces();
 			if (faces.size() == 0 || faces.size() % 3 != 0)
 			{
-				UtilityFunctions::push_warning(vformat(
-						"WwiseGodot: AkGeometry '%s' found ConcavePolygonShape3D with invalid face data.", get_path()));
+				WwiseLogger::warning_format(
+						"AkGeometry '%s' found ConcavePolygonShape3D with invalid face data.", get_path());
 				continue;
 			}
 
@@ -263,9 +259,8 @@ bool AkGeometry::prepare_geometry_from_collision_object(
 		}
 		else
 		{
-			UtilityFunctions::push_warning(
-					vformat("WwiseGodot: AkGeometry '%s' encountered unsupported shape type '%s'.", get_path(),
-							shape->get_class()));
+			WwiseLogger::warning_format(
+					"AkGeometry '%s' encountered unsupported shape type '%s'.", get_path(), shape->get_class());
 			continue;
 		}
 
@@ -305,18 +300,16 @@ bool AkGeometry::prepare_geometry_from_collision_object(
 			}
 			else
 			{
-				UtilityFunctions::push_warning(
-						vformat("WwiseGodot: AkGeometry '%s' failed to create MeshDataTool for shape '%s'.", get_path(),
-								cs->get_name()));
+				WwiseLogger::error_format(
+						"AkGeometry '%s' failed to create MeshDataTool for shape '%s'.", get_path(), cs->get_name());
 			}
 		}
 	}
 
 	if (!has_valid_geometry)
 	{
-		UtilityFunctions::push_warning(
-				vformat("WwiseGodot: AkGeometry '%s' found no valid CollisionShapes under CollisionObject3D parent.",
-						get_path()));
+		WwiseLogger::error_format(
+				"AkGeometry '%s' found no valid CollisionShapes under CollisionObject3D parent.", get_path());
 		return false;
 	}
 
@@ -334,8 +327,7 @@ bool AkGeometry::call_wwise_set_geometry(const PackedVector3Array& p_vertices, c
 
 	if (!result)
 	{
-		UtilityFunctions::push_error(
-				vformat("WwiseGodot: AkGeometry '%s' failed to set Wwise geometry set.", get_path()));
+		WwiseLogger::error_format("AkGeometry '%s' failed to set Wwise geometry set.", get_path());
 	}
 
 	return result;
@@ -357,8 +349,7 @@ bool AkGeometry::call_wwise_set_geometry_instance(const Transform3D& p_transform
 
 	if (!result)
 	{
-		UtilityFunctions::push_error(
-				vformat("WwiseGodot: AkGeometry '%s' failed to set Wwise geometry instance.", get_path()));
+		WwiseLogger::error_format("AkGeometry '%s' failed to set Wwise geometry instance.", get_path());
 	}
 
 	return result;
@@ -374,8 +365,7 @@ void AkGeometry::call_wwise_remove_geometry_instance()
 	Wwise* soundengine = Wwise::get_singleton();
 	if (!soundengine->remove_geometry_instance(geometry_instance_object))
 	{
-		UtilityFunctions::push_error(
-				vformat("WwiseGodot: AkGeometry '%s' failed to remove Wwise geometry instance.", get_path()));
+		WwiseLogger::error_format("AkGeometry '%s' failed to remove Wwise geometry instance.", get_path());
 	}
 }
 
@@ -394,8 +384,7 @@ void AkGeometry::call_wwise_remove_geometry_set()
 	}
 	else
 	{
-		UtilityFunctions::push_error(
-				vformat("WwiseGodot: AkGeometry '%s' failed to remove Wwise geometry set.", get_path()));
+		WwiseLogger::error_format("AkGeometry '%s' failed to remove Wwise geometry set.", get_path());
 	}
 }
 
@@ -409,8 +398,7 @@ Ref<MeshDataTool> AkGeometry::create_mesh_data_tool(const Ref<Mesh>& mesh)
 {
 	if (mesh.is_null())
 	{
-		UtilityFunctions::push_error(
-				"WwiseGodot: AkGeometry '%s' create_mesh_data_tool called with null mesh.", get_path());
+		WwiseLogger::error_format("AkGeometry '%s' create_mesh_data_tool called with null mesh.", get_path());
 		return Ref<MeshDataTool>();
 	}
 
@@ -422,7 +410,7 @@ Ref<MeshDataTool> AkGeometry::create_mesh_data_tool(const Ref<Mesh>& mesh)
 	Array surface_arrays = mesh->surface_get_arrays(0);
 	if (surface_arrays.is_empty())
 	{
-		UtilityFunctions::push_warning("WwiseGodot: AkGeometry '%s' Mesh surface 0 has no array data.", get_path());
+		WwiseLogger::error_format("AkGeometry '%s' Mesh surface 0 has no array data.", get_path());
 		return Ref<MeshDataTool>();
 	}
 
@@ -436,9 +424,8 @@ Ref<MeshDataTool> AkGeometry::create_mesh_data_tool(const Ref<Mesh>& mesh)
 
 	if (err != OK)
 	{
-		UtilityFunctions::push_error(
-				vformat("WwiseGodot: AkGeometry '%s' MeshDataTool::create_from_surface failed with error code: %d",
-						get_path(), err));
+		WwiseLogger::error_format(
+				"AkGeometry '%s' MeshDataTool::create_from_surface failed with error code: %d", get_path(), err);
 		return Ref<MeshDataTool>();
 	}
 
