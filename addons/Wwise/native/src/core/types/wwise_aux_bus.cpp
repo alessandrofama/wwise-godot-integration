@@ -82,8 +82,7 @@ void WwiseAuxBus::post_load_auto_bank(uint32_t p_bank_id)
 	auto result = AK::SoundEngine::PrepareBus(AK::SoundEngine::Preparation_Load, bus_ids, 1);
 	if (result != AK_Success)
 	{
-		UtilityFunctions::push_error(vformat(
-				"WwiseGodot: PrepareBus for %s failed with result: %s.", get_name(), wwise_error_string(result)));
+		WwiseLogger::error_format("PrepareBus for %s failed with result: %s.", get_name(), wwise_error_string(result));
 	}
 }
 

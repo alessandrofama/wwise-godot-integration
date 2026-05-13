@@ -188,7 +188,8 @@ void WwiseBaseType::update_wwise_object(WwiseObjectType wwise_object_type, const
 		auto save_result = ResourceSaver::get_singleton()->save(wwise_asset, asset_path);
 		if (save_result != Error::OK)
 		{
-			UtilityFunctions::push_warning(vformat("WwiseGodot: Failed to save Wwise Object at path: %s", asset_path));
+			WwiseLogger::error_format(
+					"Failed to save Wwise Object at path: %s (Error: %d)", asset_path, (int)save_result);
 			return;
 		}
 

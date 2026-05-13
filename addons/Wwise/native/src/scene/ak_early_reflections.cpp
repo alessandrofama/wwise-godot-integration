@@ -30,17 +30,15 @@ void AkEarlyReflections::set_early_reflections_volume(float volume)
 {
 	if (game_object_path.is_empty())
 	{
-		UtilityFunctions::push_warning(
-				vformat("WwiseGodot: GameObject path in AkEarlyReflections Node: %s is empty", get_name()));
+		WwiseLogger::warning_format("GameObject path in AkEarlyReflections Node: %s is empty", get_name());
 		return;
 	}
 
 	if (aux_bus.is_null())
 	{
-		UtilityFunctions::push_warning(
-				vformat("WwiseGodot: Trying to set Eraly Reflections, but the AuxBus property in the "
-						"AkEarlyReflections node: %s is not set (null).",
-						get_name()));
+		WwiseLogger::warning_format("Trying to set Eraly Reflections, but the AuxBus property in the "
+									"AkEarlyReflections node: %s is not set (null).",
+				get_name());
 		return;
 	}
 
