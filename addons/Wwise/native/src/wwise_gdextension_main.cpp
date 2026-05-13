@@ -79,6 +79,7 @@ static WwiseSettings* wwise_settings;
 static AkUtils* ak_utils;
 #if defined(TOOLS_ENABLED)
 static WwiseProjectDatabase* wwise_project_database;
+static AkEditorUtils* ak_editor_utils;
 #endif
 
 void register_wwise_types(ModuleInitializationLevel p_level)
@@ -130,6 +131,8 @@ void register_wwise_types(ModuleInitializationLevel p_level)
 		ClassDB::register_class<WwiseBrowser>();
 		EditorPlugins::add_by_type<WwiseBrowser>();
 		ClassDB::register_class<AkEditorUtils>();
+		ak_editor_utils = memnew(AkEditorUtils);
+		Engine::get_singleton()->register_singleton("AkEditorUtils", AkEditorUtils::get_singleton());
 #endif
 #endif
 	}

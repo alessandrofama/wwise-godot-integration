@@ -139,7 +139,8 @@ Variant AkWwiseTree::_get_drag_data(const Vector2& p_at_position)
 		{
 			Button* button = memnew(Button);
 			button->set_text(wwise_tree_item->get_name());
-			button->set_button_icon(AkEditorUtils::get_editor_icon(wwise_tree_item->get_object_type()));
+			button->set_button_icon(
+					AkEditorUtils::get_singleton()->get_editor_icon(wwise_tree_item->get_object_type()));
 
 			Control* control = memnew(Control);
 			control->add_child(button);
