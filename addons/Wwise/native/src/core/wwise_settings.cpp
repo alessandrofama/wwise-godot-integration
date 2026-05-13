@@ -101,6 +101,9 @@ WwiseSettings::WwiseSettings()
 	project_settings.android_platform_info = "wwise/project_settings/android_platform_info";
 	project_settings.custom_platform_name = "wwise/project_settings/custom_platform_name";
 
+	// Wwise Logger Settings
+	wwise_logger_settings.log_level = "wwise/wwise_logger_settings/log_level";
+
 	add_wwise_settings();
 
 	if (Engine::get_singleton()->is_editor_hint())
@@ -111,9 +114,8 @@ WwiseSettings::WwiseSettings()
 		godot::Error error = godot::ProjectSettings::get_singleton()->save();
 		if (error)
 		{
-			UtilityFunctions::push_error(
-					StringName("WwiseGodot: Encountered error {0} while saving Wwise Project Settings.")
-							.format(Array::make(error)));
+			UtilityFunctions::printerr(
+					"WwiseGodot: Encountered error %d while saving Wwise Project Settings", (int)error);
 		}
 		else
 		{
@@ -138,7 +140,7 @@ void WwiseSettings::set_setting(const String& p_name, const Variant& p_value)
 	}
 	else
 	{
-		UtilityFunctions::push_warning(vformat("WwiseGodot: Trying to set non-existing setting: %s.", p_name));
+		UtilityFunctions::push_warning("Trying to set non-existing setting: %s.", p_name);
 	}
 }
 
@@ -175,8 +177,7 @@ Variant WwiseSettings::get_setting(const StringName& p_setting, const Variant& p
 	}
 	else
 	{
-		UtilityFunctions::push_warning(
-				vformat("WwiseGodot: Setting %s not found. Returning default value.", p_setting));
+		UtilityFunctions::push_warning("Setting '%s' not found. Returning default value.", p_setting);
 		return p_default;
 	}
 }
@@ -265,7 +266,7 @@ void WwiseSettings::add_wwise_settings()
 			"AAudio,OPENSL_ES,DolbyAtmos,AndroidSpatializer,Default");
 	add_setting(platform_settings.linux_audio_api, 3, Variant::Type::INT, PROPERTY_HINT_FLAGS, "PulseAudio, ALSA");
 
-	// Project Setting
+	// Project Settings
 	add_setting(project_settings.use_soundbank_names, true, Variant::Type::BOOL, PROPERTY_HINT_NONE, "");
 	add_setting(
 			project_settings.create_subfolders_for_generated_files, false, Variant::Type::BOOL, PROPERTY_HINT_NONE, "");
@@ -275,6 +276,10 @@ void WwiseSettings::add_wwise_settings()
 	add_setting(project_settings.ios_platform_info, "", Variant::Type::STRING, PROPERTY_HINT_NONE, "");
 	add_setting(project_settings.android_platform_info, "", Variant::Type::STRING, PROPERTY_HINT_NONE, "");
 	add_setting(project_settings.custom_platform_name, "", Variant::Type::STRING, PROPERTY_HINT_NONE, "");
+
+	// Wwise Logger Settings
+	add_setting(wwise_logger_settings.log_level, 3, Variant::Type::INT, PROPERTY_HINT_ENUM,
+			"None,Error,Warning,Log,Verbose,VeryVerbose");
 }
 
 void WwiseSettings::add_setting(const StringName& name, const Variant& default_value, Variant::Type type,
@@ -327,7 +332,7 @@ void WwiseSettings::remove_undefined_settings()
 
 			if (!defined_settings.has(base_name))
 			{
-				UtilityFunctions::print(vformat("WwiseGodot: Removing obsolete setting: %s", name));
+				WwiseLogger::log_format("Removing obsolete setting: %s", name);
 				project_settings->set_setting(name, Variant());
 			}
 		}

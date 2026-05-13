@@ -1,5 +1,6 @@
 #pragma once
 
+#include "core/wwise_logger.h"
 #include <AK/SoundEngine/Common/AkSoundEngine.h>
 #include <AK/SoundEngine/Common/AkTypes.h>
 #include <AK/Tools/Common/AkAutoLock.h>
@@ -69,8 +70,7 @@ public:
 		{
 			if (result != AK_Success)
 			{
-				UtilityFunctions::push_warning(
-						vformat("WwiseGodot: Bank %s failed to load (%s).", bank_name, String::num_int64(result)));
+				WwiseLogger::error_format("Bank %s failed to load (%s).", bank_name, wwise_error_string(result));
 			}
 		}
 	};
@@ -115,8 +115,7 @@ public:
 		AKRESULT result = AK::SoundEngine::LoadBank("Init.bnk", bank_id);
 		if (result != AK_Success)
 		{
-			UtilityFunctions::push_warning(
-					vformat("WwiseGodot: Failed to load Init.bnk with result: %s", wwise_error_string(result)));
+			WwiseLogger::error_format("Failed to load Init.bnk with result: %s", wwise_error_string(result));
 		}
 	}
 
@@ -131,8 +130,7 @@ public:
 		AKRESULT result = AK::SoundEngine::LoadBank(init_bank_id);
 		if (result != AK_Success)
 		{
-			UtilityFunctions::push_warning(
-					vformat("WwiseGodot: Failed to load Init.bnk with result: %s", wwise_error_string(result)));
+			WwiseLogger::error_format("Failed to load Init.bnk with result: %s", wwise_error_string(result));
 		}
 	}
 

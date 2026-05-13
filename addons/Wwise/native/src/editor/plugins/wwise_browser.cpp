@@ -98,7 +98,7 @@ bool WwiseBrowser::generate_soundbanks()
 
 	if (!success)
 	{
-		UtilityFunctions::push_error("WwiseGodot: SoundBank generation failed.");
+		WwiseLogger::error("SoundBank generation failed.");
 	}
 
 	memdelete(json);
@@ -229,15 +229,15 @@ void WwiseBrowser::_on_generate_soundbanks_button_up()
 {
 	if (!ensure_wwise_connection())
 	{
-		UtilityFunctions::push_error(
-				"WwiseGodot: Failed to connect to Wwise Authoring Application. Retry or update the WAMP Port in Wwise "
+		WwiseLogger::error(
+				"Failed to connect to Wwise Authoring. Retry or update the WAMP Port in Wwise "
 				"Authoring User Preferences and Wwise-Godot Project Settings.");
 		return;
 	}
 
 	if (generate_soundbanks())
 	{
-		UtilityFunctions::print("WwiseGodot: SoundBanks generated successfully.");
+		WwiseLogger::log("SoundBanks generated successfully.");
 	}
 }
 
@@ -286,5 +286,5 @@ void WwiseBrowser::_on_generate_ids_button_up()
 	EditorFileSystem* filesystem = get_editor_interface()->get_resource_filesystem();
 	filesystem->update_file(wwise_ids_path);
 	filesystem->scan();
-	UtilityFunctions::print(vformat("WwiseGodot: Generated IDs at %s", wwise_ids_path));
+	WwiseLogger::log_format("Generated IDs at %s", wwise_ids_path);
 }

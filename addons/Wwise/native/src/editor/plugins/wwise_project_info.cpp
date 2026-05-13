@@ -77,7 +77,7 @@ void WwiseProjectInfo::save_project_data(const Ref<WwiseProjectData>& data)
 	const auto error = ResourceSaver::get_singleton()->save(data, path);
 	if (error != Error::OK)
 	{
-		UtilityFunctions::push_error("WwiseGodot: Failed to save WwiseProjectData.tres.");
+		WwiseLogger::error("Failed to save WwiseProjectData.tres.");
 	}
 }
 
@@ -171,7 +171,7 @@ void WwiseProjectInfo::update_all_wwise_assets()
 	Ref<WwiseProjectData> data = get_data();
 	if (!data.is_valid())
 	{
-		UtilityFunctions::printerr("WwiseGodot: Trying to update Godot Assets, but WwiseProjectData.tres is null!");
+		WwiseLogger::error("Trying to update Godot Assets, but WwiseProjectData.tres is null!");
 		return;
 	}
 
@@ -199,7 +199,7 @@ void WwiseProjectInfo::_on_updating_assets_completed()
 {
 	EditorInterface::get_singleton()->get_resource_filesystem()->scan();
 	emit_signal("ws_refresh_completed");
-	UtilityFunctions::print("WwiseGodot: Project has been refreshed successfully.");
+	WwiseLogger::log("Project has been refreshed successfully.");
 }
 
 WwiseProjectInfo::WwiseProjectInfo()

@@ -17,7 +17,7 @@ AkEditorUtils::~AkEditorUtils()
 Ref<Texture2D> AkEditorUtils::get_editor_icon(const WwiseObjectType p_type)
 {
 	ERR_FAIL_COND_V_MSG(
-			p_type >= WwiseObjectType::Max, Ref<Texture2D>(), "WwiseGodot: Tried to get invalid editor icon.");
+			p_type >= WwiseObjectType::Max, Ref<Texture2D>(), "Tried to get invalid editor icon.");
 
 	bool dark_mode = DisplayServer::get_singleton()->is_dark_mode();
 	int mode_index = dark_mode ? 1 : 0;
