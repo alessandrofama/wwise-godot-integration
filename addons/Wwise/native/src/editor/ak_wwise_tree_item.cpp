@@ -26,7 +26,7 @@ void AkWwiseTreeItem::init(AkWwiseTree* p_tree, TreeItem* p_tree_item, const Str
 
 	tree_item->set_text(0, display_name);
 	tree_item->set_meta("ak_wwise_tree_item", this);
-	tree_item->set_icon(0, AkEditorUtils::get_editor_icon(p_type));
+	tree_item->set_icon(0, AkEditorUtils::get_singleton()->get_editor_icon(p_type));
 }
 
 void AkWwiseTreeItem::set_name(const String& p_name) { display_name = p_name; }
