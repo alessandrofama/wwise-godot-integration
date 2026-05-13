@@ -33,8 +33,7 @@ void AkWwiseTreeDataSource::init(AkWwiseTree* p_tree, WwiseObjectType p_picker_t
 			project_root->add_wwise_item_child(build_object_type_tree(WwiseObjectType::AcousticTexture));
 			break;
 		default:
-			UtilityFunctions::push_error(
-					"WwiseGodot: Trying to create a AkWwiseTreeItem with non-existing WwiseObjectType.");
+			WwiseLogger::error("Trying to create a AkWwiseTreeItem with non-existing WwiseObjectType.");
 			break;
 	}
 }
@@ -71,8 +70,7 @@ AkWwiseTreeItem* AkWwiseTreeDataSource::build_object_type_tree(WwiseObjectType p
 	{
 		case WwiseObjectType::None:
 		{
-			UtilityFunctions::push_error(
-					"WwiseGodot: Trying to create a AkWwiseTreeItem with non-existing WwiseObjectType.");
+			WwiseLogger::error("Trying to create a AkWwiseTreeItem with non-existing WwiseObjectType.");
 			break;
 		}
 		case WwiseObjectType::AuxBus:
@@ -119,8 +117,11 @@ AkWwiseTreeItem* AkWwiseTreeDataSource::build_object_type_tree(WwiseObjectType p
 			break;
 		}
 		default:
+		{
 			root_element->init(tree, nullptr, "WwiseGodot: Error", String(), WwiseObjectType::None);
+			WwiseLogger::error("Trying to create a AkWwiseTreeItem with non-existing WwiseObjectType.");
 			break;
+		}
 	}
 
 	return root_element;

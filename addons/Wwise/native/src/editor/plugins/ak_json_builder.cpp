@@ -312,7 +312,7 @@ void AkJSONBuilder::populate()
 	const auto* PlatformData = DataStructure.Platforms.Find(CurrentPlatform);
 	if (!PlatformData)
 	{
-		UtilityFunctions::printerr("WwiseGodot: AkJSONBuilder: Platform Data not found!");
+		WwiseLogger::error("AkJSONBuilder: Platform Data not found!");
 		return;
 	}
 

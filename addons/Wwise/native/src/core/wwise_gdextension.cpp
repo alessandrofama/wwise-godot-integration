@@ -31,7 +31,14 @@ void LocalOutput(AK::Monitor::ErrorCode in_eErrorCode, const AkOSChar* in_pszErr
 
 	if (in_eErrorCode != AK::Monitor::ErrorCode::ErrorCode_NoError)
 	{
-		UtilityFunctions::push_error(vformat("WwiseGodot: %s", in_pszError));
+		if (in_eErrorLevel == AK::Monitor::ErrorLevel_Message)
+		{
+			WwiseLogger::log(in_pszError);
+		}
+		else
+		{
+			WwiseLogger::error(in_pszError);
+		}
 	}
 }
 
@@ -180,14 +187,14 @@ void Wwise::init()
 
 	if (!result)
 	{
-		ERROR_CHECK_MSG(AK_Fail, "WwiseGodot: Sound engine initialization failed!");
+		ERROR_CHECK_MSG(AK_Fail, "Sound engine initialization failed!");
 		return;
 	}
 	else
 	{
-		UtilityFunctions::print("WwiseGodot: Sound engine initialized successfully.");
-		UtilityFunctions::print(vformat(
-				"WwiseGodot: Wwise(R) SDK %s Build %d.", AK_WWISESDK_VERSIONNAME_SHORT, AK_WWISESDK_VERSION_BUILD));
+		WwiseLogger::log("Sound engine initialized successfully.");
+		WwiseLogger::log_format(
+				"WwiseGodot: Wwise(R) SDK %s Build %d.", AK_WWISESDK_VERSIONNAME_SHORT, AK_WWISESDK_VERSION_BUILD);
 	}
 
 	WwiseSettings* project_settings = WwiseSettings::get_singleton();
@@ -225,7 +232,7 @@ void Wwise::init()
 
 	if (banks_platform_suffix.is_empty())
 	{
-		UtilityFunctions::push_error("WwiseGodot: Failed to get the SoundBank directory for the current platform.");
+		WwiseLogger::error("Failed to get the SoundBank directory for the current platform.");
 	}
 
 	String banks_path = vformat("%s/%s/", root_output_path, banks_platform_suffix);
@@ -242,7 +249,7 @@ void Wwise::init()
 	{
 		ERROR_CHECK_MSG(AK::Monitor::SetLocalOutput(
 								AK::Monitor::ErrorLevel_All, static_cast<AK::Monitor::LocalOutputFunc>(LocalOutput)),
-				"WwiseGodot: Setting local output to ErrorLevel_All failed.");
+				"Setting local output to ErrorLevel_All failed.");
 	}
 #endif
 
@@ -273,7 +280,7 @@ void Wwise::shutdown()
 {
 	if (shutdown_wwise_system())
 	{
-		UtilityFunctions::print("WwiseGodot: Sound engine terminated successfully.");
+		WwiseLogger::log("Sound engine terminated successfully.");
 	}
 }
 
@@ -391,7 +398,7 @@ bool Wwise::register_game_obj(const Node* game_object, const String& game_object
 	AKRESULT result = AK::SoundEngine::RegisterGameObj(id, game_object_name.utf8().get_data());
 	post_register_game_object(result, game_object, id);
 	return ERROR_CHECK_MSG(
-			result, vformat("WwiseGodot: Failed to register Game Object with name: %s.", game_object_name));
+			result, vformat("Failed to register Game Object with name: %s.", game_object_name));
 }
 
 bool Wwise::unregister_game_obj(const Node* game_object)
@@ -1026,7 +1033,7 @@ bool Wwise::set_geometry(const Array vertices, const Array triangles, const Ref<
 
 	if (id == AK_INVALID_GAME_OBJECT)
 	{
-		UtilityFunctions::printerr("WwiseGodot: Failed to Set Geometry, passed game_object is null.");
+		WwiseLogger::error("Failed to Set Geometry, passed game_object is null.");
 		return false;
 	}
 
@@ -1067,8 +1074,8 @@ bool Wwise::set_geometry(const Array vertices, const Array triangles, const Ref<
 
 	if (triangles.size() % 3 != 0)
 	{
-		UtilityFunctions::print(
-				vformat("WwiseGodot: Wrong number of triangles on GameObject: %s.", game_object->get_path()));
+		WwiseLogger::verbose_format(
+				"Wrong number of triangles on GameObject: %s.", game_object->get_path());
 	}
 
 	int num_triangles = triangles.size() / 3;
@@ -1107,8 +1114,7 @@ bool Wwise::set_geometry(const Array vertices, const Array triangles, const Ref<
 		}
 		else
 		{
-			UtilityFunctions::print(
-					vformat("WwiseGodot: Skipped degenerate triangles on GameObject: %s.", game_object->get_path()));
+			WwiseLogger::verbose_format("Skipped degenerate triangles on GameObject: %s.", game_object->get_path());
 		}
 	}
 
@@ -1683,7 +1689,7 @@ void Wwise::bank_callback(AkUInt32 bank_id, const void* in_memory_bank_ptr, AKRE
 
 	if (!cookie)
 	{
-		ERROR_CHECK_MSG(AK_Fail, "WwiseGodot: The Bank Callback cookie is not valid.");
+		ERROR_CHECK_MSG(AK_Fail, "The Bank Callback cookie is not valid.");
 		return;
 	}
 
@@ -1994,7 +2000,7 @@ bool Wwise::initialize_wwise_systems()
 #endif
 
 	if (!ERROR_CHECK_MSG(AK::SoundEngine::Init(&init_settings, &platform_init_settings),
-				"WwiseGodot: Sound engine initialization failed."))
+				"Sound engine initialization failed."))
 
 	{
 		return false;
@@ -2064,7 +2070,7 @@ bool Wwise::initialize_wwise_systems()
 	spatialSettings.eTransmissionOperation = (AkTransmissionOperation) static_cast<AkUInt32>(
 			project_settings->get_setting(project_settings->spatial_audio_settings.transmission_operation));
 
-	if (!ERROR_CHECK_MSG(AK::SpatialAudio::Init(spatialSettings), "WwiseGodot: Spatial Audio initialization failed."))
+	if (!ERROR_CHECK_MSG(AK::SpatialAudio::Init(spatialSettings), "Spatial Audio initialization failed."))
 	{
 		return false;
 	}
@@ -2086,7 +2092,7 @@ bool Wwise::initialize_wwise_systems()
 	AKPLATFORM::SafeStrCpy(
 			comm_settings.szAppNetworkName, network_name.utf8().get_data(), AK_COMM_SETTINGS_MAX_STRING_SIZE);
 
-	ERROR_CHECK_MSG(AK::Comm::Init(comm_settings), "WwiseGodot: Comm initialization failed.");
+	ERROR_CHECK_MSG(AK::Comm::Init(comm_settings), "Comm initialization failed.");
 #endif
 
 	return true;
