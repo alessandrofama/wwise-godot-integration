@@ -42,7 +42,7 @@ String AkWwiseEditorProperty::get_button_placeholder_text() const { return "Defa
 
 Ref<Texture2D> AkWwiseEditorProperty::get_property_icon() const
 {
-	return AkEditorUtils::get_editor_icon(get_wwise_object_type());
+	return AkEditorUtils::get_singleton()->get_editor_icon(get_wwise_object_type());
 }
 
 WwiseObjectType AkWwiseEditorProperty::get_wwise_object_type() const { return WwiseObjectType::Project; }
