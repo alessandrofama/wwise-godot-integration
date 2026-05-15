@@ -466,6 +466,9 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\src\platform\emscripten\ak_emscripten_atomics.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\src\scene\ak_bank.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>

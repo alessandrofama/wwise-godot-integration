@@ -20,7 +20,10 @@ private:
 	Ref<WwiseBank> bank;
 	AkUtils::GameEvent load_on = AkUtils::GameEvent::GAMEEVENT_NONE;
 	AkUtils::GameEvent unload_on = AkUtils::GameEvent::GAMEEVENT_NONE;
-	bool use_soundbank_names{ true };
+	bool async_load{ false };
+
+	void _on_load_async_completed(int p_bank_id, int p_result);
+	void _on_unload_async_completed(int p_bank_id, int p_result);
 
 public:
 	virtual void _enter_tree() override;
@@ -35,9 +38,12 @@ public:
 	void set_bank(const Ref<WwiseBank>& bank);
 	Ref<WwiseBank> get_bank() const;
 
-	void set_load_on(AkUtils::GameEvent load_on);
+	void set_load_on(AkUtils::GameEvent p_load_on);
 	AkUtils::GameEvent get_load_on() const;
 
-	void set_unload_on(AkUtils::GameEvent unload_on);
+	void set_unload_on(AkUtils::GameEvent p_unload_on);
 	AkUtils::GameEvent get_unload_on() const;
+
+	void set_async_load(bool p_async_load);
+	bool get_async_load() const;
 };

@@ -1,7 +1,7 @@
 #pragma once
 
+#include "core/wwise_logger.h"
 #include "core/wwise_platform_info.h"
-#include "core/wwise_settings.h"
 #include "editor/ak_editor_settings.h"
 #include <godot_cpp/classes/config_file.hpp>
 #include <godot_cpp/classes/dir_access.hpp>
@@ -33,6 +33,7 @@ private:
 	void handle_android_plugin(
 			const Ref<WwisePluginInfo>& p_plugin_info, const String& p_dsp_path, const PackedStringArray& p_features);
 	void add_files_recursive(Ref<DirAccess> dir, const String& base_path);
+	void export_web_audio_worklet(const String& p_path);
 
 public:
 	virtual String _get_name() const override;

@@ -26,6 +26,32 @@ private:
 	bool is_auto_bank_loaded{};
 	uint32_t playing_id{ AK_INVALID_PLAYING_ID };
 
+private:
+	enum class AsyncState
+	{
+		UNLOADED,
+		LOADING_BANK,
+		PREPARING_EVENT,
+		READY,
+		FAILED
+	};
+
+	struct PendingPost
+	{
+		ObjectID node_id;
+		bool is_callback{ false };
+		AkUtils::AkCallbackType flags;
+		Callable cookie;
+	};
+
+	AsyncState async_state{ AsyncState::UNLOADED };
+	std::vector<PendingPost> pending_posts;
+
+	void _process_pending_posts();
+	static void _wwise_prepare_event_callback(
+			AkUInt32 in_bankID, const void* in_pInMemoryBankPtr, AKRESULT in_eLoadResult, void* in_Cookie);
+	void load_auto_bank_async();
+
 	void _on_post_resource_init();
 	void load_auto_bank();
 	void load_auto_bank_blocking();
@@ -34,6 +60,9 @@ private:
 	AkBankTypeEnum get_bank_type() const;
 
 public:
+	void _on_auto_bank_loaded_async(int p_bank_id, int p_result);
+	void _on_prepare_event_completed(int p_result);
+
 	virtual WwiseObjectType get_object_type() const override { return WwiseObjectType::Event; };
 
 	uint32_t post(Node* p_node);
