@@ -15,5 +15,7 @@ protected:
 public:
 	virtual WwiseObjectType get_object_type() const override { return WwiseObjectType::Soundbank; };
 	void load();
+	void load_async(const Callable& p_load_callback);
 	void unload();
+	void unload_async(const Callable& p_unload_callback);
 };
