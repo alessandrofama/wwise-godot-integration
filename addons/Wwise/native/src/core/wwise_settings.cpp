@@ -79,6 +79,7 @@ WwiseSettings::WwiseSettings()
 	communication_settings.initialize_system_comms = "wwise/communication_settings/initialize_system_comms";
 	communication_settings.network_name = "wwise/communication_settings/network_name";
 	communication_settings.waapi_port = "wwise/communication_settings/waapi_port";
+	communication_settings.proxy_server_url = "wwise/communication_settings/proxy_server_url";
 
 	// Platform Settings
 	platform_settings.windows_max_system_audio_objects = "wwise/windows_advanced_settings/max_system_audio_objects";
@@ -89,9 +90,9 @@ WwiseSettings::WwiseSettings()
 	platform_settings.ios_audio_session_mode = "wwise/ios_advanced_settings/audio_session_mode";
 	platform_settings.android_audio_api = "wwise/android_advanced_settings/audio_API";
 	platform_settings.linux_audio_api = "wwise/linux_advanced_settings/audio_API";
+	platform_settings.web_verbose_system_output = "wwise/web_advanced_settings/verbose_system_output";
 
 	// Project Settings
-	project_settings.use_soundbank_names = "wwise/project_settings/use_soundbank_names";
 	project_settings.create_subfolders_for_generated_files =
 			"wwise/project_settings/create_subfolders_for_generated_files";
 	project_settings.windows_platform_info = "wwise/project_settings/windows_platform_info";
@@ -99,6 +100,7 @@ WwiseSettings::WwiseSettings()
 	project_settings.linux_platform_info = "wwise/project_settings/linux_platform_info";
 	project_settings.ios_platform_info = "wwise/project_settings/ios_platform_info";
 	project_settings.android_platform_info = "wwise/project_settings/android_platform_info";
+	project_settings.web_platform_info = "wwise/project_settings/web_platform_info";
 	project_settings.custom_platform_name = "wwise/project_settings/custom_platform_name";
 
 	// Wwise Logger Settings
@@ -158,6 +160,8 @@ Variant WwiseSettings::get_setting(const StringName& p_setting, const Variant& p
 	platform_setting += GODOT_ANDROID_SETTING_POSTFIX;
 #elif defined(AK_LINUX)
 	platform_setting += GODOT_LINUX_SETTING_POSTFIX;
+#elif defined(AK_EMSCRIPTEN)
+	platform_setting += GODOT_WEB_SETTING_POSTFIX;
 #else
 #error "Platform not supported"
 #endif
@@ -250,6 +254,7 @@ void WwiseSettings::add_wwise_settings()
 	add_setting(communication_settings.initialize_system_comms, true, Variant::Type::BOOL);
 	add_setting(communication_settings.network_name, "", Variant::Type::STRING);
 	add_setting(communication_settings.waapi_port, 8080, Variant::Type::INT);
+	add_setting(communication_settings.proxy_server_url, "ws://localhost:8095/", Variant::Type::STRING);
 
 	// Platform Settings
 	add_setting(platform_settings.windows_max_system_audio_objects, 128, Variant::Type::INT);
@@ -265,9 +270,9 @@ void WwiseSettings::add_wwise_settings()
 	add_setting(platform_settings.android_audio_api, 4, Variant::Type::INT, PROPERTY_HINT_ENUM,
 			"AAudio,OPENSL_ES,DolbyAtmos,AndroidSpatializer,Default");
 	add_setting(platform_settings.linux_audio_api, 3, Variant::Type::INT, PROPERTY_HINT_FLAGS, "PulseAudio, ALSA");
+	add_setting(platform_settings.web_verbose_system_output, false, Variant::Type::BOOL);
 
 	// Project Settings
-	add_setting(project_settings.use_soundbank_names, true, Variant::Type::BOOL, PROPERTY_HINT_NONE, "");
 	add_setting(
 			project_settings.create_subfolders_for_generated_files, false, Variant::Type::BOOL, PROPERTY_HINT_NONE, "");
 	add_setting(project_settings.windows_platform_info, "", Variant::Type::STRING, PROPERTY_HINT_NONE, "");
@@ -275,6 +280,7 @@ void WwiseSettings::add_wwise_settings()
 	add_setting(project_settings.linux_platform_info, "", Variant::Type::STRING, PROPERTY_HINT_NONE, "");
 	add_setting(project_settings.ios_platform_info, "", Variant::Type::STRING, PROPERTY_HINT_NONE, "");
 	add_setting(project_settings.android_platform_info, "", Variant::Type::STRING, PROPERTY_HINT_NONE, "");
+	add_setting(project_settings.web_platform_info, "", Variant::Type::STRING, PROPERTY_HINT_NONE, "");
 	add_setting(project_settings.custom_platform_name, "", Variant::Type::STRING, PROPERTY_HINT_NONE, "");
 
 	// Wwise Logger Settings
