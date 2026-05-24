@@ -10,9 +10,9 @@
 
 using namespace godot;
 
-class WwiseSettings : public RefCounted
+class WwiseSettings : public Object
 {
-	GDCLASS(WwiseSettings, RefCounted);
+	GDCLASS(WwiseSettings, Object);
 
 protected:
 	static void _bind_methods();
