@@ -70,6 +70,24 @@ def make_doc_source(target, source, env):
 
     g.close()
 
+def generate_web_plugin_registration(target_file, env):
+    os.makedirs(os.path.dirname(target_file), exist_ok=True)
+    with open(target_file, "w") as f:
+        f.write("/* THIS FILE IS GENERATED. DO NOT EDIT */\n")
+        f.write("#pragma once\n\n")
+        
+        if env["platform"] in ["web"]:
+            f.write("#include <AK/AkPlatforms.h>\n")
+            f.write("#include <AK/SoundEngine/Common/AkTypes.h>\n")
+            f.write("#include <AK/SoundEngine/Common/IAkPlugin.h>\n\n")
+            
+            for plugin_name in env.get("plugins", []):
+                if plugin_name in WWISE_WEB_PLUGINS_MAP:
+                    f.write(f"// {plugin_name}\n")
+                    for header in WWISE_WEB_PLUGINS_MAP[plugin_name]["headers"]:
+                        f.write(f"#include {header}\n")
+                    f.write("\n")
+
 def copy_plugins_with_skip(src_path, dst_path, file_extension, skip_plugins):
     if not os.path.exists(src_path):
         return
@@ -164,6 +182,36 @@ skip_plugins = [
     "gme"
 ]
 
+WWISE_WEB_PLUGINS_MAP = {
+    "reflect": {
+        "headers": ["<AK/Plugin/AkReflectFXFactory.h>"],
+        "libs": ["AkReflectFX"]
+    },
+    "convolution": {
+        "headers": ["<AK/Plugin/AkConvolutionReverbFXFactory.h>"],
+        "libs": ["AkConvolutionReverbFX"]
+    },
+    "soundseed_grain": {
+        "headers": ["<AK/Plugin/AkSoundSeedGrainSourceFactory.h>"],
+        "libs": ["AkSoundSeedGrainSource"]
+    },
+    "soundseed_air": {
+        "headers": [
+            "<AK/Plugin/AkSoundSeedWindSourceFactory.h>", 
+            "<AK/Plugin/AkSoundSeedWooshSourceFactory.h>"
+        ],
+        "libs": ["AkSoundSeedWindSource", "AkSoundSeedWooshSource"]
+    },
+    "impacter": {
+        "headers": ["<AK/Plugin/AkImpacterSourceFactory.h>"],
+        "libs": ["AkImpacterSource"]
+    },
+    "mastering_suite": {
+        "headers": ["<AK/Plugin/MasteringSuiteFXFactory.h>"],
+        "libs": ["MasteringSuiteFX"]
+    }
+}
+
 env = SConscript("godot-cpp/SConstruct")
 opts = Variables([], ARGUMENTS)
 
@@ -184,7 +232,6 @@ opts.Add(
         "",
         [
             "reflect",
-            "motion",
             "convolution",
             "soundseed_grain",
             "soundseed_air",
@@ -281,6 +328,23 @@ if env["platform"] == "ios" and env["ios_simulator"]:
         wwise_sdk_libs_path = env["wwise_sdk"] + "/iOS_Xcode1500/Release-iphonesimulator/lib/"
         wwise_sdk_plugins_path = env["wwise_sdk"] + "/iOS_Xcode1500/Release-iphonesimulator/lib/"
 
+if env["platform"] == "web":
+    wwise_soundengine_sample_path = env["wwise_sdk"] + "/samples/SoundEngine/POSIX/"
+    wwise_emscripten_sample_path = env["wwise_sdk"] + "/samples/SoundEngine/Emscripten/"
+    
+    # We can only support Emscripten_st at this moment.
+    emscripten_arch = "Emscripten_st" if env.get("threads", False) else "Emscripten_st"
+    
+    if env["wwise_config"] == "debug":
+        wwise_sdk_libs_path = env["wwise_sdk"] + f"/{emscripten_arch}/Debug/lib/"
+        wwise_sdk_plugins_path = env["wwise_sdk"] + f"/{emscripten_arch}/Debug/lib/"
+    elif env["wwise_config"] == "profile":
+        wwise_sdk_libs_path = env["wwise_sdk"] + f"/{emscripten_arch}/Profile/lib/"
+        wwise_sdk_plugins_path = env["wwise_sdk"] + f"/{emscripten_arch}/Profile/lib/"
+    else:
+        wwise_sdk_libs_path = env["wwise_sdk"] + f"/{emscripten_arch}/Release/lib/"
+        wwise_sdk_plugins_path = env["wwise_sdk"] + f"/{emscripten_arch}/Release/lib/"
+
 wwise_soundengine_sample_common_path = env["wwise_sdk"] + "/samples/SoundEngine/Common/"
 wwise_soundengine_common_include_path = wwise_sdk_headers_path + "AK/SoundEngine/Common/"
 wwise_soundengine_project_database_path = env["wwise_sdk"] + "/samples/WwiseProjectDatabase/"
@@ -319,33 +383,6 @@ wwise_plugins_library = [
     "AkSpatialAudio",
     "Ak3DAudioBedMixerFX"
 ]
-
-## Plugins
-if "reflect" in env["plugins"]:
-    wwise_plugins_library.append("AkReflectFX")
-    env.Append(CPPDEFINES=["AK_REFLECT"])
-
-if "convolution" in env["plugins"]:
-    wwise_plugins_library.append("AkConvolutionReverbFX")
-    env.Append(CPPDEFINES=["AK_CONVOLUTION"])
-
-if "soundseed_grain" in env["plugins"]:
-    wwise_plugins_library.append("AkSoundSeedGrainSource")
-    env.Append(CPPDEFINES=["AK_SOUNDSEED_GRAIN"])
-
-if "soundseed_air" in env["plugins"]:
-    wwise_plugins_library.append(
-        ["AkSoundSeedWindSource", "AkSoundSeedWooshSource"]
-    )
-    env.Append(CPPDEFINES=["AK_SOUNDSEED_AIR"])
-
-if "impacter" in env["plugins"]:
-    wwise_plugins_library.append("AkImpacterSource")
-    env.Append(CPPDEFINES=["AK_IMPACTER"])
-
-if "mastering_suite" in env["plugins"]:
-    wwise_plugins_library.append("MasteringSuiteFX")
-    env.Append(CPPDEFINES=["AK_MASTERING_SUITE"])
 
 if env["wwise_config"] == "debug":
     env.Append(CPPDEFINES=["AK_DEBUG"])
@@ -393,10 +430,6 @@ if env["platform"] == "windows":
             env["target_path"] += "release/"
             env.Append(CPPDEFINES=["AK_OPTIMIZED"])
             env.Append(CPPDEFINES=["NDEBUG"])
-
-    if "motion" in env["plugins"]:
-        wwise_plugins_library.append(["AkMotionSink", "AkMotionSourceSource"])
-        env.Append(CPPDEFINES=["AK_MOTION"])
 
     env.Append(
         CPPDEFINES=["WIN32", "_WIN32", "_WINDOWS", "_CRT_SECURE_NO_WARNINGS", "UNICODE"]
@@ -592,6 +625,45 @@ elif env["platform"] == "ios":
         ]
     )
 
+# Web build settings
+elif env["platform"] == "web":
+    base_target_path = env["target_path"]
+    env["target_path"] += f"/web/st/"
+    
+    if env["target"] == "template_debug":
+        env["target_path"] += "template_debug/"
+        if env["dev_build"] or env["wwise_config"] == "debug":
+            env["target_path"] += "debug/"
+            env.Append(CPPDEFINES=["_DEBUG"])
+            if env["asserts"]:
+                env.Append(CPPDEFINES=["AK_ENABLE_ASSERTS"])
+        else:
+            env["target_path"] += "profile/"
+            env.Append(CPPDEFINES=["NDEBUG"])
+    else:
+        env["target_path"] += "template_release/"
+        env["target_path"] += "release/"
+        env.Append(CPPDEFINES=["AK_OPTIMIZED"])
+        env.Append(CPPDEFINES=["NDEBUG"])
+
+    env.Append(CXXFLAGS=["-std=c++20"])
+    if env.get("threads", False):
+        env.Append(CCFLAGS=["-pthread", "-matomics", "-msimd128", "-msse4.1", "-fPIC", "-fvisibility=hidden"])
+        env.Append(LINKFLAGS=["-pthread", "-Wl,--allow-multiple-definition"])
+    else:
+        env.Append(CCFLAGS=["-msimd128", "-msse4.1", "-fPIC", "-fvisibility=hidden"])
+        env.Append(LINKFLAGS=["-Wl,--allow-multiple-definition"]) 
+
+    for plugin_name in env.get("plugins", []):
+        if plugin_name in WWISE_WEB_PLUGINS_MAP:
+            plugin_data = WWISE_WEB_PLUGINS_MAP[plugin_name]
+            wwise_plugins_library.extend(plugin_data["libs"])
+        else:
+            print(f"Unknown plugin '{plugin_name}' requested.")
+
+    generated_header_path = "src/gen/wwise_plugins.gen.h"
+    generate_web_plugin_registration(generated_header_path, env)
+
 # godot-cpp settings
 env.Append(
     CPPPATH=[
@@ -661,8 +733,6 @@ if env["platform"] == "macos":
     )
 
 if env["platform"] == "linux":
-    import shutil
-
     library = env.SharedLibrary(
         target=env["target_path"]
         + "libwwise.{}.{}.{}.so".format(env["platform"], env["target"], env["wwise_config"]),
@@ -732,14 +802,40 @@ if env["platform"] == "ios":
     create_output_file_action = Action(target, create_output_file)
     AddPostAction(library, create_output_file)
 
+if env["platform"] == "web":
+    file_name = f"libwwise.{env['platform']}.{env['target']}.{env['wwise_config']}"
+    if not env.get("threads", False):
+        file_name += ".nothreads"
+
+    library = env.SharedLibrary(
+        target=env["target_path"] + file_name + ".wasm",
+        source=sources,
+    )
+
+    worklet_file_name = "WwiseAudioWorklet.processor.js"
+    worklet_src = os.path.join(
+            wwise_emscripten_sample_path,
+            worklet_file_name,
+        )
+    worklet_dir = os.path.join(base_target_path, "web")
+    worklet_dst = os.path.join(worklet_dir, worklet_file_name)
+
+    if not os.path.exists(worklet_src):
+        print(f"Warning: {worklet_src} not found.")
+    else:
+        os.makedirs(worklet_dir, exist_ok=True)
+        shutil.copy2(worklet_src, worklet_dst)
+        print(f"Copied '{worklet_file_name}' to {worklet_dst}")
+
 Default(library)
 
 print_section_header("Wwise Godot Integration: Build Info")
 print_project_info(env)
 
-print_section_header("Copying Plugins")
-dsp_target_path = os.path.join(env["target_path"], "DSP")
-copy_plugins_with_skip(wwise_sdk_plugins_path, dsp_target_path, file_extension, skip_plugins)
+if env["platform"] != "web":
+    print_section_header("Copying Plugins")
+    dsp_target_path = os.path.join(env["target_path"], "DSP")
+    copy_plugins_with_skip(wwise_sdk_plugins_path, dsp_target_path, file_extension, skip_plugins)
 
 if env["platform"] == "ios":
     print_section_header("Copying iOS Plugin Headers")

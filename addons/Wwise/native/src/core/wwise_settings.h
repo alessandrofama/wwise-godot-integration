@@ -96,6 +96,7 @@ public:
 		StringName initialize_system_comms;
 		StringName network_name;
 		StringName waapi_port;
+		StringName proxy_server_url;
 	};
 
 	struct PlatformSettings
@@ -108,17 +109,18 @@ public:
 		StringName ios_audio_session_mode;
 		StringName android_audio_api;
 		StringName linux_audio_api;
+		StringName web_verbose_system_output;
 	};
 
 	struct ProjectSettings
 	{
-		StringName use_soundbank_names;
 		StringName create_subfolders_for_generated_files;
 		StringName windows_platform_info;
 		StringName mac_platform_info;
 		StringName linux_platform_info;
 		StringName ios_platform_info;
 		StringName android_platform_info;
+		StringName web_platform_info;
 		StringName custom_platform_name;
 	};
 
@@ -140,6 +142,7 @@ public:
 	String GODOT_LINUX_SETTING_POSTFIX = ".linux";
 	String GODOT_IOS_SETTING_POSTFIX = ".ios";
 	String GODOT_ANDROID_SETTING_POSTFIX = ".android";
+	String GODOT_WEB_SETTING_POSTFIX = ".web";
 
 	static WwiseSettings* get_singleton();
 	WwiseSettings();

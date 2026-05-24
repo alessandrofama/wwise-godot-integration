@@ -8,8 +8,8 @@ Welcome! This repository provides an integration of [Audiokinetic's Wwise audio 
 
 ## Features
 
-* [GDExtension](https://docs.godotengine.org/en/stable/tutorials/scripting/gdextension/what_is_gdextension.html)-based Wwise wrapper library for Windows, macOS, Linux, Android and iOS.
-* Multi-platform builds with SCons (Windows, macOS, Linux, iOS) and Gradle/CMake (Android). A Visual Studio 2022 solution is provided for Windows development.
+* [GDExtension](https://docs.godotengine.org/en/stable/tutorials/scripting/gdextension/what_is_gdextension.html)-based Wwise wrapper library for Windows, macOS, Linux, Android, iOS and Web (experimental).
+* Multi-platform builds with SCons (Windows, macOS, Linux, iOS, Web) and Gradle/CMake (Android). A Visual Studio 2022 solution is provided for Windows development.
 * Wwise profiler connection available in GDExtension debug and profile builds.
 * Stream manager uses the default blocking I/O implementation and it can be extended to use custom I/O devices.
 * Custom Godot Nodes: AkEvent3D, AkEvent2D, AkBank, AkListener3D, AkListener2D, AkState, AkSwitch, AkEnvironment, AkGeometry, AkRoom, AkPortal, AkEarlyReflections.
@@ -20,13 +20,13 @@ Welcome! This repository provides an integration of [Audiokinetic's Wwise audio 
 * A Wwise IDs generator tool is embedded in the Wwise Browser.
 * Per-platform Wwise configurations in the Godot Project Settings.
 * In-engine documentation: quick access to reference materials and code snippets in the Godot Editor
-* Plugin Support: Plugin detection and export across all platforms, including custom plugin support.
+* Plugin Support: Plugin detection and export across desktop and mobile platforms, including custom plugin support.
 
 ## Getting Started
 
-If you're a game developer who wants to integrate Wwise into your Godot project, go to the [Releases](https://github.com/alessandrofama/wwise-godot-integration/releases) page to download the integration and check out the [Getting Started](https://github.com/alessandrofama/wwise-godot-integration/wiki/Getting-Started-(24.1)) guide.
+If you're a game developer who wants to integrate Wwise into your Godot project, go to the [Releases](https://github.com/alessandrofama/wwise-godot-integration/releases) page to download the integration and check out the [Getting Started](https://github.com/alessandrofama/wwise-godot-integration/wiki/Getting-Started) guide.
 
-If you would like to modify the GDExtension code or build it yourself, refer to the [Building the GDExtension Library tutorial](https://github.com/alessandrofama/wwise-godot-integration/wiki/Building-the-GDExtension-Library-(24.1)) for detailed build instructions.
+If you would like to modify the GDExtension code or build it yourself, refer to the [Building the GDExtension Library tutorial](https://github.com/alessandrofama/wwise-godot-integration/wiki/Building-the-GDExtension-Library) for detailed build instructions.
 
 ## Documentation
 

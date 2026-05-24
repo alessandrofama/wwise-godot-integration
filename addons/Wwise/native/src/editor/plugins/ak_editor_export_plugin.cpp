@@ -193,6 +193,29 @@ void AkEditorExportPlugin::add_files_recursive(Ref<DirAccess> dir, const String&
 	dir->list_dir_end();
 }
 
+void AkEditorExportPlugin::export_web_audio_worklet(const String& p_path)
+{
+	const String worklet_source = "res://addons/Wwise/native/lib/web/WwiseAudioWorklet.processor.js";
+
+	if (!FileAccess::file_exists(worklet_source))
+	{
+		WwiseLogger::warning("WwiseAudioWorklet.processor.js is missing from res://addons/Wwise/native/lib/web/.");
+		return;
+	}
+
+	const String export_directory = p_path.get_base_dir();
+	const String destination_path = export_directory.path_join("WwiseAudioWorklet.processor.js");
+
+	godot::Error copy_result = DirAccess::copy_absolute(worklet_source, destination_path);
+
+	if (copy_result != OK)
+	{
+		WwiseLogger::error_format("Failed to export web audio worklet. Source: %s, Destination: %s, Error: %d",
+				worklet_source, destination_path, copy_result);
+		return;
+	}
+}
+
 String AkEditorExportPlugin::_get_name() const { return "AkEditorExportPlugin"; }
 
 void AkEditorExportPlugin::_export_begin(
@@ -209,7 +232,8 @@ void AkEditorExportPlugin::_export_begin(
 		{ "macos", settings->project_settings.mac_platform_info },
 		{ "linux", settings->project_settings.linux_platform_info },
 		{ "ios", settings->project_settings.ios_platform_info },
-		{ "android", settings->project_settings.android_platform_info } };
+		{ "android", settings->project_settings.android_platform_info },
+		{ "web", settings->project_settings.web_platform_info } };
 
 	for (const auto& feature : p_features)
 	{
@@ -234,6 +258,11 @@ void AkEditorExportPlugin::_export_begin(
 		}
 
 		add_files_recursive(dir, platform_banks_path);
+
+		if (feature == "web")
+		{
+			export_web_audio_worklet(p_path);
+		}
 
 		String library_path = get_platform_library_path(gdextension_config, it->first, p_features, p_is_debug);
 		String dsp_path = library_path.get_base_dir().path_join("DSP");

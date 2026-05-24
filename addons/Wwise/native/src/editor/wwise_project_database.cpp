@@ -40,7 +40,11 @@ void WwiseProjectDatabase::post_init_callback()
 				settings->project_settings.create_subfolders_for_generated_files, subfolders_for_generated_files);
 
 		bool use_soundbank_names = platform_data->PlatformRef.GetPlatformInfo()->Settings.bUseSoundBankNames;
-		settings->set_setting(settings->project_settings.use_soundbank_names, use_soundbank_names);
+		if (!use_soundbank_names)
+		{
+			WwiseLogger::error("The 'Use SoundBank Names for Filenames' setting in the Wwise Authoring SoundBanks "
+								 "settings must be enabled. After enabling the setting, regenerate the SoundBanks.");
+		}
 
 		std::map<WwiseDBString, StringName> platform_data_map = {
 			{ "Windows", settings->project_settings.windows_platform_info },
@@ -48,6 +52,7 @@ void WwiseProjectDatabase::post_init_callback()
 			{ "Linux", settings->project_settings.linux_platform_info },
 			{ "iOS", settings->project_settings.ios_platform_info },
 			{ "Android", settings->project_settings.android_platform_info },
+			{ "Web", settings->project_settings.web_platform_info }
 		};
 
 		const auto& project_info = platform_data->PlatformRef.ProjectInfo.GetProjectInfo();
@@ -90,10 +95,10 @@ void WwiseProjectDatabase::post_init_callback()
 					String plugin_name = plugin->name;
 					String plugin_dll = plugin->dll;
 					String plugin_static_lib = plugin->staticLib;
-					
+
 					Ref<WwisePluginInfo> plugin_info;
 					plugin_info.instantiate();
-					plugin_info->set_plugin_name(plugin_name); 
+					plugin_info->set_plugin_name(plugin_name);
 					plugin_info->set_plugin_id(plugin_id);
 					plugin_info->set_dll_name(plugin_dll);
 					plugin_info->set_static_lib_name(plugin_static_lib);
