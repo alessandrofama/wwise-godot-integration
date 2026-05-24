@@ -2,6 +2,10 @@
 
 void WwiseEvent::_bind_methods()
 {
+	ClassDB::bind_method(
+			D_METHOD("_on_auto_bank_loaded_async", "bank_id", "result"), &WwiseEvent::_on_auto_bank_loaded_async);
+	ClassDB::bind_method(D_METHOD("_on_prepare_event_completed", "result"), &WwiseEvent::_on_prepare_event_completed);
+
 	ClassDB::bind_method(D_METHOD("set_is_in_user_defined_sound_bank", "is_in_user_defined_soundbank"),
 			&WwiseEvent::set_is_in_user_defined_sound_bank);
 	ClassDB::bind_method(D_METHOD("get_is_in_user_defined_sound_bank"), &WwiseEvent::get_is_in_user_defined_sound_bank);
@@ -58,6 +62,50 @@ void WwiseEvent::_notification(int p_what)
 	}
 }
 
+void WwiseEvent::_process_pending_posts()
+{
+	if (pending_posts.empty())
+		return;
+
+	WwiseLogger::very_verbose_format(
+			"[WwiseEvent] Processing %d deferred posts for %s.", (int)pending_posts.size(), get_name());
+
+	for (const auto& pending : pending_posts)
+	{
+		Node* node = Object::cast_to<Node>(ObjectDB::get_instance(pending.node_id));
+
+		if (node)
+		{
+			if (pending.is_callback)
+			{
+				post_callback(node, pending.flags, pending.cookie);
+			}
+			else
+			{
+				post(node);
+			}
+		}
+	}
+	pending_posts.clear();
+}
+
+void WwiseEvent::_wwise_prepare_event_callback(
+		AkUInt32 in_bankID, const void* in_pInMemoryBankPtr, AKRESULT in_eLoadResult, void* in_Cookie)
+{
+	WwiseEvent* event = static_cast<WwiseEvent*>(in_Cookie);
+	if (event)
+	{
+		Callable(event, StringName("_on_prepare_event_completed")).call_deferred((int)in_eLoadResult);
+	}
+}
+
+void WwiseEvent::load_auto_bank_async()
+{
+	async_state = AsyncState::LOADING_BANK;
+	AkBankManager::load_bank_async(
+			get_name(), Callable(this, StringName("_on_auto_bank_loaded_async")), get_bank_type());
+}
+
 void WwiseEvent::_on_post_resource_init()
 {
 	if (Wwise::get_singleton()->is_initialized())
@@ -73,7 +121,11 @@ void WwiseEvent::load_auto_bank()
 		return;
 	}
 
+#ifdef AK_EMSCRIPTEN
+	load_auto_bank_async();
+#else
 	load_auto_bank_blocking();
+#endif
 }
 
 void WwiseEvent::load_auto_bank_blocking()
@@ -106,11 +158,20 @@ void WwiseEvent::unload_auto_bank()
 	{
 		const AkUniqueID event_id = get_id();
 		AkUniqueID event_ids[] = { event_id };
+
+#ifdef AK_EMSCRIPTEN
+		AK::SoundEngine::PrepareEvent(AK::SoundEngine::Preparation_Unload, event_ids, 1, nullptr, nullptr);
+		AkBankManager::unload_bank_async(get_name(), Callable());
+		set_bank_id(AK_INVALID_UNIQUE_ID);
+		async_state = AsyncState::UNLOADED;
+#else
 		AK::SoundEngine::PrepareEvent(AK::SoundEngine::Preparation_Unload, event_ids, 1);
 		AkBankManager::unload_bank(get_name());
 		set_bank_id(AK_INVALID_UNIQUE_ID);
+#endif
 	}
 }
+
 AkBankTypeEnum WwiseEvent::get_bank_type() const
 {
 	switch (get_object_type())
@@ -124,23 +185,79 @@ AkBankTypeEnum WwiseEvent::get_bank_type() const
 	}
 }
 
-uint32_t WwiseEvent::post(Node* p_node)
+void WwiseEvent::_on_auto_bank_loaded_async(int p_bank_id, int p_result)
 {
-	if (p_node)
+	if (p_result == AK_Success || p_result == AK_BankAlreadyLoaded)
 	{
-		playing_id = Wwise::get_singleton()->post_event_id(get_id(), p_node);
-		if (get_is_in_user_defined_sound_bank() && playing_id == 0)
+		set_bank_id(p_bank_id);
+		async_state = AsyncState::PREPARING_EVENT;
+
+		AkUniqueID event_ids[] = { get_id() };
+
+		AKRESULT res = AK::SoundEngine::PrepareEvent(
+				AK::SoundEngine::Preparation_Load, event_ids, 1, &WwiseEvent::_wwise_prepare_event_callback, this);
+
+		if (res != AK_Success)
 		{
-			WwiseLogger::error(
-					"Post Event failed. This Event is in a User Defined Soundbank. Make sure to add an "
-					"AkBank Node to the Scene Tree and load the corresponding SoundBank before posting the Event.");
+			WwiseLogger::error_format(
+					"Async PrepareEvent for %s failed with result: %s.", get_name(), wwise_error_string(res));
+			async_state = AsyncState::FAILED;
+			pending_posts.clear();
 		}
 	}
 	else
 	{
+		WwiseLogger::error_format("Async Bank Load for event %s failed.", get_name());
+		async_state = AsyncState::FAILED;
+		pending_posts.clear();
+	}
+}
+
+void WwiseEvent::_on_prepare_event_completed(int p_result)
+{
+	if (p_result == AK_Success || p_result == AK_BankAlreadyLoaded)
+	{
+		set_is_auto_bank_loaded(true);
+		async_state = AsyncState::READY;
+		_process_pending_posts();
+	}
+	else
+	{
+		WwiseLogger::error_format("Async PrepareEvent completed with FAILURE for %s", get_name());
+		async_state = AsyncState::FAILED;
+		pending_posts.clear();
+	}
+}
+
+uint32_t WwiseEvent::post(Node* p_node)
+{
+	if (!p_node)
+	{
 		WwiseLogger::warning_format("Could not post Event (name: %s, ID: %d). The Node "
 									"(GameObject) to post the event on has been deleted or is now invalid.",
 				get_name(), get_id());
+		return AK_INVALID_PLAYING_ID;
+	}
+
+#ifdef AK_EMSCRIPTEN
+	if (!get_is_in_user_defined_sound_bank() && async_state != AsyncState::READY && async_state != AsyncState::FAILED)
+	{
+		WwiseLogger::very_verbose_format("[WwiseEvent] Event %s is still loading async. Queuing post().", get_name());
+		PendingPost pending;
+		pending.node_id = p_node->get_instance_id();
+		pending.is_callback = false;
+		pending_posts.push_back(pending);
+
+		return AK_INVALID_PLAYING_ID;
+	}
+#endif
+
+	playing_id = Wwise::get_singleton()->post_event_id(get_id(), p_node);
+	if (get_is_in_user_defined_sound_bank() && playing_id == 0)
+	{
+		WwiseLogger::error(
+				"Post Event failed. This Event is in a User Defined Soundbank. Make sure to add an "
+				"AkBank Node to the Scene Tree and load the corresponding SoundBank before posting the Event.");
 	}
 
 	return playing_id;
@@ -148,21 +265,36 @@ uint32_t WwiseEvent::post(Node* p_node)
 
 uint32_t WwiseEvent::post_callback(Node* p_node, AkUtils::AkCallbackType p_flags, const Callable& cookie)
 {
-	if (p_node)
-	{
-		playing_id = Wwise::get_singleton()->post_event_id_callback(get_id(), p_flags, p_node, cookie);
-		if (get_is_in_user_defined_sound_bank() && playing_id == 0)
-		{
-			WwiseLogger::error(
-					"Post Event failed. This Event is in a User Defined Soundbank. Make sure to add an "
-					"AkBank Node to the Scene Tree and load the corresponding SoundBank before posting the Event.");
-		}
-	}
-	else
+	if (!p_node)
 	{
 		WwiseLogger::warning_format("Could not post Event (name: %s, ID: %d). The Node "
 									"(GameObject) to post the event on has been deleted or is now invalid.",
 				get_name(), get_id());
+		return AK_INVALID_PLAYING_ID;
+	}
+
+#ifdef AK_EMSCRIPTEN
+	if (!get_is_in_user_defined_sound_bank() && async_state != AsyncState::READY && async_state != AsyncState::FAILED)
+	{
+		WwiseLogger::very_verbose_format(
+				"[WwiseEvent] Event %s is still loading async. Queuing post_callback().", get_name());
+		PendingPost pending;
+		pending.node_id = p_node->get_instance_id();
+		pending.is_callback = true;
+		pending.flags = p_flags;
+		pending.cookie = cookie;
+		pending_posts.push_back(pending);
+
+		return AK_INVALID_PLAYING_ID;
+	}
+#endif
+
+	playing_id = Wwise::get_singleton()->post_event_id_callback(get_id(), p_flags, p_node, cookie);
+	if (get_is_in_user_defined_sound_bank() && playing_id == 0)
+	{
+		WwiseLogger::error(
+				"Post Event failed. This Event is in a User Defined Soundbank. Make sure to add an "
+				"AkBank Node to the Scene Tree and load the corresponding SoundBank before posting the Event.");
 	}
 
 	return playing_id;

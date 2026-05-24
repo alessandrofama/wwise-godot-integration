@@ -37,6 +37,9 @@
     <Filter Include="Source Files\editor\properties">
       <UniqueIdentifier>{19bc1cc0-af29-437f-b2d5-8cbdf8d9acd2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\platform\emscripten">
+      <UniqueIdentifier>{8ee08ba1-47b1-48c7-90cb-90141b754d87}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\scene\ak_bank.cpp">
@@ -224,6 +227,9 @@
     </ClCompile>
     <ClCompile Include="..\src\core\wwise_logger.cpp">
       <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\platform\emscripten\ak_emscripten_atomics.cpp">
+      <Filter>Source Files\platform\emscripten</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

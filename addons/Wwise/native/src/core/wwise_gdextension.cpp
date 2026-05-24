@@ -6,6 +6,10 @@
 
 #include <AK/Plugin/AllPluginsFactories.h>
 
+#if defined(AK_EMSCRIPTEN)
+#include "gen/wwise_plugins.gen.h"
+#endif
+
 #include "scene/ak_game_obj.h"
 #include "scene/ak_game_obj_2d.h"
 #include "scene/ak_game_obj_3d.h"
@@ -226,6 +230,8 @@ void Wwise::init()
 	banks_platform_suffix = load_platform_suffix(project_settings->project_settings.ios_platform_info);
 #elif defined(AK_ANDROID)
 	banks_platform_suffix = load_platform_suffix(project_settings->project_settings.android_platform_info);
+#elif defined(AK_EMSCRIPTEN)
+	banks_platform_suffix = load_platform_suffix(project_settings->project_settings.web_platform_info);
 #else
 #error "Platform not supported"
 #endif
@@ -258,21 +264,15 @@ void Wwise::init()
 
 	low_level_io.set_use_subfolders(use_subfolders);
 
-	bool use_soundbank_names = project_settings->get_setting(project_settings->project_settings.use_soundbank_names);
-
-	if (use_soundbank_names)
-	{
-		AkBankManager::load_init_bank();
-	}
-	else
-	{
-		AkBankManager::load_init_bank_id();
-	}
+	AkBankManager::load_init_bank();
 }
 
 void Wwise::render_audio()
 {
-	AkBankManager::do_unload_banks();
+	AkBankManager::update();
+#if !defined(AK_SUPPORT_THREADS)
+	AK::StreamMgr::PerformIO();
+#endif
 	ERROR_CHECK(AK::SoundEngine::RenderAudio());
 }
 
@@ -397,8 +397,7 @@ bool Wwise::register_game_obj(const Node* game_object, const String& game_object
 	AkGameObjectID id = get_ak_game_object_id(game_object);
 	AKRESULT result = AK::SoundEngine::RegisterGameObj(id, game_object_name.utf8().get_data());
 	post_register_game_object(result, game_object, id);
-	return ERROR_CHECK_MSG(
-			result, vformat("Failed to register Game Object with name: %s.", game_object_name));
+	return ERROR_CHECK_MSG(result, vformat("Failed to register Game Object with name: %s.", game_object_name));
 }
 
 bool Wwise::unregister_game_obj(const Node* game_object)
@@ -1074,8 +1073,7 @@ bool Wwise::set_geometry(const Array vertices, const Array triangles, const Ref<
 
 	if (triangles.size() % 3 != 0)
 	{
-		WwiseLogger::verbose_format(
-				"Wrong number of triangles on GameObject: %s.", game_object->get_path());
+		WwiseLogger::verbose_format("Wrong number of triangles on GameObject: %s.", game_object->get_path());
 	}
 
 	int num_triangles = triangles.size() / 3;
@@ -1991,16 +1989,17 @@ bool Wwise::initialize_wwise_systems()
 	platform_init_settings.bEnableLowLatency = true;
 
 #elif defined(AK_LINUX)
-
 	platform_init_settings.eAudioAPI = static_cast<AkAudioAPILinux>(static_cast<unsigned int>(
 			project_settings->get_setting(project_settings->platform_settings.linux_audio_api)));
-
+#elif defined(AK_EMSCRIPTEN)
+	platform_init_settings.bVerboseSystemOutput =
+			project_settings->get_setting(project_settings->platform_settings.web_verbose_system_output);
 #else
 #error "Platform not supported"
 #endif
 
-	if (!ERROR_CHECK_MSG(AK::SoundEngine::Init(&init_settings, &platform_init_settings),
-				"Sound engine initialization failed."))
+	if (!ERROR_CHECK_MSG(
+				AK::SoundEngine::Init(&init_settings, &platform_init_settings), "Sound engine initialization failed."))
 
 	{
 		return false;
@@ -2091,6 +2090,12 @@ bool Wwise::initialize_wwise_systems()
 	String network_name = project_settings->get_setting(project_settings->communication_settings.network_name);
 	AKPLATFORM::SafeStrCpy(
 			comm_settings.szAppNetworkName, network_name.utf8().get_data(), AK_COMM_SETTINGS_MAX_STRING_SIZE);
+
+#if defined(AK_EMSCRIPTEN)
+	String proxy_server_url = project_settings->get_setting(project_settings->communication_settings.proxy_server_url);
+	AKPLATFORM::SafeStrCpy(
+			comm_settings.szCommProxyServerUrl, proxy_server_url.utf8().get_data(), AK_COMM_SETTINGS_MAX_URL_SIZE);
+#endif
 
 	ERROR_CHECK_MSG(AK::Comm::Init(comm_settings), "Comm initialization failed.");
 #endif

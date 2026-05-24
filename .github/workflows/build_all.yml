@@ -27,6 +27,7 @@ env:
   GODOT_ENGINE_STAGE: "stable"
   BUILD_PROFILE_EDITOR: "build_profile_editor.json"
   BUILD_PROFILE_RUNTIME: "build_profile_runtime.json"
+  EM_VERSION: 4.0.20
 
 jobs:
   build-all:
@@ -74,6 +75,12 @@ jobs:
             debug-flags-arm32: ANDROID_NDK_ROOT=$ANDROID_NDK_LATEST_HOME arch=arm32
             release-flags-arm32: ANDROID_NDK_ROOT=$ANDROID_NDK_LATEST_HOME arch=arm32
             artifact-name: android-lib
+
+          - name: Web
+            os: "ubuntu-22.04"
+            sdk-platform: web
+            scons-platform: web
+            artifact-name: web
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -100,6 +107,13 @@ jobs:
         with:
           ndk-version: r23c
           link-to-sdk: true
+
+      - name: Setup Emscripten 
+        if: matrix.sdk-platform == 'web'
+        uses: emscripten-core/setup-emsdk@v15
+        with:
+          version: ${{ env.EM_VERSION }}
+          no-cache: true
 
       - name: Wwise SDK cache
         id: cache-wwise-sdk
@@ -160,9 +174,14 @@ jobs:
         if: runner.os == 'Linux' && matrix.sdk-platform == 'android' && steps.cache-wwise-sdk.outputs.cache-hit != 'true'
         run: |
             python ./addons/Wwise/native/tools/wwise-dl.py --user ${{ secrets.AK_USER }} --pass ${{ secrets.AK_PASS }} ${{ env.WWISE_VERSION }}.${{ env.WWISE_BUILD }} Android --plugins Auro ConvolutionReverb iZotope McDSP Reflect SoundSeed SoundSeedGrain ResonanceAudio Motion ASIO AkChannelRouter MasteringSuite CrankcaseAudioREVModelPlayer Impacter --output ./addons/Wwise/native/wwise_sdk/
+      
+      - name: Prepare SDK (Web)
+        if: runner.os == 'Linux' && matrix.sdk-platform == 'web' && steps.cache-wwise-sdk.outputs.cache-hit != 'true'
+        run: |
+            python ./addons/Wwise/native/tools/wwise-dl.py --user ${{ secrets.AK_USER }} --pass ${{ secrets.AK_PASS }} ${{ env.WWISE_VERSION }}.${{ env.WWISE_BUILD }} Emscripten --plugins ConvolutionReverb Reflect SoundSeed SoundSeedGrain MasteringSuite Impacter --output ./addons/Wwise/native/wwise_sdk/
 
       - name: Compile editor library
-        if: matrix.sdk-platform != 'android' && matrix.sdk-platform != 'ios'
+        if: matrix.sdk-platform != 'android' && matrix.sdk-platform != 'ios' && matrix.sdk-platform != 'web'
         shell: bash
         env:
           SCONS_CACHE: ${{github.workspace}}/.scons_cache/
@@ -174,7 +193,7 @@ jobs:
           cd ../../../
 
       - name: Compile template_debug library
-        if: matrix.sdk-platform != 'android'
+        if: matrix.sdk-platform != 'android' && matrix.sdk-platform != 'web'
         shell: bash
         env:
           SCONS_CACHE: ${{github.workspace}}/.scons_cache/
@@ -185,7 +204,7 @@ jobs:
           cd ../../../
 
       - name: Compile template_release library
-        if: matrix.sdk-platform != 'android'
+        if: matrix.sdk-platform != 'android' && matrix.sdk-platform != 'web'
         shell: bash
         env:
           SCONS_CACHE: ${{github.workspace}}/.scons_cache/
@@ -210,6 +229,37 @@ jobs:
           cd ../android
           chmod +x ./gradlew
           ./gradlew assemble -PWWISE_SDK="$WWISESDK" -Pprecision=${{ env.BUILD_PRECISION }}
+
+      - name: Compile Web libraries
+        if: matrix.sdk-platform == 'web'
+        shell: bash
+        env:
+          SCONS_CACHE: ${{github.workspace}}/.scons_cache/
+          SCONS_CACHE_LIMIT: 7168
+        run: |
+          cd addons/Wwise/native
+
+          for threads in no yes; do
+            scons platform=${{ matrix.scons-platform }} \
+              target=template_debug \
+              wwise_config=profile \
+              wwise_sdk=wwise_sdk/SDK \
+              build_profile=${{ env.BUILD_PROFILE_RUNTIME }} \
+              precision=${{ env.BUILD_PRECISION }} \
+              plugins=reflect,convolution,soundseed_grain,soundseed_air,mastering_suite \
+              threads=$threads
+
+            scons platform=${{ matrix.scons-platform }} \
+              target=template_release \
+              wwise_config=release \
+              wwise_sdk=wwise_sdk/SDK \
+              build_profile=${{ env.BUILD_PROFILE_RUNTIME }} \
+              precision=${{ env.BUILD_PRECISION }} \
+              plugins=reflect,convolution,soundseed_grain,soundseed_air,mastering_suite \
+              threads=$threads
+          done
+
+          cd ../../../
 
       - name: Upload libs
         uses: actions/upload-artifact@v4
@@ -256,6 +306,10 @@ jobs:
           if [ -d ios${{ env.PRECISION_SUFFIX }} ]; then
             mv ios${{ env.PRECISION_SUFFIX }}/* addons/Wwise/native/lib/
             rm -r ios${{ env.PRECISION_SUFFIX }}
+          fi
+          if [ -d web${{ env.PRECISION_SUFFIX }} ]; then
+            mv web${{ env.PRECISION_SUFFIX }}/* addons/Wwise/native/lib/
+            rm -r web${{ env.PRECISION_SUFFIX }}
           fi
 
       - name: Clean up addon
