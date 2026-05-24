@@ -14,9 +14,9 @@ enum class WwiseLogLevel
 	VeryVerbose = 5
 };
 
-class WwiseLogger : public RefCounted
+class WwiseLogger : public Object
 {
-	GDCLASS(WwiseLogger, RefCounted);
+	GDCLASS(WwiseLogger, Object);
 
 protected:
 	static void _bind_methods() {};
