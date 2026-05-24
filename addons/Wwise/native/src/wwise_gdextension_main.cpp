@@ -70,6 +70,10 @@
 #include "gen/doc_data.gen.cpp"
 #endif
 
+#if defined(AK_EMSCRIPTEN)
+#include "platform/emscripten/ak_emscripten_atomics.cpp"
+#endif
+
 #if defined(AK_WIN) || defined(AK_MAC_OS_X)
 #include "core/waapi_gdextension.cpp"
 static Waapi* waapi_module;
