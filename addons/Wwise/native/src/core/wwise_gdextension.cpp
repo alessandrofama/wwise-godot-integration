@@ -550,7 +550,7 @@ bool Wwise::set_multiple_positions_2d(const Node* game_object, const TypedArray<
 bool Wwise::set_game_object_radius(const Node* game_object, const float outer_radius, const float inner_radius)
 {
 	AkGameObjectID id = get_ak_game_object_id(game_object);
-	return ERROR_CHECK(AK::SpatialAudio::SetGameObjectRadius(id, outer_radius, inner_radius));
+	return ERROR_CHECK(AK::Acoustics::SetGameObjectRadius(id, outer_radius, inner_radius));
 }
 
 AkPlayingID Wwise::post_event(const String& event_name, Node* game_object)
@@ -1117,14 +1117,14 @@ bool Wwise::set_geometry(const Array vertices, const Array triangles, const Ref<
 	geometry.EnableDiffraction = enable_diffraction;
 	geometry.EnableDiffractionOnBoundaryEdges = enable_diffraction_on_boundary_edges;
 
-	return ERROR_CHECK(AK::SpatialAudio::SetGeometry(id, geometry));
+	return ERROR_CHECK(AK::Acoustics::SetGeometry(id, geometry));
 }
 
 bool Wwise::remove_geometry(const Object* game_object)
 {
 	AKASSERT(game_object);
 
-	return ERROR_CHECK(AK::SpatialAudio::RemoveGeometry(static_cast<AkGeometrySetID>(game_object->get_instance_id())));
+	return ERROR_CHECK(AK::Acoustics::RemoveGeometry(static_cast<AkGeometrySetID>(game_object->get_instance_id())));
 }
 
 bool Wwise::set_geometry_instance(const Object* associated_geometry, const Transform3D& transform,
@@ -1141,13 +1141,13 @@ bool Wwise::set_geometry_instance(const Object* associated_geometry, const Trans
 	Vector3 scale = transform.get_basis().get_scale();
 	params.Scale = { static_cast<AkReal32>(scale.x), static_cast<AkReal32>(scale.y), static_cast<AkReal32>(scale.z) };
 
-	return ERROR_CHECK(AK::SpatialAudio::SetGeometryInstance(
+	return ERROR_CHECK(AK::Acoustics::SetGeometryInstance(
 			static_cast<AkGeometryInstanceID>(geometry_instance->get_instance_id()), params));
 }
 
 bool Wwise::remove_geometry_instance(const Object* geometry_instance)
 {
-	return ERROR_CHECK(AK::SpatialAudio::RemoveGeometryInstance(
+	return ERROR_CHECK(AK::Acoustics::RemoveGeometryInstance(
 			static_cast<AkGeometryInstanceID>(geometry_instance->get_instance_id())));
 }
 
@@ -1156,7 +1156,7 @@ bool Wwise::register_spatial_listener(Node* game_object)
 	AkGameObjectID id = get_ak_game_object_id(game_object);
 	pre_game_object_api_call(game_object, id);
 
-	return ERROR_CHECK(AK::SpatialAudio::RegisterListener(id));
+	return ERROR_CHECK(AK::Acoustics::RegisterListener(id));
 }
 
 bool Wwise::set_room(const Node* game_object, const unsigned int ak_aux_bus_id, const float reverb_level,
@@ -1179,14 +1179,14 @@ bool Wwise::set_room(const Node* game_object, const unsigned int ak_aux_bus_id, 
 		room_params.GeometryInstanceID = static_cast<AkGeometrySetID>(associated_geometry_instance->get_instance_id());
 	}
 
-	return ERROR_CHECK(AK::SpatialAudio::SetRoom(AkRoomID::FromGameObjectID(id), room_params,
+	return ERROR_CHECK(AK::Acoustics::SetRoom(AkRoomID::FromGameObjectID(id), room_params,
 			game_object ? String(game_object->get_name()).utf8().get_data() : nullptr));
 }
 
 bool Wwise::remove_room(const Node* game_object)
 {
 	AkGameObjectID id = get_ak_game_object_id(game_object);
-	return ERROR_CHECK(AK::SpatialAudio::RemoveRoom(AkRoomID::FromGameObjectID(id)));
+	return ERROR_CHECK(AK::Acoustics::RemoveRoom(AkRoomID::FromGameObjectID(id)));
 }
 
 bool Wwise::set_portal(const Node* game_object, const Transform3D transform, const Vector3& extent,
@@ -1208,18 +1208,18 @@ bool Wwise::set_portal(const Node* game_object, const Transform3D transform, con
 
 	portal_params.Transform = ak_transform;
 	portal_params.Extent = portal_extent;
-	portal_params.FrontRoom = front_room ? AkRoomID::FromGameObjectID(front_room_id) : AK::SpatialAudio::kOutdoorRoomID;
-	portal_params.BackRoom = back_room ? AkRoomID::FromGameObjectID(back_room_id) : AK::SpatialAudio::kOutdoorRoomID;
+	portal_params.FrontRoom = front_room ? AkRoomID::FromGameObjectID(front_room_id) : AK::Acoustics::kOutdoorRoomID;
+	portal_params.BackRoom = back_room ? AkRoomID::FromGameObjectID(back_room_id) : AK::Acoustics::kOutdoorRoomID;
 	portal_params.bEnabled = enabled;
 
-	return ERROR_CHECK(AK::SpatialAudio::SetPortal(id, portal_params));
+	return ERROR_CHECK(AK::Acoustics::SetPortal(id, portal_params));
 }
 
 bool Wwise::remove_portal(const Node* game_object)
 {
 	AkGameObjectID id = get_ak_game_object_id(game_object);
 
-	return ERROR_CHECK(AK::SpatialAudio::RemovePortal(id));
+	return ERROR_CHECK(AK::Acoustics::RemovePortal(id));
 }
 
 bool Wwise::set_portal_obstruction_and_occlusion(
@@ -1227,7 +1227,7 @@ bool Wwise::set_portal_obstruction_and_occlusion(
 {
 	AkGameObjectID id = get_ak_game_object_id(portal);
 
-	return ERROR_CHECK(AK::SpatialAudio::SetPortalObstructionAndOcclusion(id, obstruction_value, occlusion_value));
+	return ERROR_CHECK(AK::Acoustics::SetPortalObstructionAndOcclusion(id, obstruction_value, occlusion_value));
 }
 
 bool Wwise::set_game_object_to_portal_obstruction(
@@ -1236,7 +1236,7 @@ bool Wwise::set_game_object_to_portal_obstruction(
 	AkGameObjectID id = get_ak_game_object_id(game_object);
 	AkGameObjectID portal_id = get_ak_game_object_id(portal);
 
-	return ERROR_CHECK(AK::SpatialAudio::SetGameObjectToPortalObstruction(id, portal_id, obstruction_value));
+	return ERROR_CHECK(AK::Acoustics::SetGameObjectToPortalObstruction(id, portal_id, obstruction_value));
 }
 
 bool Wwise::set_portal_to_portal_obstruction(const Node* portal0, const Node* portal1, const float obstruction_value)
@@ -1244,7 +1244,7 @@ bool Wwise::set_portal_to_portal_obstruction(const Node* portal0, const Node* po
 	AkGameObjectID portal0_id = get_ak_game_object_id(portal0);
 	AkGameObjectID portal1_id = get_ak_game_object_id(portal1);
 
-	return ERROR_CHECK(AK::SpatialAudio::SetPortalToPortalObstruction(portal0_id, portal1_id, obstruction_value));
+	return ERROR_CHECK(AK::Acoustics::SetPortalToPortalObstruction(portal0_id, portal1_id, obstruction_value));
 }
 
 bool Wwise::set_game_object_in_room(Node* game_object, const Node* room)
@@ -1254,7 +1254,7 @@ bool Wwise::set_game_object_in_room(Node* game_object, const Node* room)
 
 	AkGameObjectID room_id = get_ak_game_object_id(room);
 
-	return ERROR_CHECK(AK::SpatialAudio::SetGameObjectInRoom(id, AkRoomID::FromGameObjectID(room_id)));
+	return ERROR_CHECK(AK::Acoustics::SetGameObjectInRoom(id, AkRoomID::FromGameObjectID(room_id)));
 }
 
 bool Wwise::remove_game_object_from_room(Node* game_object)
@@ -1262,7 +1262,7 @@ bool Wwise::remove_game_object_from_room(Node* game_object)
 	AkGameObjectID id = get_ak_game_object_id(game_object);
 	pre_game_object_api_call(game_object, id);
 
-	return ERROR_CHECK(AK::SpatialAudio::SetGameObjectInRoom(id, INVALID_ROOM_ID));
+	return ERROR_CHECK(AK::Acoustics::SetGameObjectInRoom(id, INVALID_ROOM_ID));
 }
 
 bool Wwise::set_early_reflections_aux_send(Node* game_object, const unsigned int aux_bus_id)
@@ -1270,7 +1270,7 @@ bool Wwise::set_early_reflections_aux_send(Node* game_object, const unsigned int
 	AkGameObjectID id = get_ak_game_object_id(game_object);
 	pre_game_object_api_call(game_object, id);
 
-	return ERROR_CHECK(AK::SpatialAudio::SetEarlyReflectionsAuxSend(id, aux_bus_id));
+	return ERROR_CHECK(AK::Acoustics::SetEarlyReflectionsAuxSend(id, aux_bus_id));
 }
 
 bool Wwise::set_early_reflections_volume(Node* game_object, const float volume)
@@ -1278,7 +1278,7 @@ bool Wwise::set_early_reflections_volume(Node* game_object, const float volume)
 	AkGameObjectID id = get_ak_game_object_id(game_object);
 	pre_game_object_api_call(game_object, id);
 
-	return ERROR_CHECK(AK::SpatialAudio::SetEarlyReflectionsVolume(id, volume));
+	return ERROR_CHECK(AK::Acoustics::SetEarlyReflectionsVolume(id, volume));
 }
 
 bool Wwise::add_output(const String& share_set, const unsigned int output_id)
@@ -1580,10 +1580,6 @@ bool Wwise::initialize_wwise_systems()
 
 	AkStreamMgrSettings stream_mgr_settings;
 	AK::StreamMgr::GetDefaultSettings(stream_mgr_settings);
-	if (!AK::StreamMgr::Create(stream_mgr_settings))
-	{
-		return false;
-	}
 
 	AkDeviceSettings device_settings;
 	AK::StreamMgr::GetDefaultDeviceSettings(device_settings);
@@ -1607,6 +1603,8 @@ bool Wwise::initialize_wwise_systems()
 
 	AkInitSettings init_settings{};
 	AK::SoundEngine::GetDefaultInitSettings(init_settings);
+
+	init_settings.settingsStreamMgr = stream_mgr_settings;
 
 #if defined(AK_ENABLE_ASSERTS)
 	init_settings.pfnAssertHook = WwiseAssertHook;
@@ -1831,70 +1829,62 @@ bool Wwise::initialize_wwise_systems()
 #error "Platform not supported"
 #endif
 
-	if (!ERROR_CHECK_MSG(
-				AK::SoundEngine::Init(&init_settings, &platform_init_settings), "Sound engine initialization failed."))
+	AkAcousticsInitSettings acoustics_init_settings;
 
-	{
-		return false;
-	}
+	acoustics_init_settings.uMaxSoundPropagationDepth = static_cast<unsigned int>(
+			project_settings->get_setting(project_settings->acoustics_settings.max_sound_propagation_depth));
 
-	AkSpatialAudioInitSettings spatialSettings;
+	acoustics_init_settings.fMovementThreshold = static_cast<AkReal32>(
+			project_settings->get_setting(project_settings->acoustics_settings.movement_threshold));
 
-	spatialSettings.uMaxSoundPropagationDepth = static_cast<unsigned int>(
-			project_settings->get_setting(project_settings->spatial_audio_settings.max_sound_propagation_depth));
+	acoustics_init_settings.uNumberOfPrimaryRays = static_cast<AkUInt32>(
+			project_settings->get_setting(project_settings->acoustics_settings.number_of_primary_rays));
 
-	spatialSettings.fMovementThreshold = static_cast<AkReal32>(
-			project_settings->get_setting(project_settings->spatial_audio_settings.movement_threshold));
+	acoustics_init_settings.uMaxReflectionOrder = static_cast<AkUInt32>(
+			project_settings->get_setting(project_settings->acoustics_settings.max_reflection_order));
 
-	spatialSettings.uNumberOfPrimaryRays = static_cast<AkUInt32>(
-			project_settings->get_setting(project_settings->spatial_audio_settings.number_of_primary_rays));
+	acoustics_init_settings.uMaxDiffractionOrder = static_cast<AkUInt32>(
+			project_settings->get_setting(project_settings->acoustics_settings.max_diffraction_order));
 
-	spatialSettings.uMaxReflectionOrder = static_cast<AkUInt32>(
-			project_settings->get_setting(project_settings->spatial_audio_settings.max_reflection_order));
+	acoustics_init_settings.uMaxDiffractionPaths = static_cast<AkUInt32>(
+			project_settings->get_setting(project_settings->acoustics_settings.max_diffraction_paths));
 
-	spatialSettings.uMaxDiffractionOrder = static_cast<AkUInt32>(
-			project_settings->get_setting(project_settings->spatial_audio_settings.max_diffraction_order));
+	acoustics_init_settings.uMaxGlobalReflectionPaths = static_cast<AkUInt32>(
+			project_settings->get_setting(project_settings->acoustics_settings.max_global_reflection_paths));
 
-	spatialSettings.uMaxDiffractionPaths = static_cast<AkUInt32>(
-			project_settings->get_setting(project_settings->spatial_audio_settings.max_diffraction_paths));
+	acoustics_init_settings.uMaxEmitterRoomAuxSends = static_cast<AkUInt32>(
+			project_settings->get_setting(project_settings->acoustics_settings.max_emitter_room_aux_sends));
 
-	spatialSettings.uMaxGlobalReflectionPaths = static_cast<AkUInt32>(
-			project_settings->get_setting(project_settings->spatial_audio_settings.max_global_reflection_paths));
+	acoustics_init_settings.uDiffractionOnReflectionsOrder = static_cast<AkUInt32>(
+			project_settings->get_setting(project_settings->acoustics_settings.diffraction_on_reflections_order));
 
-	spatialSettings.uMaxEmitterRoomAuxSends = static_cast<AkUInt32>(
-			project_settings->get_setting(project_settings->spatial_audio_settings.max_emitter_room_aux_sends));
+	acoustics_init_settings.fMaxDiffractionAngleDegrees = static_cast<AkReal32>(
+			project_settings->get_setting(project_settings->acoustics_settings.max_diffraction_angle_degrees));
 
-	spatialSettings.uDiffractionOnReflectionsOrder = static_cast<AkUInt32>(
-			project_settings->get_setting(project_settings->spatial_audio_settings.diffraction_on_reflections_order));
+	acoustics_init_settings.fMaxPathLength =
+			static_cast<AkReal32>(project_settings->get_setting(project_settings->acoustics_settings.max_path_length));
 
-	spatialSettings.fMaxDiffractionAngleDegrees = static_cast<AkReal32>(
-			project_settings->get_setting(project_settings->spatial_audio_settings.max_diffraction_angle_degrees));
+	acoustics_init_settings.fCPULimitPercentage = static_cast<AkReal32>(
+			project_settings->get_setting(project_settings->acoustics_settings.cpu_limit_percentage));
 
-	spatialSettings.fMaxPathLength = static_cast<AkReal32>(
-			project_settings->get_setting(project_settings->spatial_audio_settings.max_path_length));
+	acoustics_init_settings.fSmoothingConstantMs = static_cast<AkReal32>(
+			project_settings->get_setting(project_settings->acoustics_settings.smoothing_constant_ms));
 
-	spatialSettings.fCPULimitPercentage = static_cast<AkReal32>(
-			project_settings->get_setting(project_settings->spatial_audio_settings.cpu_limit_percentage));
+	acoustics_init_settings.uLoadBalancingSpread = static_cast<AkUInt32>(
+			project_settings->get_setting(project_settings->acoustics_settings.load_balancing_spread));
 
-	spatialSettings.fSmoothingConstantMs = static_cast<AkReal32>(
-			project_settings->get_setting(project_settings->spatial_audio_settings.smoothing_constant_ms));
+	acoustics_init_settings.bEnableGeometricDiffractionAndTransmission =
+			static_cast<bool>(project_settings->get_setting(
+					project_settings->acoustics_settings.enable_geometric_diffraction_and_transmission));
 
-	spatialSettings.uLoadBalancingSpread = static_cast<AkUInt32>(
-			project_settings->get_setting(project_settings->spatial_audio_settings.load_balancing_spread));
+	acoustics_init_settings.bCalcEmitterVirtualPosition = static_cast<bool>(
+			project_settings->get_setting(project_settings->acoustics_settings.calc_emitter_virtual_position));
 
-	spatialSettings.bEnableGeometricDiffractionAndTransmission = static_cast<bool>(project_settings->get_setting(
-			project_settings->spatial_audio_settings.enable_geometric_diffraction_and_transmission));
+	acoustics_init_settings.eTransmissionOperation = (AkTransmissionOperation) static_cast<AkUInt32>(
+			project_settings->get_setting(project_settings->acoustics_settings.transmission_operation));
 
-	spatialSettings.bCalcEmitterVirtualPosition = static_cast<bool>(
-			project_settings->get_setting(project_settings->spatial_audio_settings.calc_emitter_virtual_position));
-
-	spatialSettings.eTransmissionOperation = (AkTransmissionOperation) static_cast<AkUInt32>(
-			project_settings->get_setting(project_settings->spatial_audio_settings.transmission_operation));
-
-	if (!ERROR_CHECK_MSG(AK::SpatialAudio::Init(spatialSettings), "Spatial Audio initialization failed."))
-	{
-		return false;
-	}
+	acoustics_init_settings.bEnableSpatialAudio = true;
+	init_settings.settingsSpatialAudio = acoustics_init_settings;
 
 #ifndef AK_OPTIMIZED
 	AkCommSettings comm_settings{};
@@ -1919,17 +1909,22 @@ bool Wwise::initialize_wwise_systems()
 			comm_settings.szCommProxyServerUrl, proxy_server_url.utf8().get_data(), AK_COMM_SETTINGS_MAX_URL_SIZE);
 #endif
 
-	ERROR_CHECK_MSG(AK::Comm::Init(comm_settings), "Comm initialization failed.");
+	comm_settings.bEnableComms = true;
+	init_settings.settingsCommunications = comm_settings;
 #endif
+
+	if (!ERROR_CHECK_MSG(
+				AK::SoundEngine::Init(&init_settings, &platform_init_settings), "Sound engine initialization failed."))
+
+	{
+		return false;
+	}
 
 	return true;
 }
 
 bool Wwise::shutdown_wwise_system()
 {
-#ifndef AK_OPTIMIZED
-	AK::Comm::Term();
-#endif
 
 	if (!ERROR_CHECK(AK::SoundEngine::UnregisterAllGameObj()))
 	{
@@ -1944,11 +1939,6 @@ bool Wwise::shutdown_wwise_system()
 	AK::SoundEngine::Term();
 
 	low_level_io.term();
-
-	if (AK::IAkStreamMgr::Get())
-	{
-		AK::IAkStreamMgr::Get()->Destroy();
-	}
 
 	AK::MemoryMgr::Term();
 

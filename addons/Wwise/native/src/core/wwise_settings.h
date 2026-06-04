@@ -1,7 +1,7 @@
 #pragma once
 
-#include <AK/SpatialAudio/Common/AkSpatialAudio.h>
-#include <AK/SpatialAudio/Common/AkSpatialAudioTypes.h>
+#include <AK/Acoustics/Common/AkAcoustics.h>
+#include <AK/Acoustics/Common/AkAcousticsTypes.h>
 #include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/classes/project_settings.hpp>
 #include <godot_cpp/classes/ref_counted.hpp>
@@ -54,7 +54,7 @@ public:
 		MainOutputSettings main_output;
 	};
 
-	struct SpatialAudioSettings
+	struct AcousticsSettings
 	{
 		StringName max_sound_propagation_depth;
 		StringName movement_threshold;
@@ -130,7 +130,7 @@ public:
 	};
 
 	CommonUserSettings common_user_settings;
-	SpatialAudioSettings spatial_audio_settings;
+	AcousticsSettings acoustics_settings;
 	AdvancedSettings advanced_settings;
 	CommunicationSettings communication_settings;
 	PlatformSettings platform_settings;
