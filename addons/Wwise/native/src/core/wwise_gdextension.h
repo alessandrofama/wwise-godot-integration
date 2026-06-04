@@ -7,9 +7,10 @@
 #include "core/wwise_bank_manager.h"
 #include "core/wwise_external_source_info.h"
 #include "core/wwise_io_hook.h"
+#include "core/wwise_logger.h"
 #include "core/wwise_platform_info.h"
 #include "core/wwise_settings.h"
-#include "core/wwise_logger.h"
+#include <AK/Acoustics/Common/AkAcoustics.h>
 #include <AK/SoundEngine/Common/AkCallback.h>
 #include <AK/SoundEngine/Common/AkMemoryMgr.h>
 #include <AK/SoundEngine/Common/AkMemoryMgrModule.h>
@@ -18,7 +19,6 @@
 #include <AK/SoundEngine/Common/AkSoundEngine.h>
 #include <AK/SoundEngine/Common/AkTypes.h>
 #include <AK/SoundEngine/Common/AkVirtualAcoustics.h>
-#include <AK/SpatialAudio/Common/AkSpatialAudio.h>
 #include <AK/Tools/Common/AkAutoLock.h>
 #include <AK/Tools/Common/AkMonitorError.h>
 #include <AK/Tools/Common/AkObject.h>
