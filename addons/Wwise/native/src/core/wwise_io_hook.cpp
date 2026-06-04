@@ -225,6 +225,13 @@ void WwiseIOHook::BatchWrite(AkUInt32 in_u_num_transfers, BatchIoTransferItem* i
 	}
 }
 
+AKRESULT WwiseIOHook::AttachToDevice(AkDeviceID in_deviceID, const AkDeviceSettings& in_deviceSettings)
+{
+	return AKRESULT::AK_Success;
+}
+
+void WwiseIOHook::DetachFromDevice() {}
+
 AKRESULT WwiseIOHook::Close(AkFileDesc* in_file_desc)
 {
 	AKRESULT result = AK_Fail;
