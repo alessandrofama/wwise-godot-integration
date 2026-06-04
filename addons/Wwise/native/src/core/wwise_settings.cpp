@@ -34,30 +34,30 @@ WwiseSettings::WwiseSettings()
 	common_user_settings.main_output.number_of_channels = "wwise/common_user_settings/main_output/number_of_channels";
 
 	// Spatial Audio Settings
-	spatial_audio_settings.max_sound_propagation_depth =
+	acoustics_settings.max_sound_propagation_depth =
 			"wwise/common_user_settings/spatial_audio/max_sound_propagation_depth";
-	spatial_audio_settings.movement_threshold = "wwise/common_user_settings/spatial_audio/movement_threshold";
-	spatial_audio_settings.number_of_primary_rays = "wwise/common_user_settings/spatial_audio/number_of_primary_rays";
-	spatial_audio_settings.max_reflection_order = "wwise/common_user_settings/spatial_audio/max_reflection_order";
-	spatial_audio_settings.max_diffraction_order = "wwise/common_user_settings/spatial_audio/max_diffraction_order";
-	spatial_audio_settings.max_diffraction_paths = "wwise/common_user_settings/spatial_audio/max_diffraction_paths";
-	spatial_audio_settings.max_global_reflection_paths =
+	acoustics_settings.movement_threshold = "wwise/common_user_settings/spatial_audio/movement_threshold";
+	acoustics_settings.number_of_primary_rays = "wwise/common_user_settings/spatial_audio/number_of_primary_rays";
+	acoustics_settings.max_reflection_order = "wwise/common_user_settings/spatial_audio/max_reflection_order";
+	acoustics_settings.max_diffraction_order = "wwise/common_user_settings/spatial_audio/max_diffraction_order";
+	acoustics_settings.max_diffraction_paths = "wwise/common_user_settings/spatial_audio/max_diffraction_paths";
+	acoustics_settings.max_global_reflection_paths =
 			"wwise/common_user_settings/spatial_audio/max_global_reflection_paths";
-	spatial_audio_settings.max_emitter_room_aux_sends =
+	acoustics_settings.max_emitter_room_aux_sends =
 			"wwise/common_user_settings/spatial_audio/max_emitter_room_aux_sends";
-	spatial_audio_settings.diffraction_on_reflections_order =
+	acoustics_settings.diffraction_on_reflections_order =
 			"wwise/common_user_settings/spatial_audio/diffraction_on_reflections_order";
-	spatial_audio_settings.max_diffraction_angle_degrees =
+	acoustics_settings.max_diffraction_angle_degrees =
 			"wwise/common_user_settings/spatial_audio/max_diffraction_angle_degrees";
-	spatial_audio_settings.max_path_length = "wwise/common_user_settings/spatial_audio/max_path_length";
-	spatial_audio_settings.cpu_limit_percentage = "wwise/common_user_settings/spatial_audio/cpu_limit_percentage";
-	spatial_audio_settings.smoothing_constant_ms = "wwise/common_user_settings/spatial_audio/smoothing_constant_ms";
-	spatial_audio_settings.load_balancing_spread = "wwise/common_user_settings/spatial_audio/load_balancing_spread";
-	spatial_audio_settings.enable_geometric_diffraction_and_transmission =
+	acoustics_settings.max_path_length = "wwise/common_user_settings/spatial_audio/max_path_length";
+	acoustics_settings.cpu_limit_percentage = "wwise/common_user_settings/spatial_audio/cpu_limit_percentage";
+	acoustics_settings.smoothing_constant_ms = "wwise/common_user_settings/spatial_audio/smoothing_constant_ms";
+	acoustics_settings.load_balancing_spread = "wwise/common_user_settings/spatial_audio/load_balancing_spread";
+	acoustics_settings.enable_geometric_diffraction_and_transmission =
 			"wwise/common_user_settings/spatial_audio/enable_geometric_diffraction_and_transmission";
-	spatial_audio_settings.calc_emitter_virtual_position =
+	acoustics_settings.calc_emitter_virtual_position =
 			"wwise/common_user_settings/spatial_audio/calc_emitter_virtual_position";
-	spatial_audio_settings.transmission_operation = "wwise/common_user_settings/spatial_audio/transmission_operation";
+	acoustics_settings.transmission_operation = "wwise/common_user_settings/spatial_audio/transmission_operation";
 
 	// Advanced Settings
 	advanced_settings.io_memory_size = "wwise/common_advanced_settings/IO_memory_size";
@@ -205,25 +205,25 @@ void WwiseSettings::add_wwise_settings()
 			"0.0, 1.0");
 
 	// Spatial Audio Settings
-	add_setting(spatial_audio_settings.max_sound_propagation_depth, AK_MAX_SOUND_PROPAGATION_DEPTH,
+	add_setting(acoustics_settings.max_sound_propagation_depth, AK_MAX_SOUND_PROPAGATION_DEPTH,
 			Variant::Type::FLOAT, PROPERTY_HINT_RANGE, "0.0,8.0");
-	add_setting(spatial_audio_settings.movement_threshold, 0.25f, Variant::Type::FLOAT);
-	add_setting(spatial_audio_settings.number_of_primary_rays, 35, Variant::Type::INT);
-	add_setting(spatial_audio_settings.max_reflection_order, 2, Variant::Type::INT, PROPERTY_HINT_RANGE, "1,4");
-	add_setting(spatial_audio_settings.max_diffraction_order, 4, Variant::Type::INT, PROPERTY_HINT_RANGE, "1,8");
-	add_setting(spatial_audio_settings.max_diffraction_paths, 8, Variant::Type::INT);
-	add_setting(spatial_audio_settings.max_global_reflection_paths, 0, Variant::Type::INT);
-	add_setting(spatial_audio_settings.max_emitter_room_aux_sends, 3, Variant::Type::INT);
-	add_setting(spatial_audio_settings.diffraction_on_reflections_order, 2, Variant::Type::INT);
-	add_setting(spatial_audio_settings.max_diffraction_angle_degrees, 180.f, Variant::Type::FLOAT);
-	add_setting(spatial_audio_settings.max_path_length, 10000.0f, Variant::Type::FLOAT);
+	add_setting(acoustics_settings.movement_threshold, 0.25f, Variant::Type::FLOAT);
+	add_setting(acoustics_settings.number_of_primary_rays, 35, Variant::Type::INT);
+	add_setting(acoustics_settings.max_reflection_order, 2, Variant::Type::INT, PROPERTY_HINT_RANGE, "1,4");
+	add_setting(acoustics_settings.max_diffraction_order, 4, Variant::Type::INT, PROPERTY_HINT_RANGE, "1,8");
+	add_setting(acoustics_settings.max_diffraction_paths, 8, Variant::Type::INT);
+	add_setting(acoustics_settings.max_global_reflection_paths, 0, Variant::Type::INT);
+	add_setting(acoustics_settings.max_emitter_room_aux_sends, 3, Variant::Type::INT);
+	add_setting(acoustics_settings.diffraction_on_reflections_order, 2, Variant::Type::INT);
+	add_setting(acoustics_settings.max_diffraction_angle_degrees, 180.f, Variant::Type::FLOAT);
+	add_setting(acoustics_settings.max_path_length, 10000.0f, Variant::Type::FLOAT);
 	add_setting(
-			spatial_audio_settings.cpu_limit_percentage, 0.0f, Variant::Type::FLOAT, PROPERTY_HINT_RANGE, "0.0,100.0");
-	add_setting(spatial_audio_settings.smoothing_constant_ms, 0.0f, Variant::Type::FLOAT);
-	add_setting(spatial_audio_settings.load_balancing_spread, 1, Variant::Type::INT);
-	add_setting(spatial_audio_settings.enable_geometric_diffraction_and_transmission, true, Variant::Type::BOOL);
-	add_setting(spatial_audio_settings.calc_emitter_virtual_position, true, Variant::Type::BOOL);
-	add_setting(spatial_audio_settings.transmission_operation, AkTransmissionOperation::AkTransmissionOperation_Default,
+			acoustics_settings.cpu_limit_percentage, 0.0f, Variant::Type::FLOAT, PROPERTY_HINT_RANGE, "0.0,100.0");
+	add_setting(acoustics_settings.smoothing_constant_ms, 0.0f, Variant::Type::FLOAT);
+	add_setting(acoustics_settings.load_balancing_spread, 1, Variant::Type::INT);
+	add_setting(acoustics_settings.enable_geometric_diffraction_and_transmission, true, Variant::Type::BOOL);
+	add_setting(acoustics_settings.calc_emitter_virtual_position, true, Variant::Type::BOOL);
+	add_setting(acoustics_settings.transmission_operation, AkTransmissionOperation::AkTransmissionOperation_Default,
 			Variant::Type::INT, PROPERTY_HINT_ENUM, "Add, Multiply, Max");
 
 	// Main Output Settings
