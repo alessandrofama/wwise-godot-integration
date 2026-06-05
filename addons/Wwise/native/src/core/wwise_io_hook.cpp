@@ -227,10 +227,11 @@ void WwiseIOHook::BatchWrite(AkUInt32 in_u_num_transfers, BatchIoTransferItem* i
 
 AKRESULT WwiseIOHook::AttachToDevice(AkDeviceID in_deviceID, const AkDeviceSettings& in_deviceSettings)
 {
-	return AKRESULT::AK_Success;
+	device_id = in_deviceID;
+	return AK_Success;
 }
 
-void WwiseIOHook::DetachFromDevice() {}
+void WwiseIOHook::DetachFromDevice() { device_id = AK_INVALID_DEVICE_ID; }
 
 AKRESULT WwiseIOHook::Close(AkFileDesc* in_file_desc)
 {
@@ -272,36 +273,3 @@ void WwiseIOHook::GetDeviceDesc(AkDeviceDesc&
 }
 
 AkUInt32 WwiseIOHook::GetDeviceData() { return 1; }
-
-AKRESULT WwiseFileIOHandler::init(const AkDeviceSettings& in_device_settings)
-{
-	if (!AK::StreamMgr::GetFileLocationResolver())
-	{
-		AK::StreamMgr::SetFileLocationResolver(this);
-	}
-
-	if (!device.init(in_device_settings))
-	{
-		return AK_Fail;
-	}
-	return AK_Success;
-}
-
-void WwiseFileIOHandler::term()
-{
-	if (AK::StreamMgr::GetFileLocationResolver() == this)
-	{
-		AK::StreamMgr::SetFileLocationResolver(nullptr);
-	}
-
-	device.term();
-}
-
-void WwiseFileIOHandler::set_banks_path(const String& banks_path) { device.banks_path = banks_path; }
-
-void WwiseFileIOHandler::set_language_folder(const String& language_folder)
-{
-	device.language_folder = language_folder;
-}
-
-void WwiseFileIOHandler::set_use_subfolders(bool p_use_subfolders) { device.use_subfolders = p_use_subfolders; }

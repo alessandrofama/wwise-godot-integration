@@ -262,7 +262,7 @@ void Wwise::init()
 	bool use_subfolders =
 			project_settings->get_setting(project_settings->project_settings.create_subfolders_for_generated_files);
 
-	low_level_io.set_use_subfolders(use_subfolders);
+	low_level_io.use_subfolders = use_subfolders;
 
 	AkBankManager::load_init_bank();
 }
@@ -289,14 +289,14 @@ void Wwise::set_banks_path(const String& p_banks_path)
 {
 	AKASSERT(!p_banks_path.is_empty());
 
-	low_level_io.set_banks_path(p_banks_path);
+	low_level_io.banks_path = p_banks_path;
 }
 
 void Wwise::set_current_language(const String& language)
 {
 	AKASSERT(!language.is_empty());
 
-	low_level_io.set_language_folder(language);
+	low_level_io.language_folder = language;
 }
 
 bool Wwise::load_bank(const String& bank_name)
@@ -1581,6 +1581,8 @@ bool Wwise::initialize_wwise_systems()
 	AkStreamMgrSettings stream_mgr_settings;
 	AK::StreamMgr::GetDefaultSettings(stream_mgr_settings);
 
+	stream_mgr_settings.pCustomLowLevelIOHook = &low_level_io;
+
 	AkDeviceSettings device_settings;
 	AK::StreamMgr::GetDefaultDeviceSettings(device_settings);
 
@@ -1596,15 +1598,11 @@ bool Wwise::initialize_wwise_systems()
 	device_settings.uMaxCachePinnedBytes = static_cast<unsigned int>(
 			project_settings->get_setting(project_settings->advanced_settings.maximum_pinned_bytes_in_cache));
 
-	if (!ERROR_CHECK_MSG(low_level_io.init(device_settings), "Initializing Low level IO failed."))
-	{
-		return false;
-	}
-
 	AkInitSettings init_settings{};
 	AK::SoundEngine::GetDefaultInitSettings(init_settings);
 
 	init_settings.settingsStreamMgr = stream_mgr_settings;
+	init_settings.settingsStreamDevice = device_settings;
 
 #if defined(AK_ENABLE_ASSERTS)
 	init_settings.pfnAssertHook = WwiseAssertHook;
@@ -1937,8 +1935,6 @@ bool Wwise::shutdown_wwise_system()
 	}
 
 	AK::SoundEngine::Term();
-
-	low_level_io.term();
 
 	AK::MemoryMgr::Term();
 
