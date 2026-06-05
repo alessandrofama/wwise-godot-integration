@@ -48,23 +48,3 @@ public:
 	virtual void GetDeviceDesc(AkDeviceDesc& out_device_desc) override;
 	virtual AkUInt32 GetDeviceData() override;
 };
-
-class WwiseFileIOHandler : public AK::StreamMgr::IAkFileLocationResolver
-{
-private:
-	WwiseIOHook device{};
-
-public:
-	WwiseFileIOHandler() = default;
-	~WwiseFileIOHandler() override = default;
-
-	WwiseFileIOHandler(const WwiseFileIOHandler&) = delete;
-	WwiseFileIOHandler& operator=(const WwiseFileIOHandler&) = delete;
-
-	AKRESULT init(const AkDeviceSettings& in_device_settings);
-	void term();
-
-	void set_banks_path(const String& banks_path);
-	void set_language_folder(const String& language_folder);
-	void set_use_subfolders(bool p_use_subfolders);
-};

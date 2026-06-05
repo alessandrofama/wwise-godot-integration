@@ -60,7 +60,7 @@ private:
 
 	static CAkLock callback_data_lock;
 
-	WwiseFileIOHandler low_level_io;
+	WwiseIOHook low_level_io;
 	static HashSet<AkGameObjectID> registered_game_objects;
 
 public:
