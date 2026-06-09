@@ -66,8 +66,10 @@ bool WwiseBrowser::ensure_wwise_connection()
 	if (!waapi->is_client_connected())
 	{
 		auto* settings = WwiseSettings::get_singleton();
-		auto port = settings->get_setting(settings->communication_settings.waapi_port);
-		bool connection_result = waapi->connect_client("127.0.0.1", port);
+
+		auto ip = settings->get_setting(settings->integration_settings.waapi_ip);
+		auto port = settings->get_setting(settings->integration_settings.waapi_port);
+		bool connection_result = waapi->connect_client(ip, port);
 		return connection_result;
 	}
 	return true;

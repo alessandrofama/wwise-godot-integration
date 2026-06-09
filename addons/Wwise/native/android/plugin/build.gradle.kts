@@ -194,10 +194,25 @@ val copyAddonsToDemo by tasks.registering(Copy::class) {
     finalizedBy(copyReleaseSharedLibs)
 }
 
+val copyAndroidMetadata by tasks.registering(Copy::class) {
+    description = "Copies Wwise Android runtime metadata JSON files"
+
+    val sdkMetadataDir = "${project.findProperty("WWISE_SDK")}/metadata"
+    val dstDir = "../../../metadata"
+
+    from(sdkMetadataDir) {
+        include("Options.Common.json")
+        include("Options.Android.json")
+    }
+
+    into(dstDir)
+}
+
 tasks.named("preBuild").dependsOn(copyExportScriptsTemplate)
 
 tasks.named("assemble").configure {
     dependsOn(copyExportScriptsTemplate)
+    dependsOn(copyAndroidMetadata)
     finalizedBy(copyAddonsToDemo)
 }
 
