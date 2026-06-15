@@ -1,64 +1,39 @@
 #pragma once
 
 #include "core/wwise_gdextension.h"
-#include <type_traits>
 
-template <class T> class AkGameObjHelper
+class AkGameObjHelper
 {
-private:
-	static constexpr bool is_node = std::is_base_of<Node, T>::value;
-	bool is_registered = false;
-	T* game_object;
-
 public:
-	explicit AkGameObjHelper(T* node) : game_object(node) { static_assert(is_node, "T must inherit from Node"); }
-
-	bool register_game_obj()
+	static bool register_game_obj(const Node* p_game_object)
 	{
-		if (is_registered)
-		{
-			return AKRESULT::AK_Success;
-		}
-
-		if (!game_object)
-		{
-			return false;
-		}
-
-		is_registered = true;
-		return Wwise::get_singleton()->register_game_obj(game_object, game_object->get_name());
+		return Wwise::get_singleton()->register_game_obj(p_game_object, p_game_object->get_name());
 	}
 
-	bool unregister_game_obj()
+	static bool unregister_game_obj(const Node* p_game_object)
 	{
-		if (!is_registered)
-		{
-			AKRESULT::AK_Success;
-		}
-
-		is_registered = false;
-		return Wwise::get_singleton()->unregister_game_obj(game_object);
+		return Wwise::get_singleton()->unregister_game_obj(p_game_object);
 	}
 
-	void set_position();
+	static void set_position(const Node2D* p_game_object, Transform2D& p_cached_transform)
+	{
+		Transform2D current = p_game_object->get_global_transform();
 
-	bool get_is_registered() const { return is_registered; }
+		if (!current.is_equal_approx(p_cached_transform))
+		{
+			Wwise::get_singleton()->set_2d_position(p_game_object, current, 0);
+			p_cached_transform = current;
+		}
+	}
+
+	static void set_position(const Node3D* p_game_object, Transform3D& p_cached_transform)
+	{
+		Transform3D current = p_game_object->get_global_transform();
+
+		if (!current.is_equal_approx(p_cached_transform))
+		{
+			Wwise::get_singleton()->set_3d_position(p_game_object, current);
+			p_cached_transform = current;
+		}
+	}
 };
-
-template <> inline void AkGameObjHelper<Node>::set_position() {}
-
-template <> inline void AkGameObjHelper<Node2D>::set_position()
-{
-	if (game_object)
-	{
-		Wwise::get_singleton()->set_2d_position(game_object, game_object->get_global_transform(), 0);
-	}
-}
-
-template <> inline void AkGameObjHelper<Node3D>::set_position()
-{
-	if (game_object)
-	{
-		Wwise::get_singleton()->set_3d_position(game_object, game_object->get_global_transform());
-	}
-}
