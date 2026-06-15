@@ -30,7 +30,6 @@ protected:
 				if (!is_registered)
 					return;
 
-				cached_transform = game_object->get_global_transform();
 				AkGameObjHelper::set_position(game_object, cached_transform);
 
 				set_process(true);
