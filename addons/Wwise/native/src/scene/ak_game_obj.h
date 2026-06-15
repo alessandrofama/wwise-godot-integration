@@ -8,9 +8,6 @@ class AkGameObj : public Node
 {
 	GDCLASS(AkGameObj, Node);
 
-private:
-	AkGameObjHelper<Node>* helper{ nullptr };
-
 protected:
 	static void _bind_methods() {};
 
@@ -19,38 +16,36 @@ protected:
 		if (Engine::get_singleton()->is_editor_hint())
 			return;
 
-		if (p_what == NOTIFICATION_ENTER_TREE)
+		switch (p_what)
 		{
-			if (!helper)
+			case NOTIFICATION_ENTER_TREE:
 			{
-				Node* parent = get_parent();
-				if (parent)
+				game_object = get_parent();
+
+				if (!game_object)
+					return;
+
+				is_registered = AkGameObjHelper::register_game_obj(game_object);
+
+				if (!is_registered)
+					return;
+
+				set_process(false);
+				break;
+			}
+			case NOTIFICATION_PREDELETE:
+			{
+				if (is_registered && game_object)
 				{
-					helper = new AkGameObjHelper<Node>(parent);
-					if (helper->register_game_obj())
-					{
-						helper->set_position();
-					}
+					AkGameObjHelper::unregister_game_obj(game_object);
+					is_registered = false;
 				}
-			}
-		}
-
-		if (p_what == NOTIFICATION_PROCESS)
-		{
-			if (helper && helper->get_is_registered())
-			{
-				helper->set_position();
-			}
-		}
-
-		if (p_what == NOTIFICATION_PREDELETE)
-		{
-			if (helper)
-			{
-				helper->unregister_game_obj();
-				delete helper;
-				helper = nullptr;
+				break;
 			}
 		}
 	}
+
+private:
+	Node* game_object{ nullptr };
+	bool is_registered{ false };
 };
