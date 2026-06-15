@@ -8,9 +8,6 @@ class AkGameObj2D : public Node2D
 {
 	GDCLASS(AkGameObj2D, Node2D);
 
-private:
-	AkGameObjHelper<Node2D>* helper{ nullptr };
-
 protected:
 	static void _bind_methods() {};
 
@@ -19,40 +16,48 @@ protected:
 		if (Engine::get_singleton()->is_editor_hint())
 			return;
 
-		if (p_what == NOTIFICATION_ENTER_TREE)
+		switch (p_what)
 		{
-			if (!helper)
+			case NOTIFICATION_ENTER_TREE:
 			{
-				Node* parent = get_parent();
-				Node2D* node_2d = Object::cast_to<Node2D>(parent);
-				if (parent && node_2d)
+				game_object = Object::cast_to<Node2D>(get_parent());
+
+				if (!game_object)
+					return;
+
+				is_registered = AkGameObjHelper::register_game_obj(game_object);
+
+				if (!is_registered)
+					return;
+
+				cached_transform = game_object->get_global_transform();
+				AkGameObjHelper::set_position(game_object, cached_transform);
+
+				set_process(true);
+				break;
+			}
+			case NOTIFICATION_PROCESS:
+			{
+				if (is_registered && game_object)
 				{
-					helper = new AkGameObjHelper<Node2D>(node_2d);
-					if (helper->register_game_obj())
-					{
-						helper->set_position();
-					}
-					set_process(true);
+					AkGameObjHelper::set_position(game_object, cached_transform);
 				}
+				break;
 			}
-		}
-
-		if (p_what == NOTIFICATION_PROCESS)
-		{
-			if (helper && helper->get_is_registered())
+			case NOTIFICATION_PREDELETE:
 			{
-				helper->set_position();
-			}
-		}
-
-		if (p_what == NOTIFICATION_PREDELETE)
-		{
-			if (helper)
-			{
-				helper->unregister_game_obj();
-				delete helper;
-				helper = nullptr;
+				if (is_registered && game_object)
+				{
+					AkGameObjHelper::unregister_game_obj(game_object);
+					is_registered = false;
+				}
+				break;
 			}
 		}
 	}
+
+private:
+	Node2D* game_object{ nullptr };
+	bool is_registered{ false };
+	Transform2D cached_transform{};
 };
