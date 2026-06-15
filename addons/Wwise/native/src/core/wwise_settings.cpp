@@ -338,7 +338,7 @@ void WwiseSettings::remove_undefined_settings()
 
 			if (!defined_settings.has(base_name))
 			{
-				WwiseLogger::log_format("Removing obsolete setting: %s", name);
+				UtilityFunctions::print(vformat("WwiseGodot: Removing obsolete setting: %s", name));
 				project_settings->set_setting(name, Variant());
 			}
 		}
