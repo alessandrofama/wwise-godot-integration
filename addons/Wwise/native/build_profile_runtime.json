@@ -12,6 +12,7 @@
 		"CylinderShape3D",
 		"DisplayServer",
 		"Engine",
+		"JSON",
 		"Material",
 		"MeshDataTool",
 		"MeshInstance3D",

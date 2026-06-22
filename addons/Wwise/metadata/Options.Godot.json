@@ -1,0 +1,130 @@
+{
+  "Version": 1,
+  "Namespaces": [
+	{
+	  "Name": "integration",
+	  "DisplayName": "Integration",
+	  "Doc": "Settings specific to the Wwise integration.",
+	  "Visibility": "Default",
+	  "Options": [
+		{
+		  "Name": "root_output_path",
+		  "DisplayName": "Root Output Path",
+		  "Visibility": "Default",
+		  "Type": "String",
+		  "Doc": "The base directory containing the Wwise generated SoundBanks.",
+		  "DefaultValue": "",
+		  "GodotHint": "Dir"
+		},
+		{
+		  "Name": "startup_language",
+		  "DisplayName": "Startup Language",
+		  "Visibility": "Default",
+		  "Type": "String",
+		  "Doc": "The default language loaded when the sound engine initializes.",
+		  "DefaultValue": "English(US)"
+		},
+		{
+		  "Name": "suspend_audio_during_focus_loss",
+		  "DisplayName": "Suspend Audio During Focus Loss",
+		  "Visibility": "Default",
+		  "Type": "Boolean",
+		  "Doc": "Automatically pause audio rendering when the game window loses focus.",
+		  "DefaultValue": false
+		},
+		{
+		  "Name": "engine_logging",
+		  "DisplayName": "Engine Logging",
+		  "Visibility": "Default",
+		  "Type": "Boolean",
+		  "Doc": "Enable routing of Wwise engine messages to the Godot console.",
+		  "DefaultValue": true
+		},
+		{
+		  "Name": "log_level",
+		  "DisplayName": "Log Level",
+		  "Visibility": "Default",
+		  "Type": "Integer",
+		  "Doc": "The verbosity level of the Wwise logger.",
+		  "DefaultValue": 3,
+		  "AllowedValues": [
+			{ "Value": "None", "DisplayName": "None" },
+			{ "Value": "Error", "DisplayName": "Error" },
+			{ "Value": "Warning", "DisplayName": "Warning" },
+			{ "Value": "Log", "DisplayName": "Log" },
+			{ "Value": "Verbose", "DisplayName": "Verbose" },
+			{ "Value": "VeryVerbose", "DisplayName": "VeryVerbose" }
+		  ]
+		},
+		{
+		  "Name": "waapi_ip",
+		  "DisplayName": "WAAPI IP",
+		  "Visibility": "Default",
+		  "Type": "String",
+		  "Doc": "IP address used to connect to the Wwise Authoring API.",
+		  "DefaultValue": "127.0.0.1"
+		},
+		{
+		  "Name": "waapi_port",
+		  "DisplayName": "WAAPI Port",
+		  "Visibility": "Default",
+		  "Type": "Integer",
+		  "Doc": "Port used to connect to the Wwise Authoring API.",
+		  "DefaultValue": 8080
+		}
+	  ]
+	},
+	{
+	  "Name": "project",
+	  "DisplayName": "Project",
+	  "Doc": "Internal project configuration mappings.",
+	  "Visibility": "Default",
+	  "Options": [
+		{
+		  "Name": "windows_platform_info",
+		  "Visibility": "Hidden",
+		  "Type": "String",
+		  "DefaultValue": ""
+		},
+		{
+		  "Name": "mac_platform_info",
+		  "Visibility": "Hidden",
+		  "Type": "String",
+		  "DefaultValue": ""
+		},
+		{
+		  "Name": "linux_platform_info",
+		  "Visibility": "Hidden",
+		  "Type": "String",
+		  "DefaultValue": ""
+		},
+		{
+		  "Name": "ios_platform_info",
+		  "Visibility": "Hidden",
+		  "Type": "String",
+		  "DefaultValue": ""
+		},
+		{
+		  "Name": "android_platform_info",
+		  "Visibility": "Hidden",
+		  "Type": "String",
+		  "DefaultValue": ""
+		},
+		{
+		  "Name": "web_platform_info",
+		  "Visibility": "Hidden",
+		  "Type": "String",
+		  "DefaultValue": ""
+		},
+		{
+		  "Name": "custom_platform_name",
+		  "DisplayName": "Custom Platform Name",
+		  "Visibility": "Advanced",
+		  "Type": "String",
+		  "Doc": "Override the standard platform name mapping.",
+		  "DefaultValue": ""
+		}
+	  ]
+	}
+  ]
+}

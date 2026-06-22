@@ -15,13 +15,13 @@ void AkSoundBankDirectoryWatcherPlugin::_on_timer_timeout()
 		WwiseProjectDatabase::get_singleton()->post_init_callback();
 	}
 
-	String root_output_path = settings->get_setting(settings->common_user_settings.root_output_path);
+	String root_output_path = settings->get_setting(settings->integration_settings.root_output_path);
 	if (root_output_path.is_empty())
 	{
 		if (!empty_base_path_error_was_logged)
 		{
 			WwiseLogger::warning(
-					"The 'Root Output Path' setting in Wwise's Common User Settings (found under Godot "
+					"The 'Root Output Path' setting in Wwise's Integration Settings (found under Godot "
 					"Project > "
 					"Project Settings...) is empty. SoundBanks must be generated inside your Godot project "
 					"folder. Please generate your SoundBanks within the Godot project and update the 'Root Output "
@@ -94,10 +94,10 @@ void AkSoundBankDirectoryWatcherPlugin::init_project_db(
 				p_root_directory_path, AkEditorSettings::get_platform_name(custom_platform_name));
 
 		WwiseSettings* settings = WwiseSettings::get_singleton();
-		String current_language = settings->get_setting(settings->common_user_settings.startup_language);
+		String current_language = settings->get_setting(settings->integration_settings.startup_language);
 		if (current_language.is_empty())
 		{
-			WwiseLogger::error("Startup Language property in the advanced Wwise-Godot Project "
+			WwiseLogger::error("Startup Language property in the Wwise-Godot Project Integration "
 							   "Settings is empty. Defaulting to English(US).");
 			current_language = "English(US)";
 		}

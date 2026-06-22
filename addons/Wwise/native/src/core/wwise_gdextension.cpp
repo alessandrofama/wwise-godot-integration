@@ -2,6 +2,7 @@
 
 #if defined(AK_ANDROID)
 #include "platform/android/jni_support.cpp"
+#include <AK/SoundEngine/Platforms/Android/AkOption.Android.h>
 #endif
 
 #include <AK/Plugin/AllPluginsFactories.h>
@@ -203,7 +204,7 @@ void Wwise::init()
 
 	WwiseSettings* project_settings = WwiseSettings::get_singleton();
 
-	String root_output_path = project_settings->get_setting(project_settings->common_user_settings.root_output_path);
+	String root_output_path = project_settings->get_setting(project_settings->integration_settings.root_output_path);
 
 	Ref<WwisePlatformInfo> platform_info;
 	String platform_info_res_path;
@@ -244,12 +245,12 @@ void Wwise::init()
 	String banks_path = vformat("%s/%s/", root_output_path, banks_platform_suffix);
 	set_banks_path(banks_path);
 
-	String startup_language = project_settings->get_setting(project_settings->common_user_settings.startup_language);
+	String startup_language = project_settings->get_setting(project_settings->integration_settings.startup_language);
 	set_current_language(startup_language);
 
 #if !defined(AK_OPTIMIZED)
 	const bool engineLogging =
-			static_cast<bool>(project_settings->get_setting(project_settings->common_user_settings.engine_logging));
+			static_cast<bool>(project_settings->get_setting(project_settings->integration_settings.engine_logging));
 
 	if (engineLogging)
 	{
@@ -258,11 +259,6 @@ void Wwise::init()
 				"Setting local output to ErrorLevel_All failed.");
 	}
 #endif
-
-	bool use_subfolders =
-			project_settings->get_setting(project_settings->project_settings.create_subfolders_for_generated_files);
-
-	low_level_io.use_subfolders = use_subfolders;
 
 	AkBankManager::load_init_bank();
 }
@@ -1570,349 +1566,47 @@ void Wwise::post_unregister_game_object(AKRESULT p_result, const Node* p_node, A
 bool Wwise::initialize_wwise_systems()
 {
 	WwiseSettings* project_settings = WwiseSettings::get_singleton();
+	project_settings->apply_options_to_wwise();
 
-	AkMemSettings mem_settings;
-	AK::MemoryMgr::GetDefaultSettings(mem_settings);
-	if (!ERROR_CHECK_MSG(AK::MemoryMgr::Init(&mem_settings), "Memory manager initialization failed."))
+	AK::Option::SetP(AkOption_StreamMgr::AkOption_StreamMgr_LowLevelIOHook, &low_level_io);
+
+	if (!ERROR_CHECK_MSG(AK::MemoryMgr::Init(), "Memory manager initialization failed."))
 	{
 		return false;
 	}
 
-	AkStreamMgrSettings stream_mgr_settings;
-	AK::StreamMgr::GetDefaultSettings(stream_mgr_settings);
-
-	stream_mgr_settings.pCustomLowLevelIOHook = &low_level_io;
-
-	AkDeviceSettings device_settings;
-	AK::StreamMgr::GetDefaultDeviceSettings(device_settings);
-
-	device_settings.bUseStreamCache =
-			static_cast<bool>(project_settings->get_setting(project_settings->advanced_settings.use_stream_cache));
-
-	device_settings.fTargetAutoStmBufferLength = static_cast<float>(
-			project_settings->get_setting(project_settings->advanced_settings.target_auto_stream_buffer_length_ms));
-
-	device_settings.uIOMemorySize = static_cast<unsigned int>(
-			project_settings->get_setting(project_settings->advanced_settings.io_memory_size));
-
-	device_settings.uMaxCachePinnedBytes = static_cast<unsigned int>(
-			project_settings->get_setting(project_settings->advanced_settings.maximum_pinned_bytes_in_cache));
-
-	AkInitSettings init_settings{};
-	AK::SoundEngine::GetDefaultInitSettings(init_settings);
-
-	init_settings.settingsStreamMgr = stream_mgr_settings;
-	init_settings.settingsStreamDevice = device_settings;
-
 #if defined(AK_ENABLE_ASSERTS)
-	init_settings.pfnAssertHook = WwiseAssertHook;
+	se_hooks.pfAssertHook = WwiseAssertHook;
 #endif
-
-	init_settings.bDebugOutOfRangeCheckEnabled = static_cast<bool>(
-			project_settings->get_setting(project_settings->advanced_settings.debug_out_of_range_check_enabled));
-
-	init_settings.bEnableGameSyncPreparation = static_cast<bool>(
-			project_settings->get_setting(project_settings->advanced_settings.enable_game_sync_preparation));
-
-	init_settings.fStreamingLookAheadRatio = static_cast<float>(
-			project_settings->get_setting(project_settings->common_user_settings.streaming_look_ahead_ratio));
-
-	init_settings.fDebugOutOfRangeLimit = static_cast<float>(
-			project_settings->get_setting(project_settings->advanced_settings.debug_out_of_range_limit));
-
-	String audioDeviceShareSet =
-			project_settings->get_setting(project_settings->common_user_settings.main_output.audio_device_shareset);
-	init_settings.settingsMainOutput.audioDeviceShareset =
-			AK::SoundEngine::GetIDFromString(audioDeviceShareSet.utf8().get_data());
-
-	const unsigned int channelConfigType = static_cast<unsigned int>(
-			project_settings->get_setting(project_settings->common_user_settings.main_output.channel_config_type));
-
-	const unsigned int numChannels = static_cast<unsigned int>(
-			project_settings->get_setting(project_settings->common_user_settings.main_output.number_of_channels));
-
-	if (channelConfigType == AK_ChannelConfigType_Anonymous)
-	{
-		init_settings.settingsMainOutput.channelConfig.SetAnonymous(numChannels);
-	}
-	else if (channelConfigType == AK_ChannelConfigType_Standard)
-	{
-		init_settings.settingsMainOutput.channelConfig.SetStandard(numChannels);
-	}
-	else if (channelConfigType == AK_ChannelConfigType_Ambisonic)
-	{
-		init_settings.settingsMainOutput.channelConfig.SetAmbisonic(numChannels);
-	}
-	else
-	{
-		AKASSERT(false);
-	}
-
-	init_settings.settingsMainOutput.idDevice = static_cast<unsigned int>(
-			project_settings->get_setting(project_settings->common_user_settings.main_output.device_id));
-
-	init_settings.settingsMainOutput.ePanningRule = static_cast<AkPanningRule>(static_cast<unsigned int>(
-			project_settings->get_setting(project_settings->common_user_settings.main_output.panning_rule)));
-
-	init_settings.uCommandQueueSize = static_cast<unsigned int>(
-			project_settings->get_setting(project_settings->common_user_settings.command_queue_size));
-
-	init_settings.uContinuousPlaybackLookAhead = static_cast<unsigned int>(
-			project_settings->get_setting(project_settings->advanced_settings.continuous_playback_look_ahead));
-
-	init_settings.uMaxHardwareTimeoutMs = static_cast<unsigned int>(
-			project_settings->get_setting(project_settings->advanced_settings.maximum_hardware_timeout_ms));
-
-	init_settings.uMaxNumPaths = static_cast<unsigned int>(
-			project_settings->get_setting(project_settings->common_user_settings.maximum_number_of_positioning_paths));
-
-	init_settings.uMonitorQueuePoolSize = static_cast<unsigned int>(
-			project_settings->get_setting(project_settings->advanced_settings.monitor_queue_pool_size));
-
-	const unsigned int num_samples_per_frame_enum = static_cast<unsigned int>(
-			project_settings->get_setting(project_settings->common_user_settings.samples_per_frame));
-
-	switch (num_samples_per_frame_enum)
-	{
-		case SamplesPerFrame::SAMPLES_256:
-			init_settings.uNumSamplesPerFrame = 256;
-			break;
-		case SamplesPerFrame::SAMPLES_512:
-			init_settings.uNumSamplesPerFrame = 512;
-			break;
-		case SamplesPerFrame::SAMPLES_1024:
-			init_settings.uNumSamplesPerFrame = 1024;
-			break;
-		case SamplesPerFrame::SAMPLES_2048:
-			init_settings.uNumSamplesPerFrame = 2048;
-			break;
-		default:
-			AKASSERT(false);
-			break;
-	}
-
-	init_settings.fGameUnitsToMeters = static_cast<float>(
-			project_settings->get_setting(project_settings->common_user_settings.game_units_to_meters));
-
-	init_settings.eFloorPlane = AkFloorPlane_Default;
-
-	AkPlatformInitSettings platform_init_settings;
-	AK::SoundEngine::GetDefaultPlatformInitSettings(platform_init_settings);
-
-	// Common platform settings
-	const unsigned int num_refills_in_voice_enum = static_cast<unsigned int>(
-			project_settings->get_setting(project_settings->common_user_settings.number_of_refills_in_voice));
-
-	switch (num_refills_in_voice_enum)
-	{
-		case NumRefillsInVoice::REFILLS_2:
-			platform_init_settings.uNumRefillsInVoice = 2;
-			break;
-		case NumRefillsInVoice::REFILLS_4:
-			platform_init_settings.uNumRefillsInVoice = 4;
-			break;
-		default:
-			AKASSERT(false);
-			break;
-	}
-
-	const unsigned int samplerate_enum = static_cast<unsigned int>(
-			project_settings->get_setting(project_settings->common_user_settings.sample_rate));
-
-	switch (samplerate_enum)
-	{
-		case SampleRate::RATE_16000:
-			platform_init_settings.uSampleRate = 16000;
-			break;
-		case SampleRate::RATE_24000:
-			platform_init_settings.uSampleRate = 24000;
-			break;
-		case SampleRate::RATE_32000:
-			platform_init_settings.uSampleRate = 32000;
-			break;
-		case SampleRate::RATE_44100:
-			platform_init_settings.uSampleRate = 44100;
-			break;
-		case SampleRate::RATE_48000:
-			platform_init_settings.uSampleRate = 48000;
-			break;
-		default:
-			AKASSERT(false);
-			break;
-	}
+	AK::Option::SetP(AkOption_SoundEngine::AkOption_SoundEngine_Hooks, &se_hooks);
 
 #if defined(TOOLS_ENABLED)
 	String dsp_path = AkEditorSettings::get_editor_plugins_path();
-	AkOSChar* dll_path;
-	CONVERT_CHAR_TO_OSCHAR(ProjectSettings::get_singleton()->globalize_path(dsp_path).utf8().get_data(), dll_path);
-	init_settings.szPluginDLLPath = dll_path;
+	AK::Option::SetS(AkOption_SoundEngine::AkOption_SoundEngine_PluginPath,
+			ProjectSettings::get_singleton()->globalize_path(dsp_path).utf8().get_data());
 #endif
-
 	// Platform-specific settings
 #ifdef AK_WIN
-	platform_init_settings.uMaxSystemAudioObjects = static_cast<unsigned int>(
-			project_settings->get_setting(project_settings->platform_settings.windows_max_system_audio_objects));
-
 #elif defined(AK_MAC_OS_X)
-	platform_init_settings.eAudioAPI = static_cast<AkAudioAPIMac>(static_cast<unsigned int>(
-			project_settings->get_setting(project_settings->platform_settings.macos_audio_api)));
-
 #elif defined(AK_IOS)
-	platform_init_settings.eAudioAPI = static_cast<AkAudioAPIiOS>(static_cast<unsigned int>(
-			project_settings->get_setting(project_settings->platform_settings.ios_audio_api)));
-
-	const unsigned int session_category_enum = static_cast<unsigned int>(
-			project_settings->get_setting(project_settings->platform_settings.ios_audio_session_category));
-
-	platform_init_settings.audioSession.eCategory = static_cast<AkAudioSessionCategory>(session_category_enum);
-
-	const unsigned int session_category_flags = static_cast<unsigned int>(
-			project_settings->get_setting(project_settings->platform_settings.ios_audio_session_category_options));
-
-	platform_init_settings.audioSession.eCategoryOptions =
-			static_cast<AkAudioSessionCategoryOptions>(session_category_flags);
-
-	const unsigned int audio_session_mode_enum = static_cast<unsigned int>(
-			project_settings->get_setting(project_settings->platform_settings.ios_audio_session_mode));
-
-	platform_init_settings.audioSession.eMode = static_cast<AkAudioSessionMode>(audio_session_mode_enum);
-
 #elif defined(AK_ANDROID)
-	AkAudioAPIAndroid android_api_flag = AkAudioAPI_Default;
-
-	int selected_api_index =
-			static_cast<int>(project_settings->get_setting(project_settings->platform_settings.android_audio_api));
-
-	switch (selected_api_index)
-	{
-		case 0:
-			android_api_flag = AkAudioAPI_AAudio;
-			break;
-		case 1:
-			android_api_flag = AkAudioAPI_OpenSL_ES;
-			break;
-		case 2:
-			android_api_flag = AkAudioAPI_DolbyAtmos;
-			break;
-		case 3:
-			android_api_flag = AkAudioAPI_AndroidSpatializer;
-			break;
-		case 4:
-			android_api_flag = AkAudioAPI_Default;
-			break;
-		default:
-			android_api_flag = AkAudioAPI_Default;
-			break;
-	}
-
-	platform_init_settings.eAudioAPI = android_api_flag;
-
-	platform_init_settings.pJavaVM = JNISupport::getJavaVM();
-	platform_init_settings.jActivity = JNISupport::getActivity();
-
-	AkOSChar* dll_path;
-	CONVERT_CHAR_TO_OSCHAR(JNISupport::getPluginsDir().c_str(), dll_path);
-	init_settings.szPluginDLLPath = dll_path;
-
-	// todo(afama): Expose setting
-	platform_init_settings.eAudioPath = AkAudioPath_LowLatency;
-
+	AK::Option::SetP(AkOption_Android::AkOption_Android_JavaVM, JNISupport::getJavaVM());
+	AK::Option::SetP(AkOption_Android::AkOption_Android_ActivityReference, JNISupport::getActivity());
+	AK::Option::SetS(AkOption_SoundEngine::AkOption_SoundEngine_PluginPath, JNISupport::getPluginsDir().c_str());
 #elif defined(AK_LINUX)
-	platform_init_settings.eAudioAPI = static_cast<AkAudioAPILinux>(static_cast<unsigned int>(
-			project_settings->get_setting(project_settings->platform_settings.linux_audio_api)));
 #elif defined(AK_EMSCRIPTEN)
-	platform_init_settings.bVerboseSystemOutput =
-			project_settings->get_setting(project_settings->platform_settings.web_verbose_system_output);
 #else
 #error "Platform not supported"
 #endif
 
-	AkAcousticsInitSettings acoustics_init_settings;
-
-	acoustics_init_settings.uMaxSoundPropagationDepth = static_cast<unsigned int>(
-			project_settings->get_setting(project_settings->acoustics_settings.max_sound_propagation_depth));
-
-	acoustics_init_settings.fMovementThreshold = static_cast<AkReal32>(
-			project_settings->get_setting(project_settings->acoustics_settings.movement_threshold));
-
-	acoustics_init_settings.uNumberOfPrimaryRays = static_cast<AkUInt32>(
-			project_settings->get_setting(project_settings->acoustics_settings.number_of_primary_rays));
-
-	acoustics_init_settings.uMaxReflectionOrder = static_cast<AkUInt32>(
-			project_settings->get_setting(project_settings->acoustics_settings.max_reflection_order));
-
-	acoustics_init_settings.uMaxDiffractionOrder = static_cast<AkUInt32>(
-			project_settings->get_setting(project_settings->acoustics_settings.max_diffraction_order));
-
-	acoustics_init_settings.uMaxDiffractionPaths = static_cast<AkUInt32>(
-			project_settings->get_setting(project_settings->acoustics_settings.max_diffraction_paths));
-
-	acoustics_init_settings.uMaxGlobalReflectionPaths = static_cast<AkUInt32>(
-			project_settings->get_setting(project_settings->acoustics_settings.max_global_reflection_paths));
-
-	acoustics_init_settings.uMaxEmitterRoomAuxSends = static_cast<AkUInt32>(
-			project_settings->get_setting(project_settings->acoustics_settings.max_emitter_room_aux_sends));
-
-	acoustics_init_settings.uDiffractionOnReflectionsOrder = static_cast<AkUInt32>(
-			project_settings->get_setting(project_settings->acoustics_settings.diffraction_on_reflections_order));
-
-	acoustics_init_settings.fMaxDiffractionAngleDegrees = static_cast<AkReal32>(
-			project_settings->get_setting(project_settings->acoustics_settings.max_diffraction_angle_degrees));
-
-	acoustics_init_settings.fMaxPathLength =
-			static_cast<AkReal32>(project_settings->get_setting(project_settings->acoustics_settings.max_path_length));
-
-	acoustics_init_settings.fCPULimitPercentage = static_cast<AkReal32>(
-			project_settings->get_setting(project_settings->acoustics_settings.cpu_limit_percentage));
-
-	acoustics_init_settings.fSmoothingConstantMs = static_cast<AkReal32>(
-			project_settings->get_setting(project_settings->acoustics_settings.smoothing_constant_ms));
-
-	acoustics_init_settings.uLoadBalancingSpread = static_cast<AkUInt32>(
-			project_settings->get_setting(project_settings->acoustics_settings.load_balancing_spread));
-
-	acoustics_init_settings.bEnableGeometricDiffractionAndTransmission =
-			static_cast<bool>(project_settings->get_setting(
-					project_settings->acoustics_settings.enable_geometric_diffraction_and_transmission));
-
-	acoustics_init_settings.bCalcEmitterVirtualPosition = static_cast<bool>(
-			project_settings->get_setting(project_settings->acoustics_settings.calc_emitter_virtual_position));
-
-	acoustics_init_settings.eTransmissionOperation = (AkTransmissionOperation) static_cast<AkUInt32>(
-			project_settings->get_setting(project_settings->acoustics_settings.transmission_operation));
-
-	acoustics_init_settings.bEnableSpatialAudio = true;
-	init_settings.settingsSpatialAudio = acoustics_init_settings;
-
 #ifndef AK_OPTIMIZED
-	AkCommSettings comm_settings{};
-	AK::Comm::GetDefaultInitSettings(comm_settings);
-
-	comm_settings.bInitSystemLib = static_cast<bool>(
-			project_settings->get_setting(project_settings->communication_settings.initialize_system_comms));
-
-	comm_settings.ports.uCommand = static_cast<unsigned int>(
-			project_settings->get_setting(project_settings->communication_settings.command_port));
-
-	comm_settings.ports.uDiscoveryBroadcast = static_cast<unsigned int>(
-			project_settings->get_setting(project_settings->communication_settings.discovery_broadcast_port));
-
-	String network_name = project_settings->get_setting(project_settings->communication_settings.network_name);
-	AKPLATFORM::SafeStrCpy(
-			comm_settings.szAppNetworkName, network_name.utf8().get_data(), AK_COMM_SETTINGS_MAX_STRING_SIZE);
 
 #if defined(AK_EMSCRIPTEN)
-	String proxy_server_url = project_settings->get_setting(project_settings->communication_settings.proxy_server_url);
-	AKPLATFORM::SafeStrCpy(
-			comm_settings.szCommProxyServerUrl, proxy_server_url.utf8().get_data(), AK_COMM_SETTINGS_MAX_URL_SIZE);
 #endif
 
-	comm_settings.bEnableComms = true;
-	init_settings.settingsCommunications = comm_settings;
 #endif
 
-	if (!ERROR_CHECK_MSG(
-				AK::SoundEngine::Init(&init_settings, &platform_init_settings), "Sound engine initialization failed."))
+	if (!ERROR_CHECK_MSG(AK::SoundEngine::Init(), "Sound engine initialization failed."))
 
 	{
 		return false;
@@ -1923,7 +1617,6 @@ bool Wwise::initialize_wwise_systems()
 
 bool Wwise::shutdown_wwise_system()
 {
-
 	if (!ERROR_CHECK(AK::SoundEngine::UnregisterAllGameObj()))
 	{
 		return false;

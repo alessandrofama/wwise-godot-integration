@@ -226,7 +226,7 @@ void AkEditorExportPlugin::_export_begin(
 	gdextension_config->load(AkEditorSettings::get_gdextension_config_path());
 
 	WwiseSettings* settings = WwiseSettings::get_singleton();
-	String root_output_path = settings->get_setting(settings->common_user_settings.root_output_path);
+	String root_output_path = settings->get_setting(settings->integration_settings.root_output_path);
 
 	std::map<String, StringName> platform_settings{ { "windows", settings->project_settings.windows_platform_info },
 		{ "macos", settings->project_settings.mac_platform_info },

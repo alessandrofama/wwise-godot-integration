@@ -21,6 +21,8 @@ def print_project_info(env):
     print(f"  Target: {env.get('target', 'Not Defined')}")
     print(f"  Wwise Config: {env.get('wwise_config', 'Not Defined')}")
     print(f"  Dev Build: {env.get('dev_build', 'Not Defined')}")
+    print(f"  Debug Symbols: {env.get('debug_symbols', 'Not Defined')}")
+    print(f"  Optimizations: {env.get('optimize', 'Not Defined')}")
     print(f"  Target Path: {os.path.abspath(env.get('target_path', 'Not Defined'))}")
 
 # This is a modified version of the documentation generation function from godot-cpp in godotcpp.py.
@@ -106,7 +108,7 @@ def copy_plugins_with_skip(src_path, dst_path, file_extension, skip_plugins):
                 continue
         
             shutil.copy2(full_src_path, full_dst_path)
-            print(f"\033[32mCopied {file_name} to {dst_path}")
+            print(f"Copied {file_name} to {dst_path}")
 
 def copy_header_files_with_skip(src_path, dst_path, file_extension=".h", skip_plugins=None):
     if not os.path.exists(src_path):
@@ -131,7 +133,7 @@ def copy_header_files_with_skip(src_path, dst_path, file_extension=".h", skip_pl
             
                 os.makedirs(os.path.dirname(full_dst_path), exist_ok=True)
                 shutil.copy2(full_src_path, full_dst_path)
-                print(f"\033[32mCopied header file {file_name} to {full_dst_path}")
+                print(f"Copied header file {file_name} to {full_dst_path}")
 
 skip_plugins = [
     "SineSource",
@@ -841,6 +843,39 @@ if env["platform"] == "ios":
     print_section_header("Copying iOS Plugin Headers")
     plugin_header_src_path = os.path.join(wwise_sdk_headers_path, "AK", "Plugin")
     copy_header_files_with_skip(plugin_header_src_path, dsp_target_path, skip_plugins=skip_plugins)
+
+print_section_header("Copying Runtime Options Metadata JSON")
+
+sdk_metadata_src = os.path.join(env["wwise_sdk"], "metadata")
+
+metadata_dst = os.path.abspath("../metadata")
+os.makedirs(metadata_dst, exist_ok=True)
+
+platform_json_map = {
+    "windows": "Options.Windows.json",
+    "macos": "Options.Mac.json",
+    "linux": "Options.Linux.json",
+    "ios": "Options.iOS.json",
+    "web": "Options.Emscripten.json"
+}
+
+common_src_file = os.path.join(sdk_metadata_src, "Options.Common.json")
+if os.path.exists(common_src_file):
+    shutil.copy2(common_src_file, os.path.join(metadata_dst, "Options.Common.json"))
+    print(f"Copied common metadata: Options.Common.json to {metadata_dst}")
+else:
+    print(f"\033[31mWarning: Could not find Options.Common.json at {common_src_file}\033[0m")
+
+current_platform = env["platform"]
+if current_platform in platform_json_map:
+    target_json_name = platform_json_map[current_platform]
+    platform_src_file = os.path.join(sdk_metadata_src, target_json_name)
+    
+    if os.path.exists(platform_src_file):
+        shutil.copy2(platform_src_file, os.path.join(metadata_dst, target_json_name))
+        print(f"Copied platform metadata: {target_json_name} to {metadata_dst}")
+    else:
+        print(f"\033[33mNotice: Platform metadata file {target_json_name} not found in SDK folder.\033[0m")
 
 print_section_header("Compiling GDExtension")
 

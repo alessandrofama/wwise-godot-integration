@@ -11,105 +11,18 @@ WwiseSettings::WwiseSettings()
 	ERR_FAIL_COND(singleton != nullptr);
 	singleton = this;
 
-	// Common User Settings
-	common_user_settings.root_output_path = "wwise/common_user_settings/root_output_path";
-	common_user_settings.startup_language = "wwise/common_user_settings/startup_language";
-	common_user_settings.suspend_audio_during_focus_loss = "wwise/common_user_settings/suspend_audio_during_focus_loss";
-	common_user_settings.engine_logging = "wwise/common_user_settings/engine_logging";
-	common_user_settings.maximum_number_of_positioning_paths =
-			"wwise/common_user_settings/maximum_number_of_positioning_paths";
-	common_user_settings.command_queue_size = "wwise/common_user_settings/command_queue_size";
-	common_user_settings.samples_per_frame = "wwise/common_user_settings/samples_per_frame";
-	common_user_settings.game_units_to_meters = "wwise/common_user_settings/game_units_to_meters";
-	common_user_settings.number_of_refills_in_voice = "wwise/common_user_settings/number_of_refills_in_voice";
-	common_user_settings.sample_rate = "wwise/common_user_settings/sample_rate";
-	common_user_settings.streaming_look_ahead_ratio = "wwise/common_user_settings/streaming_look_ahead_ratio";
-
-	// Main Output Settings
-	common_user_settings.main_output.audio_device_shareset =
-			"wwise/common_user_settings/main_output/audio_device_shareset";
-	common_user_settings.main_output.device_id = "wwise/common_user_settings/main_output/device_id";
-	common_user_settings.main_output.panning_rule = "wwise/common_user_settings/main_output/panning_rule";
-	common_user_settings.main_output.channel_config_type = "wwise/common_user_settings/main_output/channel_config_type";
-	common_user_settings.main_output.number_of_channels = "wwise/common_user_settings/main_output/number_of_channels";
-
-	// Spatial Audio Settings
-	acoustics_settings.max_sound_propagation_depth =
-			"wwise/common_user_settings/spatial_audio/max_sound_propagation_depth";
-	acoustics_settings.movement_threshold = "wwise/common_user_settings/spatial_audio/movement_threshold";
-	acoustics_settings.number_of_primary_rays = "wwise/common_user_settings/spatial_audio/number_of_primary_rays";
-	acoustics_settings.max_reflection_order = "wwise/common_user_settings/spatial_audio/max_reflection_order";
-	acoustics_settings.max_diffraction_order = "wwise/common_user_settings/spatial_audio/max_diffraction_order";
-	acoustics_settings.max_diffraction_paths = "wwise/common_user_settings/spatial_audio/max_diffraction_paths";
-	acoustics_settings.max_global_reflection_paths =
-			"wwise/common_user_settings/spatial_audio/max_global_reflection_paths";
-	acoustics_settings.max_emitter_room_aux_sends =
-			"wwise/common_user_settings/spatial_audio/max_emitter_room_aux_sends";
-	acoustics_settings.diffraction_on_reflections_order =
-			"wwise/common_user_settings/spatial_audio/diffraction_on_reflections_order";
-	acoustics_settings.max_diffraction_angle_degrees =
-			"wwise/common_user_settings/spatial_audio/max_diffraction_angle_degrees";
-	acoustics_settings.max_path_length = "wwise/common_user_settings/spatial_audio/max_path_length";
-	acoustics_settings.cpu_limit_percentage = "wwise/common_user_settings/spatial_audio/cpu_limit_percentage";
-	acoustics_settings.smoothing_constant_ms = "wwise/common_user_settings/spatial_audio/smoothing_constant_ms";
-	acoustics_settings.load_balancing_spread = "wwise/common_user_settings/spatial_audio/load_balancing_spread";
-	acoustics_settings.enable_geometric_diffraction_and_transmission =
-			"wwise/common_user_settings/spatial_audio/enable_geometric_diffraction_and_transmission";
-	acoustics_settings.calc_emitter_virtual_position =
-			"wwise/common_user_settings/spatial_audio/calc_emitter_virtual_position";
-	acoustics_settings.transmission_operation = "wwise/common_user_settings/spatial_audio/transmission_operation";
-
-	// Advanced Settings
-	advanced_settings.io_memory_size = "wwise/common_advanced_settings/IO_memory_size";
-	advanced_settings.target_auto_stream_buffer_length_ms =
-			"wwise/common_advanced_settings/target_auto_stream_buffer_length_ms";
-	advanced_settings.use_stream_cache = "wwise/common_advanced_settings/use_stream_cache";
-	advanced_settings.maximum_pinned_bytes_in_cache = "wwise/common_advanced_settings/maximum_pinned_bytes_in_cache";
-	advanced_settings.enable_game_sync_preparation = "wwise/common_advanced_settings/enable_game_sync_preparation";
-	advanced_settings.continuous_playback_look_ahead = "wwise/common_advanced_settings/continuous_playback_look_ahead";
-	advanced_settings.monitor_queue_pool_size = "wwise/common_advanced_settings/monitor_queue_pool_size";
-	advanced_settings.maximum_hardware_timeout_ms = "wwise/common_advanced_settings/maximum_hardware_timeout_ms";
-	advanced_settings.debug_out_of_range_check_enabled =
-			"wwise/common_advanced_settings/debug_out_of_range_check_enabled";
-	advanced_settings.debug_out_of_range_limit = "wwise/common_advanced_settings/debug_out_of_range_limit";
-
-	// Communication Settings
-	communication_settings.discovery_broadcast_port = "wwise/communication_settings/discovery_broadcast_port";
-	communication_settings.command_port = "wwise/communication_settings/command_port";
-	communication_settings.initialize_system_comms = "wwise/communication_settings/initialize_system_comms";
-	communication_settings.network_name = "wwise/communication_settings/network_name";
-	communication_settings.waapi_port = "wwise/communication_settings/waapi_port";
-	communication_settings.proxy_server_url = "wwise/communication_settings/proxy_server_url";
-
-	// Platform Settings
-	platform_settings.windows_max_system_audio_objects = "wwise/windows_advanced_settings/max_system_audio_objects";
-	platform_settings.macos_audio_api = "wwise/macos_advanced_settings/audio_API";
-	platform_settings.ios_audio_api = "wwise/ios_advanced_settings/audio_API";
-	platform_settings.ios_audio_session_category = "wwise/ios_advanced_settings/audio_session_category";
-	platform_settings.ios_audio_session_category_options = "wwise/ios_advanced_settings/audio_session_category_options";
-	platform_settings.ios_audio_session_mode = "wwise/ios_advanced_settings/audio_session_mode";
-	platform_settings.android_audio_api = "wwise/android_advanced_settings/audio_API";
-	platform_settings.linux_audio_api = "wwise/linux_advanced_settings/audio_API";
-	platform_settings.web_verbose_system_output = "wwise/web_advanced_settings/verbose_system_output";
-
-	// Project Settings
-	project_settings.create_subfolders_for_generated_files =
-			"wwise/project_settings/create_subfolders_for_generated_files";
-	project_settings.windows_platform_info = "wwise/project_settings/windows_platform_info";
-	project_settings.mac_platform_info = "wwise/project_settings/mac_platform_info";
-	project_settings.linux_platform_info = "wwise/project_settings/linux_platform_info";
-	project_settings.ios_platform_info = "wwise/project_settings/ios_platform_info";
-	project_settings.android_platform_info = "wwise/project_settings/android_platform_info";
-	project_settings.web_platform_info = "wwise/project_settings/web_platform_info";
-	project_settings.custom_platform_name = "wwise/project_settings/custom_platform_name";
-
-	// Wwise Logger Settings
-	wwise_logger_settings.log_level = "wwise/wwise_logger_settings/log_level";
-
-	add_wwise_settings();
+	load_options_from_json("res://addons/Wwise/metadata/Options.Godot.json", "");
+	load_options_from_json("res://addons/Wwise/metadata/Options.Common.json", "");
 
 	if (Engine::get_singleton()->is_editor_hint())
 	{
+		load_options_from_json("res://addons/Wwise/metadata/Options.Windows.json", "windows");
+		load_options_from_json("res://addons/Wwise/metadata/Options.Mac.json", "macos");
+		load_options_from_json("res://addons/Wwise/metadata/Options.Linux.json", "linux");
+		load_options_from_json("res://addons/Wwise/metadata/Options.Android.json", "android");
+		load_options_from_json("res://addons/Wwise/metadata/Options.iOS.json", "ios");
+		load_options_from_json("res://addons/Wwise/metadata/Options.Emscripten.json", "web");
+
 		remove_undefined_settings();
 		defined_settings.reset();
 
@@ -117,12 +30,28 @@ WwiseSettings::WwiseSettings()
 		if (error)
 		{
 			UtilityFunctions::printerr(
-					"WwiseGodot: Encountered error %d while saving Wwise Project Settings", (int)error);
+					vformat("WwiseGodot: Encountered error %d while saving Wwise Project Settings.", (int)error));
 		}
 		else
 		{
 			UtilityFunctions::print("WwiseGodot: Saved Project Settings.");
 		}
+	}
+	else
+	{
+#ifdef AK_WIN
+		load_options_from_json("res://addons/Wwise/metadata/Options.Windows.json", "windows");
+#elif defined(AK_MAC_OS_X)
+		load_options_from_json("res://addons/Wwise/metadata/Options.Mac.json", "macos");
+#elif defined(AK_LINUX)
+		load_options_from_json("res://addons/Wwise/metadata/Options.Linux.json", "linux");
+#elif defined(AK_ANDROID)
+		load_options_from_json("res://addons/Wwise/metadata/Options.Android.json", "android");
+#elif defined(AK_IOS)
+		load_options_from_json("res://addons/Wwise/metadata/Options.iOS.json", "ios");
+#elif defined(AK_EMSCRIPTEN)
+		load_options_from_json("res://addons/Wwise/metadata/Options.Emscripten.json", "web");
+#endif
 	}
 }
 
@@ -142,7 +71,7 @@ void WwiseSettings::set_setting(const String& p_name, const Variant& p_value)
 	}
 	else
 	{
-		UtilityFunctions::push_warning("Trying to set non-existing setting: %s.", p_name);
+		UtilityFunctions::push_warning(vformat("WwiseGodot: Trying to set non-existing setting: %s.", p_name));
 	}
 }
 
@@ -181,115 +110,103 @@ Variant WwiseSettings::get_setting(const StringName& p_setting, const Variant& p
 	}
 	else
 	{
-		UtilityFunctions::push_warning("Setting '%s' not found. Returning default value.", p_setting);
+		UtilityFunctions::push_warning(
+				vformat("WwiseGodot: Setting '%s' not found. Returning default value.", p_setting));
 		return p_default;
 	}
 }
 
-void WwiseSettings::add_wwise_settings()
+void WwiseSettings::set_setting_by_wwise_key(uint32_t p_key, const Variant& p_value)
 {
-	// Common User Settings
-	add_setting(common_user_settings.root_output_path, "", Variant::Type::STRING, PROPERTY_HINT_DIR, "");
-	add_setting(common_user_settings.startup_language, "English(US)", Variant::Type::STRING);
-	add_setting(common_user_settings.suspend_audio_during_focus_loss, false, Variant::Type::BOOL);
-	add_setting(common_user_settings.engine_logging, true, Variant::Type::BOOL);
-	add_setting(common_user_settings.maximum_number_of_positioning_paths, 255, Variant::Type::INT);
-	add_setting(common_user_settings.command_queue_size, 262144, Variant::Type::INT);
-	add_setting(
-			common_user_settings.samples_per_frame, 2, Variant::Type::INT, PROPERTY_HINT_ENUM, "256, 512, 1024, 2048");
-	add_setting(common_user_settings.game_units_to_meters, 1.0f, Variant::Type::FLOAT);
-	add_setting(common_user_settings.number_of_refills_in_voice, 1, Variant::Type::INT, PROPERTY_HINT_ENUM, "2, 4");
-	add_setting(common_user_settings.sample_rate, 4, Variant::Type::INT, PROPERTY_HINT_ENUM,
-			"16000, 24000, 32000, 44100, 48000");
-	add_setting(common_user_settings.streaming_look_ahead_ratio, 1.0f, Variant::Type::FLOAT, PROPERTY_HINT_RANGE,
-			"0.0, 1.0");
+	if (!wwise_key_to_godot_path.has(p_key))
+	{
+		UtilityFunctions::push_warning(vformat("WwiseGodot: Key %d not found in mapping.", p_key));
+		return;
+	}
 
-	// Spatial Audio Settings
-	add_setting(acoustics_settings.max_sound_propagation_depth, AK_MAX_SOUND_PROPAGATION_DEPTH,
-			Variant::Type::FLOAT, PROPERTY_HINT_RANGE, "0.0,8.0");
-	add_setting(acoustics_settings.movement_threshold, 0.25f, Variant::Type::FLOAT);
-	add_setting(acoustics_settings.number_of_primary_rays, 35, Variant::Type::INT);
-	add_setting(acoustics_settings.max_reflection_order, 2, Variant::Type::INT, PROPERTY_HINT_RANGE, "1,4");
-	add_setting(acoustics_settings.max_diffraction_order, 4, Variant::Type::INT, PROPERTY_HINT_RANGE, "1,8");
-	add_setting(acoustics_settings.max_diffraction_paths, 8, Variant::Type::INT);
-	add_setting(acoustics_settings.max_global_reflection_paths, 0, Variant::Type::INT);
-	add_setting(acoustics_settings.max_emitter_room_aux_sends, 3, Variant::Type::INT);
-	add_setting(acoustics_settings.diffraction_on_reflections_order, 2, Variant::Type::INT);
-	add_setting(acoustics_settings.max_diffraction_angle_degrees, 180.f, Variant::Type::FLOAT);
-	add_setting(acoustics_settings.max_path_length, 10000.0f, Variant::Type::FLOAT);
-	add_setting(
-			acoustics_settings.cpu_limit_percentage, 0.0f, Variant::Type::FLOAT, PROPERTY_HINT_RANGE, "0.0,100.0");
-	add_setting(acoustics_settings.smoothing_constant_ms, 0.0f, Variant::Type::FLOAT);
-	add_setting(acoustics_settings.load_balancing_spread, 1, Variant::Type::INT);
-	add_setting(acoustics_settings.enable_geometric_diffraction_and_transmission, true, Variant::Type::BOOL);
-	add_setting(acoustics_settings.calc_emitter_virtual_position, true, Variant::Type::BOOL);
-	add_setting(acoustics_settings.transmission_operation, AkTransmissionOperation::AkTransmissionOperation_Default,
-			Variant::Type::INT, PROPERTY_HINT_ENUM, "Add, Multiply, Max");
+	String base_setting = wwise_key_to_godot_path[p_key];
+	String platform_setting = base_setting;
 
-	// Main Output Settings
-	add_setting(common_user_settings.main_output.audio_device_shareset, "System", Variant::Type::STRING,
-			PROPERTY_HINT_NONE, "");
-	add_setting(common_user_settings.main_output.device_id, 0, Variant::Type::INT);
-	add_setting(common_user_settings.main_output.panning_rule, 0, Variant::Type::INT, PROPERTY_HINT_ENUM,
-			"Speakers, Headphones");
-	add_setting(common_user_settings.main_output.channel_config_type, 0, Variant::Type::INT, PROPERTY_HINT_ENUM,
-			"Anonymous, Standard, Ambisonics");
-	add_setting(common_user_settings.main_output.number_of_channels, 0, Variant::Type::INT);
+#ifdef AK_WIN
+	platform_setting += GODOT_WINDOWS_SETTING_POSTFIX;
+#elif defined(AK_MAC_OS_X)
+	platform_setting += GODOT_MAC_OSX_SETTING_POSTFIX;
+#elif defined(AK_IOS)
+	platform_setting += GODOT_IOS_SETTING_POSTFIX;
+#elif defined(AK_ANDROID)
+	platform_setting += GODOT_ANDROID_SETTING_POSTFIX;
+#elif defined(AK_LINUX)
+	platform_setting += GODOT_LINUX_SETTING_POSTFIX;
+#elif defined(AK_EMSCRIPTEN)
+	platform_setting += GODOT_WEB_SETTING_POSTFIX;
+#else
+#error "Platform not supported"
+#endif
 
-	// Advanced Settings
-	add_setting(advanced_settings.io_memory_size, 2097152, Variant::Type::INT);
-	add_setting(advanced_settings.target_auto_stream_buffer_length_ms, 380, Variant::Type::INT);
-	add_setting(advanced_settings.use_stream_cache, false, Variant::Type::BOOL);
-	add_setting(advanced_settings.maximum_pinned_bytes_in_cache, static_cast<uint64_t>(4294967295), Variant::Type::INT);
-	add_setting(advanced_settings.enable_game_sync_preparation, false, Variant::Type::BOOL);
-	add_setting(advanced_settings.continuous_playback_look_ahead, 1, Variant::Type::INT);
-	add_setting(advanced_settings.monitor_queue_pool_size, 1048576, Variant::Type::INT);
-	add_setting(advanced_settings.maximum_hardware_timeout_ms, 1000, Variant::Type::INT);
-	add_setting(advanced_settings.debug_out_of_range_check_enabled, false, Variant::Type::BOOL);
-	add_setting(advanced_settings.debug_out_of_range_limit, 16.0f, Variant::Type::FLOAT);
+	godot::ProjectSettings* settings = godot::ProjectSettings::get_singleton();
+	if (!settings)
+	{
+		return;
+	}
 
-	// Communication Settings
-	add_setting(communication_settings.discovery_broadcast_port, 24024, Variant::Type::INT);
-	add_setting(communication_settings.command_port, 0, Variant::Type::INT);
-	add_setting(communication_settings.initialize_system_comms, true, Variant::Type::BOOL);
-	add_setting(communication_settings.network_name, "", Variant::Type::STRING);
-	add_setting(communication_settings.waapi_port, 8080, Variant::Type::INT);
-	add_setting(communication_settings.proxy_server_url, "ws://localhost:8095/", Variant::Type::STRING);
+	if (settings->has_setting(platform_setting))
+	{
+		set_setting(platform_setting, p_value);
+	}
+	else if (settings->has_setting(base_setting))
+	{
+		set_setting(base_setting, p_value);
+	}
+	else
+	{
+		UtilityFunctions::push_warning(
+				vformat("WwiseGodot: Setting '%s' not found for configuration update.", base_setting));
+	}
+}
 
-	// Platform Settings
-	add_setting(platform_settings.windows_max_system_audio_objects, 128, Variant::Type::INT);
-	add_setting(
-			platform_settings.macos_audio_api, 3, Variant::Type::INT, PROPERTY_HINT_FLAGS, "AVAudioEngine,AudioUnit");
-	add_setting(platform_settings.ios_audio_api, 3, Variant::Type::INT, PROPERTY_HINT_FLAGS, "AVAudioEngine,AudioUnit");
-	add_setting(platform_settings.ios_audio_session_category, 0, Variant::Type::INT, PROPERTY_HINT_ENUM,
-			"Ambient, Solo Ambient, Play And Record, Playback");
-	add_setting(platform_settings.ios_audio_session_category_options, 13, Variant::Type::INT, PROPERTY_HINT_FLAGS,
-			"Mix with others, Duck others, Allow bluetooth, Default to speaker");
-	add_setting(platform_settings.ios_audio_session_mode, 0, Variant::Type::INT, PROPERTY_HINT_ENUM,
-			"Default, Voice Chat, Game Chat, Video Recording, Measurement, Movie Playback, Video Chat");
-	add_setting(platform_settings.android_audio_api, 4, Variant::Type::INT, PROPERTY_HINT_ENUM,
-			"AAudio,OPENSL_ES,DolbyAtmos,AndroidSpatializer,Default");
-	add_setting(platform_settings.linux_audio_api, 3, Variant::Type::INT, PROPERTY_HINT_FLAGS, "PulseAudio, ALSA");
-	add_setting(platform_settings.web_verbose_system_output, false, Variant::Type::BOOL);
+Variant WwiseSettings::get_setting_by_wwise_key(uint32_t p_key, const Variant& p_default_value) const
+{
+	if (!wwise_key_to_godot_path.has(p_key))
+		return p_default_value;
 
-	// Project Settings
-	add_setting(
-			project_settings.create_subfolders_for_generated_files, false, Variant::Type::BOOL, PROPERTY_HINT_NONE, "");
-	add_setting(project_settings.windows_platform_info, "", Variant::Type::STRING, PROPERTY_HINT_NONE, "");
-	add_setting(project_settings.mac_platform_info, "", Variant::Type::STRING, PROPERTY_HINT_NONE, "");
-	add_setting(project_settings.linux_platform_info, "", Variant::Type::STRING, PROPERTY_HINT_NONE, "");
-	add_setting(project_settings.ios_platform_info, "", Variant::Type::STRING, PROPERTY_HINT_NONE, "");
-	add_setting(project_settings.android_platform_info, "", Variant::Type::STRING, PROPERTY_HINT_NONE, "");
-	add_setting(project_settings.web_platform_info, "", Variant::Type::STRING, PROPERTY_HINT_NONE, "");
-	add_setting(project_settings.custom_platform_name, "", Variant::Type::STRING, PROPERTY_HINT_NONE, "");
+	return get_setting(wwise_key_to_godot_path[p_key], p_default_value);
+}
 
-	// Wwise Logger Settings
-	add_setting(wwise_logger_settings.log_level, 3, Variant::Type::INT, PROPERTY_HINT_ENUM,
-			"None,Error,Warning,Log,Verbose,VeryVerbose");
+void WwiseSettings::apply_options_to_wwise()
+{
+	for (const KeyValue<StringName, uint32_t>& E : setting_key_map)
+	{
+		StringName godot_path = E.key;
+		uint32_t wwise_key = E.value;
+		String wwise_type = setting_type_map[godot_path];
+
+		Variant value = get_setting(godot_path);
+		AKRESULT res = AK_Success;
+
+		if (wwise_type == "Boolean" || wwise_type == "Integer" || wwise_type == "ChannelConfig")
+		{
+			res = AK::Option::SetI(wwise_key, (int64_t)value);
+		}
+		else if (wwise_type == "Real")
+		{
+			res = AK::Option::SetF(wwise_key, (double)value);
+		}
+		else if (wwise_type == "String")
+		{
+			String str_val = value;
+			res = AK::Option::SetS(wwise_key, str_val.utf8().get_data());
+		}
+
+		if (res != AK_Success)
+		{
+			UtilityFunctions::printerr(vformat("WwiseGodot: Failed to set Wwise Option for %s. AKRESULT: %s.",
+					godot_path, wwise_error_string(res)));
+		}
+	}
 }
 
 void WwiseSettings::add_setting(const StringName& name, const Variant& default_value, Variant::Type type,
-		PropertyHint hint, const StringName& hint_string)
+		PropertyHint hint, const StringName& hint_string, Visibility visibility)
 {
 	defined_settings.insert(name);
 
@@ -301,18 +218,31 @@ void WwiseSettings::add_setting(const StringName& name, const Variant& default_v
 
 	godot::ProjectSettings* project_settings = godot::ProjectSettings::get_singleton();
 
-	if (project_settings->has_setting(name))
+	if (!project_settings->has_setting(name))
 	{
-		project_settings->add_property_info(setting);
-		project_settings->set_as_basic(name, true);
-		project_settings->set_initial_value(name, default_value);
-		return;
+		project_settings->set_setting(name, default_value);
 	}
 
-	project_settings->set_setting(name, default_value);
 	project_settings->add_property_info(setting);
-	project_settings->set_as_basic(name, true);
 	project_settings->set_initial_value(name, default_value);
+
+	switch (visibility)
+	{
+		case Visibility::DEFAULT:
+			project_settings->set_as_basic(name, true);
+			project_settings->set_as_internal(name, false);
+			break;
+
+		case Visibility::ADVANCED:
+			project_settings->set_as_basic(name, false);
+			project_settings->set_as_internal(name, false);
+			break;
+
+		case Visibility::HIDDEN:
+			project_settings->set_as_basic(name, false);
+			project_settings->set_as_internal(name, true);
+			break;
+	}
 }
 
 void WwiseSettings::remove_undefined_settings()
@@ -341,6 +271,156 @@ void WwiseSettings::remove_undefined_settings()
 				UtilityFunctions::print(vformat("WwiseGodot: Removing obsolete setting: %s", name));
 				project_settings->set_setting(name, Variant());
 			}
+		}
+	}
+}
+
+void WwiseSettings::load_options_from_json(const String& p_json_path, const String& p_platform_tag)
+{
+	Ref<FileAccess> file = FileAccess::open(p_json_path, FileAccess::READ);
+	if (file.is_null())
+	{
+		UtilityFunctions::push_warning(vformat("WwiseGodot: Failed to open Wwise options JSON at: %s", p_json_path));
+		return;
+	}
+
+	String json_string = file->get_as_text();
+	Ref<JSON> json;
+	json.instantiate();
+
+	godot::Error err = json->parse(json_string);
+	if (err != OK)
+	{
+		UtilityFunctions::printerr(vformat("WwiseGodot Failed to parse JSON: %s", p_json_path));
+		return;
+	}
+
+	Dictionary root = json->get_data();
+	Array namespaces = root["Namespaces"];
+
+	for (int i = 0; i < namespaces.size(); i++)
+	{
+		Dictionary ns = namespaces[i];
+		String module_name = ns["DisplayName"];
+		module_name = module_name.to_snake_case();
+		Array options = ns["Options"];
+
+		for (int j = 0; j < options.size(); j++)
+		{
+			Dictionary opt = options[j];
+			String option_name = opt["Name"];
+			option_name = option_name.to_snake_case();
+			String wwise_type = opt["Type"];
+
+			if (wwise_type == "Pointer")
+				continue;
+
+			Variant default_val = opt.get("DefaultValue", Variant());
+			String godot_setting_path = "wwise/" + module_name + "/" + option_name;
+
+			bool has_key = opt.has("Key");
+
+			if (has_key && setting_key_map.has(godot_setting_path) && !p_platform_tag.is_empty())
+			{
+				String override_path = godot_setting_path + "." + p_platform_tag;
+				godot::ProjectSettings::get_singleton()->set_setting(override_path, default_val);
+				continue;
+			}
+
+			Variant::Type godot_type = Variant::Type::NIL;
+			PropertyHint hint = PROPERTY_HINT_NONE;
+			String hint_string = "";
+
+			if (wwise_type == "Boolean")
+			{
+				godot_type = Variant::Type::BOOL;
+			}
+			else if (wwise_type == "Integer" || wwise_type == "ChannelConfig")
+			{
+				godot_type = Variant::Type::INT;
+				default_val = (int)default_val;
+			}
+			else if (wwise_type == "Real")
+			{
+				godot_type = Variant::Type::FLOAT;
+			}
+			else if (wwise_type == "String")
+			{
+				godot_type = Variant::Type::STRING;
+
+				if (default_val.get_type() == Variant::Type::NIL)
+				{
+					continue;
+				}
+			}
+
+			if (has_key)
+			{
+				uint32_t key = opt["Key"];
+				setting_key_map[godot_setting_path] = key;
+				setting_type_map[godot_setting_path] = wwise_type;
+				wwise_key_to_godot_path[key] = godot_setting_path;
+
+				if (key == AkOption_Acoustics::AkOption_Acoustics_Enable)
+				{
+					default_val = true;
+				}
+			}
+
+			if (opt.has("AllowedValues"))
+			{
+				Array allowed_values = opt["AllowedValues"];
+				PackedStringArray enum_strings;
+				for (int k = 0; k < allowed_values.size(); k++)
+				{
+					Dictionary val_dict = allowed_values[k];
+					enum_strings.append(val_dict["Value"]);
+				}
+				hint = PROPERTY_HINT_ENUM;
+				hint_string = String(",").join(enum_strings);
+			}
+			else if (opt.has("MinValue") && opt.has("MaxValue"))
+			{
+				hint = PROPERTY_HINT_RANGE;
+
+				if (godot_type == Variant::Type::INT)
+				{
+					Variant min_val = (int)opt["MinValue"];
+					Variant max_val = (int)opt["MaxValue"];
+
+					hint_string = String(min_val) + "," + String(max_val) + "," + "1" + "," + "prefer_slider";
+				}
+				else if (godot_type == Variant::Type::FLOAT)
+				{
+					Variant min_val = opt["MinValue"];
+					Variant max_val = opt["MaxValue"];
+
+					hint_string = String(min_val) + "," + String(max_val);
+				}
+			}
+
+			if (opt.has("GodotHint"))
+			{
+				String godot_hint = opt["GodotHint"];
+				if (godot_hint == "Dir")
+				{
+					hint = PROPERTY_HINT_DIR;
+				}
+			}
+
+			String visibility_str = opt.get("Visibility", "Default");
+			Visibility visibility = Visibility::DEFAULT;
+
+			if (visibility_str == "Advanced")
+			{
+				visibility = Visibility::ADVANCED;
+			}
+			else if (visibility_str == "Hidden")
+			{
+				visibility = Visibility::HIDDEN;
+			}
+
+			add_setting(godot_setting_path, default_val, godot_type, hint, hint_string, visibility);
 		}
 	}
 }

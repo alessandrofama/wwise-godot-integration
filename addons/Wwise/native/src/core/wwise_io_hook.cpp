@@ -228,6 +228,7 @@ void WwiseIOHook::BatchWrite(AkUInt32 in_u_num_transfers, BatchIoTransferItem* i
 AKRESULT WwiseIOHook::AttachToDevice(AkDeviceID in_deviceID, const AkDeviceSettings& in_deviceSettings)
 {
 	device_id = in_deviceID;
+	use_subfolders = in_deviceSettings.bUseSubfoldering;
 	return AK_Success;
 }
 
