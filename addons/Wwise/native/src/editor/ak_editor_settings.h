@@ -125,6 +125,7 @@ enum class PluginID : uint32_t
 	AkGain = 0x008B0003, // Gain
 	AkMatrixReverb = 0x00730003, // Matrix Reverb
 	AkMeter = 0x00810003, // Wwise Meter
+	AkMultibandMeter = 0x00C40003, //Wwise Multiband Meter
 	AkParametricEQ = 0x00690003, // Wwise Parametric EQ
 	AkPeakLimiter = 0x006E0003, // Wwise Peak Limiter
 	AkRoomVerb = 0x00760003, // Wwise RoomVerb
@@ -175,22 +176,53 @@ enum class PluginID : uint32_t
 	IgniterLiveSynth = 0x5210D2
 };
 
-static const std::unordered_set<PluginID> always_skip_plugin_ids = { PluginID::SineGenerator, PluginID::SinkAuxiliary,
-	PluginID::SinkCommunication, PluginID::SinkControllerHeadphones, PluginID::SinkControllerSpeaker,
-	PluginID::SinkDVRByPass, PluginID::SinkNoOutput, PluginID::SinkSystem, PluginID::ToneGenerator,
-	PluginID::WwiseSilence, PluginID::AkAudioInput };
+static const std::unordered_set<PluginID> always_skip_plugin_ids = 
+{ 
+	PluginID::SineGenerator, 
+	PluginID::SinkAuxiliary,
+	PluginID::SinkCommunication, 
+	PluginID::SinkControllerHeadphones, 
+	PluginID::SinkControllerSpeaker,
+	PluginID::SinkDVRByPass, 
+	PluginID::SinkNoOutput, 
+	PluginID::SinkSystem, 
+	PluginID::ToneGenerator,
+	PluginID::WwiseSilence, 
+	PluginID::AkAudioInput 
+};
 
-static const std::unordered_set<PluginID> built_in_plugin_ids = { PluginID::Ak3DAudioBedMixer, PluginID::AkCompressor,
-	PluginID::AkDelay, PluginID::AkExpander, PluginID::AkFlanger, PluginID::AkGain, PluginID::AkGuitarDistortion,
-	PluginID::AkHarmonizer, PluginID::AkMatrixReverb, PluginID::AkMeter, PluginID::AkParametricEQ,
-	PluginID::AkPeakLimiter, PluginID::AkPitchShifter, PluginID::AkRecorder, PluginID::AkRoomVerb,
-	PluginID::AkStereoDelay, PluginID::AkSynthOne, PluginID::AkTimeStretch, PluginID::AkTremolo };
+static const std::unordered_set<PluginID> built_in_plugin_ids = 
+{ 
+	PluginID::Ak3DAudioBedMixer, 
+	PluginID::AkCompressor,
+	PluginID::AkDelay, 
+	PluginID::AkExpander, 
+	PluginID::AkFlanger, 
+	PluginID::AkGain, 
+	PluginID::AkGuitarDistortion,
+	PluginID::AkHarmonizer, 
+	PluginID::AkMatrixReverb, 
+	PluginID::AkMeter,
+	PluginID::AkMultibandMeter,
+	PluginID::AkParametricEQ,
+	PluginID::AkPeakLimiter, 
+	PluginID::AkPitchShifter, 
+	PluginID::AkRecorder, 
+	PluginID::AkRoomVerb,
+	PluginID::AkStereoDelay, 
+	PluginID::AkSynthOne, 
+	PluginID::AkTimeStretch, 
+	PluginID::AkTremolo 
+};
 
-static const std::unordered_map<PluginID, const char*> ios_header_mapping = { { PluginID::AkChannelRouter,
-																					  "AkChannelRouterFXFactory" },
+static const std::unordered_map<PluginID, const char*> ios_header_mapping = 
+{ 
+	{ PluginID::AkChannelRouter, "AkChannelRouterFXFactory" },
 	{ PluginID::AkConvolutionReverb, "AkConvolutionReverbFXFactory" },
-	{ PluginID::AkMotionSink, "AkMotionSinkFactory" }, { PluginID::AkMotionSource, "AkMotionSourceSourceFactory" },
-	{ PluginID::AkReflect, "AkReflectFXFactory" }, { PluginID::AkImpacterSource, "AkImpacterSourceFactory" },
+	{ PluginID::AkMotionSink, "AkMotionSinkFactory" },
+	{ PluginID::AkMotionSource, "AkMotionSourceSourceFactory" },
+	{ PluginID::AkReflect, "AkReflectFXFactory" },
+	{ PluginID::AkImpacterSource, "AkImpacterSourceFactory" },
 	{ PluginID::MasteringSuite, "MasteringSuiteFXFactory" },
 	{ PluginID::AkSoundSeedGrain, "AkSoundSeedGrainSourceFactory" },
 	{ PluginID::AkSoundSeedWind, "AkSoundSeedWindSourceFactory" },
@@ -198,11 +230,14 @@ static const std::unordered_map<PluginID, const char*> ios_header_mapping = { { 
 	{ PluginID::AuroHeadphone, "AuroHeadphoneFXFactory" },
 	{ PluginID::CrankcaseAudioREVModelPlayer, "CrankcaseAudioREVModelPlayerSourceFactory" },
 	{ PluginID::iZHybridReverb, "iZHybridReverbFXFactory" },
-	{ PluginID::iZTrashBoxModeler, "iZTrashBoxModelerFXFactory" }, { PluginID::iZTrashDelay, "iZTrashDelayFXFactory" },
+	{ PluginID::iZTrashBoxModeler, "iZTrashBoxModelerFXFactory" },
+	{ PluginID::iZTrashDelay, "iZTrashDelayFXFactory" },
 	{ PluginID::iZTrashDistortion, "iZTrashDistortionFXFactory" },
-	{ PluginID::iZTrashDynamics, "iZTrashDynamicsFXFactory" }, { PluginID::iZTrashFilters, "iZTrashFiltersFXFactory" },
+	{ PluginID::iZTrashDynamics, "iZTrashDynamicsFXFactory" },
+	{ PluginID::iZTrashFilters, "iZTrashFiltersFXFactory" },
 	{ PluginID::iZTrashMultibandDistortion, "iZTrashMultibandDistortionFXFactory" },
-	{ PluginID::McDSPFutzBox, "McDSPFutzBoxFXFactory" }, { PluginID::McDSPLimiter, "McDSPLimiterFXFactory" },
+	{ PluginID::McDSPFutzBox, "McDSPFutzBoxFXFactory" },
+	{ PluginID::McDSPLimiter, "McDSPLimiterFXFactory" },
 	{ PluginID::ResonanceAudioRoomEffect, "ResonanceAudioFXFactory" } };
 
 } //namespace AkEditorSettings
