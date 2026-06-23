@@ -257,7 +257,9 @@ void AkEditorExportPlugin::_export_begin(
 			continue;
 		}
 
-		add_files_recursive(dir, platform_banks_path);
+		if (settings->get_setting(settings->advanced_settings.export_banks)) {
+			add_files_recursive(dir, platform_banks_path);
+		}
 
 		if (feature == "web")
 		{
