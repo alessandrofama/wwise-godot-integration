@@ -36,8 +36,8 @@ void WwiseProjectDatabase::post_init_callback()
 
 		WwiseSettings* settings = WwiseSettings::get_singleton();
 
-		settings->set_setting(
-				settings->project_settings.create_subfolders_for_generated_files, subfolders_for_generated_files);
+		settings->set_setting_by_wwise_key(
+				AkOption_StreamMgr::AkOption_StreamMgr_UseSubfoldering, subfolders_for_generated_files);
 
 		bool use_soundbank_names = platform_data->PlatformRef.GetPlatformInfo()->Settings.bUseSoundBankNames;
 		if (!use_soundbank_names)

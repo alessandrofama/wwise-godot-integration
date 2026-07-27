@@ -61,6 +61,7 @@ private:
 	static CAkLock callback_data_lock;
 
 	WwiseIOHook low_level_io;
+	AkSoundEngineHooks se_hooks{};
 	static HashSet<AkGameObjectID> registered_game_objects;
 
 public:
