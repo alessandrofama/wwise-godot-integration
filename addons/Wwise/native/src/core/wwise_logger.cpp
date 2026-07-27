@@ -23,7 +23,7 @@ void WwiseLogger::refresh_log_level()
 	if (WwiseSettings::get_singleton())
 	{
 		int level = WwiseSettings::get_singleton()->get_setting(
-				WwiseSettings::get_singleton()->wwise_logger_settings.log_level, (int)WwiseLogLevel::Log);
+				WwiseSettings::get_singleton()->integration_settings.log_level, (int)WwiseLogLevel::Log);
 		log_level = static_cast<WwiseLogLevel>(level);
 	}
 }
