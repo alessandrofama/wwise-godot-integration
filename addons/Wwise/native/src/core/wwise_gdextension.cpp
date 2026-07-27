@@ -1374,19 +1374,25 @@ void Wwise::event_callback(enum AkCallbackType in_eType, struct AkEventCallbackI
 			callback_data["bStreaming"] = info->bStreaming;
 			break;
 		}
-		case AK_MusicSyncBeat:
-		case AK_MusicSyncBar:
-		case AK_MusicSyncEntry:
-		case AK_MusicSyncExit:
-		case AK_MusicSyncGrid:
-		case AK_MusicSyncUserCue:
-		case AK_MusicSyncPoint:
-		case AK_MusicSyncAll:
+		case AK_SegmentBeat:
+		case AK_SegmentBar:
+		case AK_SegmentEntry:
+		case AK_SegmentExit:
+		case AK_SegmentGrid:
+		case AK_SegmentUserCue:
+		case AK_SegmentAll:
 		{
-			const auto* info = static_cast<AkMusicSyncCallbackInfo*>(in_pCallbackInfo);
+			const auto* info = static_cast<AkSegmentCallbackInfo*>(in_pCallbackInfo);
 			pack_base_event_info(callback_data, in_pEventInfo);
-			callback_data["musicSyncType"] = info->musicSyncType;
+			callback_data["callbackType"] = info->callbackType;
 			callback_data["pszUserCueName"] = info->pszUserCueName ? String(info->pszUserCueName) : String();
+			pack_segment_info(callback_data, info->segmentInfo);
+			break;
+		}
+		case AK_MusicSwitchTransition:
+		{
+			const auto* info = static_cast<AkMusicSwitchCallbackInfo*>(in_pCallbackInfo);
+			pack_base_event_info(callback_data, in_pEventInfo);
 			pack_segment_info(callback_data, info->segmentInfo);
 			break;
 		}
@@ -1881,8 +1887,8 @@ bool Wwise::initialize_wwise_systems()
 	acoustics_init_settings.eTransmissionOperation = (AkTransmissionOperation) static_cast<AkUInt32>(
 			project_settings->get_setting(project_settings->acoustics_settings.transmission_operation));
 
-	acoustics_init_settings.bEnableSpatialAudio = true;
-	init_settings.settingsSpatialAudio = acoustics_init_settings;
+	acoustics_init_settings.bEnableAcoustics = true;
+	init_settings.settingsAcoustics = acoustics_init_settings;
 
 #ifndef AK_OPTIMIZED
 	AkCommSettings comm_settings{};
