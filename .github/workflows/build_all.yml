@@ -264,7 +264,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.artifact-name }}${{ env.PRECISION_SUFFIX }}
-          path: addons/Wwise/native/lib
+          path: | 
+            addons/Wwise/native/lib
+            addons/Wwise/metadata
 
   upload-addon:
     runs-on: "ubuntu-22.04"
@@ -286,28 +288,37 @@ jobs:
           if [ ! -d "addons/Wwise/native/lib" ]; then
           mkdir -p addons/Wwise/native/lib
           fi
+          if [ ! -d "addons/Wwise/metadata" ]; then
+          mkdir -p addons/Wwise/metadata
+          fi
           if [ -d windows${{ env.PRECISION_SUFFIX }} ]; then
-            mv windows${{ env.PRECISION_SUFFIX }}/* addons/Wwise/native/lib/
+            mv windows${{ env.PRECISION_SUFFIX }}/native/lib/* addons/Wwise/native/lib/
+            mv windows${{ env.PRECISION_SUFFIX }}/metadata/* addons/Wwise/metadata/
             rm -r windows${{ env.PRECISION_SUFFIX }}
           fi
           if [ -d macos${{ env.PRECISION_SUFFIX }} ]; then
-            mv macos${{ env.PRECISION_SUFFIX }}/* addons/Wwise/native/lib/
+            mv macos${{ env.PRECISION_SUFFIX }}/native/lib/* addons/Wwise/native/lib/
+            mv macos${{ env.PRECISION_SUFFIX }}/metadata/* addons/Wwise/metadata/
             rm -r macos${{ env.PRECISION_SUFFIX }}
           fi
           if [ -d linux${{ env.PRECISION_SUFFIX }} ]; then
-            mv linux${{ env.PRECISION_SUFFIX }}/* addons/Wwise/native/lib/
+            mv linux${{ env.PRECISION_SUFFIX }}/native/lib/* addons/Wwise/native/lib/
+            mv linux${{ env.PRECISION_SUFFIX }}/metadata/* addons/Wwise/metadata/
             rm -r linux${{ env.PRECISION_SUFFIX }}
           fi
           if [ -d android-lib${{ env.PRECISION_SUFFIX }} ]; then
-            mv android-lib${{ env.PRECISION_SUFFIX }}/* addons/Wwise/native/lib/
+            mv android-lib${{ env.PRECISION_SUFFIX }}/native/lib/* addons/Wwise/native/lib/
+            mv android-lib${{ env.PRECISION_SUFFIX }}/metadata/* addons/Wwise/metadata/
             rm -r android-lib${{ env.PRECISION_SUFFIX }}
           fi
           if [ -d ios${{ env.PRECISION_SUFFIX }} ]; then
-            mv ios${{ env.PRECISION_SUFFIX }}/* addons/Wwise/native/lib/
+            mv ios${{ env.PRECISION_SUFFIX }}/native/lib/* addons/Wwise/native/lib/
+            mv ios${{ env.PRECISION_SUFFIX }}/metadata/* addons/Wwise/metadata/
             rm -r ios${{ env.PRECISION_SUFFIX }}
           fi
           if [ -d web${{ env.PRECISION_SUFFIX }} ]; then
-            mv web${{ env.PRECISION_SUFFIX }}/* addons/Wwise/native/lib/
+            mv web${{ env.PRECISION_SUFFIX }}/native/lib/* addons/Wwise/native/lib/
+            mv web${{ env.PRECISION_SUFFIX }}/metadata/* addons/Wwise/metadata/
             rm -r web${{ env.PRECISION_SUFFIX }}
           fi
 
