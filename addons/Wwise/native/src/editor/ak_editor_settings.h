@@ -125,10 +125,12 @@ enum class PluginID : uint32_t
 	AkGain = 0x008B0003, // Gain
 	AkMatrixReverb = 0x00730003, // Matrix Reverb
 	AkMeter = 0x00810003, // Wwise Meter
-	AkMultibandMeter = 0x00C40003, //Wwise Multiband Meter
+	AkMultibandMeter = 0x00C40003, // Wwise Multiband Meter
 	AkParametricEQ = 0x00690003, // Wwise Parametric EQ
 	AkPeakLimiter = 0x006E0003, // Wwise Peak Limiter
 	AkRoomVerb = 0x00760003, // Wwise RoomVerb
+	AkSidechainSend = 0x00C10003, // Sidechain Send
+	AkSidechainReceive = 0x00C20003, // Sidechain Receive
 	SineGenerator = 0x00640002, // Sine
 	SinkAuxiliary = 0xB40007,
 	SinkCommunication = 0xB00007,
@@ -209,6 +211,8 @@ static const std::unordered_set<PluginID> built_in_plugin_ids =
 	PluginID::AkPitchShifter, 
 	PluginID::AkRecorder, 
 	PluginID::AkRoomVerb,
+	PluginID::AkSidechainSend,
+	PluginID::AkSidechainReceive,
 	PluginID::AkStereoDelay, 
 	PluginID::AkSynthOne, 
 	PluginID::AkTimeStretch, 
