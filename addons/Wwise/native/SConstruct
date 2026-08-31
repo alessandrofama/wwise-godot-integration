@@ -211,6 +211,10 @@ WWISE_WEB_PLUGINS_MAP = {
     "mastering_suite": {
         "headers": ["<AK/Plugin/MasteringSuiteFXFactory.h>"],
         "libs": ["MasteringSuiteFX"]
+    },
+    "tempest3d": {
+        "headers": ["<AK/Plugin/Tempest3dAudioFXFactory.h>"],
+        "libs": ["Tempest3dAudioFX"]
     }
 }
 
@@ -239,6 +243,7 @@ opts.Add(
             "soundseed_air",
             "impacter",
             "mastering_suite",
+            "tempest3d"
         ],
     )
 )
@@ -273,14 +278,14 @@ wwise_soundengine_sample_path = ""
 if env["platform"] == "windows":
     wwise_soundengine_sample_path = env["wwise_sdk"] + "/samples/SoundEngine/Win32/"
     if env["wwise_config"] == "debug":
-        wwise_sdk_libs_path = env["wwise_sdk"] + "/x64_vc170/Debug(StaticCRT)/lib/"
-        wwise_sdk_plugins_path = env["wwise_sdk"] + "/x64_vc170/Debug/bin/"
+        wwise_sdk_libs_path = env["wwise_sdk"] + "/x64_vc180/Debug(StaticCRT)/lib/"
+        wwise_sdk_plugins_path = env["wwise_sdk"] + "/x64_vc180/Debug/bin/"
     elif env["wwise_config"] == "profile":
-        wwise_sdk_libs_path = env["wwise_sdk"] + "/x64_vc170/Profile(StaticCRT)/lib/"
-        wwise_sdk_plugins_path = env["wwise_sdk"] + "/x64_vc170/Profile/bin/"
+        wwise_sdk_libs_path = env["wwise_sdk"] + "/x64_vc180/Profile(StaticCRT)/lib/"
+        wwise_sdk_plugins_path = env["wwise_sdk"] + "/x64_vc180/Profile/bin/"
     else:
-        wwise_sdk_libs_path = env["wwise_sdk"] + "/x64_vc170/Release(StaticCRT)/lib/"
-        wwise_sdk_plugins_path = env["wwise_sdk"] + "/x64_vc170/Release/bin/"
+        wwise_sdk_libs_path = env["wwise_sdk"] + "/x64_vc180/Release(StaticCRT)/lib/"
+        wwise_sdk_plugins_path = env["wwise_sdk"] + "/x64_vc180/Release/bin/"
 
 if env["platform"] == "macos":
     wwise_soundengine_sample_path = env["wwise_sdk"] + "/samples/SoundEngine/POSIX/"
