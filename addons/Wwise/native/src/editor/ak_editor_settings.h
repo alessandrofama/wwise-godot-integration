@@ -175,7 +175,8 @@ enum class PluginID : uint32_t
 	McDSPLimiter = 0x671003,
 	ResonanceAudioRoomEffect = 0xC81106,
 	IgniterLive = 0x5110D2,
-	IgniterLiveSynth = 0x5210D2
+	IgniterLiveSynth = 0x5210D2,
+	Tempest3dAudioFX = 0x00D30003
 };
 
 static const std::unordered_set<PluginID> always_skip_plugin_ids = 
@@ -242,6 +243,8 @@ static const std::unordered_map<PluginID, const char*> ios_header_mapping =
 	{ PluginID::iZTrashMultibandDistortion, "iZTrashMultibandDistortionFXFactory" },
 	{ PluginID::McDSPFutzBox, "McDSPFutzBoxFXFactory" },
 	{ PluginID::McDSPLimiter, "McDSPLimiterFXFactory" },
-	{ PluginID::ResonanceAudioRoomEffect, "ResonanceAudioFXFactory" } };
+	{ PluginID::ResonanceAudioRoomEffect, "ResonanceAudioFXFactory" }, 
+	{ PluginID::Tempest3dAudioFX, "Tempest3dAudioFXFactory" } 
+};
 
 } //namespace AkEditorSettings
