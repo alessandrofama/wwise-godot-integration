@@ -190,9 +190,26 @@ void WwiseBrowser::populate_tree()
 
 String WwiseBrowser::sanitize_name(const String& p_name)
 {
-	String sanitized = p_name.replace("-", "_").replace(" ", "_");
+	String sanitized;
+	for (int i = 0; i < p_name.length(); ++i)
+	{
+		const String character = p_name.substr(i, 1);
+		if (character == "_" || character.is_valid_identifier() || character.is_valid_int())
+		{
+			sanitized += character;
+		}
+		else
+		{
+			sanitized += "_";
+		}
+	}
 
-	if (sanitized.is_valid_identifier() == false || sanitized.left(1).is_valid_int())
+	if (sanitized.is_empty())
+	{
+		return "_";
+	}
+
+	if (sanitized.left(1).is_valid_int())
 	{
 		sanitized = "_" + sanitized;
 	}
