@@ -23,7 +23,7 @@ private:
 	Vector3 extent;
 	NodePath front_room;
 	NodePath back_room;
-	bool enabled;
+	bool enabled{ true };
 	Node* front_room_node;
 	Node* back_room_node;
 	CollisionShape3D* collision_shape;
