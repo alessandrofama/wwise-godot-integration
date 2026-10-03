@@ -513,6 +513,10 @@ bool Wwise::set_2d_position(const Node* game_object, const Transform2D& transfor
 bool Wwise::set_multiple_positions_3d(const Node* game_object, const TypedArray<Transform3D>& positions,
 		const int num_positions, const AkUtils::MultiPositionType multi_position_type)
 {
+	ERR_FAIL_COND_V_MSG(
+			num_positions < 0 || num_positions != positions.size(), false,
+			"The number of 3D positions must match the positions array size.");
+
 	AkGameObjectID id = get_ak_game_object_id(game_object);
 
 	auto ak_positions = std::make_unique<AkSoundPosition[]>(num_positions);
@@ -530,6 +534,10 @@ bool Wwise::set_multiple_positions_2d(const Node* game_object, const TypedArray<
 		const TypedArray<real_t>& z_depths, const int num_positions,
 		const AkUtils::MultiPositionType multi_position_type)
 {
+	ERR_FAIL_COND_V_MSG(
+			num_positions < 0 || num_positions != positions.size() || num_positions != z_depths.size(), false,
+			"The number of 2D positions must match both the positions and z-depth arrays.");
+
 	AkGameObjectID id = get_ak_game_object_id(game_object);
 
 	auto ak_positions = std::make_unique<AkSoundPosition[]>(num_positions);
@@ -1016,8 +1024,9 @@ bool Wwise::set_geometry(const Array vertices, const Array triangles, const Ref<
 		float transmission_loss_value, const Node* game_object, bool enable_diffraction,
 		bool enable_diffraction_on_boundary_edges)
 {
-	AKASSERT(!vertices.is_empty());
-	AKASSERT(!triangles.is_empty());
+	ERR_FAIL_COND_V_MSG(vertices.is_empty(), false, "Geometry must contain at least one vertex.");
+	ERR_FAIL_COND_V_MSG(triangles.is_empty() || triangles.size() % 3 != 0, false,
+			"Geometry indices must contain complete triangles.");
 	AkGameObjectID id = get_ak_game_object_id(game_object);
 
 	if (id == AK_INVALID_GAME_OBJECT)
@@ -1061,11 +1070,6 @@ bool Wwise::set_geometry(const Array vertices, const Array triangles, const Ref<
 		ak_vertices[i] = v;
 	}
 
-	if (triangles.size() % 3 != 0)
-	{
-		WwiseLogger::verbose_format("Wrong number of triangles on GameObject: %s.", game_object->get_path());
-	}
-
 	int num_triangles = triangles.size() / 3;
 	auto ak_triangles = std::make_unique<AkTriangle[]>(num_triangles);
 
@@ -1088,10 +1092,17 @@ bool Wwise::set_geometry(const Array vertices, const Array triangles, const Ref<
 	int triangleIdx = 0;
 	for (int i = 0; i < num_triangles; i++)
 	{
+		const int input_point0 = triangles[3 * i + 0];
+		const int input_point1 = triangles[3 * i + 1];
+		const int input_point2 = triangles[3 * i + 2];
+		ERR_FAIL_COND_V_MSG(input_point0 < 0 || input_point0 >= vertices.size() || input_point1 < 0 ||
+							input_point1 >= vertices.size() || input_point2 < 0 || input_point2 >= vertices.size(),
+				false, "Geometry triangle indices must refer to existing vertices.");
+
 		AkTriangle t{};
-		t.point0 = verts_remap[static_cast<unsigned int>(triangles[3 * i + 0])];
-		t.point1 = verts_remap[static_cast<unsigned int>(triangles[3 * i + 1])];
-		t.point2 = verts_remap[static_cast<unsigned int>(triangles[3 * i + 2])];
+		t.point0 = verts_remap[input_point0];
+		t.point1 = verts_remap[input_point1];
+		t.point2 = verts_remap[input_point2];
 		t.surface = 0;
 
 		ak_triangles[triangleIdx] = t;
