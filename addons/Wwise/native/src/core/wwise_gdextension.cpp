@@ -987,6 +987,9 @@ bool Wwise::set_game_object_output_bus_volume(Node* game_object, Node* listener,
 bool Wwise::set_game_object_aux_send_values(
 		Node* game_object, const Array ak_aux_send_values, const unsigned int num_send_values)
 {
+	ERR_FAIL_COND_V_MSG(num_send_values > AK_MAX_ENVIRONMENTS, false,
+			"The number of auxiliary sends exceeds the Wwise environment limit.");
+
 	AkGameObjectID id = get_ak_game_object_id(game_object);
 	pre_game_object_api_call(game_object, id);
 
