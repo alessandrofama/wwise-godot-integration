@@ -241,12 +241,10 @@ void AkEvent3D::_ready() { handle_game_event(AkUtils::GameEvent::GAMEEVENT_READY
 
 void AkEvent3D::_exit_tree()
 {
-	if (is_environment_aware)
+	if (environment_data)
 	{
-		if (environment_data)
-		{
-			memdelete(environment_data);
-		}
+		memdelete(environment_data);
+		environment_data = nullptr;
 	}
 
 	handle_game_event(AkUtils::GameEvent::GAMEEVENT_EXIT_TREE);
@@ -259,7 +257,7 @@ void AkEvent3D::_process(double delta)
 		return;
 	}
 
-	if (is_environment_aware)
+	if (is_environment_aware && environment_data)
 	{
 		environment_data->update_aux_send(this, get_global_transform().get_origin());
 	}
@@ -351,7 +349,30 @@ AkUtils::GameEvent AkEvent3D::get_stop_on() const { return stop_on; }
 
 void AkEvent3D::set_is_environment_aware(bool is_environment_aware)
 {
+	if (this->is_environment_aware == is_environment_aware)
+	{
+		return;
+	}
+
 	this->is_environment_aware = is_environment_aware;
+
+	if (!is_inside_tree() || is_editor)
+	{
+		return;
+	}
+
+	if (is_environment_aware)
+	{
+		if (!environment_data)
+		{
+			environment_data = memnew(AkEnvironmentData);
+		}
+	}
+	else if (environment_data)
+	{
+		memdelete(environment_data);
+		environment_data = nullptr;
+	}
 }
 
 bool AkEvent3D::get_is_environment_aware() const { return is_environment_aware; }
