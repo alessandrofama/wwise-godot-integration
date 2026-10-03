@@ -943,12 +943,13 @@ int Wwise::get_source_play_position(const unsigned int playing_id, const bool ex
 
 Dictionary Wwise::get_playing_segment_info(const unsigned int playing_id, const bool extrapolate)
 {
-	AkSegmentInfo segment_info;
+	AkSegmentInfo segment_info{};
 	AKRESULT result = AK::SoundEngine::GetPlayingSegmentInfo(playing_id, segment_info, extrapolate);
 
-	if (result == AK_Fail)
+	if (result != AK_Success)
 	{
 		ERROR_CHECK(result);
+		return Dictionary();
 	}
 
 	Dictionary segment;
