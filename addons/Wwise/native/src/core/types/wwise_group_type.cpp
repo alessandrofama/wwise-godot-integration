@@ -31,7 +31,10 @@ uint32_t WwiseGroupType::get_group_id() const
 void WwiseGroupType::set_group_ref(const Ref<WwiseBaseType>& p_group_ref)
 {
 	group_ref = p_group_ref;
-	set_group_id(p_group_ref->get_id());
+	if (p_group_ref.is_valid())
+	{
+		set_group_id(p_group_ref->get_id());
+	}
 	notify_property_list_changed();
 }
 
