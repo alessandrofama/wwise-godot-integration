@@ -20,6 +20,7 @@ private:
 	Ref<AkEditorExportPlugin> export_plugin;
 	Ref<AkAndroidExportPlugin> android_export_plugin;
 	Ref<AkWwiseEditorInspectorPlugin> inspector_plugin;
+	bool added_runtime_manager_autoload{};
 
 public:
 	virtual void _enter_tree() override;

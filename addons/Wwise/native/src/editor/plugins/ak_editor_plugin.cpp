@@ -5,6 +5,7 @@ void AkEditorPlugin::_enter_tree()
 	if (!ProjectSettings::get_singleton()->has_setting("autoload/WwiseRuntimeManager"))
 	{
 		add_autoload_singleton("WwiseRuntimeManager", "res://addons/Wwise/runtime/wwise_runtime_manager.gd");
+		added_runtime_manager_autoload = true;
 	}
 
 	gizmo_plugin.instantiate();
@@ -26,5 +27,9 @@ void AkEditorPlugin::_exit_tree()
 	remove_export_plugin(export_plugin);
 	remove_export_plugin(android_export_plugin);
 	remove_node_3d_gizmo_plugin(gizmo_plugin);
-	remove_autoload_singleton("WwiseRuntimeManager");
+	if (added_runtime_manager_autoload)
+	{
+		remove_autoload_singleton("WwiseRuntimeManager");
+		added_runtime_manager_autoload = false;
+	}
 }
