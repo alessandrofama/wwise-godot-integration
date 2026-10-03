@@ -167,27 +167,27 @@ String Waapi::get_last_string() { return String(last_string.c_str()); }
 
 void Waapi::process_callbacks()
 {
-	if (!g_pendingCallbacks.empty())
+	std::vector<PendingCallback*> callbacks_copy;
 	{
-		std::vector<PendingCallback*> callbacks_copy;
+		AkAutoLock<CAkLock> scoped_lock(g_pendingCallbacksLock);
+		if (g_pendingCallbacks.empty())
 		{
-			AkAutoLock<CAkLock> scoped_lock(g_pendingCallbacksLock);
-			callbacks_copy = g_pendingCallbacks;
-			g_pendingCallbacks.clear();
+			return;
 		}
-
-		for (auto pending_callback : callbacks_copy)
-		{
-			Dictionary data;
-
-			data["subscription_id"] = pending_callback->subscription_id;
-			data["json_string"] = pending_callback->json_string.c_str();
-
-			emit_signal("wamp_event", data);
-
-			delete pending_callback;
-		}
-
-		callbacks_copy.clear();
+		callbacks_copy.swap(g_pendingCallbacks);
 	}
+
+	for (auto pending_callback : callbacks_copy)
+	{
+		Dictionary data;
+
+		data["subscription_id"] = pending_callback->subscription_id;
+		data["json_string"] = pending_callback->json_string.c_str();
+
+		emit_signal("wamp_event", data);
+
+		delete pending_callback;
+	}
+
+	callbacks_copy.clear();
 }
