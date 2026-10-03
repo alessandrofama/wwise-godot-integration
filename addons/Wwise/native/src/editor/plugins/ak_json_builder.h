@@ -52,4 +52,5 @@ private:
 public:
 	virtual void _process(double p_delta);
 	static void populate();
+	static bool is_running();
 };

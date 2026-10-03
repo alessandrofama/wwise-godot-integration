@@ -360,6 +360,8 @@ void AkJSONBuilder::populate()
 	running = true;
 }
 
+bool AkJSONBuilder::is_running() { return running; }
+
 void AkJSONBuilder::_process(double p_delta)
 {
 	if (!running)

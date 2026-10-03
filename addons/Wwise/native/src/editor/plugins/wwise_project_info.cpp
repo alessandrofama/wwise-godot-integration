@@ -114,6 +114,12 @@ void WwiseProjectInfo::create_wwise_project_data()
 
 void WwiseProjectInfo::refresh()
 {
+	if (AkJSONBuilder::is_running())
+	{
+		WwiseLogger::warning("Cannot refresh the Wwise project while its data is being populated.");
+		return;
+	}
+
 	objects_to_update.clear();
 	Ref<WwiseProjectData> data = get_data();
 	data->reset();
