@@ -88,6 +88,14 @@ AKRESULT WwiseIOHook::open(const AkFileOpenData& in_file_open, AkFileDesc*& out_
 
 	FileHandle* const file_handle = memnew(FileHandle);
 	Ref<FileAccess> file = FileAccess::open(final_file_path, open_mode);
+	if (file.is_null())
+	{
+		AkDelete(AkMemID_Streaming, out_p_file_desc);
+		memdelete(file_handle);
+		out_p_file_desc = nullptr;
+		return result;
+	}
+
 	file_handle->file = file;
 
 	if (file->get_open_error() == godot::Error::OK)
@@ -156,17 +164,18 @@ void WwiseIOHook::write(
 		file->seek(wanted_file_write_position);
 	}
 
-	int bytes_length = io_transfer_info.uRequestedSize;
+	const int64_t bytes_length = io_transfer_info.uRequestedSize;
 	PackedByteArray bytes;
 	bytes.resize(bytes_length);
 
 	memcpy((void*)bytes.ptr(), io_transfer_info.pBuffer, bytes_length * sizeof(uint8_t));
 	file->store_buffer(bytes);
-	const size_t bytes_written = file->get_length();
+	const int64_t bytes_written = file->get_position() - wanted_file_write_position;
 
-	AKASSERT(bytes_written == static_cast<size_t>(io_transfer_info.uRequestedSize));
+	AKASSERT(bytes_written == static_cast<int64_t>(io_transfer_info.uRequestedSize));
 
-	if (bytes_written == io_transfer_info.uRequestedSize)
+	if (bytes_written == static_cast<int64_t>(io_transfer_info.uRequestedSize) &&
+			file->get_error() == godot::Error::OK)
 	{
 		io_transfer_info.pCallback(&io_transfer_info, AK_Success);
 		return;
