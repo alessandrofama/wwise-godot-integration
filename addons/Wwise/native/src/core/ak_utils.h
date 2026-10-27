@@ -110,6 +110,12 @@ public:
 		AK_CODECID_BANK_BUS = 31
 	};
 
+	enum AkRoomDistanceBehavior
+	{
+		AK_ROOM_DISTANCE_BEHAVIOR_SUBSTRACT = 0,
+		AK_ROOM_DISTANCE_BEHAVIOR_EXCLUDE = 1
+	};
+
 	std::unordered_map<AkCallbackType, StringName> event_callback_signals{ { AK_END_OF_EVENT, "end_of_event" },
 		{ AK_END_OF_DYNAMIC_SEQUENCE_ITEM, "end_of_dynamic_sequence_item" }, { AK_MARKER, "audio_marker" },
 		{ AK_DURATION, "duration" }, { AK_SPEAKER_VOLUME_MATRIX, "speaker_volume_matrix" },
@@ -134,3 +140,4 @@ VARIANT_ENUM_CAST(AkUtils::AkCallbackType);
 VARIANT_ENUM_CAST(AkUtils::AkActionOnEventType);
 VARIANT_ENUM_CAST(AkUtils::MultiPositionType);
 VARIANT_ENUM_CAST(AkUtils::AkCodecID);
+VARIANT_ENUM_CAST(AkUtils::AkRoomDistanceBehavior);

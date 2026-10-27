@@ -14,6 +14,8 @@ void AkRoom::_bind_methods()
 	ClassDB::bind_method(D_METHOD("get_keep_registered"), &AkRoom::get_keep_registered);
 	ClassDB::bind_method(D_METHOD("set_room_priority", "room_priority"), &AkRoom::set_room_priority);
 	ClassDB::bind_method(D_METHOD("get_room_priority"), &AkRoom::get_room_priority);
+	ClassDB::bind_method(D_METHOD("set_distance_behavior", "distance_behavior"), &AkRoom::set_distance_behavior);
+	ClassDB::bind_method(D_METHOD("get_distance_behavior"), &AkRoom::get_distance_behavior);
 
 	ADD_PROPERTY(
 			PropertyInfo(Variant::OBJECT, "aux_bus", PROPERTY_HINT_NONE, "WwiseAuxBus"), "set_aux_bus", "get_aux_bus");
@@ -28,6 +30,8 @@ void AkRoom::_bind_methods()
 			"get_keep_registered");
 	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "room_priority", PROPERTY_HINT_NONE), "set_room_priority",
 			"get_room_priority");
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "distance_behavior", PROPERTY_HINT_ENUM, "Substract, Exclude"),
+			"set_distance_behavior", "get_distance_behavior");
 }
 
 void AkRoom::_ready()
@@ -105,3 +109,10 @@ bool AkRoom::get_keep_registered() const { return keep_registered; }
 void AkRoom::set_room_priority(float p_room_priority) { room_priority = p_room_priority; }
 
 float AkRoom::get_room_priority() const { return room_priority; }
+
+void AkRoom::set_distance_behavior(AkUtils::AkRoomDistanceBehavior p_distance_behavior)
+{
+	distance_behavior = p_distance_behavior;
+}
+
+AkUtils::AkRoomDistanceBehavior AkRoom::get_distance_behavior() const { return distance_behavior; }
