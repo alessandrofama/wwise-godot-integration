@@ -163,7 +163,7 @@ public:
 	bool register_spatial_listener(Node* game_object);
 	bool set_room(const Node* game_object, const unsigned int ak_aux_bus_id, const float reverb_level,
 			const float transmission_loss, const Vector3& front_vector, const Vector3& up_vector, bool keep_registered,
-			const Object* associated_geometry_instance);
+			const Object* associated_geometry_instance, float room_priority);
 	bool remove_room(const Node* game_object);
 	bool set_portal(const Node* game_object, const Transform3D transform, const Vector3& extent, const Node* front_room,
 			const Node* back_room, bool enabled);

@@ -2,8 +2,6 @@
 
 void AkRoom::_bind_methods()
 {
-	ClassDB::bind_method(D_METHOD("_on_area_entered", "area"), &AkRoom::_on_area_entered);
-	ClassDB::bind_method(D_METHOD("_on_area_exited", "area"), &AkRoom::_on_area_exited);
 	ClassDB::bind_method(D_METHOD("set_aux_bus", "aux_bus"), &AkRoom::set_aux_bus);
 	ClassDB::bind_method(D_METHOD("get_aux_bus"), &AkRoom::get_aux_bus);
 	ClassDB::bind_method(D_METHOD("set_reverb_level", "reverb_level"), &AkRoom::set_reverb_level);
@@ -14,6 +12,8 @@ void AkRoom::_bind_methods()
 	ClassDB::bind_method(D_METHOD("get_associated_geometry"), &AkRoom::get_associated_geometry);
 	ClassDB::bind_method(D_METHOD("set_keep_registered", "keep_registered"), &AkRoom::set_keep_registered);
 	ClassDB::bind_method(D_METHOD("get_keep_registered"), &AkRoom::get_keep_registered);
+	ClassDB::bind_method(D_METHOD("set_room_priority", "room_priority"), &AkRoom::set_room_priority);
+	ClassDB::bind_method(D_METHOD("get_room_priority"), &AkRoom::get_room_priority);
 
 	ADD_PROPERTY(
 			PropertyInfo(Variant::OBJECT, "aux_bus", PROPERTY_HINT_NONE, "WwiseAuxBus"), "set_aux_bus", "get_aux_bus");
@@ -26,6 +26,8 @@ void AkRoom::_bind_methods()
 			"set_associated_geometry", "get_associated_geometry");
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "keep_registered", PROPERTY_HINT_NONE), "set_keep_registered",
 			"get_keep_registered");
+	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "room_priority", PROPERTY_HINT_NONE), "set_room_priority",
+			"get_room_priority");
 }
 
 void AkRoom::_ready()
@@ -56,12 +58,9 @@ void AkRoom::_ready()
 		{
 			soundengine->set_room(this, aux_bus->get_id(), reverb_level, transmission_loss,
 					normalized_transform.get_basis().get_column(2), normalized_transform.get_basis().get_column(1),
-					keep_registered, geometry_node);
+					keep_registered, geometry_node->geometry_instance_object, room_priority);
 		}
 	}
-
-	connect("area_entered", callable_mp(this, &AkRoom::_on_area_entered));
-	connect("area_exited", callable_mp(this, &AkRoom::_on_area_exited));
 }
 
 void AkRoom::_exit_tree()
@@ -73,84 +72,6 @@ void AkRoom::_exit_tree()
 	if (soundengine)
 	{
 		soundengine->remove_room(this);
-	}
-
-	disconnect("area_entered", callable_mp(this, &AkRoom::_on_area_entered));
-	disconnect("area_exited", callable_mp(this, &AkRoom::_on_area_exited));
-}
-
-void AkRoom::_on_area_entered(const Area3D* area)
-{
-	Node* parent = area->get_parent();
-
-	if (parent)
-	{
-		if (parent->get_class() == "AkEvent3D" || parent->get_class() == "AkListener3D")
-		{
-			// If we have an AkListener3D or an AkEvent3D, keep track
-			// of the room it's entering.
-			AkListener3D* listener = Object::cast_to<AkListener3D>(parent);
-			AkEvent3D* event = Object::cast_to<AkEvent3D>(parent);
-			if (listener)
-			{
-				listener->set_room_id(static_cast<AkGameObjectID>(this->get_instance_id()));
-			}
-			else if (event)
-			{
-				event->set_room_id(static_cast<AkGameObjectID>(this->get_instance_id()));
-			}
-
-			Wwise* soundengine = Wwise::get_singleton();
-
-			if (soundengine)
-			{
-				soundengine->set_game_object_in_room(parent, this);
-			}
-		}
-	}
-}
-
-void AkRoom::_on_area_exited(const Area3D* area)
-{
-	Node* parent = area->get_parent();
-
-	if (parent)
-	{
-		if (parent->get_class() == "AkEvent3D" || parent->get_class() == "AkListener3D")
-		{
-			// Check if the AkListener3D or AkEvent3D is leaving the
-			// room they are in to go outside.
-			//
-			// If they enter a different room, then the
-			// _on_area_entered() method for the different room will be
-			// called, setting the listener/event's room ID to that room.
-			//
-			// In contrast, if the event/listener goes outside, then
-			// there is no call to _on_area_entered() and the
-			// event/ listener's room ID is the same as the room they
-			// are leaving. In this case, we call
-			// remove_game_object_from_room() and set the room
-			// to INVALID_ROOM_ID.
-			bool isGoingOutside = false;
-
-			AkListener3D* listener = Object::cast_to<AkListener3D>(parent);
-			AkEvent3D* event = Object::cast_to<AkEvent3D>(parent);
-			if (listener)
-			{
-				isGoingOutside = listener->get_room_id() == static_cast<AkGameObjectID>(this->get_instance_id());
-			}
-			else if (event)
-			{
-				isGoingOutside = event->get_room_id() == static_cast<AkGameObjectID>(this->get_instance_id());
-			}
-
-			Wwise* soundengine = Wwise::get_singleton();
-
-			if (soundengine && isGoingOutside)
-			{
-				soundengine->remove_game_object_from_room(parent);
-			}
-		}
 	}
 }
 
@@ -180,3 +101,7 @@ NodePath AkRoom::get_associated_geometry() const { return associated_geometry; }
 void AkRoom::set_keep_registered(bool keep_registered) { this->keep_registered = keep_registered; }
 
 bool AkRoom::get_keep_registered() const { return keep_registered; }
+
+void AkRoom::set_room_priority(float p_room_priority) { room_priority = p_room_priority; }
+
+float AkRoom::get_room_priority() const { return room_priority; }

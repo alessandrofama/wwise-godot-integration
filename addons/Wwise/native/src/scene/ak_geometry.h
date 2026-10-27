@@ -41,7 +41,6 @@ private:
 	Ref<WwiseAcousticTexture> acoustic_texture;
 	float transmission_loss_value{ 1.0f };
 
-	Object* geometry_instance_object{ nullptr };
 	bool is_wwise_geometry_set{ false };
 
 	bool sync_wwise_geometry();
@@ -58,6 +57,8 @@ private:
 	Ref<MeshDataTool> create_mesh_data_tool(const Ref<Mesh>& mesh);
 
 public:
+	Object* geometry_instance_object{ nullptr };
+
 	virtual PackedStringArray _get_configuration_warnings() const override;
 
 	AkGeometry();
