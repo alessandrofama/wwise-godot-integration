@@ -750,6 +750,7 @@
 			<param index="5" name="up_vector" type="Vector3" />
 			<param index="6" name="keep_registered" type="bool" />
 			<param index="7" name="associated_geometry" type="Object" />
+			<param index="8" name="room_priority" type="float" />
 			<description>
 				Adds a Room with the given [param game_object]. 
 				Pass the reverb aux bus that is associated with the room to [param aux_bus_id].
