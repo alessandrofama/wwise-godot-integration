@@ -6,15 +6,14 @@
 #include "scene/ak_event.h"
 #include "scene/ak_geometry.h"
 #include "scene/ak_listener.h"
-#include <godot_cpp/classes/area3d.hpp>
 #include <godot_cpp/variant/dictionary.hpp>
 #include <godot_cpp/variant/node_path.hpp>
 
 using namespace godot;
 
-class AkRoom : public Area3D
+class AkRoom : public Node3D
 {
-	GDCLASS(AkRoom, Area3D);
+	GDCLASS(AkRoom, Node3D);
 
 protected:
 	static void _bind_methods();
@@ -25,13 +24,11 @@ private:
 	float transmission_loss{ 1.0f };
 	NodePath associated_geometry{};
 	bool keep_registered{ true };
+	float room_priority{ 100.0f };
 
 public:
 	virtual void _ready() override;
 	virtual void _exit_tree() override;
-
-	void _on_area_entered(const Area3D* area);
-	void _on_area_exited(const Area3D* area);
 
 	void set_aux_bus(const Ref<WwiseAuxBus>& aux_bus);
 	Ref<WwiseAuxBus> get_aux_bus() const;
@@ -47,4 +44,7 @@ public:
 
 	void set_keep_registered(bool keep_registered);
 	bool get_keep_registered() const;
+
+	void set_room_priority(float p_room_priority);
+	float get_room_priority() const;
 };
