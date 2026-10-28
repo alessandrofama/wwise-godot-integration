@@ -25,6 +25,8 @@ private:
 	NodePath associated_geometry{};
 	bool keep_registered{ true };
 	float room_priority{ 100.0f };
+	AkUtils::AkRoomDistanceBehavior distance_behavior{ (
+			AkUtils::AkRoomDistanceBehavior)AkRoomDistanceBehavior_Default };
 
 public:
 	virtual void _ready() override;
@@ -47,4 +49,7 @@ public:
 
 	void set_room_priority(float p_room_priority);
 	float get_room_priority() const;
+
+	void set_distance_behavior(AkUtils::AkRoomDistanceBehavior p_distance_behavior);
+	AkUtils::AkRoomDistanceBehavior get_distance_behavior() const;
 };
