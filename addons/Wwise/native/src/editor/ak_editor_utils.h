@@ -13,7 +13,7 @@ class AkEditorUtils : public Object
 	GDCLASS(AkEditorUtils, Object);
 
 protected:
-	static void _bind_methods() {};
+	static void _bind_methods() { ADD_SIGNAL(MethodInfo("ws_ids_generated")); };
 
 private:
 	static AkEditorUtils* singleton;
