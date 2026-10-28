@@ -1,11 +1,74 @@
-*.log
-.vs/
+# Godot
 .godot/
 .import/
-export.cfg
-export_presets.cfg
-addons/Wwise/native/src**/*.obj
+export_credentials.cfg
+
+# Build
+/addons/Wwise/native/lib/
+/addons/Wwise/native/android/build/
+/addons/Wwise/native/android/plugin/build/
+/addons/Wwise/native/android/local.properties
+
+# Test project
+/tests/GodotProject/GeneratedSoundBanks/
+/tests/GodotProject/Wwise/resources/WwiseProjectData.tres
+
+# Wwise project
+/tests/WwiseProject/.cache/
+/tests/WwiseProject/.backup/
+
+# Generated sound banks
+/tests/WwiseProject/GeneratedSoundBanks/
+
+# Generated source files
+/addons/Wwise/native/src/gen/
+
+# Local settings, profiling data, and validation caches
 *.wsettings
+*.prof
 *.validationcache
-**/WwiseProjectData.tres
-tests/WwiseProject/.cache/
+
+# SCons
+.sconsign*
+.scons_cache/
+.sconf_temp/
+config.log
+
+# CMake
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+compile_commands.json
+cmake-build-*/
+
+# Gradle
+.gradle/
+.cxx/
+.externalNativeBuild/
+
+# Native compilation artifacts
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.dylib
+*.dll
+*.pdb
+*.ilk
+*.exp
+*.pch
+*.idb
+*.dSYM/
+
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.VC.db
+*.VC.opendb
+
+# Operating system files
+.DS_Store
+Thumbs.db
+Desktop.ini
