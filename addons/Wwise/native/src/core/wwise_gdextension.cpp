@@ -154,10 +154,11 @@ void Wwise::_bind_methods()
 			&Wwise::set_geometry_instance);
 	ClassDB::bind_method(D_METHOD("remove_geometry_instance", "geometry_instance"), &Wwise::remove_geometry_instance);
 	ClassDB::bind_method(D_METHOD("register_spatial_listener", "game_object"), &Wwise::register_spatial_listener);
-	ClassDB::bind_method(
-			D_METHOD("set_room", "game_object", "aux_bus_id", "reverb_level", "transmission_loss", "front_vector",
-					"up_vector", "keep_registered", "associated_geometry", "room_priority", "distance_behavior"),
-			&Wwise::set_room, DEFVAL(100.0f), DEFVAL((AkUtils::AkRoomDistanceBehavior)AkRoomDistanceBehavior_Default));
+	ClassDB::bind_method(D_METHOD("set_room", "game_object", "aux_bus_id", "reverb_level", "transmission_loss",
+								 "front_vector", "up_vector", "keep_registered", "associated_geometry",
+								 "aux_send_level_to_self", "room_priority", "distance_behavior"),
+			&Wwise::set_room, DEFVAL(0.0f), DEFVAL(100.0f),
+			DEFVAL((AkUtils::AkRoomDistanceBehavior)AkRoomDistanceBehavior_Default));
 	ClassDB::bind_method(D_METHOD("remove_room", "game_object"), &Wwise::remove_room);
 	ClassDB::bind_method(
 			D_METHOD("set_portal", "game_object", "transform", "extent", "front_room", "back_room", "enabled"),
@@ -1158,7 +1159,7 @@ bool Wwise::register_spatial_listener(Node* game_object)
 
 bool Wwise::set_room(const Node* game_object, const unsigned int ak_aux_bus_id, const float reverb_level,
 		const float transmission_loss, const Vector3& front_vector, const Vector3& up_vector, bool keep_registered,
-		const Object* associated_geometry_instance, float room_priority,
+		const Object* associated_geometry_instance, float aux_send_level_to_self, float room_priority,
 		AkUtils::AkRoomDistanceBehavior distance_behavior)
 {
 	AkGameObjectID id = get_ak_game_object_id(game_object);
@@ -1170,7 +1171,7 @@ bool Wwise::set_room(const Node* game_object, const unsigned int ak_aux_bus_id, 
 	room_params.Front = godot_to_ak_orientation(front_vector);
 	room_params.Up = godot_to_ak_orientation(up_vector);
 	room_params.RoomGameObj_KeepRegistered = keep_registered;
-	room_params.RoomGameObj_AuxSendLevelToSelf = 0.0f;
+	room_params.RoomGameObj_AuxSendLevelToSelf = aux_send_level_to_self;
 	room_params.RoomPriority = room_priority;
 	room_params.DistanceBehavior = (AkRoomDistanceBehavior)distance_behavior;
 

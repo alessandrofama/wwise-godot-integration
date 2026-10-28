@@ -10,6 +10,11 @@ void AkRoom::_bind_methods()
 	ClassDB::bind_method(D_METHOD("get_transmission_loss"), &AkRoom::get_transmission_loss);
 	ClassDB::bind_method(D_METHOD("set_associated_geometry", "associated_geometry"), &AkRoom::set_associated_geometry);
 	ClassDB::bind_method(D_METHOD("get_associated_geometry"), &AkRoom::get_associated_geometry);
+	ClassDB::bind_method(D_METHOD("set_room_tone_event", "room_tone_event"), &AkRoom::set_room_tone_event);
+	ClassDB::bind_method(D_METHOD("get_room_tone_event"), &AkRoom::get_room_tone_event);
+	ClassDB::bind_method(
+			D_METHOD("set_aux_send_level_to_self", "aux_send_level_to_self"), &AkRoom::set_aux_send_level_to_self);
+	ClassDB::bind_method(D_METHOD("get_aux_send_level_to_self"), &AkRoom::get_aux_send_level_to_self);
 	ClassDB::bind_method(D_METHOD("set_keep_registered", "keep_registered"), &AkRoom::set_keep_registered);
 	ClassDB::bind_method(D_METHOD("get_keep_registered"), &AkRoom::get_keep_registered);
 	ClassDB::bind_method(D_METHOD("set_room_priority", "room_priority"), &AkRoom::set_room_priority);
@@ -26,6 +31,10 @@ void AkRoom::_bind_methods()
 	ADD_PROPERTY(
 			PropertyInfo(Variant::NODE_PATH, "associated_geometry", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "AkGeometry"),
 			"set_associated_geometry", "get_associated_geometry");
+	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "room_tone_event", PROPERTY_HINT_NONE, "WwiseEvent"),
+			"set_room_tone_event", "get_room_tone_event");
+	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "aux_send_level_to_self", PROPERTY_HINT_NONE),
+			"set_aux_send_level_to_self", "get_aux_send_level_to_self");
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "keep_registered", PROPERTY_HINT_NONE), "set_keep_registered",
 			"get_keep_registered");
 	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "room_priority", PROPERTY_HINT_NONE), "set_room_priority",
@@ -60,9 +69,16 @@ void AkRoom::_ready()
 	{
 		if (aux_bus.is_valid())
 		{
-			soundengine->set_room(this, aux_bus->get_id(), reverb_level, transmission_loss,
+			room_registered = soundengine->set_room(this, aux_bus->get_id(), reverb_level, transmission_loss,
 					normalized_transform.get_basis().get_column(2), normalized_transform.get_basis().get_column(1),
-					keep_registered, geometry_node->geometry_instance_object, room_priority);
+					room_tone_event.is_valid() || keep_registered,
+					geometry_node != nullptr ? geometry_node->geometry_instance_object : nullptr,
+					aux_send_level_to_self, room_priority);
+
+			if (room_registered && room_tone_event.is_valid())
+			{
+				room_tone_event->post(this);
+			}
 		}
 	}
 }
@@ -75,7 +91,15 @@ void AkRoom::_exit_tree()
 
 	if (soundengine)
 	{
-		soundengine->remove_room(this);
+		if (room_registered)
+		{
+			if (room_tone_event.is_valid())
+			{
+				room_tone_event->stop(this);
+			}
+
+			soundengine->remove_room(this);
+		}
 	}
 }
 
@@ -101,6 +125,24 @@ void AkRoom::set_associated_geometry(const NodePath& associated_geometry)
 }
 
 NodePath AkRoom::get_associated_geometry() const { return associated_geometry; }
+
+void AkRoom::set_room_tone_event(const Ref<WwiseEvent>& p_room_tone_event)
+{
+	room_tone_event = p_room_tone_event;
+#if defined(TOOLS_ENABLED)
+	set_keep_registered(room_tone_event.is_valid());
+#endif
+	notify_property_list_changed();
+}
+
+Ref<WwiseEvent> AkRoom::get_room_tone_event() const { return room_tone_event; }
+
+void AkRoom::set_aux_send_level_to_self(float p_aux_send_level_to_self)
+{
+	aux_send_level_to_self = p_aux_send_level_to_self;
+}
+
+float AkRoom::get_aux_send_level_to_self() const { return aux_send_level_to_self; }
 
 void AkRoom::set_keep_registered(bool keep_registered) { this->keep_registered = keep_registered; }
 

@@ -23,10 +23,13 @@ private:
 	float reverb_level{ 1.0f };
 	float transmission_loss{ 1.0f };
 	NodePath associated_geometry{};
-	bool keep_registered{ true };
+	Ref<WwiseEvent> room_tone_event;
+	float aux_send_level_to_self { 0.0f };
+	bool keep_registered{ false };
 	float room_priority{ 100.0f };
 	AkUtils::AkRoomDistanceBehavior distance_behavior{ (
 			AkUtils::AkRoomDistanceBehavior)AkRoomDistanceBehavior_Default };
+	bool room_registered{ false };
 
 public:
 	virtual void _ready() override;
@@ -43,6 +46,12 @@ public:
 
 	void set_associated_geometry(const NodePath& associated_geometry);
 	NodePath get_associated_geometry() const;
+
+	void set_room_tone_event(const Ref<WwiseEvent>& p_room_tone_event);
+	Ref<WwiseEvent> get_room_tone_event() const;
+
+	void set_aux_send_level_to_self(float p_aux_send_level_to_self);
+	float get_aux_send_level_to_self() const;
 
 	void set_keep_registered(bool keep_registered);
 	bool get_keep_registered() const;
