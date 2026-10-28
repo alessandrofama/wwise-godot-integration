@@ -287,4 +287,5 @@ void WwiseBrowser::_on_generate_ids_button_up()
 	filesystem->update_file(wwise_ids_path);
 	filesystem->scan();
 	WwiseLogger::log_format("Generated IDs at %s", wwise_ids_path);
+	AkEditorUtils::get_singleton()->emit_signal("ws_ids_generated");
 }
