@@ -466,6 +466,13 @@
 				Returns [code]true[/code] if removing the Portal succeeded.
 			</description>
 		</method>
+		<method name="remove_reverb_zone">
+			<return type="bool" />
+			<param index="0" name="reverb_zone" type="Node" />
+			<description>
+				Removes a Reverb Zone from its parent.
+			</description>
+		</method>
 		<method name="remove_room">
 			<return type="bool" />
 			<param index="0" name="game_object" type="Node" />
@@ -738,6 +745,17 @@
 				Sets the random seed value. 
 				Can be used to synchronize randomness across instances of the sound engine.
 				Calls [code]AK::SoundEngine::SetRandomSeed[/code].
+			</description>
+		</method>
+		<method name="set_reverb_zone">
+			<return type="bool" />
+			<param index="0" name="reverb_zone" type="Node" />
+			<param index="1" name="parent_room" type="Node" />
+			<param index="2" name="transition_region_width" type="float" />
+			<description>
+				Use a Room as a Reverb Zone.
+				Calls [code]AK::Acoustics::SetReverbZone[/code].
+				Returns [code]true[/code] if setting the Reverb Zone succeeded.
 			</description>
 		</method>
 		<method name="set_room">

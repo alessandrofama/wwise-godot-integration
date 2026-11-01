@@ -167,6 +167,9 @@ void Wwise::_bind_methods()
 	ClassDB::bind_method(
 			D_METHOD("set_portal_obstruction_and_occlusion", "portal", "obstruction_value", "occlusion_value"),
 			&Wwise::set_portal_obstruction_and_occlusion);
+	ClassDB::bind_method(D_METHOD("set_reverb_zone", "reverb_zone", "parent_room", "transition_region_width"),
+			&Wwise::set_reverb_zone);
+	ClassDB::bind_method(D_METHOD("remove_reverb_zone", "reverb_zone"), &Wwise::remove_reverb_zone);
 	ClassDB::bind_method(
 			D_METHOD("set_game_object_to_portal_obstruction", "game_object", "portal", "obstruction_value"),
 			&Wwise::set_game_object_to_portal_obstruction);
@@ -1246,6 +1249,22 @@ bool Wwise::set_portal_to_portal_obstruction(const Node* portal0, const Node* po
 	AkGameObjectID portal1_id = get_ak_game_object_id(portal1);
 
 	return ERROR_CHECK(AK::Acoustics::SetPortalToPortalObstruction(portal0_id, portal1_id, obstruction_value));
+}
+
+bool Wwise::set_reverb_zone(const Node* reverb_zone, const Node* parent_room, float transition_region_width)
+{
+	AkRoomID reverb_zone_id = AkRoomID::FromGameObjectID(get_ak_game_object_id(reverb_zone));
+	AkRoomID parent_room_id = parent_room ? AkRoomID::FromGameObjectID(get_ak_game_object_id(parent_room))
+										  : AK::Acoustics::kOutdoorRoomID;
+
+	return ERROR_CHECK(AK::Acoustics::SetReverbZone(reverb_zone_id, parent_room_id, transition_region_width));
+}
+
+bool Wwise::remove_reverb_zone(const Node* reverb_zone)
+{
+	AkRoomID reverb_zone_id = AkRoomID::FromGameObjectID(get_ak_game_object_id(reverb_zone));
+
+	return ERROR_CHECK(AK::Acoustics::RemoveReverbZone(reverb_zone_id));
 }
 
 bool Wwise::set_game_object_in_room(Node* game_object, const Node* room)
