@@ -231,6 +231,9 @@
     <ClCompile Include="..\src\platform\emscripten\ak_emscripten_atomics.cpp">
       <Filter>Source Files\platform\emscripten</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\scene\ak_acoustic_volume.cpp">
+      <Filter>Source Files\scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\scene\ak_bank.h">
@@ -460,6 +463,9 @@
     </ClInclude>
     <ClInclude Include="..\src\core\wwise_logger.h">
       <Filter>Source Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\scene\ak_acoustic_volume.h">
+      <Filter>Source Files\scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -90,3 +90,4 @@ AkGeometry = "res://addons/Wwise/editor/theme/dark/images/ObjectIcons_Project_no
 AkPortal = "res://addons/Wwise/editor/theme/dark/images/ObjectIcons_Project_nor.svg"
 AkRoom = "res://addons/Wwise/editor/theme/dark/images/ObjectIcons_Project_nor.svg"
 AkEarlyReflections = "res://addons/Wwise/editor/theme/dark/images/ObjectIcons_Project_nor.svg"
+AkAcousticVolume = "res://addons/Wwise/editor/theme/dark/images/ObjectIcons_Project_nor.svg"
