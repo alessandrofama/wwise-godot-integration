@@ -163,8 +163,10 @@ public:
 	bool register_spatial_listener(Node* game_object);
 	bool set_room(const Node* game_object, const unsigned int ak_aux_bus_id, const float reverb_level,
 			const float transmission_loss, const Vector3& front_vector, const Vector3& up_vector, bool keep_registered,
-			const Object* associated_geometry_instance, float aux_send_level_to_self = 0.0f, float room_priority = 100.0f,
-			AkUtils::AkRoomDistanceBehavior distance_behavior = (AkUtils::AkRoomDistanceBehavior)AkRoomDistanceBehavior_Default);
+			const Object* associated_geometry_instance, float aux_send_level_to_self = 0.0f,
+			float room_priority = 100.0f,
+			AkUtils::AkRoomDistanceBehavior distance_behavior = (AkUtils::AkRoomDistanceBehavior)
+					AkRoomDistanceBehavior_Default);
 	bool remove_room(const Node* game_object);
 	bool set_portal(const Node* game_object, const Transform3D transform, const Vector3& extent, const Node* front_room,
 			const Node* back_room, bool enabled);
@@ -174,6 +176,8 @@ public:
 	bool set_game_object_to_portal_obstruction(
 			const Node* game_object, const Node* portal, const float obstruction_value);
 	bool set_portal_to_portal_obstruction(const Node* portal0, const Node* portal1, const float obstruction_value);
+	bool set_reverb_zone(const Node* reverb_zone, const Node* parent_room, float transition_region_width);
+	bool remove_reverb_zone(const Node* reverb_zone);
 	bool set_game_object_in_room(Node* game_object, const Node* room);
 	bool remove_game_object_from_room(Node* game_object);
 	bool set_early_reflections_aux_send(Node* game_object, const unsigned int aux_bus_id);
