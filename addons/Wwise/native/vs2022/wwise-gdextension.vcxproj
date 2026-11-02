@@ -469,6 +469,11 @@
     <ClCompile Include="..\src\platform\emscripten\ak_emscripten_atomics.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\src\scene\ak_acoustic_volume.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\src\scene\ak_bank.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
@@ -819,6 +824,11 @@
     <ClInclude Include="..\src\platform\android\jni_support.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\src\scene\ak_acoustic_volume.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='editor|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='template_release|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\src\scene\ak_bank.h">
