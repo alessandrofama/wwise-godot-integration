@@ -8,6 +8,7 @@
 #include "scene/ak_listener.h"
 #include <godot_cpp/variant/dictionary.hpp>
 #include <godot_cpp/variant/node_path.hpp>
+#include <godot_cpp/variant/packed_string_array.hpp>
 
 using namespace godot;
 
@@ -30,8 +31,16 @@ private:
 	AkUtils::AkRoomDistanceBehavior distance_behavior{ (
 			AkUtils::AkRoomDistanceBehavior)AkRoomDistanceBehavior_Default };
 	bool room_registered{ false };
+	bool enable_reverb_zone{ false };
+	NodePath parent_room{};
+	float transition_region_width{ 1.0f };
+
+	AkRoom* get_parent_room_node() const;
+	void validate_reverb_zone_properties();
+	bool is_a_parent_of(const AkRoom* p_room) const;
 
 public:
+	virtual PackedStringArray _get_configuration_warnings() const override;
 	virtual void _ready() override;
 	virtual void _exit_tree() override;
 
@@ -61,4 +70,13 @@ public:
 
 	void set_distance_behavior(AkUtils::AkRoomDistanceBehavior p_distance_behavior);
 	AkUtils::AkRoomDistanceBehavior get_distance_behavior() const;
+
+	void set_enable_reverb_zone(bool p_enable);
+	bool get_enable_reverb_zone() const;
+
+	void set_parent_room(const NodePath& p_parent_room);
+	NodePath get_parent_room() const;
+
+	void set_transition_region_width(float p_width);
+	float get_transition_region_width() const;
 };
