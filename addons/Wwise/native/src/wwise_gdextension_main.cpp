@@ -25,6 +25,7 @@
 #include "core/wwise_platform_info.cpp"
 #include "core/wwise_plugin_info.cpp"
 #include "core/wwise_settings.cpp"
+#include "scene/ak_acoustic_volume.cpp"
 #include "scene/ak_bank.cpp"
 #include "scene/ak_early_reflections.cpp"
 #include "scene/ak_environment.cpp"
@@ -139,6 +140,7 @@ void register_wwise_types(ModuleInitializationLevel p_level)
 		ClassDB::register_class<AkGeometry>();
 		ClassDB::register_class<AkRoom>();
 		ClassDB::register_class<AkEarlyReflections>();
+		ClassDB::register_class<AkAcousticVolume>();
 	}
 
 	if (p_level == MODULE_INITIALIZATION_LEVEL_EDITOR)
