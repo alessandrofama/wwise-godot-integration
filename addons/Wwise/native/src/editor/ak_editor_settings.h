@@ -141,6 +141,7 @@ enum class PluginID : uint32_t
 	SinkSystem = 0xAE0007,
 	ToneGenerator = 0x00660002, // Tone Generator
 	WwiseSilence = 0x00650002, // Wwise Silence
+	WwiseSystemOutputSettings = 0x3840009,
 
 	// Static or DLL plugins
 	AkAudioInput = 0xC80002,
@@ -190,7 +191,8 @@ static const std::unordered_set<PluginID> always_skip_plugin_ids =
 	PluginID::SinkNoOutput, 
 	PluginID::SinkSystem, 
 	PluginID::ToneGenerator,
-	PluginID::WwiseSilence, 
+	PluginID::WwiseSilence,
+	PluginID::WwiseSystemOutputSettings,
 	PluginID::AkAudioInput 
 };
 
