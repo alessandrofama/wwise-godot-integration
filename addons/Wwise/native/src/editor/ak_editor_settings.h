@@ -138,6 +138,7 @@ enum class PluginID : uint32_t
 	SinkSystem = 0xAE0007,
 	ToneGenerator = 0x00660002, // Tone Generator
 	WwiseSilence = 0x00650002, // Wwise Silence
+	WwiseSystemOutputSettings = 0x3840009,
 
 	// Static or DLL plugins
 	AkAudioInput = 0xC80002,
@@ -176,10 +177,21 @@ enum class PluginID : uint32_t
 	Tempest3dAudioFX = 0x00D30003
 };
 
-static const std::unordered_set<PluginID> always_skip_plugin_ids = { PluginID::SineGenerator, PluginID::SinkAuxiliary,
-	PluginID::SinkCommunication, PluginID::SinkControllerHeadphones, PluginID::SinkControllerSpeaker,
-	PluginID::SinkDVRByPass, PluginID::SinkNoOutput, PluginID::SinkSystem, PluginID::ToneGenerator,
-	PluginID::WwiseSilence, PluginID::AkAudioInput };
+static const std::unordered_set<PluginID> always_skip_plugin_ids = 
+{ 
+	PluginID::SineGenerator, 
+	PluginID::SinkAuxiliary,
+	PluginID::SinkCommunication, 
+	PluginID::SinkControllerHeadphones, 
+	PluginID::SinkControllerSpeaker,
+	PluginID::SinkDVRByPass, 
+	PluginID::SinkNoOutput, 
+	PluginID::SinkSystem, 
+	PluginID::ToneGenerator,
+	PluginID::WwiseSilence,
+	PluginID::WwiseSystemOutputSettings,
+	PluginID::AkAudioInput 
+};
 
 static const std::unordered_set<PluginID> built_in_plugin_ids = { PluginID::Ak3DAudioBedMixer, PluginID::AkCompressor,
 	PluginID::AkDelay, PluginID::AkExpander, PluginID::AkFlanger, PluginID::AkGain, PluginID::AkGuitarDistortion,
