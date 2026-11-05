@@ -329,11 +329,11 @@ jobs:
         run: |
           rm -r ./addons/Wwise/native/godot-cpp
           rm -r ./addons/Wwise/native/src
-          rm -r ./addons/Wwise/native/vs2022
           rm -r ./addons/Wwise/native/android
           rm -r ./addons/Wwise/native/linux
           rm -r ./addons/Wwise/native/doc_classes
           rm ./addons/Wwise/native/SConstruct
+          rm ./addons/Wwise/native/premake5.lua
           rm ./addons/Wwise/native/build_profile_editor.json
           rm ./addons/Wwise/native/build_profile_runtime.json
           rm ./LICENSE
