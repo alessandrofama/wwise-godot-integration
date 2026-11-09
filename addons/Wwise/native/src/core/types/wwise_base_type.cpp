@@ -4,8 +4,8 @@
 
 void WwiseBaseType::_bind_methods()
 {
-	ClassDB::bind_method(D_METHOD("set_name", "name"), &WwiseBaseType::set_name);
-	ClassDB::bind_method(D_METHOD("get_name"), &WwiseBaseType::get_name);
+	ClassDB::bind_method(D_METHOD("set_wwise_name", "wwise_name"), &WwiseBaseType::set_wwise_name);
+	ClassDB::bind_method(D_METHOD("get_wwise_name"), &WwiseBaseType::get_wwise_name);
 	ClassDB::bind_method(D_METHOD("set_id", "id"), &WwiseBaseType::set_id);
 	ClassDB::bind_method(D_METHOD("get_id"), &WwiseBaseType::get_id);
 	ClassDB::bind_method(D_METHOD("set_guid", "guid"), &WwiseBaseType::set_guid);
@@ -13,7 +13,7 @@ void WwiseBaseType::_bind_methods()
 	ClassDB::bind_method(D_METHOD("set_dummy", "dummy"), &WwiseBaseType::set_dummy);
 	ClassDB::bind_method(D_METHOD("get_dummy"), &WwiseBaseType::get_dummy);
 
-	ADD_PROPERTY(PropertyInfo(Variant::STRING, "name", PROPERTY_HINT_NONE, ""), "set_name", "get_name");
+	ADD_PROPERTY(PropertyInfo(Variant::STRING, "name", PROPERTY_HINT_NONE, ""), "set_wwise_name", "get_wwise_name");
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "id", PROPERTY_HINT_NONE, ""), "set_id", "get_id");
 	ADD_PROPERTY(PropertyInfo(Variant::STRING, "guid", PROPERTY_HINT_NONE, ""), "set_guid", "get_guid");
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "dummy", PROPERTY_HINT_NONE, "", PROPERTY_USAGE_NO_EDITOR), "set_dummy",
@@ -29,6 +29,10 @@ void WwiseBaseType::set_name(const String& p_name)
 }
 
 String WwiseBaseType::get_name() const { return name; }
+
+void WwiseBaseType::set_wwise_name(const String& p_name) { set_name(p_name); }
+
+String WwiseBaseType::get_wwise_name() const { return get_name(); }
 
 void WwiseBaseType::set_id(uint32_t p_id)
 {
