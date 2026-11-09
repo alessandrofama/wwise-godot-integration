@@ -154,29 +154,29 @@ void AkRoom::_on_area_exited(const Area3D* area)
 	}
 }
 
-void AkRoom::set_aux_bus(const Ref<WwiseAuxBus>& aux_bus)
+void AkRoom::set_aux_bus(const Ref<WwiseAuxBus>& p_aux_bus)
 {
-	this->aux_bus = aux_bus;
+	aux_bus = p_aux_bus;
 	notify_property_list_changed();
 }
 
 Ref<WwiseAuxBus> AkRoom::get_aux_bus() const { return aux_bus; }
 
-void AkRoom::set_reverb_level(float reverb_level) { this->reverb_level = reverb_level; }
+void AkRoom::set_reverb_level(float p_reverb_level) { reverb_level = p_reverb_level; }
 
 float AkRoom::get_reverb_level() const { return reverb_level; }
 
-void AkRoom::set_transmission_loss(float transmission_loss) { this->transmission_loss = transmission_loss; }
+void AkRoom::set_transmission_loss(float p_transmission_loss) { transmission_loss = p_transmission_loss; }
 
 float AkRoom::get_transmission_loss() const { return transmission_loss; }
 
-void AkRoom::set_associated_geometry(const NodePath& associated_geometry)
+void AkRoom::set_associated_geometry(const NodePath& p_associated_geometry)
 {
-	this->associated_geometry = associated_geometry;
+	associated_geometry = p_associated_geometry;
 }
 
 NodePath AkRoom::get_associated_geometry() const { return associated_geometry; }
 
-void AkRoom::set_keep_registered(bool keep_registered) { this->keep_registered = keep_registered; }
+void AkRoom::set_keep_registered(bool p_keep_registered) { keep_registered = p_keep_registered; }
 
 bool AkRoom::get_keep_registered() const { return keep_registered; }

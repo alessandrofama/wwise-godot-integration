@@ -109,7 +109,7 @@ AKRESULT WwiseIOHook::open(const AkFileOpenData& in_file_open, AkFileDesc*& out_
 }
 
 void WwiseIOHook::read(
-		AkFileDesc& in_file_desc, const AkIoHeuristics& in_heuristics, AkAsyncIOTransferInfo& io_transfer_info)
+		AkFileDesc& in_file_desc, const AkIoHeuristics&, AkAsyncIOTransferInfo& io_transfer_info)
 {
 	AKASSERT(io_transfer_info.pBuffer != nullptr && in_file_desc.hFile != AkFileHandle(-1));
 
@@ -142,7 +142,7 @@ void WwiseIOHook::read(
 }
 
 void WwiseIOHook::write(
-		AkFileDesc& in_file_desc, const AkIoHeuristics& in_heuristics, AkAsyncIOTransferInfo& io_transfer_info)
+		AkFileDesc& in_file_desc, const AkIoHeuristics&, AkAsyncIOTransferInfo& io_transfer_info)
 {
 	AKASSERT(io_transfer_info.pBuffer != nullptr && in_file_desc.hFile != AkFileHandle(-1));
 
@@ -176,7 +176,7 @@ void WwiseIOHook::write(
 }
 
 void WwiseIOHook::cancel(
-		AkFileDesc& in_file_desc, AkAsyncIOTransferInfo& io_transfer_info, bool& io_bcancel_all_transfers_for_this_file)
+		AkFileDesc&, AkAsyncIOTransferInfo&, bool&)
 {
 	// not implemented
 }
@@ -247,7 +247,7 @@ AKRESULT WwiseIOHook::Close(AkFileDesc* in_file_desc)
 	return result;
 }
 
-AkUInt32 WwiseIOHook::GetBlockSize(AkFileDesc& in_file_desc) { return 1; }
+AkUInt32 WwiseIOHook::GetBlockSize(AkFileDesc&) { return 1; }
 
 void WwiseIOHook::GetDeviceDesc(AkDeviceDesc&
 #ifndef AK_OPTIMIZED

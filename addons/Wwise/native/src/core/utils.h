@@ -323,7 +323,7 @@ static inline void godot_transform2d_to_ak_sound_position(
 	out_sound_pos.Set(godot_to_ak_position(pos), godot_to_ak_orientation(fwd), godot_to_ak_orientation(up));
 }
 
-static inline bool find_matching_vertex(Vector3 vertex, Dictionary vert_dict, int& out_idx)
+static inline bool find_matching_vertex(Vector3 vertex, Dictionary vert_dict, int64_t& out_idx)
 {
 	if (vert_dict.has(vertex))
 	{
@@ -377,7 +377,7 @@ static bool make_dir_recursive(const String& p_directory)
 	return true;
 }
 
-static PackedStringArray skip(const PackedStringArray& folders, int n)
+static PackedStringArray skip(const PackedStringArray& folders, int64_t n)
 {
 	if (n >= folders.size())
 	{
@@ -385,17 +385,18 @@ static PackedStringArray skip(const PackedStringArray& folders, int n)
 	}
 
 	PackedStringArray result;
-	for (int i = n; i < folders.size(); i++)
+	for (int64_t i = n; i < folders.size(); i++)
 	{
 		result.push_back(folders[i]);
 	}
 	return result;
 }
 
-static PackedStringArray take(const PackedStringArray& folders, int n)
+static PackedStringArray take(const PackedStringArray& folders, int64_t n)
 {
 	PackedStringArray result;
-	for (int i = 0; i < Math::min(n, (int)folders.size()); i++)
+	const int64_t count = n < folders.size() ? n : folders.size();
+	for (int64_t i = 0; i < count; i++)
 	{
 		result.push_back(folders[i]);
 	}
