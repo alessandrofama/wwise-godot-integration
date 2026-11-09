@@ -22,6 +22,9 @@ public:
 	void set_name(const String& p_name);
 	String get_name() const;
 
+	void set_wwise_name(const String& p_name);
+	String get_wwise_name() const;
+
 	void set_guid(const String& p_guid);
 	String get_guid() const;
 

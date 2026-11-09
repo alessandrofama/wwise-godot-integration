@@ -109,7 +109,7 @@ void AkJSONBuilder::serialise_metadata(const MetadataType* p_metadata, WwiseObje
 	Ref<ObjectType> object;
 	object.instantiate();
 	object->set_name(name);
-	object->set_path(path);
+	object->set_wwise_path(path);
 	object->set_guid(guid);
 	object->set_type((int)p_type);
 
