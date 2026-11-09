@@ -30,6 +30,9 @@ public:
 	void set_name(const String& p_name);
 	String get_name() const;
 
+	void set_wwise_name(const String& p_name);
+	String get_wwise_name() const;
+
 	void set_id(uint32_t p_id);
 	uint32_t get_id() const;
 

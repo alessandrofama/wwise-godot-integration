@@ -19,8 +19,8 @@ private:
 	int type{ (int)WwiseObjectType::Folder };
 
 public:
-	void set_path(const String& p_path);
-	String get_path() const;
+	void set_wwise_path(const String& p_path);
+	String get_wwise_path() const;
 
 	void set_children(const Array& p_children);
 	Array get_children() const;
