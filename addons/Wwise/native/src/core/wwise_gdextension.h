@@ -102,9 +102,9 @@ public:
 	bool set_3d_position(const Node* game_object, const Transform3D& transform_3d);
 	bool set_2d_position(const Node* game_object, const Transform2D& transform_2d, const real_t z_depth);
 	bool set_multiple_positions_3d(const Node* game_object, const TypedArray<Transform3D>& positions,
-			const int num_positions, const AkUtils::MultiPositionType multi_position_type);
+			int64_t num_positions, const AkUtils::MultiPositionType multi_position_type);
 	bool set_multiple_positions_2d(const Node* game_object, const TypedArray<Transform2D>& positions,
-			const TypedArray<real_t>& z_depths, const int num_positions,
+			const TypedArray<real_t>& z_depths, int64_t num_positions,
 			const AkUtils::MultiPositionType multi_position_type);
 	bool set_game_object_radius(const Node* game_object, const float outer_radius, const float inner_radius);
 

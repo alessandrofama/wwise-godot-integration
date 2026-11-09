@@ -47,6 +47,6 @@ void AkState::set_state(const Ref<WwiseState>& p_state)
 
 Ref<WwiseState> AkState::get_state() const { return state; }
 
-void AkState::set_trigger_on(AkUtils::GameEvent trigger_on) { this->trigger_on = trigger_on; }
+void AkState::set_trigger_on(AkUtils::GameEvent p_trigger_on) { trigger_on = p_trigger_on; }
 
 AkUtils::GameEvent AkState::get_trigger_on() const { return trigger_on; }
