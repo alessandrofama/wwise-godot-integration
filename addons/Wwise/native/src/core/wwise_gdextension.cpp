@@ -5,6 +5,7 @@
 #endif
 
 #include <AK/Plugin/AllPluginsFactories.h>
+#include <limits>
 
 #if defined(AK_EMSCRIPTEN)
 #include "gen/wwise_plugins.gen.h"
@@ -29,7 +30,7 @@ void WwiseAssertHook(const char* in_pszExpression, const char* in_psz_filename, 
 #endif
 
 void LocalOutput(AK::Monitor::ErrorCode in_eErrorCode, const AkOSChar* in_pszError,
-		AK::Monitor::ErrorLevel in_eErrorLevel, AkPlayingID in_playingID, AkGameObjectID in_gameObjID)
+		AK::Monitor::ErrorLevel in_eErrorLevel, AkPlayingID, AkGameObjectID)
 {
 	AkAutoLock<CAkLock> autoLock(g_localOutputLock);
 
@@ -461,7 +462,13 @@ bool Wwise::set_listeners(Node* emitter, TypedArray<Node> listeners)
 		return ERROR_CHECK(AK::SoundEngine::SetListeners(emitter_id, nullptr, 0));
 	}
 
-	uint32_t num_listeners = listeners.size();
+	if (listeners.size() > static_cast<int64_t>(std::numeric_limits<uint32_t>::max()))
+	{
+		WwiseLogger::error("Too many listeners were supplied.");
+		return false;
+	}
+
+	uint32_t num_listeners = static_cast<uint32_t>(listeners.size());
 	auto listener_array = std::make_unique<AkGameObjectID[]>(num_listeners);
 	for (int i = 0; i < listeners.size(); ++i)
 	{
@@ -514,35 +521,41 @@ bool Wwise::set_2d_position(const Node* game_object, const Transform2D& transfor
 }
 
 bool Wwise::set_multiple_positions_3d(const Node* game_object, const TypedArray<Transform3D>& positions,
-		const int num_positions, const AkUtils::MultiPositionType multi_position_type)
+		int64_t num_positions, const AkUtils::MultiPositionType multi_position_type)
 {
+	ERR_FAIL_COND_V(num_positions < 0 || num_positions > positions.size() ||
+			num_positions > static_cast<int64_t>(std::numeric_limits<AkUInt16>::max()), false);
+	const AkUInt16 ak_num_positions = static_cast<AkUInt16>(num_positions);
 	AkGameObjectID id = get_ak_game_object_id(game_object);
 
-	auto ak_positions = std::make_unique<AkSoundPosition[]>(num_positions);
-	for (int i = 0; i < positions.size(); i++)
+	auto ak_positions = std::make_unique<AkSoundPosition[]>(static_cast<size_t>(ak_num_positions));
+	for (int64_t i = 0; i < num_positions; i++)
 	{
 		const Transform3D& transform = positions[i];
 		godot_transform3d_to_ak_sound_position(transform, ak_positions[i]);
 	}
 
-	return ERROR_CHECK(AK::SoundEngine::SetMultiplePositions(id, ak_positions.get(), num_positions,
+	return ERROR_CHECK(AK::SoundEngine::SetMultiplePositions(id, ak_positions.get(), ak_num_positions,
 			static_cast<AK::SoundEngine::MultiPositionType>(multi_position_type)));
 }
 
 bool Wwise::set_multiple_positions_2d(const Node* game_object, const TypedArray<Transform2D>& positions,
-		const TypedArray<real_t>& z_depths, const int num_positions,
+		const TypedArray<real_t>& z_depths, int64_t num_positions,
 		const AkUtils::MultiPositionType multi_position_type)
 {
+	ERR_FAIL_COND_V(num_positions < 0 || num_positions > positions.size() || num_positions > z_depths.size() ||
+			num_positions > static_cast<int64_t>(std::numeric_limits<AkUInt16>::max()), false);
+	const AkUInt16 ak_num_positions = static_cast<AkUInt16>(num_positions);
 	AkGameObjectID id = get_ak_game_object_id(game_object);
 
-	auto ak_positions = std::make_unique<AkSoundPosition[]>(num_positions);
-	for (int i = 0; i < positions.size(); i++)
+	auto ak_positions = std::make_unique<AkSoundPosition[]>(static_cast<size_t>(ak_num_positions));
+	for (int64_t i = 0; i < num_positions; i++)
 	{
 		const Transform2D& transform = positions[i];
 		godot_transform2d_to_ak_sound_position(transform, z_depths[i], ak_positions[i]);
 	}
 
-	return ERROR_CHECK(AK::SoundEngine::SetMultiplePositions(id, ak_positions.get(), num_positions,
+	return ERROR_CHECK(AK::SoundEngine::SetMultiplePositions(id, ak_positions.get(), ak_num_positions,
 			static_cast<AK::SoundEngine::MultiPositionType>(multi_position_type)));
 }
 
@@ -662,10 +675,12 @@ AkPlayingID Wwise::post_event_id_callback(
 AkPlayingID Wwise::post_midi_on_event_id(
 		const AkUniqueID p_event_id, Node* p_game_object, TypedArray<AkMidiPost> p_midi_posts, bool p_absolute_offsets)
 {
+	ERR_FAIL_COND_V(p_midi_posts.size() > static_cast<int64_t>(std::numeric_limits<AkUInt16>::max()), AK_INVALID_PLAYING_ID);
+	const AkUInt16 num_midi_posts = static_cast<AkUInt16>(p_midi_posts.size());
 	AkGameObjectID id = get_ak_game_object_id(p_game_object);
 	pre_game_object_api_call(p_game_object, id);
 
-	auto ak_midi_posts = std::make_unique<AkMIDIPost[]>(p_midi_posts.size());
+	auto ak_midi_posts = std::make_unique<AkMIDIPost[]>(static_cast<size_t>(num_midi_posts));
 
 	for (int i = 0; i < p_midi_posts.size(); i++)
 	{
@@ -696,7 +711,7 @@ AkPlayingID Wwise::post_midi_on_event_id(
 	}
 
 	AkPlayingID playing_id = AK::SoundEngine::PostMIDIOnEvent(
-			p_event_id, id, ak_midi_posts.get(), p_midi_posts.size(), p_absolute_offsets);
+			p_event_id, id, ak_midi_posts.get(), num_midi_posts, p_absolute_offsets);
 
 	if (playing_id == AK_INVALID_PLAYING_ID && p_game_object)
 	{
@@ -902,10 +917,13 @@ unsigned int Wwise::post_external_source_id(const unsigned int event_id, Node* g
 unsigned int Wwise::post_external_sources(
 		const unsigned int event_id, Node* game_object, TypedArray<WwiseExternalSourceInfo> external_source_info)
 {
+	ERR_FAIL_COND_V(external_source_info.size() > static_cast<int64_t>(std::numeric_limits<AkUInt32>::max()), AK_INVALID_PLAYING_ID);
+	const AkUInt32 num_external_sources = static_cast<AkUInt32>(external_source_info.size());
 	AkGameObjectID id = get_ak_game_object_id(game_object);
 	pre_game_object_api_call(game_object, id);
 
-	auto ak_external_sources = std::make_unique<AkExternalSourceInfo[]>(external_source_info.size());
+	auto ak_external_sources =
+			std::make_unique<AkExternalSourceInfo[]>(static_cast<size_t>(num_external_sources));
 
 	for (int i = 0; i < external_source_info.size(); i++)
 	{
@@ -924,7 +942,7 @@ unsigned int Wwise::post_external_sources(
 	}
 
 	AkPlayingID playing_id = AK::SoundEngine::PostEvent(
-			event_id, id, 0, NULL, 0, external_source_info.size(), ak_external_sources.get());
+			event_id, id, 0, NULL, 0, num_external_sources, ak_external_sources.get());
 
 	if (playing_id == AK_INVALID_PLAYING_ID && game_object)
 	{
@@ -1028,6 +1046,8 @@ bool Wwise::set_geometry(const Array vertices, const Array triangles, const Ref<
 {
 	AKASSERT(!vertices.is_empty());
 	AKASSERT(!triangles.is_empty());
+	ERR_FAIL_COND_V(vertices.size() > static_cast<int64_t>(std::numeric_limits<AkVertIdx>::max()), false);
+	ERR_FAIL_COND_V(triangles.size() / 3 > static_cast<int64_t>(std::numeric_limits<AkTriIdx>::max()), false);
 	AkGameObjectID id = get_ak_game_object_id(game_object);
 
 	if (id == AK_INVALID_GAME_OBJECT)
@@ -1038,15 +1058,15 @@ bool Wwise::set_geometry(const Array vertices, const Array triangles, const Ref<
 
 	AkGeometryParams geometry{};
 
-	int vertex_count = vertices.size();
-	auto verts_remap = std::make_unique<int[]>(vertex_count);
+	int64_t vertex_count = vertices.size();
+	auto verts_remap = std::make_unique<int64_t[]>(static_cast<size_t>(vertex_count));
 	PackedVector3Array unique_verts;
 	Dictionary verts_dict;
 
 	// removing duplicate verts
-	for (int v = 0; v < vertex_count; ++v)
+	for (int64_t v = 0; v < vertex_count; ++v)
 	{
-		int verts_index = 0;
+		int64_t verts_index = 0;
 
 		if (!find_matching_vertex(vertices[v], verts_dict, verts_index))
 		{
@@ -1058,9 +1078,9 @@ bool Wwise::set_geometry(const Array vertices, const Array triangles, const Ref<
 	}
 
 	vertex_count = unique_verts.size();
-	auto ak_vertices = std::make_unique<AkVertex[]>(vertex_count);
+	auto ak_vertices = std::make_unique<AkVertex[]>(static_cast<size_t>(vertex_count));
 
-	for (int i = 0; i < vertex_count; i++)
+	for (int64_t i = 0; i < vertex_count; i++)
 	{
 		Vector3 point = unique_verts[i];
 		AkVertex v{};
@@ -1076,8 +1096,8 @@ bool Wwise::set_geometry(const Array vertices, const Array triangles, const Ref<
 		WwiseLogger::verbose_format("Wrong number of triangles on GameObject: %s.", game_object->get_path());
 	}
 
-	int num_triangles = triangles.size() / 3;
-	auto ak_triangles = std::make_unique<AkTriangle[]>(num_triangles);
+	int64_t num_triangles = triangles.size() / 3;
+	auto ak_triangles = std::make_unique<AkTriangle[]>(static_cast<size_t>(num_triangles));
 
 	AkAcousticSurface surface{};
 	String texture_name = acoustic_texture.is_valid() ? acoustic_texture->get_name() : "";
@@ -1095,13 +1115,18 @@ bool Wwise::set_geometry(const Array vertices, const Array triangles, const Ref<
 	geometry.NumSurfaces = 1;
 	geometry.Surfaces = ak_surfaces;
 
-	int triangleIdx = 0;
-	for (int i = 0; i < num_triangles; i++)
+	int64_t triangleIdx = 0;
+	for (int64_t i = 0; i < num_triangles; i++)
 	{
 		AkTriangle t{};
-		t.point0 = verts_remap[static_cast<unsigned int>(triangles[3 * i + 0])];
-		t.point1 = verts_remap[static_cast<unsigned int>(triangles[3 * i + 1])];
-		t.point2 = verts_remap[static_cast<unsigned int>(triangles[3 * i + 2])];
+		const int64_t index0 = triangles[3 * i + 0];
+		const int64_t index1 = triangles[3 * i + 1];
+		const int64_t index2 = triangles[3 * i + 2];
+		ERR_FAIL_COND_V(index0 < 0 || index0 >= vertices.size() || index1 < 0 || index1 >= vertices.size() ||
+				index2 < 0 || index2 >= vertices.size(), false);
+		t.point0 = static_cast<AkVertIdx>(verts_remap[index0]);
+		t.point1 = static_cast<AkVertIdx>(verts_remap[index1]);
+		t.point2 = static_cast<AkVertIdx>(verts_remap[index2]);
 		t.surface = 0;
 
 		ak_triangles[triangleIdx] = t;
@@ -1117,9 +1142,9 @@ bool Wwise::set_geometry(const Array vertices, const Array triangles, const Ref<
 	}
 
 	geometry.Vertices = ak_vertices.get();
-	geometry.NumVertices = vertex_count;
+	geometry.NumVertices = static_cast<AkVertIdx>(vertex_count);
 	geometry.Triangles = ak_triangles.get();
-	geometry.NumTriangles = triangleIdx;
+	geometry.NumTriangles = static_cast<AkTriIdx>(triangleIdx);
 	geometry.EnableDiffraction = enable_diffraction;
 	geometry.EnableDiffractionOnBoundaryEdges = enable_diffraction_on_boundary_edges;
 
@@ -1328,8 +1353,6 @@ bool Wwise::is_initialized() { return AK::SoundEngine::IsInitialized(); }
 
 void Wwise::event_callback(AkCallbackType callback_type, AkCallbackInfo* callback_info)
 {
-	Wwise* soundengine = get_singleton();
-
 	AkAutoLock<CAkLock> scoped_lock(callback_data_lock);
 
 	AkEventCallbackPackage* package = static_cast<AkEventCallbackPackage*>(callback_info->pCookie);
@@ -1679,7 +1702,7 @@ void Wwise::event_callback(AkCallbackType callback_type, AkCallbackInfo* callbac
 	}
 }
 
-void Wwise::bank_callback(AkUInt32 bank_id, const void* in_memory_bank_ptr, AKRESULT load_result, void* in_pCookie)
+void Wwise::bank_callback(AkUInt32 bank_id, const void*, AKRESULT load_result, void* in_pCookie)
 {
 	AkAutoLock<CAkLock> scoped_lock(callback_data_lock);
 
@@ -1741,7 +1764,7 @@ void Wwise::pre_game_object_api_call(Node* p_node, AkGameObjectID p_id)
 	}
 }
 
-void Wwise::post_register_game_object(AKRESULT p_result, const Node* p_node, AkGameObjectID p_id)
+void Wwise::post_register_game_object(AKRESULT p_result, const Node*, AkGameObjectID p_id)
 {
 	if (p_result == AK_Success)
 	{
@@ -1749,7 +1772,7 @@ void Wwise::post_register_game_object(AKRESULT p_result, const Node* p_node, AkG
 	}
 }
 
-void Wwise::post_unregister_game_object(AKRESULT p_result, const Node* p_node, AkGameObjectID p_id)
+void Wwise::post_unregister_game_object(AKRESULT p_result, const Node*, AkGameObjectID p_id)
 {
 	if (p_result == AK_Success)
 	{

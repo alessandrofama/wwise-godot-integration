@@ -26,7 +26,7 @@ void AkEarlyReflections::_enter_tree()
 	set_early_reflections_volume(get_volume());
 }
 
-void AkEarlyReflections::set_early_reflections_volume(float volume)
+void AkEarlyReflections::set_early_reflections_volume(float p_volume)
 {
 	if (game_object_path.is_empty())
 	{
@@ -49,31 +49,31 @@ void AkEarlyReflections::set_early_reflections_volume(float volume)
 		if (soundengine)
 		{
 			soundengine->set_early_reflections_aux_send(game_object, aux_bus->get_id());
-			soundengine->set_early_reflections_volume(game_object, volume);
+			soundengine->set_early_reflections_volume(game_object, p_volume);
 		}
 	}
 }
 
-void AkEarlyReflections::set_aux_bus(const Ref<WwiseAuxBus>& aux_bus)
+void AkEarlyReflections::set_aux_bus(const Ref<WwiseAuxBus>& p_aux_bus)
 {
-	this->aux_bus = aux_bus;
+	aux_bus = p_aux_bus;
 	notify_property_list_changed();
 }
 
 Ref<WwiseAuxBus> AkEarlyReflections::get_aux_bus() const { return aux_bus; }
 
-void AkEarlyReflections::set_game_object_path(const NodePath& game_object_path)
+void AkEarlyReflections::set_game_object_path(const NodePath& p_game_object_path)
 {
-	this->game_object_path = game_object_path;
+	game_object_path = p_game_object_path;
 }
 
 NodePath AkEarlyReflections::get_game_object_path() const { return game_object_path; }
 
-void AkEarlyReflections::set_volume(float volume)
+void AkEarlyReflections::set_volume(float p_volume)
 {
-	this->volume = volume;
+	volume = p_volume;
 	RETURN_IF_EDITOR;
-	set_early_reflections_volume(volume);
+	set_early_reflections_volume(p_volume);
 }
 
 float AkEarlyReflections::get_volume() const { return volume; }

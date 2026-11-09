@@ -74,7 +74,7 @@ void WwiseBaseType::set_dummy(bool p_dummy)
 bool WwiseBaseType::get_dummy() const { return dummy; }
 
 #ifdef TOOLS_ENABLED
-template <typename T> Ref<T> WwiseBaseType::create(WwiseObjectType wwise_object_type, String guid)
+template <typename T> Ref<T> WwiseBaseType::create(WwiseObjectType, String guid)
 {
 	static_assert(std::is_base_of<WwiseBaseType, T>::value, "T must be a subclass of WwiseBaseType");
 
@@ -86,7 +86,7 @@ template <typename T> Ref<T> WwiseBaseType::create(WwiseObjectType wwise_object_
 }
 
 template <typename T>
-Ref<T> WwiseBaseType::find_existing_wwise_object(WwiseObjectType wwise_object_type, const String& path)
+Ref<T> WwiseBaseType::find_existing_wwise_object(WwiseObjectType, const String& path)
 {
 	Ref<T> asset;
 	bool exists = ResourceLoader::get_singleton()->exists(path, T::get_class_static());

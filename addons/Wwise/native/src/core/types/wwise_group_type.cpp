@@ -39,11 +39,11 @@ Ref<WwiseBaseType> WwiseGroupType::get_group_ref() const { return group_ref; }
 
 String WwiseGroupType::get_display_name()
 {
-	auto group_ref = get_group_ref();
+	auto parent_group = get_group_ref();
 
-	if (group_ref.is_valid())
+	if (parent_group.is_valid())
 	{
-		return vformat("%s / %s", group_ref->get_name(), get_name());
+		return vformat("%s / %s", parent_group->get_name(), get_name());
 	}
 
 	return get_name();
