@@ -18,7 +18,7 @@ protected:
 
 private:
 	Ref<WwiseAuxBus> aux_bus;
-	int priority{};
+	int environment_priority{};
 
 public:
 	virtual void _enter_tree() override;
@@ -30,6 +30,6 @@ public:
 	void set_aux_bus(const Ref<WwiseAuxBus>& aux_bus);
 	Ref<WwiseAuxBus> get_aux_bus() const;
 
-	void set_priority(int priority);
-	int get_priority() const;
+	void set_environment_priority(int p_priority);
+	int get_environment_priority() const;
 };
