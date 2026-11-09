@@ -117,7 +117,7 @@ bool AkWwiseTree::_matches_all_search_tokens(const String& p_text)
 	return true;
 }
 
-Variant AkWwiseTree::_get_drag_data(const Vector2& p_at_position)
+Variant AkWwiseTree::_get_drag_data(const Vector2&)
 {
 	TreeItem* selected = get_selected();
 

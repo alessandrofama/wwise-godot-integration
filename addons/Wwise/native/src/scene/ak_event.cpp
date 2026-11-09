@@ -120,31 +120,31 @@ void AkEvent2D::stop_event()
 void AkEvent2D::callback_emitter(const Dictionary& data)
 {
 	Thread::set_thread_safety_checks_enabled(false);
-	int callback_type = data.get("callback_type", AkUtils::AkCallbackType::AK_END_OF_EVENT);
-	AkUtils::AkCallbackType type = (AkUtils::AkCallbackType)callback_type;
+	int callback = data.get("callback_type", AkUtils::AkCallbackType::AK_END_OF_EVENT);
+	AkUtils::AkCallbackType type = (AkUtils::AkCallbackType)callback;
 	emit_signal(AkUtils::get_singleton()->event_callback_signals[type], data);
 }
 
-void AkEvent2D::set_event(const Ref<WwiseEvent>& event) { this->event = event; }
+void AkEvent2D::set_event(const Ref<WwiseEvent>& p_event) { event = p_event; }
 
 Ref<WwiseEvent> AkEvent2D::get_event() const { return event; }
 
-void AkEvent2D::set_stop_fade_time(unsigned int stop_fade_time) { this->stop_fade_time = stop_fade_time; }
+void AkEvent2D::set_stop_fade_time(unsigned int p_stop_fade_time) { stop_fade_time = p_stop_fade_time; }
 
-void AkEvent2D::set_interpolation_mode(AkUtils::AkCurveInterpolation interpolation_mode)
+void AkEvent2D::set_interpolation_mode(AkUtils::AkCurveInterpolation p_interpolation_mode)
 {
-	this->interpolation_mode = interpolation_mode;
+	interpolation_mode = p_interpolation_mode;
 }
 
 AkUtils::AkCurveInterpolation AkEvent2D::get_interpolation_mode() const { return interpolation_mode; }
 
 unsigned int AkEvent2D::get_stop_fade_time() const { return stop_fade_time; }
 
-void AkEvent2D::set_trigger_on(AkUtils::GameEvent trigger_on) { this->trigger_on = trigger_on; }
+void AkEvent2D::set_trigger_on(AkUtils::GameEvent p_trigger_on) { trigger_on = p_trigger_on; }
 
 AkUtils::GameEvent AkEvent2D::get_trigger_on() const { return trigger_on; }
 
-void AkEvent2D::set_stop_on(AkUtils::GameEvent stop_on) { this->stop_on = stop_on; }
+void AkEvent2D::set_stop_on(AkUtils::GameEvent p_stop_on) { stop_on = p_stop_on; }
 
 AkUtils::GameEvent AkEvent2D::get_stop_on() const { return stop_on; }
 
@@ -252,7 +252,7 @@ void AkEvent3D::_exit_tree()
 	handle_game_event(AkUtils::GameEvent::GAMEEVENT_EXIT_TREE);
 }
 
-void AkEvent3D::_process(double delta)
+void AkEvent3D::_process(double)
 {
 	if (is_editor)
 	{
@@ -317,46 +317,46 @@ void AkEvent3D::stop_event()
 void AkEvent3D::callback_emitter(const Dictionary& data)
 {
 	Thread::set_thread_safety_checks_enabled(false);
-	int callback_type = data.get("callback_type", AkUtils::AkCallbackType::AK_END_OF_EVENT);
-	AkUtils::AkCallbackType type = (AkUtils::AkCallbackType)callback_type;
+	int callback = data.get("callback_type", AkUtils::AkCallbackType::AK_END_OF_EVENT);
+	AkUtils::AkCallbackType type = (AkUtils::AkCallbackType)callback;
 	emit_signal(AkUtils::get_singleton()->event_callback_signals[type], data);
 }
 
-void AkEvent3D::set_event(const Ref<WwiseEvent>& event)
+void AkEvent3D::set_event(const Ref<WwiseEvent>& p_event)
 {
-	this->event = event;
+	event = p_event;
 	notify_property_list_changed();
 }
 
 Ref<WwiseEvent> AkEvent3D::get_event() const { return event; }
 
-void AkEvent3D::set_stop_fade_time(unsigned int stop_fade_time) { this->stop_fade_time = stop_fade_time; }
+void AkEvent3D::set_stop_fade_time(unsigned int p_stop_fade_time) { stop_fade_time = p_stop_fade_time; }
 
-void AkEvent3D::set_interpolation_mode(AkUtils::AkCurveInterpolation interpolation_mode)
+void AkEvent3D::set_interpolation_mode(AkUtils::AkCurveInterpolation p_interpolation_mode)
 {
-	this->interpolation_mode = interpolation_mode;
+	interpolation_mode = p_interpolation_mode;
 }
 
 AkUtils::AkCurveInterpolation AkEvent3D::get_interpolation_mode() const { return interpolation_mode; }
 
 unsigned int AkEvent3D::get_stop_fade_time() const { return stop_fade_time; }
 
-void AkEvent3D::set_trigger_on(AkUtils::GameEvent trigger_on) { this->trigger_on = trigger_on; }
+void AkEvent3D::set_trigger_on(AkUtils::GameEvent p_trigger_on) { trigger_on = p_trigger_on; }
 
 AkUtils::GameEvent AkEvent3D::get_trigger_on() const { return trigger_on; }
 
-void AkEvent3D::set_stop_on(AkUtils::GameEvent stop_on) { this->stop_on = stop_on; }
+void AkEvent3D::set_stop_on(AkUtils::GameEvent p_stop_on) { stop_on = p_stop_on; }
 
 AkUtils::GameEvent AkEvent3D::get_stop_on() const { return stop_on; }
 
-void AkEvent3D::set_is_environment_aware(bool is_environment_aware)
+void AkEvent3D::set_is_environment_aware(bool p_is_environment_aware)
 {
-	this->is_environment_aware = is_environment_aware;
+	is_environment_aware = p_is_environment_aware;
 }
 
 bool AkEvent3D::get_is_environment_aware() const { return is_environment_aware; }
 
-void AkEvent3D::set_room_id(uint64_t room_id) { this->room_id = room_id; }
+void AkEvent3D::set_room_id(uint64_t p_room_id) { room_id = p_room_id; }
 
 uint64_t AkEvent3D::get_room_id() const { return room_id; }
 

@@ -8,7 +8,7 @@ bool AkAndroidExportPlugin::_supports_platform(const Ref<EditorExportPlatform>& 
 }
 
 PackedStringArray AkAndroidExportPlugin::_get_android_libraries(
-		const Ref<EditorExportPlatform>& platform, bool debug) const
+		const Ref<EditorExportPlatform>&, bool debug) const
 {
 	String lib_path = "res://addons/Wwise/native/lib/android/";
 	if (debug)

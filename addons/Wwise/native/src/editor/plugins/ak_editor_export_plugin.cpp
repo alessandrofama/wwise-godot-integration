@@ -219,7 +219,7 @@ void AkEditorExportPlugin::export_web_audio_worklet(const String& p_path)
 String AkEditorExportPlugin::_get_name() const { return "AkEditorExportPlugin"; }
 
 void AkEditorExportPlugin::_export_begin(
-		const PackedStringArray& p_features, bool p_is_debug, const String& p_path, uint32_t p_flags)
+		const PackedStringArray& p_features, bool p_is_debug, const String& p_path, uint32_t)
 {
 	Ref<ConfigFile> gdextension_config;
 	gdextension_config.instantiate();

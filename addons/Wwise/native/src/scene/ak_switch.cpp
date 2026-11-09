@@ -61,6 +61,6 @@ void AkSwitch::set_game_object(Node* p_game_object) { game_object = p_game_objec
 
 Node* AkSwitch::get_game_object() const { return game_object; }
 
-void AkSwitch::set_trigger_on(AkUtils::GameEvent trigger_on) { this->trigger_on = trigger_on; }
+void AkSwitch::set_trigger_on(AkUtils::GameEvent p_trigger_on) { trigger_on = p_trigger_on; }
 
 AkUtils::GameEvent AkSwitch::get_trigger_on() const { return trigger_on; }

@@ -89,7 +89,7 @@ private:
 	}
 
 	static void _wwise_load_callback(
-			AkUInt32 in_bankID, const void* in_pInMemoryBankPtr, AKRESULT in_eLoadResult, void* in_Cookie)
+			AkUInt32 in_bankID, const void*, AKRESULT in_eLoadResult, void* in_Cookie)
 	{
 		WwiseLogger::very_verbose_format("[AkBankManager] Load callback fired: bank %s result %s", in_bankID,
 				wwise_error_string(in_eLoadResult));
@@ -99,7 +99,7 @@ private:
 	}
 
 	static void _wwise_unload_callback(
-			AkUInt32 in_bankID, const void* in_pInMemoryBankPtr, AKRESULT in_eUnloadResult, void* in_Cookie)
+			AkUInt32 in_bankID, const void*, AKRESULT in_eUnloadResult, void* in_Cookie)
 	{
 		WwiseLogger::very_verbose_format("[AkBankManager] Unload callback fired: bank %s result %s", in_bankID,
 				wwise_error_string(in_eUnloadResult));
@@ -404,7 +404,7 @@ private:
 
 	static void _process_unload_queue()
 	{
-		for (int i = unload_queue.size() - 1; i >= 0; i--)
+		for (int64_t i = static_cast<int64_t>(unload_queue.size()) - 1; i >= 0; i--)
 		{
 			BankEntry* entry = unload_queue[i];
 
