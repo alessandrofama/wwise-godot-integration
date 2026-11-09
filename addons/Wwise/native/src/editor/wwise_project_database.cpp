@@ -1,4 +1,5 @@
 #include "wwise_project_database.h"
+#include <limits>
 
 WwiseProjectDatabase* WwiseProjectDatabase::singleton = nullptr;
 bool WwiseProjectDatabase::project_info_exists = false;
@@ -71,11 +72,22 @@ void WwiseProjectDatabase::post_init_callback()
 				TypedArray<WwisePluginInfo> plugin_info_array;
 
 				const auto* plugins = GetAllPluginRef();
-				for (int i = 0; i < GetPluginCount(); i++)
+				auto plugin_count = GetPluginCount();
+				if (plugin_count > static_cast<decltype(plugin_count)>(std::numeric_limits<int>::max()))
 				{
-					const auto* plugin = GetPluginRefIndex((void*)plugins, i);
+					WwiseLogger::warning("Skipping plugin data because the plugin count exceeds the supported range.");
+					continue;
+				}
+				for (decltype(plugin_count) i = 0; i < plugin_count; i++)
+				{
+					const auto* plugin = GetPluginRefIndex((void*)plugins, static_cast<int>(i));
 
-					uint32_t plugin_id = plugin->id;
+					if (plugin->id > std::numeric_limits<uint32_t>::max())
+					{
+						WwiseLogger::warning("Skipping a plugin with an ID outside the 32-bit range.");
+						continue;
+					}
+					uint32_t plugin_id = static_cast<uint32_t>(plugin->id);
 
 					if (plugin_id == 0)
 					{

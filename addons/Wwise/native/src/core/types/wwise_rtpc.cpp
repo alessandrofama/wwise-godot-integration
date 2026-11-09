@@ -10,26 +10,26 @@ void WwiseRTPC::_bind_methods()
 
 void WwiseRTPC::set_value(Node* p_game_object, float p_value)
 {
-	AkUniqueID id = get_id();
-	Wwise::get_singleton()->set_rtpc_value_id(id, p_value, p_game_object);
+	AkUniqueID rtpc_id = get_id();
+	Wwise::get_singleton()->set_rtpc_value_id(rtpc_id, p_value, p_game_object);
 }
 
 float WwiseRTPC::get_value(Node* p_game_object)
 {
-	AkUniqueID id = get_id();
-	float value = Wwise::get_singleton()->get_rtpc_value_id(id, p_game_object);
+	AkUniqueID rtpc_id = get_id();
+	float value = Wwise::get_singleton()->get_rtpc_value_id(rtpc_id, p_game_object);
 	return value;
 }
 
 void WwiseRTPC::set_global_value(float p_value)
 {
-	AkUniqueID id = get_id();
-	Wwise::get_singleton()->set_rtpc_value_id(id, p_value, nullptr);
+	AkUniqueID rtpc_id = get_id();
+	Wwise::get_singleton()->set_rtpc_value_id(rtpc_id, p_value, nullptr);
 }
 
 float WwiseRTPC::get_global_value()
 {
-	AkUniqueID id = get_id();
-	float value = Wwise::get_singleton()->get_rtpc_value_id(id, nullptr);
+	AkUniqueID rtpc_id = get_id();
+	float value = Wwise::get_singleton()->get_rtpc_value_id(rtpc_id, nullptr);
 	return value;
 }

@@ -1,4 +1,5 @@
 #include "wwise_project_info.h"
+#include <limits>
 
 WwiseProjectInfo* WwiseProjectInfo::singleton = nullptr;
 
@@ -41,7 +42,7 @@ void WwiseProjectInfo::_exit_tree()
 	disconnect("ws_updating_assets_completed", callable_mp(this, &WwiseProjectInfo::_on_updating_assets_completed));
 }
 
-void WwiseProjectInfo::_process(double p_delta)
+void WwiseProjectInfo::_process(double)
 {
 	if (!running)
 		return;
@@ -176,8 +177,14 @@ void WwiseProjectInfo::update_all_wwise_assets()
 	}
 
 	Callable task_callable = Callable(this, "update_assets_worker");
+	if (objects_to_update.size() > std::numeric_limits<int32_t>::max())
+	{
+		WwiseLogger::error("Too many Wwise assets were queued for update.");
+		return;
+	}
 	worker_group_id = WorkerThreadPool::get_singleton()->add_group_task(
-			task_callable, objects_to_update.size(), -1, false, "WwiseGodot: Updating Godot Assets");
+			task_callable, static_cast<int32_t>(objects_to_update.size()), -1, false,
+			"WwiseGodot: Updating Godot Assets");
 
 	running = true;
 }

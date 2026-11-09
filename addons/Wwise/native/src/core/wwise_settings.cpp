@@ -216,40 +216,40 @@ void WwiseSettings::add_setting(const StringName& name, const Variant& default_v
 	setting["hint"] = hint;
 	setting["hint_string"] = hint_string;
 
-	godot::ProjectSettings* project_settings = godot::ProjectSettings::get_singleton();
+	godot::ProjectSettings* settings = godot::ProjectSettings::get_singleton();
 
-	if (!project_settings->has_setting(name))
+	if (!settings->has_setting(name))
 	{
-		project_settings->set_setting(name, default_value);
+		settings->set_setting(name, default_value);
 	}
 
-	project_settings->add_property_info(setting);
-	project_settings->set_initial_value(name, default_value);
+	settings->add_property_info(setting);
+	settings->set_initial_value(name, default_value);
 
 	switch (visibility)
 	{
 		case Visibility::DEFAULT:
-			project_settings->set_as_basic(name, true);
-			project_settings->set_as_internal(name, false);
+			settings->set_as_basic(name, true);
+			settings->set_as_internal(name, false);
 			break;
 
 		case Visibility::ADVANCED:
-			project_settings->set_as_basic(name, false);
-			project_settings->set_as_internal(name, false);
+			settings->set_as_basic(name, false);
+			settings->set_as_internal(name, false);
 			break;
 
 		case Visibility::HIDDEN:
-			project_settings->set_as_basic(name, false);
-			project_settings->set_as_internal(name, true);
+			settings->set_as_basic(name, false);
+			settings->set_as_internal(name, true);
 			break;
 	}
 }
 
 void WwiseSettings::remove_undefined_settings()
 {
-	godot::ProjectSettings* project_settings = godot::ProjectSettings::get_singleton();
+	godot::ProjectSettings* settings = godot::ProjectSettings::get_singleton();
 
-	TypedArray<Dictionary> props = project_settings->get_property_list();
+	TypedArray<Dictionary> props = settings->get_property_list();
 
 	for (int i = 0; i < props.size(); i++)
 	{
@@ -260,7 +260,7 @@ void WwiseSettings::remove_undefined_settings()
 		{
 			StringName base_name = name;
 
-			int dot_pos = name.find(".");
+			int64_t dot_pos = name.find(".");
 			if (dot_pos != -1)
 			{
 				base_name = name.substr(0, dot_pos);
@@ -269,7 +269,7 @@ void WwiseSettings::remove_undefined_settings()
 			if (!defined_settings.has(base_name))
 			{
 				UtilityFunctions::print(vformat("WwiseGodot: Removing obsolete setting: %s", name));
-				project_settings->set_setting(name, Variant());
+				settings->set_setting(name, Variant());
 			}
 		}
 	}

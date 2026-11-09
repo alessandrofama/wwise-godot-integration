@@ -72,7 +72,7 @@ void AkWwiseEditorProperty::_update_property()
 	updating = false;
 }
 
-bool AkWwiseEditorProperty::_can_drop_data(const Vector2& p_at_position, const Variant& p_data) const
+bool AkWwiseEditorProperty::_can_drop_data(const Vector2&, const Variant& p_data) const
 {
 	AkWwiseTreeItem* item = Object::cast_to<AkWwiseTreeItem>(p_data);
 	if (item && item->get_object_type() == get_wwise_object_type())
@@ -82,7 +82,7 @@ bool AkWwiseEditorProperty::_can_drop_data(const Vector2& p_at_position, const V
 	return false;
 }
 
-void AkWwiseEditorProperty::_drop_data(const Vector2& p_at_position, const Variant& p_data)
+void AkWwiseEditorProperty::_drop_data(const Vector2&, const Variant& p_data)
 {
 	AkWwiseTreeItem* item = Object::cast_to<AkWwiseTreeItem>(p_data);
 	if (item)

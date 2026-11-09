@@ -3,7 +3,7 @@
 bool AkWwiseEditorInspectorPlugin::_can_handle(Object* object) const { return object != nullptr; }
 
 bool AkWwiseEditorInspectorPlugin::_parse_property(Object* object, Variant::Type type, const String& name,
-		PropertyHint hint_type, const String& hint_string, BitField<PropertyUsageFlags> usage_flags, bool wide)
+		PropertyHint, const String& hint_string, BitField<PropertyUsageFlags>, bool)
 {
 	if (object != nullptr && type == Variant::Type::OBJECT)
 	{

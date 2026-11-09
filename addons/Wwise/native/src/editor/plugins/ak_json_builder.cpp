@@ -350,7 +350,7 @@ void AkJSONBuilder::populate()
 	{
 		if (task.size > 0)
 		{
-			int group_id = WorkerThreadPool::get_singleton()->add_group_task(
+			int64_t group_id = WorkerThreadPool::get_singleton()->add_group_task(
 					task.task_callable, task.size, -1, false, task.description);
 			active_task_groups.push_back({ group_id, false });
 		}
@@ -360,7 +360,7 @@ void AkJSONBuilder::populate()
 	running = true;
 }
 
-void AkJSONBuilder::_process(double p_delta)
+void AkJSONBuilder::_process(double)
 {
 	if (!running)
 		return;
