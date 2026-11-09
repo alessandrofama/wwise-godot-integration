@@ -65,19 +65,19 @@ void AkPortal::set_portal() const
 	}
 }
 
-void AkPortal::set_front_room(const NodePath& front_room) { this->front_room = front_room; }
+void AkPortal::set_front_room(const NodePath& p_front_room) { front_room = p_front_room; }
 
 NodePath AkPortal::get_front_room() const { return front_room; }
 
-void AkPortal::set_back_room(const NodePath& back_room) { this->back_room = back_room; }
+void AkPortal::set_back_room(const NodePath& p_back_room) { back_room = p_back_room; }
 
 NodePath AkPortal::get_back_room() const { return back_room; }
 
-void AkPortal::set_enabled(bool enabled)
+void AkPortal::set_enabled(bool p_enabled)
 {
-	if (this->enabled != enabled)
+	if (enabled != p_enabled)
 	{
-		this->enabled = enabled;
+		enabled = p_enabled;
 
 		RETURN_IF_EDITOR;
 

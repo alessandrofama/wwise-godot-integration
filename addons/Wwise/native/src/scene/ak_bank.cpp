@@ -108,9 +108,9 @@ void AkBank::unload_bank()
 	}
 }
 
-void AkBank::set_bank(const Ref<WwiseBank>& bank)
+void AkBank::set_bank(const Ref<WwiseBank>& p_bank)
 {
-	this->bank = bank;
+	bank = p_bank;
 	notify_property_list_changed();
 }
 

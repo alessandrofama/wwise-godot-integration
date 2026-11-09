@@ -90,7 +90,7 @@ void WwiseEvent::_process_pending_posts()
 }
 
 void WwiseEvent::_wwise_prepare_event_callback(
-		AkUInt32 in_bankID, const void* in_pInMemoryBankPtr, AKRESULT in_eLoadResult, void* in_Cookie)
+		AkUInt32, const void*, AKRESULT in_eLoadResult, void* in_Cookie)
 {
 	WwiseEvent* event = static_cast<WwiseEvent*>(in_Cookie);
 	if (event)

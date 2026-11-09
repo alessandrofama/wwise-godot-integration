@@ -30,5 +30,5 @@ void AkEvent3DGizmoPlugin::_redraw(const Ref<EditorNode3DGizmo>& gizmo)
 	}
 
 	Ref<StandardMaterial3D> material = get_material("ak_event_3d_icon_material", gizmo);
-	gizmo->add_unscaled_billboard(material, 0.05);
+	gizmo->add_unscaled_billboard(material, 0.05f);
 }
