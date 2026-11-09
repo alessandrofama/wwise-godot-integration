@@ -43,11 +43,11 @@ void AkEnvironmentData::remove_environment(const AkEnvironment* env)
 
 bool AkEnvironmentData::compare_by_priority(const AkEnvironment* a, const AkEnvironment* b)
 {
-	if (a->get_priority() < b->get_priority())
+	if (a->get_environment_priority() < b->get_environment_priority())
 	{
 		return true;
 	}
-	else if (a->get_priority() == b->get_priority())
+	else if (a->get_environment_priority() == b->get_environment_priority())
 	{
 		return false;
 	}
