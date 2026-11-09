@@ -6,12 +6,12 @@ void AkEnvironment::_bind_methods()
 	ClassDB::bind_method(D_METHOD("_on_area_exited", "area"), &AkEnvironment::_on_area_exited);
 	ClassDB::bind_method(D_METHOD("set_aux_bus", "aux_bus"), &AkEnvironment::set_aux_bus);
 	ClassDB::bind_method(D_METHOD("get_aux_bus"), &AkEnvironment::get_aux_bus);
-	ClassDB::bind_method(D_METHOD("set_priority", "priority"), &AkEnvironment::set_priority);
-	ClassDB::bind_method(D_METHOD("get_priority"), &AkEnvironment::get_priority);
+	ClassDB::bind_method(D_METHOD("set_environment_priority", "environment_priority"), &AkEnvironment::set_environment_priority);
+	ClassDB::bind_method(D_METHOD("get_environment_priority"), &AkEnvironment::get_environment_priority);
 
 	ADD_PROPERTY(
 			PropertyInfo(Variant::OBJECT, "aux_bus", PROPERTY_HINT_NONE, "WwiseAuxBus"), "set_aux_bus", "get_aux_bus");
-	ADD_PROPERTY(PropertyInfo(Variant::INT, "priority", PROPERTY_HINT_NONE), "set_priority", "get_priority");
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "environment_priority", PROPERTY_HINT_NONE), "set_environment_priority", "get_environment_priority");
 }
 
 void AkEnvironment::_enter_tree()
@@ -78,6 +78,6 @@ void AkEnvironment::set_aux_bus(const Ref<WwiseAuxBus>& p_aux_bus)
 
 Ref<WwiseAuxBus> AkEnvironment::get_aux_bus() const { return aux_bus; }
 
-void AkEnvironment::set_priority(int p_priority) { priority = p_priority; }
+void AkEnvironment::set_environment_priority(int p_priority) { environment_priority = p_priority; }
 
-int AkEnvironment::get_priority() const { return priority; }
+int AkEnvironment::get_environment_priority() const { return environment_priority; }
