@@ -7,7 +7,7 @@ void WwiseSwitch::_bind_methods()
 
 void WwiseSwitch::set_value(Node* p_game_object)
 {
-	auto group_id = get_group_id();
-	auto id = get_id();
-	Wwise::get_singleton()->set_switch_id(group_id, id, p_game_object);
+	auto switch_group_id = get_group_id();
+	auto switch_id = get_id();
+	Wwise::get_singleton()->set_switch_id(switch_group_id, switch_id, p_game_object);
 }
