@@ -2,14 +2,14 @@
 
 void WwiseBaseInformation::_bind_methods()
 {
-	ClassDB::bind_method(D_METHOD("set_name", "name"), &WwiseBaseInformation::set_name);
-	ClassDB::bind_method(D_METHOD("get_name"), &WwiseBaseInformation::get_name);
+	ClassDB::bind_method(D_METHOD("set_wwise_name", "wwise_name"), &WwiseBaseInformation::set_wwise_name);
+	ClassDB::bind_method(D_METHOD("get_wwise_name"), &WwiseBaseInformation::get_wwise_name);
 	ClassDB::bind_method(D_METHOD("set_guid", "guid"), &WwiseBaseInformation::set_guid);
 	ClassDB::bind_method(D_METHOD("get_guid"), &WwiseBaseInformation::get_guid);
 	ClassDB::bind_method(D_METHOD("set_id", "id"), &WwiseBaseInformation::set_id);
 	ClassDB::bind_method(D_METHOD("get_id"), &WwiseBaseInformation::get_id);
 
-	ADD_PROPERTY(PropertyInfo(Variant::STRING, "name"), "set_name", "get_name");
+	ADD_PROPERTY(PropertyInfo(Variant::STRING, "name"), "set_wwise_name", "get_wwise_name");
 	ADD_PROPERTY(PropertyInfo(Variant::STRING, "guid"), "set_guid", "get_guid");
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "id"), "set_id", "get_id");
 }
@@ -21,6 +21,10 @@ void WwiseBaseInformation::set_name(const String& p_name)
 }
 
 String WwiseBaseInformation::get_name() const { return name; }
+
+void WwiseBaseInformation::set_wwise_name(const String& p_name) { set_name(p_name); }
+
+String WwiseBaseInformation::get_wwise_name() const { return get_name(); }
 
 void WwiseBaseInformation::set_guid(const String& p_guid)
 {
