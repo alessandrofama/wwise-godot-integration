@@ -1,8 +1,15 @@
 #include "ak_environment_data.h"
+#include <limits>
 
 void AkAuxArrayData::set_values(Node* event_node)
 {
-	Wwise::get_singleton()->set_game_object_aux_send_values(event_node, data, data.size());
+	if (data.size() > static_cast<int64_t>(std::numeric_limits<unsigned int>::max()))
+	{
+		WwiseLogger::error("Too many auxiliary sends were supplied.");
+		return;
+	}
+	Wwise::get_singleton()->set_game_object_aux_send_values(
+			event_node, data, static_cast<unsigned int>(data.size()));
 }
 
 void AkEnvironmentData::_bind_methods()
@@ -54,9 +61,9 @@ void AkEnvironmentData::add_highest_priority_environments()
 {
 	if (aux_array_data.data.size() < active_environments.size())
 	{
-		Vector<int> invalid_indices;
+		Vector<int64_t> invalid_indices;
 
-		for (int i = 0; i < active_environments.size(); i++)
+		for (int64_t i = 0; i < active_environments.size(); i++)
 		{
 			Variant environment = active_environments[i];
 
@@ -79,7 +86,7 @@ void AkEnvironmentData::add_highest_priority_environments()
 					}
 
 					bool exists = false;
-					for (int j = 0; j < aux_array_data.data.size(); j++)
+					for (int64_t j = 0; j < aux_array_data.data.size(); j++)
 					{
 						Dictionary current_aux_data = aux_array_data.data[j];
 						if (current_aux_data.has("aux_bus_id") &&
@@ -103,7 +110,7 @@ void AkEnvironmentData::add_highest_priority_environments()
 
 		if (!invalid_indices.is_empty())
 		{
-			for (int i = invalid_indices.size() - 1; i >= 0; i--)
+			for (int64_t i = invalid_indices.size() - 1; i >= 0; i--)
 			{
 				active_environments.remove_at(invalid_indices[i]);
 			}

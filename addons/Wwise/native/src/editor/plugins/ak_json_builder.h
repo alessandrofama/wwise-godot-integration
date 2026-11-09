@@ -23,7 +23,7 @@ private:
 	static CAkLock ak_lock;
 	struct TaskGroup
 	{
-		int id;
+		int64_t id;
 		bool completed;
 	};
 

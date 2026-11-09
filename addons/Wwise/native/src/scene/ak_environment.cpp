@@ -70,14 +70,14 @@ void AkEnvironment::_on_area_exited(const Area3D* area)
 	}
 }
 
-void AkEnvironment::set_aux_bus(const Ref<WwiseAuxBus>& aux_bus)
+void AkEnvironment::set_aux_bus(const Ref<WwiseAuxBus>& p_aux_bus)
 {
-	this->aux_bus = aux_bus;
+	aux_bus = p_aux_bus;
 	notify_property_list_changed();
 }
 
 Ref<WwiseAuxBus> AkEnvironment::get_aux_bus() const { return aux_bus; }
 
-void AkEnvironment::set_priority(int priority) { this->priority = priority; }
+void AkEnvironment::set_priority(int p_priority) { priority = p_priority; }
 
 int AkEnvironment::get_priority() const { return priority; }
