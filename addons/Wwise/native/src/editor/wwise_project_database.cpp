@@ -71,8 +71,8 @@ void WwiseProjectDatabase::post_init_callback()
 
 				TypedArray<WwisePluginInfo> plugin_info_array;
 
-				const auto* plugins = GetAllPluginRef();
-				auto plugin_count = GetPluginCount();
+				const auto* plugins = Wwise_ProjectDB_GetAllPluginRef();
+				auto plugin_count = Wwise_ProjectDB_GetPluginCount();
 				if (plugin_count > static_cast<decltype(plugin_count)>(std::numeric_limits<int>::max()))
 				{
 					WwiseLogger::warning("Skipping plugin data because the plugin count exceeds the supported range.");
@@ -80,7 +80,7 @@ void WwiseProjectDatabase::post_init_callback()
 				}
 				for (decltype(plugin_count) i = 0; i < plugin_count; i++)
 				{
-					const auto* plugin = GetPluginRefIndex((void*)plugins, static_cast<int>(i));
+					const auto* plugin = Wwise_ProjectDB_GetPluginRefIndex((void*)plugins, static_cast<int>(i));
 
 					if (plugin->id > std::numeric_limits<uint32_t>::max())
 					{
@@ -138,7 +138,7 @@ bool WwiseProjectDatabase::init(const String& p_directory_path, const String& p_
 	if (!project_info_exists)
 		return false;
 
-	Init(ProjectSettings::get_singleton()->globalize_path(p_directory_path).utf8().get_data(),
+	Wwise_ProjectDB_Init(ProjectSettings::get_singleton()->globalize_path(p_directory_path).utf8().get_data(),
 			p_directory_platform_name.utf8().get_data());
 
 	return true;
@@ -146,5 +146,5 @@ bool WwiseProjectDatabase::init(const String& p_directory_path, const String& p_
 
 void WwiseProjectDatabase::set_current_language(const godot::String& p_language_name)
 {
-	SetCurrentLanguage(p_language_name.utf8().get_data());
+	Wwise_ProjectDB_SetCurrentLanguage(p_language_name.utf8().get_data());
 }
