@@ -47,8 +47,9 @@ public:
 		bool changed{};
 		if (WwiseProjectDatabase::project_info_exists)
 		{
-			const WwiseCRefSoundBank* soundbank_ref = GetSoundBankRefString(get_name().utf8().get_data(), "Bus");
-			bool is_in_user_defined_soundbank = !IsSoundBankValid((void*)soundbank_ref);
+			const WwiseCRefSoundBank* soundbank_ref =
+					Wwise_ProjectDB_GetSoundBankRefString(get_name().utf8().get_data(), "Bus");
+			bool is_in_user_defined_soundbank = !Wwise_ProjectDB_IsSoundBankValid((void*)soundbank_ref);
 			if (get_is_in_user_defined_sound_bank() != is_in_user_defined_soundbank)
 			{
 				changed = true;
